@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<VisualGDBProjectSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BuildType>FullCustom</BuildType>
+  <Settings xsi:type="CustomBuildSettings">
+  
+    <BuildActions>	
+      <CustomActionBase xsi:type="SourceTransferAction">
+        <RemoteHost>
+          <HostName>@VSGDB_REMOTESERVER@</HostName>
+        </RemoteHost>
+        <LocalDirectory>$(ProjectDir)</LocalDirectory>
+        <RemoteDirectory>/tmp/VisualGDB/RadonFramework</RemoteDirectory>
+        <FileMasks>
+          <string>*.cpp</string>
+		  <string>*.cxx</string>
+          <string>*.h</string>
+		  <string>*.hpp</string>
+		  <string>*.hxx</string>
+          <string>*.c</string>
+          <string>CMakeLists.txt</string>
+          <string>*.cmake</string>
+		  <string>dense_hash_set</string>
+		  <string>sparse_hash_map</string>
+		  <string>sparse_hash_set</string>
+		  <string>sparsetable</string>
+		  <string>dense_hash_map</string>
+        </FileMasks>
+        <TransferNewFilesOnly>true</TransferNewFilesOnly>
+        <IncludeSubdirectories>true</IncludeSubdirectories>
+      </CustomActionBase>
+	  
+      <CustomActionBase xsi:type="CommandLineAction">
+        <RemoteHost>
+          <HostName>@VSGDB_REMOTESERVER@</HostName>
+        </RemoteHost>
+        <Command>cmake</Command>
+        <Arguments>-g "Unix Makefiles" ./ @VSGDB_OPTIONS@</Arguments>
+        <WorkingDirectory>/tmp/VisualGDB/RadonFramework</WorkingDirectory>
+      </CustomActionBase>
+	  
+      <CustomActionBase xsi:type="CommandLineAction">
+        <RemoteHost>
+          <HostName>@VSGDB_REMOTESERVER@</HostName>
+        </RemoteHost>
+        <Command>make</Command>
+        <WorkingDirectory>/tmp/VisualGDB/RadonFramework</WorkingDirectory>
+      </CustomActionBase>
+    </BuildActions>
+	
+    <CleanCommand>
+      <Command>make</Command>
+      <WorkingDirectory>/tmp/VisualGDB/RadonFramework</WorkingDirectory>
+    </CleanCommand>
+	
+    <LaunchGDBCommand>
+      <Command>gdb</Command>
+      <Arguments>--interpreter mi --args Debug/RadonFramework</Arguments>
+      <WorkingDirectory>/tmp/VisualGDB/RadonFramework</WorkingDirectory>
+    </LaunchGDBCommand>
+	
+    <DelayAfterGDBServerCommand>0</DelayAfterGDBServerCommand>
+    <TerminateGDBServerOnExit>true</TerminateGDBServerOnExit>
+    <SimulateCtrlCToBreak>false</SimulateCtrlCToBreak>
+    <RemoteHost>
+      <HostName>@VSGDB_REMOTESERVER@</HostName>
+    </RemoteHost>
+  </Settings>
+  <DefaultGDBSettings>
+    <FilterSpuriousStoppedNotifications>false</FilterSpuriousStoppedNotifications>
+    <ForceSingleThreadedMode>false</ForceSingleThreadedMode>
+    <PendingBreakpointsSupported>true</PendingBreakpointsSupported>
+    <DisableChildRanges>false</DisableChildRanges>
+    <UseAppleExtensions>false</UseAppleExtensions>
+    <CanAcceptCommandsWhileRunning>false</CanAcceptCommandsWhileRunning>
+    <MakeLogFile>false</MakeLogFile>
+    <IgnoreModuleEventsWhileStepping>true</IgnoreModuleEventsWhileStepping>
+    <UseRelativePathsOnly>false</UseRelativePathsOnly>
+    <Features>
+      <DisableAutoDetection>false</DisableAutoDetection>
+      <UseFrameParameter>false</UseFrameParameter>
+      <SimpleValuesFlagSupported>false</SimpleValuesFlagSupported>
+      <ListLocalsSupported>false</ListLocalsSupported>
+      <ByteLevelMemoryCommandsAvailable>false</ByteLevelMemoryCommandsAvailable>
+      <ThreadInfoSupported>false</ThreadInfoSupported>
+    </Features>
+  </DefaultGDBSettings>
+  <GDBStartup>
+    <SessionStartMode>UsingRun</SessionStartMode>
+  </GDBStartup>
+  <CustomSourceDirectories>
+    <Directories />
+    <MapCygdrive>false</MapCygdrive>
+    <MapMinGW>false</MapMinGW>
+    <ConvertSlashes>true</ConvertSlashes>
+  </CustomSourceDirectories>
+</VisualGDBProjectSettings>

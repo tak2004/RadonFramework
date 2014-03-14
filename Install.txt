@@ -1,0 +1,22 @@
+Um einen vollständigen RadonFramework Build zu erzeugen, werden folgende Bibliotheken benötigt.
+Diese sind erweiterungen und die entsprechenden Module werden nicht compiliert, wenn die 
+Biliotheken nicht gefunden werden.
+
+-libpng
+    Windows:
+        Download von http://gnuwin32.sourceforge.net/packages/libpng.htm ,
+        füge zur Umgebungsvariable "CMAKE_INCLUDE_PATH" "LIBPNGDIR\include;" hinzu und für
+        "CMAKE_LIBRARY_PATH" kommt "LIBPNGDIR\lib;" hinzu.
+    Linux:
+        Binary und Dev Package per Paketmanager installieren.
+-libtiff
+    Windows:
+        Download von http://gnuwin32.sourceforge.net/packages/tiff.htm ,
+        füge zur Umgebungsvariable "CMAKE_INCLUDE_PATH" "LIBTIFFDIR\include;" hinzu und für
+        "CMAKE_LIBRARY_PATH" kommt "LIBTIFFDIR\lib;" hinzu.
+    Linux:
+        Binary und Dev Package per Paketmanager installieren.
+
+Für die generierung von der Dokumentation wird
+Doxygen(http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc oder Paketmanager)
+benötigt. Sollte diese nicht gefunden werden, dann wird dieser Schritt aus dem Build entfernt.
