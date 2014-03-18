@@ -18,8 +18,8 @@
 #endif
 
 #if defined(__APPLE__)
-    #ifndef RF_MACOS
-        #define RF_MACOS 1
+    #ifndef RF_OSX
+        #define RF_OSX 1
     #endif
     #ifndef RF_UNIX
         #define RF_UNIX 1

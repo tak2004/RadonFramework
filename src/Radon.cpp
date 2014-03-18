@@ -50,11 +50,6 @@ Radon::Radon(UInt32 Flags)
     if (!m_IsInitialized)
     {
         m_PIMPL = AutoPointer<PIMPL>(new PIMPL());
-        // dispatch all system functions
-        System::Environment::Dispatch();
-        RFMEM::Dispatch();
-        System::IO::FileSystem::Dispatch();
-        System::Time::Dispatch();
 
         // add hardware check and setup
         Array<ProcessorData> processors;

@@ -22,7 +22,7 @@
     #include <RadonFramework/backend/X11/Forms/X11WindowService.hpp>
 #endif
 
-#if defined(RF_MACOSX)
+#if defined(RF_OSX)
 
 #endif
 

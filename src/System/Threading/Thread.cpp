@@ -352,7 +352,7 @@ void ThrImplementationFree(void* Data)
 
 void ThrImplementationSetName(void* Data, const String& Name)
 {
-#if defined(RF_MACOS)
+#if defined(RF_OSX)
     String shortName(Name);
     if (shortName.Size() > 63)
         shortName = shortName.SubString(0,63);

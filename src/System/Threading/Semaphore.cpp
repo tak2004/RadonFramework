@@ -43,7 +43,7 @@ Bool SemaImplementationTimedWait(void* Data, const TimeSpan& timeout)
 #if defined(RF_UNIX)
 #include <semaphore.h>
 #include <sys/time.h>
-#ifdef RF_MACOS
+#ifdef RF_OSX
 #include <unistd.h>
 #include <time.h>
 #endif
@@ -80,7 +80,7 @@ Bool SemaImplementationTimedWait(void* Data, const TimeSpan& timeout)
     atTime.tv_sec = end / TimeSpan::TicksPerSecond;
     atTime.tv_nsec = end - atTime.tv_sec * TimeSpan::TicksPerSecond;
     
-#ifdef RF_MACOS
+#ifdef RF_OSX
     time_t timer = time(NULL) * 1000 + end;
     int res = 0;
     do {
