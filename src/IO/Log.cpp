@@ -25,7 +25,7 @@ void Log::WriteInfo(AutoPointer<String> Text)
 {                    
     if (m_Appender.Count())
     {
-        Threading::ThreadPool::QueueUserWorkItem(PoolLogInfoTask,Text.Release(),TaskStrategy::SerialPerThread);
+        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogInfoTask,Text.Release(),TaskStrategy::SerialPerThread);
     }
 }
 
@@ -33,7 +33,7 @@ void Log::WriteError(AutoPointer<String> Text)
 {                    
     if (m_Appender.Count())
     {
-        Threading::ThreadPool::QueueUserWorkItem(PoolLogErrorTask,Text.Release(),TaskStrategy::SerialPerThread);
+        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogErrorTask,Text.Release(),TaskStrategy::SerialPerThread);
     }
 }
 
@@ -41,7 +41,7 @@ void Log::WriteFatalError(AutoPointer<String> Text)
 {                    
     if (m_Appender.Count())
     {
-        Threading::ThreadPool::QueueUserWorkItem(PoolLogFatalErrorTask,Text.Release(),TaskStrategy::SerialPerThread);
+        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogFatalErrorTask,Text.Release(),TaskStrategy::SerialPerThread);
     }
 }
 
@@ -49,7 +49,7 @@ void Log::WriteDebug(AutoPointer<String> Text)
 {                    
     if (m_Appender.Count())
     {
-        Threading::ThreadPool::QueueUserWorkItem(PoolLogDebugTask,Text.Release(),TaskStrategy::SerialPerThread);
+        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogDebugTask,Text.Release(),TaskStrategy::SerialPerThread);
     }
 }
 

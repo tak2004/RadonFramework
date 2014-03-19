@@ -103,7 +103,7 @@ macro(CreatePrecompiledHeader projectid _header _source _sourceList)
 	
     if(MSVC)
 		get_filename_component(PrecompiledBasename ${_header} NAME_WE)
-		set(PrecompiledBinary "${CMAKE_CURRENT_BINARY_DIR}/${PrecompiledBasename}.pch")
+		set(PrecompiledBinary "$(IntDir)/${PrecompiledBasename}.pch")
 		
 		set(Sources ${${_sourceList}})
 		set_source_files_properties(${Sources} PROPERTIES COMPILE_FLAGS "/Yu\"${PrecompiledBinary}\" /FI\"${PrecompiledBinary}\" /Fp\"${PrecompiledBinary}\"" OBJECT_DEPENDS "${PrecompiledBinary}")

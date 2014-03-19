@@ -66,7 +66,6 @@ namespace RadonFramework
                 protected:
                     friend class Singleton<Console>;
                     Console();
-                    RadonFramework::System::Threading::Mutex m_Busy;
                     RadonFramework::IO::ConsoleColor::Type m_ForegroundColor;
                     RadonFramework::IO::ConsoleColor::Type m_BackgroundColor;
             };

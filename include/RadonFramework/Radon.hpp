@@ -23,12 +23,8 @@ namespace RadonFramework
     }
 
     /** This class take care of one time initialized objects and modules.
-      * Instead of use singletons or static variables this object will
-      * execute a fix initialization sequence and work around common recursive
-      * dependencies problem, which occur mostly in static and singletons.
-      * This don't mean that the framework don't use singletons and static
-      * variables but they will be initialized by the Radon class instead of
-      * doing by their own.
+      * It allows to dispatch, initialize, shutdown and register at a specific
+      * point instead of On-Demand.
       */
     class Radon
     {

@@ -14,75 +14,61 @@
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Collections/Queue.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Threading {
+
+class ThreadPool
 {
-    namespace Threading
-    {
-        class PoolTask;
+public:
+    ThreadPool();
+    virtual ~ThreadPool();
 
-        class PoolThread:public System::Threading::Thread
-        {
-            public:
-                void Run();
-        };
+    /// The function will calculate the best working thread amount
+    /// for the specified processor core amount.
+    static RFTYPE::UInt32 GetBestThreadAmountByProcessorCoreAmount(RFTYPE::UInt32 Amount);
 
-        void InitializeThreadPool(RFTYPE::UInt32 LogicalProcessourCount);
-        void ShutdownThreadPool();
+    typedef Delegate1<void*> WaitCallback;
 
-        struct ThreadPool
-        {
-            friend class PoolThread;
+    void GetMaxThreads(RFTYPE::UInt32& WorkerThreads,
+                       RFTYPE::UInt32& CompletionPortThreads);
 
-            typedef Delegate1<void*> WaitCallback;
-            typedef Delegate2<void*,RFTYPE::Bool> WaitOrTimerCallback;
+    RFTYPE::Bool SetMaxThreads(RFTYPE::UInt32 WorkerThreads,
+                               RFTYPE::UInt32 CompletionPortThreads);
 
-            static void GetMaxThreads(RFTYPE::UInt32& WorkerThreads,
-                                        RFTYPE::UInt32& CompletionPortThreads);
+    void GetMinThreads(RFTYPE::UInt32& WorkerThreads,
+                       RFTYPE::UInt32& CompletionPortThreads);
 
-            static RFTYPE::Bool SetMaxThreads(RFTYPE::UInt32 WorkerThreads,
-                                            RFTYPE::UInt32 CompletionPortThreads);
+    RFTYPE::Bool SetMinThreads(RFTYPE::UInt32 WorkerThreads,
+                               RFTYPE::UInt32 CompletionPortThreads);
 
-            static void GetMinThreads(RFTYPE::UInt32& WorkerThreads,
-                                        RFTYPE::UInt32& CompletionPortThreads);
+    void GetAvailableThreads(RFTYPE::UInt32& WorkerThreads,
+                             RFTYPE::UInt32& CompletionPortThreads);
 
-            static RFTYPE::Bool SetMinThreads(RFTYPE::UInt32 WorkerThreads,
-                                            RFTYPE::UInt32 CompletionPortThreads);
+    RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
+        TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
+        RFTYPE::Bool AutoCleanup=true);
 
-            static void GetAvailableThreads(RFTYPE::UInt32& WorkerThreads,
-                                            RFTYPE::UInt32& CompletionPortThreads);
+    RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
+        void* State, TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
+        RFTYPE::Bool AutoCleanup=true);
+private:
+    Core::Idioms::PImpl<ThreadPool> m_PImpl;
+};
 
-            //static CT::Bool BindHandle(ISafeHandle* OSHandle);
+class PoolTask
+{
+public:
+    PoolTask();
+    ~PoolTask();
+    PoolTask(ThreadPool::WaitCallback Callback, void* Data,
+             RFTYPE::Bool AutoCleanup);
+    PoolTask(const PoolTask& Copy);
+    PoolTask& operator=(const PoolTask& Other);
 
-            static RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
-                TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
-                RFTYPE::Bool AutoCleanup=true);
+    ThreadPool::WaitCallback Callback;
+    mutable void* Data;
+    RFTYPE::Bool AutoCleanup;
+};
 
-            static RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
-                void* State, TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
-                RFTYPE::Bool AutoCleanup=true);
-            /*
-            static RegisteredWaitHandle RegisterWaitForSingleObject(
-                IWaitHandle* WaitObject, WaitOrTimerCallback Callback,
-                void* Sate, CT::Int32 MilisecondsTimeOutInterval,
-                CT::Bool ExecuteOnlyOnce);
-                */
-        };
-
-        class PoolTask
-        {
-            public:                        
-                PoolTask();
-                ~PoolTask();
-                PoolTask(ThreadPool::WaitCallback Callback, void* Data, 
-                         RFTYPE::Bool AutoCleanup);
-                PoolTask(const PoolTask& Copy);
-                PoolTask& operator=(const PoolTask& Other);
-
-                ThreadPool::WaitCallback Callback;
-                mutable void* Data;                        
-                RFTYPE::Bool AutoCleanup;
-        };
-    }
-}
+} }
 
 #endif // RF_THREADING_THREADPOOL_HPP

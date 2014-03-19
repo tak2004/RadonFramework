@@ -51,11 +51,11 @@ Radon::Radon(UInt32 Flags)
     {
         m_PIMPL = AutoPointer<PIMPL>(new PIMPL());
 
-        // add hardware check and setup
-        Array<ProcessorData> processors;
-        System::DetectProcessors(processors);
-        UInt32 LPs=System::GetLogicalProcessorCount(processors);
-        Threading::InitializeThreadPool(LPs);
+        RFTIME::Dispatch();
+        RFSTR::Dispatch();
+        RFMEM::Dispatch();
+        RFENV::Dispatch();
+        RFFILE::Dispatch();
 
         m_PIMPL->m_IsSubSystemInitialized=Flags;
 
@@ -178,8 +178,6 @@ Radon::~Radon()
         {
             ProcessServiceLocator::Quit();
         }
-
-        RadonFramework::Threading::ShutdownThreadPool();
 
         m_PIMPL->m_IsSubSystemInitialized=0;
         m_IsInitialized=false;

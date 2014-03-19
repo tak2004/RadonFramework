@@ -7,22 +7,67 @@ using namespace RadonFramework::Collections;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Threading;
 using namespace RadonFramework::Core::Types;
+using namespace RadonFramework::Core::Idioms;
 using namespace RadonFramework::System::Threading;
 using namespace RadonFramework::System;
 
-struct ThreadPoolData
+class PoolThread : public System::Threading::Thread
 {
-    ThreadPoolData()
-    :MaxWorkerThreads(0)
+public:
+    void Run();
+    PImpl<ThreadPool>::Data* Pool;
+};
+
+template<>
+class PImpl<ThreadPool>::Data
+{
+public:
+    Data()
+    :MaxWorkerThreads(1)
     ,MaxCompletionPortThreads(0)
     ,MinWorkerThreads(0)
     ,MinCompletionPortThreads(0)
     ,Running(true)
     {
+        SerialTaskLists.Resize(MaxWorkerThreads);
+        WorkerThreads.Resize(MaxWorkerThreads);
+        for (UInt32 i=0; i < WorkerThreads.Count(); ++i)
+        {
+            WorkerThreads(i)=AutoPointer<PoolThread>(new PoolThread());
+            WorkerThreads(i)->Pool = this;
+            WorkerThreads(i)->Start();
+        }
+    }
+
+    virtual ~Data()
+    {
+        Running=false;
+        MaxWorkerThreads = 0;
+        MaxCompletionPortThreads = 0;
+        MinWorkerThreads = 0;
+        MinCompletionPortThreads = 0;
+
+        // signal all threads to cancel
+        for (UInt32 i=0; i < WorkerThreads.Count(); ++i)
+            WorkerThreads(i)->Interrupt();
+        
+        {// clean up the list and trigger a change that the threads can leave Wait()
+            Scopelock lock(Busy);
+            ConcurrentTaskList.Clear();
+            SerialTaskLists.Resize(0);
+            TaskListChanged.NotifyAll();
+        }
+
+        // wait till all threads are finished
+        for (UInt32 i=0; i < WorkerThreads.Count(); ++i)
+            WorkerThreads(i)->Join();
+
+        // clean up threads
+        WorkerThreads.Resize(0);
     }
 
     Array<AutoPointer<PoolThread> > WorkerThreads;
-    //Array<AutoPointer<Thread> > CompletionPortThreads;
+    Array<AutoPointer<Thread> > CompletionPortThreads;
     Queue<PoolTask> ConcurrentTaskList;
     Array<Queue<PoolTask> > SerialTaskLists;
     Mutex Busy;
@@ -34,85 +79,51 @@ struct ThreadPoolData
     Bool Running;
 };
 
-static ThreadPoolData* Data=0;
-
-void RadonFramework::Threading::InitializeThreadPool(UInt32 LogicalProcessorCount)
+ThreadPool::ThreadPool()
 {
-    if (Data==0)
-    {
-        Data=new ThreadPoolData();
-        UInt32 lp=Math::Math<UInt32>::Max(LogicalProcessorCount,1)<<1;// twice more as logical processor count
-        Data->SerialTaskLists.Resize(lp);
-        Data->WorkerThreads.Resize(lp);
-        for (UInt32 i=0;i<Data->WorkerThreads.Count();++i)
-        {
-            Data->WorkerThreads(i)=AutoPointer<PoolThread>(new PoolThread());
-            Data->WorkerThreads(i)->Start();
-        }
-    }
 }
 
-void RadonFramework::Threading::ShutdownThreadPool()
+ThreadPool::~ThreadPool()
 {
-    Data->Running=false;
-    ThreadPool::SetMaxThreads(0,0);
-    ThreadPool::SetMinThreads(0,0);
+}
 
-    // signal all threads to cancel
-    for (UInt32 i=0;i<Data->WorkerThreads.Count();++i)
-        Data->WorkerThreads(i)->Interrupt();
-        
-    {// clean up the list and trigger a change that the threads can leave Wait()
-        Scopelock lock(Data->Busy);
-        Data->ConcurrentTaskList.Clear();
-        Data->SerialTaskLists.Resize(0);
-        Data->TaskListChanged.NotifyAll();
-    }
-
-    // wait till all threads are finished
-    for (UInt32 i=0;i<Data->WorkerThreads.Count();++i)
-        Data->WorkerThreads(i)->Join();
-
-    // clean up threads
-    Data->WorkerThreads.Resize(0);
+RFTYPE::UInt32 ThreadPool::GetBestThreadAmountByProcessorCoreAmount(RFTYPE::UInt32 Amount)
+{
+    // twice more as logical processor count
+    return Math::Math<UInt32>::Max(Amount, 1) << 1;
 }
 
 void ThreadPool::GetMaxThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
 {
-    WorkerThreads=Data->MaxWorkerThreads;
-    CompletionPortThreads=Data->MaxCompletionPortThreads;
+    WorkerThreads = m_PImpl->MaxWorkerThreads;
+    CompletionPortThreads = m_PImpl->MaxCompletionPortThreads;
 }
 
 Bool ThreadPool::SetMaxThreads(UInt32 WorkerThreads, UInt32 CompletionPortThreads)
 {
-    Data->MaxWorkerThreads=WorkerThreads;
-    Data->MaxCompletionPortThreads=CompletionPortThreads;
+    m_PImpl->MaxWorkerThreads=WorkerThreads;
+    m_PImpl->MaxCompletionPortThreads=CompletionPortThreads;
     return true;
 }
 
 void ThreadPool::GetMinThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
 {
-    WorkerThreads=Data->MinWorkerThreads;
-    CompletionPortThreads=Data->MinCompletionPortThreads;
+    WorkerThreads = m_PImpl->MinWorkerThreads;
+    CompletionPortThreads = m_PImpl->MinCompletionPortThreads;
 }
 
 Bool ThreadPool::SetMinThreads(UInt32 WorkerThreads, UInt32 CompletionPortThreads)
 {
-    Data->MinWorkerThreads=WorkerThreads;
-    Data->MinCompletionPortThreads=CompletionPortThreads;
+    m_PImpl->MinWorkerThreads=WorkerThreads;
+    m_PImpl->MinCompletionPortThreads=CompletionPortThreads;
     return true;
 }
 
 void ThreadPool::GetAvailableThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
 {
-    //WorkerThreads=Data->MaxWorkerThreads-Data->WorkerThreads.Count();
-    //CompletionPortThreads=Data->MaxCompletionPortThreads-Data->CompletionPortThreads.Count();
+    WorkerThreads = m_PImpl->MaxWorkerThreads - m_PImpl->WorkerThreads.Count();
+    CompletionPortThreads = m_PImpl->MaxCompletionPortThreads - m_PImpl->CompletionPortThreads.Count();
 }
-/*
-Bool ThreadPool::BindHandle(ISafeHandle* OSHandle)
-{
-    return false;
-}*/
 
 Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, TaskStrategy::Type Strategy, 
                                    Bool AutoCleanup)
@@ -123,50 +134,42 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, TaskStrategy::Type Str
 Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
                                    TaskStrategy::Type Strategy, Bool AutoCleanup)
 {
-    if (Data->Running)
+    if (m_PImpl->Running)
     {
         PoolTask task(Callback,State,AutoCleanup);
-        Scopelock lock(Data->Busy);
+        Scopelock lock(m_PImpl->Busy);
         if (Strategy==TaskStrategy::Concurrent)
-            Data->ConcurrentTaskList.Enqueue(task);
+            m_PImpl->ConcurrentTaskList.Enqueue(task);
         else
         {
-            Int64 serialGrp=Thread::CurrentPid()%Data->WorkerThreads.Count();
-            Data->SerialTaskLists(static_cast<UInt32>(serialGrp)).Enqueue(task);
+            Int64 serialGrp=Thread::CurrentPid() % m_PImpl->WorkerThreads.Count();
+            m_PImpl->SerialTaskLists(static_cast<UInt32>(serialGrp)).Enqueue(task);
         }   
-        Data->TaskListChanged.NotifyAll();
+        m_PImpl->TaskListChanged.NotifyAll();
         return true;
     }
     return false;
 }
 
-/*
-RegistersedWaitHandle ThreadPool::RegistersWaitForSingleObject(IWaitHandle* WaitObject, 
-    WaitOrTimerCallback Callback, void* Sate, Int32 MilisecondsTimeOutInterval,
-    Bool ExecuteOnlyOnce)
-{
-    return RegistersedWaitHandle();
-}*/
-
 void PoolThread::Run()
 {
     PoolTask task;
     Bool result=false;
-    Int64 serialGrp=Thread::CurrentPid()%Data->WorkerThreads.Count();
+    Int64 serialGrp = Thread::CurrentPid() % Pool->WorkerThreads.Count();
     while(true)
     {
         {
-            Scopelock lock(Data->Busy);            
-            result=Data->SerialTaskLists(static_cast<UInt32>(serialGrp)).Dequeue(task);
+            Scopelock lock(Pool->Busy);
+            result = Pool->SerialTaskLists(static_cast<UInt32>(serialGrp)).Dequeue(task);
         }
-        if (false==result)
+        if (false == result)
         {
             {
-                Scopelock lock(Data->Busy);            
-                result=Data->ConcurrentTaskList.Dequeue(task);
+                Scopelock lock(Pool->Busy);
+                result = Pool->ConcurrentTaskList.Dequeue(task);
             }
-            if (false==result)
-                Data->TaskListChanged.Wait(Data->Busy);
+            if (false == result)
+                Pool->TaskListChanged.Wait(Pool->Busy);
         }
 
         if (result)
@@ -204,7 +207,7 @@ PoolTask::PoolTask(ThreadPool::WaitCallback Callback, void* Data, Bool AutoClean
 
 PoolTask::PoolTask(const PoolTask& Copy)
 {
-    *this=Copy;
+    *this = Copy;
 }
 
 PoolTask& PoolTask::operator=(const PoolTask& Other)

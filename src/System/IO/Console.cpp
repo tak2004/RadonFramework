@@ -12,6 +12,8 @@ using namespace RadonFramework::IO;
 using namespace RadonFramework::System::IO;
 using namespace RadonFramework::Core::Types;
 
+static RadonFramework::System::Threading::Mutex m_Busy;
+
 #if defined(RF_WINDOWS)
 #include <windows.h>
 

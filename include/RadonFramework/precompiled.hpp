@@ -45,6 +45,7 @@ namespace RFTYPE=RadonFramework::Core::Types;
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 namespace RFIDIOM = RadonFramework::Core::Idioms;
 #endif
+#include <RadonFramework/Core/Pattern/Singleton.hpp>
 
 //--------- depending on upper includes -----------
 
