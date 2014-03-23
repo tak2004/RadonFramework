@@ -12,182 +12,175 @@ TimeValue TimeSpan::TicksPerSecond=10000000;
 TimeValue TimeSpan::TicksPerMillisecond=10000;
 TimeValue TimeSpan::TicksPerMicrosecond=10;
 
-TimeSpan::TimeSpan()
+TimeSpan TimeSpan::CreateByTicks(TimeValue Value)
 {
-  m_TimeValue=0;
+    TimeSpan result;
+    result.m_TimeValue = Value;
+    return result;
 }
 
-TimeSpan::TimeSpan(TimeValue Value)
+TimeSpan TimeSpan::CreateByTime(UInt32 Hours, UInt32 Minutes, UInt32 Seconds)
 {
-  m_TimeValue=Value;
+    TimeSpan result;
+    result.m_TimeValue = Hours * TicksPerHour + Minutes * TicksPerMinute + Seconds * TicksPerSecond;
+    return result;
 }
 
-TimeSpan::TimeSpan(UInt32 Hours, UInt32 Minutes, UInt32 Seconds)
+TimeSpan TimeSpan::CreateByTime(UInt32 Days, UInt32 Hours, UInt32 Minutes,
+    UInt32 Seconds, UInt32 Milliseconds, UInt32 Microseconds)
 {
-  m_TimeValue=Hours*TicksPerHour+Minutes*TicksPerMinute+Seconds*TicksPerSecond;
-}
-
-TimeSpan::TimeSpan(UInt32 Days, UInt32 Hours, UInt32 Minutes, UInt32 Seconds)
-{
-  m_TimeValue=Days*TicksPerDay+Hours*TicksPerHour+Minutes*TicksPerMinute+Seconds*TicksPerSecond;
-}
-
-TimeSpan::TimeSpan(UInt32 Days, UInt32 Hours, UInt32 Minutes, UInt32 Seconds, UInt32 Milliseconds)
-{
-  m_TimeValue=Days*TicksPerDay+Hours*TicksPerHour+Minutes*TicksPerMinute+
-              Seconds*TicksPerSecond+Milliseconds*TicksPerMillisecond;
-}
-
-TimeSpan::TimeSpan(UInt32 Days, UInt32 Hours, UInt32 Minutes, UInt32 Seconds, UInt32 Milliseconds,
-                   UInt32 Microseconds)
-{
-  m_TimeValue=Days*TicksPerDay+Hours*TicksPerHour+Minutes*TicksPerMinute+
-              Seconds*TicksPerSecond+Milliseconds*TicksPerMillisecond+
-              Microseconds*TicksPerMicrosecond;
+    TimeSpan result;
+    result.m_TimeValue = Days * TicksPerDay + Hours * TicksPerHour + Minutes * TicksPerMinute +
+        Seconds * TicksPerSecond + Milliseconds * TicksPerMillisecond + Microseconds * TicksPerMicrosecond;
+    return result;
 }
 
 UInt32 TimeSpan::Days()const
 {
-  return UInt32(m_TimeValue/TimeSpan::TicksPerDay);
+    return UInt32(m_TimeValue/TimeSpan::TicksPerDay);
 }
 
 UInt32 TimeSpan::Hours()const
 {
-  return m_TimeValue/TimeSpan::TicksPerHour%24;
+    return m_TimeValue/TimeSpan::TicksPerHour%24;
 }
 
 UInt32 TimeSpan::Minutes()const
 {
-  return m_TimeValue/TimeSpan::TicksPerMinute%60;
+    return m_TimeValue/TimeSpan::TicksPerMinute%60;
 }
 
 UInt32 TimeSpan::Seconds()const
 {
-  return m_TimeValue/TimeSpan::TicksPerSecond%60;
+    return m_TimeValue/TimeSpan::TicksPerSecond%60;
 }
 
 UInt32 TimeSpan::Milliseconds()const
 {
-  return m_TimeValue/TimeSpan::TicksPerMillisecond%1000;
+    return m_TimeValue/TimeSpan::TicksPerMillisecond%1000;
 }
 
 UInt32 TimeSpan::Microseconds()const
 {
-  return m_TimeValue/TimeSpan::TicksPerMicrosecond%1000;
+    return m_TimeValue/TimeSpan::TicksPerMicrosecond%1000;
 }
 
 TimeValue TimeSpan::Ticks()const
 {
-  return m_TimeValue;
+    return m_TimeValue;
 }
 
-double TimeSpan::TotalDays()const
+Float64 TimeSpan::TotalDays()const
 {
-  return (double)m_TimeValue/(double)TicksPerDay;
+    return static_cast<Float64>(m_TimeValue) / static_cast<Float64>(TicksPerDay);
 }
 
-double TimeSpan::TotalHours()const
+Float64 TimeSpan::TotalHours()const
 {
-  return (double)m_TimeValue/(double)TicksPerHour;
+    return static_cast<Float64>(m_TimeValue) / static_cast<Float64>(TicksPerHour);
 }
 
-double TimeSpan::TotalMinutes()const
+Float64 TimeSpan::TotalMinutes()const
 {
-  return (double)m_TimeValue/(double)TicksPerMinute;
+    return static_cast<Float64>(m_TimeValue) / static_cast<Float64>(TicksPerMinute);
 }
 
-double TimeSpan::TotalSeconds()const
+Float64 TimeSpan::TotalSeconds()const
 {
-  return (double)m_TimeValue/(double)TicksPerSecond;
+    return static_cast<Float64>(m_TimeValue) / static_cast<Float64>(TicksPerSecond);
 }
 
-double TimeSpan::TotalMilliseconds()const
+Float64 TimeSpan::TotalMilliseconds()const
 {
-  return (double)m_TimeValue/(double)TicksPerMillisecond;
+    return static_cast<Float64>(m_TimeValue) / static_cast<Float64>(TicksPerMillisecond);
 }
 
-double TimeSpan::TotalMicroseconds()const
+Float64 TimeSpan::TotalMicroseconds()const
 {
-  return (double)m_TimeValue/(double)TicksPerMicrosecond;
+    return static_cast<Float64>(m_TimeValue) / static_cast<Float64>(TicksPerMicrosecond);
 }
-// TODO (Thomas#1#): implement a more solid way
+
 TimeSpan TimeSpan::Add(const TimeSpan& TS)const
 {
-  TimeSpan ts(m_TimeValue+TS.Ticks());
-  return ts;
+    TimeSpan result;
+    result.m_TimeValue = m_TimeValue + TS.Ticks();
+    return result;
 }
 
 TimeSpan TimeSpan::Sub(const TimeSpan& TS)const
 {
-  TimeSpan ts(m_TimeValue-TS.Ticks());
-  return ts;
+    TimeSpan result;
+    result.m_TimeValue = m_TimeValue - TS.Ticks();
+    return result;
 }
 
 TimeSpan& TimeSpan::operator +=(const TimeSpan& TS)
 {
-  m_TimeValue+=TS.Ticks();
-  return *this;
+    m_TimeValue += TS.Ticks();
+    return *this;
 }
 
 TimeSpan& TimeSpan::operator -=(const TimeSpan& TS)
 {
-  m_TimeValue-=TS.Ticks();
-  return *this;
+    m_TimeValue -= TS.Ticks();
+    return *this;
 }
 
 TimeSpan TimeSpan::operator +(const TimeSpan& TS)const
 {
-  TimeSpan ts(m_TimeValue+TS.Ticks());
-  return ts;
+    TimeSpan result;
+    result.m_TimeValue = m_TimeValue + TS.Ticks();
+    return result;
 }
 
 TimeSpan TimeSpan::operator -(const TimeSpan& TS)const
 {
-  TimeSpan ts(m_TimeValue-TS.Ticks());
-  return ts;
+    TimeSpan result;
+    result.m_TimeValue = m_TimeValue - TS.Ticks();
+    return result;
 }
 
 bool TimeSpan::operator >(const TimeSpan& TS)const
 {
-    return m_TimeValue>TS.m_TimeValue;
+    return m_TimeValue > TS.m_TimeValue;
 }
 
 bool TimeSpan::operator <(const TimeSpan& TS)const
 {
-    return m_TimeValue<TS.m_TimeValue;
+    return m_TimeValue < TS.m_TimeValue;
 }
 
 bool TimeSpan::operator >=(const TimeSpan& TS)const
 {
-    return m_TimeValue>=TS.m_TimeValue;
+    return m_TimeValue >= TS.m_TimeValue;
 }
 
 bool TimeSpan::operator <=(const TimeSpan& TS)const
 {
-    return m_TimeValue<=TS.m_TimeValue;
+    return m_TimeValue <= TS.m_TimeValue;
 }
 
 bool TimeSpan::operator !=(const TimeSpan& TS)const
 {
-    return m_TimeValue!=TS.m_TimeValue;
+    return m_TimeValue != TS.m_TimeValue;
 }
 
 bool TimeSpan::operator ==(const TimeSpan& TS)const
 {
-    return m_TimeValue==TS.m_TimeValue;
+    return m_TimeValue == TS.m_TimeValue;
 }
 
 RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
                                                 const RadonFramework::Time::TimeSpan& Other)
 {
-    stream<<Other.ToString().c_str();
+    stream << Other.ToString().c_str();
     return stream;
 }
 
 RadonFramework::Core::Types::String RadonFramework::Time::TimeSpan::ToString() const
 {
-    String str;
-    str<<Days()<<"days:"<<Hours()<<"hour:"<<Minutes()<<"min:"<<Seconds()<<
-        "sec,"<<Milliseconds()<<"msec:"<<Microseconds()<<"microsec";
-    return str;
+    String result;
+    result << Days() << "days:" << Hours() << "hour:" << Minutes() << "min:" << 
+        Seconds() << "sec," << Milliseconds() << "msec:" << Microseconds() << "microsec";
+    return result;
 }

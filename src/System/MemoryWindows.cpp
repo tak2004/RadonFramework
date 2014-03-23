@@ -32,7 +32,7 @@ void Free(void* FirstPage)
     HeapFree(GetProcessHeap(), 0, FirstPage);
 }
 
-void RadonFramework::System::Memory::Dispatch()
+void RFMEM::Dispatch()
 {
     GetPageSize=::GetPageSize;
     EnableTerminationOnHeapCorruption=::EnableTerminationOnHeapCorruption;

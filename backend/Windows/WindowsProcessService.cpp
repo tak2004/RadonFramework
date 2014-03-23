@@ -7,6 +7,7 @@
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Collections/AutoVector.hpp>
+#include <RadonFramework/System/Process.hpp>
 
 #include <Windows.h>
 #include <psapi.h>
@@ -254,7 +255,7 @@ Memory::AutoPointer<ProcessInformation> WindowsProcessService::GetProcessByID( U
 Memory::AutoPointer<ProcessInformation> WindowsProcessService::GetCurrentProcess()
 {
     Memory::AutoPointer<ProcessInformation> proc;
-    proc=GetProcessByID(GetCurrentProcessID());
+    proc=GetProcessByID(RFPROC::GetCurrentProcessId());
     return proc;
 }
 
@@ -262,18 +263,13 @@ RadonFramework::Time::TimeSpan WindowsProcessService::FILETIMEToTimeSpan(const F
 {
     UInt64 t=((UInt64)Time.dwHighDateTime)<<32;
     t+=Time.dwLowDateTime;
-    return TimeSpan(t);
+    return TimeSpan::CreateByTicks(t);
 }
 
 RadonFramework::Time::DateTime WindowsProcessService::FILETIMEToDate(const FILETIME &Time)
 {
     UInt64 t=((UInt64)Time.dwHighDateTime)<<32;
-    t+=Time.dwLowDateTime;
-    t+=DateTime(1601,1,1).Ticks();
-    return DateTime(t);
-}
-
-UInt32 WindowsProcessService::GetCurrentProcessID()
-{
-    return (UInt32)GetCurrentProcessId();
+    t += Time.dwLowDateTime;
+    t += DateTime::CreateByTime(1601, 1, 1).Ticks();
+    return DateTime::CreateByTicks(t);
 }

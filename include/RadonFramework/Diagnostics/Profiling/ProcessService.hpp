@@ -21,7 +21,6 @@ namespace RadonFramework
                     ProcessService(const RadonFramework::Core::Types::String &Name);
                     virtual Memory::AutoPointer<Process::ProcessTree> GetProcessTree()=0;
                     virtual Memory::AutoPointer<Process::ProcessInformation> GetCurrentProcess()=0;
-                    virtual Core::Types::UInt32 GetCurrentProcessID()=0;
                     virtual Memory::AutoPointer<Process::ProcessInformation> GetProcessByID(Core::Types::UInt32 ProcessID)=0;
             };
         }

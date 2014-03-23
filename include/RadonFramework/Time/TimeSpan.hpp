@@ -4,77 +4,65 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/UInt32.hpp>
-#include <RadonFramework/Core/Types/UInt64.hpp>
-#include <RadonFramework/Core/Types/String.hpp>
+namespace RadonFramework { namespace Time {
 
-namespace RadonFramework
+typedef RFTYPE::UInt64 TimeValue;
+
+struct TimeSpan
 {
-  namespace Time
-  {
-    typedef Core::Types::UInt64 TimeValue;
+    static TimeValue TicksPerDay;
+    static TimeValue TicksPerHour;
+    static TimeValue TicksPerMinute;
+    static TimeValue TicksPerSecond;
+    static TimeValue TicksPerMillisecond;
+    static TimeValue TicksPerMicrosecond;
 
-    class TimeSpan
-    {
-      protected:
-        TimeValue m_TimeValue;
-      public:
-        static TimeValue TicksPerDay;
-        static TimeValue TicksPerHour;
-        static TimeValue TicksPerMinute;
-        static TimeValue TicksPerSecond;
-        static TimeValue TicksPerMillisecond;
-        static TimeValue TicksPerMicrosecond;
+    static TimeSpan CreateByTicks(TimeValue Value);
+    static TimeSpan CreateByTime(RFTYPE::UInt32 Hours, RFTYPE::UInt32 Minutes,
+                                 RFTYPE::UInt32 Seconds);
+    static TimeSpan CreateByTime(RFTYPE::UInt32 Days, RFTYPE::UInt32 Hours,
+        RFTYPE::UInt32 Minutes, RFTYPE::UInt32 Seconds, RFTYPE::UInt32 Milliseconds = 0,
+        RFTYPE::UInt32 Microseconds = 0);
 
-        TimeSpan();
-        TimeSpan(TimeValue Value);
-        TimeSpan(Core::Types::UInt32 Hours, Core::Types::UInt32 Minutes, Core::Types::UInt32 Seconds);
-        TimeSpan(Core::Types::UInt32 Days, Core::Types::UInt32 Hours, Core::Types::UInt32 Minutes, Core::Types::UInt32 Seconds);
-        TimeSpan(Core::Types::UInt32 Days, Core::Types::UInt32 Hours, Core::Types::UInt32 Minutes, Core::Types::UInt32 Seconds, Core::Types::UInt32 Milliseconds);
-        TimeSpan(Core::Types::UInt32 Days, Core::Types::UInt32 Hours, Core::Types::UInt32 Minutes, Core::Types::UInt32 Seconds, Core::Types::UInt32 Milliseconds,
-                 Core::Types::UInt32 Microseconds);
+    RFTYPE::UInt32 Days()const;
+    RFTYPE::UInt32 Hours()const;
+    RFTYPE::UInt32 Minutes()const;
+    RFTYPE::UInt32 Seconds()const;
+    RFTYPE::UInt32 Milliseconds()const;
+    RFTYPE::UInt32 Microseconds()const;
 
-        Core::Types::UInt32 Days()const;
-        Core::Types::UInt32 Hours()const;
-        Core::Types::UInt32 Minutes()const;
-        Core::Types::UInt32 Seconds()const;
-        Core::Types::UInt32 Milliseconds()const;
-        Core::Types::UInt32 Microseconds()const;
-        TimeValue Ticks()const;
-        double TotalDays()const;
-        double TotalHours()const;
-        double TotalMinutes()const;
-        double TotalSeconds()const;
-        double TotalMilliseconds()const;
-        double TotalMicroseconds()const;
-        RadonFramework::Core::Types::String ToString()const;
+    TimeValue Ticks()const;
 
-        TimeSpan Add(const TimeSpan& TS)const;
-        TimeSpan Sub(const TimeSpan& TS)const;
-        TimeSpan& operator +=(const TimeSpan& TS);
-        TimeSpan& operator -=(const TimeSpan& TS);
-        TimeSpan operator +(const TimeSpan& TS)const;
-        TimeSpan operator -(const TimeSpan& TS)const;
-        bool operator>(const TimeSpan& TS)const;
-        bool operator<(const TimeSpan& TS)const;
-        bool operator>=(const TimeSpan& TS)const;
-        bool operator<=(const TimeSpan& TS)const;
-        bool operator!=(const TimeSpan& TS)const;
-        bool operator==(const TimeSpan& TS)const;
-    };
-  }
-}
+    RFTYPE::Float64 TotalDays()const;
+    RFTYPE::Float64 TotalHours()const;
+    RFTYPE::Float64 TotalMinutes()const;
+    RFTYPE::Float64 TotalSeconds()const;
+    RFTYPE::Float64 TotalMilliseconds()const;
+    RFTYPE::Float64 TotalMicroseconds()const;
+    RFTYPE::String ToString()const;
 
-namespace RadonFramework
-{ 
-    namespace System
-    {
-        namespace IO
-        { 
-            class Console;
-        }
-    }
-}
+    TimeSpan Add(const TimeSpan& TS)const;
+    TimeSpan Sub(const TimeSpan& TS)const;
+    TimeSpan& operator +=(const TimeSpan& TS);
+    TimeSpan& operator -=(const TimeSpan& TS);
+    TimeSpan operator +(const TimeSpan& TS)const;
+    TimeSpan operator -(const TimeSpan& TS)const;
+    bool operator>(const TimeSpan& TS)const;
+    bool operator<(const TimeSpan& TS)const;
+    bool operator>=(const TimeSpan& TS)const;
+    bool operator<=(const TimeSpan& TS)const;
+    bool operator!=(const TimeSpan& TS)const;
+    bool operator==(const TimeSpan& TS)const;
+protected:
+    TimeValue m_TimeValue;
+};
+
+} }
+
+namespace RadonFramework { namespace System { namespace IO {
+    // forward decleration
+    class Console;
+} } }
 
 RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
                                                 const RadonFramework::Time::TimeSpan& Other);

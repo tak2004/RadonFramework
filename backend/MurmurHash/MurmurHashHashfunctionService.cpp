@@ -8,7 +8,7 @@ using namespace RadonFramework::Core::Types;
 class MurmurHashHashfunction:public IHashfunction
 {
     protected:
-	    UInt8 m_buf[8];
+        UInt8 m_buf[8];
     public:
         void Reset()
         {

@@ -66,6 +66,68 @@ public:
         WorkerThreads.Resize(0);
     }
 
+    void UpdatePoolSize()
+    {
+        // shrink worker threads
+        if (MaxWorkerThreads > WorkerThreads.Count())
+        {
+            // trigger exit routine in specified thread
+            for (Size i = MaxWorkerThreads - 1; i < WorkerThreads.Count(); ++i)
+            {
+                WorkerThreads(i)->Interrupt();
+            }
+            // wait till each triggered thread is no longer working
+            for (Size i = MaxWorkerThreads - 1; i < WorkerThreads.Count(); ++i)
+            {
+                WorkerThreads(i)->Join();
+            }
+
+            WorkerThreads.Resize(MaxWorkerThreads);
+        }
+
+        // shrink completion ports
+        if (MaxCompletionPortThreads > CompletionPortThreads.Count())
+        {
+            // trigger exit routine in specified thread
+            for (Size i = MaxCompletionPortThreads - 1; i < CompletionPortThreads.Count(); ++i)
+            {
+                CompletionPortThreads(i)->Interrupt();
+            }
+            // wait till each triggered thread is no longer working
+            for (Size i = MaxCompletionPortThreads - 1; i < CompletionPortThreads.Count(); ++i)
+            {
+                CompletionPortThreads(i)->Join();
+            }
+
+            CompletionPortThreads.Resize(MaxCompletionPortThreads);
+        }
+
+        // grow worker threads
+        if (MinWorkerThreads > WorkerThreads.Count())
+        {
+            Size currentSize = WorkerThreads.Count();
+            WorkerThreads.Resize(MinWorkerThreads);
+            for (Size i = currentSize - 1; i < MinWorkerThreads; ++i)
+            {
+                WorkerThreads(i)=AutoPointer<PoolThread>(new PoolThread());
+                WorkerThreads(i)->Pool = this;
+                WorkerThreads(i)->Start();
+            }
+        }
+
+        // grow completion port
+        if (MinCompletionPortThreads > CompletionPortThreads.Count())
+        {/*
+            Size currentSize = CompletionPortThreads.Count();
+            CompletionPortThreads.Resize(MinCompletionPortThreads);
+            for (Size i = currentSize - 1; i < MinCompletionPortThreads; ++i)
+            {
+                CompletionPortThreads(i)=AutoPointer<PoolThread>(new PoolThread());
+                CompletionPortThreads(i)->Start();
+            }*/
+        }
+    }
+
     Array<AutoPointer<PoolThread> > WorkerThreads;
     Array<AutoPointer<Thread> > CompletionPortThreads;
     Queue<PoolTask> ConcurrentTaskList;
@@ -101,9 +163,15 @@ void ThreadPool::GetMaxThreads(UInt32& WorkerThreads, UInt32& CompletionPortThre
 
 Bool ThreadPool::SetMaxThreads(UInt32 WorkerThreads, UInt32 CompletionPortThreads)
 {
-    m_PImpl->MaxWorkerThreads=WorkerThreads;
-    m_PImpl->MaxCompletionPortThreads=CompletionPortThreads;
-    return true;
+    if (m_PImpl->MinWorkerThreads <= WorkerThreads &&
+        m_PImpl->MinCompletionPortThreads <= CompletionPortThreads)
+    {
+        m_PImpl->MaxWorkerThreads = WorkerThreads;
+        m_PImpl->MaxCompletionPortThreads = CompletionPortThreads;
+        m_PImpl->UpdatePoolSize();
+        return true;
+    }
+    return false;
 }
 
 void ThreadPool::GetMinThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
@@ -114,9 +182,15 @@ void ThreadPool::GetMinThreads(UInt32& WorkerThreads, UInt32& CompletionPortThre
 
 Bool ThreadPool::SetMinThreads(UInt32 WorkerThreads, UInt32 CompletionPortThreads)
 {
-    m_PImpl->MinWorkerThreads=WorkerThreads;
-    m_PImpl->MinCompletionPortThreads=CompletionPortThreads;
-    return true;
+    if (m_PImpl->MaxWorkerThreads >= WorkerThreads &&
+        m_PImpl->MaxCompletionPortThreads >= CompletionPortThreads)
+    {
+        m_PImpl->MinWorkerThreads = WorkerThreads;
+        m_PImpl->MinCompletionPortThreads = CompletionPortThreads;
+        m_PImpl->UpdatePoolSize();
+        return true;
+    }
+    return false;
 }
 
 void ThreadPool::GetAvailableThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)

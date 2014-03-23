@@ -244,7 +244,8 @@ set(LIBSRCFILES_WINDOW
 	src/System/MemoryWindows.cpp
 	src/System/IO/FileSystemWindows.cpp
 	src/System/StringWindows.cpp
-	src/System/TimeWindows.cpp)
+	src/System/TimeWindows.cpp
+	src/System/ProcessWindows.cpp)
 	
 set(LIBSRCFILES_LINUX
 	src/System/TimeLinux.cpp
@@ -252,7 +253,8 @@ set(LIBSRCFILES_LINUX
 	src/System/IO/FileSystemLinux.cpp)
 	
 set(LIBSRCFILES_UNIX
-	src/System/TimeUnix.cpp)
+	src/System/TimeUnix.cpp
+	src/System/ProcessUnix.cpp)
 	
 set(LIBSRCFILES_OSX
 	src/System/TimeOSX.cpp)

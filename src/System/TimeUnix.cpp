@@ -23,7 +23,7 @@ UInt64 GetMinutesWestOfGMT()
     return abs(t.timezone)*600000000llu;
 }
 
-void RadonFramework::System::Time::Dispatch()
+void RFTIME::Dispatch()
 {
     GetNow = ::GetNow;
     GetMinutesWestOfGMT = ::GetMinutesWestOfGMT;

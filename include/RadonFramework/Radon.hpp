@@ -4,21 +4,24 @@
 #pragma once
 #endif
 
-//If you change this enum then change the RadonFramework_Init and RadonFramework_Quit function
-//in the System.cpp too ! Ah and don't forget to adjust the All value.
+// If you change this enum then do it in RadonFramework_Init and RadonFramework_Quit
+// function too and don't forget to adjust the Type::All value.
 namespace RadonFramework
 {
     namespace Init{
         enum Type
         {
-            All=0x7F,
-            Process=1,
-            Drawing=2,
-            Forms=4,
-            Hashing=8,
-            IO=0x10,
-            Net=0x20,
-            SMBios=0x40
+            All = 0x3FF,
+            Core = 1,
+            Drawing = 2,
+            Forms = 4,
+            Hashing = 8,
+            IO = 0x10,
+            Net = 0x20,
+            Diagnostics = 0x40,
+            Time = 0x80,
+            Memory = 0x100,
+            Process= 0x200
         };
     }
 
