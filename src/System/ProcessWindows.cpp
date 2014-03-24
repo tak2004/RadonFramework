@@ -4,14 +4,18 @@
 #include "RadonFramework/System/Process/IOInfo.hpp"
 #include "RadonFramework/System/Process/MemoryInfo.hpp"
 #include "RadonFramework/System/Process/TimingInfo.hpp"
+#include "RadonFramework/System/Process/ModuleInfo.hpp"
+#include "RadonFramework/System/Process/ThreadInfo.hpp"
 #include "RadonFramework/Time/TimeSpan.hpp"
 #include "RadonFramework/Time/DateTime.hpp"
 #include <Windows.h>
 #include <psapi.h>
+#include <TlHelp32.h>
 
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Time;
+using namespace RadonFramework::Threading;
 
 AutoPointerArray<RFTYPE::UInt32> GetProcessList()
 {
@@ -180,6 +184,133 @@ RFTYPE::Bool GetTimingInfo(RFTYPE::UInt32 PId, RFPROC::TimingInfo& Info)
     return result;
 }
 
+RFTYPE::Bool GetModuleInfo(RFTYPE::UInt32 PId, RFPROC::ModuleInfo& Info)
+{
+    RFTYPE::Bool result = false;
+    HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+                                  FALSE, PId);
+    if (hProcess)
+    {
+        HMODULE hMods[1024];
+        DWORD cbNeeded;
+        if( EnumProcessModules(hProcess, hMods, sizeof(hMods), &cbNeeded))
+        {
+            Info.Resize(cbNeeded / sizeof(HMODULE));
+            for (UInt32 i = 0; i < Info.Count(); ++i)
+            {
+                TCHAR szModName[MAX_PATH];
+                if (GetModuleFileNameEx(hProcess, hMods[i], szModName,
+                    sizeof(szModName) / sizeof(TCHAR)))
+                {
+                    Info(i) = String(szModName);
+                }
+            }
+            result = true;
+        }
+        CloseHandle( hProcess );
+    }
+    return result;
+}
+
+RFTYPE::Bool GetThreadInfo(RFTYPE::UInt32 PId, RFPROC::ThreadInfoList& Info)
+{
+    RFTYPE::Bool result = false;
+    HANDLE hThreadSnap = INVALID_HANDLE_VALUE;
+    THREADENTRY32 te32;
+    hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+    if (hThreadSnap != INVALID_HANDLE_VALUE)
+    {
+        te32.dwSize = sizeof(THREADENTRY32);
+        RFTYPE::UInt32 amount = 0, i = 0;
+        if(Thread32First(hThreadSnap, &te32))
+        {
+            do
+            {
+                if (te32.th32OwnerProcessID == PId)
+                {
+                    ++amount;
+                }
+            }
+            while(Thread32Next(hThreadSnap, &te32));
+
+            Info.Resize(amount);
+            Thread32First(hThreadSnap, &te32);
+
+            do
+            {
+                if(te32.th32OwnerProcessID == PId)
+                {
+                    HANDLE hThread=NULL;
+                    hThread=OpenThread(THREAD_QUERY_LIMITED_INFORMATION,false,te32.th32ThreadID);
+                    if(hThread==NULL)
+                    {
+                        hThread=OpenThread(THREAD_QUERY_INFORMATION,false,te32.th32ThreadID);
+                    }
+
+                    if (hThread!=NULL)
+                    {
+                        int prio=GetThreadPriority(hThread);
+                        switch(prio)
+                        {
+                        case THREAD_PRIORITY_ABOVE_NORMAL:
+                            Info(i).Priority = ThreadPriority::Maximal;
+                            break;
+                        case THREAD_PRIORITY_BELOW_NORMAL:
+                            Info(i).Priority = ThreadPriority::Minimal;
+                            break;
+                        case THREAD_PRIORITY_HIGHEST:
+                            Info(i).Priority = ThreadPriority::Maximal;
+                            break;
+                        case THREAD_PRIORITY_IDLE:
+                            Info(i).Priority = ThreadPriority::Minimal;
+                            break;
+                        case THREAD_PRIORITY_LOWEST:
+                            Info(i).Priority = ThreadPriority::Minimal;
+                            break;
+                        case THREAD_PRIORITY_NORMAL:
+                            Info(i).Priority = ThreadPriority::Normal;
+                            break;
+                        case THREAD_PRIORITY_TIME_CRITICAL:
+                            Info(i).Priority = ThreadPriority::Maximal;
+                            break;
+                        default:
+                            Info(i).Priority = ThreadPriority::Normal;
+                        }
+                        CloseHandle(hThread);
+                        hThread = NULL;
+                    }
+
+                    hThread = OpenThread(THREAD_QUERY_LIMITED_INFORMATION,false,te32.th32ThreadID);
+                    if(hThread == NULL)
+                    {
+                        hThread = OpenThread(THREAD_QUERY_INFORMATION, false, te32.th32ThreadID);
+                    }
+
+                    if (hThread != NULL)
+                    {
+                        FILETIME ct = {0, 0}, et = {0, 0}, kt = {0, 0}, ut = {0, 0};
+
+                        if (GetThreadTimes(hThread, &ct, &et, &kt, &ut))
+                        {
+                            Info(i).CreationTime = FILETIMEToDate(ct);
+                            Info(i).ExitTime = FILETIMEToDate(et);
+                            Info(i).KernelTime = FILETIMEToTimeSpan(kt);
+                            Info(i).UserTime = FILETIMEToTimeSpan(ut);
+                        }
+                        CloseHandle(hThread);
+                    }
+
+                    Info(i).ID = te32.th32ThreadID;
+                    ++i;
+                }
+            } while (Thread32Next(hThreadSnap, &te32));
+            result = true;
+        }
+        CloseHandle(hThreadSnap);
+    }
+    return result;
+}
+
 void RFPROC::Dispatch()
 {
     GetProcessList = ::GetProcessList;
@@ -188,4 +319,6 @@ void RFPROC::Dispatch()
     GetIOInfo = ::GetIOInfo;
     GetMemoryInfo = ::GetMemoryInfo;
     GetTimingInfo = ::GetTimingInfo;
+    GetModuleInfo = ::GetModuleInfo;
+    GetThreadInfo = ::GetThreadInfo;
 }

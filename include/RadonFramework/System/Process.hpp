@@ -4,6 +4,9 @@
 #pragma once
 #endif
 
+#include <RadonFramework/System/Process/ModuleInfo.hpp>
+#include <RadonFramework/System/Process/ThreadInfo.hpp>
+
 namespace RadonFramework { namespace System { namespace Process {
 
 // forward declaration
@@ -29,6 +32,8 @@ typedef RFTYPE::Bool (*GetGeneralInfoCallback)(RFTYPE::UInt32 PId, GeneralInfo& 
 typedef RFTYPE::Bool (*GetIOInfoCallback)(RFTYPE::UInt32 PId, IOInfo& Info);
 typedef RFTYPE::Bool (*GetMemoryInfoCallback)(RFTYPE::UInt32 PId, MemoryInfo& Info);
 typedef RFTYPE::Bool (*GetTimingInfoCallback)(RFTYPE::UInt32 PId, TimingInfo& Info);
+typedef RFTYPE::Bool (*GetModuleInfoCallback)(RFTYPE::UInt32 PId, ModuleInfo& Info);
+typedef RFTYPE::Bool (*GetThreadInfoCallback)(RFTYPE::UInt32 PId, ThreadInfoList& Info);
 
 extern GetProcessListCallback GetProcessList;
 extern GetCurrentProcessIdCallback GetCurrentProcessId;
@@ -36,6 +41,8 @@ extern GetGeneralInfoCallback GetGeneralInfo;
 extern GetIOInfoCallback GetIOInfo;
 extern GetMemoryInfoCallback GetMemoryInfo;
 extern GetTimingInfoCallback GetTimingInfo;
+extern GetModuleInfoCallback GetModuleInfo;
+extern GetThreadInfoCallback GetThreadInfo;
 
 } } }
 
