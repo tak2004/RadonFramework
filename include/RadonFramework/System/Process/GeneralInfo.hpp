@@ -17,4 +17,6 @@ public:
 
 } } }
 
+namespace RFPROC = RadonFramework::System::Process;
+
 #endif // RF_SYSTEM_PROCESS_GENERALINFO_HPP

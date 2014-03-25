@@ -18,4 +18,6 @@ struct IOInfo
 
 } } }
 
+namespace RFPROC = RadonFramework::System::Process;
+
 #endif // RF_SYSTEM_PROCESS_IOINFO_HPP

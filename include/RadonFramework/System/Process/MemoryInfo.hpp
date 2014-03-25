@@ -26,4 +26,6 @@ struct MemoryInfo
 
 } } }
 
+namespace RFPROC = RadonFramework::System::Process;
+
 #endif // RF_SYSTEM_PROCESS_MEMORYINFO_HPP

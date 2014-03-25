@@ -19,4 +19,6 @@ struct TimingInfo
 
 } } }
 
+namespace RFPROC = RadonFramework::System::Process;
+
 #endif // RF_SYSTEM_PROCESS_TIMINGINFO_HPP

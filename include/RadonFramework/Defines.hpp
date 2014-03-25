@@ -61,15 +61,15 @@
 
 // detect architecture
 #if defined(_LP64) && _LP64==1 || defined(_WIN64) // gcc, VS
-    #define RF_64BIT           
-#else                          
-    #define RF_32BIT           
+    #define RF_64BIT
+#else
+    #define RF_32BIT
 #endif  
 
 // detect 64bit integer support
 #if defined(_MSC_VER) || defined(__SIZEOF_LONG_LONG__) // VS, gcc
-    #define RF_HAVE_LONG_LONG    
-#endif  
+    #define RF_HAVE_LONG_LONG
+#endif
 
 //defines for cmake
 

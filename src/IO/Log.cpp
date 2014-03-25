@@ -3,7 +3,6 @@
 #include <RadonFramework/Threading/Scopelock.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Time/DateTime.hpp>
-#include <RadonFramework/Diagnostics/Profiling/ProcessServiceLocator.hpp>
 #include "RadonFramework/Threading/ThreadPool.hpp"
 
 using namespace RadonFramework::IO;
@@ -11,7 +10,6 @@ using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Threading;
 using namespace RadonFramework::Time;
-using namespace RadonFramework::Diagnostics::Profiling;
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::Diagnostics;
 

@@ -112,22 +112,6 @@ set(HDRS_BACKEND_STRINGCODERS ${filelist})
 	
 set(SRC_BACKEND_WINDOWS
 	${SRC_BACKEND_WINDOWS}
-	backend/Windows/WindowsProcessService.cpp)
-
-set(HDRS_BACKEND_WINDOWS
-	${HDRS_BACKEND_WINDOWS}		
-	include/RadonFramework/backend/Windows/WindowsProcessService.hpp)	
-	
-set(SRC_BACKEND_LINUX
-	${SRC_BACKEND_LINUX}
-	backend/Linux/LinuxProcessService.cpp)
-
-set(HDRS_BACKEND_LINUX
-	${HDRS_BACKEND_LINUX}
-	include/RadonFramework/backend/Linux/LinuxProcessService.hpp)		
-	
-set(SRC_BACKEND_WINDOWS
-	${SRC_BACKEND_WINDOWS}
 	backend/Windows/WindowsSMBiosService.cpp)
 
 set(HDRS_BACKEND_WINDOWS

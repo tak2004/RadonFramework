@@ -26,4 +26,6 @@ typedef RadonFramework::Collections::Array<ThreadInfo> ThreadInfoList;
 
 } } }
 
+namespace RFPROC = RadonFramework::System::Process;
+
 #endif // RF_SYSTEM_PROCESS_THREADINFO_HPP

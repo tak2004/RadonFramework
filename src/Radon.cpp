@@ -8,7 +8,6 @@
 #include <RadonFramework/IO/ProtocolServiceLocator.hpp>
 #include <RadonFramework/IO/FileProtocolService.hpp>
 #include <RadonFramework/Diagnostics/Profiling/SMBiosServiceLocator.hpp>
-#include <RadonFramework/Diagnostics/Profiling/ProcessServiceLocator.hpp>
 #include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/System/Processor.hpp"
 #include "RadonFramework/System/Network/NetService.hpp"
@@ -147,13 +146,6 @@ void Radon::InitSubSystem(UInt32 Flags)
             SMBiosServiceLocator::Register(AutoPointer<SMBiosService>(new LinuxSMBiosService("Linux_SMBios")));
         #endif
         SMBiosServiceLocator::Initialize();
-        #ifdef RF_LINUX
-            ProcessServiceLocator::Register(AutoPointer<ProcessService>(new LinuxProcessService("Linux_Process")));
-        #endif
-        #ifdef RF_WINDOWS
-            ProcessServiceLocator::Register(AutoPointer<ProcessService>(new WindowsProcessService("Windows_Process")));
-        #endif
-        ProcessServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Diagnostics;
     }
 
@@ -207,7 +199,6 @@ void Radon::QuitSubSystem(UInt32 Flags)
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Diagnostics)
     {
         SMBiosServiceLocator::Quit();
-        ProcessServiceLocator::Quit();
     }
 
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Core)

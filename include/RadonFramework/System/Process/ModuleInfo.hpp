@@ -12,4 +12,6 @@ typedef RadonFramework::Collections::Array<RFTYPE::String> ModuleInfo;
 
 } } }
 
+namespace RFPROC = RadonFramework::System::Process;
+
 #endif // RF_SYSTEM_PROCESS_MODULEINFO_HPP

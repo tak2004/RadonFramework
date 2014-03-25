@@ -10,7 +10,6 @@
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL2Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/WindowsSMBiosService.hpp>
-    #include <RadonFramework/backend/Windows/WindowsProcessService.hpp>
 #endif
 
 #if defined(RF_LINUX)
