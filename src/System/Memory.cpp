@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Memory.hpp"
-#include "RadonFramework/System/Processor.hpp"
-#include "RadonFramework/Diagnostics/ProcessorData.hpp"
+#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
 #include "RadonFramework/Collections/List.hpp"
 #include <smmintrin.h>
 #include <nmmintrin.h>
@@ -19,8 +19,9 @@ extern RFTYPE::Int32 Compare_SSE4(const void* P1, const void* P2, RFTYPE::Size B
 extern RFTYPE::Int32 Compare_Std(const void* P1, const void* P2, RFTYPE::Size Bytes);
 RFTYPE::Int32 Compare_CPUDispatcher(const void* P1, const void* P2, RFTYPE::Size Bytes)
 {
-    const RadonFramework::Diagnostics::ProcessorSharedData& info = RadonFramework::System::LoadSharedProcessorInfo();
-    if (info.Extensions.Test(RadonFramework::Diagnostics::ProcessorExtension::SSE4_2))
+    RFHDW::ProcessorFeatureMask features;
+    RFHDW::GetLogicalProcessorFeatures(features);
+    if (features[RFHDW::ProcessorFeatures::SSE4_2])
         RFMEM::Compare = Compare_SSE4;
     else
         RFMEM::Compare = Compare_Std;
@@ -31,8 +32,9 @@ extern void Set_SSE2(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes);
 extern void Set_Std(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes);
 void Set_CPUDispatcher(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes)
 {
-    const RadonFramework::Diagnostics::ProcessorSharedData& info = RadonFramework::System::LoadSharedProcessorInfo();
-    if (info.Extensions.Test(RadonFramework::Diagnostics::ProcessorExtension::SSE2))
+    RFHDW::ProcessorFeatureMask features;
+    RFHDW::GetLogicalProcessorFeatures(features);
+    if (features[RFHDW::ProcessorFeatures::SSE2])
         RFMEM::Set = Set_SSE2;
     else
         RFMEM::Set = Set_Std;
@@ -43,8 +45,9 @@ extern void Copy_SSE2(void* Destination, const void* Source, Size Bytes);
 extern void Copy_Std(void* Destination, const void* Source, Size Bytes);
 void Copy_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
 {
-    const RadonFramework::Diagnostics::ProcessorSharedData& info = RadonFramework::System::LoadSharedProcessorInfo();
-    if (info.Extensions.Test(RadonFramework::Diagnostics::ProcessorExtension::SSE2))
+    RFHDW::ProcessorFeatureMask features;
+    RFHDW::GetLogicalProcessorFeatures(features);
+    if (features[RFHDW::ProcessorFeatures::SSE2])
         RFMEM::Copy = Copy_SSE2;
     else
         RFMEM::Copy = Copy_Std;
@@ -54,7 +57,6 @@ void Copy_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
 extern void Move_Std(void* Destination, const void* Source, Size Bytes);
 void Move_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
 {
-    const RadonFramework::Diagnostics::ProcessorSharedData& info = RadonFramework::System::LoadSharedProcessorInfo();
     RFMEM::Move = Move_Std;
     Move(Destination, Source, Bytes);
 }

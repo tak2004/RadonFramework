@@ -1,7 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Memory.hpp"
-#include "RadonFramework/System/Processor.hpp"
-#include "RadonFramework/Diagnostics/ProcessorData.hpp"
 #include "RadonFramework/Collections/List.hpp"
 #include <smmintrin.h>
 #include <nmmintrin.h>

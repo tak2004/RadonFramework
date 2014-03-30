@@ -7,16 +7,14 @@
 #include <RadonFramework/IO/DecoderServiceLocator.hpp>
 #include <RadonFramework/IO/ProtocolServiceLocator.hpp>
 #include <RadonFramework/IO/FileProtocolService.hpp>
-#include <RadonFramework/Diagnostics/Profiling/SMBiosServiceLocator.hpp>
 #include "RadonFramework/Threading/ThreadPool.hpp"
-#include "RadonFramework/System/Processor.hpp"
 #include "RadonFramework/System/Network/NetService.hpp"
 #include "RadonFramework/System/Environment.hpp"
 #include "RadonFramework/System/Memory.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/System/Process.hpp"
-#include "RadonFramework/Diagnostics/ProcessorData.hpp"
+#include "RadonFramework/System/Hardware.hpp"
 
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::Drawing;
@@ -25,7 +23,6 @@ using namespace RadonFramework::Time;
 using namespace RadonFramework;
 using namespace RadonFramework::Math::Hash;
 using namespace RadonFramework::IO;
-using namespace RadonFramework::Diagnostics::Profiling;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Threading;
@@ -139,13 +136,7 @@ void Radon::InitSubSystem(UInt32 Flags)
     
     if (Flags & RadonFramework::Init::Diagnostics)
     {
-        #ifdef RF_WINDOWS
-            SMBiosServiceLocator::Register(AutoPointer<SMBiosService>(new WindowsSMBiosService("Windows_SMBios")));
-        #endif
-        #ifdef RF_LINUX
-            SMBiosServiceLocator::Register(AutoPointer<SMBiosService>(new LinuxSMBiosService("Linux_SMBios")));
-        #endif
-        SMBiosServiceLocator::Initialize();
+        RFHDW::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Diagnostics;
     }
 
@@ -198,7 +189,6 @@ void Radon::QuitSubSystem(UInt32 Flags)
     
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Diagnostics)
     {
-        SMBiosServiceLocator::Quit();
     }
 
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Core)

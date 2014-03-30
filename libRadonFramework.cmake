@@ -110,22 +110,6 @@ set_source_files_properties(${SRC_BACKEND_STRINGCODERS} PROPERTIES LANGUAGE CXX)
 AddHeaderDirectory(filelist "include/RadonFramework/backend/stringcoders" "Includes\\backend\\stringcoders")
 set(HDRS_BACKEND_STRINGCODERS ${filelist})
 	
-set(SRC_BACKEND_WINDOWS
-	${SRC_BACKEND_WINDOWS}
-	backend/Windows/WindowsSMBiosService.cpp)
-
-set(HDRS_BACKEND_WINDOWS
-	${HDRS_BACKEND_WINDOWS}		
-	include/RadonFramework/backend/Windows/WindowsSMBiosService.hpp)	
-	
-set(SRC_BACKEND_LINUX
-	${SRC_BACKEND_LINUX}
-	backend/Linux/LinuxSMBiosService.cpp)
-
-set(HDRS_BACKEND_LINUX
-	${HDRS_BACKEND_LINUX}
-	include/RadonFramework/backend/Linux/LinuxSMBiosService.hpp)		
-	
 if(OPENGL_FOUND)
 set(SRC_BACKEND_WINDOWS_DRAWING
     backend/Windows/Drawing/GDIOpenGL1Canvas3D.cpp

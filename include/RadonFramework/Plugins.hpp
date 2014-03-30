@@ -9,12 +9,9 @@
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL1Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL2Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3DService.hpp>
-    #include <RadonFramework/backend/Windows/WindowsSMBiosService.hpp>
 #endif
 
 #if defined(RF_LINUX)
-    #include <RadonFramework/backend/Linux/LinuxProcessService.hpp>
-    #include <RadonFramework/backend/Linux/LinuxSMBiosService.hpp>
     #include <RadonFramework/backend/X11/Drawing/X11OpenGL1Canvas3DService.hpp>
     #include <RadonFramework/backend/X11/Drawing/X11OpenGL2Canvas3DService.hpp>
     #include <RadonFramework/backend/X11/Drawing/X11OpenGL3Canvas3DService.hpp>

@@ -31,11 +31,11 @@ template<> const double Math<double>::INV_PI=1.0-(2.0*atan(1.0));
 template<> const float Math<float>::INV_TWO_PI=(float)(1.0-(atan(1.0)));
 template<> const double Math<double>::INV_TWO_PI=1.0-atan(1.0);
 
-template<> const float Math<float>::DEG_TO_RAD=Math<float>::PI/180.0f;
-template<> const double Math<double>::DEG_TO_RAD=Math<double>::PI/180.0;
+template<> const float Math<float>::DEG_TO_RAD=(float)(4.0*atan(1.0))/180.0f;
+template<> const double Math<double>::DEG_TO_RAD=8.0*atan(1.0)/180.0;
 
-template<> const float Math<float>::RAD_TO_DEG=180.0f/Math<float>::PI;
-template<> const double Math<double>::RAD_TO_DEG=180.0/Math<double>::PI;
+template<> const float Math<float>::RAD_TO_DEG=180.0f/(float)(4.0*atan(1.0));
+template<> const double Math<double>::RAD_TO_DEG=180.0/8.0*atan(1.0);
 
 template<> const float Math<float>::EPSILION=numeric_limits<float>::epsilon();
 template<> const double Math<double>::EPSILION=numeric_limits<double>::epsilon();

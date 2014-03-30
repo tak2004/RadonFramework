@@ -22,6 +22,11 @@ DateTime DateTime::CreateByTicks(TimeValue Value, DateTimeKind::Type Kind)
         result.m_Ticks = TimeSpan::CreateByTicks(Value);
         result.m_Kind = Kind;
     }
+    else
+    {
+        result.m_Ticks = TimeSpan::CreateByTicks(0);
+        result.m_Kind = Kind;
+    }
     return result;
 }
 
