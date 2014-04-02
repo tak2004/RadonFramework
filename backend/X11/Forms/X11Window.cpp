@@ -347,7 +347,7 @@ void X11Window::ClientRectSize(const Size2D<>& NewSize)
 void X11Window::CloseButton(const Bool Show)
 {
     m_CloseButton = Show;
+    Display* dsp=static_cast<X11Application*>(m_Service->Application())->GetDisplay();
     XSetWMProtocols(dsp, m_Handle, &m_wmDelete, Show?1:0);
 }
 
-void X11

@@ -416,11 +416,8 @@ RFTYPE::Int32 GetCacheCount()
     result = CacheCount[pid];
     return result;
 }
-
+*/
 void RFHDW::Dispatch()
 {
-    GetAvailableLogicalProcessorCount = ::GetAvailableLogicalProcessorCount;
-    GetCurrentProcessorNumber = ::GetCurrentProcessorNumberImplementation;
-    GetCacheInfo = ::GetCacheInfo;
-    GetCacheCount = ::GetCacheCount;
-}*/
+
+}

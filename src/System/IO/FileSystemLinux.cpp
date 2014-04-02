@@ -6,6 +6,7 @@
 #include "RadonFramework/IO/Log.hpp"
 
 using namespace RadonFramework::Core::Types;
+using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
@@ -16,6 +17,7 @@ using namespace RadonFramework::System::IO::FileSystem;
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <dirent.h>
 
 inline Bool AccessImplementation(const String& Path, const AccessMode::Type Mode)

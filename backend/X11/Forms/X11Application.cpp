@@ -44,3 +44,13 @@ Display* X11Application::GetDisplay()
 {
   return m_Display;
 }
+
+bool X11Application::IsRunningOnDesktop()
+{
+return false;
+}
+
+void X11Application::ShowConsole(bool isVisible)
+{
+
+}

@@ -3,16 +3,20 @@
 # http://www.radonframework.org/projects/rf/wiki/UserManualCMakeFramework
 # http://www.radonframework.org/projects/rf/wiki/DeveloperManualCMakeFramework
 #
+if (NOT DEFINED ${CMAKE_PROJECT_NAME}_INCLUDED)
+
 cmake_minimum_required(VERSION 2.8)
+set(${CMAKE_PROJECT_NAME}_INCLUDED "")
 set(${CMAKE_PROJECT_NAME}_INTEGRATED "" CACHE INTERNAL "Integrated projects")
 
 # everything went right :)
 macro(FoundProject projectid projectname path)
-	if(EXISTS "${path}/cmake/extern/ConfigurationHook.cmake")
+	STRING(REGEX REPLACE "//" "/" confighook "${path}/cmake/extern/ConfigurationHook.cmake") 	
+	if(EXISTS "${confighook}")
 		mark_as_advanced(${projectid}_DIR)
 		set(${projectid}_FOUND ON)
 		mark_as_advanced(${projectid}_FOUND)
-		include("${path}/cmake/extern/ConfigurationHook.cmake")	
+		include("${confighook}")	
 		ConfigureProject(${projectid} ${path})
 	else()
 		message(FATAL_ERROR "${projectname} is not made with Radon CMake framework. Can't integrate it.")
@@ -32,6 +36,11 @@ macro(FailSafe projectid projectname)
 		set(${projectid}_DIR "-NOTFOUND" CACHE PATH "Path to ${projectname} directory.")
 	endif()
 	if(EXISTS "${${projectid}_DIR}")
+		if(NOT IS_ABSOLUTE "${${projectid}_DIR}")
+			get_filename_component(absolute_path "${${projectid}_DIR}" ABSOLUTE)
+			set(${projectid}_DIR "${absolute_path}" CACHE PATH "Path to ${projectname} directory." FORCE)
+			message(STATUS "Convert relative path into a absolute one ${${projectid}_DIR}")
+		endif()
 		# on windows there are some cases where we have to encounter backslashes
 		STRING(REGEX REPLACE "\\\\" "/" ${projectid}_DIR ${${projectid}_DIR}) 	
 		FoundProject(${projectid} ${projectname} "${${projectid}_DIR}")
@@ -73,3 +82,5 @@ macro(Integrate projectid projectname environmentname)
 	endif()	
 	include_directories(${${projectid}_PUBLIC_INCLUDES})
 endmacro()
+
+endif()

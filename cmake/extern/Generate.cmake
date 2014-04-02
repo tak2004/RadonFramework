@@ -11,10 +11,7 @@ set(${CMAKE_PROJECT_NAME}_PATH "${CMAKE_CURRENT_LIST_DIR}/../..")
 # The following includes are the only exception where an other variable than
 # ${${projectid}_LOCATION} is used to access files of the framework.
 include("${${CMAKE_PROJECT_NAME}_PATH}/cmake/util/Macros.cmake")
-# include guard
-if (NOT DEFINED ${CMAKE_PROJECT_NAME}_INTEGRATED)
-	include("${${CMAKE_PROJECT_NAME}_PATH}/cmake/extern/Integrate.cmake")
-endif()
+include("${${CMAKE_PROJECT_NAME}_PATH}/cmake/extern/Integrate.cmake")
 
 macro(GenerateModule projectid)
 	add_library(${${projectid}_NAME} STATIC ${${projectid}_FILES})

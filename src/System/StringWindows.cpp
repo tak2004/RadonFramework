@@ -68,7 +68,7 @@ Int32 Format(RFTYPE::UInt8* Buffer, RFTYPE::Size BufferSize, const String& Forma
 }
 
 
-void RadonFramework::System::String::Dispatch()
+void RFSTR::Dispatch()
 {
     SetLocale = ::SetLocale;
     GetLocale = ::GetLocale;

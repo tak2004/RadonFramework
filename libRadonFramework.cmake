@@ -138,6 +138,7 @@ set(HDRS_BACKEND_WINDOWS_FORMS
     include/RadonFramework/backend/Windows/Forms/WindowsWindow.hpp
     include/RadonFramework/backend/Windows/Forms/WindowsWindowService.hpp)
 
+if(OPENGL_FOUND)
 set(SRC_BACKEND_X11_DRAWING
 	backend/X11/Drawing/X11OpenGL1Canvas3D.cpp
 	backend/X11/Drawing/X11OpenGL1Canvas3DService.cpp
@@ -153,6 +154,7 @@ set(HDRS_BACKEND_X11_DRAWING
 	include/RadonFramework/backend/X11/Drawing/X11OpenGL2Canvas3DService.hpp
 	include/RadonFramework/backend/X11/Drawing/X11OpenGL3Canvas3D.hpp
 	include/RadonFramework/backend/X11/Drawing/X11OpenGL3Canvas3DService.hpp)
+endif()
 
 set(SRC_BACKEND_X11_FORMS
 	backend/X11/Forms/X11Application.cpp
@@ -213,12 +215,16 @@ set(LIBSRCFILES_WINDOW
 	src/System/IO/FileSystemWindows.cpp
 	src/System/StringWindows.cpp
 	src/System/TimeWindows.cpp
-	src/System/ProcessWindows.cpp)
+	src/System/ProcessWindows.cpp
+	src/System/HardwareWindows.cpp)
 	
 set(LIBSRCFILES_LINUX
 	src/System/TimeLinux.cpp
-	src/System/EnvironmentLinux.cpp	
-	src/System/IO/FileSystemLinux.cpp)
+	src/System/EnvironmentLinux.cpp
+	src/System/MemoryLinux.cpp
+	src/System/StringLinux.cpp
+	src/System/IO/FileSystemLinux.cpp
+	src/System/HardwareLinux.cpp)
 	
 set(LIBSRCFILES_UNIX
 	src/System/TimeUnix.cpp

@@ -109,9 +109,9 @@ const OperatingSystem& OSVersion()
     return os;
 }
 
-void GetVariable(const String& Name, String& Result)
+void GetVariable(const RFTYPE::String& Name, RFTYPE::String& Result)
 {
-    Result=String(getenv(Name.c_str()),DataManagment::TransfereOwnership);
+    Result=RFTYPE::String(getenv(Name.c_str()),DataManagment::TransfereOwnership);
 }
 
 OperatingSystemFamily::Type OSFamily()

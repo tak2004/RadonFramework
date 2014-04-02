@@ -248,3 +248,26 @@ String Convert::ToString(const Float64 Value)
 {
     return String::Format("%f", Value);
 }
+
+
+#define STRING_TO(T, COMPARE_OPERATOR, CONVERT_FUNCTION) template<>\
+Bool Convert::StringTo<T>(const String& In, T& Out)\
+{\
+    Bool result = false; \
+    if (In.COMPARE_OPERATOR())\
+        result = CONVERT_FUNCTION(In, Out); \
+    return result;\
+}
+
+STRING_TO(Bool, IsBoolean, ToBool)
+STRING_TO(Int8, IsNumber, ToInt8)
+STRING_TO(Int16, IsNumber, ToInt16)
+STRING_TO(Int32, IsNumber, ToInt32)
+STRING_TO(Int64, IsNumber, ToInt64)
+STRING_TO(UInt8, IsNumber, ToUInt8)
+STRING_TO(UInt16, IsNumber, ToUInt16)
+STRING_TO(UInt32, IsNumber, ToUInt32)
+STRING_TO(UInt64, IsNumber, ToUInt64)
+STRING_TO(Float32, IsFloatingpointNumber, ToFloat32)
+STRING_TO(Float64, IsFloatingpointNumber, ToFloat64)
+#undef STRING_TO

@@ -22,6 +22,8 @@ namespace RadonFramework
         void Run(Form *MainForm);
         void End();
         Display* GetDisplay();
+        bool IsRunningOnDesktop();
+        void ShowConsole(bool isVisible);
     };
   }
 }
