@@ -20,20 +20,20 @@ namespace RadonFramework
 
                 OptionValue(const char* Value);
 
-                OptionValue(const Core::Types::String& Value);
+                OptionValue(const RFTYPE::String& Value);
                                 
                 OptionValue& operator=(const OptionValue& Other);
 
-                OptionValue& operator=(const Core::Types::String& Value);
+                OptionValue& operator=(const RFTYPE::String& Value);
 
                 void Set();
 
-                Core::Types::Bool IsSet()const;
+                RFTYPE::Bool IsSet()const;
 
-                const Core::Types::String& Value()const;				
+                const RFTYPE::String& Value()const;				
             protected:
-                Core::Types::String m_Value;
-                Core::Types::Bool m_ValueSet;
+                RFTYPE::String m_Value;
+                RFTYPE::Bool m_ValueSet;
         };
     }
 }

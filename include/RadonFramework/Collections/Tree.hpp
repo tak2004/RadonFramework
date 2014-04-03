@@ -87,12 +87,12 @@ namespace RadonFramework
             Assert(m_Children.Count()>0,"Invalid parameter.");
             if (m_Children.Count()>1)// most expected case
             {
-                Core::Types::UInt32 index=(Core::Types::UInt32)((&m_Children[0]-Node)/sizeof(T));
+                RFTYPE::UInt32 index=(RFTYPE::UInt32)((&m_Children[0]-Node)/sizeof(T));
                 Array<ArrayNode<T> > tmp(m_Children.Count()-1);
                 if (index>0)
                 {
-                    Core::Types::UInt32 leftPart=index-1;
-                    Core::Types::UInt32 rightPart=index+1;
+                    RFTYPE::UInt32 leftPart=index-1;
+                    RFTYPE::UInt32 rightPart=index+1;
                     m_Children.Copy(0,tmp,0,leftPart);
                     if (index<tmp.Count())// if not the last one
                         m_Children.Copy(rightPart,tmp,index,tmp.Count()-index);
@@ -140,7 +140,7 @@ namespace RadonFramework
             Assert(m_Parent,"Invalid Operation on null pointer.");
             if (m_Parent->m_Children.Count()==0)
                 return 0;
-            Core::Types::MemoryRange index=this-&m_Parent->m_Children(0);
+            RFTYPE::MemoryRange index=this-&m_Parent->m_Children(0);
             if (static_cast<RFTYPE::MemoryRange>(m_Parent->m_Children.Count()) <= index+1)
                 return 0;
             else    
@@ -153,7 +153,7 @@ namespace RadonFramework
             Assert(m_Parent,"Invalid operation.");
             if (m_Parent->m_Children.Count()==0)
                 return 0;
-            Core::Types::MemoryRange index=this-&m_Parent->m_Children(0);
+            RFTYPE::MemoryRange index=this-&m_Parent->m_Children(0);
             if (m_Parent->m_Children.Count()<=index-1)
                 return 0;
             else
@@ -171,7 +171,7 @@ namespace RadonFramework
         {
             m_Parent=Other.m_Parent;
             Other.m_Children.Clone()->Swap(m_Children);
-            for (Core::Types::UInt32 i=0;i<m_Children.Count();++i)
+            for (RFTYPE::UInt32 i=0;i<m_Children.Count();++i)
                 m_Children(i).m_Parent=this;
             m_Data=Other.m_Data;
             return *this;

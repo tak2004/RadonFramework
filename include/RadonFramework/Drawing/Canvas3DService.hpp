@@ -14,7 +14,7 @@ namespace RadonFramework
     class Canvas3DService:public Core::Pattern::Service
     {
       public:
-        Canvas3DService(const Core::Types::String &Name);
+        Canvas3DService(const RFTYPE::String &Name);
         ~Canvas3DService();
         virtual ICanvas3D* CreateCanvas3D()=0;
     };

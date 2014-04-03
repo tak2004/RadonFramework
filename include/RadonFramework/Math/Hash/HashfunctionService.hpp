@@ -13,7 +13,7 @@ class IHashfunction;
 class HashfunctionService:public Core::Pattern::Service
 {
     public:
-        HashfunctionService(const Core::Types::String &Name);
+        HashfunctionService(const RFTYPE::String &Name);
         ~HashfunctionService();
         virtual IHashfunction* Create()=0;
 };

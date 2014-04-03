@@ -33,19 +33,19 @@ namespace RadonFramework
                 /// Return a list of all supported resolutions by this screen.
                 const Collections::Array<Resolution>& SupportedResolutions()const;
                 /// Return the width of the current resolution.
-                Core::Types::UInt32 Width()const;
+                RFTYPE::UInt32 Width()const;
                 /// Return the height of the current resolution.
-                Core::Types::UInt32 Height()const;
+                RFTYPE::UInt32 Height()const;
                 /// Return the bits per pixel of the current resolution.
-                Core::Types::UInt32 BitsPerPixel()const;
+                RFTYPE::UInt32 BitsPerPixel()const;
                 /// Return the device name of this screen.
-                Core::Types::String DeviceName()const;
+                RFTYPE::String DeviceName()const;
                 /// Return true if this is the primary screen else false.
-                Core::Types::Bool IsPrimary()const;
+                RFTYPE::Bool IsPrimary()const;
                 /// Return true if this display is mirrored.
-                Core::Types::Bool IsMirroring()const;
+                RFTYPE::Bool IsMirroring()const;
                 /// Return true if this display is attached to desktop.
-                Core::Types::Bool IsAttachedToDesktop()const;
+                RFTYPE::Bool IsAttachedToDesktop()const;
                 /// Return the current selected resolution.
                 const Resolution& CurrentResolution()const;
 
@@ -64,10 +64,10 @@ namespace RadonFramework
                 Screen(const Screen& Copy);
                 /// This constructor will be called by the static method AllScreens().
                 Screen(Memory::AutoPointer<DisplayInformation> DisplayInfos,
-                       const Core::Types::UInt32 CurrentResolution);
+                       const RFTYPE::UInt32 CurrentResolution);
                 Screen& operator=(const Screen& Other);
 
-                mutable Core::Types::UInt32 m_CurrentResolution;
+                mutable RFTYPE::UInt32 m_CurrentResolution;
                 Memory::AutoPointer<DisplayInformation> m_DisplayInfos;
                 static Memory::AutoPointerArray<Screen> m_Screens;
         };
@@ -77,37 +77,37 @@ namespace RadonFramework
             return m_DisplayInfos->AvaiableResolution;
         }
 
-        inline Core::Types::UInt32 Screen::Width()const
+        inline RFTYPE::UInt32 Screen::Width()const
         {
             return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Width;
         }
 
-        inline Core::Types::UInt32 Screen::Height()const
+        inline RFTYPE::UInt32 Screen::Height()const
         {
             return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Height;
         }
 
-        inline Core::Types::UInt32 Screen::BitsPerPixel()const
+        inline RFTYPE::UInt32 Screen::BitsPerPixel()const
         {
             return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).BitsPerPixel;
         }
 
-        inline Core::Types::String Screen::DeviceName()const
+        inline RFTYPE::String Screen::DeviceName()const
         {
             return m_DisplayInfos->DisplayName;
         }
 
-        inline Core::Types::Bool RadonFramework::Forms::Screen::IsPrimary()const
+        inline RFTYPE::Bool RadonFramework::Forms::Screen::IsPrimary()const
         {
             return m_DisplayInfos->IsPrimary;
         }
 
-        inline Core::Types::Bool RadonFramework::Forms::Screen::IsMirroring()const
+        inline RFTYPE::Bool RadonFramework::Forms::Screen::IsMirroring()const
         {
             return m_DisplayInfos->IsMirroring;
         }
 
-        inline Core::Types::Bool RadonFramework::Forms::Screen::IsAttachedToDesktop()const
+        inline RFTYPE::Bool RadonFramework::Forms::Screen::IsAttachedToDesktop()const
         {
             return m_DisplayInfos->IsAttachedToDesktop;
         }

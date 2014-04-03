@@ -22,9 +22,9 @@ namespace RadonFramework
                 /** 
                  * @brief Unload the specified dynamic library.
                  */
-                static Core::Types::Bool Unload(DynamicLibrary& LibHandle);
+                static RFTYPE::Bool Unload(DynamicLibrary& LibHandle);
 
-                static const Core::Types::String& LineEnding();
+                static const RFTYPE::String& LineEnding();
 
                 DynamicLibrary();                
                 
@@ -39,7 +39,7 @@ namespace RadonFramework
                  */
                 ~DynamicLibrary();
                 
-                void* GetFunctionAddress(const Core::Types::String &Name);
+                void* GetFunctionAddress(const RFTYPE::String &Name);
 
                 /**
                  * @brief Return true if the object represent no library.
@@ -47,7 +47,7 @@ namespace RadonFramework
                  * This function return true if the library was unloaded but
                  * the object hold information about it.
                  */
-                Core::Types::Bool IsDefault();                
+                RFTYPE::Bool IsDefault();                
 
                 DynamicLibrary& operator=(const DynamicLibrary& Other);
             protected:                

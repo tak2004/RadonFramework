@@ -26,7 +26,7 @@ namespace RadonFramework
                           const RFTYPE::UInt16 IPv6Part7,const RFTYPE::UInt16 IPv6Part8);
                 ~IPAddress();
 
-                Core::Types::String ToString()const;
+                RFTYPE::String ToString()const;
                 RFTYPE::UInt32 ToUInt32()const;
 
                 Collections::Array<RFTYPE::UInt8> GetAddressBytes()const;

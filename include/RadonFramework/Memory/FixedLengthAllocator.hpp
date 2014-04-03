@@ -13,7 +13,7 @@ namespace RadonFramework
         template <typename BLOCKOFFSETTYPE, typename BLOCKSIZETYPE, BLOCKSIZETYPE BLOCKSIZE>
         struct Chunk
         {
-            Core::Types::UInt8 *Data;
+            RFTYPE::UInt8 *Data;
             BLOCKOFFSETTYPE FirstAvailableBlock;
 
             static BLOCKSIZETYPE BlockSize;

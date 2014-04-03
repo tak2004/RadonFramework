@@ -88,7 +88,7 @@ namespace RadonFramework
                         }
                         else
                         {
-                            RadonFramework::Core::Types::UInt32 i=0;
+                            RFTYPE::UInt32 i=0;
                             if (RotationMatrix[4]>RotationMatrix[0])
                                 i=4;
                             if (RotationMatrix[8]>RotationMatrix[i])
@@ -295,12 +295,12 @@ namespace RadonFramework
                         return res;
                     }
 
-                    RadonFramework::Core::Types::Bool operator==(const Quaternion& Other)
+                    RFTYPE::Bool operator==(const Quaternion& Other)
                     {
                         return m_Quaternion==Other.m_Quaternion;
                     }
 
-                    RadonFramework::Core::Types::Bool operator!=(const Quaternion& Other)
+                    RFTYPE::Bool operator!=(const Quaternion& Other)
                     {
                         return m_Quaternion!=Other.m_Quaternion;
                     }
@@ -314,7 +314,7 @@ namespace RadonFramework
 					    T sn = RadonFramework::Math::Math<T>::Sin(angle);
 					    result.m_Quaternion[0] = RadonFramework::Math::Math<T>::Cos(angle);
 
-					    Core::Types::UInt32 i;
+					    RFTYPE::UInt32 i;
 					    if (RadonFramework::Math::Math<T>::FAbs(sn) > (T)0)
 					    {
 						    T coeff = sn/angle;
@@ -334,7 +334,7 @@ namespace RadonFramework
 					    return result;
                     }
 
-                    RadonFramework::Core::Types::Bool IsInfinite()
+                    RFTYPE::Bool IsInfinite()
                     {
 					    return RadonFramework::Math::Math<T>::IsInfinity(m_Quaternion[0]) ||
 						       RadonFramework::Math::Math<T>::IsInfinity(m_Quaternion[1]) ||
@@ -342,7 +342,7 @@ namespace RadonFramework
 						       RadonFramework::Math::Math<T>::IsInfinity(m_Quaternion[3]);
                     }
 
-                    RadonFramework::Core::Types::Bool IsNaN()
+                    RFTYPE::Bool IsNaN()
                     {
 					    return RadonFramework::Math::Math<T>::IsNaN(m_Quaternion[0]) ||
 						       RadonFramework::Math::Math<T>::IsNaN(m_Quaternion[1]) ||
@@ -354,7 +354,7 @@ namespace RadonFramework
                     {
 					    Quaternion q;
 					    T len=Length();
-					    for (Core::Types::UInt32 i=0;i<4;++i)
+					    for (RFTYPE::UInt32 i=0;i<4;++i)
 						    q[i]=len;
 					    return q;
                     }
@@ -371,7 +371,7 @@ namespace RadonFramework
                     {
                         Quaternion q;
                         T sqrlen=SquareLength();
-                        for (Core::Types::UInt32 i=0;i<4;++i)
+                        for (RFTYPE::UInt32 i=0;i<4;++i)
 						    q[i]=sqrlen;
                         return q;
                     }
@@ -521,13 +521,13 @@ namespace RadonFramework
 					    return rot;
                     }
 
-                    T& operator[](const RadonFramework::Core::Types::UInt32 Index)
+                    T& operator[](const RFTYPE::UInt32 Index)
                     {
                         Assert(Index<4,"Index out of bound.");
                         return m_Quaternion[Index];
                     }
 
-                    const T operator[](const RadonFramework::Core::Types::UInt32 Index)const
+                    const T operator[](const RFTYPE::UInt32 Index)const
                     {
                         Assert(Index<4,"Index out of bound.");
                         return m_Quaternion[Index];

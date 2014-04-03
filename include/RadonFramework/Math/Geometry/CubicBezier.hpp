@@ -29,7 +29,7 @@ namespace RadonFramework
                 };
             }
 
-            template<class TIN=Core::Types::Float32, class TOUT=Core::Types::Float32>
+            template<class TIN=RFTYPE::Float32, class TOUT=RFTYPE::Float32>
             class CubicBezier
             {
                 public:
@@ -42,9 +42,9 @@ namespace RadonFramework
                     Point2D<TIN> EndPointControl;
                     Point2D<TIN> EndPoint;
 
-                    static Core::Types::Bool IsClockwise(const Point2D<TIN>& A,
+                    static RFTYPE::Bool IsClockwise(const Point2D<TIN>& A,
                             const Point2D<TIN>& B, const Point2D<TIN>& C);
-                    static Core::Types::Bool IsInsideCircle(
+                    static RFTYPE::Bool IsInsideCircle(
                             const Point2D<TIN>& A, const Point2D<TIN>& B, 
                             const Point2D<TIN>& C, const Point2D<TIN>& D);
 
@@ -54,7 +54,7 @@ namespace RadonFramework
                         Collections::Generic::List<Vector<TOUT,4> >& UVs);
 
                     void GeneratePoints(Collections::Generic::List<Point2D<TOUT> >& points,
-                                        Core::Types::UInt32 Steps);
+                                        RFTYPE::UInt32 Steps);
             };
         }
     }

@@ -4,40 +4,35 @@
 #pragma once
 #endif
 
-namespace RadonFramework
-{
-    namespace Core
-    {
-        namespace Types
-        {
-            /// A Vec128UInt8 have always the size of 8 byte and represent 8 unsigned numbers.
-            typedef Vec<UInt8,8> Vec64UInt8;
+namespace RadonFramework { namespace Core { namespace Types {
 
-            /// The minimum value which can be contained by a Vec64UInt8.
-            extern const UInt8 Vec64UInt8Min;
+/// A Vec128UInt8 have always the size of 8 byte and represent 8 unsigned numbers.
+typedef Vec<UInt8,8> Vec64UInt8;
 
-            /// The maximum value which can be contained by a Vec128UInt16.
-            extern const UInt8 Vec64UInt8Max;
+/// The minimum value which can be contained by a Vec64UInt8.
+extern const UInt8 Vec64UInt8Min;
 
-            /// A Vec64UInt16 have always the size of 8 byte and represent 4 unsigned numbers.
-            typedef Vec<UInt16,4> Vec64UInt16;
+/// The maximum value which can be contained by a Vec128UInt16.
+extern const UInt8 Vec64UInt8Max;
 
-            /// The minimum value which can be contained by a Vec64UInt16.
-            extern const UInt16 Vec64UInt16Min;
+/// A Vec64UInt16 have always the size of 8 byte and represent 4 unsigned numbers.
+typedef Vec<UInt16,4> Vec64UInt16;
 
-            /// The maximum value which can be contained by a Vec64UInt16.
-            extern const UInt16 Vec64UInt16Max;
+/// The minimum value which can be contained by a Vec64UInt16.
+extern const UInt16 Vec64UInt16Min;
 
-            /// A Vec64UInt32 have always the size of 8 byte and represent 2 unsigned numbers.
-            typedef Vec<UInt32,2> Vec64UInt32;
+/// The maximum value which can be contained by a Vec64UInt16.
+extern const UInt16 Vec64UInt16Max;
 
-            /// The minimum value which can be contained by a Vec64UInt32.
-            extern const UInt32 Vec64UInt32Min;
+/// A Vec64UInt32 have always the size of 8 byte and represent 2 unsigned numbers.
+typedef Vec<UInt32,2> Vec64UInt32;
 
-            /// The maximum value which can be contained by a Vec64UInt32.
-            extern const UInt32 Vec64UInt32Max;
-        }
-    }
-}
+/// The minimum value which can be contained by a Vec64UInt32.
+extern const UInt32 Vec64UInt32Min;
+
+/// The maximum value which can be contained by a Vec64UInt32.
+extern const UInt32 Vec64UInt32Max;
+
+} } }
 
 #endif // RF_CORE_TYPES_VEC64UINT_HPP

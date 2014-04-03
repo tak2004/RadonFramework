@@ -14,11 +14,11 @@ namespace RadonFramework { namespace Net {
             IPHostEntry(const RFTYPE::String &Hostname,
                         const Collections::List<RFTYPE::String> &Aliases,
                         const Collections::List<IPAddress> &AddressList);
-            const Core::Types::String& Hostname();
-            const Collections::List<Core::Types::String>& Aliases();
+            const RFTYPE::String& Hostname();
+            const Collections::List<RFTYPE::String>& Aliases();
             const Collections::List<IPAddress>& AddressList();
         protected:
-            Core::Types::String m_Hostname;
+            RFTYPE::String m_Hostname;
             Collections::List<RFTYPE::String> m_Aliases;
             Collections::List<IPAddress> m_AddressList;
     };

@@ -27,7 +27,7 @@ namespace RadonFramework
                 return &m_Current->m_Value;
             }
 
-            Core::Types::Bool MoveNext()
+            RFTYPE::Bool MoveNext()
             {
                 if (m_Current==0 && m_Previous==0)
                 {

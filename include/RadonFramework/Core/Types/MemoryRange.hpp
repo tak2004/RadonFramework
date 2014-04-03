@@ -6,25 +6,20 @@
 
 #include <stddef.h>
 
-namespace RadonFramework
-{
-    namespace Core
-    {
-        namespace Types
-        {
-            /** MemoryRange can have different size, it's depend on the size of a pointer.
-              * It should be used instead of pointer to be sure that you use the right
-              * pointer arithmetic.
-              */
-            typedef ptrdiff_t MemoryRange;
+namespace RadonFramework { namespace Core { namespace Types {
 
-            /// The maximum value which can be contained by MemoryRange.
-            extern const MemoryRange MemoryRangeMin;
+/** MemoryRange can have different size, it's depend on the size of a pointer.
+  * It should be used instead of pointer to be sure that you use the right
+  * pointer arithmetic.
+  **/
+typedef ptrdiff_t MemoryRange;
 
-            /// The minimum value which can be contained by MemoryRange.
-            extern const MemoryRange MemoryRangeMax;
-        }
-    }
-}
+/// The maximum value which can be contained by MemoryRange.
+extern const MemoryRange MemoryRangeMin;
+
+/// The minimum value which can be contained by MemoryRange.
+extern const MemoryRange MemoryRangeMax;
+
+} } }
 
 #endif // RF_CORE_TYPES_MEMORYRANGE_HPP

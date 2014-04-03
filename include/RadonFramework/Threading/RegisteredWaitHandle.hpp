@@ -11,12 +11,10 @@ namespace RadonFramework
 {
     namespace Threading
     {
-        namespace CT=Core::Types;
-
         class RegisteredWaitHandle
         {
             public:
-                CT::Bool Unregister(IWaitHandle* WaitObject);
+                RFTYPE::Bool Unregister(IWaitHandle* WaitObject);
         };
     }
 }

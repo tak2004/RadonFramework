@@ -62,9 +62,9 @@ namespace RadonFramework
                 template <typename T1>
                 operator AutoPointer<T1>();                
                 /// Return true if the pointer is 0 else false.
-                Core::Types::Bool operator!();
+                RFTYPE::Bool operator!();
                 /// Convert to Bool to allow boolean operation.
-                operator Core::Types::Bool();
+                operator RFTYPE::Bool();
             private:
                 mutable T* m_Data;
         };
@@ -188,13 +188,13 @@ namespace RadonFramework
         }
 
         template <typename T>
-        Core::Types::Bool AutoPointer<T>::operator!()
+        RFTYPE::Bool AutoPointer<T>::operator!()
         {
             return 0==m_Data;
         }
 
         template <typename T>
-        AutoPointer<T>::operator Core::Types::Bool()
+        AutoPointer<T>::operator RFTYPE::Bool()
         {
             return 0!=m_Data;
         }

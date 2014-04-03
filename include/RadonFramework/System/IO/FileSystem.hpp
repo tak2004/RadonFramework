@@ -57,7 +57,7 @@ namespace RadonFramework { namespace System { namespace IO { namespace FileSyste
             FileWatcherEvent(const FileWatcherEvent& Args):ChangeType(Args.ChangeType),Name(Args.Name){}
             FileWatcherEvent& operator=(const FileWatcherEvent& Args){ChangeType=Args.ChangeType;Name=Args.Name;return *this;}
             WatcherChangeTypes::Type ChangeType;
-            Core::Types::String Name;//name of file or path
+            RFTYPE::String Name;//name of file or path
     };
 
     /// This function will be called by RadonFramework_Init function.
@@ -77,7 +77,7 @@ namespace RadonFramework { namespace System { namespace IO { namespace FileSyste
     typedef RFTYPE::Char (*PathSeperatorCallback)();
     typedef RFTYPE::Char (*SeperatorCallback)();
     typedef RadonFramework::Memory::AutoPointer<RadonFramework::IO::FileStatus> (*StatCallback)(
-        const Core::Types::String& Path);
+        const RFTYPE::String& Path);
     typedef RFTYPE::Bool (*ChangeModeCallback)(const RFTYPE::String& Path,
         const RadonFramework::IO::AccessMode::Type NewMode);
     // memory mapping
@@ -106,10 +106,10 @@ namespace RadonFramework { namespace System { namespace IO { namespace FileSyste
     typedef RFTYPE::Bool (*CreatePreAllocatedFileCallback)(
         const RFTYPE::String& Path, const RFTYPE::Size FileSize);
     typedef RFTYPE::Bool (*CreateFileCallback)(const RFTYPE::String& Path);
-    typedef RFTYPE::Bool (*CopyFileCallback)(const Core::Types::String& From,
-        const Core::Types::String& To);
-    typedef RFTYPE::Bool (*RenameFileCallback)(const Core::Types::String& From,
-        const Core::Types::String& To);
+    typedef RFTYPE::Bool (*CopyFileCallback)(const RFTYPE::String& From,
+        const RFTYPE::String& To);
+    typedef RFTYPE::Bool (*RenameFileCallback)(const RFTYPE::String& From,
+        const RFTYPE::String& To);
     typedef RFTYPE::Bool (*DeleteFileCallback)(const RFTYPE::String& Path);
     // directory
     typedef RFTYPE::String (*WorkingDirectoryCallback)();

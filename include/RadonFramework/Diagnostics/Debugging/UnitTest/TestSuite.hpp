@@ -22,22 +22,22 @@ namespace RadonFramework
                 class TestSuite
                 {
                     public:
-                        typedef Delegate<Core::Types::Bool> TestMethod;
+                        typedef Delegate<RFTYPE::Bool> TestMethod;
 
-                        TestSuite(const Core::Types::String& Name);
-                        Core::Types::String Name() const;
-                        Core::Types::UInt32 TestCount();
-                        void AddTest(TestMethod Test, const Core::Types::String& TestName);
-                        Memory::AutoPointer<UnitTestResult> ProcessTests(const Core::Types::UInt32 Number);
+                        TestSuite(const RFTYPE::String& Name);
+                        RFTYPE::String Name() const;
+                        RFTYPE::UInt32 TestCount();
+                        void AddTest(TestMethod Test, const RFTYPE::String& TestName);
+                        Memory::AutoPointer<UnitTestResult> ProcessTests(const RFTYPE::UInt32 Number);
                         virtual void SetUp();
                         virtual void TearDown();
                     protected:
                         struct Callback{
-                            Core::Types::String Name;
+                            RFTYPE::String Name;
                             TestMethod Method;
                         };
                         Collections::List<Callback> m_TestMethods;
-                        Core::Types::String m_Name;
+                        RFTYPE::String m_Name;
                 };
             }
         }

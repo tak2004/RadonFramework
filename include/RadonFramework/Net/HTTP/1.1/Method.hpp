@@ -34,12 +34,12 @@ namespace RadonFramework
 
                     static const char* Value[MAX];
 
-                    static Core::Types::UInt32 ValueLen[MAX];
+                    static RFTYPE::UInt32 ValueLen[MAX];
 
-                    static Core::Types::UInt32 MaxLen;
+                    static RFTYPE::UInt32 MaxLen;
 
-                    static Type Parse(const Core::Types::UInt8* Buffer, 
-                        const Core::Types::UInt32 Bytes);
+                    static Type Parse(const RFTYPE::UInt8* Buffer, 
+                        const RFTYPE::UInt32 Bytes);
                 };
             }            
         }

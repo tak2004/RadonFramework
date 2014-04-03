@@ -48,7 +48,7 @@ namespace RadonFramework
                  *
                  * \param Length The size of the _BitArray to create.
                  */
-                _BitArray(const Core::Types::UInt32 Length);
+                _BitArray(const RFTYPE::UInt32 Length);
 
                 /**
                  * \brief Creates a _BitArray of the specified length. 
@@ -59,14 +59,14 @@ namespace RadonFramework
                  */
                 static Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > 
                     CreateInstance(const char CArray[], 
-                                   const Core::Types::UInt32 Length);
+                                   const RFTYPE::UInt32 Length);
 
                 ~_BitArray();
             // Properties
                 /**
                  * Gets the number of elements contained in the _BitArray.
                  */
-                Core::Types::UInt32 Count()const;
+                RFTYPE::UInt32 Count()const;
             // Methods
                 /**
                  * \brief Creates a deep copy of the _BitArray.
@@ -97,11 +97,11 @@ namespace RadonFramework
                  * \param Length A 32-bit unsigned integer that represents 
                  *               the number of elements to copy.
                  */
-                Core::Types::Bool ConstrainedCopy(
-                    Core::Types::UInt32 SourceIndex,
+                RFTYPE::Bool ConstrainedCopy(
+                    RFTYPE::UInt32 SourceIndex,
                     _BitArray<RB,SP,MA,MO>& DestinationArray,
-                    Core::Types::UInt32 DestinationIndex,
-                    Core::Types::UInt32 Length);
+                    RFTYPE::UInt32 DestinationIndex,
+                    RFTYPE::UInt32 Length);
 
                 /**
                  * \brief Copies a range of elements from an _BitArray starting
@@ -114,9 +114,9 @@ namespace RadonFramework
                  * \param Length A 32-bit unsigned integer that represents 
                  *               the number of elements to copy.
                  */
-                Core::Types::Bool ConstrainedCopy(
+                RFTYPE::Bool ConstrainedCopy(
                     _BitArray<RB,SP,MA,MO>& DestinationArray, 
-                    Core::Types::UInt32 Length);
+                    RFTYPE::UInt32 Length);
 
                 /**
                  * \brief Copies a range of elements from an _BitArray starting 
@@ -129,7 +129,7 @@ namespace RadonFramework
                  *               the number of elements to copy.
                  */
                 void Copy(_BitArray<RB,SP,MA,MO>& DestinationArray, 
-                    Core::Types::UInt32 Length);
+                    RFTYPE::UInt32 Length);
 
                 /**
                  * \brief Copies a range of elements from an _BitArray starting 
@@ -147,10 +147,10 @@ namespace RadonFramework
                  * \param Length A 32-bit unsigned integer that represents 
                  *               the number of elements to copy.
                  */
-                void Copy(Core::Types::UInt32 Index, 
+                void Copy(RFTYPE::UInt32 Index, 
                     _BitArray<RB,SP,MA,MO>& DestinationArray,
-                    Core::Types::UInt32 DestinationIndex, 
-                    Core::Types::UInt32 Length);
+                    RFTYPE::UInt32 DestinationIndex, 
+                    RFTYPE::UInt32 Length);
 
                 /**
                  * \brief Changes the number of elements of an array to the 
@@ -158,7 +158,7 @@ namespace RadonFramework
                  *
                  * \param NewSize The size of the new array.
                  */
-                void Resize(Core::Types::UInt32 NewSize);
+                void Resize(RFTYPE::UInt32 NewSize);
 
                 /**
                  * \brief Reverses the sequence of the elements in the entire 
@@ -173,23 +173,23 @@ namespace RadonFramework
                  * \param Index The starting index of the section to reverse.
                  * \param Length The number of elements in the section to reverse.
                  */
-                void Reverse(Core::Types::UInt32 Index, 
-                    Core::Types::UInt32 Length);
+                void Reverse(RFTYPE::UInt32 Index, 
+                    RFTYPE::UInt32 Length);
 
                 void Swap(_BitArray<RB,SP,MA,MO>& Other);
 
-                Core::Types::UInt8 Get(const Core::Types::UInt32 Index);
+                RFTYPE::UInt8 Get(const RFTYPE::UInt32 Index);
 
-                void Set(const Core::Types::UInt32 Index,Core::Types::UInt8);
+                void Set(const RFTYPE::UInt32 Index,RFTYPE::UInt8);
             // Operators
                 _BitArray<RB,SP,MA,MO>& operator=(
                      const _BitArray<RB,SP,MA,MO>& Other);
             protected:
                 RB m_ContainerInfo;
-                Core::Types::UInt8* m_Data;
+                RFTYPE::UInt8* m_Data;
             // helper functions
                 /// setup the data part of the class
-                Core::Types::Bool InitArray(const Core::Types::UInt32 Length);
+                RFTYPE::Bool InitArray(const RFTYPE::UInt32 Length);
         };
 
         typedef _BitArray<> BitArray;
@@ -209,7 +209,7 @@ namespace RadonFramework
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        _BitArray<RB,SP,MA,MO>::_BitArray(const Core::Types::UInt32 Length)
+        _BitArray<RB,SP,MA,MO>::_BitArray(const RFTYPE::UInt32 Length)
         {
             InitArray(Length);
         }
@@ -217,7 +217,7 @@ namespace RadonFramework
         template<typename RB, typename SP, typename MA, typename MO>
         Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > _BitArray<RB,SP,MA,MO>::CreateInstance(
             const char CArray[], 
-            const Core::Types::UInt32 Length)
+            const RFTYPE::UInt32 Length)
         {
             typename Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > arr(MA::template New<_BitArray<RB,SP,MA,MO> >());
             if (arr.Get()!=0) // out of memory check
@@ -243,7 +243,7 @@ namespace RadonFramework
         // Properties
 
         template<typename RB, typename SP, typename MA, typename MO>
-        Core::Types::UInt32 _BitArray<RB,SP,MA,MO>::Count()const
+        RFTYPE::UInt32 _BitArray<RB,SP,MA,MO>::Count()const
         {
             return m_ContainerInfo.Count();
         }
@@ -259,10 +259,10 @@ namespace RadonFramework
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        Core::Types::Bool _BitArray<RB,SP,MA,MO>::ConstrainedCopy(Core::Types::UInt32 SourceIndex,
+        RFTYPE::Bool _BitArray<RB,SP,MA,MO>::ConstrainedCopy(RFTYPE::UInt32 SourceIndex,
             _BitArray<RB,SP,MA,MO>& DestinationArray,
-            Core::Types::UInt32 DestinationIndex,
-            Core::Types::UInt32 Length)
+            RFTYPE::UInt32 DestinationIndex,
+            RFTYPE::UInt32 Length)
         {
             if (m_ContainerInfo.Count()<SourceIndex+Length)
                 return false;
@@ -273,25 +273,25 @@ namespace RadonFramework
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        Core::Types::Bool _BitArray<RB,SP,MA,MO>::ConstrainedCopy(
+        RFTYPE::Bool _BitArray<RB,SP,MA,MO>::ConstrainedCopy(
             _BitArray<RB,SP,MA,MO>& DestinationArray, 
-            Core::Types::UInt32 Length)
+            RFTYPE::UInt32 Length)
         {
             return ConstrainedCopy(0,DestinationArray,0,Length);
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
         void _BitArray<RB,SP,MA,MO>::Copy(_BitArray<RB,SP,MA,MO>& DestinationArray, 
-            Core::Types::UInt32 Length)
+            RFTYPE::UInt32 Length)
         {
             Copy(0,DestinationArray,0,Length);
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Copy(Core::Types::UInt32 Index, 
+        void _BitArray<RB,SP,MA,MO>::Copy(RFTYPE::UInt32 Index, 
             _BitArray<RB,SP,MA,MO>& DestinationArray,
-            Core::Types::UInt32 DestinationIndex, 
-            Core::Types::UInt32 Length)
+            RFTYPE::UInt32 DestinationIndex, 
+            RFTYPE::UInt32 Length)
         {
             assert(m_ContainerInfo.Count()>=Index+Length);
             assert(DestinationArray.m_ContainerInfo.Count()>=DestinationIndex+Length);
@@ -299,7 +299,7 @@ namespace RadonFramework
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Resize(Core::Types::UInt32 NewSize)
+        void _BitArray<RB,SP,MA,MO>::Resize(RFTYPE::UInt32 NewSize)
         {
             if (m_Rank==0)
                 InitArray(1,&NewSize);
@@ -308,10 +308,10 @@ namespace RadonFramework
             {
                 T* data=MA::template NewArray<T>(NewSize);
                 if (std::is_class<T>::value==true)
-                    for (Core::Types::UInt32 i=0;i<RadonFramework::Math::Math<Core::Types::UInt32>::Min(m_Length[0],NewSize);++i)
+                    for (RFTYPE::UInt32 i=0;i<RadonFramework::Math::Math<RFTYPE::UInt32>::Min(m_Length[0],NewSize);++i)
                         data[i]=m_Data[i];
                 else
-                    MO::Copy(data,m_Data,RadonFramework::Math::Math<Core::Types::UInt32>::Min(m_Length[0],NewSize));
+                    MO::Copy(data,m_Data,RadonFramework::Math::Math<RFTYPE::UInt32>::Min(m_Length[0],NewSize));
                 MA::FreeArray(m_Data);
                 m_Data=data;
                 m_Length[0]=NewSize;
@@ -326,14 +326,14 @@ namespace RadonFramework
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Reverse(Core::Types::UInt32 Index, 
-            Core::Types::UInt32 Length)
+        void _BitArray<RB,SP,MA,MO>::Reverse(RFTYPE::UInt32 Index, 
+            RFTYPE::UInt32 Length)
         {
             assert(Index+Length<=m_ContainerInfo.Count());
-            Core::Types::UInt32 end=Index+Length-1;
-            Core::Types::UInt32 halfEnd=Index+Length>>1;
+            RFTYPE::UInt32 end=Index+Length-1;
+            RFTYPE::UInt32 halfEnd=Index+Length>>1;
             T* tmp=MA::template New<T>();
-            for (Core::Types::UInt32 i=Index;i<halfEnd;++i)
+            for (RFTYPE::UInt32 i=Index;i<halfEnd;++i)
             {
                 MO::Copy(tmp,&m_Data[i],1);
                 MO::Move(&m_Data[i],&m_Data[end-i],1);
@@ -349,19 +349,19 @@ namespace RadonFramework
             m_Data=Other.m_Data;
             Other.m_Data=tmpData;
 
-            Core::Types::UInt32 tmpCount=m_ContainerInfo.Count();
+            RFTYPE::UInt32 tmpCount=m_ContainerInfo.Count();
             m_ContainerInfo.Count()=Other.m_ContainerInfo.Count();
             Other.m_ContainerInfo.Count()=tmpCount;
 
-            Core::Types::UInt32* tmpLen=m_Length;
+            RFTYPE::UInt32* tmpLen=m_Length;
             m_Length=Other.m_Length;
             Other.m_Length=tmpLen;
 
-            Core::Types::UInt32 tmpRank=m_Rank;
+            RFTYPE::UInt32 tmpRank=m_Rank;
             m_Rank=Other.m_Rank;
             Other.m_Rank=tmpRank;
 
-            Core::Types::Bool tmpSync=m_Synchronized;
+            RFTYPE::Bool tmpSync=m_Synchronized;
             m_Synchronized=Other.m_Synchronized;
             Other.m_Synchronized=tmpSync;
 
@@ -371,13 +371,13 @@ namespace RadonFramework
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        Core::Types::UInt8 _BitArray<RB,SP,MA,MO>::Get(const Core::Types::UInt32 Index)
+        RFTYPE::UInt8 _BitArray<RB,SP,MA,MO>::Get(const RFTYPE::UInt32 Index)
         {
 
         }
 
         template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Set(const Core::Types::UInt32 Index,Core::Types::UInt8)
+        void _BitArray<RB,SP,MA,MO>::Set(const RFTYPE::UInt32 Index,RFTYPE::UInt8)
         {
 
         }
@@ -387,7 +387,7 @@ namespace RadonFramework
         _BitArray<RB,SP,MA,MO>& _BitArray<RB,SP,MA,MO>::operator=(const _BitArray<RB,SP,MA,MO>& Other)
         {
             InitArray(Other.m_Rank,Other.m_Length);
-            for (Core::Types::UInt32 i=0;i<m_ContainerInfo.Count();++i)
+            for (RFTYPE::UInt32 i=0;i<m_ContainerInfo.Count();++i)
                 m_Data[i]=Other.m_Data[i];
             return *this;
         }
@@ -395,8 +395,8 @@ namespace RadonFramework
         // internal helper functions
 
         template<typename RB, typename SP, typename MA, typename MO>
-        Core::Types::Bool _BitArray<RB,SP,MA,MO>::InitArray(
-            const Core::Types::UInt32 Length)
+        RFTYPE::Bool _BitArray<RB,SP,MA,MO>::InitArray(
+            const RFTYPE::UInt32 Length)
         {
             m_Synchronized=false;
             m_Data=0;

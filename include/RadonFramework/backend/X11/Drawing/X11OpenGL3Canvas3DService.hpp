@@ -11,7 +11,7 @@ namespace RadonFramework
     class X11OpenGL3Canvas3DService:public Canvas3DService
     {
       public:
-        X11OpenGL3Canvas3DService(const Core::Types::String &Name);
+        X11OpenGL3Canvas3DService(const RFTYPE::String &Name);
         ~X11OpenGL3Canvas3DService();
         ICanvas3D* CreateCanvas3D();
     };

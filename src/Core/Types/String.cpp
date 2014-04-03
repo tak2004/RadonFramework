@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Math.hpp"
 #include "RadonFramework/Collections/ArrayEnumerator.hpp"
+#include <string.h>
 
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;

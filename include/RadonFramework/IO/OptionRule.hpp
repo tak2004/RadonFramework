@@ -10,7 +10,7 @@ namespace RadonFramework
     {
         struct OptionRule
         {
-            typedef Core::Types::Bool (*ValueCheckCallback)(const Core::Types::String& Value);
+            typedef RFTYPE::Bool (*ValueCheckCallback)(const RFTYPE::String& Value);
 
 			enum Type
             {

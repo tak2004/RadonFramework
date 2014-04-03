@@ -4,15 +4,10 @@
 #pragma once
 #endif
 
-namespace RadonFramework
-{
-    namespace Core
-    {
-        namespace Types
-        {
-            typedef bool Bool;
-        }
-    }
-}
+namespace RadonFramework { namespace Core { namespace Types {
+
+typedef bool Bool;
+
+} } }
 
 #endif // RF_CORE_TYPES_BOOL_HPP

@@ -14,7 +14,7 @@ namespace RadonFramework
     {
         struct MouseEvent
         {
-            Core::Types::Bool MouseButtonState[IO::VirtualMouseButton::MAX];
+            RFTYPE::Bool MouseButtonState[IO::VirtualMouseButton::MAX];
             Math::Geometry::Point2D<> CurrentPosition;
         };
     }

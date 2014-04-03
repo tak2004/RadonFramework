@@ -101,7 +101,7 @@ AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RFTYPE::Size Count,
     if (Copy)
     {
         m_Data=new ElementType[Count];
-        for (Core::Types::Size i=0; i<Count; ++i)
+        for (RFTYPE::Size i=0; i<Count; ++i)
             m_Data[i]=ElementType(Ptr[i]);
     }
     else

@@ -20,7 +20,7 @@ namespace RadonFramework
                 virtual T* Current()const=0;
 
                 /// Advances the enumerator to the next element of the collection.
-                virtual Core::Types::Bool MoveNext()=0;
+                virtual RFTYPE::Bool MoveNext()=0;
 
                 /** Sets the enumerator to its initial position, which is 
                     * before the first element in the collection.

@@ -69,9 +69,9 @@ namespace RadonFramework
                     return m_Data[Index];
                 }
 
-                inline RadonFramework::Core::Types::String ToString()const
+                inline RFTYPE::String ToString()const
                 {
-                    return RadonFramework::Core::Types::String(m_Data,m_Len);
+                    return RFTYPE::String(m_Data,m_Len);
                 }
             protected:
                 T m_Len;

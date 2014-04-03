@@ -4,33 +4,28 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Core { namespace Types { 
+
+template <typename T, int C>
+struct ALIGN(16) Vec
 {
-    namespace Core
+    T m_Vector[C];
+
+    T& operator[](const MemoryRange Index)
     {
-        namespace Types
-        {
-            template <typename T, int C>
-            struct ALIGN(16) Vec
-            {
-                T m_Vector[C];
-
-                T& operator[](const MemoryRange Index)
-                {
-                    Assert(static_cast<UInt32>(Index)<static_cast<UInt32>(C),"Index out of bound.");
-                    return m_Vector[Index];
-                }
-
-                T operator[](const MemoryRange Index)const
-                {
-                    Assert(static_cast<UInt32>(Index)<static_cast<UInt32>(C),"Index out of bound.");
-                    return m_Vector[Index];
-                }
-
-                typedef T ValueType;
-            };
-        }
+        Assert(static_cast<UInt32>(Index)<static_cast<UInt32>(C),"Index out of bound.");
+        return m_Vector[Index];
     }
-}
+
+    T operator[](const MemoryRange Index)const
+    {
+        Assert(static_cast<UInt32>(Index)<static_cast<UInt32>(C),"Index out of bound.");
+        return m_Vector[Index];
+    }
+
+    typedef T ValueType;
+};
+
+} } }
 
 #endif // RF_CORE_TYPES_VEC_HPP

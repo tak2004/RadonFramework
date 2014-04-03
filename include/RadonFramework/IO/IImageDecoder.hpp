@@ -18,8 +18,8 @@ namespace RadonFramework
       public:
         virtual ~IImageDecoder(){};
         virtual Memory::AutoPointer<Drawing::ImageInfo> Information()=0;
-        virtual Memory::AutoPointerArray<Core::Types::UInt8> LoadLayer(Core::Types::UInt32 Frame, 
-                                                                    Core::Types::UInt32 Layer)=0;
+        virtual Memory::AutoPointerArray<RFTYPE::UInt8> LoadLayer(RFTYPE::UInt32 Frame, 
+                                                                    RFTYPE::UInt32 Layer)=0;
     };
   }
 }

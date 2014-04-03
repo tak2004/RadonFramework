@@ -14,7 +14,7 @@ namespace RadonFramework
         class NullWindowService:public WindowService
         {
             public:
-                NullWindowService(const RadonFramework::Core::Types::String &Name):WindowService(Name){}
+                NullWindowService(const RFTYPE::String &Name):WindowService(Name){}
                 IWindow* NewWindow(){return 0;}
                 IApplication* Application(){return 0;}
                 
@@ -24,7 +24,7 @@ namespace RadonFramework
                 }
                 
                 WindowServiceError ScreenResolution(const DisplayInformation& DiplayInfo,
-                                                    Core::Types::UInt32& ResolutionListIndex)
+                                                    RFTYPE::UInt32& ResolutionListIndex)
                 {
 					ResolutionListIndex=0; return WindowServiceError::Generate(WindowServiceErrors::InvalidArgument);
                 }

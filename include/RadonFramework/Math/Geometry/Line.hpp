@@ -21,21 +21,21 @@ namespace RadonFramework
                 public:
                     Line2D(const Point2D<> &First, const Point2D<> &Second);
 
-                    Line2D(const Core::Types::Int32 X1,const Core::Types::Int32 Y1,
-                           const Core::Types::Int32 X2,const Core::Types::Int32 Y2);
+                    Line2D(const RFTYPE::Int32 X1,const RFTYPE::Int32 Y1,
+                           const RFTYPE::Int32 X2,const RFTYPE::Int32 Y2);
 
-                    Core::Types::Bool Equals(const Line2D &Other)const;
+                    RFTYPE::Bool Equals(const Line2D &Other)const;
 
-                    Core::Types::Bool Intersection(const Line2D &Other, Point2D<> &Point)const;
+                    RFTYPE::Bool Intersection(const Line2D &Other, Point2D<> &Point)const;
 
-                    Core::Types::Bool IsIntersect(const Line2D &Other)const;
+                    RFTYPE::Bool IsIntersect(const Line2D &Other)const;
 
-                    Core::Types::Bool IsIntersect(const Point2D<> &Other)const;
+                    RFTYPE::Bool IsIntersect(const Point2D<> &Other)const;
                                 
-                    Core::Types::Float32 PointDistance(const Point2D<> &Other)const;
-                    Core::Types::Float32 PointSquareDistance(const Point2D<> &Other)const;
-                    Core::Types::Float32 Length()const;
-                    Core::Types::Float32 SquareLength()const;
+                    RFTYPE::Float32 PointDistance(const Point2D<> &Other)const;
+                    RFTYPE::Float32 PointSquareDistance(const Point2D<> &Other)const;
+                    RFTYPE::Float32 Length()const;
+                    RFTYPE::Float32 SquareLength()const;
                     Rectangle<> BoundingBox()const;
                     Point2D<> Start()const;
                     Point2D<> End()const;

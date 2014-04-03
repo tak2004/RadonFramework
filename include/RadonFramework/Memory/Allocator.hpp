@@ -12,7 +12,7 @@ namespace RadonFramework
 {
     namespace Memory
     {
-        template<class T=RadonFramework::Core::Types::UInt8,
+        template<class T=RFTYPE::UInt8,
                  class ALLOCATOR=RadonFramework::Core::Policies::MallocAllocator,
                  template<class> class COLLECTORLOGIC=RadonFramework::Core::Policies::ObjectLogic>
         class Allocator
@@ -23,7 +23,7 @@ namespace RadonFramework
                 typedef T& Reference;
                 typedef const T* ConstPointer;
                 typedef const T& ConstReference;
-                typedef Core::Types::MemoryRange SizeType;
+                typedef RFTYPE::MemoryRange SizeType;
 
                 // constructors/destructor
                 Allocator();
@@ -53,7 +53,7 @@ namespace RadonFramework
                 typedef void ValueType;
                 typedef void* Pointer;
                 typedef const void* ConstPointer;
-                typedef Core::Types::MemoryRange SizeType;
+                typedef RFTYPE::MemoryRange SizeType;
         };
 
         template<class T,class ALLOCATOR, template<class> class COLLECTORLOGIC>
@@ -96,7 +96,7 @@ namespace RadonFramework
         typename Allocator<T,ALLOCATOR,COLLECTORLOGIC>::SizeType 
             Allocator<T,ALLOCATOR,COLLECTORLOGIC>::MaxSize()const
         {
-            return Core::Types::MemoryRangeMax / 
+            return RFTYPE::MemoryRangeMax / 
                 sizeof(ValueType);
         }
 

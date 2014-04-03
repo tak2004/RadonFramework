@@ -15,11 +15,11 @@ namespace RadonFramework
     {
         struct DisplayInformation
         {
-            Core::Types::String DisplayName;
-            Core::Types::String Description;
-            Core::Types::Bool IsPrimary;
-            Core::Types::Bool IsAttachedToDesktop;
-            Core::Types::Bool IsMirroring;
+            RFTYPE::String DisplayName;
+            RFTYPE::String Description;
+            RFTYPE::Bool IsPrimary;
+            RFTYPE::Bool IsAttachedToDesktop;
+            RFTYPE::Bool IsMirroring;
             Collections::Array<Resolution> AvaiableResolution;
             DisplayInformation& operator=(const DisplayInformation& Other){
                 DisplayName=Other.DisplayName;

@@ -29,8 +29,8 @@ namespace RadonFramework
                 RF_MAX};
         }
 
-        const RadonFramework::Core::Types::String TypeKindName[TypeKind::RF_MAX]={"unknown type","Float32","Float64","Int32","UInt32","Int64","UInt64","Int16","UInt16","Int8","UInt8","String","Char","Bool"};
-        const RadonFramework::Core::Types::UInt32 TypeSize[TypeKind::RF_MAX]={0,4,8,4,4,8,8,2,2,1,1,0,1,1};
+        const RFTYPE::String TypeKindName[TypeKind::RF_MAX]={"unknown type","Float32","Float64","Int32","UInt32","Int64","UInt64","Int16","UInt16","Int8","UInt8","String","Char","Bool"};
+        const RFTYPE::UInt32 TypeSize[TypeKind::RF_MAX]={0,4,8,4,4,8,8,2,2,1,1,0,1,1};
     }
 }
 

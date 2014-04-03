@@ -31,7 +31,7 @@ namespace RadonFramework
 
                 T& Peek();
                 const T& Peek()const;
-                RadonFramework::Core::Types::UInt32 Size()const;
+                RFTYPE::UInt32 Size()const;
             protected:
                 class Node
                 {
@@ -50,7 +50,7 @@ namespace RadonFramework
                         Node *m_Prev;
                         T m_Value;
                 };
-                RadonFramework::Core::Types::UInt32 m_Size;
+                RFTYPE::UInt32 m_Size;
                 Node *m_Data;
                 Node *m_Top;
         };
@@ -181,7 +181,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        RadonFramework::Core::Types::UInt32 Stack<T>::Size()const
+        RFTYPE::UInt32 Stack<T>::Size()const
         {
             return m_Size;
         }

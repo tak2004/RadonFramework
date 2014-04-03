@@ -27,85 +27,85 @@ namespace RadonFramework
 			public:
 				ReadBuffer();
 				ReadBuffer(ReadBuffer& Other);
-				ReadBuffer(AutoPointerArray<Core::Types::UInt8> Data,
-					       const Core::Types::UInt32 MemorySize,
-						   const Core::Types::Bool SourceEndianIsLittle=true);
+				ReadBuffer(AutoPointerArray<RFTYPE::UInt8> Data,
+					       const RFTYPE::UInt32 MemorySize,
+						   const RFTYPE::Bool SourceEndianIsLittle=true);
 
 				/** @brief This method read 1 Byte from the Buffer.
 				  * This will be performed by a common register copy.
 				  */
-				Core::Types::Bool ReadBool();
+				RFTYPE::Bool ReadBool();
 				/** @brief This method read 1 Byte from the Buffer.
 				  * This will be performed by a common register copy.
 				  */
-				Core::Types::UInt8 ReadUInt8();
+				RFTYPE::UInt8 ReadUInt8();
 				/** @brief This method read 1 Byte from the Buffer.
 				  * This will be performed by a 8Bit register copy.
 				  */
-				Core::Types::Int8 ReadInt8();
+				RFTYPE::Int8 ReadInt8();
 				/** @brief This method read 1 Byte from the Buffer.
 				  * This will be performed by a 8Bit register copy.
 				  */
-				Core::Types::Char ReadChar();
+				RFTYPE::Char ReadChar();
 				/** @brief This method read 2 Bytes from the Buffer.
 				  * This will be performed by a 16Bit register copy.
 				  */
-				Core::Types::UInt16 ReadUInt16();
+				RFTYPE::UInt16 ReadUInt16();
 				/** @brief This method read 2 Bytes from the Buffer.
 				  * This will be performed by a 16Bit register copy.
 				  */
-				Core::Types::Int16 ReadInt16();
+				RFTYPE::Int16 ReadInt16();
 				/** @brief This method read 4 Bytes from the Buffer.
 				  * This will be performed by a 32bit register copy.
 				  */
-				Core::Types::UInt32 ReadUInt32();
+				RFTYPE::UInt32 ReadUInt32();
 				/** @brief This method read 4 Bytes from the Buffer.
 				  * This will be performed by a 32bit register copy.
 				  */
-				Core::Types::Int32 ReadInt32();
+				RFTYPE::Int32 ReadInt32();
 				/** @brief This method read 4 Bytes from the Buffer.
 				  * This will be performed by a 32bit register copy.
 				  */
-				Core::Types::Float32 ReadFloat32();
+				RFTYPE::Float32 ReadFloat32();
 				/** @brief This method read 8 Bytes from the Buffer.
 				  * This will be performed by two 32Bit register copies on
 				  * a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
 				  */
-				Core::Types::UInt64 ReadUInt64();
+				RFTYPE::UInt64 ReadUInt64();
 				/** @brief This method read 8 Bytes from the Buffer.
 				  * This will be performed by two 32Bit register copies on
 				  * a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
 				  */
-				Core::Types::Int64 ReadInt64();
+				RFTYPE::Int64 ReadInt64();
 				/** @brief This method read 8 Bytes from the Buffer.
 				  * This will be performed by two 32Bit register copies on
 				  * a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
 				  */
-				Core::Types::Float64 ReadFloat64();
+				RFTYPE::Float64 ReadFloat64();
 
-				Core::Types::UInt8 AsUInt8()const;
+				RFTYPE::UInt8 AsUInt8()const;
 /*
-				Core::Types::UInt8* Read4Byte(const Core::Types::UInt32 Quantity);
-				Core::Types::UInt8* Read8Byte(const Core::Types::UInt32 Quantity);
-				Core::Types::UInt8* Read16Byte(const Core::Types::UInt32 Quantity);
+				RFTYPE::UInt8* Read4Byte(const RFTYPE::UInt32 Quantity);
+				RFTYPE::UInt8* Read8Byte(const RFTYPE::UInt32 Quantity);
+				RFTYPE::UInt8* Read16Byte(const RFTYPE::UInt32 Quantity);
 				*/
-				AutoPointerArray<Core::Types::UInt8> ReadBytes(const Core::Types::UInt32 Bytes);
+				AutoPointerArray<RFTYPE::UInt8> ReadBytes(const RFTYPE::UInt32 Bytes);
 
-				Core::Types::UInt32 Seek(const Core::Types::UInt32 Bytes);
-				Core::Types::Bool IsEnd()const;
-				Core::Types::UInt32 GetSize()const;
-				Core::Types::UInt8 const* GetData()const;
-				Core::Types::UInt8 const* GetCursorData()const;
+				RFTYPE::UInt32 Seek(const RFTYPE::UInt32 Bytes);
+				RFTYPE::Bool IsEnd()const;
+				RFTYPE::UInt32 GetSize()const;
+				RFTYPE::UInt8 const* GetData()const;
+				RFTYPE::UInt8 const* GetCursorData()const;
 				void ResetCursor();
 
 				ReadBuffer& operator=(ReadBuffer& OldOwner);
 				ReadBuffer Clone()const;
 				ReadBuffer& AssignTo(ReadBuffer& Destination)const;
 			protected:
-				AutoPointerArray<Core::Types::UInt8> m_Data;
-				Core::Types::UInt32 m_Size;
-				Core::Types::UInt32 m_CursorPosition;
-				Core::Types::Bool m_IsLittleEndian;
+				AutoPointerArray<RFTYPE::UInt8> m_Data;
+				RFTYPE::UInt32 m_Size;
+				RFTYPE::UInt32 m_CursorPosition;
+				RFTYPE::Bool m_IsLittleEndian;
 		};
 	}
 }

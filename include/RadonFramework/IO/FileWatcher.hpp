@@ -23,7 +23,7 @@ namespace RadonFramework
                                 const RFTYPE::String& Filter="");
                 
                 const Uri& Path()const;
-                const Core::Types::String& Filter();
+                const RFTYPE::String& Filter();
 
                 /// Retun False on time out else True.
                 RFTYPE::Bool WaitForEvent(System::IO::FileSystem::FileWatcherEvent& Event);

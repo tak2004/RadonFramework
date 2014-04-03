@@ -12,7 +12,7 @@ namespace RadonFramework
     {
         namespace Geometry
         {
-            template<class T=Core::Types::Int32>
+            template<class T=RFTYPE::Int32>
             class Point2D
             {
                 public:
@@ -21,10 +21,10 @@ namespace RadonFramework
                     T X;
                     T Y;
 
-                    Core::Types::Bool Equals(const Point2D<T> &Other)const;
+                    RFTYPE::Bool Equals(const Point2D<T> &Other)const;
                     T Sum()const;
-                    Core::Types::Float32 Distance(const Point2D<T> &Other)const;
-                    Core::Types::Float32 SquareDistance(const Point2D<T> &Other)const;
+                    RFTYPE::Float32 Distance(const Point2D<T> &Other)const;
+                    RFTYPE::Float32 SquareDistance(const Point2D<T> &Other)const;
 
                     #define Operation(_A_)\
                     inline Point2D<T> operator _A_(const Point2D<T>& op)const{\

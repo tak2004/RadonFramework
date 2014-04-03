@@ -16,7 +16,7 @@ namespace RadonFramework
         class NullProtocolService:public ProtocolService
         {
             public:
-                NullProtocolService(const RadonFramework::Core::Types::String &Name):ProtocolService(Name){}
+                NullProtocolService(const RFTYPE::String &Name):ProtocolService(Name){}
                 Memory::AutoPointer<Resource> GenerateResource(const Uri&){return Memory::AutoPointer<Resource>();}
         };
 

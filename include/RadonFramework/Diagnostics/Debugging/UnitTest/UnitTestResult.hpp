@@ -19,24 +19,24 @@ namespace RadonFramework
                 class UnitTestResult
                 {
                 public:
-                    UnitTestResult(const RadonFramework::Core::Types::String& Name);
+                    UnitTestResult(const RFTYPE::String& Name);
                     UnitTestResult();
                     UnitTestResult(const UnitTestResult& Copy);
                     ~UnitTestResult();
-                    RadonFramework::Core::Types::Bool Passed() const;
-                    void Passed(RadonFramework::Core::Types::Bool val);
+                    RFTYPE::Bool Passed() const;
+                    void Passed(RFTYPE::Bool val);
                     RadonFramework::Time::TimeSpan TimeRequired() const;
                     RadonFramework::Time::TimeSpan& TimeRequired();
                     void TimeRequired(RadonFramework::Time::TimeSpan val);
-                    RadonFramework::Core::Types::String Name() const;
-                    void Name(RadonFramework::Core::Types::String val);
-                    void Error(RadonFramework::Core::Types::Bool val);
-                    RadonFramework::Core::Types::Bool Error()const;
+                    RFTYPE::String Name() const;
+                    void Name(RFTYPE::String val);
+                    void Error(RFTYPE::Bool val);
+                    RFTYPE::Bool Error()const;
                 protected:
-                    RadonFramework::Core::Types::Bool m_Passed;
-                    RadonFramework::Core::Types::Bool m_Error;
+                    RFTYPE::Bool m_Passed;
+                    RFTYPE::Bool m_Error;
                     RadonFramework::Time::TimeSpan m_TimeRequired;
-                    RadonFramework::Core::Types::String m_Name;
+                    RFTYPE::String m_Name;
                 };
             }
         }

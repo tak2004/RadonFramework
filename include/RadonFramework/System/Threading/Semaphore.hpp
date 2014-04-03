@@ -21,11 +21,11 @@ namespace RadonFramework
 		    class Semaphore
 		    {
 		        public:
-			        Semaphore(Core::Types::UInt32 value=0);
+			        Semaphore(RFTYPE::UInt32 value=0);
 			        ~Semaphore();
 			        void Release();
 			        void Wait();
-			        Core::Types::Bool TimedWait(const Time::TimeSpan& timeout);
+			        RFTYPE::Bool TimedWait(const Time::TimeSpan& timeout);
                 protected:
                     void* m_ImplData;
 		    };

@@ -2,6 +2,7 @@
 #include "RadonFramework/Core/Common/StringCache.hpp"
 #include "RadonFramework/Collections/Array.hpp"
 #include "RadonFramework/Core/Pattern/Singleton.hpp"
+#include <string.h>
 
 using namespace RadonFramework;
 using namespace RadonFramework::Core::Types;

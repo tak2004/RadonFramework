@@ -19,20 +19,20 @@ namespace RadonFramework
                 ListIterator();
                 ListIterator(const ListIterator &It);
                 ListIterator& operator=(const ListIterator &It);
-                Core::Types::Bool operator==(const ListIterator &It)const;
-                Core::Types::Bool operator!=(const ListIterator &It)const;
+                RFTYPE::Bool operator==(const ListIterator &It)const;
+                RFTYPE::Bool operator!=(const ListIterator &It)const;
                 ListIterator& operator++();
                 ListIterator operator++(int);
                 ListIterator& operator--();
                 ListIterator operator--(int);
-                ListIterator& operator+=(const Core::Types::UInt32 Step);
-                ListIterator& operator-=(const Core::Types::UInt32 Step);
-                const ListIterator operator+(const Core::Types::UInt32 Step)const;
-                const ListIterator operator-(const Core::Types::UInt32 Step)const;
+                ListIterator& operator+=(const RFTYPE::UInt32 Step);
+                ListIterator& operator-=(const RFTYPE::UInt32 Step);
+                const ListIterator operator+(const RFTYPE::UInt32 Step)const;
+                const ListIterator operator-(const RFTYPE::UInt32 Step)const;
                 operator bool()const;
                 Pointer operator->()const;
                 Reference operator*()const;
-                static Core::Types::UInt32 Distance(ListIterator Start, ListIterator Stop);
+                static RFTYPE::UInt32 Distance(ListIterator Start, ListIterator Stop);
             protected:
                 friend class List<T>;
                 ListIterator(Node* node, List<T> *Owner);
@@ -85,34 +85,34 @@ namespace RadonFramework
                 ~List();
                 void operator=(const List<T>&rhs);
 
-                Core::Types::Bool AddAfter(const Iterator& It,T &Item);
-                Core::Types::Bool AddAfter(const Iterator& It,const T &Item);
-                Core::Types::Bool AddBefore(const Iterator& it,T &Item);
-                Core::Types::Bool AddBefore(const Iterator& it,const T &Item);
+                RFTYPE::Bool AddAfter(const Iterator& It,T &Item);
+                RFTYPE::Bool AddAfter(const Iterator& It,const T &Item);
+                RFTYPE::Bool AddBefore(const Iterator& it,T &Item);
+                RFTYPE::Bool AddBefore(const Iterator& it,const T &Item);
                 void AddLast(T &Item);
                 void AddLast(const T &Item);
                 void AddFirst(T &Item);
                 void AddFirst(const T &Item);
                 void AddList(const List<T> &L);
-                void Insert(const Core::Types::UInt32 Index, T &Item);
-                void Insert(const Core::Types::UInt32 Index, const T &Item);
+                void Insert(const RFTYPE::UInt32 Index, T &Item);
+                void Insert(const RFTYPE::UInt32 Index, const T &Item);
                 T& CreateElementAtEnd();
                 T& CreateElementAtBegin();
-                T& CreateElementAt(const Core::Types::UInt32 Position);
+                T& CreateElementAt(const RFTYPE::UInt32 Position);
 
                 void Clear();
-                Core::Types::Bool Remove(Iterator& It);
+                RFTYPE::Bool Remove(Iterator& It);
                 void RemoveLast();
                 void RemoveFirst();
-                void RemoveAt(Core::Types::UInt32 Index);
+                void RemoveAt(RFTYPE::UInt32 Index);
                 void Swap(List<T>&rhs);
 
-                T& Item(const Core::Types::UInt32 Index);
-                const T& Item(const Core::Types::UInt32 Index)const;
-                T& operator[](const Core::Types::UInt32 Index);
-                const T& operator[](const Core::Types::UInt32 Index)const;
-                Core::Types::Bool Find(const Iterator& It)const;
-                Core::Types::Bool Find(const T& Item)const;
+                T& Item(const RFTYPE::UInt32 Index);
+                const T& Item(const RFTYPE::UInt32 Index)const;
+                T& operator[](const RFTYPE::UInt32 Index);
+                const T& operator[](const RFTYPE::UInt32 Index)const;
+                RFTYPE::Bool Find(const Iterator& It)const;
+                RFTYPE::Bool Find(const T& Item)const;
                 T* First()const;
                 T* Last()const;
                 Iterator Begin()const;
@@ -120,11 +120,11 @@ namespace RadonFramework
                 ConstIterator ConstBegin()const;
                 ConstIterator ConstEnd()const;
 
-                Core::Types::UInt32 Size()const;
+                RFTYPE::UInt32 Size()const;
             private:
                 Node *m_First;
                 Node *m_Last;
-                Core::Types::UInt32 m_Size;
+                RFTYPE::UInt32 m_Size;
         };
 
         template<typename T>
@@ -214,13 +214,13 @@ namespace RadonFramework
         }
 
         template<typename T,class Node,class Pointer,class Reference>
-        Core::Types::Bool ListIterator<T,Node,Pointer,Reference>::operator==(const ListIterator &It)const
+        RFTYPE::Bool ListIterator<T,Node,Pointer,Reference>::operator==(const ListIterator &It)const
         {
             return m_Node==It.m_Node && m_Owner==It.m_Owner;
         }
 
         template<typename T,class Node,class Pointer,class Reference>
-        Core::Types::Bool ListIterator<T,Node,Pointer,Reference>::operator!=(const ListIterator &It)const
+        RFTYPE::Bool ListIterator<T,Node,Pointer,Reference>::operator!=(const ListIterator &It)const
         {
             return m_Node!=It.m_Node || m_Owner!=It.m_Owner;
         }
@@ -256,9 +256,9 @@ namespace RadonFramework
         }
 
         template<typename T,class Node,class Pointer,class Reference>
-        ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::operator+=(const Core::Types::UInt32 Step)
+        ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::operator+=(const RFTYPE::UInt32 Step)
         {
-            for (Core::Types::UInt32 i=0;i<Step;++i)
+            for (RFTYPE::UInt32 i=0;i<Step;++i)
                 if (m_Node->GetNext())
                     m_Node=m_Node->GetNext();
                 else
@@ -267,9 +267,9 @@ namespace RadonFramework
         }
 
         template<typename T,class Node,class Pointer,class Reference>
-        ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::operator-=(const Core::Types::UInt32 Step)
+        ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::operator-=(const RFTYPE::UInt32 Step)
         {
-            for (Core::Types::UInt32 i=0;i<Step;++i)
+            for (RFTYPE::UInt32 i=0;i<Step;++i)
                 if (m_Node->GetPrev())
                     m_Node=m_Node->GetPrev();
                 else
@@ -278,10 +278,10 @@ namespace RadonFramework
         }
 
         template<typename T,class Node,class Pointer,class Reference>
-        const ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::operator+(const Core::Types::UInt32 Step)const
+        const ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::operator+(const RFTYPE::UInt32 Step)const
         {
             Node *n=m_Node;
-            for (Core::Types::UInt32 i=0;i<Step;++i)
+            for (RFTYPE::UInt32 i=0;i<Step;++i)
                 if (n->GetNext())
                     n=n->GetNext();
                 else
@@ -290,10 +290,10 @@ namespace RadonFramework
         }
 
         template<typename T,class Node,class Pointer,class Reference>
-        const ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::operator-(const Core::Types::UInt32 Step)const
+        const ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::operator-(const RFTYPE::UInt32 Step)const
         {
             Node *n=m_Node;
-            for (Core::Types::UInt32 i=0;i<Step;++i)
+            for (RFTYPE::UInt32 i=0;i<Step;++i)
                 if (n->GetPrev())
                     n=n->GetPrev();
                 else
@@ -322,7 +322,7 @@ namespace RadonFramework
         }
 
         template<typename T,class Node,class Pointer,class Reference>
-        Core::Types::UInt32 ListIterator<T,Node,Pointer,Reference>::Distance(
+        RFTYPE::UInt32 ListIterator<T,Node,Pointer,Reference>::Distance(
             ListIterator Start, ListIterator Stop)
         {
             return (ptrdiff_t)(Stop.m_Element-Start.m_Element);
@@ -380,7 +380,7 @@ namespace RadonFramework
         {
             Node* first=m_First;
             Node* last=m_Last;
-            Core::Types::UInt32 size=m_Size;
+            RFTYPE::UInt32 size=m_Size;
             m_First=rhs.m_First;
             m_Last=rhs.m_Last;
             m_Size=rhs.m_Size;
@@ -390,7 +390,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        Core::Types::Bool List<T>::AddBefore(const Iterator& It, T &Item)
+        RFTYPE::Bool List<T>::AddBefore(const Iterator& It, T &Item)
         {
             if (It==End())
             {
@@ -418,14 +418,14 @@ namespace RadonFramework
         }
 
         template<typename T>
-        Core::Types::Bool List<T>::AddBefore(const Iterator& It, const T &Item)
+        RFTYPE::Bool List<T>::AddBefore(const Iterator& It, const T &Item)
         {
             T& item=const_cast<T&>(Item);
             return AddBefore(It,item);
         }
 
         template<typename T>
-        Core::Types::Bool List<T>::AddAfter(const Iterator& It,T &Item)
+        RFTYPE::Bool List<T>::AddAfter(const Iterator& It,T &Item)
         {
             if (It==End())
             {
@@ -453,7 +453,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        Core::Types::Bool List<T>::AddAfter(const Iterator& It,const T &Item)
+        RFTYPE::Bool List<T>::AddAfter(const Iterator& It,const T &Item)
         {
             T& item=const_cast<T&>(Item);
             return AddAfter(It,item);
@@ -492,14 +492,14 @@ namespace RadonFramework
         }
 
         template<typename T>
-        void List<T>::Insert(Core::Types::UInt32 Index, T &Item)
+        void List<T>::Insert(RFTYPE::UInt32 Index, T &Item)
         {
             Assert(m_Size>=Index,"Out of bound.");
             if (m_Size==Index)
                 AddLast(Item);
             else
             {
-                Core::Types::UInt32 i=0;
+                RFTYPE::UInt32 i=0;
                 for (Iterator it=Begin(); it!=End(); ++it)
                 {
                     if (Index==i)
@@ -513,7 +513,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        void List<T>::Insert(Core::Types::UInt32 Index, const T &Item)
+        void List<T>::Insert(RFTYPE::UInt32 Index, const T &Item)
         {
             T& item=const_cast<T&>(Item);
             Insert(Index,item);
@@ -548,7 +548,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        T& List<T>::CreateElementAt(const Core::Types::UInt32 Position)
+        T& List<T>::CreateElementAt(const RFTYPE::UInt32 Position)
         {
             Assert(m_Size>Position,"Out of bound.");
             if (m_Size==Position)
@@ -556,7 +556,7 @@ namespace RadonFramework
             if (Position==0)
                 return CreateElementAtBegin();
 
-            Core::Types::UInt32 i=0;
+            RFTYPE::UInt32 i=0;
             Node *it=m_First;
             while (i<Position)
             {
@@ -572,7 +572,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        Core::Types::Bool List<T>::Remove(Iterator& It)
+        RFTYPE::Bool List<T>::Remove(Iterator& It)
         {
             if (It==End())
                 return false;
@@ -617,11 +617,11 @@ namespace RadonFramework
         }
 
         template<typename T>
-        void List<T>::RemoveAt(Core::Types::UInt32 Index)
+        void List<T>::RemoveAt(RFTYPE::UInt32 Index)
         {
             Assert(Index<m_Size,"Out of bound.");
 
-            Core::Types::UInt32 i=0;
+            RFTYPE::UInt32 i=0;
             for (Iterator it=Begin(); it!=End(); ++it)
             {
                 if (Index==i)
@@ -634,11 +634,11 @@ namespace RadonFramework
         }
 
         template<typename T>
-        T& List<T>::Item(const Core::Types::UInt32 Index)
+        T& List<T>::Item(const RFTYPE::UInt32 Index)
         {
             Assert(Index<m_Size,"Out of bound.");
 
-            Core::Types::UInt32 i=0;
+            RFTYPE::UInt32 i=0;
             Iterator it=Begin();
             for (;it!=End();++it)
             {
@@ -650,11 +650,11 @@ namespace RadonFramework
         }
 
         template<typename T>
-        const T& List<T>::Item(const Core::Types::UInt32 Index)const
+        const T& List<T>::Item(const RFTYPE::UInt32 Index)const
         {
             Assert(Index<m_Size, "Out of bound");
 
-            Core::Types::UInt32 i=0;
+            RFTYPE::UInt32 i=0;
             Iterator it=Begin();
             for (;it!=End();++it)
             {
@@ -666,19 +666,19 @@ namespace RadonFramework
         }
 
         template <typename T>
-        T& List<T>::operator[]( const Core::Types::UInt32 Index )
+        T& List<T>::operator[]( const RFTYPE::UInt32 Index )
         {
             return Item(Index);
         }
 
         template <typename T>
-        const T& List<T>::operator[]( const Core::Types::UInt32 Index ) const
+        const T& List<T>::operator[]( const RFTYPE::UInt32 Index ) const
         {
             return Item(Index);
         }
 
         template<typename T>
-        Core::Types::Bool List<T>::Find(const Iterator& It)const
+        RFTYPE::Bool List<T>::Find(const Iterator& It)const
         {
             for (Iterator i=Begin(); i!=End(); ++i)
                 if (i==It)
@@ -687,7 +687,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        Core::Types::Bool List<T>::Find(const T& Item)const
+        RFTYPE::Bool List<T>::Find(const T& Item)const
         {
             for (Iterator i=Begin(); i!=End(); ++i)
                 if (*i==Item)
@@ -736,7 +736,7 @@ namespace RadonFramework
         }
 
         template<typename T>
-        Core::Types::UInt32 List<T>::Size()const
+        RFTYPE::UInt32 List<T>::Size()const
         {
             return m_Size;
         }

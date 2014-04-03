@@ -34,10 +34,10 @@ namespace RadonFramework
 
                     ~SelectObjectCollector();
                     void Add(const NetService::SocketHandler& Handler);
-                    void Remove(const Core::Types::Size Index);
+                    void Remove(const RFTYPE::Size Index);
                     
-                    Core::Types::Size Count()const;
-                    Core::Types::Bool IsSet(const Core::Types::Size Index)const;
+                    RFTYPE::Size Count()const;
+                    RFTYPE::Bool IsSet(const RFTYPE::Size Index)const;
                 protected:
                     PIMPL* m_Data;
                 private:

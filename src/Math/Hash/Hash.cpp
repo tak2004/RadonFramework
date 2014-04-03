@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Hash/Hash.hpp"
 #include "RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp"
+#include <string.h>
 
 using namespace RadonFramework::Math::Hash;
 using namespace RadonFramework::Core::Types;

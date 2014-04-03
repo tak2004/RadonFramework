@@ -14,7 +14,7 @@ namespace RadonFramework
         {
             public:
                 // Return the size of installed memory in megabytes.
-                static RadonFramework::Core::Types::UInt32 InstalledMemory();
+                static RFTYPE::UInt32 InstalledMemory();
             protected:
                 static void* m_Backend;
         };

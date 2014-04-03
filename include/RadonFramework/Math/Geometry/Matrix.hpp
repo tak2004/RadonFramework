@@ -148,12 +148,12 @@ namespace RadonFramework
               return *this;
             }
 
-            Core::Types::Bool operator==(const Matrix& Other)const
+            RFTYPE::Bool operator==(const Matrix& Other)const
             {
                 return Math<T>::IsAlmostEqual(Value,Other.Value,N*M,5);
             }
 
-            Core::Types::Bool operator!=(const Matrix& Other)const
+            RFTYPE::Bool operator!=(const Matrix& Other)const
             {
                 return !(*this==Other);
             }
@@ -338,12 +338,12 @@ namespace RadonFramework
                 return inverse;
             }
 
-            Core::Types::Bool operator==(const Matrix& Other)const
+            RFTYPE::Bool operator==(const Matrix& Other)const
             {
                 return RadonFramework::Math::Math<T>::IsAlmostEqual(Value,Other.Value,4);
             }
 
-            Core::Types::Bool operator!=(const Matrix& Other)const
+            RFTYPE::Bool operator!=(const Matrix& Other)const
             {
                 return !(*this==Other);
             }
@@ -573,12 +573,12 @@ namespace RadonFramework
                 return inverse;
             }
 
-            Core::Types::Bool operator==(const Matrix& Other)const
+            RFTYPE::Bool operator==(const Matrix& Other)const
             {
                 return RadonFramework::Math::Math<T>::IsAlmostEqual(Value,Other.Value,9);
             }
 
-            Core::Types::Bool operator!=(const Matrix& Other)const
+            RFTYPE::Bool operator!=(const Matrix& Other)const
             {
                 return !(*this==Other);
             }
@@ -963,12 +963,12 @@ namespace RadonFramework
                 return inverse;
             }
 
-            Core::Types::Bool operator==(const Matrix& Other)const
+            RFTYPE::Bool operator==(const Matrix& Other)const
             {
                 return RadonFramework::Math::Math<T>::IsAlmostEqual(Value,Other.Value,16);
             }
 
-            Core::Types::Bool operator!=(const Matrix& Other)const
+            RFTYPE::Bool operator!=(const Matrix& Other)const
             {
                 return !(*this==Other);
             }

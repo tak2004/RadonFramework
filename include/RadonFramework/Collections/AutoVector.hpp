@@ -32,8 +32,8 @@ namespace RadonFramework
                 struct PtrInfo
                 {
                     T* m_Ptr;
-                    Core::Types::Bool m_IsArray;
-                    Core::Types::Size m_ElementCount;
+                    RFTYPE::Bool m_IsArray;
+                    RFTYPE::Size m_ElementCount;
                 };
 
                 struct AutoVectorReference
@@ -87,25 +87,25 @@ namespace RadonFramework
                 AutoVector<T>& operator=(AutoVectorReference From);
                 void Swap(AutoVector<T> &Other);
 
-                Core::Types::UInt32 Size()const;
-                void Erase(Core::Types::UInt32 Index);
+                RFTYPE::UInt32 Size()const;
+                void Erase(RFTYPE::UInt32 Index);
                 void Erase(Iterator It);
                 void Erase(ConstIterator It);
-                void Release(Core::Types::UInt32 Index, Memory::AutoPointer<T>& Ptr);
-                void Release(Core::Types::UInt32 Index, Memory::AutoPointerArray<T>& Ptr);
+                void Release(RFTYPE::UInt32 Index, Memory::AutoPointer<T>& Ptr);
+                void Release(RFTYPE::UInt32 Index, Memory::AutoPointerArray<T>& Ptr);
                 void Clear();
 
                 void PushBack(Memory::AutoPointer<T> Pointer);
                 void PushBack(Memory::AutoPointerArray<T> Pointer);
 
-                RadonFramework::Core::Types::Bool PopBack(Memory::AutoPointer<T> *SaveToPointer=0);
-                RadonFramework::Core::Types::Bool PopBack(Memory::AutoPointerArray<T> *SaveToPointer=0);
+                RFTYPE::Bool PopBack(Memory::AutoPointer<T> *SaveToPointer=0);
+                RFTYPE::Bool PopBack(Memory::AutoPointerArray<T> *SaveToPointer=0);
 
-                void Insert(Core::Types::UInt32 AtIndex, Memory::AutoPointer<T> Pointer);
-                void Insert(Core::Types::UInt32 AtIndex, Memory::AutoPointerArray<T> Pointer);
+                void Insert(RFTYPE::UInt32 AtIndex, Memory::AutoPointer<T> Pointer);
+                void Insert(RFTYPE::UInt32 AtIndex, Memory::AutoPointerArray<T> Pointer);
 
-                T const* operator[](Core::Types::UInt32 Index)const;
-                T* operator[](Core::Types::UInt32 Index);
+                T const* operator[](RFTYPE::UInt32 Index)const;
+                T* operator[](RFTYPE::UInt32 Index);
 
                 ConstIterator ConstBegin()const;
                 ConstIterator ConstEnd()const;
@@ -162,13 +162,13 @@ namespace RadonFramework
         }
 
         template<class T>
-        Core::Types::UInt32  AutoVector<T>::Size()const
+        RFTYPE::UInt32  AutoVector<T>::Size()const
         {
             return m_Pointer.Size();
         }
 
         template<class T>
-        void  AutoVector<T>::Erase(Core::Types::UInt32 Index)
+        void  AutoVector<T>::Erase(RFTYPE::UInt32 Index)
         {
             Assert(Index < m_Pointer.Size(),"Out of bound.");
             if (m_Pointer[Index].m_IsArray)
@@ -191,7 +191,7 @@ namespace RadonFramework
         }
 
         template<class T>
-        void AutoVector<T>::Release(Core::Types::UInt32 Index, Memory::AutoPointer<T>& Ptr)
+        void AutoVector<T>::Release(RFTYPE::UInt32 Index, Memory::AutoPointer<T>& Ptr)
         {
             Assert(Index < m_Pointer.Size(),"Out of bound.");
             if (!m_Pointer[Index].m_IsArray)
@@ -203,7 +203,7 @@ namespace RadonFramework
         }
 
         template<class T>
-        void AutoVector<T>::Release(Core::Types::UInt32 Index, Memory::AutoPointerArray<T>& Ptr)
+        void AutoVector<T>::Release(RFTYPE::UInt32 Index, Memory::AutoPointerArray<T>& Ptr)
         {
             Assert(Index < m_Pointer.Size(),"Out of bound.");
             if (m_Pointer[Index].m_IsArray)
@@ -249,7 +249,7 @@ namespace RadonFramework
         }
 
         template <class T>
-        inline RadonFramework::Core::Types::Bool AutoVector<T>::PopBack (Memory::AutoPointer<T> *SaveToPointer)
+        inline RFTYPE::Bool AutoVector<T>::PopBack (Memory::AutoPointer<T> *SaveToPointer)
         {
             if (m_Pointer.Size()==0)
                 return false;
@@ -263,7 +263,7 @@ namespace RadonFramework
         }
 
         template <class T>
-        inline RadonFramework::Core::Types::Bool AutoVector<T>::PopBack (Memory::AutoPointerArray<T> *SaveToPointer)
+        inline RFTYPE::Bool AutoVector<T>::PopBack (Memory::AutoPointerArray<T> *SaveToPointer)
         {
             if (m_Pointer.Size()==0)
                 return false;
@@ -277,7 +277,7 @@ namespace RadonFramework
         }
 
         template <class T>
-        void AutoVector<T>::Insert(Core::Types::UInt32 AtIndex, Memory::AutoPointer<T> Pointer)
+        void AutoVector<T>::Insert(RFTYPE::UInt32 AtIndex, Memory::AutoPointer<T> Pointer)
         {
             PtrInfo ptr;
             ptr.m_IsArray=false;
@@ -287,7 +287,7 @@ namespace RadonFramework
         }
 
         template <class T>
-        void AutoVector<T>::Insert(Core::Types::UInt32 AtIndex, Memory::AutoPointerArray<T> Pointer)
+        void AutoVector<T>::Insert(RFTYPE::UInt32 AtIndex, Memory::AutoPointerArray<T> Pointer)
         {
             Memory::AutoPointerArrayData<T> data=Pointer.Release();
             PtrInfo ptr;
@@ -298,14 +298,14 @@ namespace RadonFramework
         }
 
         template<class T>
-        T const* AutoVector<T>::operator[](Core::Types::UInt32 Index)const
+        T const* AutoVector<T>::operator[](RFTYPE::UInt32 Index)const
         {
             //there is allready a out of bound check in List class
             return m_Pointer[Index].m_Ptr;
         }
 
         template<class T>
-        T* AutoVector<T>::operator[](Core::Types::UInt32 Index)
+        T* AutoVector<T>::operator[](RFTYPE::UInt32 Index)
         {
             //there is allready a out of bound check in List class
             return m_Pointer[Index].m_Ptr;

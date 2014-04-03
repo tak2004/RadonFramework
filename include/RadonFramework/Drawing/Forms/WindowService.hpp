@@ -33,7 +33,7 @@ namespace RadonFramework
         class WindowService:public Core::Pattern::Service
         {
             public:
-                WindowService(const Core::Types::String &Name);
+                WindowService(const RFTYPE::String &Name);
                 ~WindowService();
                 virtual IWindow* NewWindow()=0;
                 virtual IApplication* Application()=0;
@@ -42,7 +42,7 @@ namespace RadonFramework
                 /// Get current screen resolution.
                 virtual WindowServiceError ScreenResolution(
                     const DisplayInformation& DiplayInfo,
-                    Core::Types::UInt32& ResolutionListIndex)=0;
+                    RFTYPE::UInt32& ResolutionListIndex)=0;
                 /// Set a new screen resolution.
                 virtual void ScreenResolution(const DisplayInformation& DiplayInfo,
                                               const Resolution& NewResolution)=0;

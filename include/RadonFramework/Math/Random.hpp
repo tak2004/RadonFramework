@@ -22,20 +22,20 @@ namespace RadonFramework
         class Random
         {
             public:
-                Random(const RadonFramework::Core::Types::Int32 Seed=99999999);
+                Random(const RFTYPE::Int32 Seed=99999999);
 
-                virtual RadonFramework::Core::Types::Int32 Next();
-                virtual RadonFramework::Core::Types::Int32 Next(const RadonFramework::Core::Types::Int32 MaxValue);
-                virtual RadonFramework::Core::Types::Int32 Next(const RadonFramework::Core::Types::Int32 MinValue,
-                                                             const RadonFramework::Core::Types::Int32 MaxValue);
-                virtual RadonFramework::Core::Types::Float32 NextFloat();
+                virtual RFTYPE::Int32 Next();
+                virtual RFTYPE::Int32 Next(const RFTYPE::Int32 MaxValue);
+                virtual RFTYPE::Int32 Next(const RFTYPE::Int32 MinValue,
+                                                             const RFTYPE::Int32 MaxValue);
+                virtual RFTYPE::Float32 NextFloat();
             protected:
-                virtual RadonFramework::Core::Types::Float32 Sample();
-                RadonFramework::Core::Types::Int32 m_Seed;
-                RadonFramework::Core::Types::Int32 m_J;
-                RadonFramework::Core::Types::Int32 m_K;
-                RadonFramework::Core::Types::Int32 m_Buffer[55];
-                RadonFramework::Core::Types::Int32 m_Index;
+                virtual RFTYPE::Float32 Sample();
+                RFTYPE::Int32 m_Seed;
+                RFTYPE::Int32 m_J;
+                RFTYPE::Int32 m_K;
+                RFTYPE::Int32 m_Buffer[55];
+                RFTYPE::Int32 m_Index;
         };
     }
 }

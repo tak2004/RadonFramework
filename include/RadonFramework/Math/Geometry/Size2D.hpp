@@ -10,7 +10,7 @@ namespace RadonFramework
     {
         namespace Geometry
         {
-            template<class T=Core::Types::Int32>
+            template<class T=RFTYPE::Int32>
             class Size2D
             {
                 public:
@@ -19,41 +19,38 @@ namespace RadonFramework
                     T Width;
                     T Height;
 
-                    Core::Types::Bool Equals(const Size2D<T>& Other);
-                    Core::Types::Float32 Ratio();
+                    RFTYPE::Bool Equals(const Size2D<T>& Other);
+                    RFTYPE::Float32 Ratio();
             };
         }
     }
 }
 
-#define RMG RadonFramework::Math::Geometry
-#define RCT RadonFramework::Core::Types
-
 template<class T>
-RMG::Size2D<T>::Size2D()
+RadonFramework::Math::Geometry::Size2D<T>::Size2D()
 :Width(0)
 ,Height(0)
 {
 }
 
 template<class T>
-RMG::Size2D<T>::Size2D(T Width, T Height)
+RadonFramework::Math::Geometry::Size2D<T>::Size2D(T Width, T Height)
 :Width(Width)
 ,Height(Height)
 {
 }
 
 template<class T>
-RCT::Bool RMG::Size2D<T>::Equals(const Size2D<T> &Other)
+RFTYPE::Bool RadonFramework::Math::Geometry::Size2D<T>::Equals(const Size2D<T> &Other)
 {
   return Width==Other.Width && Height==Other.Height;
 }
 
 template<class T>
-RCT::Float32 RMG::Size2D<T>::Ratio()
+RFTYPE::Float32 RadonFramework::Math::Geometry::Size2D<T>::Ratio()
 {
-  return Width<Height?static_cast<RCT::Float32>(Height)/static_cast<RCT::Float32>(Width):
-                      static_cast<RCT::Float32>(Width)/static_cast<RCT::Float32>(Height);
+  return Width<Height?static_cast<RFTYPE::Float32>(Height)/static_cast<RFTYPE::Float32>(Width):
+                      static_cast<RFTYPE::Float32>(Width)/static_cast<RFTYPE::Float32>(Height);
 }
 
 #endif // RF_MATH_GEOMETRY_SIZE2D_HPP

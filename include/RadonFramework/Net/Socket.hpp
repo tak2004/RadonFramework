@@ -44,25 +44,25 @@ namespace RadonFramework
                 
                 SocketError Connect(const EndPoint& RemoteEP);
                 SocketError Connect(const IPAddress& IP, 
-                                    const Core::Types::UInt32 Port);
+                                    const RFTYPE::UInt32 Port);
                 
                 //SocketError Disconnect();
                 
-                SocketError Listen(const Core::Types::UInt32 MaxWaitingClients);
+                SocketError Listen(const RFTYPE::UInt32 MaxWaitingClients);
                 
-                SocketError Receive(Memory::AutoPointerArray<Core::Types::UInt8>& Data);
+                SocketError Receive(Memory::AutoPointerArray<RFTYPE::UInt8>& Data);
                 
-                SocketError ReceiveFrom(Memory::AutoPointerArray<Core::Types::UInt8>& Data, 
+                SocketError ReceiveFrom(Memory::AutoPointerArray<RFTYPE::UInt8>& Data, 
                                         const EndPoint &RemoteEP);                
                 
-                SocketError Send(const Core::Types::UInt8* Data, 
-                                 const Core::Types::UInt32 DataSize,
-                                 Core::Types::UInt32& SendDataSize);
+                SocketError Send(const RFTYPE::UInt8* Data, 
+                                 const RFTYPE::UInt32 DataSize,
+                                 RFTYPE::UInt32& SendDataSize);
                 /*
-                SocketError::Type SendTo(const Memory::AutoPointerArray<Core::Types::UInt8> Data,
-                                         const Core::Types::UInt32 DataSize, 
+                SocketError::Type SendTo(const Memory::AutoPointerArray<RFTYPE::UInt8> Data,
+                                         const RFTYPE::UInt32 DataSize, 
                                          const EndPoint &RemoteEP, 
-                                         Memory::AutoPointer<Core::Types::UInt32>& SendDataSize);
+                                         Memory::AutoPointer<RFTYPE::UInt32>& SendDataSize);
 
                 SocketError::Type Shutdown(const SocketShutdown::Type How);              
                */

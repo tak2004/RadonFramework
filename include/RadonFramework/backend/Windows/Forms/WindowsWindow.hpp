@@ -19,23 +19,23 @@ namespace RadonFramework
 
                 //IWindow
                 void* Handle();
-                Core::Types::Bool Visible();
-                void Visible(const Core::Types::Bool Value);
-                Core::Types::String Title();
-                void Title(const Core::Types::String &Value);
+                RFTYPE::Bool Visible();
+                void Visible(const RFTYPE::Bool Value);
+                RFTYPE::String Title();
+                void Title(const RFTYPE::String &Value);
                 void Size(const Math::Geometry::Size2D<>& NewSize);
                 void Position(const Math::Geometry::Point2D<>& NewPosition);
                 void ClientRectSize(const Math::Geometry::Size2D<>& NewSize);
-                void Border(const Core::Types::Bool Value);
-                void CursorVisible(const Core::Types::Bool Value);
+                void Border(const RFTYPE::Bool Value);
+                void CursorVisible(const RFTYPE::Bool Value);
                 void CloseButton(const RFTYPE::Bool Show);
                 WindowService* GetService();
 
                 HWND GetHandle();
 
                 static WindowsWindow* GetObjectByHandle(const HWND Handle);
-                static Core::Types::UInt32 GetObjectCount();
-                static WindowsWindow* GetObjectByIndex(const Core::Types::UInt32 Index);
+                static RFTYPE::UInt32 GetObjectCount();
+                static WindowsWindow* GetObjectByIndex(const RFTYPE::UInt32 Index);
             protected:
                 WindowService *m_Service;
                 RFTYPE::String m_Title;

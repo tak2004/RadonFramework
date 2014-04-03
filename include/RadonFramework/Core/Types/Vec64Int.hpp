@@ -4,40 +4,35 @@
 #pragma once
 #endif
 
-namespace RadonFramework
-{
-    namespace Core
-    {
-        namespace Types
-        {
-            /// A Vec64Int8 have always the size of 8 byte and represent 8 signed numbers.
-            typedef Vec<Int8,8> Vec64Int8;
+namespace RadonFramework { namespace Core { namespace Types {
 
-            /// The minimum value which can be contained by a Vec64Int8.
-            extern const Int8 Vec64Int8Min;
+/// A Vec64Int8 have always the size of 8 byte and represent 8 signed numbers.
+typedef Vec<Int8,8> Vec64Int8;
 
-            /// The maximum value which can be contained by a Vec64Int8.
-            extern const Int8 Vec64Int8Max;
+/// The minimum value which can be contained by a Vec64Int8.
+extern const Int8 Vec64Int8Min;
 
-            /// A Vec64Int16 have always the size of 8 byte and represent 4 signed numbers.
-            typedef Vec<Int16,4> Vec64Int16;
+/// The maximum value which can be contained by a Vec64Int8.
+extern const Int8 Vec64Int8Max;
 
-            /// The minimum value which can be contained by a Vec64Int16.
-            extern const Int16 Vec64Int16Min;
+/// A Vec64Int16 have always the size of 8 byte and represent 4 signed numbers.
+typedef Vec<Int16,4> Vec64Int16;
 
-            /// The maximum value which can be contained by a Vec64Int16.
-            extern const Int16 Vec64Int16Max;
+/// The minimum value which can be contained by a Vec64Int16.
+extern const Int16 Vec64Int16Min;
 
-            /// A Vec64Int32 have always the size of 8 byte and represent 2 signed numbers.
-            typedef Vec<Int32,2> Vec64Int32;
+/// The maximum value which can be contained by a Vec64Int16.
+extern const Int16 Vec64Int16Max;
 
-            /// The minimum value which can be contained by a Vec64Int32.
-            extern const Int32 Vec64Int32Min;
+/// A Vec64Int32 have always the size of 8 byte and represent 2 signed numbers.
+typedef Vec<Int32,2> Vec64Int32;
 
-            /// The maximum value which can be contained by a Vec64Int32.
-            extern const Int32 Vec64Int32Max;
-        }
-    }
-}
+/// The minimum value which can be contained by a Vec64Int32.
+extern const Int32 Vec64Int32Min;
+
+/// The maximum value which can be contained by a Vec64Int32.
+extern const Int32 Vec64Int32Max;
+
+} } }
 
 #endif // RF_CORE_TYPES_VEC64INT_HPP

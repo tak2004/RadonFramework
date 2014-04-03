@@ -1084,11 +1084,11 @@ namespace RadonFramework
 		{
 			public:
 				static void CallFunction(GLFunctions::Type);
-				static void CallOpCode(GLOpCode::Type, Core::Types::UInt8*&);
-				static const Core::Types::UInt32 RegisterSize=8;
-				static const Core::Types::UInt32 RegisterCount=15;
-				static Core::Types::UInt8 Registers[RegisterCount*RegisterSize];
-				static Core::Types::UInt8 FunctionParameterCount[GLFunctions::MAX];
+				static void CallOpCode(GLOpCode::Type, RFTYPE::UInt8*&);
+				static const RFTYPE::UInt32 RegisterSize=8;
+				static const RFTYPE::UInt32 RegisterCount=15;
+				static RFTYPE::UInt8 Registers[RegisterCount*RegisterSize];
+				static RFTYPE::UInt8 FunctionParameterCount[GLFunctions::MAX];
 		};
 	}
 }

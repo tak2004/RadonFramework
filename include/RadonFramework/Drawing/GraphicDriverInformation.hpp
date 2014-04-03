@@ -14,14 +14,14 @@ namespace RadonFramework
     {
         struct GraphicDriverCapabilities
         {
-            Core::Types::Bool DoubleBuffer;//a single boolean value indicating whether double buffering is supported
-            Core::Types::Bool Stereo;//indicating whether stereo buffers(left and right) are supported
-            Core::Types::Int32 MajorVersion;
-            Core::Types::Int32 MinorVersion;
-            Core::Types::String Renderer;
-            Core::Types::Int32 ShaderModel;
-            Core::Types::String Vendor;
-            Core::Types::String Version;
+            RFTYPE::Bool DoubleBuffer;//a single boolean value indicating whether double buffering is supported
+            RFTYPE::Bool Stereo;//indicating whether stereo buffers(left and right) are supported
+            RFTYPE::Int32 MajorVersion;
+            RFTYPE::Int32 MinorVersion;
+            RFTYPE::String Renderer;
+            RFTYPE::Int32 ShaderModel;
+            RFTYPE::String Vendor;
+            RFTYPE::String Version;
         };
 
         class GraphicDriverInformation

@@ -17,8 +17,8 @@ namespace RadonFramework
                 typedef T& Reference;
                 typedef const T* ConstPointer;
                 typedef const T& ConstReference;
-                typedef Core::Types::MemoryRange SizeType;
-                typedef Core::Types::MemoryRange DifferenceType;
+                typedef RFTYPE::MemoryRange SizeType;
+                typedef RFTYPE::MemoryRange DifferenceType;
             };
 
             template<>
@@ -27,8 +27,8 @@ namespace RadonFramework
                 typedef void ValueType;
                 typedef void* Pointer;
                 typedef const void* ConstPointer;
-                typedef Core::Types::MemoryRange SizeType;
-                typedef Core::Types::MemoryRange DifferenceType;
+                typedef RFTYPE::MemoryRange SizeType;
+                typedef RFTYPE::MemoryRange DifferenceType;
             };
         }
     }

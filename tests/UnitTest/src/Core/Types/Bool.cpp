@@ -9,20 +9,20 @@ using namespace RadonFramework::Memory;
 
 class BoolTest:public TestSuite
 {
-    public:
-        BoolTest()
-        :TestSuite("RadonFramework::Core::Types::Bool-Test")
-        {
-            AddTest(MakeDelegate(this,&BoolTest::Assign),"Assign");
-        }
+public:
+    BoolTest()
+    :TestSuite("RadonFramework::Core::Types::Bool-Test")
+    {
+        AddTest(MakeDelegate(this, &BoolTest::Assign),"Assign");
+    }
 
-        RadonFramework::Core::Types::Bool Assign()
-        {
-            Bool a=true;
-            Bool b=false;
-            b=a;
-            return b==true;
-        }
+    Bool Assign()
+    {
+        Bool a=true;
+        Bool b=false;
+        b=a;
+        return b==true;
+    }
 };
 
 BoolTest BoolTestInstance;

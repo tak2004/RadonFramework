@@ -35,14 +35,14 @@ namespace RadonFramework
 
         //IWindow
         void* Handle();
-        Core::Types::Bool Visible();
-        void Visible(const Core::Types::Bool Value);
-        Core::Types::String Title();
-        void Title(const Core::Types::String &Value);
+        RFTYPE::Bool Visible();
+        void Visible(const RFTYPE::Bool Value);
+        RFTYPE::String Title();
+        void Title(const RFTYPE::String &Value);
         void Size(const Math::Geometry::Size2D<>& NewSize);
         void Position(const Math::Geometry::Point2D<>& NewPosition);
-        void Border(const Core::Types::Bool Value);
-        void CursorVisible(const Core::Types::Bool Value);
+        void Border(const RFTYPE::Bool Value);
+        void CursorVisible(const RFTYPE::Bool Value);
         void ClientRectSize(const Math::Geometry::Size2D<>& NewSize);
         void CloseButton(const RFTYPE::Bool Show);
 

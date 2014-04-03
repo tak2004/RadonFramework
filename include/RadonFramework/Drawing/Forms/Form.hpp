@@ -14,10 +14,10 @@ namespace RadonFramework { namespace Forms
     {
     public:
         Form();
-        RadonFramework::Core::Types::Bool Visible();
-        virtual void Visible(const RadonFramework::Core::Types::Bool Value);
-        virtual RadonFramework::Core::Types::String Title();
-        virtual void Title(const RadonFramework::Core::Types::String &Value);
+        RFTYPE::Bool Visible();
+        virtual void Visible(const RFTYPE::Bool Value);
+        virtual RFTYPE::String Title();
+        virtual void Title(const RFTYPE::String &Value);
         virtual void InitializeComponent();
         virtual void Idle(const IObserver* Sender);
         virtual void KeyPressed(const IO::VirtualKey::Type VK);

@@ -15,19 +15,19 @@ namespace RadonFramework
         class Log
         {
             public:
-                static void WriteInfo(Memory::AutoPointer<Core::Types::String> Text);
-                static void WriteError(Memory::AutoPointer<Core::Types::String> Text);
-                static void WriteFatalError(Memory::AutoPointer<Core::Types::String> Text);
-                static void WriteDebug(Memory::AutoPointer<Core::Types::String> Text);
+                static void WriteInfo(Memory::AutoPointer<RFTYPE::String> Text);
+                static void WriteError(Memory::AutoPointer<RFTYPE::String> Text);
+                static void WriteFatalError(Memory::AutoPointer<RFTYPE::String> Text);
+                static void WriteDebug(Memory::AutoPointer<RFTYPE::String> Text);
                 static void AddAppender(Memory::AutoPointer<Diagnostics::Appender> Value);
                 static void AddAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > > Values);
                 static void ReplaceAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > > Values);
                 static void RemoveAppender(const Diagnostics::Appender& Value);
 
-                static Core::Types::Bool IsInfoEnabled;
-                static Core::Types::Bool IsErrorEnabled;
-                static Core::Types::Bool IsFatalErrorEnabled;
-                static Core::Types::Bool IsDebugEnabled;
+                static RFTYPE::Bool IsInfoEnabled;
+                static RFTYPE::Bool IsErrorEnabled;
+                static RFTYPE::Bool IsFatalErrorEnabled;
+                static RFTYPE::Bool IsDebugEnabled;
             protected:
                 static void PoolLogInfoTask(void* Data);
                 static void PoolLogErrorTask(void* Data);
@@ -41,10 +41,10 @@ namespace RadonFramework
         {
             if (RadonFramework::IO::Log::IsInfoEnabled)
             {
-                RadonFramework::Memory::AutoPointer<RadonFramework::Core::Types::String> ptr(new RadonFramework::Core::Types::String());
+                RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RadonFramework::Core::Types::String str=RadonFramework::Core::Types::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteInfo(ptr);
             }
@@ -54,10 +54,10 @@ namespace RadonFramework
         {
             if (RadonFramework::IO::Log::IsErrorEnabled)
             {
-                RadonFramework::Memory::AutoPointer<RadonFramework::Core::Types::String> ptr(new RadonFramework::Core::Types::String());
+                RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RadonFramework::Core::Types::String str=RadonFramework::Core::Types::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteError(ptr);
             }
@@ -67,10 +67,10 @@ namespace RadonFramework
         {
             if (RadonFramework::IO::Log::IsFatalErrorEnabled)
             {
-                RadonFramework::Memory::AutoPointer<RadonFramework::Core::Types::String> ptr(new RadonFramework::Core::Types::String());
+                RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RadonFramework::Core::Types::String str=RadonFramework::Core::Types::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteFatalError(ptr);
             }
@@ -80,10 +80,10 @@ namespace RadonFramework
         {
             if (RadonFramework::IO::Log::IsDebugEnabled)
             {
-                RadonFramework::Memory::AutoPointer<RadonFramework::Core::Types::String> ptr(new RadonFramework::Core::Types::String());
+                RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RadonFramework::Core::Types::String str=RadonFramework::Core::Types::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteDebug(ptr);
             }

@@ -41,10 +41,10 @@ namespace RadonFramework
                 void Clear(){
                     m_HashMap.clear();
                 }
-                RadonFramework::Core::Types::Bool ContainsKey(KEYTYPE Key) const{
+                RFTYPE::Bool ContainsKey(KEYTYPE Key) const{
                     return m_HashMap.find(Key)!=m_HashMap.end();
                 }
-                RadonFramework::Core::Types::UInt32 Size(){
+                RFTYPE::UInt32 Size(){
                     return m_HashMap.size();
                 }
                 VALUETYPE& operator[](const KEYTYPE& Key){

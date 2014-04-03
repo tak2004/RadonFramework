@@ -15,7 +15,7 @@ namespace RadonFramework
 
                     }
 
-                    Core::Types::Bool TryLock(Core::Types::UInt64 TimeInMicroSec)
+                    RFTYPE::Bool TryLock(RFTYPE::UInt64 TimeInMicroSec)
                     {
                         return false;
                     }
@@ -30,7 +30,7 @@ namespace RadonFramework
 
                     }
 
-                    Core::Types::Bool Wait(Core::Types::UInt64 TimeInMicroSec)
+                    RFTYPE::Bool Wait(RFTYPE::UInt64 TimeInMicroSec)
                     {
                         return false;
                     }

@@ -47,18 +47,18 @@ namespace RadonFramework
                     void WriteLine(char *Format,...);
                     void WriteLine(const char *Str);
 
-                    void WriteColoredLine(const Core::Types::String &Str,
+                    void WriteColoredLine(const RFTYPE::String &Str,
                         RadonFramework::IO::ConsoleColor::Type BackgroundColor,
                         RadonFramework::IO::ConsoleColor::Type ForegroundColor);
-                    void WriteLine(const Core::Types::String &Str);
-                    void WriteLine(const Core::Types::UInt8 &Number);
-                    void WriteLine(const Core::Types::UInt16 &Number);
-                    void WriteLine(const Core::Types::UInt32 &Number);
-                    void WriteLine(const Core::Types::UInt64 &Number);
-                    void WriteLine(const Core::Types::Int8 &Number);
-                    void WriteLine(const Core::Types::Int16 &Number);
-                    void WriteLine(const Core::Types::Int32 &Number);
-                    void WriteLine(const Core::Types::Int64 &Number);
+                    void WriteLine(const RFTYPE::String &Str);
+                    void WriteLine(const RFTYPE::UInt8 &Number);
+                    void WriteLine(const RFTYPE::UInt16 &Number);
+                    void WriteLine(const RFTYPE::UInt32 &Number);
+                    void WriteLine(const RFTYPE::UInt64 &Number);
+                    void WriteLine(const RFTYPE::Int8 &Number);
+                    void WriteLine(const RFTYPE::Int16 &Number);
+                    void WriteLine(const RFTYPE::Int32 &Number);
+                    void WriteLine(const RFTYPE::Int64 &Number);
                     template<typename T,unsigned int Len> void WriteLine(const Net::FixedLengthString<T,Len>& Str);
                     
                     void NewLine();

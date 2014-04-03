@@ -14,7 +14,7 @@ namespace RadonFramework
         {
             namespace FrameworkDiagnostics
             {
-                void GetAllMissingSystemFunctions(Collections::List<Core::Types::String>& Result);
+                void GetAllMissingSystemFunctions(Collections::List<RFTYPE::String>& Result);
             }
         }
     }

@@ -19,15 +19,15 @@ namespace RadonFramework
             struct RequestHeader
             {
                 // Returns the length of the written bytes if no error occurred.
-                static Core::Types::UInt32 Create(
-                    Memory::AutoPointerArray<Core::Types::UInt8>& Buffer,
-                    const Core::Types::UInt32 BufferBoundaryStart,
-                    const Core::Types::UInt32 BufferBoundaryEnd,
+                static RFTYPE::UInt32 Create(
+                    Memory::AutoPointerArray<RFTYPE::UInt8>& Buffer,
+                    const RFTYPE::UInt32 BufferBoundaryStart,
+                    const RFTYPE::UInt32 BufferBoundaryEnd,
                     const typename F::Type Field, 
-                    const Core::Types::String& Value)
+                    const RFTYPE::String& Value)
                 {
                     Assert(Buffer.Count()>0,"Invalid Operation.");
-                    return Core::Types::String::Format(Buffer, BufferBoundaryStart, 
+                    return RFTYPE::String::Format(Buffer, BufferBoundaryStart, 
                         BufferBoundaryEnd, "%s: %s\015\012",
                         F::Value[Field], Value.c_str());                    
                 }

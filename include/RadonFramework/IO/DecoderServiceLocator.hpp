@@ -14,7 +14,7 @@ namespace RadonFramework
         class NullDecoderService:public DecoderService
         {
             public:
-                NullDecoderService(const RadonFramework::Core::Types::String &Name):DecoderService(Name){}
+                NullDecoderService(const RFTYPE::String &Name):DecoderService(Name){}
                 IDecoder* CreateDecoder(std::istream* , bool ){return 0;}
                 void Refresh(){}
         };
@@ -23,8 +23,8 @@ namespace RadonFramework
         {
             public:
                 static DecoderServiceLocator::Iterator FindNameOrFourCC(
-                    const RadonFramework::Core::Types::String& Name, 
-                    const RadonFramework::Core::Types::UInt32 FCC);
+                    const RFTYPE::String& Name, 
+                    const RFTYPE::UInt32 FCC);
             private:
                 ~DecoderServiceLocator();
         };

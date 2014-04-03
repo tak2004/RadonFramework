@@ -18,23 +18,23 @@ namespace RadonFramework
                 struct SuiteResult
                 {
                     Collections::List<UnitTestResult> TestResults;
-                    Core::Types::String SuiteName;
-                    Core::Types::Float32 TotalTime;
-                    Core::Types::UInt32 TestsWithError;
-                    Core::Types::UInt32 TestsWithFailure;
+                    RFTYPE::String SuiteName;
+                    RFTYPE::Float32 TotalTime;
+                    RFTYPE::UInt32 TestsWithError;
+                    RFTYPE::UInt32 TestsWithFailure;
                 };
 
                 class TestResultCollector:public Collector
                 {
                     public:
                         TestResultCollector();
-                        void CreateSuite(const Core::Types::String& Name);
+                        void CreateSuite(const RFTYPE::String& Name);
                         void ProcessResult(const UnitTestResult& Result);
-                        Core::Types::Bool WasSuccessful();
+                        RFTYPE::Bool WasSuccessful();
                         const Collections::List<SuiteResult>& TestResults()const;
                     protected:
                         Collections::List<SuiteResult> m_TestResults;
-                        Core::Types::Bool m_Successful;
+                        RFTYPE::Bool m_Successful;
                 };
             }
         }

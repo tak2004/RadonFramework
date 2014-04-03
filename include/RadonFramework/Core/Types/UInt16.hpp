@@ -4,22 +4,17 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework
-{
-    namespace Core
-    {
-        namespace Types
-        {
-            /// A UInt16 have always the size of 2 byte and represent a unsigned number.
-            typedef unsigned short int UInt16;
+namespace RadonFramework { namespace Core { namespace Types {
 
-            /// The minimum value which can be contained by a UInt16.
-            extern const UInt16 UInt16Min;
+/// A UInt16 have always the size of 2 byte and represent a unsigned number.
+typedef unsigned short int UInt16;
 
-            /// The maximum value which can be contained by a UInt16.
-            extern const UInt16 UInt16Max;
-        }
-    }
-}
+/// The minimum value which can be contained by a UInt16.
+extern const UInt16 UInt16Min;
+
+/// The maximum value which can be contained by a UInt16.
+extern const UInt16 UInt16Max;
+
+} } }
 
 #endif // RF_CORE_TYPES_UINT16_HPP

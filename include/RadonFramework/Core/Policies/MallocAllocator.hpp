@@ -23,7 +23,7 @@ namespace RadonFramework
 
             void* MallocAllocator::Allocate(Traits::AllocatorTraits<void>::SizeType Size)
             {
-                Assert(Size < Core::Types::MemoryRangeMax,"Acquired memory block is to large.");
+                Assert(Size < RFTYPE::MemoryRangeMax,"Acquired memory block is to large.");
                 return malloc(Size);
             }
 
@@ -37,7 +37,7 @@ namespace RadonFramework
                                               Traits::AllocatorTraits<void>::SizeType OldSize, 
                                               Traits::AllocatorTraits<void>::SizeType NewSize)
             {
-                Assert(NewSize < Core::Types::MemoryRangeMax,"Acquired memory block is to large.");
+                Assert(NewSize < RFTYPE::MemoryRangeMax,"Acquired memory block is to large.");
                 return realloc(Ptr,NewSize);
             }
         }

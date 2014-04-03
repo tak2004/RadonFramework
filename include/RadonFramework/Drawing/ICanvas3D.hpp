@@ -34,7 +34,7 @@ namespace RadonFramework
             virtual void SetWindowInfos(Forms::IWindow* Window)=0;
             virtual void Clear()=0;
             virtual void SwapBuffer()=0;
-            virtual void UpdateRectangle(Math::Geometry::Rectangle<Core::Types::Int32> &Rec)=0;
+            virtual void UpdateRectangle(Math::Geometry::Rectangle<RFTYPE::Int32> &Rec)=0;
             /** All upcomming rendering commands will piped to this canvas.
               * This is necessary if you use two or more canvas in one process.
               **/

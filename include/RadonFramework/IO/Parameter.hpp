@@ -16,13 +16,13 @@ namespace RadonFramework
     {
         struct Parameter
         {
-            static Core::Types::Bool Parse(
-                const Memory::AutoPointerArray<Core::Types::String>& Parameters,
+            static RFTYPE::Bool Parse(
+                const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
                 const Memory::AutoPointerArray<OptionRule>& Rules,
-                Core::Types::String& ErrorMessage);
+                RFTYPE::String& ErrorMessage);
 
-            static Core::Types::Bool Parse(
-                const Memory::AutoPointerArray<Core::Types::String>& Parameters,
+            static RFTYPE::Bool Parse(
+                const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
                 const Memory::AutoPointerArray<OptionRule>& Rules);
 
             static const Memory::AutoPointerArray<OptionValue>& Values();

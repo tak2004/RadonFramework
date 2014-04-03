@@ -45,17 +45,17 @@ namespace RadonFramework
 
                     struct StreamToken
                     {
-                        const Core::Types::UInt8* TokenStart;
-                        const Core::Types::UInt8* TokenEnd;
+                        const RFTYPE::UInt8* TokenStart;
+                        const RFTYPE::UInt8* TokenEnd;
                         Element DetectedElement;
                     };
 
-                    void Parse(const Core::Types::UInt8* Buffer, 
-                               const Core::Types::UInt32 Bytes)
+                    void Parse(const RFTYPE::UInt8* Buffer, 
+                               const RFTYPE::UInt32 Bytes)
                     {
-                        const Core::Types::UInt8* elementStart=Buffer;
-                        const Core::Types::UInt8* bufCursor=Buffer;
-                        const Core::Types::UInt8* bufEnd=Buffer+Bytes;
+                        const RFTYPE::UInt8* elementStart=Buffer;
+                        const RFTYPE::UInt8* bufCursor=Buffer;
+                        const RFTYPE::UInt8* bufEnd=Buffer+Bytes;
                         Element element;
                         StreamToken token;
                         for (;bufCursor!=bufEnd;++bufCursor)
@@ -85,7 +85,7 @@ namespace RadonFramework
                     Element m_Prev;
                     static Element lookup[256];
                     
-                    inline static Core::Types::Bool IsSeperator(const Core::Types::UInt8 Byte)
+                    inline static RFTYPE::Bool IsSeperator(const RFTYPE::UInt8 Byte)
                     {
                         return Byte=='(' || Byte==')' || Byte=='>' || Byte=='>' || 
                             Byte=='@' || Byte==',' || Byte==';' || Byte==':' || Byte=='\\' ||
@@ -93,7 +93,7 @@ namespace RadonFramework
                             Byte=='=' || Byte=='{' || Byte=='}' || Byte==' ' || Byte==9;
                     }
 
-                    inline static Core::Types::Bool IsHex(const Core::Types::UInt8 Byte)
+                    inline static RFTYPE::Bool IsHex(const RFTYPE::UInt8 Byte)
                     {
                         //check if 'A',...,'F' or 'a',...,'f' or '0',...,'9'
                             if ((Byte<71&&Byte>64) ||
@@ -103,12 +103,12 @@ namespace RadonFramework
                         return false;
                     }
 
-                    inline static Core::Types::Bool IsCTL(const Core::Types::UInt8 Byte)
+                    inline static RFTYPE::Bool IsCTL(const RFTYPE::UInt8 Byte)
                     {
                         return Byte<32 || Byte==127;
                     }
 
-                    Element operator<<(const Core::Types::UInt8& NextByte)
+                    Element operator<<(const RFTYPE::UInt8& NextByte)
                     {
                         Element current=lookup[NextByte];// basic check
                         Element previousElement=m_Prev;

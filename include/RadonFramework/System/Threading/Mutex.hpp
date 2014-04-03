@@ -20,12 +20,12 @@ namespace RadonFramework {
         ~Mutex();
         void Lock();
         void Unlock();
-        Core::Types::Bool IsLocked();
+        RFTYPE::Bool IsLocked();
         /// Return 0 if the resource isn't locked else the thread id.
-        Core::Types::UInt32 LockedByThreadID();
+        RFTYPE::UInt32 LockedByThreadID();
     protected:
-        Core::Types::Bool m_IsLogicLock;
-        Core::Types::UInt32 m_ThreadID;
+        RFTYPE::Bool m_IsLogicLock;
+        RFTYPE::UInt32 m_ThreadID;
         void* m_ImplData;
     };
 
