@@ -7,7 +7,7 @@
 namespace RadonFramework { namespace Core { namespace Types {
 
 /// A Int32 have always the size of 4 byte and represent a signed number.
-typedef long Int32;
+typedef int32_t Int32;
 
 /// The maximum value which can be contained by a Int32.
 extern const Int32 Int32Max;

@@ -19,8 +19,8 @@ using namespace RadonFramework::System::IO::FileSystem;
 
 struct eqstr { bool operator()(const char* s1, const char* s2) const { return (s1 == s2) || (s1 && s2 && strcmp(s1, s2) == 0); } };
 
-template<>
-struct PImpl<Settings>::Data
+template<class T>
+struct PImpl<T>::Data
 {
     Data() { m_Data.SetEmptyKey(0); }
     ~Data(){}

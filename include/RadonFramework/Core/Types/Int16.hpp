@@ -7,7 +7,7 @@
 namespace RadonFramework { namespace Core { namespace Types {
 
 /// A Int16 have always the size of 2 byte and represent a signed number.
-typedef short int Int16;
+typedef int16_t Int16;
 
 /// The maximum value which can be contained by a Int16.
 extern const Int16 Int16Max;

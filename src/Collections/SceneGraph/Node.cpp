@@ -10,8 +10,8 @@ using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Idioms;
 using namespace RadonFramework::Core::Types;
 
-template<>
-struct PImpl<Node>::Data
+template<class T>
+struct PImpl<T>::Data
 {
     Data()
     : m_Data(new NodeItem)

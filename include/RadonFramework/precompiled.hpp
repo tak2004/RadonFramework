@@ -13,6 +13,7 @@
 
 #include <RadonFramework/Core/Types/CompilerConfig.hpp>
 // Basic types
+#include <stdint.h>
 // 1 byte size
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/Int8.hpp>

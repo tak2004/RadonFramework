@@ -7,7 +7,7 @@
 namespace RadonFramework { namespace Core { namespace Types {
 
 /// A Int8 have always the size of 1 byte and represent a signed number.
-typedef signed char Int8;
+typedef int8_t Int8;
 
 /// The maximum value which can be contained by a Int8.
 extern const Int8 Int8Max;

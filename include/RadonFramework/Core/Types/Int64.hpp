@@ -8,7 +8,7 @@ namespace RadonFramework { namespace Core { namespace Types {
 
 #ifdef RF_HAVE_LONG_LONG
     /// A Int64 have always the size of 8 byte and represent a signed number.
-    typedef long long int Int64;
+    typedef int64_t Int64;
 #else
     /// A Int64 have always the size of 8 byte and represent a signed number.
     typedef struct {

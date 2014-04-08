@@ -240,7 +240,7 @@ void X11Window::Size(const Math::Geometry::Size2D<>& NewSize)
 {
     Display* dsp=static_cast<X11Application*>(m_Service->Application())->GetDisplay();
     Window rootWindow, parentWindow, *childWindows;
-    int numChildWindows;
+    unsigned int numChildWindows;
     XQueryTree(dsp, m_Handle, &rootWindow, &parentWindow, &childWindows, &numChildWindows);
     int x,y;
     unsigned int w,h,cw,ch,bw,d;

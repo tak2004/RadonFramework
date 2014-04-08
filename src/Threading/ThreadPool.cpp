@@ -18,8 +18,8 @@ public:
     PImpl<ThreadPool>::Data* Pool;
 };
 
-template<>
-class PImpl<ThreadPool>::Data
+template<class T>
+class PImpl<T>::Data
 {
 public:
     Data()

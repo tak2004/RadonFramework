@@ -1,3 +1,4 @@
+#include <RadonFramework/precompiled.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>

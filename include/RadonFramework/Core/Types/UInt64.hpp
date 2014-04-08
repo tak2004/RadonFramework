@@ -8,7 +8,7 @@ namespace RadonFramework { namespace Core { namespace Types {
 
 /// A UInt8 have always the size of 8 byte and represent a unsigned number.
 #ifdef RF_HAVE_LONG_LONG
-    typedef unsigned long long int UInt64;
+    typedef uint64_t UInt64;
 #else
     typedef struct {
         #ifdef IS_LITTLE_ENDIAN

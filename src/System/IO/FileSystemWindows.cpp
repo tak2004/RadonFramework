@@ -148,7 +148,7 @@ Bool FlushFile(const FileHandle& Handle)
 
 UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin::Type Origin)
 {
-    Int32 hi, lo=Offset>>32;
+    long hi, lo=Offset>>32;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), lo, &hi, GetNativeSeekOrigin(Origin));
     if (lo!=INVALID_SET_FILE_POINTER)
         return (static_cast<UInt64>(hi) << 32) + lo;
@@ -158,7 +158,7 @@ UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin:
 
 UInt64 TellFile(const FileHandle& Handle)
 {
-    Int32 hi, lo;
+    long hi, lo;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), 0, &hi, FILE_CURRENT);
     if (lo!=INVALID_SET_FILE_POINTER)
         return (static_cast<UInt64>(hi) << 32) + lo;

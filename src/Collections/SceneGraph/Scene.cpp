@@ -10,8 +10,8 @@ using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Idioms;
 
-template<>
-struct PImpl<Scene>::Data
+template<class T>
+struct PImpl<T>::Data
 {
     Data()
     : m_Root(0)

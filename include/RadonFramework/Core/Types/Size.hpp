@@ -4,6 +4,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <stdlib.h>
+
 namespace RadonFramework { namespace Core { namespace Types {
 
 /// The size of Size can vary by compiler and system but it's always unsigned.
