@@ -17,11 +17,22 @@ String::String()
 String::String(const String& Copy)
 :m_DataManagment(Common::DataManagment::Copy)
 {
-    m_Length=Copy.m_Length;
-    if (m_Length>0)
+    switch (Copy.m_DataManagment)
     {
-        m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-        RFMEM::Copy(m_Text.Get(), Copy.m_Text.Get(), m_Length+1);
+    case Common::DataManagment::TransfereOwnership:
+    case Common::DataManagment::Copy:
+        m_Length = Copy.m_Length;
+        if (m_Length > 0)
+        {
+            m_Text = RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length + 1], m_Length + 1);
+            RFMEM::Copy(m_Text.Get(), Copy.m_Text.Get(), m_Length + 1);
+        }
+        break;
+    case Common::DataManagment::UnmanagedInstance:
+        m_DataManagment = Common::DataManagment::UnmanagedInstance;
+        m_Length = Copy.m_Length;
+        m_Text = Copy.m_Text.Clone();
+        break;
     }
 }
 

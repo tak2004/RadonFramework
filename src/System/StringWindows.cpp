@@ -47,7 +47,7 @@ Bool ToInt64(const String& Instance, Int32 Base, Int64& Out)
     return !(errno == ERANGE && (Out == LONG_MIN || Out == LONG_MAX));
 }
 
-Bool ToUInt(const String& Instance, Int32 Base, UInt64& Out)
+Bool ToUInt64(const String& Instance, Int32 Base, UInt64& Out)
 {
     Out = strtoul(Instance.c_str(), 0, Base);
     return !(errno == ERANGE && Out == ULONG_MAX);

@@ -7,6 +7,7 @@ using namespace RadonFramework::System::Environment;
 
 MemoryArchitecture::Type MemoryArchitectureOfOS_SystemAPIDispatcher()
 {
+    MemoryArchitectureOfOS = 0;
     Dispatch();
     Assert(MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -15,6 +16,7 @@ MemoryArchitecture::Type MemoryArchitectureOfOS_SystemAPIDispatcher()
 
 RFTYPE::Bool Is32BitEmulation_SystemAPIDispatcher()
 {
+    Is32BitEmulation = 0;
     Dispatch();
     Assert(Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -23,6 +25,7 @@ RFTYPE::Bool Is32BitEmulation_SystemAPIDispatcher()
 
 const OperatingSystem& OSVersion_SystemAPIDispatcher()
 {
+    OSVersion = 0;
     Dispatch();
     Assert(OSVersion != OSVersion_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -31,6 +34,7 @@ const OperatingSystem& OSVersion_SystemAPIDispatcher()
 
 void GetVariable_SystemAPIDispatcher(const RFTYPE::String& Name, RFTYPE::String& Result)
 {
+    GetVariable = 0;
     Dispatch();
     Assert(GetVariable != GetVariable_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -39,6 +43,7 @@ void GetVariable_SystemAPIDispatcher(const RFTYPE::String& Name, RFTYPE::String&
 
 PlatformID::Type Platform_SystemAPIDispatcher()
 {
+    Platform = 0;
     Dispatch();
     Assert(Platform != Platform_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -47,6 +52,7 @@ PlatformID::Type Platform_SystemAPIDispatcher()
 
 OperatingSystemFamily::Type OSFamily_SystemAPIDispatcher()
 {
+    OSFamily = 0;
     Dispatch();
     Assert(OSFamily != OSFamily_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -63,27 +69,27 @@ OSFamilyCallback RFENV::OSFamily=OSFamily_SystemAPIDispatcher;
 RFTYPE::Bool RFENV::IsSuccessfullyDispatched()
 {
     RFTYPE::Bool result=true;
-    result=result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher;
-    result=result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher;
-    result=result && OSVersion != OSVersion_SystemAPIDispatcher;
-    result=result && GetVariable != GetVariable_SystemAPIDispatcher;
-    result=result && Platform != Platform_SystemAPIDispatcher;
-    result=result && OSFamily != OSFamily_SystemAPIDispatcher;
+    result=result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher && MemoryArchitectureOfOS != 0;
+    result=result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher && Is32BitEmulation != 0;
+    result=result && OSVersion != OSVersion_SystemAPIDispatcher && OSVersion != 0;
+    result=result && GetVariable != GetVariable_SystemAPIDispatcher && GetVariable != 0;
+    result=result && Platform != Platform_SystemAPIDispatcher && Platform != 0;
+    result=result && OSFamily != OSFamily_SystemAPIDispatcher && OSFamily != 0;
     return result;
 }
 
 void RFENV::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
 {
-    if (MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher) 
+    if (MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher || MemoryArchitectureOfOS == 0) 
         Result.AddLast("MemoryArchitectureOfOS");
-    if (Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher) 
+    if (Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher || Is32BitEmulation == 0) 
         Result.AddLast("Is32BitEmulation");
-    if (OSVersion == OSVersion_SystemAPIDispatcher) 
+    if (OSVersion == OSVersion_SystemAPIDispatcher || OSVersion == 0) 
         Result.AddLast("OSVersion");
-    if (GetVariable == GetVariable_SystemAPIDispatcher) 
+    if (GetVariable == GetVariable_SystemAPIDispatcher || GetVariable == 0) 
         Result.AddLast("GetVariable");
-    if (Platform == Platform_SystemAPIDispatcher) 
+    if (Platform == Platform_SystemAPIDispatcher || Platform == 0) 
         Result.AddLast("Platform");
-    if (OSFamily == OSFamily_SystemAPIDispatcher) 
+    if (OSFamily == OSFamily_SystemAPIDispatcher || OSFamily == 0) 
         Result.AddLast("OSFamily");
 }

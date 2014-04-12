@@ -72,6 +72,7 @@ MoveCallback RFMEM::Move=Move_CPUDispatcher;
 
 UInt32 GetPageSize_SystemAPIDispatcher()
 {
+    GetPageSize = 0;
     Dispatch();
     Assert(GetPageSize != GetPageSize_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -80,6 +81,7 @@ UInt32 GetPageSize_SystemAPIDispatcher()
 
 void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
 {
+    EnableTerminationOnHeapCorruption = 0;
     Dispatch();
     Assert(EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -88,6 +90,7 @@ void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
 
 void* Allocate_SystemAPIDispatcher(UInt32 Bytes)
 {
+    Allocate = 0;
     Dispatch();
     Assert(Allocate != Allocate_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -96,6 +99,7 @@ void* Allocate_SystemAPIDispatcher(UInt32 Bytes)
 
 void Free_SystemAPIDispatcher(void* FirstPage)
 {
+    Free = 0;
     Dispatch();
     Assert(Free != Free_SystemAPIDispatcher,
            "Funtion was called and couldn't be dispatched");
@@ -110,21 +114,23 @@ FreeCallback RFMEM::Free=Free_SystemAPIDispatcher;
 Bool RFMEM::IsSuccessfullyDispatched()
 {
     Bool result=true;
-    result=result && GetPageSize!=GetPageSize_SystemAPIDispatcher;
-    result=result && EnableTerminationOnHeapCorruption!=EnableTerminationOnHeapCorruption_SystemAPIDispatcher;
-    result=result && Allocate!=Allocate_SystemAPIDispatcher;
-    result=result && Free!=Free_SystemAPIDispatcher;
+    result=result && GetPageSize != GetPageSize_SystemAPIDispatcher && GetPageSize != 0;
+    result=result && EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher 
+           && EnableTerminationOnHeapCorruption != 0;
+    result=result && Allocate != Allocate_SystemAPIDispatcher && Allocate != 0;
+    result=result && Free != Free_SystemAPIDispatcher && Free != 0;
     return result;
 }
 
 void RFMEM::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
 {
-    if (GetPageSize == GetPageSize_SystemAPIDispatcher) 
+    if (GetPageSize == GetPageSize_SystemAPIDispatcher || GetPageSize == 0) 
         Result.AddLast("GetPageSize");
-    if (EnableTerminationOnHeapCorruption == EnableTerminationOnHeapCorruption_SystemAPIDispatcher) 
+    if (EnableTerminationOnHeapCorruption == EnableTerminationOnHeapCorruption_SystemAPIDispatcher
+        || EnableTerminationOnHeapCorruption == 0) 
         Result.AddLast("EnableTerminationOnHeapCorruption");
-    if (Allocate == Allocate_SystemAPIDispatcher)
+    if (Allocate == Allocate_SystemAPIDispatcher || Allocate == 0)
         Result.AddLast("Allocate");
-    if (Free == Free_SystemAPIDispatcher)
+    if (Free == Free_SystemAPIDispatcher || Free == 0)
         Result.AddLast("Free");
 }

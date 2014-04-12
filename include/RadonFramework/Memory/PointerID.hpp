@@ -14,13 +14,13 @@ namespace RadonFramework
             PtrID ID;
             void* Ptr;
 
-            struct
+            struct Identifier32Bit
             {
                 RFTYPE::UInt32 ID32;
                 RFTYPE::UInt32 unset1;
             };
 
-            struct
+            struct Pointer32Bit
             {
                 void* Ptr32;
                 RFTYPE::UInt32 unset2;

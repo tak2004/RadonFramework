@@ -34,7 +34,7 @@ public:
     class NoPOD
     {
     public:
-        NoPOD():d(0),b(9){}
+        NoPOD():b(9),d(0){}
         float a;
         int b;
         char c;

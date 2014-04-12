@@ -6,6 +6,7 @@ using namespace RadonFramework::Memory;
 
 AutoPointerArray<RFTYPE::UInt32> GetProcessList_SystemAPIDispatcher()
 {
+    RFPROC::GetProcessList = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetProcessList != GetProcessList_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -14,6 +15,7 @@ AutoPointerArray<RFTYPE::UInt32> GetProcessList_SystemAPIDispatcher()
 
 RFTYPE::UInt32 GetCurrentProcessId_SystemAPIDispatcher()
 {
+    RFPROC::GetCurrentProcessId = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -22,6 +24,7 @@ RFTYPE::UInt32 GetCurrentProcessId_SystemAPIDispatcher()
 
 RFTYPE::Bool GetGeneralInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::GeneralInfo& Info)
 {
+    RFPROC::GetGeneralInfo = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -30,6 +33,7 @@ RFTYPE::Bool GetGeneralInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Gene
 
 RFTYPE::Bool GetIOInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::IOInfo& Info)
 {
+    RFPROC::GetIOInfo = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetIOInfo != GetIOInfo_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -38,6 +42,7 @@ RFTYPE::Bool GetIOInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::IOInfo& I
 
 RFTYPE::Bool GetMemoryInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::MemoryInfo& Info)
 {
+    RFPROC::GetMemoryInfo = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -46,6 +51,7 @@ RFTYPE::Bool GetMemoryInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Memor
 
 RFTYPE::Bool GetTimingInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::TimingInfo& Info)
 {
+    RFPROC::GetTimingInfo = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetTimingInfo != GetTimingInfo_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -54,6 +60,7 @@ RFTYPE::Bool GetTimingInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Timin
 
 RFTYPE::Bool GetModuleInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::ModuleInfo& Info)
 {
+    RFPROC::GetModuleInfo = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetModuleInfo != GetModuleInfo_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -62,6 +69,7 @@ RFTYPE::Bool GetModuleInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Modul
 
 RFTYPE::Bool GetThreadInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::ThreadInfoList& Info)
 {
+    RFPROC::GetThreadInfo = 0;
     RFPROC::Dispatch();
     Assert(RFPROC::GetThreadInfo != GetThreadInfo_SystemAPIDispatcher,
         "Funtion was called and couldn't be dispatched");
@@ -80,33 +88,33 @@ RFPROC::GetThreadInfoCallback RFPROC::GetThreadInfo = GetThreadInfo_SystemAPIDis
 RFTYPE::Bool RFPROC::IsSuccessfullyDispatched()
 {
     RFTYPE::Bool result = true;
-    result = result && GetProcessList != GetProcessList_SystemAPIDispatcher;
-    result = result && GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher;
-    result = result && GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher;
-    result = result && GetIOInfo != GetIOInfo_SystemAPIDispatcher;
-    result = result && GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher;
-    result = result && GetTimingInfo != GetTimingInfo_SystemAPIDispatcher;
-    result = result && GetModuleInfo != GetModuleInfo_SystemAPIDispatcher;
-    result = result && GetThreadInfo != GetThreadInfo_SystemAPIDispatcher;
+    result = result && GetProcessList != GetProcessList_SystemAPIDispatcher && GetProcessList != 0;
+    result = result && GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher && GetCurrentProcessId != 0;
+    result = result && GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher && GetGeneralInfo != 0;
+    result = result && GetIOInfo != GetIOInfo_SystemAPIDispatcher && GetIOInfo != 0;
+    result = result && GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher && GetMemoryInfo != 0;
+    result = result && GetTimingInfo != GetTimingInfo_SystemAPIDispatcher && GetTimingInfo != 0;
+    result = result && GetModuleInfo != GetModuleInfo_SystemAPIDispatcher && GetModuleInfo != 0;
+    result = result && GetThreadInfo != GetThreadInfo_SystemAPIDispatcher && GetThreadInfo != 0;
     return result;
 }
 
 void RFPROC::GetNotDispatchedFunctions( RadonFramework::Collections::List<RFTYPE::String>& Result )
 {
-    if (GetProcessList == GetProcessList_SystemAPIDispatcher) 
+    if (GetProcessList == GetProcessList_SystemAPIDispatcher || GetProcessList == 0) 
         Result.AddLast("GetProcessList");
-    if (GetCurrentProcessId == GetCurrentProcessId_SystemAPIDispatcher) 
+    if (GetCurrentProcessId == GetCurrentProcessId_SystemAPIDispatcher || GetCurrentProcessId == 0) 
         Result.AddLast("GetCurrentProcessId");
-    if (GetGeneralInfo == GetGeneralInfo_SystemAPIDispatcher) 
+    if (GetGeneralInfo == GetGeneralInfo_SystemAPIDispatcher || GetGeneralInfo == 0) 
         Result.AddLast("GetGeneralInfo");
-    if (GetIOInfo == GetIOInfo_SystemAPIDispatcher)
+    if (GetIOInfo == GetIOInfo_SystemAPIDispatcher || GetIOInfo == 0)
         Result.AddLast("GetIOInfo");
-    if (GetMemoryInfo == GetMemoryInfo_SystemAPIDispatcher)
+    if (GetMemoryInfo == GetMemoryInfo_SystemAPIDispatcher || GetMemoryInfo == 0)
         Result.AddLast("GetMemoryInfo");
-    if (GetTimingInfo == GetTimingInfo_SystemAPIDispatcher)
+    if (GetTimingInfo == GetTimingInfo_SystemAPIDispatcher || GetTimingInfo == 0)
         Result.AddLast("GetTimingInfo");
-    if (GetModuleInfo == GetModuleInfo_SystemAPIDispatcher)
+    if (GetModuleInfo == GetModuleInfo_SystemAPIDispatcher || GetModuleInfo == 0)
         Result.AddLast("GetModuleInfo");
-    if (GetThreadInfo == GetThreadInfo_SystemAPIDispatcher)
+    if (GetThreadInfo == GetThreadInfo_SystemAPIDispatcher || GetThreadInfo == 0)
         Result.AddLast("GetThreadInfo");
 }
