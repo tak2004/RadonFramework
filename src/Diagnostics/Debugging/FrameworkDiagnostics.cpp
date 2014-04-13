@@ -4,7 +4,7 @@
 #include "RadonFramework/System/Memory.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/System/Time.hpp"
-#include "Radonframework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Process.hpp"
 #include "RadonFramework/System/String.hpp"
 
