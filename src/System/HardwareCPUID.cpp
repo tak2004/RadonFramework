@@ -2,15 +2,24 @@
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
 #include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
-#include <intrin.h>
 
 using namespace RadonFramework;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
+#ifdef RF_WINDOWS
+#include <intrin.h>
+#else
+#include <cpuid.h>
+#endif
+
 void cpuid(RFTYPE::Int32 code, RFTYPE::UInt32 registers[4])
 {
+    #ifdef RF_WINDOWS
     __cpuid(reinterpret_cast<int*>(registers),code);
+    #else
+    __cpuid(code, register[0], register[1], register[2], register[3]);
+    #endif
 }
 
 void DecodeCacheInfo(RFHDW::CacheInfo& CacheInfo, RFTYPE::UInt32 reg)
