@@ -5,6 +5,7 @@
 #include <RadonFramework/Radon.hpp>
 #include <RadonFramework/Diagnostics/Debugging/FrameworkDiagnostics.hpp>
 #include <RadonFramework/Diagnostics/Appender.hpp>
+#include <RadonFramework/Threading/ThreadPool.hpp>
 
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Core::Types;
@@ -14,7 +15,8 @@ int main()
 {
     Radon framework;
 
-    Log::AddAppender(Memory::AutoPointer<Diagnostics::Appender>(new LogConsole));
+    Memory::AutoPointer<Diagnostics::Appender> console(new LogConsole);
+    Log::AddAppender(console);
 
     Collections::List<String> missingFunctions;
     Diagnostics::Debugging::FrameworkDiagnostics::GetAllMissingSystemFunctions(missingFunctions);
@@ -22,6 +24,6 @@ int main()
     {
         LogError("Missing system function: %s", missingFunctions[i].c_str());
     }
-
+    Singleton<Threading::ThreadPool>::GetInstance().DisableAndWaitTillDone();
     return missingFunctions.Size();
 }

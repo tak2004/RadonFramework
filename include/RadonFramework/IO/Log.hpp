@@ -15,13 +15,13 @@ namespace RadonFramework
         class Log
         {
             public:
-                static void WriteInfo(Memory::AutoPointer<RFTYPE::String> Text);
-                static void WriteError(Memory::AutoPointer<RFTYPE::String> Text);
-                static void WriteFatalError(Memory::AutoPointer<RFTYPE::String> Text);
-                static void WriteDebug(Memory::AutoPointer<RFTYPE::String> Text);
-                static void AddAppender(Memory::AutoPointer<Diagnostics::Appender> Value);
-                static void AddAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > > Values);
-                static void ReplaceAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > > Values);
+                static void WriteInfo(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void WriteError(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void WriteFatalError(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void WriteDebug(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void AddAppender(Memory::AutoPointer<Diagnostics::Appender>& Value);
+                static void AddAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > >& Values);
+                static void ReplaceAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > >& Values);
                 static void RemoveAppender(const Diagnostics::Appender& Value);
 
                 static RFTYPE::Bool IsInfoEnabled;

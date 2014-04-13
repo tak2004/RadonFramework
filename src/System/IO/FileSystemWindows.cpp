@@ -60,9 +60,9 @@ DWORD GetNativeSeekOrigin(SeekOrigin::Type Origin)
 FileHandle OpenFile(const String& FilePath, const FileAccessMode::Type AccessMode,
                     const FileAccessPriority::Type AccessPriority)
 {
-    FileHandle result= FileHandle::Zero();
-    HANDLE file=CreateFileA(FilePath.c_str(), GetNativeAccessMode(AccessMode), 
-                            0, 0, OPEN_EXISTING, GetNativePriority(AccessPriority), 0);
+    FileHandle result = FileHandle::Zero();
+    HANDLE file = CreateFileA(FilePath.c_str(), GetNativeAccessMode(AccessMode), 
+                              0, 0, OPEN_EXISTING, GetNativePriority(AccessPriority), 0);
     if (file != INVALID_HANDLE_VALUE)
         result=FileHandle::GenerateFromPointer(file);
     return result;
@@ -181,13 +181,13 @@ Bool Access(const String& Path, const AccessMode::Type Mode)
 
 Char PathSeperator()
 {
-    static Char result=';';
+    static const Char result=';';
     return result;
 }
 
 Char Seperator()
 {
-    static Char result='\\'; 
+    static const Char result='\\'; 
     return result;
 }
 
@@ -553,11 +553,11 @@ void RadonFramework::System::IO::FileSystem::Dispatch()
     FlushFile=::FlushFile;
     SeekFile=::SeekFile;
     TellFile=::TellFile;
-    Access=::Access;
+    //Access=::Access;
     PathSeperator=::PathSeperator;
     Seperator=::Seperator;
     Stat=::Stat;
-    ChangeMode=::ChangeMode;
+    //ChangeMode=::ChangeMode;
     CreatePreAllocatedFile=::CreatePreAllocatedFile;
     CreateFile=::CreateFile;
     CopyFile=::CopyFile;

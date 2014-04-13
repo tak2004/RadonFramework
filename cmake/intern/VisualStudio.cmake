@@ -58,7 +58,8 @@ macro(ConfigureCompilerAndLinkerVS projectid buildtype)
 			set(${projectid}_COMPILER_FLAGS_RELMINSIZE "${${projectid}_COMPILER_FLAGS_RELMINSIZE} /MD /D NDEBUG")		
 			
 			if(NOT ${${projectid}_COMPILER_USE_EXCEPTION})
-				add_definitions(-D_STATIC_CPPLIB -D_DISABLE_DEPRECATE_STATIC_CPPLIB)
+				# VS2010 have some bugs in STL with wrong defines related to dynamic crt and disabled exceptions(fixed since VS2012)
+				set(${projectid}_COMPILER_FLAGS "${${projectid}_COMPILER_FLAGS} /wd4275")
 			endif()
 		endif()
 		

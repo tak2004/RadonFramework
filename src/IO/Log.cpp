@@ -19,7 +19,7 @@ Bool Log::IsFatalErrorEnabled=true;
 Bool Log::IsDebugEnabled=true;
 Array<AutoPointer<Appender> > Log::m_Appender;
 
-void Log::WriteInfo(AutoPointer<String> Text)
+void Log::WriteInfo(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
@@ -27,7 +27,7 @@ void Log::WriteInfo(AutoPointer<String> Text)
     }
 }
 
-void Log::WriteError(AutoPointer<String> Text)
+void Log::WriteError(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
@@ -35,7 +35,7 @@ void Log::WriteError(AutoPointer<String> Text)
     }
 }
 
-void Log::WriteFatalError(AutoPointer<String> Text)
+void Log::WriteFatalError(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
@@ -43,7 +43,7 @@ void Log::WriteFatalError(AutoPointer<String> Text)
     }
 }
 
-void Log::WriteDebug(AutoPointer<String> Text)
+void Log::WriteDebug(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
@@ -51,13 +51,13 @@ void Log::WriteDebug(AutoPointer<String> Text)
     }
 }
 
-void Log::AddAppender(AutoPointer<Appender> Value)
+void Log::AddAppender(AutoPointer<Appender>& Value)
 {
     m_Appender.Resize(m_Appender.Count()+1);
     m_Appender(m_Appender.Count()-1)=Value;
 }
 
-void Log::AddAppenders(AutoPointer<Array<AutoPointer<Appender> > > Values)
+void Log::AddAppenders(AutoPointer<Array<AutoPointer<Appender> > >& Values)
 {
     Size i=m_Appender.Count();
     m_Appender.Resize(m_Appender.Count()+Values->Count());
@@ -66,7 +66,7 @@ void Log::AddAppenders(AutoPointer<Array<AutoPointer<Appender> > > Values)
         m_Appender(i)=(*Values)(j);
 }
 
-void Log::ReplaceAppenders(AutoPointer<Array<AutoPointer<Appender> > > Values)
+void Log::ReplaceAppenders(AutoPointer<Array<AutoPointer<Appender> > >& Values)
 {
     m_Appender.Swap(*Values);
 }

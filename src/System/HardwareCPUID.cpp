@@ -13,12 +13,12 @@ using namespace RadonFramework::Collections;
 #include <cpuid.h>
 #endif
 
-void cpuid(RFTYPE::Int32 code, RFTYPE::UInt32 registers[4])
+void CPUId(RFTYPE::Int32 code, RFTYPE::UInt32* registers)
 {
     #ifdef RF_WINDOWS
     __cpuid(reinterpret_cast<int*>(registers),code);
     #else
-    __cpuid(code, register[0], register[1], register[2], register[3]);
+    __cpuid(code, registers[0], registers[1], registers[2], registers[3]);
     #endif
 }
 
@@ -322,7 +322,7 @@ inline void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheData)
         RFTYPE::Size i = (count + 15) >> 4;
         for (; i > 0; --i)
         {
-            cpuid(2, reg);
+            CPUId(2, reg);
             switch (count % 16)
             {
                 case 0: DecodeCacheInfo(CacheData[i+3], reg[3] >> 24);
@@ -352,11 +352,11 @@ RFTYPE::Int32 DetectCacheCount()
     static const RFTYPE::UInt32 BITSHIFT_IS_CACHE_DATA_SET = 29;
     RFTYPE::Int32 result = 0;
     RFTYPE::UInt32 reg[4]={0,0,0,0};
-    cpuid(1, reg);
+    CPUId(1, reg);
     RFTYPE::Size entries = reg[0] & 0xff;
     for (RFTYPE::Size i = 0; i < entries; ++i)
     {
-        cpuid(1, reg);
+        CPUId(1, reg);
         // If highest bit of a register is 0 then it contains 4 cache entries.
         // Negate all bits to get 1 instead of 0 at highest bit, shift by 29 bits
         // and use bitwise AND with 4 to get 0 or 4.
@@ -395,11 +395,11 @@ RFTYPE::Bool GetLogicalProcessorFeatures(RFHDW::ProcessorFeatureMask& Features)
 {
     RFTYPE::Int32 result = false;
     RFTYPE::UInt32 reg[4]={0,0,0,0};
-    // is cpuid supported
-    __cpuid(reinterpret_cast<int*>(reg), 0);
+    // is CPUId supported
+    CPUId(0, reg);
     if (reg[0] > 0)
     {
-        __cpuid(reinterpret_cast<int*>(reg), 1);
+        CPUId(1, reg);
         Features[RFHDW::ProcessorFeatures::AES] = (reg[2] & BITMASK_AES) != 0;
         Features[RFHDW::ProcessorFeatures::AVX] = (reg[2] & BITMASK_AVX) != 0;
         Features[RFHDW::ProcessorFeatures::CLFLUSH] = (reg[3] & BITMASK_CLFLUSH) != 0;

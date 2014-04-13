@@ -30,9 +30,14 @@ namespace RadonFramework { namespace System { namespace IO { namespace FileSyste
     {
         enum Type
         {
+            /// Optimize for sequential reading(prefetch upcomming blocks).
             ReadThroughput,
+            /// Optimize for random position reading(no prefetching).
             RandomAccess,
+            /// Optimize for direct reading and writing access(disable system
+            /// caching mechanics, use own or no caching instead).
             DirectReadWrite,
+            /// The system should care of optimized reading and writing(using caching).
             DelayReadWrite,
             MAX
         };

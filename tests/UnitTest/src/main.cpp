@@ -11,6 +11,7 @@
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/System/IO/FileSystem.hpp>
 #include <RadonFramework/IO/Uri.hpp>
+#include <RadonFramework/Threading/ThreadPool.hpp>
 
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
@@ -24,7 +25,8 @@ int main(int argc, char** argv)
 {
     Radon framework;
 
-    Log::AddAppender(AutoPointer<Appender>(new LogConsole));
+    AutoPointer<Appender> console(new LogConsole);
+    Log::AddAppender(console);
 
     TestResultCollector results;
     BriefProgressCollector progress;
@@ -42,6 +44,6 @@ int main(int argc, char** argv)
     }
     else
         LogError("Test failed.");
-
+    Singleton<Threading::ThreadPool>::GetInstance().DisableAndWaitTillDone();
     return res;
 }
