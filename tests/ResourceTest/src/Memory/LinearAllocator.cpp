@@ -1,7 +1,7 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
-#include <RadonFramework/Core/Pattern/Delegate.hpp>
+#include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp"
+#include "RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp"
+#include "RadonFramework/Core/Pattern/Delegate.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
 #include "RadonFramework/Time/TimeSpan.hpp"
 #include "RadonFramework/Time/ScopeTimer.hpp"

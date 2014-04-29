@@ -12,11 +12,11 @@ void BriefProgressCollector::ProcessResult(const UnitTestResult& Result)
 {
 	if (Result.Passed())
     {
-		LogInfo("-The test \"%s\" was successful and take %u microsecond.",Result.Name().c_str(),UInt64(Result.TimeRequired().TotalMicroseconds()));
+        LogInfo("-The test \"%s\" was successful and take %u cycles.", Result.Name().c_str(), UInt64(Result.TimeRequired().Ticks()));
     }
 	else
     {
-		LogError("-The test \"%s\" failed and take %u microsecond.",Result.Name().c_str(),UInt64(Result.TimeRequired().TotalMicroseconds()));
+		LogError("-The test \"%s\" failed and take %u cycles.",Result.Name().c_str(),UInt64(Result.TimeRequired().Ticks()));
     }
 }
 

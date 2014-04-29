@@ -4,33 +4,28 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework
-{
-    namespace Diagnostics
-    {
-        namespace Debugging
-        {
-            namespace UnitTest
-            {
-                class TestSuite;
-                class Collector;
+namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
 
-                class UnitTest
-                {
-                    public:
-                        void AddCollector(Collector& ACollector);
-                        void RegisterTestSuide(TestSuite* ATestSuite);
-                        void Run();
-                    protected:
-                        Collections::List<TestSuite*> m_TestSuites;
-                        Collections::List<Collector*> m_Collector;
-                };
-            }
-        }
-    }
-}
+class TestSuite;
+class Collector;
+
+class UnitTest
+{
+public:
+    UnitTest();
+    void AddCollector(Collector& ACollector);
+    void RegisterTestSuide(TestSuite* ATestSuite);
+    void Run();
+    void Run(const RFTYPE::String& Testname);
+    void SetSequentialTestExecution(RFTYPE::UInt32 Rounds);
+protected:
+    Collections::List<TestSuite*> m_TestSuites;
+    Collections::List<Collector*> m_Collector;
+    RFTYPE::UInt32 m_TestRounds;
+};
+
+} } } }
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_UNITTEST_HPP

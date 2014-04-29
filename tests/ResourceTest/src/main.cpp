@@ -12,6 +12,9 @@
 #include <RadonFramework/Radon.hpp>
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/Threading/ThreadPool.hpp>
+#include <RadonFramework/IO/OptionRule.hpp>
+#include <RadonFramework/IO/Parameter.hpp>
+#include <RadonFramework/IO/StandardRuleChecker.hpp>
 
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
@@ -21,7 +24,17 @@ using namespace RadonFramework::Core::Types;
 using namespace RadonFramework;
 using namespace RadonFramework::System::IO;
 
-int main(int argc,char **argv)
+namespace ApplicationOptions
+{
+    enum Type
+    {
+        ApplicationDirectory,
+        RunSpecificTestSuite,
+        MAX
+    };
+}
+
+int main(int argc, const char **argv)
 {
     Radon framework;
 
@@ -32,7 +45,23 @@ int main(int argc,char **argv)
     BriefProgressCollector progress;
     Singleton<UnitTest>::GetInstance().AddCollector(results);
     Singleton<UnitTest>::GetInstance().AddCollector(progress);
-    Singleton<UnitTest>::GetInstance().Run();
+    Singleton<UnitTest>::GetInstance().SetSequentialTestExecution(10);
+
+    AutoPointerArray<OptionRule> rules(new OptionRule[ApplicationOptions::MAX], ApplicationOptions::MAX);
+    rules[ApplicationOptions::ApplicationDirectory].Init(0, 0, StandardRuleChecker::Text, 0, OptionRule::Required);
+    rules[ApplicationOptions::RunSpecificTestSuite].Init(0, "run", StandardRuleChecker::Text, "Run the specified test suite.", OptionRule::Optional);
+    Parameter param;
+    if(param.ParsingWithLogging(argv, argc, rules))
+    {
+        if(param.Values()[ApplicationOptions::RunSpecificTestSuite].IsSet())
+        {
+            Singleton<UnitTest>::GetInstance().Run(param.Values()[ApplicationOptions::RunSpecificTestSuite].Value());
+        }
+        else
+        {
+            Singleton<UnitTest>::GetInstance().Run();
+        }
+    }
 
     JUnitOutput output;
     output.WriteToFile(Uri(FileSystem::ApplicationDirectory()).GetComponents()+"/PerformanceTest.xml",results);

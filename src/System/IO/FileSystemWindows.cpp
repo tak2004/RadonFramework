@@ -49,6 +49,14 @@ DWORD GetNativePriority(FileAccessPriority::Type AccessPriority)
     return result[AccessPriority];
 }
 
+DWORD GetNativeCreationDisposition(FileAccessMode::Type AccessMode)
+{
+    static DWORD result[FileAccessMode::MAX] = {
+        OPEN_EXISTING, OPEN_ALWAYS, OPEN_ALWAYS
+    };
+    return result[AccessMode];
+}
+
 DWORD GetNativeSeekOrigin(SeekOrigin::Type Origin)
 {
     static DWORD result[SeekOrigin::MAX]={
@@ -62,7 +70,7 @@ FileHandle OpenFile(const String& FilePath, const FileAccessMode::Type AccessMod
 {
     FileHandle result = FileHandle::Zero();
     HANDLE file = CreateFileA(FilePath.c_str(), GetNativeAccessMode(AccessMode), 
-                              0, 0, OPEN_EXISTING, GetNativePriority(AccessPriority), 0);
+        0, 0, GetNativeCreationDisposition(AccessMode), GetNativePriority(AccessPriority), 0);
     if (file != INVALID_HANDLE_VALUE)
         result=FileHandle::GenerateFromPointer(file);
     return result;
@@ -148,7 +156,7 @@ Bool FlushFile(const FileHandle& Handle)
 
 UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin::Type Origin)
 {
-    long hi, lo=Offset>>32;
+    long hi=static_cast<long>(Offset), lo=Offset>>32;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), lo, &hi, GetNativeSeekOrigin(Origin));
     if (lo!=INVALID_SET_FILE_POINTER)
         return (static_cast<UInt64>(hi) << 32) + lo;
@@ -158,7 +166,7 @@ UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin:
 
 UInt64 TellFile(const FileHandle& Handle)
 {
-    long hi, lo;
+    long hi=0, lo;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), 0, &hi, FILE_CURRENT);
     if (lo!=INVALID_SET_FILE_POINTER)
         return (static_cast<UInt64>(hi) << 32) + lo;
@@ -169,7 +177,7 @@ UInt64 TellFile(const FileHandle& Handle)
 String GenerateTempFilename(const String& Path)
 {
     char buf[MAX_PATH];
-    UInt32 len=GetTempFileName(Path.c_str(), NULL, 0, buf);
+    UInt32 len=GetTempFileName(Path.c_str(), "tmp", 0, buf);
     String result(buf, len);
     return result;
 }

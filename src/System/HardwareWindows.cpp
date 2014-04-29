@@ -47,7 +47,7 @@ void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RFTYPE::
     RFTYPE::Int32 CacheCount = 0;
     for (RFTYPE::Size i = 0; i != count; ++i)
     {
-        if (buffer[i].Relationship == RelationCache && buffer[i].ProcessorMask & PId == PId)
+        if (buffer[i].Relationship == RelationCache && (buffer[i].ProcessorMask & PId) == PId)
         {
             ++CacheCount;
         }
@@ -56,7 +56,7 @@ void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RFTYPE::
     CacheDataList = AutoPointerArray<RFHDW::CacheInfo>(new RFHDW::CacheInfo[CacheCount], CacheCount);
     for (RFTYPE::Size i = 0, j = 0; i < count; ++i)
     {
-        if (buffer[i].Relationship == RelationCache && buffer[i].ProcessorMask & PId == PId)
+        if (buffer[i].Relationship == RelationCache && (buffer[i].ProcessorMask & PId) == PId)
         {
             CacheDataList[j].Size = buffer[i].Cache.Size;
             if (buffer[i].Cache.LineSize > 0)
@@ -171,7 +171,7 @@ RFTYPE::Int32 CacheCountFromLPInfo(RFTYPE::Int32 PId)
     RFTYPE::Int32 cacheCount = 0;
     for (RFTYPE::Size i = 0; i != count; ++i)
     {
-        if (buffer[i].Relationship == RelationCache && buffer[i].ProcessorMask & PId == PId)
+        if (buffer[i].Relationship == RelationCache && (buffer[i].ProcessorMask & PId) == PId)
         {
             ++cacheCount;
         }

@@ -9,10 +9,17 @@ RFTYPE::Int32 Compare_Std(const void* P1, const void* P2, RFTYPE::Size Bytes)
     const RFTYPE::UInt8 *p1 = reinterpret_cast<const RFTYPE::UInt8*>(P1),
                       *p2 = reinterpret_cast<const RFTYPE::UInt8*>(P2);
     while(Bytes--)
-        if( *p1 != *p2 )
+    {
+        if(*p1 != *p2)
+        {
             return *p1 - *p2;
+        }
         else
-            *p1++,*p2++;
+        {
+            *p1++;
+            *p2++;
+        }
+    }
     return 0;
 }
 

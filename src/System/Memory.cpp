@@ -74,7 +74,8 @@ UInt32 GetPageSize_SystemAPIDispatcher()
 {
     GetPageSize = 0;
     Dispatch();
-    Assert(GetPageSize != GetPageSize_SystemAPIDispatcher,
+    Assert(GetPageSize != GetPageSize_SystemAPIDispatcher &&
+           GetPageSize != 0,
            "Funtion was called and couldn't be dispatched");
     return GetPageSize();
 }
@@ -83,7 +84,8 @@ void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
 {
     EnableTerminationOnHeapCorruption = 0;
     Dispatch();
-    Assert(EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher,
+    Assert(EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher &&
+           EnableTerminationOnHeapCorruption != 0,
            "Funtion was called and couldn't be dispatched");
     EnableTerminationOnHeapCorruption();
 }
@@ -92,7 +94,8 @@ void* Allocate_SystemAPIDispatcher(UInt32 Bytes)
 {
     Allocate = 0;
     Dispatch();
-    Assert(Allocate != Allocate_SystemAPIDispatcher,
+    Assert(Allocate != Allocate_SystemAPIDispatcher &&
+           Allocate != 0,
            "Funtion was called and couldn't be dispatched");
     return Allocate(Bytes);
 }
@@ -101,7 +104,8 @@ void Free_SystemAPIDispatcher(void* FirstPage)
 {
     Free = 0;
     Dispatch();
-    Assert(Free != Free_SystemAPIDispatcher,
+    Assert(Free != Free_SystemAPIDispatcher &&
+           Free != 0,
            "Funtion was called and couldn't be dispatched");
     Free(FirstPage);
 }

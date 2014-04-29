@@ -10,24 +10,37 @@
 #include <RadonFramework/IO/OptionRule.hpp>
 #include <RadonFramework/IO/OptionValue.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace IO { 
+
+class Parameter
 {
-    namespace IO
-    {
-        struct Parameter
-        {
-            static RFTYPE::Bool Parse(
-                const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
-                const Memory::AutoPointerArray<OptionRule>& Rules,
-                RFTYPE::String& ErrorMessage);
+public:
+    /// Parse standard C application parameter.
+    RFTYPE::Bool ParsingWithErrorOutput(const char* argv[], int argc, 
+        const Memory::AutoPointerArray<OptionRule>& Rules,
+        RFTYPE::String& ErrorMessage);
 
-            static RFTYPE::Bool Parse(
-                const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
-                const Memory::AutoPointerArray<OptionRule>& Rules);
+    /// Parse standard C application parameter.
+    RFTYPE::Bool ParsingWithLogging(const char* argv[], int argc,
+        const Memory::AutoPointerArray<OptionRule>& Rules);
 
-            static const Memory::AutoPointerArray<OptionValue>& Values();
-        };
-    }
-}
+    /// Parse a string array and write to ErrorMessage if an error occur.
+    RFTYPE::Bool SafeParsingWithErrorOutput(
+        const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
+        const Memory::AutoPointerArray<OptionRule>& Rules,
+        RFTYPE::String& ErrorMessage);
+
+    /// Parse a string array.
+    RFTYPE::Bool SafeParsingWithLogging(
+        const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
+        const Memory::AutoPointerArray<OptionRule>& Rules);
+
+
+    const Memory::AutoPointerArray<OptionValue>& Values();
+private:
+    Memory::AutoPointerArray<OptionValue> m_Values;
+};
+
+} }
 
 #endif // RF_IO_PARAMETER_HPP

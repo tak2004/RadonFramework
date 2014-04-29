@@ -11,7 +11,8 @@ TimerHandle CreateTimerQueue_SystemAPIDispatcher(TimerCallback Callback,
 {
     CreateTimerQueue = 0;
     Dispatch();
-    Assert(CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher,
+    Assert(CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher &&
+           CreateTimerQueue != 0,
            "Funtion was called and couldn't be dispatched");
     return CreateTimerQueue(Callback, Parameter, DueTime, Period);
 }
@@ -20,7 +21,8 @@ void DeleteTimerQueue_SystemAPIDispatcher(TimerHandle& Handle)
 {
     DeleteTimerQueue = 0;
     Dispatch();
-    Assert(DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher,
+    Assert(DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher &&
+           DeleteTimerQueue != 0,
            "Funtion was called and couldn't be dispatched");
     DeleteTimerQueue(Handle);
 }
@@ -29,7 +31,8 @@ UInt64 GetNow_SystemAPIDispatcher()
 {
     GetNow = 0;
     Dispatch();
-    Assert(GetNow != GetNow_SystemAPIDispatcher,
+    Assert(GetNow != GetNow_SystemAPIDispatcher &&
+           GetNow != 0,
            "Funtion was called and couldn't be dispatched");
     return GetNow();
 }
@@ -38,7 +41,8 @@ UInt64 GetMinutesWestOfGMT_SystemAPIDispatcher()
 {
     GetMinutesWestOfGMT = 0;
     Dispatch();
-    Assert(GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher,
+    Assert(GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher &&
+           GetMinutesWestOfGMT != 0,
            "Funtion was called and couldn't be dispatched");
     return GetMinutesWestOfGMT();
 }
@@ -47,7 +51,8 @@ UInt64 GetHighResolutionCounter_SystemAPIDispatcher()
 {
     GetHighResolutionCounter = 0;
     Dispatch();
-    Assert(GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher,
+    Assert(GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher &&
+           GetHighResolutionCounter != 0,
            "Funtion was called and couldn't be dispatched");
     return GetHighResolutionCounter();
 }
@@ -56,7 +61,8 @@ Bool IsHighResolutionCounterSupported_SystemAPIDispatcher()
 {
     IsHighResolutionCounterSupported = 0;
     Dispatch();
-    Assert(IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher,
+    Assert(IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher &&
+           IsHighResolutionCounterSupported != 0,
            "Funtion was called and couldn't be dispatched");
     return IsHighResolutionCounterSupported();
 }

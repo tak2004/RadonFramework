@@ -9,7 +9,8 @@ MemoryArchitecture::Type MemoryArchitectureOfOS_SystemAPIDispatcher()
 {
     MemoryArchitectureOfOS = 0;
     Dispatch();
-    Assert(MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher,
+    Assert(MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher &&
+           MemoryArchitectureOfOS != 0,
            "Funtion was called and couldn't be dispatched");
     return MemoryArchitectureOfOS();
 }
@@ -18,7 +19,8 @@ RFTYPE::Bool Is32BitEmulation_SystemAPIDispatcher()
 {
     Is32BitEmulation = 0;
     Dispatch();
-    Assert(Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher,
+    Assert(Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher &&
+           Is32BitEmulation != 0,
            "Funtion was called and couldn't be dispatched");
     return Is32BitEmulation();
 }
@@ -27,7 +29,8 @@ const OperatingSystem& OSVersion_SystemAPIDispatcher()
 {
     OSVersion = 0;
     Dispatch();
-    Assert(OSVersion != OSVersion_SystemAPIDispatcher,
+    Assert(OSVersion != OSVersion_SystemAPIDispatcher &&
+           OSVersion != 0,
            "Funtion was called and couldn't be dispatched");
     return OSVersion();
 }
@@ -36,7 +39,8 @@ void GetVariable_SystemAPIDispatcher(const RFTYPE::String& Name, RFTYPE::String&
 {
     GetVariable = 0;
     Dispatch();
-    Assert(GetVariable != GetVariable_SystemAPIDispatcher,
+    Assert(GetVariable != GetVariable_SystemAPIDispatcher &&
+           GetVariable != 0,
            "Funtion was called and couldn't be dispatched");
     GetVariable(Name, Result);
 }
@@ -45,7 +49,8 @@ PlatformID::Type Platform_SystemAPIDispatcher()
 {
     Platform = 0;
     Dispatch();
-    Assert(Platform != Platform_SystemAPIDispatcher,
+    Assert(Platform != Platform_SystemAPIDispatcher &&
+           Platform != 0,
            "Funtion was called and couldn't be dispatched");
     return Platform();
 }
@@ -54,7 +59,8 @@ OperatingSystemFamily::Type OSFamily_SystemAPIDispatcher()
 {
     OSFamily = 0;
     Dispatch();
-    Assert(OSFamily != OSFamily_SystemAPIDispatcher,
+    Assert(OSFamily != OSFamily_SystemAPIDispatcher &&
+           OSFamily != 0,
            "Funtion was called and couldn't be dispatched");
     return OSFamily();
 }

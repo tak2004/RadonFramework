@@ -258,20 +258,24 @@ void ThreadPool::Enable()
 
 void ThreadPool::WaitTillDone()
 {
-    Bool idle = true;
-    do
+    if(this->m_PImpl->Running)
     {
+        Time::TimeSpan delta = Time::TimeSpan::CreateByTime(0,0,1);
+        Bool idle;
+        do
         {
-            Int64 serialGrp = Thread::CurrentPid() % m_PImpl->WorkerThreads.Count();
-            Scopelock lock(m_PImpl->Busy);
-            for (Size i = 0, end = m_PImpl->SerialTaskLists.Count(); i < end; ++i)
-                idle = idle && m_PImpl->SerialTaskLists(static_cast<UInt32>(serialGrp)).Count() == 0;
-            idle = idle && m_PImpl->ConcurrentTaskList.Count() == 0;
-        }
+            idle = true;
+            {
+                Scopelock lock(m_PImpl->Busy);
+                for(Size i = 0, end = m_PImpl->SerialTaskLists.Count(); i < end; ++i)
+                    idle = idle && m_PImpl->SerialTaskLists(static_cast<UInt32>(i)).Count() == 0;
+                idle = idle && m_PImpl->ConcurrentTaskList.Count() == 0;
+            }
 
-        if (!idle)
-            m_PImpl->TaskListChanged.Wait(m_PImpl->Busy);
-    } while(!idle);
+            if(!idle)
+                m_PImpl->TaskListChanged.TimedWait(m_PImpl->Busy, delta);
+        } while(!idle);
+    }
 }
 
 void PoolThread::Run()

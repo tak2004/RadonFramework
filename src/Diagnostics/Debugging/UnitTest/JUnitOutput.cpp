@@ -4,6 +4,7 @@
 #include "RadonFramework/Diagnostics/Debugging/UnitTest/UnitTestResult.hpp"
 #include "RadonFramework/IO/Uri.hpp"
 #include "RadonFramework/IO/FileStream.hpp"
+#include "RadonFramework/IO/File.hpp"
 
 using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
 using namespace RadonFramework::IO;
@@ -15,6 +16,11 @@ using namespace RadonFramework::System::IO::FileSystem;
 void JUnitOutput::WriteToFile(const Uri& URI, 
                               const TestResultCollector& Results)
 {
+    // ensure that a new log will be written
+    File output;
+    output.SetLocation(URI);
+    output.Delete();
+
     FileStream out;
     out.Open(URI, FileAccessMode::Write, FileAccessPriority::DelayReadWrite);
     if (out.CanWrite())
@@ -38,10 +44,10 @@ void JUnitOutput::WriteToFile(const Uri& URI,
             for (UInt32 j=0;j<Results.TestResults()[i].TestResults.Size();++j)
             {
                 //start testcase
-                tag=String::Format("<testcase classname=\"%s\" name=\"%s\" time=\"%.3f\">\n",
+                tag=String::Format("<testcase classname=\"%s\" name=\"%s\" time=\"%d\">\n",
                                     "",
                                     Results.TestResults()[i].TestResults[j].Name().c_str(),
-                                    Results.TestResults()[i].TestResults[j].TimeRequired().TotalSeconds());
+                                    Results.TestResults()[i].TestResults[j].TimeRequired().Ticks());
                 out.Write(reinterpret_cast<const UInt8*>(tag.c_str()), 0, tag.Length());
                 // test failed
                 if (!Results.TestResults()[i].TestResults[j].Passed())
