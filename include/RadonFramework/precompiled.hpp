@@ -79,6 +79,8 @@ namespace RFSTR = RadonFramework::System::String;
 #include <RadonFramework/System/Threading/Interlocked.hpp>
 
 // Random size
+#include <RadonFramework/Core/Types/FixString.hpp>
+#include <RadonFramework/Core/Types/DynamicString.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Core/Types/AtomicPointer.hpp>
 

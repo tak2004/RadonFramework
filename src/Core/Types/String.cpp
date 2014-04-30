@@ -10,85 +10,147 @@ using namespace RadonFramework::Collections;
 
 String::String()
 :m_DataManagment(Common::DataManagment::Copy)
+,m_Length(0)
 {
-    m_Length=0;
+    switch(m_DataManagment)
+    {
+        case DataManagment::Copy:
+            m_FixBuffer[0] = 0;
+            break;
+        default:
+            m_DynBuffer.data = 0;
+            m_DynBuffer.size = 0;
+    }
 }
 
 String::String(const String& Copy)
 :m_DataManagment(Common::DataManagment::Copy)
+,m_Length(Copy.m_Length)
 {
-    m_Length=Copy.m_Length;
-    if (m_Length>0)
+    if (m_Length > 0)
     {
-        m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-        RFMEM::Copy(m_Text.Get(), Copy.m_Text.Get(), m_Length+1);
-    }
-}
-
-String::String(const char* Str, DataManagment::Type Ownership)
-:m_DataManagment(Ownership)
-{
-    if (Str==0)
-        m_Length=0;
-    else
-    {
-        m_Length=static_cast<UInt32>(strlen(Str));
-        if (m_Length>0)
+        if (m_Length >= BUFFER_SIZE)
         {
-            switch (m_DataManagment)
-            {
-                case Common::DataManagment::Copy:
-                    m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-                    RFMEM::Copy(m_Text.Get(), Str, m_Length+1);
-                    break;
-                case Common::DataManagment::UnmanagedInstance:
-                case Common::DataManagment::TransfereOwnership:
-                    m_Text=RadonFramework::Memory::AutoPointerArray<char>((char*)Str,m_Length+1);
-                    break;
-            }
+            m_DataManagment = DataManagment::AllocateAndCopy;
+            m_DynBuffer.data = new char[Copy.m_DynBuffer.size + 1];
+            m_DynBuffer.size = Copy.m_DynBuffer.size + 1;
+            RFMEM::Copy(static_cast<void*>(m_DynBuffer.Raw()), static_cast<const void*>(Copy.m_DynBuffer.Raw()), m_DynBuffer.size);
+        }
+        else
+        {
+            RFMEM::Copy(static_cast<void*>(m_FixBuffer.Raw()), static_cast<const void*>(Copy.m_FixBuffer.Raw()), BUFFER_SIZE);
         }
     }
 }
 
-
-String::String(const char* cString, UInt32 cStringLength)
-:m_DataManagment(Common::DataManagment::Copy)
+String::String(const char* cString, const UInt32 cStringSize,
+    DataManagment::Type Ownership)
+:m_DataManagment(Ownership)
 {
-    m_Length=cStringLength;
-    if (cString!=0 && m_Length>0)
+    if (cString != 0)
     {
-        m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-        RFMEM::Copy(m_Text.Get(), cString, m_Length);
-        m_Text.Get()[m_Length]=0;
+        m_Length = static_cast<UInt32>(strlen(cString));
+
+        if (cStringSize > 0)
+        {
+            switch (m_DataManagment)
+            {
+            case Common::DataManagment::Copy:
+                if (cStringSize < BUFFER_SIZE)
+                {
+                    RFMEM::Copy(static_cast<void*>(m_FixBuffer.Raw()),
+                                static_cast<const void*>(cString), cStringSize);
+                }
+                else
+                {
+                    m_DataManagment = DataManagment::AllocateAndCopy;
+                    m_DynBuffer.data = new char[cStringSize];
+                    m_DynBuffer.size = cStringSize;
+                    RFMEM::Copy(m_DynBuffer.data, cString, m_DynBuffer.size);
+                }
+                break;
+            case Common::DataManagment::UnmanagedInstance:
+            case Common::DataManagment::TransfereOwnership:
+                m_DynBuffer.data = (char*)cString;
+                m_DynBuffer.size = cStringSize;
+                break;
+            }
+        }
+    }
+    else
+    {
+        m_Length = 0;
+        m_FixBuffer[0] = 0;
+        m_DataManagment = DataManagment::Copy;
     }
 }
 
 
-String::String(const UInt32 StringLength)
+String::String(const char* cString, UInt32 cStringSize)
 :m_DataManagment(Common::DataManagment::Copy)
 {
-    m_Length=StringLength;
-    if (m_Length>0)
+    m_Length=strlen(cString);
+    if (cStringSize < BUFFER_SIZE)
     {
-        m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-        RFMEM::Set(m_Text.Get(),' ',m_Length+1);
-        m_Text.Get()[m_Length]=0;
+        RFMEM::Copy(static_cast<void*>(m_FixBuffer.Raw()),
+            static_cast<const void*>(cString), cStringSize);
+    }
+    else
+    {
+        m_DataManagment = DataManagment::AllocateAndCopy;
+        m_DynBuffer.data = new char[cStringSize];
+        m_DynBuffer.size = cStringSize;
+        RFMEM::Copy(m_DynBuffer.data, cString, m_DynBuffer.size);
+    }
+}
+
+
+String::String(const UInt32 StringSize)
+:m_DataManagment(Common::DataManagment::Copy)
+{
+    m_Length=StringSize-1;
+    if (StringSize < BUFFER_SIZE)
+    {
+        RFMEM::Set(static_cast<void*>(m_FixBuffer.Raw()), ' ', m_Length);
+        m_FixBuffer[m_Length] = 0;
+    }
+    else
+    {
+        m_DataManagment = DataManagment::AllocateAndCopy;
+        m_DynBuffer.data = new char[m_Length];
+        m_DynBuffer.size = m_Length;
+        RFMEM::Set(static_cast<void*>(m_DynBuffer.Raw()), ' ', m_Length);
+        m_DynBuffer[m_Length] = 0;
     }
 }
 
 String::String(const char Letter)
 :m_DataManagment(Common::DataManagment::Copy)
 {
-    m_Length=1;
-    m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[2],2);
-    m_Text.Get()[0]=Letter;
-    m_Text.Get()[1]=0;
+    m_Length = 1;
+    m_FixBuffer[0] = Letter;
+    m_FixBuffer[1] = 0;
 }
 
 String::~String()
 {
     if (m_DataManagment==Common::DataManagment::UnmanagedInstance)
-        m_Text.Release();
+    {
+        delete[] m_DynBuffer.data;
+        m_DynBuffer.size = 0;
+    }
+}
+
+void* String::operator new(size_t bytes)
+{
+    return RFMEM::Allocate(bytes);
+}
+
+void* String::operator new(size_t bytes, void* buffer)
+{
+    UInt8* p = static_cast<UInt8*>(buffer);
+    p += bytes;
+    return static_cast<void*>(p);
 }
 
 UInt32 String::Length()const
@@ -99,17 +161,17 @@ UInt32 String::Length()const
 
 Int32 String::Contains(const String &Str)const
 {
-    if (m_Length<Str.m_Length)
+    if (m_Length < Str.m_Length)
         return -1;
 
-    return IndexOf(Str.c_str(),0,m_Length);
+    return IndexOf(Str.c_str(), 0, m_Length);
 }
 
 
 Bool String::EndsWith(const String& Value)const
 {
     //this test is faster as in the method with char*
-    if (Value.m_Length>m_Length)
+    if (Value.m_Length > m_Length)
         return false;
 
     return EndsWith(Value.c_str());
@@ -119,18 +181,23 @@ Bool String::EndsWith(const String& Value)const
 Bool String::EndsWith(const char* Value)const
 {
     UInt32 valuelen=static_cast<UInt32>(strlen(Value));
-    if (valuelen>m_Length)
+    if (valuelen > m_Length)
         return false;
 
-    Int32 j=valuelen-1;
-    for (UInt32 i=m_Length-1;i>=0;--i)
+    const char* buffer;
+    if (m_DataManagment == DataManagment::Copy)
+        buffer = m_FixBuffer.Raw();
+    else
+        buffer = m_DynBuffer.data;
+    Int32 j = valuelen - 1;
+    for (UInt32 i = m_Length - 1; i >= 0; --i)
     {
-        if(m_Text.Get()[i]==Value[j])
+        if(buffer[i] == Value[j])
             --j;
         else
             return false;
 
-        if(j==-1)
+        if(j == -1)
             return true;
     }
     return false;
@@ -146,9 +213,9 @@ Int32 String::IndexOf(const String& Value)const
 }
 
 
-Int32 String::IndexOf(const char* Value)const
+Int32 String::IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize)const
 {
-    return IndexOf(Value,0,m_Length);
+    return IndexOf(Value, ValueSize, 0, m_Length);
 }
 
 
@@ -162,10 +229,10 @@ Int32 String::IndexOf(const String& Value,
 }
 
 
-Int32 String::IndexOf(const char* Value,
+Int32 String::IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize,
                       const UInt32 StartAtIndex)const
 {
-    return IndexOf(Value,StartAtIndex,m_Length-StartAtIndex);
+    return IndexOf(Value, ValueSize, StartAtIndex, m_Length - StartAtIndex);
 }
 
 
@@ -180,26 +247,31 @@ Int32 String::IndexOf(const String& Value,
 }
 
 
-Int32 String::IndexOf(const char* Value,
+Int32 String::IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize,
                       const UInt32 StartAtIndex,
                       const UInt32 Count)const
 {
-    UInt32 valuelen=static_cast<UInt32>(strlen(Value));
     if (m_Length==0)
         return -1;
 
-    if (valuelen>Count)
+    if (ValueSize>Count)
         return -1;
 
     Int32 j=0;
     for (UInt32 i=StartAtIndex;i<StartAtIndex+Count;++i)
     {
-        if(m_Text.Get()[i]==Value[j])
+        const char* buffer;
+        if (m_DataManagment == DataManagment::Copy)
+            buffer = m_FixBuffer.Raw();
+        else
+            buffer = m_DynBuffer.data;
+
+        if(buffer[i]==Value[j])
             ++j;
         else
             j=0;
 
-        if (j==(Int32)valuelen)
+        if (j==static_cast<Int32>(ValueSize))
             return i-(j-1);
     }
     return -1;
@@ -209,21 +281,29 @@ Int32 String::IndexOf(const char* Value,
 String String::Insert(const UInt32 AtIndex,
                       const String& Value)
 {
-    Assert(m_Length>0, "Invalid operation.");
     String str(m_Length+Value.m_Length);
+
+    char* buffer;
+    if (m_DataManagment == DataManagment::Copy)
+        buffer = str.m_FixBuffer.Raw();
+    else
+        buffer = str.m_DynBuffer.data;
+
     if (AtIndex>0)
-        RFMEM::Copy(str.m_Text.Get(),m_Text.Get(),AtIndex);
-    RFMEM::Copy(str.m_Text.Get()+AtIndex,Value.c_str(),Value.m_Length);
-    if (m_Length>0)
-        RFMEM::Copy(str.m_Text.Get()+AtIndex+Value.m_Length,m_Text.Get()+AtIndex,m_Length-AtIndex);
+        RFMEM::Copy(buffer, c_str(), AtIndex);
+
+    RFMEM::Copy(buffer + AtIndex, Value.c_str(), Value.m_Length);
+    if (m_Length > 0)
+        RFMEM::Copy(buffer + AtIndex+Value.m_Length, c_str() + AtIndex, m_Length - AtIndex);
     return str;
 }
 
 
-String String::Insert(const UInt32 AtIndex,
-                      const char* Value)
+String String::Insert(const UInt32 AtIndex, const char* Value,
+    const UInt32 ValueSize)
 {
-    return Insert(AtIndex,String(Value));
+    String tmp(Value, ValueSize, DataManagment::UnmanagedInstance);
+    return Insert(AtIndex, tmp);
 }
 
 
