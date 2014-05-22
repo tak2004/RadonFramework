@@ -1,6 +1,8 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/Threading/ThreadPool.hpp>
+#include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/Math/Math.hpp"
+#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/Time/ScopeTimer.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::Collections;
@@ -31,6 +33,7 @@ class PoolThread : public System::Threading::Thread
 public:
     void Run();
     PImpl<ThreadPool>::Data* Pool;
+    volatile bool shutdown;
 };
 
 template<class T>
@@ -44,13 +47,20 @@ public:
     ,MinCompletionPortThreads(0)
     ,Running(true)
     {
-        SerialTaskLists.Resize(MaxWorkerThreads);
+        UInt32 lps = Hardware::GetAvailableLogicalProcessorCount();
+        MaxWorkerThreads = lps;//ThreadPool::GetBestThreadAmountByProcessorCoreAmount(lps);
+        SerialTaskLists = AutoPointerArray<Queue<PoolTask> >(new Queue<PoolTask>[MaxWorkerThreads], MaxWorkerThreads);
         WorkerThreads.Resize(MaxWorkerThreads);
+        BitArray<> mask(lps);
         for (UInt32 i=0; i < WorkerThreads.Count(); ++i)
         {
             WorkerThreads(i)=AutoPointer<PoolThread>(new PoolThread());
             WorkerThreads(i)->Pool = this;
+            WorkerThreads(i)->shutdown = false;
             WorkerThreads(i)->Start();
+            mask.Reset();
+            mask.Set(i % lps);
+            WorkerThreads(i)->SetAffinityMask(mask);
         }
     }
 
@@ -64,13 +74,13 @@ public:
 
         // signal all threads to cancel
         for (UInt32 i=0; i < WorkerThreads.Count(); ++i)
-            WorkerThreads(i)->Interrupt();
+            WorkerThreads(i)->shutdown = true;
         
-        {// clean up the list and trigger a change that the threads can leave Wait()
-            Scopelock lock(Busy);
-            ConcurrentTaskList.Clear();
-            SerialTaskLists.Resize(0);
-            TaskListChanged.NotifyAll();
+        // clean up the list and trigger a change that the threads can leave Wait()
+        ConcurrentTaskList.Clear();
+        for (RFTYPE::Size i = 0; i < SerialTaskLists.Count(); ++i)
+        {
+            SerialTaskLists[i].Clear();
         }
 
         // wait till all threads are finished
@@ -79,6 +89,8 @@ public:
 
         // clean up threads
         WorkerThreads.Resize(0);
+        // destroy per-thread task collector
+        SerialTaskLists.Reset();
     }
 
     void UpdatePoolSize()
@@ -146,9 +158,7 @@ public:
     Array<AutoPointer<PoolThread> > WorkerThreads;
     Array<AutoPointer<Thread> > CompletionPortThreads;
     Queue<PoolTask> ConcurrentTaskList;
-    Array<Queue<PoolTask> > SerialTaskLists;
-    Mutex Busy;
-    Condition TaskListChanged;
+    AutoPointerArray<Queue<PoolTask> > SerialTaskLists;
     UInt32 MaxWorkerThreads;
     UInt32 MaxCompletionPortThreads;
     UInt32 MinWorkerThreads;
@@ -225,16 +235,16 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
 {
     if (m_PImpl->Running)
     {
-        PoolTask task(Callback,State,AutoCleanup);
-        Scopelock lock(m_PImpl->Busy);
-        if (Strategy==TaskStrategy::Concurrent)
-            m_PImpl->ConcurrentTaskList.Enqueue(task);
-        else
+	    PoolTask task(Callback,State,AutoCleanup);
+	    if (Strategy==TaskStrategy::Concurrent)
         {
-            Int64 serialGrp=Thread::CurrentPid() % m_PImpl->WorkerThreads.Count();
-            m_PImpl->SerialTaskLists(static_cast<UInt32>(serialGrp)).Enqueue(task);
-        }   
-        m_PImpl->TaskListChanged.NotifyAll();
+            m_PImpl->ConcurrentTaskList.Enqueue(task); 
+        }
+	    else
+	    {
+	        Int64 serialGrp=Thread::CurrentPid() % m_PImpl->WorkerThreads.Count();
+	        m_PImpl->SerialTaskLists[static_cast<UInt32>(serialGrp)].Enqueue(task);
+	    }   
         return true;
     }
     return false;
@@ -258,45 +268,42 @@ void ThreadPool::Enable()
 
 void ThreadPool::WaitTillDone()
 {
-    if(this->m_PImpl->Running)
-    {
         Time::TimeSpan delta = Time::TimeSpan::CreateByTime(0,0,1);
         Bool idle;
         do
         {
             idle = true;
             {
-                Scopelock lock(m_PImpl->Busy);
                 for(Size i = 0, end = m_PImpl->SerialTaskLists.Count(); i < end; ++i)
-                    idle = idle && m_PImpl->SerialTaskLists(static_cast<UInt32>(i)).Count() == 0;
-                idle = idle && m_PImpl->ConcurrentTaskList.Count() == 0;
+                    idle = idle && m_PImpl->SerialTaskLists[static_cast<UInt32>(i)].IsEmpty();
+                idle = idle && m_PImpl->ConcurrentTaskList.IsEmpty();
             }
 
             if(!idle)
-                m_PImpl->TaskListChanged.TimedWait(m_PImpl->Busy, delta);
+                Thread::Sleep(Time::TimeSpan::CreateByTicks(Time::TimeSpan::TicksPerMillisecond));
         } while(!idle);
-    }
 }
+
+void ThreadPool::GetThreadCount(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
+{
+    WorkerThreads = m_PImpl->WorkerThreads.Count();
+    CompletionPortThreads = m_PImpl->CompletionPortThreads.Count();
+}
+
 
 void PoolThread::Run()
 {
     PoolTask task;
     Bool result=false;
     Int64 serialGrp = Thread::CurrentPid() % Pool->WorkerThreads.Count();
-    while(true)
+    while(!shutdown)
     {
-        {
-            Scopelock lock(Pool->Busy);
-            result = Pool->SerialTaskLists(static_cast<UInt32>(serialGrp)).Dequeue(task);
-        }
+        result = Pool->SerialTaskLists[static_cast<UInt32>(serialGrp)].Dequeue(task);
         if (false == result)
         {
-            {
-                Scopelock lock(Pool->Busy);
-                result = Pool->ConcurrentTaskList.Dequeue(task);
-            }
-            if (false == result)
-                Pool->TaskListChanged.Wait(Pool->Busy);
+            result = Pool->ConcurrentTaskList.Dequeue(task);
+
+            Thread::Sleep(Time::TimeSpan::CreateByTicks(0));
         }
 
         if (result)
@@ -309,8 +316,6 @@ void PoolThread::Run()
                 task.Data=0;
             }
         }
-        
-        CheckCancel();
     }
 }
 

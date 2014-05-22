@@ -4,6 +4,7 @@
 #include "RadonFramework/Time/TimeSpan.hpp"
 #include "RadonFramework/Defines.hpp"
 #include "RadonFramework/IO/Log.hpp"
+#include "RadonFramework/Math/Integer.hpp"
 #include <errno.h>
 
 namespace RFT=RadonFramework::Threading;
@@ -155,12 +156,12 @@ void ThrImplementationSetName(void* Data, const String& Name)
     }*/
 }
 
-void ThrImplementationSleep(const TimeSpan& Delta)
+inline void ThrImplementationSleep(const TimeSpan& Delta)
 {
     ::Sleep((unsigned int)(Delta.TotalMilliseconds()));
 }
 
-Int64 ThrImplementationPid()
+inline Int64 ThrImplementationPid()
 {
     return GetCurrentProcessId();
 }
@@ -182,7 +183,7 @@ Bool ThrImplementationIsAlive(void* Data)
     return val;
 }
 
-void ThrImplementationCheckCancel(void* Data)
+inline void ThrImplementationCheckCancel(void* Data)
 {
 	if (static_cast<ThreadHelper*>(Data)->cancel)
 		ExitThread(0);
@@ -210,15 +211,50 @@ void ThrImplementationPriority(void* Data, RFT::ThreadPriority::Type Value)
     }
 }
 
-void ThrImplementationDestroy(void* Data)
+inline void ThrImplementationDestroy(void* Data)
 {
 	static_cast<ThreadHelper*>(Data)->cancel=true;
 	ThrImplementationJoin(Data,RadonFramework::Time::TimeSpan());
 }
 
-void ThrImplementationCancel(void* Data)
+inline void ThrImplementationCancel(void* Data)
 {
 	static_cast<ThreadHelper*>(Data)->cancel=true;
+}
+
+inline Bool ThrImplementationGetAffinityMask(void* Data, BitArray<>& Mask)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    DWORD_PTR threadAffinityMask, testAffinityMask = 1;
+    // a successfully SetThreadAffinityMask call return the old mask 
+    threadAffinityMask = SetThreadAffinityMask(p->thread, testAffinityMask);
+    // recover the old mask
+    SetThreadAffinityMask(p->thread, threadAffinityMask);
+    Mask.Resize(sizeof(DWORD_PTR) << 3);
+    Mask.Reset();
+    for(Size i = 0; i < sizeof(DWORD_PTR) << 3; ++i)
+    {
+        if((threadAffinityMask >> i) & 1)
+            Mask.Set(i);
+    }
+    return true;
+}
+
+inline Bool ThrImplementationSetAffinityMask(void* Data, const BitArray<>& NewValue)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    DWORD_PTR threadAffinityMask;
+    threadAffinityMask = 0;
+    
+    Size end = RadonFramework::Math::Integer<Size>::ClampUpperBound(
+        sizeof(DWORD_PTR) << 3,
+        NewValue.Count()
+    );
+    for (Size i = 0; i < end; ++i)
+    {
+        threadAffinityMask |= NewValue.Test(i) << i;
+    }
+    return SetThreadAffinityMask(p->thread, threadAffinityMask);
 }
 #endif
 
@@ -594,4 +630,14 @@ Bool Thread::MemAccess(const void* Ptr)
 Int64 Thread::CurrentPid()
 {
     return ThrImplementationPid();
+}
+
+Bool Thread::GetAffinityMask(BitArray<>& Mask)const
+{
+    return ThrImplementationGetAffinityMask(m_ImplData, Mask);
+}
+
+Bool Thread::SetAffinityMask(const BitArray<>& NewValue)const
+{
+    return ThrImplementationSetAffinityMask(m_ImplData, NewValue);
 }

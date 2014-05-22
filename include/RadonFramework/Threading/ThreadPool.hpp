@@ -43,6 +43,9 @@ public:
     void GetAvailableThreads(RFTYPE::UInt32& WorkerThreads,
                              RFTYPE::UInt32& CompletionPortThreads);
 
+    void GetThreadCount(RFTYPE::UInt32& WorkerThreads,
+                        RFTYPE::UInt32& CompletionPortThreads);
+
     RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
         TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
         RFTYPE::Bool AutoCleanup=true);

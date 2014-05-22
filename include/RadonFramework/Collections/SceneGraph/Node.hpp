@@ -16,7 +16,7 @@ namespace RadonFramework { namespace Collections { namespace SceneGraph {
         public:
             Node();
             Node(Memory::AutoPointer<NodeItem> nodeData);
-            virtual ~Node();
+            ~Node();
 
             typedef DataTraits<Node>::IDType IDType;
 

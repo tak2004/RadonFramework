@@ -7,10 +7,8 @@
 namespace RadonFramework { namespace Core { namespace Idioms {
 
 /** This template simplify the usage of the PImpl pattern.
-  * To use this template you have to derive your class from it and
-  * set the class Type for parameter T, add a default constructor,
-  * a virtual destructor and implement a template struct PImpl<T>::Data.
-  * You can access the Data structure by using (*this)-> .
+  * Implement a template<class T> class PImpl<T>::Data in the private unit.
+  * You can access the Data structure like a pointer.
   */
 template<class T>
 class PImpl
@@ -19,7 +17,7 @@ public:
     struct Data;
 
     PImpl() : impl_(new Data()) {}
-    virtual ~PImpl() { delete impl_; }
+    ~PImpl() { delete impl_; }
 
     Data const* operator->() const { return impl_; }
     Data const& operator *() const { return *impl_; }

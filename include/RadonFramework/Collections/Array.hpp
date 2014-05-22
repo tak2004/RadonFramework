@@ -14,6 +14,8 @@
 #include <RadonFramework/Collections/ArrayEnumerator.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Math/Math.hpp>
+#include <RadonFramework/Collections/Enumerator.hpp>
+#include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 
 namespace RadonFramework
 {
@@ -45,6 +47,9 @@ namespace RadonFramework
             template <typename,typename,typename,typename>
             friend class Array;
             public:
+                typedef T Type;
+                typedef Enumerator<T, ArrayEnumeratorType> EnumeratorType;
+                
                 // Constructor and destructor
                     
                 /** 
@@ -466,7 +471,12 @@ namespace RadonFramework
                 /**
                     * Returns an IEnumerator for the Array.
                     */
-                ArrayEnumerator<T> GetEnumerator()const;
+                ArrayEnumerator<T> GetArrayEnumerator()const;
+
+                /**
+                * Returns an Enumerator for the Array.
+                */
+                EnumeratorType GetEnumerator()const;
 
                 /**
                     * \brief Gets a system depended type that represents the
@@ -991,7 +1001,7 @@ namespace RadonFramework
             const Delegate2<T&,T&,RFTYPE::Size>* Comparer)
         {
             RFTYPE::Size left=Index,right=Index+Length-1,middle;
-            while(left<=right)
+            while(left<=right && right < m_ElementCount)
             {
                 middle=(left+right)>>1;
                 if (m_Data[middle]==Value)
@@ -1218,9 +1228,19 @@ namespace RadonFramework
         }
              
         template<typename T, typename SP, typename MA, typename MO>
-        ArrayEnumerator<T> Array<T,SP,MA,MO>::GetEnumerator()const
+        ArrayEnumerator<T> Array<T,SP,MA,MO>::GetArrayEnumerator()const
         {
-            ArrayEnumerator<T> result(m_Data, &m_Data[m_ElementCount-1]);
+            ArrayEnumerator<T> result(m_Data, &m_Data[m_ElementCount - 1]);
+            return result;
+        }
+
+        template<typename T, typename SP, typename MA, typename MO>
+        typename Array<T, SP, MA, MO>::EnumeratorType Array<T, SP, MA, MO>::GetEnumerator()const
+        {
+            EnumeratorType result;
+            result.m_Start = m_Data;
+            result.m_Current = m_Data;
+            result.m_Elements = m_ElementCount;
             return result;
         }
 
@@ -1338,21 +1358,31 @@ namespace RadonFramework
         template<typename T, typename SP, typename MA, typename MO>
         void Array<T,SP,MA,MO>::Resize(RFTYPE::Size NewSize)
         {
-            if (m_Rank==0)
-                InitArray(1,&NewSize);
-            Assert(m_Rank==1,"Unexpected dimension of array.");
-            if (NewSize!=m_Length[0])
+            if(m_Rank == 0)
             {
-                T* data=MA::template NewArray<T>(NewSize);
-                if (std::is_class<T>::value==true)
-                    for (RFTYPE::Size i=0;i<RadonFramework::Math::Math<RFTYPE::Size>::Min(m_Length[0],NewSize);++i)
-                        data[i]=m_Data[i];
+	            InitArray(1, &NewSize);
+            }
+
+            Assert(m_Rank == 1, "Unexpected dimension of array.");
+
+            if(NewSize != m_Length[0])
+            {
+                T* data = MA::template NewArray<T>(NewSize);
+                if(std::is_trivially_copyable<T>::value == false)
+                {
+                    for(RFTYPE::Size i = 0, end = RadonFramework::Math::Math<RFTYPE::Size>::Min(m_Length[0], NewSize); i < end; ++i)
+                    {
+                        data[i] = m_Data[i];
+                    }
+                }
                 else
-                    MO::Copy(data,m_Data,RadonFramework::Math::Math<RFTYPE::Size>::Min(m_Length[0],NewSize));
+                {
+                    MO::Copy(data, m_Data, RadonFramework::Math::Math<RFTYPE::Size>::Min(m_Length[0], NewSize));
+                }
                 MA::FreeArray(m_Data);
-                m_Data=data;
-                m_Length[0]=NewSize;
-                m_ElementCount=NewSize;
+                m_Data = data;
+                m_Length[0] = NewSize;
+                m_ElementCount = NewSize;
             }
         }
 
@@ -1442,7 +1472,7 @@ namespace RadonFramework
             // look at http://alienryderflex.com/quicksort/ for more details
             #define  MAX_LEVELS  300
             T piv;
-            RFTYPE::Size  i = 0, beg[MAX_LEVELS], end[MAX_LEVELS], L, R, swap ;
+            RFTYPE::Int64  i = 0, beg[MAX_LEVELS], end[MAX_LEVELS], L, R, swap ;
             beg[0]=Index; end[0]=Index+Length;
 
             while (i>=0) 
@@ -1513,7 +1543,7 @@ namespace RadonFramework
             #define  MAX_LEVELS  300
             TKey key;
             TValue value;
-            RFTYPE::Size  beg[MAX_LEVELS], end[MAX_LEVELS], i=0, L, R, swap ;
+            RFTYPE::Int64  beg[MAX_LEVELS], end[MAX_LEVELS], i=0, L, R, swap ;
             beg[0]=Index; end[0]=Index+Length;
 
             while (i>=0) 

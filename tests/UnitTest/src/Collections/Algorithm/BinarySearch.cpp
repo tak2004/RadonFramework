@@ -28,7 +28,7 @@ class BinarySearchTest: public TestSuite
             data(2)=3;
             data(3)=4;
             data(4)=5;
-            ArrayEnumerator<Int32> enumerator=data.GetEnumerator();
+            ArrayEnumerator<Int32> enumerator=data.GetArrayEnumerator();
             Size index=BinarySearch<Int32>(enumerator, 2);
             return result;
         }

@@ -1,420 +1,402 @@
-#ifndef RF_COLLECTIONS_BitArray_HPP
-#define RF_COLLECTIONS_BitArray_HPP
+#ifndef RF_COLLECTIONSBITARRAY_HPP
+#define RF_COLLECTIONSBITARRAY_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
 
 #include <type_traits>
 
-#include <RadonFramework/System/ICloneable.hpp>
-#include <RadonFramework/Threading/ISynchronize.hpp>
-
 #include <RadonFramework/Core/Policies/LazyResize.hpp>
 #include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
 #include <RadonFramework/Core/Policies/CPPAllocator.hpp>
-#include <RadonFramework/Threading/Policies/NoSynchronization.hpp>
+#include <RadonFramework/Math/Integer.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Collections {
+
+
+
+/** \brief This is a policy based template for BitArrays.
+ *
+ * \tparam RB Resize behaviour policy
+ * \tparam MA Memory allocator policy
+ * \tparam MO Memory operation policy
+ */
+template<typename RB = Core::Policies::LazyResize<8, 1>,
+    typename MA = Core::Policies::CPPAllocator,
+    typename MO = Core::Policies::CMemoryOperation>
+class BitArray
 {
-    namespace Collections
+public:
+    /// Create an instance of the BitArray class.
+    BitArray();
+
+    /** \brief Create a copy of a given BitArray.
+     *
+     * The copy constructor make a deep copy.
+     *
+     * \param Copy The object from which the copy will be done.
+     */
+    BitArray(const BitArray<RB, MA, MO>& Copy);
+
+    /** \brief Create a BitArray.
+     *
+     * \param Length The size of the BitArray in bits.
+     */
+    BitArray(const RFTYPE::Size Length);
+
+    /** \brief Creates a BitArray of the specified length.
+     *         The data of the BitArray are copied from the C array.
+     *         You have to ensure to cleanup the array by yourself!
+     *
+     * \param CArray An array which commonly provided by C code.
+     * \param Length Specify the length of the BitArray in bits.
+     */
+    static Memory::AutoPointer<BitArray<RB, MA, MO> >
+        CreateInstance(const RFTYPE::UInt8 CArray[], const RFTYPE::Size Length);
+
+    ~BitArray();
+    
+    /** \brief Creates a deep copy of the BitArray.
+     *
+     * A deep copy of an BitArray copies the elements
+     * and everything directly or indirectly referenced by the
+     * elements.
+     *
+     * This method is an O(n) operation, where n is Count/8.
+     */
+    Memory::AutoPointer<BitArray<RB, MA, MO> > Clone()const;
+
+    /** \brief Copies a range of elements from an BitArray starting
+     *         at the specified source index and pastes them to
+     *         another BitArray starting at the specified destination
+     *         index. Guarantees that all changes are undone if
+     *         the copy does not succeed completely.
+     *
+     * \param SourceIndex A 32-bit unsigned integer that represents
+     *                    the index in the source BitArray at which
+     *                    copying begins.
+     * \param DestinationArray The BitArray that receives the data.
+     * \param DestinationIndex A 32-bit unsigned integer that
+     *                         represents the index in the
+     *                         destination BitArray at which storing
+     *                         begins.
+     * \param Length A 32-bit unsigned integer that represents
+     *               the number of elements to copy.
+     */
+    RFTYPE::Bool ConstrainedCopy(RFTYPE::Size SourceIndex,
+        BitArray<RB, MA, MO>& DestinationArray, RFTYPE::Size DestinationIndex,
+        RFTYPE::Size Length);
+
+    /** \brief Copies a range of elements from an BitArray starting
+     *         at the specified source index and pastes them to
+     *         another BitArray starting at the specified destination
+     *         index. Guarantees that all changes are undone if
+     *         the copy does not succeed completely.
+     *
+     * \param DestinationArray The BitArray that receives the data.
+     * \param Length A 32-bit unsigned integer that represents
+     *               the number of elements to copy.
+     */
+    RFTYPE::Bool ConstrainedCopy(BitArray<RB, MA, MO>& DestinationArray,
+        RFTYPE::Size Length);
+
+    /** \brief Copies a range of elements from an BitArray starting
+     *         at the first element and pastes them into another
+     *         BitArray starting at the first element. The length
+     *         is specified as a 32-bit integer.
+     *
+     * \param DestinationArray The BitArray that receives the data.
+     * \param Length A 32-bit unsigned integer that represents
+     *               the number of elements to copy.
+     */
+    void Copy(BitArray<RB, MA, MO>& DestinationArray, RFTYPE::Size Length);
+
+    /** \brief Copies a range of elements from an BitArray starting
+     *         at the first element and pastes them into another
+     *         BitArray starting at the first element. The length
+     *         is specified as a 32-bit integer.
+     *
+     * \param Index A 32-bit unsigned integer that represents
+     *              the index in the sourceArray at which
+     *              copying begins.
+     * \param DestinationArray The BitArray that receives the data.
+     * \param DestinationIndex A 32-bit unsigned integer that
+     *                         represents the index in the DestinationArray
+     *                         at which storing begins.
+     * \param Length A 32-bit unsigned integer that represents
+     *               the number of elements to copy.
+     */
+    void Copy(RFTYPE::Size Index, BitArray<RB, MA, MO>& DestinationArray,
+        RFTYPE::Size DestinationIndex, RFTYPE::Size Length);
+
+    /** \brief Changes the number of elements of an array to the
+     *        specified new size.
+     *
+     * \param NewSize The size of the new array.
+     */
+    void Resize(RFTYPE::Size NewSize);
+
+    void Swap(BitArray<RB, MA, MO>& Other);
+
+    BitArray& Set();
+    BitArray& Flip();
+    BitArray& Reset();
+    BitArray& Set(RFTYPE::Size Index);
+    BitArray& Reset(RFTYPE::Size Index);
+    BitArray& Flip(RFTYPE::Size Index);
+    RFTYPE::Bool Test(const RFTYPE::Size Index)const;
+
+    RFTYPE::Size Size()const;
+
+    /// Gets the number of elements contained in the BitArray.
+    RFTYPE::Size Count()const;
+
+    RFTYPE::Bool IsAny()const;
+    RFTYPE::Bool IsNone()const;
+
+    BitArray& operator=(const BitArray& Other);
+    BitArray& operator&=(const BitArray& Other);
+    BitArray& operator|=(const BitArray& Other);
+    BitArray& operator^=(const BitArray& Other);
+    BitArray& operator<<=(RFTYPE::Size Shift);
+    BitArray& operator>>=(RFTYPE::Size Shift);
+    RFTYPE::Bool operator[](RFTYPE::Size Index)const;
+    RFTYPE::Bool operator==(const BitArray& Other)const;
+    RFTYPE::Bool operator!=(const BitArray& Other)const;
+    BitArray operator~()const;
+    BitArray operator<<(RFTYPE::Size Shift)const;
+    BitArray operator>>(RFTYPE::Size Shift)const;
+private:
+#pragma region Internal variables and helper functions
+    RB m_ContainerInfo;
+    RFTYPE::UInt8* m_Data;
+
+    /// setup the data part of the class
+    RFTYPE::Bool InitArray(const RFTYPE::Size Length);
+#pragma endregion
+};
+
+#pragma region Implementation
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>::BitArray()
+{
+    InitArray(0);
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>::BitArray(const BitArray<RB, MA, MO>& Copy)
+{
+    *this = Copy;
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>::BitArray(const RFTYPE::Size Length)
+{
+    InitArray(Length);
+}
+
+template<typename RB, typename MA, typename MO>
+Memory::AutoPointer<BitArray<RB, MA, MO> > BitArray<RB, MA, MO>::CreateInstance(
+    const RFTYPE::UInt8 CArray[], const RFTYPE::Size Length)
+{
+    typename Memory::AutoPointer<BitArray<RB, MA, MO> > arr(MA::template New<BitArray<RB, MA, MO> >());
+    if(arr.Get() != 0) // out of memory check
     {
-        template<typename RB=Core::Policies::LazyResize<1,8>,
-            typename SP=Threading::Policies::NoSynchronization, 
-            typename MA=Core::Policies::CPPAllocator,
-            typename MO=Core::Policies::CMemoryOperation>
-        class _BitArray:public System::ICloneable<_BitArray<RB,SP,MA,MO> >
-        {
-            template <typename,typename,typename,typename>
-            friend class _BitArray;
-            public:
-            // Constructor and destructor
-                    
-                /** 
-                 * Create an instance of the _BitArray class.
-                 */
-                _BitArray();
+        if(arr->InitArray(Length))
+            MO::Copy(arr->m_Data, CArray, arr->m_ContainerInfo.ByteSize());
+        else // something was going wrong, clean up
+            arr.Reset();
+    }
+    return arr;
+}
 
-                /** 
-                 * \brief Create a copy of a given _BitArray.
-                 *
-                 * The copy constructor make a deep copy.
-                 *
-                 * \param Copy The object from which the copy will be done.
-                 */
-                _BitArray(const _BitArray<RB,SP,MA,MO>& Copy);
-
-                /**
-                 * Create a _BitArray.
-                 *
-                 * \param Length The size of the _BitArray to create.
-                 */
-                _BitArray(const RFTYPE::UInt32 Length);
-
-                /**
-                 * \brief Creates a _BitArray of the specified length. 
-                 *        The data of the _BitArray are copied from the c array.
-                 *
-                 * \param CArray An array which was created by C.
-                 * \param Length Specify the length of the _BitArray.
-                 */
-                static Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > 
-                    CreateInstance(const char CArray[], 
-                                   const RFTYPE::UInt32 Length);
-
-                ~_BitArray();
-            // Properties
-                /**
-                 * Gets the number of elements contained in the _BitArray.
-                 */
-                RFTYPE::UInt32 Count()const;
-            // Methods
-                /**
-                 * \brief Creates a deep copy of the _BitArray.
-                 *
-                 * A deep copy of an _BitArray copies the elements
-                 * and everything directly or indirectly referenced by the 
-                 * elements.
-                 *
-                 * This method is an O(n) operation, where n is Count/8.
-                 */
-                Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > Clone()const;
-
-                /**
-                 * \brief Copies a range of elements from an _BitArray starting
-                 *        at the specified source index and pastes them to 
-                 *        another _BitArray starting at the specified destination 
-                 *        index. Guarantees that all changes are undone if 
-                 *        the copy does not succeed completely.
-                 *
-                 * \param SourceIndex A 32-bit unsigned integer that represents                      
-                 *                    the index in the source _BitArray at which 
-                 *                    copying begins.
-                 * \param DestinationArray The _BitArray that receives the data.
-                 * \param DestinationIndex A 32-bit unsigned integer that 
-                 *                         represents the index in the 
-                 *                         destination _BitArray at which storing 
-                 *                         begins.
-                 * \param Length A 32-bit unsigned integer that represents 
-                 *               the number of elements to copy.
-                 */
-                RFTYPE::Bool ConstrainedCopy(
-                    RFTYPE::UInt32 SourceIndex,
-                    _BitArray<RB,SP,MA,MO>& DestinationArray,
-                    RFTYPE::UInt32 DestinationIndex,
-                    RFTYPE::UInt32 Length);
-
-                /**
-                 * \brief Copies a range of elements from an _BitArray starting
-                 *        at the specified source index and pastes them to 
-                 *        another _BitArray starting at the specified destination 
-                 *        index. Guarantees that all changes are undone if 
-                 *        the copy does not succeed completely.
-                 *
-                 * \param DestinationArray The _BitArray that receives the data.
-                 * \param Length A 32-bit unsigned integer that represents 
-                 *               the number of elements to copy.
-                 */
-                RFTYPE::Bool ConstrainedCopy(
-                    _BitArray<RB,SP,MA,MO>& DestinationArray, 
-                    RFTYPE::UInt32 Length);
-
-                /**
-                 * \brief Copies a range of elements from an _BitArray starting 
-                 *        at the first element and pastes them into another 
-                 *        _BitArray starting at the first element. The length 
-                 *        is specified as a 32-bit integer.
-                 *
-                 * \param DestinationArray The _BitArray that receives the data.
-                 * \param Length A 32-bit unsigned integer that represents 
-                 *               the number of elements to copy.
-                 */
-                void Copy(_BitArray<RB,SP,MA,MO>& DestinationArray, 
-                    RFTYPE::UInt32 Length);
-
-                /**
-                 * \brief Copies a range of elements from an _BitArray starting 
-                 *        at the first element and pastes them into another 
-                 *        _BitArray starting at the first element. The length 
-                 *        is specified as a 32-bit integer.
-                 *
-                 * \param Index A 32-bit unsigned integer that represents 
-                 *              the index in the sourceArray at which 
-                 *              copying begins.
-                 * \param DestinationArray The _BitArray that receives the data.
-                 * \param DestinationIndex A 32-bit unsigned integer that 
-                 *                         represents the index in the DestinationArray 
-                 *                         at which storing begins.
-                 * \param Length A 32-bit unsigned integer that represents 
-                 *               the number of elements to copy.
-                 */
-                void Copy(RFTYPE::UInt32 Index, 
-                    _BitArray<RB,SP,MA,MO>& DestinationArray,
-                    RFTYPE::UInt32 DestinationIndex, 
-                    RFTYPE::UInt32 Length);
-
-                /**
-                 * \brief Changes the number of elements of an array to the 
-                 *        specified new size.
-                 *
-                 * \param NewSize The size of the new array.
-                 */
-                void Resize(RFTYPE::UInt32 NewSize);
-
-                /**
-                 * \brief Reverses the sequence of the elements in the entire 
-                 *        one-dimensional _BitArray.
-                 */
-                void Reverse();
-
-                /**
-                 * \brief Reverses the sequence of the elements in a range 
-                 *        of elements in the one-dimensional _BitArray.
-                 *
-                 * \param Index The starting index of the section to reverse.
-                 * \param Length The number of elements in the section to reverse.
-                 */
-                void Reverse(RFTYPE::UInt32 Index, 
-                    RFTYPE::UInt32 Length);
-
-                void Swap(_BitArray<RB,SP,MA,MO>& Other);
-
-                RFTYPE::UInt8 Get(const RFTYPE::UInt32 Index);
-
-                void Set(const RFTYPE::UInt32 Index,RFTYPE::UInt8);
-            // Operators
-                _BitArray<RB,SP,MA,MO>& operator=(
-                     const _BitArray<RB,SP,MA,MO>& Other);
-            protected:
-                RB m_ContainerInfo;
-                RFTYPE::UInt8* m_Data;
-            // helper functions
-                /// setup the data part of the class
-                RFTYPE::Bool InitArray(const RFTYPE::UInt32 Length);
-        };
-
-        typedef _BitArray<> BitArray;
-
-        // Constructor & Destructor
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        _BitArray<RB,SP,MA,MO>::_BitArray()
-        {
-            InitArray(0);
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        _BitArray<RB,SP,MA,MO>::_BitArray(const _BitArray<RB,SP,MA,MO>& Copy)
-        {
-            *this=Copy;
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        _BitArray<RB,SP,MA,MO>::_BitArray(const RFTYPE::UInt32 Length)
-        {
-            InitArray(Length);
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > _BitArray<RB,SP,MA,MO>::CreateInstance(
-            const char CArray[], 
-            const RFTYPE::UInt32 Length)
-        {
-            typename Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > arr(MA::template New<_BitArray<RB,SP,MA,MO> >());
-            if (arr.Get()!=0) // out of memory check
-            {
-                if (arr->InitArray(Length))
-                    MO::Copy(arr->m_Data,CArray,Length);
-                else // something was going wrong, clean up
-                    arr.Reset();
-            }
-            return arr;
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        _BitArray<RB,SP,MA,MO>::~_BitArray()
-        {
-            if (m_Data!=0)
-            {
-                MA::FreeArray(m_Data);
-                m_Data=0;
-            }
-        }
-
-        // Properties
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        RFTYPE::UInt32 _BitArray<RB,SP,MA,MO>::Count()const
-        {
-            return m_ContainerInfo.Count();
-        }
-
-        // Methods
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > _BitArray<RB,SP,MA,MO>::Clone()const
-        {
-            Memory::AutoPointer<_BitArray<RB,SP,MA,MO> > result(new _BitArray(m_ContainerInfo.Count()));
-            MO::Copy(result->m_Data,m_Data,m_ContainerInfo.Count());
-            return result;
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        RFTYPE::Bool _BitArray<RB,SP,MA,MO>::ConstrainedCopy(RFTYPE::UInt32 SourceIndex,
-            _BitArray<RB,SP,MA,MO>& DestinationArray,
-            RFTYPE::UInt32 DestinationIndex,
-            RFTYPE::UInt32 Length)
-        {
-            if (m_ContainerInfo.Count()<SourceIndex+Length)
-                return false;
-            if (DestinationArray.m_ContainerInfo.Count()<DestinationIndex+Length)
-                return false;
-            MO::Move(&DestinationArray.m_Data[DestinationIndex],&m_Data[SourceIndex],Length);
-            return true;
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        RFTYPE::Bool _BitArray<RB,SP,MA,MO>::ConstrainedCopy(
-            _BitArray<RB,SP,MA,MO>& DestinationArray, 
-            RFTYPE::UInt32 Length)
-        {
-            return ConstrainedCopy(0,DestinationArray,0,Length);
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Copy(_BitArray<RB,SP,MA,MO>& DestinationArray, 
-            RFTYPE::UInt32 Length)
-        {
-            Copy(0,DestinationArray,0,Length);
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Copy(RFTYPE::UInt32 Index, 
-            _BitArray<RB,SP,MA,MO>& DestinationArray,
-            RFTYPE::UInt32 DestinationIndex, 
-            RFTYPE::UInt32 Length)
-        {
-            assert(m_ContainerInfo.Count()>=Index+Length);
-            assert(DestinationArray.m_ContainerInfo.Count()>=DestinationIndex+Length);
-            MO::Move(&DestinationArray.m_Data[DestinationIndex],&m_Data[Index],Length);
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Resize(RFTYPE::UInt32 NewSize)
-        {
-            if (m_Rank==0)
-                InitArray(1,&NewSize);
-            assert(m_Rank==1);
-            if (NewSize!=m_Length[0])
-            {
-                T* data=MA::template NewArray<T>(NewSize);
-                if (std::is_class<T>::value==true)
-                    for (RFTYPE::UInt32 i=0;i<RadonFramework::Math::Math<RFTYPE::UInt32>::Min(m_Length[0],NewSize);++i)
-                        data[i]=m_Data[i];
-                else
-                    MO::Copy(data,m_Data,RadonFramework::Math::Math<RFTYPE::UInt32>::Min(m_Length[0],NewSize));
-                MA::FreeArray(m_Data);
-                m_Data=data;
-                m_Length[0]=NewSize;
-                m_ContainerInfo.Count()=NewSize;
-            }
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Reverse()
-        {
-            Reverse(0,m_ContainerInfo.Count());
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Reverse(RFTYPE::UInt32 Index, 
-            RFTYPE::UInt32 Length)
-        {
-            assert(Index+Length<=m_ContainerInfo.Count());
-            RFTYPE::UInt32 end=Index+Length-1;
-            RFTYPE::UInt32 halfEnd=Index+Length>>1;
-            T* tmp=MA::template New<T>();
-            for (RFTYPE::UInt32 i=Index;i<halfEnd;++i)
-            {
-                MO::Copy(tmp,&m_Data[i],1);
-                MO::Move(&m_Data[i],&m_Data[end-i],1);
-                MO::Copy(&m_Data[end-i],tmp,1);
-            }
-            MA::Free(tmp);
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Swap(_BitArray<RB,SP,MA,MO>& Other)
-        {
-            T* tmpData=m_Data;
-            m_Data=Other.m_Data;
-            Other.m_Data=tmpData;
-
-            RFTYPE::UInt32 tmpCount=m_ContainerInfo.Count();
-            m_ContainerInfo.Count()=Other.m_ContainerInfo.Count();
-            Other.m_ContainerInfo.Count()=tmpCount;
-
-            RFTYPE::UInt32* tmpLen=m_Length;
-            m_Length=Other.m_Length;
-            Other.m_Length=tmpLen;
-
-            RFTYPE::UInt32 tmpRank=m_Rank;
-            m_Rank=Other.m_Rank;
-            Other.m_Rank=tmpRank;
-
-            RFTYPE::Bool tmpSync=m_Synchronized;
-            m_Synchronized=Other.m_Synchronized;
-            Other.m_Synchronized=tmpSync;
-
-            Threading::ISynchronize* tmpSynchronize=m_SyncRoot;
-            m_SyncRoot=Other.m_SyncRoot;
-            Other.m_SyncRoot=tmpSynchronize;
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        RFTYPE::UInt8 _BitArray<RB,SP,MA,MO>::Get(const RFTYPE::UInt32 Index)
-        {
-
-        }
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        void _BitArray<RB,SP,MA,MO>::Set(const RFTYPE::UInt32 Index,RFTYPE::UInt8)
-        {
-
-        }
-
-        // Operators
-        template<typename RB, typename SP, typename MA, typename MO>
-        _BitArray<RB,SP,MA,MO>& _BitArray<RB,SP,MA,MO>::operator=(const _BitArray<RB,SP,MA,MO>& Other)
-        {
-            InitArray(Other.m_Rank,Other.m_Length);
-            for (RFTYPE::UInt32 i=0;i<m_ContainerInfo.Count();++i)
-                m_Data[i]=Other.m_Data[i];
-            return *this;
-        }
-
-        // internal helper functions
-
-        template<typename RB, typename SP, typename MA, typename MO>
-        RFTYPE::Bool _BitArray<RB,SP,MA,MO>::InitArray(
-            const RFTYPE::UInt32 Length)
-        {
-            m_Synchronized=false;
-            m_Data=0;
-            m_SyncRoot=MA::template New<SP>();
-
-            if (m_SyncRoot==0)
-                return false;
-
-            if (Length>0)
-            {
-                m_Data=MA::template NewArray<T>(len);
-                if (m_Data==0)
-                    return false;
-                m_ContainerInfo.ElementCount=Length;
-            }
-            return true;
-        }
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>::~BitArray()
+{
+    if(m_Data != 0)
+    {
+        MA::FreeArray(m_Data);
+        m_Data = 0;
     }
 }
 
-#endif // RF_COLLECTIONS_BitArray_HPP
+template<typename RB, typename MA, typename MO>
+RFTYPE::Size BitArray<RB, MA, MO>::Count()const
+{
+    return m_ContainerInfo.elementCount;
+}
+
+template<typename RB, typename MA, typename MO>
+Memory::AutoPointer<BitArray<RB, MA, MO> > BitArray<RB, MA, MO>::Clone()const
+{
+    Memory::AutoPointer<BitArray<RB, MA, MO> > result(new BitArray(m_ContainerInfo.elementCount));
+    MO::Copy(result->m_Data, m_Data, m_ContainerInfo.ByteSize());
+    return result;
+}
+
+template<typename RB, typename MA, typename MO>
+RFTYPE::Bool BitArray<RB, MA, MO>::ConstrainedCopy(RFTYPE::Size SourceIndex,
+    BitArray<RB, MA, MO>& DestinationArray, RFTYPE::Size DestinationIndex,
+    RFTYPE::Size Length)
+{
+    if(m_ContainerInfo.elementCount < SourceIndex + Length)
+        return false;
+    if(DestinationArray.m_ContainerInfo.elementCount < DestinationIndex + Length)
+        return false;
+    // byte aligned and a multiple of 1 byte, simply copy byte by byte
+    if((SourceIndex & 7) == 0 && (DestinationIndex & 7) == 0 && (Length & 7) == 0)
+    {
+        MO::Move(&DestinationArray.m_Data[DestinationIndex], &m_Data[SourceIndex], Length);
+    }
+    else
+    {// some of the conditions failed copy value bit by bit
+        for(RFTYPE::Size i = 0; i < Length; ++i)
+        {
+            if(Test(SourceIndex + i))
+                DestinationArray.Set(DestinationIndex + i);
+            else
+                DestinationArray.Reset(DestinationIndex + i);
+        }
+    }
+    
+    return true;
+}
+
+template<typename RB, typename MA, typename MO>
+RFTYPE::Bool BitArray<RB, MA, MO>::ConstrainedCopy(
+    BitArray<RB, MA, MO>& DestinationArray,
+    RFTYPE::Size Length)
+{
+    return ConstrainedCopy(0, DestinationArray, 0, Length);
+}
+
+template<typename RB, typename MA, typename MO>
+void BitArray<RB, MA, MO>::Copy(BitArray<RB, MA, MO>& DestinationArray,
+    RFTYPE::Size Length)
+{
+    Copy(0, DestinationArray, 0, Length);
+}
+
+template<typename RB, typename MA, typename MO>
+void BitArray<RB, MA, MO>::Copy(RFTYPE::Size Index, BitArray<RB, MA, MO>& DestinationArray,
+    RFTYPE::Size DestinationIndex, RFTYPE::Size Length)
+{
+    Assert(m_ContainerInfo.elementCount >= Index + Length, "");
+    Assert(DestinationArray.m_ContainerInfo.elementCount >= DestinationIndex + Length, "");
+    MO::Move(&DestinationArray.m_Data[DestinationIndex], &m_Data[Index], Length);
+}
+
+template<typename RB, typename MA, typename MO>
+void BitArray<RB, MA, MO>::Resize(RFTYPE::Size NewSize)
+{
+    InitArray(NewSize);
+
+    if(NewSize != m_ContainerInfo.elementCount)
+    {
+        UInt8* data = MA::template NewArray<UInt8>(NewSize);
+        MO::Copy(data, m_Data, Math::Integer<RFTYPE::UInt32>::ClampUpperBound(m_ContainerInfo.elementCount, NewSize));
+        MA::FreeArray(m_Data);
+        m_Data = data;
+        m_ContainerInfo.elementCount = NewSize;
+    }
+}
+
+template<typename RB, typename MA, typename MO>
+void BitArray<RB, MA, MO>::Swap(BitArray<RB, MA, MO>& Other)
+{
+    T* tmpData = m_Data;
+    m_Data = Other.m_Data;
+    Other.m_Data = tmpData;
+
+    RFTYPE::Size tmpCount = m_ContainerInfo.elementCount;
+    m_ContainerInfo.elementCount = Other.m_ContainerInfo.elementCount;
+    Other.m_ContainerInfo.elementCount = tmpCount;
+}
+
+template<typename RB, typename MA, typename MO>
+RFTYPE::Bool BitArray<RB, MA, MO>::Test(const RFTYPE::Size Index)const
+{
+    Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+    RFTYPE::Size ind = m_ContainerInfo.BlockIndex(Index);
+    return m_Data[ind] & (1 << m_ContainerInfo.BlockOffset(Index));
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Set(const RFTYPE::Size Index)
+{
+    Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+    RFTYPE::Size ind = m_ContainerInfo.BlockIndex(Index);
+    m_Data[ind] |= 1 << m_ContainerInfo.BlockOffset(Index);
+    return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Reset(const RFTYPE::Size Index)
+{
+    Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+    RFTYPE::Size ind = m_ContainerInfo.BlockIndex(Index);
+    m_Data[ind] &= ~(1 << m_ContainerInfo.BlockOffset(Index));
+    return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Flip(const RFTYPE::Size Index)
+{
+    Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+    RFTYPE::Size ind = m_ContainerInfo.BlockIndex(Index);
+    m_Data[ind] ^= 1 << m_ContainerInfo.BlockOffset(Index);
+    return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Flip()
+{
+    for (RFTYPE::Size i = 0, end = m_ContainerInfo.BlockCount(); i < end; ++i)
+    {
+        m_Data[i] = ~m_Data[i];
+    }
+    return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Set()
+{
+    RFMEM::Set(m_Data, 0xff, m_ContainerInfo.ByteSize());
+    return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Reset()
+{
+    RFMEM::Set(m_Data, 0x00, m_ContainerInfo.ByteSize());
+    return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::operator=(const BitArray<RB, MA, MO>& Other)
+{
+    InitArray(Other.m_ContainerInfo.elementCount);
+    for(RFTYPE::Size i = 0, end = m_ContainerInfo.BlockCount(); i < end; ++i)
+        m_Data[i] = Other.m_Data[i];
+    return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+RFTYPE::Bool BitArray<RB, MA, MO>::InitArray(const RFTYPE::Size Length)
+{
+    m_Data = 0;
+
+    if(Length > 0)
+    {
+        m_ContainerInfo.elementCount = Length;
+        m_Data = MA::template NewArray<UInt8>(m_ContainerInfo.ByteSize());
+        if(m_Data == 0)
+            return false;        
+    }
+    return true;
+}
+#pragma endregion
+
+} }
+
+#endif // RF_COLLECTIONSBITARRAY_HPP
