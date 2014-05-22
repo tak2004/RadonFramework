@@ -99,7 +99,7 @@ Bool DynamicLibrary::Unload(DynamicLibrary& LibHandle)
 const RFTYPE::String& DynamicLibrary::LineEnding()
 {    
 #if defined(RF_WINDOWS)
-static RFTYPE::String LINEENDING("dll");
+static RFTYPE::String LINEENDING("dll", sizeof("dll"));
 return LINEENDING;
 #else
     #if defined(RF_LINUX)

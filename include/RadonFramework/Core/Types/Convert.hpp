@@ -1,7 +1,5 @@
-                                                                                                                                                                                                                        #ifndef RF_CORE_TYPES_CONVERT_HPP
+#ifndef RF_CORE_TYPES_CONVERT_HPP
 #define RF_CORE_TYPES_CONVERT_HPP
-
-#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework { namespace Core { namespace Types {
 

@@ -20,7 +20,7 @@ namespace RadonFramework
                 ~FileWatcher();
 
                 void Initialize(const Uri& Path,
-                                const RFTYPE::String& Filter="");
+                                const RFTYPE::String& Filter = RFTYPE::String("",1));
                 
                 const Uri& Path()const;
                 const RFTYPE::String& Filter();

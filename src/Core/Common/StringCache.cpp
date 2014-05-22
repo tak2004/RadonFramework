@@ -53,7 +53,7 @@ const char* StringCache::Find(const String& Value)
                     break;
                 }
                 else
-                    if (Value == *listEntry)
+                    if (Value == String::UnsafeStringCreation(*listEntry))
                     {
                         CACHE->Hashes(i) = valueHash;
                         result = *listEntry;

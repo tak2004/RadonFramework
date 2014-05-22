@@ -78,7 +78,7 @@ RFTYPE::Bool GetGeneralInfo(RFTYPE::UInt32 PId, RFPROC::GeneralInfo& Info)
         GetProcessImageFileName(hProcess, szProcessName, sizeof(szProcessName) / sizeof(TCHAR));
         CloseHandle(hProcess);
         hProcess=NULL;
-        Info.BinaryName = String(szProcessName);
+        Info.BinaryName = String(szProcessName, MAX_PATH);
         result = true;
     }
 
@@ -91,7 +91,7 @@ RFTYPE::Bool GetGeneralInfo(RFTYPE::UInt32 PId, RFPROC::GeneralInfo& Info)
         {
             TCHAR szProcessName[MAX_PATH] = TEXT("<unknown>");
             GetModuleBaseName(hProcess,hMod,szProcessName,sizeof(szProcessName)/sizeof(TCHAR));
-            Info.Name = String(szProcessName);
+            Info.Name = String(szProcessName, MAX_PATH);
         }
         CloseHandle(hProcess);
         hProcess=NULL;
@@ -202,7 +202,7 @@ RFTYPE::Bool GetModuleInfo(RFTYPE::UInt32 PId, RFPROC::ModuleInfo& Info)
                 if (GetModuleFileNameEx(hProcess, hMods[i], szModName,
                     sizeof(szModName) / sizeof(TCHAR)))
                 {
-                    Info(i) = String(szModName);
+                    Info(i) = String(szModName, MAX_PATH);
                 }
             }
             result = true;

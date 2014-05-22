@@ -29,7 +29,21 @@ namespace RadonFramework
                 RF_MAX};
         }
 
-        const RFTYPE::String TypeKindName[TypeKind::RF_MAX]={"unknown type","Float32","Float64","Int32","UInt32","Int64","UInt64","Int16","UInt16","Int8","UInt8","String","Char","Bool"};
+        const RFTYPE::String TypeKindName[TypeKind::RF_MAX] = {
+            RFTYPE::String("unknown type", sizeof("unknown type")),
+            RFTYPE::String("Float32", sizeof("Float32")),
+            RFTYPE::String("Float64", sizeof("Float64")),
+            RFTYPE::String("Int32", sizeof("Int32")),
+            RFTYPE::String("UInt32", sizeof("UInt32")),
+            RFTYPE::String("Int64", sizeof("Int64")),
+            RFTYPE::String("UInt64", sizeof("UInt64")),
+            RFTYPE::String("Int16", sizeof("Int16")),
+            RFTYPE::String("UInt16", sizeof("UInt16")),
+            RFTYPE::String("Int8", sizeof("Int8")),
+            RFTYPE::String("UInt8", sizeof("UInt8")),
+            RFTYPE::String("String", sizeof("String")),
+            RFTYPE::String("Char", sizeof("Char")),
+            RFTYPE::String("Bool", sizeof("Bool"))};
         const RFTYPE::UInt32 TypeSize[TypeKind::RF_MAX]={0,4,8,4,4,8,8,2,2,1,1,0,1,1};
     }
 }

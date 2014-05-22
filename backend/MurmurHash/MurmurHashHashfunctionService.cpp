@@ -30,7 +30,7 @@ class MurmurHashHashfunction:public IHashfunction
         {
             String result;
             for(int i=0; i<8; ++i)
-                result+=String::Format("%02X", m_buf[i]);
+                result+=String::Format(String("%02X", sizeof("%02X")), m_buf[i]);
             return result;
         }
 

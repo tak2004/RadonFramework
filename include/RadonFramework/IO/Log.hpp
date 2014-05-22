@@ -15,13 +15,13 @@ namespace RadonFramework
         class Log
         {
             public:
-                static void WriteInfo(Memory::AutoPointer<RFTYPE::String> Text);
-                static void WriteError(Memory::AutoPointer<RFTYPE::String> Text);
-                static void WriteFatalError(Memory::AutoPointer<RFTYPE::String> Text);
-                static void WriteDebug(Memory::AutoPointer<RFTYPE::String> Text);
-                static void AddAppender(Memory::AutoPointer<Diagnostics::Appender> Value);
-                static void AddAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > > Values);
-                static void ReplaceAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > > Values);
+                static void WriteInfo(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void WriteError(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void WriteFatalError(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void WriteDebug(Memory::AutoPointer<RFTYPE::String>& Text);
+                static void AddAppender(Memory::AutoPointer<Diagnostics::Appender>& Value);
+                static void AddAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > >& Values);
+                static void ReplaceAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > >& Values);
                 static void RemoveAppender(const Diagnostics::Appender& Value);
 
                 static RFTYPE::Bool IsInfoEnabled;
@@ -44,7 +44,7 @@ namespace RadonFramework
                 RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(RFTYPE::String::UnsafeStringCreation(Str), argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteInfo(ptr);
             }
@@ -57,7 +57,7 @@ namespace RadonFramework
                 RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(RFTYPE::String::UnsafeStringCreation(Str), argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteError(ptr);
             }
@@ -70,7 +70,7 @@ namespace RadonFramework
                 RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(RFTYPE::String::UnsafeStringCreation(Str), argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteFatalError(ptr);
             }
@@ -83,7 +83,7 @@ namespace RadonFramework
                 RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
                 va_list argp;
                 va_start(argp, Str);
-                RFTYPE::String str=RFTYPE::String::Format(Str, argp);
+                RFTYPE::String str=RFTYPE::String::Format(RFTYPE::String::UnsafeStringCreation(Str), argp);
                 va_end(argp);
                 ptr->Swap(str); RadonFramework::IO::Log::WriteDebug(ptr);
             }

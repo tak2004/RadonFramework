@@ -49,6 +49,14 @@ DWORD GetNativePriority(FileAccessPriority::Type AccessPriority)
     return result[AccessPriority];
 }
 
+DWORD GetNativeCreationDisposition(FileAccessMode::Type AccessMode)
+{
+    static DWORD result[FileAccessMode::MAX] = {
+        OPEN_EXISTING, OPEN_ALWAYS, OPEN_ALWAYS
+    };
+    return result[AccessMode];
+}
+
 DWORD GetNativeSeekOrigin(SeekOrigin::Type Origin)
 {
     static DWORD result[SeekOrigin::MAX]={
@@ -60,9 +68,9 @@ DWORD GetNativeSeekOrigin(SeekOrigin::Type Origin)
 FileHandle OpenFile(const String& FilePath, const FileAccessMode::Type AccessMode,
                     const FileAccessPriority::Type AccessPriority)
 {
-    FileHandle result= FileHandle::Zero();
-    HANDLE file=CreateFileA(FilePath.c_str(), GetNativeAccessMode(AccessMode), 
-                            0, 0, OPEN_EXISTING, GetNativePriority(AccessPriority), 0);
+    FileHandle result = FileHandle::Zero();
+    HANDLE file = CreateFileA(FilePath.c_str(), GetNativeAccessMode(AccessMode), 
+        0, 0, GetNativeCreationDisposition(AccessMode), GetNativePriority(AccessPriority), 0);
     if (file != INVALID_HANDLE_VALUE)
         result=FileHandle::GenerateFromPointer(file);
     return result;
@@ -148,7 +156,7 @@ Bool FlushFile(const FileHandle& Handle)
 
 UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin::Type Origin)
 {
-    long hi, lo=Offset>>32;
+    long hi=static_cast<long>(Offset), lo=Offset>>32;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), lo, &hi, GetNativeSeekOrigin(Origin));
     if (lo!=INVALID_SET_FILE_POINTER)
         return (static_cast<UInt64>(hi) << 32) + lo;
@@ -158,7 +166,7 @@ UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin:
 
 UInt64 TellFile(const FileHandle& Handle)
 {
-    long hi, lo;
+    long hi=0, lo;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), 0, &hi, FILE_CURRENT);
     if (lo!=INVALID_SET_FILE_POINTER)
         return (static_cast<UInt64>(hi) << 32) + lo;
@@ -169,7 +177,7 @@ UInt64 TellFile(const FileHandle& Handle)
 String GenerateTempFilename(const String& Path)
 {
     char buf[MAX_PATH];
-    UInt32 len=GetTempFileName(Path.c_str(), NULL, 0, buf);
+    UInt32 len=GetTempFileName(Path.c_str(), "tmp", 0, buf);
     String result(buf, len);
     return result;
 }
@@ -181,13 +189,13 @@ Bool Access(const String& Path, const AccessMode::Type Mode)
 
 Char PathSeperator()
 {
-    static Char result=';';
+    static const Char result=';';
     return result;
 }
 
 Char Seperator()
 {
-    static Char result='\\'; 
+    static const Char result='\\'; 
     return result;
 }
 
@@ -277,7 +285,7 @@ Bool RenameFile(const String& From, const String& To)
 
 String WinToUri(const String& WinPath)
 {
-    String result=String("file:///")+WinPath;
+    String result=String("file:///", sizeof("file:///"))+WinPath;
     for (UInt32 i=0;i<result.Length();++i)
     {
         if (result[i]=='\\')
@@ -291,7 +299,7 @@ String WorkingDirectory()
     char buffer[1024];
     String result;
     if (GetCurrentDirectory(1024,buffer)!=0)
-        result=WinToUri(buffer);
+        result=WinToUri(String(buffer, 1024));
     return result;
 }
 
@@ -300,7 +308,7 @@ String HomeDirectory()
     // getenv return a unix like path
     char buf[MAX_PATH];
     GetEnvironmentVariable("%USERPROFILE%", buf, MAX_PATH);
-    String path(buf);
+    String path(buf, MAX_PATH);
     return WinToUri(path);
 }
 
@@ -308,8 +316,8 @@ String ApplicationDirectory()
 {
     char buf[MAX_PATH];
     GetModuleFileName(NULL,buf,MAX_PATH);
-    String result(buf);
-    result=result.SubString(0,result.LastIndexOf(::Seperator()));
+    String result(buf, MAX_PATH);
+    result=result.SubString(0,result.LastIndexOf(String(::Seperator())));
     result=WinToUri(result);
     return result;
 }
@@ -319,7 +327,7 @@ String UserApplicationDataDirectory()
     String result;
     char buf[MAX_PATH];
     if (SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, buf) == S_OK)
-        result = WinToUri(String(buf));
+        result = WinToUri(String(buf, MAX_PATH));
     return result;
 }
 
@@ -328,7 +336,7 @@ String ApplicationDataDirectory()
     String result;
     char buf[MAX_PATH];
     if (SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, buf) == S_OK)
-        result = WinToUri(String(buf));
+        result = WinToUri(String(buf, MAX_PATH));
     return result;
 }
 
@@ -355,7 +363,7 @@ AutoPointerArray<String> DirectoryContent(const String& Path)
         do
         {
             if (strcmp(findFileData.cFileName,".")!=0 && strcmp(findFileData.cFileName,"..")!=0)
-                list.AddLast(String(findFileData.cFileName));
+                list.AddLast(String(findFileData.cFileName, MAX_PATH));
         }while(FindNextFile(hFind,&findFileData)!=0);
         FindClose(hFind);
         result=AutoPointerArray<String>(new String[list.Size()],list.Size());
@@ -553,11 +561,11 @@ void RadonFramework::System::IO::FileSystem::Dispatch()
     FlushFile=::FlushFile;
     SeekFile=::SeekFile;
     TellFile=::TellFile;
-    Access=::Access;
+    //Access=::Access;
     PathSeperator=::PathSeperator;
     Seperator=::Seperator;
     Stat=::Stat;
-    ChangeMode=::ChangeMode;
+    //ChangeMode=::ChangeMode;
     CreatePreAllocatedFile=::CreatePreAllocatedFile;
     CreateFile=::CreateFile;
     CopyFile=::CopyFile;

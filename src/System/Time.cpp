@@ -9,48 +9,60 @@ using namespace RadonFramework::Collections;
 TimerHandle CreateTimerQueue_SystemAPIDispatcher(TimerCallback Callback, 
     void* Parameter, RFTYPE::Int32 DueTime, RFTYPE::Int32 Period)
 {
+    CreateTimerQueue = 0;
     Dispatch();
-    Assert(CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher,
+    Assert(CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher &&
+           CreateTimerQueue != 0,
            "Funtion was called and couldn't be dispatched");
     return CreateTimerQueue(Callback, Parameter, DueTime, Period);
 }
 
 void DeleteTimerQueue_SystemAPIDispatcher(TimerHandle& Handle)
 {
+    DeleteTimerQueue = 0;
     Dispatch();
-    Assert(DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher,
+    Assert(DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher &&
+           DeleteTimerQueue != 0,
            "Funtion was called and couldn't be dispatched");
     DeleteTimerQueue(Handle);
 }
 
 UInt64 GetNow_SystemAPIDispatcher()
 {
+    GetNow = 0;
     Dispatch();
-    Assert(GetNow != GetNow_SystemAPIDispatcher,
+    Assert(GetNow != GetNow_SystemAPIDispatcher &&
+           GetNow != 0,
            "Funtion was called and couldn't be dispatched");
     return GetNow();
 }
 
 UInt64 GetMinutesWestOfGMT_SystemAPIDispatcher()
 {
+    GetMinutesWestOfGMT = 0;
     Dispatch();
-    Assert(GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher,
+    Assert(GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher &&
+           GetMinutesWestOfGMT != 0,
            "Funtion was called and couldn't be dispatched");
     return GetMinutesWestOfGMT();
 }
 
 UInt64 GetHighResolutionCounter_SystemAPIDispatcher()
 {
+    GetHighResolutionCounter = 0;
     Dispatch();
-    Assert(GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher,
+    Assert(GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher &&
+           GetHighResolutionCounter != 0,
            "Funtion was called and couldn't be dispatched");
     return GetHighResolutionCounter();
 }
 
 Bool IsHighResolutionCounterSupported_SystemAPIDispatcher()
 {
+    IsHighResolutionCounterSupported = 0;
     Dispatch();
-    Assert(IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher,
+    Assert(IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher &&
+           IsHighResolutionCounterSupported != 0,
            "Funtion was called and couldn't be dispatched");
     return IsHighResolutionCounterSupported();
 }
@@ -65,27 +77,27 @@ IsHighResolutionCounterSupportedCallback RFTIME::IsHighResolutionCounterSupporte
 Bool RFTIME::IsSuccessfullyDispatched()
 {
     Bool result=true;
-    result=result && CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher;
-    result=result && DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher;
-    result=result && GetNow != GetNow_SystemAPIDispatcher;
-    result=result && GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher;
-    result=result && GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher;
-    result=result && IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher;
+    result=result && CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher && CreateTimerQueue != 0;
+    result=result && DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher && DeleteTimerQueue != 0;
+    result=result && GetNow != GetNow_SystemAPIDispatcher && GetNow != 0;
+    result=result && GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher && GetMinutesWestOfGMT != 0;
+    result=result && GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher && GetHighResolutionCounter != 0;
+    result=result && IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher && IsHighResolutionCounterSupported != 0;
     return result;
 }
 
 void RFTIME::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
 {
-    if (CreateTimerQueue == CreateTimerQueue_SystemAPIDispatcher) 
-        Result.AddLast("CreateTimerQueue");
-    if (DeleteTimerQueue == DeleteTimerQueue_SystemAPIDispatcher) 
-        Result.AddLast("DeleteTimerQueue");
-    if (GetNow == GetNow_SystemAPIDispatcher) 
-        Result.AddLast("GetNow");
-    if (GetMinutesWestOfGMT == GetMinutesWestOfGMT_SystemAPIDispatcher) 
-        Result.AddLast("GetMinutesWestOfGMT");
-    if (GetHighResolutionCounter == GetHighResolutionCounter_SystemAPIDispatcher) 
-        Result.AddLast("GetHighResolutionCounter");
-    if (IsHighResolutionCounterSupported == IsHighResolutionCounterSupported_SystemAPIDispatcher) 
-        Result.AddLast("IsHighResolutionCounterSupported");
+    if (CreateTimerQueue == CreateTimerQueue_SystemAPIDispatcher || CreateTimerQueue == 0) 
+        Result.AddLast(RFTYPE::String("CreateTimerQueue", sizeof("CreateTimerQueue")));
+    if (DeleteTimerQueue == DeleteTimerQueue_SystemAPIDispatcher || DeleteTimerQueue == 0) 
+        Result.AddLast(RFTYPE::String("DeleteTimerQueue", sizeof("DeleteTimerQueue")));
+    if (GetNow == GetNow_SystemAPIDispatcher || GetNow == 0) 
+        Result.AddLast(RFTYPE::String("GetNow", sizeof("GetNow")));
+    if (GetMinutesWestOfGMT == GetMinutesWestOfGMT_SystemAPIDispatcher || GetMinutesWestOfGMT == 0) 
+        Result.AddLast(RFTYPE::String("GetMinutesWestOfGMT", sizeof("GetMinutesWestOfGMT")));
+    if (GetHighResolutionCounter == GetHighResolutionCounter_SystemAPIDispatcher || GetHighResolutionCounter == 0) 
+        Result.AddLast(RFTYPE::String("GetHighResolutionCounter", sizeof("GetHighResolutionCounter")));
+    if (IsHighResolutionCounterSupported == IsHighResolutionCounterSupported_SystemAPIDispatcher || IsHighResolutionCounterSupported == 0) 
+        Result.AddLast(RFTYPE::String("IsHighResolutionCounterSupported", sizeof("IsHighResolutionCounterSupported")));
 }

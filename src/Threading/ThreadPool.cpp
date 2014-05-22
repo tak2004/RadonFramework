@@ -11,6 +11,21 @@ using namespace RadonFramework::Core::Idioms;
 using namespace RadonFramework::System::Threading;
 using namespace RadonFramework::System;
 
+class PoolTask
+{
+public:
+    PoolTask();
+    ~PoolTask();
+    PoolTask(ThreadPool::WaitCallback Callback, void* Data,
+             RFTYPE::Bool AutoCleanup);
+    PoolTask(const PoolTask& Copy);
+    PoolTask& operator=(const PoolTask& Other);
+
+    ThreadPool::WaitCallback Callback;
+    mutable void* Data;
+    RFTYPE::Bool AutoCleanup;
+};
+
 class PoolThread : public System::Threading::Thread
 {
 public:
@@ -39,7 +54,7 @@ public:
         }
     }
 
-    virtual ~Data()
+    ~Data()
     {
         Running=false;
         MaxWorkerThreads = 0;
@@ -223,6 +238,44 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
         return true;
     }
     return false;
+}
+
+void ThreadPool::DisableAndWaitTillDone()
+{
+    m_PImpl->Running = false;
+    WaitTillDone();
+}
+
+void ThreadPool::Disable()
+{
+    m_PImpl->Running = false;
+}
+
+void ThreadPool::Enable()
+{
+    m_PImpl->Running = true;
+}
+
+void ThreadPool::WaitTillDone()
+{
+    if(this->m_PImpl->Running)
+    {
+        Time::TimeSpan delta = Time::TimeSpan::CreateByTime(0,0,1);
+        Bool idle;
+        do
+        {
+            idle = true;
+            {
+                Scopelock lock(m_PImpl->Busy);
+                for(Size i = 0, end = m_PImpl->SerialTaskLists.Count(); i < end; ++i)
+                    idle = idle && m_PImpl->SerialTaskLists(static_cast<UInt32>(i)).Count() == 0;
+                idle = idle && m_PImpl->ConcurrentTaskList.Count() == 0;
+            }
+
+            if(!idle)
+                m_PImpl->TaskListChanged.TimedWait(m_PImpl->Busy, delta);
+        } while(!idle);
+    }
 }
 
 void PoolThread::Run()

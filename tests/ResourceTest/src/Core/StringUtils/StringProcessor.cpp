@@ -79,115 +79,73 @@ class StringProcessorTest:public TestSuite
         :TestSuite("RadonFramework::Core::Types::StringUtils")
         {
             txt=String(LONGERTEXT, DataManagment::UnmanagedInstance);
-            AddTest(MakeDelegate(this,&StringProcessorTest::DoBruteforce),"Bruteforce search 100000x");
-            AddTest(MakeDelegate(this,&StringProcessorTest::DoHorspool),"Horspool search 100000x");
-            AddTest(MakeDelegate(this,&StringProcessorTest::DoKnuthMorrisPratt),"KnuthMorrisPratt search 100000x");
-            AddTest(MakeDelegate(this,&StringProcessorTest::DoShiftAnd),"ShiftAnd search 100000x");
-            AddTest(MakeDelegate(this,&StringProcessorTest::DoSkipSearch),"SkipSearch search 100000x");
-            AddTest(MakeDelegate(this,&StringProcessorTest::DoSunday),"Sunday search 100000x");
+            AddTest(MakeDelegate(this,&StringProcessorTest::DoBruteforce),"Bruteforce search");
+            AddTest(MakeDelegate(this,&StringProcessorTest::DoHorspool),"Horspool search");
+            AddTest(MakeDelegate(this,&StringProcessorTest::DoKnuthMorrisPratt),"KnuthMorrisPratt search");
+            AddTest(MakeDelegate(this,&StringProcessorTest::DoShiftAnd),"ShiftAnd search");
+            AddTest(MakeDelegate(this,&StringProcessorTest::DoSkipSearch),"SkipSearch search");
+            AddTest(MakeDelegate(this,&StringProcessorTest::DoSunday),"Sunday search");
         }
 
         Bool DoBruteforce()
         {
-            TimeSpan ts;
             Int32 count;
-            {
-                ScopeTimer time(ts);
-                for (UInt32 i=0;i<100000;++i)
-                {
-                    StringProcessor<BruteForce> proc;
-                    proc.Storage().Search="knowledge";
-                    proc.Init(txt,0,false);
-                    count=proc.DoAll();//5 matches
-                }
-            }
+            StringProcessor<BruteForce> proc;
+            proc.Storage().Search="knowledge";
+            proc.Init(txt,0,false);
+            count=proc.DoAll();//5 matches
             return true;
         }
 
         Bool DoHorspool()
         {
-            TimeSpan ts;
             Int32 count;
-            {
-                ScopeTimer time(ts);
-                for (UInt32 i=0;i<100000;++i)
-                {
-                    StringProcessor<Horspool> proc;
-                    proc.Storage().Search="knowledge";
-                    proc.Init(txt,0,false);
-                    count=proc.DoAll();//5 matches
-                }
-            }
+            StringProcessor<Horspool> proc;
+            proc.Storage().Search="knowledge";
+            proc.Init(txt,0,false);
+            count=proc.DoAll();//5 matches
             return true;
         }
 
         Bool DoKnuthMorrisPratt()
         {
-            TimeSpan ts;
             Int32 count;
-            {
-                ScopeTimer time(ts);
-                for (UInt32 i=0;i<100000;++i)
-                {
-                    StringProcessor<KnuthMorrisPratt> proc;
-                    proc.Storage().Search="knowledge";
-                    proc.Init(txt,0,false);
-                    count=proc.DoAll();//5 matches
-                }
-            }
+            StringProcessor<KnuthMorrisPratt> proc;
+            proc.Storage().Search="knowledge";
+            proc.Init(txt,0,false);
+            count=proc.DoAll();//5 matches
             return true;
         }
 
         Bool DoShiftAnd()
         {
-            TimeSpan ts;
             Int32 count;
-            {
-                ScopeTimer time(ts);
-                for (UInt32 i=0;i<100000;++i)
-                {
-                    StringProcessor<ShiftAnd> proc;
-                    proc.Storage().Search="knowledge";
-                    proc.Init(txt,0,false);
-                    count=proc.DoAll();//5 matches
-                }
-            }
+            StringProcessor<ShiftAnd> proc;
+            proc.Storage().Search="knowledge";
+            proc.Init(txt,0,false);
+            count=proc.DoAll();//5 matches
             return true;
         }
 
         Bool DoSkipSearch()
         {
-            TimeSpan ts;
             Int32 count;
-            {
-                ScopeTimer time(ts);
-                for (UInt32 i=0;i<100000;++i)
-                {
-                    StringProcessor<SkipSearch> proc;
-                    proc.Storage().Search="knowledge";
-                    proc.Init(txt,0,false);
-                    count=proc.DoAll();//5 matches
-                }
-            }
+            StringProcessor<SkipSearch> proc;
+            proc.Storage().Search="knowledge";
+            proc.Init(txt,0,false);
+            count=proc.DoAll();//5 matches
             return true;
         }
 
         Bool DoSunday()
         {
-            TimeSpan ts;
             Int32 count;
-            {
-                ScopeTimer time(ts);
-                for (UInt32 i=0;i<100000;++i)
-                {
-                    StringProcessor<Sunday> proc;
-                    proc.Storage().Search="knowledge";
-                    proc.Init(txt,0,false);
-                    count=proc.DoAll();//5 matches
-                }
-            }
+            StringProcessor<Sunday> proc;
+            proc.Storage().Search="knowledge";
+            proc.Init(txt,0,false);
+            count=proc.DoAll();//5 matches
             return true;
         }
 };
 
-//StringProcessorTest StringProcessorTestInstance;
+StringProcessorTest StringProcessorTestInstance;

@@ -8,13 +8,13 @@ using namespace RadonFramework::Core::Types::StringUtils;
 String Base85Converter::Encode(const String &Source)
 {
     std::string str=modp::b85_encode(Source.c_str(),Source.Length());
-    String result(str.c_str());
+    String result(str.c_str(), str.size());
     return result;
 }
 
 String Base85Converter::Decode(const String &Source)
 {
     std::string str=modp::b85_decode(Source.c_str(),Source.Length());
-    String result(str.c_str());
+    String result(str.c_str(), str.size());
     return result;
 }

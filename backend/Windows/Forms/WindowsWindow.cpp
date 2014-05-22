@@ -160,7 +160,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 WindowsWindow::WindowsWindow(WindowService *Service)
 :m_Service(Service),
-    m_Title("unnamed"),
+    m_Title("unnamed", sizeof("unnamed")),
     m_Border(true),
     m_Visible(false),
     m_CursorVisible(true),

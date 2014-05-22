@@ -91,11 +91,6 @@ include(libRadonFramework.cmake)
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/extern/Generate.cmake")
 Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
 
-#if(CMAKE_COMPILER_IS_GNUCXX)
-	# use c++11 and relax the compiler restrictions
-	#AddCompilerSetting(RADONFRAMEWORK "-std=c++0x -fpermissive")
-#endif(CMAKE_COMPILER_IS_GNUCXX)
-
 AddPublicInclude(RADONFRAMEWORK ${RadonFramework_SOURCE_DIR}/include/)
 target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/)
 target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/uripp/)

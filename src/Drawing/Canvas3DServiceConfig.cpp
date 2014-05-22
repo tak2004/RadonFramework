@@ -25,10 +25,10 @@ void Canvas3DServiceConfig::Set(DataTree::NodeType& TreeNode)
     DataTree::NodeType* node=&TreeNode;
     do
     {
-        if (node->Data().First=="default")
-            DefaultDriver=node->Data().Second;			
+        if (node->Data().First == String("default", sizeof("default")))
+            DefaultDriver=node->Data().Second;
         else
-            if (node->Data().First=="fallback")
+            if (node->Data().First == String("fallback", sizeof("fallback")))
             {
                 String serviceName;
                 Size prio;
@@ -51,11 +51,11 @@ void Canvas3DServiceConfig::Set(DataTree::NodeType& TreeNode)
         FallbackDriver.Sort(callback);
     }
 
-    if (Canvas3DServiceLocator::Find(DefaultDriver).Name() != "NullService")
+    if (Canvas3DServiceLocator::Find(DefaultDriver).Name() != String("NullService", sizeof("NullService")))
         Canvas3DServiceLocator::SetDefault(DefaultDriver);
     else
         for (Size i=0;i<FallbackDriver.Count();++i)
-            if(Canvas3DServiceLocator::Find(FallbackDriver(i).Second).Name() != "NullService")
+            if(Canvas3DServiceLocator::Find(FallbackDriver(i).Second).Name() != String("NullService", sizeof("NullService")))
             {
                 Canvas3DServiceLocator::SetDefault(FallbackDriver(i).Second);
                 break;
@@ -70,7 +70,7 @@ Bool Canvas3DServiceConfig::Fallback(DataTree::NodeType& TreeNode,
     DataTree::NodeType* node=&TreeNode;
     do
     {
-        if (node->Data().First=="priority")
+        if (node->Data().First == String("priority", sizeof("priority")))
         {
             if (node->Data().Second.IsNumber())
             {
@@ -79,7 +79,7 @@ Bool Canvas3DServiceConfig::Fallback(DataTree::NodeType& TreeNode,
             }
         }
         else
-        if (node->Data().First=="value")
+        if (node->Data().First == String("value", sizeof("value")))
         {
             Parameter=node->Data().Second;
             isValueExist=true;

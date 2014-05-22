@@ -57,10 +57,15 @@ PlatformID::Type Platform()
 Bool Is32BitEmulation()
 {
     BOOL bIsWow64 = FALSE;
-    fnIsWow64Process = (LPFN_ISWOW64PROCESS) GetProcAddress(
-        GetModuleHandle("kernel32"),"IsWow64Process");
-    if(NULL != fnIsWow64Process)
-        fnIsWow64Process(GetCurrentProcess(),&bIsWow64);
+    HMODULE module = GetModuleHandle("kernel32");
+    if(0 != module)
+    {
+        fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(module, "IsWow64Process");
+        if(NULL != fnIsWow64Process)
+        {
+            fnIsWow64Process(GetCurrentProcess(), &bIsWow64);
+        }            
+    }
     return bIsWow64!=0;
 }
 
@@ -82,7 +87,7 @@ void GetVariable(const RFTYPE::String& Name, RFTYPE::String& Result)
 {
     char buf[MAX_PATH];
     GetEnvironmentVariableA(Name.c_str(), buf, MAX_PATH);
-    Result=RFTYPE::String(buf);
+    Result=RFTYPE::String(buf, MAX_PATH);
 }
 
 OperatingSystemFamily::Type OSFamily()

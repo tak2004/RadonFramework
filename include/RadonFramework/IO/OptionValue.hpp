@@ -4,38 +4,31 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/Bool.hpp>
-#include <RadonFramework/Core/Types/String.hpp>
+namespace RadonFramework { namespace IO {
 
-namespace RadonFramework
+class OptionValue
 {
-    namespace IO
-    {
-        class OptionValue
-        {
-            public:
-                OptionValue();
+public:
+    OptionValue();
 
-                OptionValue(const OptionValue& Copy);
+    OptionValue(const OptionValue& Copy);
 
-                OptionValue(const char* Value);
-
-                OptionValue(const RFTYPE::String& Value);
+    OptionValue(const RFTYPE::String& Value);
                                 
-                OptionValue& operator=(const OptionValue& Other);
+    OptionValue& operator=(const OptionValue& Other);
 
-                OptionValue& operator=(const RFTYPE::String& Value);
+    OptionValue& operator=(const RFTYPE::String& Value);
 
-                void Set();
+    void Set();
 
-                RFTYPE::Bool IsSet()const;
+    RFTYPE::Bool IsSet()const;
 
-                const RFTYPE::String& Value()const;				
-            protected:
-                RFTYPE::String m_Value;
-                RFTYPE::Bool m_ValueSet;
-        };
-    }
-}
+    const RFTYPE::String& Value()const;
+protected:
+    RFTYPE::String m_Value;
+    RFTYPE::Bool m_ValueSet;
+};
+
+} }
 
 #endif

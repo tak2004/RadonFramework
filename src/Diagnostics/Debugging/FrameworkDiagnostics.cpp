@@ -4,16 +4,27 @@
 #include "RadonFramework/System/Memory.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/System/Time.hpp"
+#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Process.hpp"
+#include "RadonFramework/System/String.hpp"
 
 void RadonFramework::Diagnostics::Debugging::FrameworkDiagnostics::GetAllMissingSystemFunctions(
     RadonFramework::Collections::List<RadonFramework::Core::Types::String>& Result)
 {
-    if (!RadonFramework::System::Environment::IsSuccessfullyDispatched()) 
-        RadonFramework::System::Environment::GetNotDispatchedFunctions(Result);
+    if (!RFENV::IsSuccessfullyDispatched()) 
+        RFENV::GetNotDispatchedFunctions(Result);
     if (!RFMEM::IsSuccessfullyDispatched()) 
         RFMEM::GetNotDispatchedFunctions(Result);
-    if (!RadonFramework::System::IO::FileSystem::IsSuccessfullyDispatched()) 
-        RadonFramework::System::IO::FileSystem::GetNotDispatchedFunctions(Result);
-    if (!RadonFramework::System::Time::IsSuccessfullyDispatched()) 
-        RadonFramework::System::Time::GetNotDispatchedFunctions(Result);
+    if (!RFFILE::IsSuccessfullyDispatched()) 
+        RFFILE::GetNotDispatchedFunctions(Result);
+    if (!RFTIME::IsSuccessfullyDispatched()) 
+        RFTIME::GetNotDispatchedFunctions(Result);
+    if (!RFSTR::IsSuccessfullyDispatched())
+        RFSTR::GetNotDispatchedFunctions(Result);
+    if (!RFPROC::IsSuccessfullyDispatched())
+        RFPROC::GetNotDispatchedFunctions(Result);
+    if (!RFMEM::IsSuccessfullyDispatched())
+        RFMEM::GetNotDispatchedFunctions(Result);
+    if (!RFHDW::IsSuccessfullyDispatched())
+        RFHDW::GetNotDispatchedFunctions(Result);
 }

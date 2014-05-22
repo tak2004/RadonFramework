@@ -23,7 +23,7 @@ String File::GenerateTemporaryFilename()
 {
     char buffer [L_tmpnam];
     tmpnam(buffer);
-    return String(buffer+1);//ignore path seperator
+    return String(buffer+1, L_tmpnam);//ignore path seperator
 }
 
 AutoPointer<File> File::GenerateFile(const Uri& Location)

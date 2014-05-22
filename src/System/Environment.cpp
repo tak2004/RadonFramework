@@ -7,48 +7,60 @@ using namespace RadonFramework::System::Environment;
 
 MemoryArchitecture::Type MemoryArchitectureOfOS_SystemAPIDispatcher()
 {
+    MemoryArchitectureOfOS = 0;
     Dispatch();
-    Assert(MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher,
+    Assert(MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher &&
+           MemoryArchitectureOfOS != 0,
            "Funtion was called and couldn't be dispatched");
     return MemoryArchitectureOfOS();
 }
 
 RFTYPE::Bool Is32BitEmulation_SystemAPIDispatcher()
 {
+    Is32BitEmulation = 0;
     Dispatch();
-    Assert(Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher,
+    Assert(Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher &&
+           Is32BitEmulation != 0,
            "Funtion was called and couldn't be dispatched");
     return Is32BitEmulation();
 }
 
 const OperatingSystem& OSVersion_SystemAPIDispatcher()
 {
+    OSVersion = 0;
     Dispatch();
-    Assert(OSVersion != OSVersion_SystemAPIDispatcher,
+    Assert(OSVersion != OSVersion_SystemAPIDispatcher &&
+           OSVersion != 0,
            "Funtion was called and couldn't be dispatched");
     return OSVersion();
 }
 
 void GetVariable_SystemAPIDispatcher(const RFTYPE::String& Name, RFTYPE::String& Result)
 {
+    GetVariable = 0;
     Dispatch();
-    Assert(GetVariable != GetVariable_SystemAPIDispatcher,
+    Assert(GetVariable != GetVariable_SystemAPIDispatcher &&
+           GetVariable != 0,
            "Funtion was called and couldn't be dispatched");
     GetVariable(Name, Result);
 }
 
 PlatformID::Type Platform_SystemAPIDispatcher()
 {
+    Platform = 0;
     Dispatch();
-    Assert(Platform != Platform_SystemAPIDispatcher,
+    Assert(Platform != Platform_SystemAPIDispatcher &&
+           Platform != 0,
            "Funtion was called and couldn't be dispatched");
     return Platform();
 }
 
 OperatingSystemFamily::Type OSFamily_SystemAPIDispatcher()
 {
+    OSFamily = 0;
     Dispatch();
-    Assert(OSFamily != OSFamily_SystemAPIDispatcher,
+    Assert(OSFamily != OSFamily_SystemAPIDispatcher &&
+           OSFamily != 0,
            "Funtion was called and couldn't be dispatched");
     return OSFamily();
 }
@@ -63,27 +75,27 @@ OSFamilyCallback RFENV::OSFamily=OSFamily_SystemAPIDispatcher;
 RFTYPE::Bool RFENV::IsSuccessfullyDispatched()
 {
     RFTYPE::Bool result=true;
-    result=result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher;
-    result=result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher;
-    result=result && OSVersion != OSVersion_SystemAPIDispatcher;
-    result=result && GetVariable != GetVariable_SystemAPIDispatcher;
-    result=result && Platform != Platform_SystemAPIDispatcher;
-    result=result && OSFamily != OSFamily_SystemAPIDispatcher;
+    result=result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher && MemoryArchitectureOfOS != 0;
+    result=result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher && Is32BitEmulation != 0;
+    result=result && OSVersion != OSVersion_SystemAPIDispatcher && OSVersion != 0;
+    result=result && GetVariable != GetVariable_SystemAPIDispatcher && GetVariable != 0;
+    result=result && Platform != Platform_SystemAPIDispatcher && Platform != 0;
+    result=result && OSFamily != OSFamily_SystemAPIDispatcher && OSFamily != 0;
     return result;
 }
 
 void RFENV::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
 {
-    if (MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher) 
-        Result.AddLast("MemoryArchitectureOfOS");
-    if (Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher) 
-        Result.AddLast("Is32BitEmulation");
-    if (OSVersion == OSVersion_SystemAPIDispatcher) 
-        Result.AddLast("OSVersion");
-    if (GetVariable == GetVariable_SystemAPIDispatcher) 
-        Result.AddLast("GetVariable");
-    if (Platform == Platform_SystemAPIDispatcher) 
-        Result.AddLast("Platform");
-    if (OSFamily == OSFamily_SystemAPIDispatcher) 
-        Result.AddLast("OSFamily");
+    if (MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher || MemoryArchitectureOfOS == 0) 
+        Result.AddLast(RFTYPE::String("MemoryArchitectureOfOS", sizeof("MemoryArchitectureOfOS")));
+    if (Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher || Is32BitEmulation == 0) 
+        Result.AddLast(RFTYPE::String("Is32BitEmulation", sizeof("Is32BitEmulation")));
+    if (OSVersion == OSVersion_SystemAPIDispatcher || OSVersion == 0) 
+        Result.AddLast(RFTYPE::String("OSVersion", sizeof("OSVersion")));
+    if (GetVariable == GetVariable_SystemAPIDispatcher || GetVariable == 0) 
+        Result.AddLast(RFTYPE::String("GetVariable", sizeof("GetVariable")));
+    if (Platform == Platform_SystemAPIDispatcher || Platform == 0) 
+        Result.AddLast(RFTYPE::String("Platform", sizeof("Platform")));
+    if (OSFamily == OSFamily_SystemAPIDispatcher || OSFamily == 0) 
+        Result.AddLast(RFTYPE::String("OSFamily", sizeof("OSFamily")));
 }

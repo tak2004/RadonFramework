@@ -48,7 +48,8 @@ void LogConfig::Configure()
     Log::IsInfoEnabled=m_Data->IsInfoEnabled;
     Log::IsErrorEnabled=m_Data->IsErrorEnabled;
     Log::IsFatalErrorEnabled=m_Data->IsFatalErrorEnabled;
-    Log::ReplaceAppenders(GenerateAppenders());
+    AutoPointer<Array<AutoPointer<Appender> > > appenders = GenerateAppenders();
+    Log::ReplaceAppenders(appenders);
 }
 
 Bool LogConfig::ReadFromBinaryData(AutoPointerArray<UInt8> Data)

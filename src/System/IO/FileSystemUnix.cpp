@@ -19,8 +19,10 @@ using namespace RadonFramework::System::IO::FileSystem;
 #include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <unistd.h>
+#include <stdio.h>
 
-inline Bool AccessImplementation(const String& Path, const AccessMode::Type Mode)
+inline Bool Access(const String& Path, const AccessMode::Type Mode)
 {
     int modes[AccessMode::MAX]={-1, F_OK, R_OK, F_OK|R_OK, W_OK, W_OK|F_OK, 
                                 W_OK|R_OK, W_OK|R_OK|F_OK, X_OK, X_OK|F_OK,
@@ -30,7 +32,7 @@ inline Bool AccessImplementation(const String& Path, const AccessMode::Type Mode
     return access(Path.c_str(),modes[Mode]);
 }
 
-inline AutoPointer<FileStatus> StatImplementation(const String& Path)
+inline AutoPointer<FileStatus> Stat(const String& Path)
 {
     AutoPointer<FileStatus> result;
     struct stat buf;
@@ -47,7 +49,7 @@ inline AutoPointer<FileStatus> StatImplementation(const String& Path)
     return result;
 }
 
-Bool ChangeModeImplementation( const String& Path, const AccessMode::Type NewMode )
+Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
 {
     int modes[AccessMode::MAX]={-1, F_OK, R_OK, F_OK|R_OK, W_OK, W_OK|F_OK, 
                                 W_OK|R_OK, W_OK|R_OK|F_OK, X_OK, X_OK|F_OK,
@@ -56,7 +58,7 @@ Bool ChangeModeImplementation( const String& Path, const AccessMode::Type NewMod
     return chmod(Path.c_str(),modes[NewMode])==0;
 }
 
-Bool CreatePreAllocatedFileImplementation(const String& Path, const Size FileSize)
+Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
 {
     Bool result=false;
     int hFile=open(Path.c_str(),O_CREAT);
@@ -68,7 +70,7 @@ Bool CreatePreAllocatedFileImplementation(const String& Path, const Size FileSiz
     return result;
 }
 
-String WorkingDirectoryImplementation()
+String WorkingDirectory()
 {
     long size = pathconf(".", _PC_PATH_MAX);
     AutoPointerArray<char> buffer(new char[size],size);
@@ -78,29 +80,29 @@ String WorkingDirectoryImplementation()
     return result;
 }
 
-String HomeDirectoryImplementation()
+String HomeDirectory()
 {
     return String(getenv ("HOME"));
 }
 
-String ApplicationDirectoryImplementation()
+String ApplicationDirectory()
 {
     char buffer[BUFSIZ];
     readlink("/proc/self/exe", buffer, BUFSIZ);
     return String(buffer);
 }
 
-Bool ChangeDirectoryImplementation( const String& Destination ) 
+Bool ChangeDirectory( const String& Destination ) 
 {
     return chdir(Destination.c_str())==0;
 }
 
-Bool CreateDirectoryImplementation( const String& Path ) 
+Bool CreateDirectory( const String& Path ) 
 {    
     return mkdir(Path.c_str(),S_IRWXU | S_IRWXG | S_IRWXO)==0;
 }
 
-AutoPointerArray<String> DirectoryContentImplementation(const String& Path) 
+AutoPointerArray<String> DirectoryContent(const String& Path) 
 {
     AutoPointerArray<String> result;
     List<String> list;
@@ -119,7 +121,7 @@ AutoPointerArray<String> DirectoryContentImplementation(const String& Path)
     return result;
 }
 
-Bool CreateFileImplementation(const String& Path)
+Bool CreateFile(const String& Path)
 {
     Bool result=false;
     FILE* f=fopen(Path.c_str(),"w");
@@ -131,7 +133,7 @@ Bool CreateFileImplementation(const String& Path)
     return result;
 }
 
-Bool CopyFileImplementation(const String& From, const String& To)
+Bool CopyFile(const String& From, const String& To)
 {
     Bool result=false;
     int in_fd = open(From.c_str(), O_RDONLY);
@@ -139,7 +141,7 @@ Bool CopyFileImplementation(const String& From, const String& To)
     int out_fd=open(To.c_str(),O_WRONLY);
     if (in_fd && out_fd)
     {
-        AutoPointer<FileStatus> stats=StatImplementation(From);
+        AutoPointer<FileStatus> stats=::Stat(From);
         if (stats)
         {
             result=posix_fallocate(out_fd,0,stats->Size);
@@ -160,13 +162,105 @@ Bool CopyFileImplementation(const String& From, const String& To)
     return result;
 }
 
-void DispatchLinux()
-{/*
+int GetNativeFlags(const FileAccessMode::Type AccessMode, const FileAccessPriority::Type Priority)
+{
+    static const int mode[FileAccessMode::MAX] = {O_RDONLY,
+        O_WRONLY | O_CREAT | O_TRUNC,
+        O_RDWR | O_CREAT | O_TRUNC};
+    static const int prio[FileAccessPriority::MAX] = {0, 0, O_DIRECT, 0 };
+    return mode[AccessMode] | prio[Priority];
+}
+
+int GetNativeAccessPriority(const FileAccessPriority::Type Priority)
+{
+    static const int result[FileAccessPriority::MAX] = {POSIX_FADV_SEQUENTIAL,
+        POSIX_FADV_RANDOM, POSIX_FADV_NORMAL, POSIX_FADV_NORMAL};
+    return result[Priority];
+}
+
+FileHandle OpenFile(const RFTYPE::String& Filepath, const FileAccessMode::Type AccessMode,
+                    const FileAccessPriority::Type AccessPriority)
+{
+    FileHandle result = FileHandle::Zero();
+    int file = open(Filepath.c_str(), GetNativeFlags(AccessMode, AccessPriority));
+    if (file != 0)
+    {
+        // set file access pattern advise
+        posix_fadvise(file, 0, 0, GetNativeAccessPriority(AccessPriority));
+        result = FileHandle::GenerateFromID(file);
+    }
+    return result;
+}
+
+RFTYPE::Bool CloseFile(FileHandle& Handle)
+{
+    int file = static_cast<int>(Handle.GetID());
+    Bool result = close(file) == 0;
+    Handle = FileHandle::Zero();
+    return result;
+}
+
+Bool ReadFile(const FileHandle& Handle, UInt8* Buffer, const UInt64 ReadBytes, UInt64& BytesRead)
+{
+    int file = static_cast<int>(Handle.GetID());
+    BytesRead = read(file, Buffer, ReadBytes);
+    return ReadBytes == BytesRead;
+}
+
+Bool WriteFile(const FileHandle& Handle, const UInt8* Buffer, const UInt64 WriteBytes, UInt64& BytesWritten)
+{
+    int file = static_cast<int>(Handle.GetID());
+    return write(file, Buffer, WriteBytes) > 0;
+}
+
+Bool FlushFile(const FileHandle& Handle)
+{
+    int file = static_cast<int>(Handle.GetID());
+    return fsync(file) == 0;
+}
+
+UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin::Type Origin)
+{
+    static const int NativeSeek[SeekOrigin::MAX] = {SEEK_SET, SEEK_CUR, SEEK_END };
+    int file = static_cast<int>(Handle.GetID());
+    return lseek(file, Offset, NativeSeek[Origin]);
+}
+
+UInt64 TellFile(const FileHandle& Handle)
+{
+    int file = static_cast<int>(Handle.GetID());
+    return lseek(file, 0, SEEK_CUR);
+}
+
+Char PathSeperator()
+{
+    static const Char result = ';';
+    return result;
+}
+
+Char Seperator()
+{
+    static const Char result=  '/'; 
+    return result;
+}
+
+Bool DeleteFile(const String& Path)
+{
+    return unlink(Path.c_str()) == 0;
+}
+
+Bool RenameFile(const String& From, const String& To)
+{
+    return rename(From.c_str(), To.c_str()) == 0;
+}
+
+void RFFILE::Dispatch()
+{
     OpenFile=::OpenFile;
     CloseFile=::CloseFile;
-    MapFileIntoMemory=::MapFileIntoMemory;
+/*    MapFileIntoMemory=::MapFileIntoMemory;
     UnmapMemoryFile=::UnmapMemoryFile;
-    GetMemoryFile=::GetMemoryFile;
+    GetMemoryFile=::GetMemoryFile;*/
     ReadFile=::ReadFile;
     WriteFile=::WriteFile;
     FlushFile=::FlushFile;
@@ -185,16 +279,20 @@ void DispatchLinux()
     WorkingDirectory=::WorkingDirectory;
     HomeDirectory=::HomeDirectory;
     ApplicationDirectory=::ApplicationDirectory;
-    UserApplicationDataDirectory = ::UserApplicationDataDirectory;
-    ApplicationDataDirectory = ::ApplicationDataDirectory;
+    //UserApplicationDataDirectory = ::UserApplicationDataDirectory;
+    //ApplicationDataDirectory = ::ApplicationDataDirectory;
     ChangeDirectory=::ChangeDirectory;
     CreateDirectory=::CreateDirectory;
     DirectoryContent=::DirectoryContent;
-    CreateFileWatcher=::CreateFileWatcher;
-    DestroyFileWatcher=::DestroyFileWatcher;
-    WaitForFileWatcher=::WaitForFileWatcher;
-    StartFileWatcher=::StartFileWatcher;
-    StopFileWatcher=::StopFileWatcher;
-    GetFileWatcherEvent=::GetFileWatcherEvent;
-    GenerateTempFilename=::GenerateTempFilename;*/
+    //CreateFileWatcher=::CreateFileWatcher;
+    //DestroyFileWatcher=::DestroyFileWatcher;
+    //WaitForFileWatcher=::WaitForFileWatcher;
+    //StartFileWatcher=::StartFileWatcher;
+    //StopFileWatcher=::StopFileWatcher;
+    //GetFileWatcherEvent=::GetFileWatcherEvent;
+    //GenerateTempFilename=::GenerateTempFilename;*/
+    #ifdef RF_LINUX
+    extern void DispatchLinux();
+    DispatchLinux();
+    #endif
 }

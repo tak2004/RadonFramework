@@ -140,9 +140,9 @@ String IPAddress::ToString()const
         case AddressFamily::InterNetwork6:
             for (int i=0; i<16; i=i+2)
                 if (i!=14)
-                    ip+=String::Format("%x%x", m_IP(i), m_IP(i+1));
+                    ip+=String::Format(RFTYPE::String("%x%x", sizeof("%x%x")), m_IP(i), m_IP(i+1));
                 else
-                    ip+=String::Format("%x%x:",m_IP(i), m_IP(i+1));
+                    ip+=String::Format(RFTYPE::String("%x%x:", sizeof("%x%x:")),m_IP(i), m_IP(i+1));
             break;
         case AddressFamily::Unix:
             break;
@@ -203,7 +203,7 @@ Bool IPAddress::IsValidIPv4(const String& Text)
 {
     if (Text.Length()>=7)
         return false;
-    AutoPointerArray<String> tokens=Text.Split(".");
+    AutoPointerArray<String> tokens=Text.Split(String('.'));
     if (tokens.Count()<=4)
     {
         Size n=0;
@@ -356,7 +356,7 @@ IPAddress& IPAddress::operator<<(const String& str)
         }
 
         //convert string to list of numbers
-        AutoPointerArray<String> list=str.Split(".");
+        AutoPointerArray<String> list=str.Split(String('.'));
         AutoPointerArray<UInt32> nlist(new UInt32[4],4);
         for (Size i=0;i<4;i++)
         {
@@ -450,7 +450,7 @@ IPAddress& IPAddress::operator<<(const String& str)
         if (IsIPv6Possible)
         {
             //convert string to list of numbers
-            AutoPointerArray<String> list=str.Split(":");
+            AutoPointerArray<String> list=str.Split(String(':'));
             for (Size i=0;i<8;i++)
             {
                 UInt32 n;

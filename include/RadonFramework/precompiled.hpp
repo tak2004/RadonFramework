@@ -50,11 +50,11 @@ namespace RFIDIOM = RadonFramework::Core::Idioms;
 
 //--------- depending on upper includes -----------
 
-#include <RadonFramework/System/Memory.hpp>
-namespace RFMEM = RadonFramework::System::Memory;
-
 #include <RadonFramework/System/String.hpp>
 namespace RFSTR = RadonFramework::System::String;
+
+#include <RadonFramework/System/Memory.hpp>
+namespace RFMEM = RadonFramework::System::Memory;
 
 // Random size
 #include <RadonFramework/Core/Types/Vec.hpp>

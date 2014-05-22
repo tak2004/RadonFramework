@@ -14,32 +14,36 @@ using namespace RadonFramework::Collections;
 
 Bool Access_SystemAPIDispatcher(const String& Path, const AccessMode::Type Mode)
 {
+    Access = 0;
     Dispatch();
-    Assert(Access != Access_SystemAPIDispatcher,
+    Assert(Access != Access_SystemAPIDispatcher && Access != 0,
            "Funtion was called and couldn't be dispatched");
     return Access(Path, Mode);
 }
 
 Char PathSeperator_SystemAPIDispatcher()
 {
+    PathSeperator = 0;
     Dispatch();
-    Assert(PathSeperator != PathSeperator_SystemAPIDispatcher,
+    Assert(PathSeperator != PathSeperator_SystemAPIDispatcher && PathSeperator != 0,
            "Funtion was called and couldn't be dispatched");
     return PathSeperator();
 }
 
 Char Seperator_SystemAPIDispatcher()
 {
+    Seperator = 0;
     Dispatch();
-    Assert(Seperator != Seperator_SystemAPIDispatcher,
+    Assert(Seperator != Seperator_SystemAPIDispatcher && Seperator != 0,
            "Funtion was called and couldn't be dispatched");
     return Seperator();
 }
 
 AutoPointer<FileStatus> Stat_SystemAPIDispatcher(const Core::Types::String& Path)
 {
+    Stat = 0;
     Dispatch();
-    Assert(Stat != Stat_SystemAPIDispatcher,
+    Assert(Stat != Stat_SystemAPIDispatcher && Stat != 0,
            "Funtion was called and couldn't be dispatched");
     return Stat(Path);
 }
@@ -47,32 +51,39 @@ AutoPointer<FileStatus> Stat_SystemAPIDispatcher(const Core::Types::String& Path
 RFTYPE::Bool ChangeMode_SystemAPIDispatcher(const RFTYPE::String& Path,
     const AccessMode::Type NewMode)
 {
+    ChangeMode = 0;
     Dispatch();
-    Assert(ChangeMode != ChangeMode_SystemAPIDispatcher,
+    Assert(ChangeMode != ChangeMode_SystemAPIDispatcher && ChangeMode != 0,
            "Funtion was called and couldn't be dispatched");
     return ChangeMode(Path, NewMode);
 }
 
 MemoryMappingHandle MapFileIntoMemory_SystemAPIDispatcher(const FileHandle& Handle)
 {
+    MapFileIntoMemory = 0;
     Dispatch();
-    Assert(MapFileIntoMemory != MapFileIntoMemory_SystemAPIDispatcher,
+    Assert(MapFileIntoMemory != MapFileIntoMemory_SystemAPIDispatcher &&
+           MapFileIntoMemory != 0,
            "Funtion was called and couldn't be dispatched");
     return MapFileIntoMemory(Handle);
 }
 
 RFTYPE::Bool UnmapMemoryFile_SystemAPIDispatcher(MemoryMappingHandle& Handle)
 {
+    UnmapMemoryFile = 0;
     Dispatch();
-    Assert(UnmapMemoryFile != UnmapMemoryFile_SystemAPIDispatcher,
+    Assert(UnmapMemoryFile != UnmapMemoryFile_SystemAPIDispatcher &&
+           UnmapMemoryFile != 0,
            "Funtion was called and couldn't be dispatched");
     return UnmapMemoryFile(Handle);
 }
 
 void* GetMemoryFile_SystemAPIDispatcher(const MemoryMappingHandle& Handle)
 {
+    GetMemoryFile = 0;
     Dispatch();
-    Assert(GetMemoryFile != GetMemoryFile_SystemAPIDispatcher,
+    Assert(GetMemoryFile != GetMemoryFile_SystemAPIDispatcher &&
+           GetMemoryFile != 0,
            "Funtion was called and couldn't be dispatched");
     return GetMemoryFile(Handle);
 }
@@ -80,16 +91,20 @@ void* GetMemoryFile_SystemAPIDispatcher(const MemoryMappingHandle& Handle)
 FileHandle OpenFile_SystemAPIDispatcher(const RFTYPE::String& Filepath, 
     const FileAccessMode::Type AccessMode, const FileAccessPriority::Type AccessPriority)
 {
+    OpenFile = 0;
     Dispatch();
-    Assert(OpenFile != OpenFile_SystemAPIDispatcher,
+    Assert(OpenFile != OpenFile_SystemAPIDispatcher &&
+           OpenFile != 0,
            "Funtion was called and couldn't be dispatched");
     return OpenFile(Filepath, AccessMode, AccessPriority);
 }
 
 RFTYPE::Bool CloseFile_SystemAPIDispatcher(FileHandle& Handle)
 {
+    CloseFile = 0;
     Dispatch();
-    Assert(CloseFile != CloseFile_SystemAPIDispatcher,
+    Assert(CloseFile != CloseFile_SystemAPIDispatcher &&
+           CloseFile != 0,
            "Funtion was called and couldn't be dispatched");
     return CloseFile(Handle);
 }
@@ -97,8 +112,10 @@ RFTYPE::Bool CloseFile_SystemAPIDispatcher(FileHandle& Handle)
 RFTYPE::Bool ReadFile_SystemAPIDispatcher(const FileHandle& Handle,
     UInt8* Buffer, const UInt64 ReadBytes, UInt64& BytesRead)
 {
+    ReadFile = 0;
     Dispatch();
-    Assert(ReadFile != ReadFile_SystemAPIDispatcher,
+    Assert(ReadFile != ReadFile_SystemAPIDispatcher &&
+           ReadFile != 0,
            "Funtion was called and couldn't be dispatched");
     return ReadFile(Handle, Buffer, ReadBytes, BytesRead);
 }
@@ -106,16 +123,20 @@ RFTYPE::Bool ReadFile_SystemAPIDispatcher(const FileHandle& Handle,
 RFTYPE::Bool WriteFile_SystemAPIDispatcher(const FileHandle& Handle,
     const UInt8* Buffer, const UInt64 WriteBytes, UInt64& BytesWritten)
 {
+    WriteFile = 0;
     Dispatch();
-    Assert(WriteFile != WriteFile_SystemAPIDispatcher,
+    Assert(WriteFile != WriteFile_SystemAPIDispatcher &&
+           WriteFile != 0,
            "Funtion was called and couldn't be dispatched");
     return WriteFile(Handle, Buffer, WriteBytes, BytesWritten);
 }
 
 RFTYPE::Bool FlushFile_SystemAPIDispatcher(const FileHandle& Handle)
 {
+    FlushFile = 0;
     Dispatch();
-    Assert(FlushFile != FlushFile_SystemAPIDispatcher,
+    Assert(FlushFile != FlushFile_SystemAPIDispatcher &&
+           FlushFile != 0,
            "Funtion was called and couldn't be dispatched");
     return FlushFile(Handle);
 }
@@ -123,24 +144,30 @@ RFTYPE::Bool FlushFile_SystemAPIDispatcher(const FileHandle& Handle)
 RFTYPE::UInt64 SeekFile_SystemAPIDispatcher(const FileHandle& Handle,
     const RFTYPE::UInt64 Offset, const SeekOrigin::Type Origin )
 {
+    SeekFile = 0;
     Dispatch();
-    Assert(SeekFile != SeekFile_SystemAPIDispatcher,
+    Assert(SeekFile != SeekFile_SystemAPIDispatcher &&
+           SeekFile != 0,
            "Funtion was called and couldn't be dispatched");
     return SeekFile(Handle, Offset, Origin);
 }
 
 RFTYPE::UInt64 TellFile_SystemAPIDispatcher(const FileHandle& Handle)
 {
+    TellFile = 0;
     Dispatch();
-    Assert(TellFile != TellFile_SystemAPIDispatcher,
+    Assert(TellFile != TellFile_SystemAPIDispatcher &&
+           TellFile != 0,
            "Funtion was called and couldn't be dispatched");
     return TellFile(Handle);
 }
 
 RFTYPE::String GenerateTempFilename_SystemAPIDispatcher(const RFTYPE::String& Path)
 {
+    GenerateTempFilename = 0;
     Dispatch();
-    Assert(GenerateTempFilename != GenerateTempFilename_SystemAPIDispatcher,
+    Assert(GenerateTempFilename != GenerateTempFilename_SystemAPIDispatcher &&
+           GenerateTempFilename != 0,
            "Funtion was called and couldn't be dispatched");
     return GenerateTempFilename(Path);
 }
@@ -148,16 +175,20 @@ RFTYPE::String GenerateTempFilename_SystemAPIDispatcher(const RFTYPE::String& Pa
 RFTYPE::Bool CreatePreAllocatedFile_SystemAPIDispatcher(
     const RFTYPE::String& Path, const RFTYPE::Size FileSize)
 {
+    CreatePreAllocatedFile = 0;
     Dispatch();
-    Assert(CreatePreAllocatedFile != CreatePreAllocatedFile_SystemAPIDispatcher,
+    Assert(CreatePreAllocatedFile != CreatePreAllocatedFile_SystemAPIDispatcher &&
+           CreatePreAllocatedFile != 0,
            "Funtion was called and couldn't be dispatched");
     return CreatePreAllocatedFile(Path, FileSize);
 }
 
 RFTYPE::Bool CreateFile_SystemAPIDispatcher(const RFTYPE::String& Path)
 {
+    CreateFile = 0;
     Dispatch();
-    Assert(CreateFile != CreateFile_SystemAPIDispatcher,
+    Assert(CreateFile != CreateFile_SystemAPIDispatcher &&
+           CreateFile != 0,
            "Funtion was called and couldn't be dispatched");
     return CreateFile(Path);
 }
@@ -165,8 +196,10 @@ RFTYPE::Bool CreateFile_SystemAPIDispatcher(const RFTYPE::String& Path)
 RFTYPE::Bool CopyFile_SystemAPIDispatcher(const Core::Types::String& From,
                                           const Core::Types::String& To)
 {
+    CopyFile = 0;
     Dispatch();
-    Assert(CopyFile != CopyFile_SystemAPIDispatcher,
+    Assert(CopyFile != CopyFile_SystemAPIDispatcher &&
+           CopyFile != 0,
            "Funtion was called and couldn't be dispatched");
     return CopyFile(From, To);
 }
@@ -174,72 +207,90 @@ RFTYPE::Bool CopyFile_SystemAPIDispatcher(const Core::Types::String& From,
 RFTYPE::Bool RenameFile_SystemAPIDispatcher(const Core::Types::String& From,
                                             const Core::Types::String& To)
 {
+    RenameFile = 0;
     Dispatch();
-    Assert(RenameFile != RenameFile_SystemAPIDispatcher,
+    Assert(RenameFile != RenameFile_SystemAPIDispatcher &&
+           RenameFile != 0,
            "Funtion was called and couldn't be dispatched");
     return RenameFile(From, To);
 }
 
 RFTYPE::Bool DeleteFile_SystemAPIDispatcher(const RFTYPE::String& Path)
 {
+    DeleteFile = 0;
     Dispatch();
-    Assert(DeleteFile != DeleteFile_SystemAPIDispatcher,
+    Assert(DeleteFile != DeleteFile_SystemAPIDispatcher &&
+           DeleteFile != 0,
            "Funtion was called and couldn't be dispatched");
     return DeleteFile(Path);
 }
 
 RFTYPE::String WorkingDirectory_SystemAPIDispatcher()
 {
+    WorkingDirectory = 0;
     Dispatch();
-    Assert(WorkingDirectory != WorkingDirectory_SystemAPIDispatcher,
+    Assert(WorkingDirectory != WorkingDirectory_SystemAPIDispatcher &&
+           WorkingDirectory != 0,
            "Funtion was called and couldn't be dispatched");
     return WorkingDirectory();
 }
 
 RFTYPE::String HomeDirectory_SystemAPIDispatcher()
 {
+    HomeDirectory = 0;
     Dispatch();
-    Assert(HomeDirectory != HomeDirectory_SystemAPIDispatcher,
+    Assert(HomeDirectory != HomeDirectory_SystemAPIDispatcher &&
+           HomeDirectory != 0,
            "Funtion was called and couldn't be dispatched");
     return HomeDirectory();
 }
 
 RFTYPE::String ApplicationDirectory_SystemAPIDispatcher()
 {
+    ApplicationDataDirectory = 0;
     Dispatch();
-    Assert(ApplicationDirectory != ApplicationDirectory_SystemAPIDispatcher,
+    Assert(ApplicationDirectory != ApplicationDirectory_SystemAPIDispatcher &&
+           ApplicationDirectory != 0,
            "Funtion was called and couldn't be dispatched");
     return ApplicationDirectory();
 }
 
 RFTYPE::String UserApplicationDataDirectory_SystemAPIDispatcher()
 {
+    UserApplicationDataDirectory = 0;
     Dispatch();
-    Assert(UserApplicationDataDirectory != UserApplicationDataDirectory_SystemAPIDispatcher,
+    Assert(UserApplicationDataDirectory != UserApplicationDataDirectory_SystemAPIDispatcher &&
+           UserApplicationDataDirectory != 0,
            "Funtion was called and couldn't be dispatched");
     return UserApplicationDataDirectory();
 }
 
 RFTYPE::String ApplicationDataDirectory_SystemAPIDispatcher()
 {
+    ApplicationDataDirectory = 0;
     Dispatch();
-    Assert(ApplicationDataDirectory != ApplicationDataDirectory_SystemAPIDispatcher,
+    Assert(ApplicationDataDirectory != ApplicationDataDirectory_SystemAPIDispatcher &&
+           ApplicationDataDirectory != 0,
            "Funtion was called and couldn't be dispatched");
     return ApplicationDataDirectory();
 }
 
 RFTYPE::Bool ChangeDirectory_SystemAPIDispatcher(const RFTYPE::String& Destination)
 {
+    ChangeDirectory = 0;
     Dispatch();
-    Assert(ChangeDirectory != ChangeDirectory_SystemAPIDispatcher,
+    Assert(ChangeDirectory != ChangeDirectory_SystemAPIDispatcher &&
+           ChangeDirectory != 0,
            "Funtion was called and couldn't be dispatched");
     return ChangeDirectory(Destination);
 }
 
 RFTYPE::Bool CreateDirectory_SystemAPIDispatcher(const RFTYPE::String& Path)
 {
+    CreateDirectory = 0;
     Dispatch();
-    Assert(CreateDirectory != CreateDirectory_SystemAPIDispatcher,
+    Assert(CreateDirectory != CreateDirectory_SystemAPIDispatcher &&
+           CreateDirectory != 0,
            "Funtion was called and couldn't be dispatched");
     return CreateDirectory(Path);
 }
@@ -247,56 +298,70 @@ RFTYPE::Bool CreateDirectory_SystemAPIDispatcher(const RFTYPE::String& Path)
 RadonFramework::Memory::AutoPointerArray<RFTYPE::String>
     DirectoryContent_SystemAPIDispatcher(const RFTYPE::String& Path)
 {
+    DirectoryContent = 0;
     Dispatch();
-    Assert(DirectoryContent != DirectoryContent_SystemAPIDispatcher,
+    Assert(DirectoryContent != DirectoryContent_SystemAPIDispatcher &&
+           DirectoryContent != 0,
            "Funtion was called and couldn't be dispatched");
     return DirectoryContent(Path);
 }
 
 FileWatcherHandle CreateFileWatcher_SystemAPIDispatcher(const RFTYPE::String& Path)
 {
+    CreateFileWatcher = 0;
     Dispatch();
-    Assert(CreateFileWatcher != CreateFileWatcher_SystemAPIDispatcher,
+    Assert(CreateFileWatcher != CreateFileWatcher_SystemAPIDispatcher &&
+           CreateFileWatcher != 0,
            "Funtion was called and couldn't be dispatched");
     return CreateFileWatcher(Path);
 }
 
 void DestroyFileWatcher_SystemAPIDispatcher(FileWatcherHandle& Handle)
 {
+    DestroyFileWatcher = 0;
     Dispatch();
-    Assert(DestroyFileWatcher != DestroyFileWatcher_SystemAPIDispatcher,
+    Assert(DestroyFileWatcher != DestroyFileWatcher_SystemAPIDispatcher &&
+           DestroyFileWatcher != 0,
            "Funtion was called and couldn't be dispatched");
     DestroyFileWatcher(Handle);
 }
 
 RFTYPE::Bool WaitForFileWatcher_SystemAPIDispatcher(const FileWatcherHandle& Handle, FileWatcherEvent& Event)
 {
+    WaitForFileWatcher = 0;
     Dispatch();
-    Assert(WaitForFileWatcher != WaitForFileWatcher_SystemAPIDispatcher,
+    Assert(WaitForFileWatcher != WaitForFileWatcher_SystemAPIDispatcher &&
+           WaitForFileWatcher != 0,
            "Funtion was called and couldn't be dispatched");
     return WaitForFileWatcher(Handle, Event);
 }
 
 void StartFileWatcher_SystemAPIDispatcher(const FileWatcherHandle& Handle)
 {
+    StartFileWatcher = 0;
     Dispatch();
-    Assert(StartFileWatcher != StartFileWatcher_SystemAPIDispatcher,
+    Assert(StartFileWatcher != StartFileWatcher_SystemAPIDispatcher &&
+           StartFileWatcher != 0,
            "Funtion was called and couldn't be dispatched");
     StartFileWatcher(Handle);
 }
 
 void StopFileWatcher_SystemAPIDispatcher(const FileWatcherHandle& Handle)
 {
+    StopFileWatcher = 0;
     Dispatch();
-    Assert(StopFileWatcher != StopFileWatcher_SystemAPIDispatcher,
+    Assert(StopFileWatcher != StopFileWatcher_SystemAPIDispatcher &&
+           StopFileWatcher != 0,
            "Funtion was called and couldn't be dispatched");
     StopFileWatcher(Handle);
 }
 
 RFTYPE::Bool GetFileWatcherEvent_SystemAPIDispatcher(const FileWatcherHandle& Handle, FileWatcherEvent& Event)
 {
+    GetFileWatcherEvent = 0;
     Dispatch();
-    Assert(GetFileWatcherEvent != GetFileWatcherEvent_SystemAPIDispatcher,
+    Assert(GetFileWatcherEvent != GetFileWatcherEvent_SystemAPIDispatcher &&
+           GetFileWatcherEvent != 0,
            "Funtion was called and couldn't be dispatched");
     return GetFileWatcherEvent(Handle, Event);
 }
@@ -340,114 +405,114 @@ GetFileWatcherEventCallback RFFILE::GetFileWatcherEvent = GetFileWatcherEvent_Sy
 Bool RFFILE::IsSuccessfullyDispatched()
 {
     Bool result=true;
-    result=result && OpenFile != OpenFile_SystemAPIDispatcher;
-    result=result && CloseFile != CloseFile_SystemAPIDispatcher;
-    result=result && MapFileIntoMemory != MapFileIntoMemory_SystemAPIDispatcher;
-    result=result && UnmapMemoryFile != UnmapMemoryFile_SystemAPIDispatcher;
-    result=result && GetMemoryFile != GetMemoryFile_SystemAPIDispatcher;
-    result=result && ReadFile != ReadFile_SystemAPIDispatcher;
-    result=result && WriteFile != WriteFile_SystemAPIDispatcher;
-    result=result && FlushFile != FlushFile_SystemAPIDispatcher;
-    result=result && SeekFile != SeekFile_SystemAPIDispatcher;
-    result=result && TellFile != TellFile_SystemAPIDispatcher;
-    result=result && GenerateTempFilename != GenerateTempFilename_SystemAPIDispatcher;
-    result=result && Access != Access_SystemAPIDispatcher;
-    result=result && PathSeperator != PathSeperator_SystemAPIDispatcher;
-    result=result && Seperator != Seperator_SystemAPIDispatcher;
-    result=result && Stat != Stat_SystemAPIDispatcher;
-    result=result && ChangeMode != ChangeMode_SystemAPIDispatcher;
-    result=result && CreatePreAllocatedFile != CreatePreAllocatedFile_SystemAPIDispatcher;
-    result=result && CreateFile != CreateFile_SystemAPIDispatcher;
-    result=result && CopyFile != CopyFile_SystemAPIDispatcher;
-    result=result && RenameFile != RenameFile_SystemAPIDispatcher;
-    result=result && DeleteFile != DeleteFile_SystemAPIDispatcher;
-    result=result && WorkingDirectory != WorkingDirectory_SystemAPIDispatcher;
-    result=result && HomeDirectory != HomeDirectory_SystemAPIDispatcher;
-    result=result && ApplicationDirectory != ApplicationDirectory_SystemAPIDispatcher;
-    result=result && UserApplicationDataDirectory != UserApplicationDataDirectory_SystemAPIDispatcher;
-    result=result && ApplicationDataDirectory != ApplicationDataDirectory_SystemAPIDispatcher;
-    result=result && ChangeDirectory != ChangeDirectory_SystemAPIDispatcher;
-    result=result && CreateDirectory != CreateDirectory_SystemAPIDispatcher;
-    result=result && DirectoryContent != DirectoryContent_SystemAPIDispatcher;
-    result=result && CreateFileWatcher != CreateFileWatcher_SystemAPIDispatcher;
-    result=result && DestroyFileWatcher != DestroyFileWatcher_SystemAPIDispatcher;
-    result=result && WaitForFileWatcher != WaitForFileWatcher_SystemAPIDispatcher;
-    result=result && StartFileWatcher != StartFileWatcher_SystemAPIDispatcher;
-    result=result && StopFileWatcher != StopFileWatcher_SystemAPIDispatcher;
-    result=result && GetFileWatcherEvent != GetFileWatcherEvent_SystemAPIDispatcher;
+    result=result && OpenFile != OpenFile_SystemAPIDispatcher && OpenFile != 0;
+    result=result && CloseFile != CloseFile_SystemAPIDispatcher && CloseFile != 0;
+    result=result && MapFileIntoMemory != MapFileIntoMemory_SystemAPIDispatcher && MapFileIntoMemory != 0;
+    result=result && UnmapMemoryFile != UnmapMemoryFile_SystemAPIDispatcher && UnmapMemoryFile != 0;
+    result=result && GetMemoryFile != GetMemoryFile_SystemAPIDispatcher && GetMemoryFile != 0;
+    result=result && ReadFile != ReadFile_SystemAPIDispatcher && ReadFile != 0;
+    result=result && WriteFile != WriteFile_SystemAPIDispatcher && WriteFile != 0;
+    result=result && FlushFile != FlushFile_SystemAPIDispatcher && FlushFile != 0;
+    result=result && SeekFile != SeekFile_SystemAPIDispatcher && SeekFile != 0;
+    result=result && TellFile != TellFile_SystemAPIDispatcher && TellFile != 0;
+    result=result && GenerateTempFilename != GenerateTempFilename_SystemAPIDispatcher && GenerateTempFilename != 0;
+    result=result && Access != Access_SystemAPIDispatcher && Access != 0;
+    result=result && PathSeperator != PathSeperator_SystemAPIDispatcher && PathSeperator != 0;
+    result=result && Seperator != Seperator_SystemAPIDispatcher && Seperator != 0;
+    result=result && Stat != Stat_SystemAPIDispatcher && Stat != 0;
+    result=result && ChangeMode != ChangeMode_SystemAPIDispatcher && ChangeMode != 0;
+    result=result && CreatePreAllocatedFile != CreatePreAllocatedFile_SystemAPIDispatcher && CreatePreAllocatedFile != 0;
+    result=result && CreateFile != CreateFile_SystemAPIDispatcher && CreateFile != 0;
+    result=result && CopyFile != CopyFile_SystemAPIDispatcher && CopyFile != 0;
+    result=result && RenameFile != RenameFile_SystemAPIDispatcher && RenameFile != 0;
+    result=result && DeleteFile != DeleteFile_SystemAPIDispatcher && DeleteFile != 0;
+    result=result && WorkingDirectory != WorkingDirectory_SystemAPIDispatcher && WorkingDirectory != 0;
+    result=result && HomeDirectory != HomeDirectory_SystemAPIDispatcher && HomeDirectory != 0;
+    result=result && ApplicationDirectory != ApplicationDirectory_SystemAPIDispatcher && ApplicationDirectory != 0;
+    result=result && UserApplicationDataDirectory != UserApplicationDataDirectory_SystemAPIDispatcher && UserApplicationDataDirectory != 0;
+    result=result && ApplicationDataDirectory != ApplicationDataDirectory_SystemAPIDispatcher && ApplicationDataDirectory != 0;
+    result=result && ChangeDirectory != ChangeDirectory_SystemAPIDispatcher && ChangeDirectory != 0;
+    result=result && CreateDirectory != CreateDirectory_SystemAPIDispatcher && CreateDirectory != 0;
+    result=result && DirectoryContent != DirectoryContent_SystemAPIDispatcher && DirectoryContent != 0;
+    result=result && CreateFileWatcher != CreateFileWatcher_SystemAPIDispatcher && CreateFileWatcher != 0;
+    result=result && DestroyFileWatcher != DestroyFileWatcher_SystemAPIDispatcher && DestroyFileWatcher != 0;
+    result=result && WaitForFileWatcher != WaitForFileWatcher_SystemAPIDispatcher && WaitForFileWatcher != 0;
+    result=result && StartFileWatcher != StartFileWatcher_SystemAPIDispatcher && StartFileWatcher != 0;
+    result=result && StopFileWatcher != StopFileWatcher_SystemAPIDispatcher && StopFileWatcher != 0;
+    result=result && GetFileWatcherEvent != GetFileWatcherEvent_SystemAPIDispatcher && GetFileWatcherEvent != 0;
     return result;
 }
 
 void RFFILE::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
 {
-    if (OpenFile == OpenFile_SystemAPIDispatcher) 
-        Result.AddLast("OpenFile");
-    if (CloseFile == CloseFile_SystemAPIDispatcher)
-        Result.AddLast("CloseFile");
-    if (MapFileIntoMemory == MapFileIntoMemory_SystemAPIDispatcher) 
-        Result.AddLast("MapFileIntoMemory");
-    if (UnmapMemoryFile == UnmapMemoryFile_SystemAPIDispatcher) 
-        Result.AddLast("UnmapMemoryFile");
-    if (GetMemoryFile == GetMemoryFile_SystemAPIDispatcher) 
-        Result.AddLast("GetMemoryFile");
-    if (ReadFile == ReadFile_SystemAPIDispatcher)
-        Result.AddLast("ReadFile");
-    if (WriteFile == WriteFile_SystemAPIDispatcher)
-        Result.AddLast("WriteFile");
-    if (FlushFile == FlushFile_SystemAPIDispatcher)
-        Result.AddLast("FlushFile");
-    if (SeekFile == SeekFile_SystemAPIDispatcher)
-        Result.AddLast("SeekFile");
-    if (TellFile == TellFile_SystemAPIDispatcher)
-        Result.AddLast("TellFile");
-    if (GenerateTempFilename == GenerateTempFilename_SystemAPIDispatcher)
-        Result.AddLast("GenerateTempFilename");
-    if (Access == Access_SystemAPIDispatcher)
-        Result.AddLast("Access");
-    if (PathSeperator == PathSeperator_SystemAPIDispatcher)
-        Result.AddLast("PathSeperator");
-    if (Seperator == Seperator_SystemAPIDispatcher)
-        Result.AddLast("Seperator");
-    if (Stat == Stat_SystemAPIDispatcher)
-        Result.AddLast("Stat");
-    if (ChangeMode == ChangeMode_SystemAPIDispatcher)
-        Result.AddLast("ChangeMode");
-    if (CreatePreAllocatedFile == CreatePreAllocatedFile_SystemAPIDispatcher)
-        Result.AddLast("CreatePreAllocatedFile");
-    if (CreateFile == CreateFile_SystemAPIDispatcher)
-        Result.AddLast("CreateFile");
-    if (CopyFile == CopyFile_SystemAPIDispatcher)
-        Result.AddLast("CopyFile");
-    if (RenameFile == RenameFile_SystemAPIDispatcher)
-        Result.AddLast("RenameFile");
-    if (DeleteFile == DeleteFile_SystemAPIDispatcher)
-        Result.AddLast("DeleteFile");
-    if (WorkingDirectory == WorkingDirectory_SystemAPIDispatcher)
-        Result.AddLast("WorkingDirectory");
-    if (HomeDirectory == HomeDirectory_SystemAPIDispatcher)
-        Result.AddLast("HomeDirectory");
-    if (ApplicationDirectory == ApplicationDirectory_SystemAPIDispatcher)
-        Result.AddLast("ApplicationDirectory");
-    if (UserApplicationDataDirectory == UserApplicationDataDirectory_SystemAPIDispatcher)
-        Result.AddLast("UserApplicationDataDirectory");
-    if (ApplicationDataDirectory == ApplicationDataDirectory_SystemAPIDispatcher)
-        Result.AddLast("ApplicationDataDirectory");
-    if (ChangeDirectory == ChangeDirectory_SystemAPIDispatcher)
-        Result.AddLast("ChangeDirectory");
-    if (CreateDirectory == CreateDirectory_SystemAPIDispatcher)
-        Result.AddLast("CreateDirectory");
-    if (DirectoryContent == DirectoryContent_SystemAPIDispatcher)
-        Result.AddLast("DirectoryContent");
-    if (CreateFileWatcher == CreateFileWatcher_SystemAPIDispatcher)
-        Result.AddLast("CreateFileWatcher");
-    if (DestroyFileWatcher == DestroyFileWatcher_SystemAPIDispatcher)
-        Result.AddLast("DestroyFileWatcher");
-    if (WaitForFileWatcher == WaitForFileWatcher_SystemAPIDispatcher)
-        Result.AddLast("WaitForFileWatcher");
-    if (StartFileWatcher == StartFileWatcher_SystemAPIDispatcher)
-        Result.AddLast("StartFileWatcher");
-    if (StopFileWatcher == StopFileWatcher_SystemAPIDispatcher)
-        Result.AddLast("StopFileWatcher");
-    if (GetFileWatcherEvent == GetFileWatcherEvent_SystemAPIDispatcher)
-        Result.AddLast("GetFileWatcherEvent");
+    if (OpenFile == OpenFile_SystemAPIDispatcher || OpenFile == 0) 
+        Result.AddLast(RFTYPE::String("OpenFile", sizeof("OpenFile")));
+    if (CloseFile == CloseFile_SystemAPIDispatcher || CloseFile == 0)
+        Result.AddLast(RFTYPE::String("CloseFile", sizeof("CloseFile")));
+    if (MapFileIntoMemory == MapFileIntoMemory_SystemAPIDispatcher || MapFileIntoMemory == 0)
+        Result.AddLast(RFTYPE::String("MapFileIntoMemory", sizeof("MapFileIntoMemory")));
+    if (UnmapMemoryFile == UnmapMemoryFile_SystemAPIDispatcher || UnmapMemoryFile == 0) 
+        Result.AddLast(RFTYPE::String("UnmapMemoryFile", sizeof("UnmapMemoryFile")));
+    if (GetMemoryFile == GetMemoryFile_SystemAPIDispatcher || GetMemoryFile == 0) 
+        Result.AddLast(RFTYPE::String("GetMemoryFile", sizeof("GetMemoryFile")));
+    if (ReadFile == ReadFile_SystemAPIDispatcher || ReadFile == 0)
+        Result.AddLast(RFTYPE::String("ReadFile", sizeof("ReadFile")));
+    if (WriteFile == WriteFile_SystemAPIDispatcher || WriteFile == 0)
+        Result.AddLast(RFTYPE::String("WriteFile", sizeof("WriteFile")));
+    if (FlushFile == FlushFile_SystemAPIDispatcher || FlushFile == 0)
+        Result.AddLast(RFTYPE::String("FlushFile", sizeof("FlushFile")));
+    if (SeekFile == SeekFile_SystemAPIDispatcher || SeekFile == 0)
+        Result.AddLast(RFTYPE::String("SeekFile", sizeof("SeekFile")));
+    if (TellFile == TellFile_SystemAPIDispatcher || TellFile == 0)
+        Result.AddLast(RFTYPE::String("TellFile", sizeof("TellFile")));
+    if (GenerateTempFilename == GenerateTempFilename_SystemAPIDispatcher || GenerateTempFilename == 0)
+        Result.AddLast(RFTYPE::String("GenerateTempFilename", sizeof("GenerateTempFilename")));
+    if (Access == Access_SystemAPIDispatcher || Access == 0)
+        Result.AddLast(RFTYPE::String("Access", sizeof("Access")));
+    if (PathSeperator == PathSeperator_SystemAPIDispatcher || PathSeperator == 0)
+        Result.AddLast(RFTYPE::String("PathSeperator", sizeof("PathSeperator")));
+    if (Seperator == Seperator_SystemAPIDispatcher || Seperator == 0)
+        Result.AddLast(RFTYPE::String("Seperator", sizeof("Seperator")));
+    if (Stat == Stat_SystemAPIDispatcher || Stat == 0)
+        Result.AddLast(RFTYPE::String("Stat", sizeof("Stat")));
+    if (ChangeMode == ChangeMode_SystemAPIDispatcher || ChangeMode == 0)
+        Result.AddLast(RFTYPE::String("ChangeMode", sizeof("ChangeMode")));
+    if (CreatePreAllocatedFile == CreatePreAllocatedFile_SystemAPIDispatcher || CreatePreAllocatedFile == 0)
+        Result.AddLast(RFTYPE::String("CreatePreAllocatedFile", sizeof("CreatePreAllocatedFile")));
+    if (CreateFile == CreateFile_SystemAPIDispatcher || CreateFile == 0)
+        Result.AddLast(RFTYPE::String("CreateFile", sizeof("CreateFile")));
+    if (CopyFile == CopyFile_SystemAPIDispatcher || CopyFile == 0)
+        Result.AddLast(RFTYPE::String("CopyFile", sizeof("CopyFile")));
+    if (RenameFile == RenameFile_SystemAPIDispatcher || RenameFile == 0)
+        Result.AddLast(RFTYPE::String("RenameFile", sizeof("RenameFile")));
+    if (DeleteFile == DeleteFile_SystemAPIDispatcher || DeleteFile == 0)
+        Result.AddLast(RFTYPE::String("DeleteFile", sizeof("DeleteFile")));
+    if (WorkingDirectory == WorkingDirectory_SystemAPIDispatcher || WorkingDirectory == 0)
+        Result.AddLast(RFTYPE::String("WorkingDirectory", sizeof("WorkingDirectory")));
+    if (HomeDirectory == HomeDirectory_SystemAPIDispatcher || HomeDirectory == 0)
+        Result.AddLast(RFTYPE::String("HomeDirectory", sizeof("HomeDirectory")));
+    if (ApplicationDirectory == ApplicationDirectory_SystemAPIDispatcher || ApplicationDataDirectory == 0)
+        Result.AddLast(RFTYPE::String("ApplicationDirectory", sizeof("ApplicationDirectory")));
+    if (UserApplicationDataDirectory == UserApplicationDataDirectory_SystemAPIDispatcher || UserApplicationDataDirectory == 0)
+        Result.AddLast(RFTYPE::String("UserApplicationDataDirectory", sizeof("UserApplicationDataDirectory")));
+    if (ApplicationDataDirectory == ApplicationDataDirectory_SystemAPIDispatcher || ApplicationDataDirectory == 0)
+        Result.AddLast(RFTYPE::String("ApplicationDataDirectory", sizeof("ApplicationDataDirectory")));
+    if (ChangeDirectory == ChangeDirectory_SystemAPIDispatcher || ChangeDirectory == 0)
+        Result.AddLast(RFTYPE::String("ChangeDirectory", sizeof("ChangeDirectory")));
+    if (CreateDirectory == CreateDirectory_SystemAPIDispatcher || CreateDirectory == 0)
+        Result.AddLast(RFTYPE::String("CreateDirectory", sizeof("CreateDirectory")));
+    if (DirectoryContent == DirectoryContent_SystemAPIDispatcher || DirectoryContent == 0)
+        Result.AddLast(RFTYPE::String("DirectoryContent", sizeof("DirectoryContent")));
+    if (CreateFileWatcher == CreateFileWatcher_SystemAPIDispatcher || CreateFileWatcher == 0)
+        Result.AddLast(RFTYPE::String("CreateFileWatcher", sizeof("CreateFileWatcher")));
+    if (DestroyFileWatcher == DestroyFileWatcher_SystemAPIDispatcher || DestroyFileWatcher == 0)
+        Result.AddLast(RFTYPE::String("DestroyFileWatcher", sizeof("DestroyFileWatcher")));
+    if (WaitForFileWatcher == WaitForFileWatcher_SystemAPIDispatcher || WaitForFileWatcher == 0)
+        Result.AddLast(RFTYPE::String("WaitForFileWatcher", sizeof("WaitForFileWatcher")));
+    if (StartFileWatcher == StartFileWatcher_SystemAPIDispatcher || StartFileWatcher == 0)
+        Result.AddLast(RFTYPE::String("StartFileWatcher", sizeof("StartFileWatcher")));
+    if (StopFileWatcher == StopFileWatcher_SystemAPIDispatcher || StopFileWatcher == 0)
+        Result.AddLast(RFTYPE::String("StopFileWatcher", sizeof("StopFileWatcher")));
+    if (GetFileWatcherEvent == GetFileWatcherEvent_SystemAPIDispatcher || GetFileWatcherEvent == 0)
+        Result.AddLast(RFTYPE::String("GetFileWatcherEvent", sizeof("GetFileWatcherEvent")));
 }

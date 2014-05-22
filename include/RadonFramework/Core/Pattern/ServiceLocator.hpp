@@ -104,7 +104,7 @@ namespace RadonFramework
             };
 
             template<class T, class N> 
-            N Locator<T,N>::m_NullService("NullService");
+            N Locator<T,N>::m_NullService(RFTYPE::String("NullService", sizeof("NullService"), Common::DataManagment::UnmanagedInstance));
 
             template<class T, class N> 
             Collections::AutoVector<T> Locator<T,N>::m_Services;

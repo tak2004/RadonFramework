@@ -1103,7 +1103,7 @@ namespace RadonFramework
         T* Array<T,SP,MA,MO>::FindLast(const Delegate1<T,RFTYPE::Bool>& Match)
         {
             RFTYPE::Size end=m_ElementCount-1;
-            for (RFTYPE::Size i=end;i>=0;--i)
+            for (RFTYPE::Size i=end;i>=0 && i <= end;--i)
                 if (Match(m_Data[i]))
                     return &m_Data[i];
             return 0;

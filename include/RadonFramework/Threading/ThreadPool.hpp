@@ -20,7 +20,7 @@ class ThreadPool
 {
 public:
     ThreadPool();
-    virtual ~ThreadPool();
+    ~ThreadPool();
 
     /// The function will calculate the best working thread amount
     /// for the specified processor core amount.
@@ -50,23 +50,22 @@ public:
     RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
         void* State, TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
         RFTYPE::Bool AutoCleanup=true);
+
+    /** \brief Disable the queing of new work items and wait till all allready
+      * queued items are processed and freed.
+      **/
+    void DisableAndWaitTillDone();
+
+    /// Disable the queing of new work items.
+    void Disable();
+
+    /// Enable the queing of new work items.
+    void Enable();
+
+    /// Wait till all queued work items are processed and freed.
+    void WaitTillDone();
 private:
     Core::Idioms::PImpl<ThreadPool> m_PImpl;
-};
-
-class PoolTask
-{
-public:
-    PoolTask();
-    ~PoolTask();
-    PoolTask(ThreadPool::WaitCallback Callback, void* Data,
-             RFTYPE::Bool AutoCleanup);
-    PoolTask(const PoolTask& Copy);
-    PoolTask& operator=(const PoolTask& Other);
-
-    ThreadPool::WaitCallback Callback;
-    mutable void* Data;
-    RFTYPE::Bool AutoCleanup;
 };
 
 } }

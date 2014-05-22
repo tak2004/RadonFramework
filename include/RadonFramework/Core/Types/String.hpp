@@ -4,283 +4,68 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Collections/ArrayEnumerator.hpp>
-
 namespace RadonFramework { namespace Core { namespace Types {
 
 /** @brief Standard String class.
-  *
-  * The String class use a 32Bit unsigned integer as length type(4294967295 characters as maximum).
-  * This class consist of three variables, first m_Length, second m_Text
-  * and third m_DataManagment.
-  * The m_Text variable is a array of char which is 0 terminated.
-  * The m_DataManagament specify how the data should be managed.
-  * E.g. constant c-strings are global and can't be cleaned up but
-  * if you want to work with them then you can specify the data as
-  * UnmanagedInstance and the object don't try to clean it up.
-  **/
+*
+* The String class use a 32Bit unsigned integer as length type(4294967295 characters as maximum).
+* This class consist of three variables, first m_Length, second m_Text
+* and third m_DataManagment.
+* The m_Text variable is a array of char which is 0 terminated.
+* The m_DataManagament specify how the data should be managed.
+* E.g. constant c-strings are global and can't be cleaned up but
+* if you want to work with them then you can specify the data as
+* UnmanagedInstance and the object don't try to clean it up.
+**/
 class ALIGN(32) String
 {
 public:
-    void* Allocate(){return 0;}
-    void Free(void* & Data){}
+    #pragma region Constructor and Destructor
     /// Default constructor which create an empty String.
     String();
                     
     /// Copy constructor which copy from an other StringBase object.
     String(const String& Copy);
 
-    /// Copy cStringSize chars from cString.
-    String(const char* cString, const RFTYPE::UInt32 cStringSize);
-                    
     /// Generate a String with a size of StringSize(including 0 termination).
-    String(const RFTYPE::UInt32 StringSize);
+    explicit String(const Size StringSize);
 
-    String(const char Letter);
+    explicit String(const char Letter);
+
+    template<int N>
+    String(char const (&CString)[N])
+    {
+        String(&CString[0], N);
+    }
 
     ~String();
-	
-	void* operator new(size_t bytes);
-	void* operator new(size_t bytes, void* buffer);
-                    
+
     /** Special constructor to handle utf-8(mostly used by Linux API) and ascii.
-        * Zero terminated c strings are the same type like StringBase
-        * internal data type. This allow to transfer the ownership,
-        * make an copy or share the same data.
-        **/
-    String(const char* cString, const UInt32 cStringSize,
+    * Zero terminated c strings are the same type like StringBase
+    * internal data type. This allow to transfer the ownership,
+    * make an copy or share the same data.
+    **/
+    explicit String(const char* CString, const Size CStringSize,
            Common::DataManagment::Type Ownership=Common::DataManagment::Copy);
 
-    /// Return the glyph count.
-    RFTYPE::UInt32 Length()const;
+    /** \brief This constructor accept a C string without any information
+    *          about size.
+    *
+    * The constructor will determine the size, length and create a copy.
+    */
+    static String UnsafeStringCreation(const char* CString);
+    #pragma endregion
 
-    /** @brief Check if a string contains an other string.
-      *
-      * @return Return -1 if Str isn't contain or greater -1(position where the string was found).
-      *
-      **/
-    Int32 Contains(const String &Str)const;
-
-    /** @brief Check if a String end with an other String.
-      *
-      * @return Return true if the String ends with Value else false.
-      **/
-    RFTYPE::Bool EndsWith(const String& Value)const;
-
-    /** @brief Check if a String end with an other c string.
-      *
-      * @return Return true if the String ends with Value else false.
-      **/
-    RFTYPE::Bool EndsWith(const char* Value)const;
-
-    /** @brief Check if a String is part of this String.
-      *
-      * @return Return -1 if the String isn't part of this String else the start position.
-      **/
-    RFTYPE::Int32 IndexOf(const String& Value)const;
-
-    /** @brief Check if a c string is part of this String.
-      *
-      * @return Return -1 if the c string isn't part of this String else the start position.
-      **/
-    RFTYPE::Int32 IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize)const;
-
-    /** @brief Check if a String is part of this String after the position of StartAtIndex.
-      *
-      * @return Return -1 if the String isn't part of this String else the start position.
-      **/
-    RFTYPE::Int32 IndexOf(const String& Value,
-        const RFTYPE::UInt32 StartAtIndex)const;
-
-    /** @brief Check if a c string is part of this String after the position of StartAtIndex.
-      *
-      * @return Return -1 if the c string isn't part of this String else the start position.
-      **/
-    RFTYPE::Int32 IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize,
-        const RFTYPE::UInt32 StartAtIndex)const;
-
-    /** @brief Check if a String is part of this String after the position of StartAtIndex till the number of Count steps is reached.
-      *
-      * StartAtIndex mark the start of the search and Count is the number of char's which will be tested.
-      * StartAtIndex+Count is the last start position which will be checked.
-      * @return Return -1 if the String isn't part of this String else the start position.
-      **/
-    RFTYPE::Int32 IndexOf(const String& Value,
-        const RFTYPE::UInt32 StartAtIndex,
-        const RFTYPE::UInt32 Count)const;
-
-    /** @brief Check if a c string is part of this String after the position of StartAtIndex till the number of Count steps is reached.
-      *
-      * StartAtIndex mark the start of the search and Count is the number of char's which will be tested.
-      * StartAtIndex+Count is the last start position which will be checked.
-      * @return Return -1 if the c string isn't part of this String else the start position.
-      **/
-    RFTYPE::Int32 IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize,
-        const RFTYPE::UInt32 StartAtIndex,
-        const RFTYPE::UInt32 Count)const;
-
-    /** @brief Insert a String at the position AtIndex.
-      *
-      * @return Return the new String.
-      **/
-    String Insert(const RFTYPE::UInt32 AtIndex, const String& Value);
-
-    /** @brief Insert a c string at the position AtIndex.
-      *
-      * @return Return the new String.
-      **/
-    String Insert(const RFTYPE::UInt32 AtIndex, const char* Value,
-        const RFTYPE::UInt32 ValueSize);
-
-    /** @brief Search the last positive sub String in a String.
-      *
-      * This function have the same behavior like IndexOf with the difference
-      * that the search start on the end and stop on the start of the String.
-      * @return Return -1 if there is no positive comparement else the position of the last sub String.
-      **/
-    RFTYPE::Int32 LastIndexOf(const String& Value)const;
-
-    /** @brief Search the last positive sub c string in a String.
-      *
-      * This function have the same behavior like IndexOf with the difference
-      * that the search start on the end and stop on the start of the String.
-      * @return Return -1 if there is no positive comparement else the position of the last sub c string.
-      **/
-    RFTYPE::Int32 LastIndexOf(const char* Value)const;
-
-    /** @brief Search the last positive sub String in a String and start at StartAtIndex.
-      *
-      * This function have the same behavior like IndexOf with the difference
-      * that the search start on the end and stop on the start of the String.
-      * StartAtIndex move the stop mark because the function search from the end to the start.
-      * @return Return -1 if there is no positive comparement else the position of the last sub String.
-      **/
-    RFTYPE::Int32 LastIndexOf(const String& Value,
-        const RFTYPE::UInt32 StartAtIndex)const;
-
-    /** @brief Search the last positive sub c string in a String and start at StartAtIndex.
-      *
-      * This function have the same behavior like IndexOf with the difference
-      * that the search start on the end and stop on the start of the String.
-      * StartAtIndex move the stop mark because the function search from the end to the start.
-      * @return Return -1 if there is no positive comparement else the position of the last sub c string.
-      **/
-    RFTYPE::Int32 LastIndexOf(const char* Value,
-        const RFTYPE::UInt32 StartAtIndex)const;
-
-    /** @brief Search the last positive sub String in a String and start at StartAtIndex.
-      *
-      * This function have the same behavior like IndexOf with the difference
-      * that the search start on the end and stop on the start of the String.
-      * StartAtIndex move the stop mark because the function search from the end to the start.
-      * Count move the start mark, which means StartAtIndex+Count is the first comparement.
-      * @return Return -1 if there is no positive comparement else the position of the last sub String.
-      **/
-    RFTYPE::Int32 LastIndexOf(const String& Value,
-        const RFTYPE::UInt32 StartAtIndex,
-        const RFTYPE::UInt32 Count)const;
-
-    /** @brief Search the last positive sub c string in a String and start at StartAtIndex.
-      *
-      * This function have the same behavior like IndexOf with the difference
-      * that the search start on the end and stop on the start of the String.
-      * StartAtIndex move the stop mark because the function search from the end to the start.
-      * Count move the start mark, which means StartAtIndex+Count is the first comparement.
-      * @return Return -1 if there is no positive comparement else the position of the last sub c string.
-      **/
-    RFTYPE::Int32 LastIndexOf(const char* Value,
-        const RFTYPE::UInt32 StartAtIndex,
-        const RFTYPE::UInt32 Count)const;
-
-    /** Returns a new string that right-aligns the characters in this
-      * instance by padding them on the left with a specified Unicode
-      * character, for a specified total length.
-      **/
-    String PadLeft(const RFTYPE::UInt32 TotalWidth,
-        const RFTYPE::Char PaddingChar=' ')const;
-
-    /** Returns a new string that left-aligns the characters in this
-      * string by padding them on the right with a specified Unicode
-      * character, for a specified total length.
-      **/
-    String PadRight(const RFTYPE::UInt32 TotalWidth,
-        const RFTYPE::Char PaddingChar=' ')const;
-
-    /** Deletes all the characters from this string beginning at a
-      * specified position and continuing through the last position.
-      **/
-    String Remove(const RFTYPE::UInt32 StartAtIndex)const;
-
-    /** Deletes a specified number of characters from this instance
-      * beginning at a specified position.
-      **/
-    String Remove(const RFTYPE::UInt32 StartAtIndex,
-                    const RFTYPE::UInt32 Count)const;
-
-    /** Returns a new string in which all occurrences of a specified
-      * Unicode character in this instance are replaced with another
-      * specified Unicode character.
-      **/
-    String Replace(const RFTYPE::Char OldChar,
-                    const RFTYPE::Char NewChar)const;
-
-    /** Returns a new string in which all occurrences of a specified
-      * string in the current instance are replaced with another
-      * specified string.
-      **/
-    String Replace(const String& OldValue,
-                    const String& NewValue)const;
-
-    /** Return a String vector that contains the substrings in this
-      * instance that are delimited by char's contained by Delimiters.
-      **/
-    Memory::AutoPointerArray<String> Split(const String &Delimiters)const;
-
-    /** Return a String vector that contains the substrings in this
-      * instance that are delimited by char's contained by Delimiters.
-      **/
-    Memory::AutoPointerArray<String> Split(const Char* Delimiters)const;
-
-    /** Determines whether the beginning of this string instance
-      * matches the specified string.
-      **/
-    RFTYPE::Bool StartsWith(const String& AString)const;
-
-    /** Retrieves a substring from this instance. The substring starts
-      * at a specified character position and has a specified length.
-      **/
-    String SubString(const RFTYPE::UInt32 StartIndex,
-                        const RFTYPE::UInt32 Count)const;
-
-    /** Removes all leading and trailing occurrences of a set of
-      * characters specified from the TrimChars String.
-      **/
-    String Trim(const String& TrimChars=" ")const;
-
-    /** Removes all trailing occurrences of a set of characters
-      * specified from the current String object TrimChars.
-      **/
-    String TrimStart(const String& TrimChars=" ")const;
-
-    /** Removes all leading occurrences of a set of characters
-      * specified from the current String object TrimChars.
-      **/
-    String TrimEnd(const String& TrimChars=" ")const;
-
-    /** Check if both strings are equal.
-      * The method return the position of the first difference, 0
-      * if they are equal or -1 if they are unequal in length.
-      **/
-    RFTYPE::Int32 Compare(const String& With)const;
-
-    char operator[](const MemoryRange Index)const;
-    char& operator[](const MemoryRange Index);
+    #pragma region Operator
+    /// Overload new operator to ensure String alignment.
+    void* operator new(Size Bytes);
+    /// Overload replacement new operator to ensure String alignment.
+    void* operator new(Size Bytes, void* buffer);
+    char operator[](const Size Index)const;
+    char& operator[](const Size Index);
     bool operator==(const String& Other)const;
-    bool operator==(const char* Other)const;
     bool operator!=(const String& Other)const;
-    bool operator!=(const char* Other)const;
     String operator+(const String &Str)const;
-    String operator+(const char* Str)const;
     String operator+(const Char Character)const;
     /// Append "true" or "false" on the string.
     String operator+(const Bool& Value)const;
@@ -292,7 +77,6 @@ public:
     String operator+(const UInt16 Number)const;
     String operator+(const UInt32 Number)const;
     String operator+(const UInt64 Number)const;
-    String& operator+=(const char *Str);
     String& operator+=(const Char Character);
     String& operator+=(const String& Str);
     String& operator+=(const Bool& Value);
@@ -304,7 +88,6 @@ public:
     String& operator+=(const UInt16 Number);
     String& operator+=(const UInt32 Number);
     String& operator+=(const UInt64 Number);
-    String& operator=(const char *Str);
     String& operator=(const Char Character);
     String& operator=(const String &Other);
     String& operator=(const Bool& Value);
@@ -316,6 +99,11 @@ public:
     String& operator=(const UInt16 Number);
     String& operator=(const UInt32 Number);
     String& operator=(const UInt64 Number);
+    #pragma endregion
+
+    #pragma region Properties
+    /// Return the glyph count.
+    UInt32 Length()const;
 
     /** \brief This function return a c string which isn't editable.
      *
@@ -327,33 +115,166 @@ public:
      *             libraries like Operating System API's.
      **/
     char const* c_str()const;
-                    
-    /// Convert a hex value, stored in this String instance, to a number.
+
+    /// UTF-8 can consists of multiple bytes for a character. 
+    /// Use this to get the size instead of the character amount.
+    Size Size()const;
+    #pragma endregion
+
+    #pragma region Methods
+    /** @brief Check if a string contains an other string.
+      *
+      * @return Return -1 if Str isn't contain or greater -1(position where the string was found).
+      *
+      **/
+    Int32 Contains(const String &Str)const;
+
+    /** @brief Check if a String end with an other String.
+      *
+      * @return Return true if the String ends with Value else false.
+      **/
+    Bool EndsWith(const String& Value)const;
+
+    /** @brief Check if a String is part of this String.
+      *
+      * @return Return -1 if the String isn't part of this String else the start position.
+      **/
+    Int32 IndexOf(const String& Value)const;
+
+    /** @brief Check if a String is part of this String after the position of StartAtIndex.
+      *
+      * @return Return -1 if the String isn't part of this String else the start position.
+      **/
+    Int32 IndexOf(const String& Value, const UInt32 StartAtIndex)const;
+
+    /** @brief Check if a String is part of this String after the position of StartAtIndex till the number of Count steps is reached.
+      *
+      * StartAtIndex mark the start of the search and Count is the number of char's which will be tested.
+      * StartAtIndex+Count is the last start position which will be checked.
+      * @return Return -1 if the String isn't part of this String else the start position.
+      **/
+    Int32 IndexOf(const String& Value, const UInt32 StartAtIndex,
+        const UInt32 Count)const;
+
+    /** @brief Insert a String at the position AtIndex.
+      *
+      * @return Return the new String.
+      **/
+    String Insert(const UInt32 AtIndex, const String& Value);
+
+    /** @brief Search the last positive sub String in a String.
+      *
+      * This function have the same behavior like IndexOf with the difference
+      * that the search start on the end and stop on the start of the String.
+      * @return Return -1 if there is no positive comparement else the position of the last sub String.
+      **/
+    Int32 LastIndexOf(const String& Value)const;
+
+    /** @brief Search the last positive sub String in a String and start at StartAtIndex.
+      *
+      * This function have the same behavior like IndexOf with the difference
+      * that the search start on the end and stop on the start of the String.
+      * StartAtIndex move the stop mark because the function search from the end to the start.
+      * @return Return -1 if there is no positive comparement else the position of the last sub String.
+      **/
+    Int32 LastIndexOf(const String& Value, const UInt32 StartAtIndex)const;
+
+    /** @brief Search the last positive sub String in a String and start at StartAtIndex.
+      *
+      * This function have the same behavior like IndexOf with the difference
+      * that the search start on the end and stop on the start of the String.
+      * StartAtIndex move the stop mark because the function search from the end to the start.
+      * Count move the start mark, which means StartAtIndex+Count is the first comparement.
+      * @return Return -1 if there is no positive comparement else the position of the last sub String.
+      **/
+    Int32 LastIndexOf(const String& Value, const UInt32 StartAtIndex,
+        const UInt32 Count)const;
+
+    /** Returns a new string that right-aligns the characters in this
+      * instance by padding them on the left with a specified Unicode
+      * character, for a specified total length.
+      **/
+    String PadLeft(const UInt32 TotalWidth, const Char PaddingChar=' ')const;
+
+    /** Returns a new string that left-aligns the characters in this
+      * string by padding them on the right with a specified Unicode
+      * character, for a specified total length.
+      **/
+    String PadRight(const UInt32 TotalWidth, const Char PaddingChar=' ')const;
+
+    /** Deletes all the characters from this string beginning at a
+      * specified position and continuing through the last position.
+      **/
+    String Remove(const UInt32 StartAtIndex)const;
+
+    /** Deletes a specified number of characters from this instance
+      * beginning at a specified position.
+      **/
+    String Remove(const UInt32 StartAtIndex, const UInt32 Count)const;
+
+    /** Returns a new string in which all occurrences of a specified
+      * Unicode character in this instance are replaced with another
+      * specified Unicode character.
+      **/
+    String Replace(const RFTYPE::Char OldChar, const Char NewChar)const;
+
+    /** Returns a new string in which all occurrences of a specified
+      * string in the current instance are replaced with another
+      * specified string.
+      **/
+    String Replace(const String& OldValue, const String& NewValue)const;
+
+    /** Return a String vector that contains the substrings in this
+      * instance that are delimited by char's contained by Delimiters.
+      **/
+    Memory::AutoPointerArray<String> Split(const String &Delimiters)const;
+
+    /** Determines whether the beginning of this string instance
+      * matches the specified string.
+      **/
+    Bool StartsWith(const String& Value)const;
+
+    /** Retrieves a substring from this instance. The substring starts
+      * at a specified character position and has a specified length.
+      **/
+    String SubString(const UInt32 StartIndex, const UInt32 Count)const;
+
+    /** Removes all leading and trailing occurrences of a set of
+      * characters specified from the TrimChars String.
+      **/
+    String Trim(const String& TrimChars)const;
+
+    /** Removes all trailing occurrences of a set of characters
+      * specified from the current String object TrimChars.
+      **/
+    String TrimStart(const String& TrimChars)const;
+
+    /** Removes all leading occurrences of a set of characters
+      * specified from the current String object TrimChars.
+      **/
+    String TrimEnd(const String& TrimChars)const;
+
+    /** Check if both strings are equal.
+      * The method return the position of the first difference, 0
+      * if they are equal or -1 if they are unequal in length.
+      **/
+    Int32 Compare(const String& With)const;
+
+        /// Convert a hex value, stored in this String instance, to a number.
     Int32 HexToDec()const;
 
     /** @brief This function allow to create a formatted String.
-      *
-      * The first parameter is the syntax of the new String, which
-      * use following syntax: %[flags][width][.precision][length]specifier
-      * For more information you can look at the manual of printf.
-      * http://www.cplusplus.com/reference/clibrary/cstdio/printf/
-      **/
-    static String Format(const char* Str=0,...);
+     *
+     * The first parameter is the syntax of the new String, which
+     * use following syntax: %[flags][width][.precision][length]specifier
+     * For more information you can look at the manual of printf.
+     * http://www.cplusplus.com/reference/clibrary/cstdio/printf/
+     **/
     static String Format(const String &Str,...);
-    static RFTYPE::UInt32 Format(
-        Memory::AutoPointerArray<RFTYPE::UInt8>& Buffer, 
-        const RFTYPE::UInt32 BufferBoundaryStart, 
-        const RFTYPE::UInt32 BufferBoundaryEnd,
-        const char* Str=0,...);
-    static RFTYPE::UInt32 Format(
-        Memory::AutoPointerArray<RFTYPE::UInt8>& Buffer,
-        const RFTYPE::UInt32 BufferBoundaryStart, 
-        const RFTYPE::UInt32 BufferBoundaryEnd,
-        const String &Str,...);
-    static String Format(const char* Str, va_list argptr);
 
     /// Convert all lower case to upper case chars.
     void ToUpper();
+
     /// Convert all upper case to lower case chars.
     void ToLower();
 
@@ -368,29 +289,37 @@ public:
 
     void Swap(String& Other);
 
-    Memory::AutoPointer<Collections::ArrayEnumerator<Char> > GetEnumerator();
-
     /// Check if the String instance is empty.
     Bool IsEmpty()const;
-
-    /// UTF-8 can use multiple bytes for a character. Use this to get the size instead of the character amount.
-    RFTYPE::Size Size()const;
+    #pragma endregion
 protected:
+#pragma region Internal variables
     static const UInt32 BUFFER_SIZE = 27;
 
     union
     {//0 terminated to boost the speed
         FixString<BUFFER_SIZE> m_FixBuffer;
-        struct DynamicString{
-            Char* data;
-            RFTYPE::Size size;
-
-            const Char* Raw()const{return data;}
-            Char* Raw(){return data;}
-        } m_DynBuffer;
+        DynamicString m_DynBuffer;
     };
     Common::DataManagment::Type m_DataManagment;
     RFTYPE::UInt32 m_Length;
+
+    char* GetBuffer();
+    const char* GetBuffer()const;
+#pragma endregion
+};
+
+struct StringLitteral
+{
+    template<int N>
+    StringLitteral(char const (&CString)[N])
+    {
+        cstring = &CString[0];
+        size = N;
+    }
+
+    char const* cstring;
+    Size size;
 };
 
 } } }
@@ -428,4 +357,5 @@ RFTYPE::UInt64& operator<<(RFTYPE::UInt64 &Self, const RFTYPE::String &Str);
 
 RFTYPE::Float32& operator<<(RFTYPE::Float32 &Self, const RFTYPE::String &Str);
 RFTYPE::Float64& operator<<(RFTYPE::Float64 &Self, const RFTYPE::String &Str);
+
 #endif // RF_CORE_TYPES_STRING_HPP

@@ -15,12 +15,12 @@ Bool Convert::ToBool(const String& In, Bool& Out)
     Bool result=false;
     String tmp(In);
     tmp.ToLower();
-    if (tmp=="true")
+    if (tmp == String("true", sizeof("true")))
     {
         Out=true;
         result=true;
     }
-    if (tmp=="false")
+    if (tmp == String("false", sizeof("false")))
     {
         Out=false;
         result=true;
@@ -195,56 +195,58 @@ Bool Convert::ToSize(const String& In, Size& Out)
 
 String Convert::ToString(const Bool Value)
 {
-    String result(Value?"true":"false");
+    static const String TRUE("true", sizeof("true"));
+    static const String FALSE("false", sizeof("false"));
+    String result(Value?TRUE:FALSE);
     return result;
 }
 
 String Convert::ToString(const Int8 Value)
 {
-    return String::Format("%i", Value);
+    return String::Format(String("%i",sizeof("%i")), Value);
 }
 
 String Convert::ToString(const Int16 Value)
 {
-    return String::Format("%i",Value);
+    return String::Format(String("%i",sizeof("%i")),Value);
 }
 
 String Convert::ToString(const Int32 Value)
 {
-    return String::Format("%i",Value);
+    return String::Format(String("%i",sizeof("%i")),Value);
 }
 
 String Convert::ToString(const Int64 Value)
 {
-    return String::Format("%lld",Value);
+    return String::Format(String("%lld",sizeof("%lld")),Value);
 }
 
 String Convert::ToString(const UInt8 Value)
 {
-    return String::Format("%u", Value);
+    return String::Format(String("%u",sizeof("%u")), Value);
 }
 
 String Convert::ToString(const UInt16 Value)
 {
-    return String::Format("%u", Value);
+    return String::Format(String("%u",sizeof("%u")), Value);
 }
 
 String Convert::ToString(const UInt32 Value)
 {
-    return String::Format("%u", Value);
+    return String::Format(String("%u",sizeof("%u")), Value);
 }
 
 String Convert::ToString(const UInt64 Value)
 {
-    return String::Format("%llu", Value);
+    return String::Format(String("%llu",sizeof("%llu")), Value);
 }
 
 String Convert::ToString(const Float32 Value)
 {
-    return String::Format("%f", Value);
+    return String::Format(String("%f",sizeof("%f")), Value);
 }
 
 String Convert::ToString(const Float64 Value)
 {
-    return String::Format("%f", Value);
+    return String::Format(String("%f",sizeof("%f")), Value);
 }

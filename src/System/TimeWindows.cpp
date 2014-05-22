@@ -19,8 +19,14 @@ UInt64 GetNow()
 UInt64 GetMinutesWestOfGMT()
 {
     TIME_ZONE_INFORMATION tz;
-    GetTimeZoneInformation(&tz);
-    return abs(tz.Bias)*600000000LL;
+    if(GetTimeZoneInformation(&tz) != TIME_ZONE_ID_INVALID)
+    {
+        return abs(tz.Bias) * 600000000LL;
+    }
+    else
+    {
+        return 0;
+    }    
 }
 
 UInt64 GetHighResolutionCounter()
@@ -28,12 +34,11 @@ UInt64 GetHighResolutionCounter()
     Int64 result;
     if (QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&result)))
     {
-        Int64 freq;
-        QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&freq));
-        result=result/freq;
     }
     else
-        result=::GetNow();
+    {
+        result = ::GetNow();
+    }
     return result;
 }
 
@@ -73,7 +78,10 @@ void DeleteTimerQueue(TimerHandle& Handle)
     if (Handle.GetPointer())
     {
         TimerWrapper* pimpl=reinterpret_cast<TimerWrapper*>(Handle.GetPointer());
-        DeleteTimerQueueTimer(0, pimpl->Handle, 0);
+        // msdn say call it again till DeleteTimerQueueTimer succeed or error is ERROR_IO_PENDING
+        for(; DeleteTimerQueueTimer(0, pimpl->Handle, 0) == 0 && GetLastError() != ERROR_IO_PENDING;)
+        {
+        }
         delete pimpl;
         Handle=TimerHandle::Zero();
     }

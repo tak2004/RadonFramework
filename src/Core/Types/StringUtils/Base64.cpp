@@ -8,13 +8,13 @@ using namespace RadonFramework::Core::Types::StringUtils;
 String Base64Converter::Encode(const String &Source)
 {
     std::string str=modp::b64_encode(Source.c_str(),Source.Length());
-    String result(str.c_str());
+    String result(str.c_str(), str.size());
     return result;
 }
 
 String Base64Converter::Decode(const String &Source)
 {
     std::string str=modp::b64_decode(Source.c_str(),Source.Length());
-    String result(str.c_str());
+    String result(str.c_str(), str.size());
     return result;
 }

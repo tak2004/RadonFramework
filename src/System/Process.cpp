@@ -3,69 +3,86 @@
 #include "RadonFramework/Collections/List.hpp"
 
 using namespace RadonFramework::Memory;
+using namespace RadonFramework::System::Process;
 
 AutoPointerArray<RFTYPE::UInt32> GetProcessList_SystemAPIDispatcher()
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetProcessList != GetProcessList_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetProcessList();
+    GetProcessList = 0;
+    Dispatch();
+    Assert(GetProcessList != GetProcessList_SystemAPIDispatcher &&
+           GetProcessList != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetProcessList();
 }
 
 RFTYPE::UInt32 GetCurrentProcessId_SystemAPIDispatcher()
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetCurrentProcessId();
+    GetCurrentProcessId = 0;
+    Dispatch();
+    Assert(GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher &&
+           GetCurrentProcessId != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetCurrentProcessId();
 }
 
 RFTYPE::Bool GetGeneralInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::GeneralInfo& Info)
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetGeneralInfo(PId, Info);
+    GetGeneralInfo = 0;
+    Dispatch();
+    Assert(GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher &&
+           GetGeneralInfo != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetGeneralInfo(PId, Info);
 }
 
 RFTYPE::Bool GetIOInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::IOInfo& Info)
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetIOInfo != GetIOInfo_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetIOInfo(PId, Info);
+    GetIOInfo = 0;
+    Dispatch();
+    Assert(GetIOInfo != GetIOInfo_SystemAPIDispatcher &&
+           GetIOInfo != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetIOInfo(PId, Info);
 }
 
 RFTYPE::Bool GetMemoryInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::MemoryInfo& Info)
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetMemoryInfo(PId, Info);
+    GetMemoryInfo = 0;
+    Dispatch();
+    Assert(GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher &&
+           GetMemoryInfo != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetMemoryInfo(PId, Info);
 }
 
 RFTYPE::Bool GetTimingInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::TimingInfo& Info)
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetTimingInfo != GetTimingInfo_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetTimingInfo(PId, Info);
+    GetTimingInfo = 0;
+    Dispatch();
+    Assert(GetTimingInfo != GetTimingInfo_SystemAPIDispatcher &&
+           GetTimingInfo != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetTimingInfo(PId, Info);
 }
 
 RFTYPE::Bool GetModuleInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::ModuleInfo& Info)
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetModuleInfo != GetModuleInfo_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetModuleInfo(PId, Info);
+    GetModuleInfo = 0;
+    Dispatch();
+    Assert(GetModuleInfo != GetModuleInfo_SystemAPIDispatcher &&
+           GetModuleInfo != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetModuleInfo(PId, Info);
 }
 
 RFTYPE::Bool GetThreadInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::ThreadInfoList& Info)
 {
-    RFPROC::Dispatch();
-    Assert(RFPROC::GetThreadInfo != GetThreadInfo_SystemAPIDispatcher,
-        "Funtion was called and couldn't be dispatched");
-    return RFPROC::GetThreadInfo(PId, Info);
+    GetThreadInfo = 0;
+    Dispatch();
+    Assert(GetThreadInfo != GetThreadInfo_SystemAPIDispatcher &&
+           GetThreadInfo != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetThreadInfo(PId, Info);
 }
 
 RFPROC::GetProcessListCallback RFPROC::GetProcessList = GetProcessList_SystemAPIDispatcher;
@@ -80,33 +97,33 @@ RFPROC::GetThreadInfoCallback RFPROC::GetThreadInfo = GetThreadInfo_SystemAPIDis
 RFTYPE::Bool RFPROC::IsSuccessfullyDispatched()
 {
     RFTYPE::Bool result = true;
-    result = result && GetProcessList != GetProcessList_SystemAPIDispatcher;
-    result = result && GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher;
-    result = result && GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher;
-    result = result && GetIOInfo != GetIOInfo_SystemAPIDispatcher;
-    result = result && GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher;
-    result = result && GetTimingInfo != GetTimingInfo_SystemAPIDispatcher;
-    result = result && GetModuleInfo != GetModuleInfo_SystemAPIDispatcher;
-    result = result && GetThreadInfo != GetThreadInfo_SystemAPIDispatcher;
+    result = result && GetProcessList != GetProcessList_SystemAPIDispatcher && GetProcessList != 0;
+    result = result && GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher && GetCurrentProcessId != 0;
+    result = result && GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher && GetGeneralInfo != 0;
+    result = result && GetIOInfo != GetIOInfo_SystemAPIDispatcher && GetIOInfo != 0;
+    result = result && GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher && GetMemoryInfo != 0;
+    result = result && GetTimingInfo != GetTimingInfo_SystemAPIDispatcher && GetTimingInfo != 0;
+    result = result && GetModuleInfo != GetModuleInfo_SystemAPIDispatcher && GetModuleInfo != 0;
+    result = result && GetThreadInfo != GetThreadInfo_SystemAPIDispatcher && GetThreadInfo != 0;
     return result;
 }
 
 void RFPROC::GetNotDispatchedFunctions( RadonFramework::Collections::List<RFTYPE::String>& Result )
 {
-    if (GetProcessList == GetProcessList_SystemAPIDispatcher) 
-        Result.AddLast("GetProcessList");
-    if (GetCurrentProcessId == GetCurrentProcessId_SystemAPIDispatcher) 
-        Result.AddLast("GetCurrentProcessId");
-    if (GetGeneralInfo == GetGeneralInfo_SystemAPIDispatcher) 
-        Result.AddLast("GetGeneralInfo");
-    if (GetIOInfo == GetIOInfo_SystemAPIDispatcher)
-        Result.AddLast("GetIOInfo");
-    if (GetMemoryInfo == GetMemoryInfo_SystemAPIDispatcher)
-        Result.AddLast("GetMemoryInfo");
-    if (GetTimingInfo == GetTimingInfo_SystemAPIDispatcher)
-        Result.AddLast("GetTimingInfo");
-    if (GetModuleInfo == GetModuleInfo_SystemAPIDispatcher)
-        Result.AddLast("GetModuleInfo");
-    if (GetThreadInfo == GetThreadInfo_SystemAPIDispatcher)
-        Result.AddLast("GetThreadInfo");
+    if (GetProcessList == GetProcessList_SystemAPIDispatcher || GetProcessList == 0) 
+        Result.AddLast(RFTYPE::String("GetProcessList", sizeof("GetProcessList")));
+    if (GetCurrentProcessId == GetCurrentProcessId_SystemAPIDispatcher || GetCurrentProcessId == 0) 
+        Result.AddLast(RFTYPE::String("GetCurrentProcessId", sizeof("GetCurrentProcessId")));
+    if (GetGeneralInfo == GetGeneralInfo_SystemAPIDispatcher || GetGeneralInfo == 0) 
+        Result.AddLast(RFTYPE::String("GetGeneralInfo", sizeof("GetGeneralInfo")));
+    if (GetIOInfo == GetIOInfo_SystemAPIDispatcher || GetIOInfo == 0)
+        Result.AddLast(RFTYPE::String("GetIOInfo", sizeof("GetIOInfo")));
+    if (GetMemoryInfo == GetMemoryInfo_SystemAPIDispatcher || GetMemoryInfo == 0)
+        Result.AddLast(RFTYPE::String("GetMemoryInfo", sizeof("GetMemoryInfo")));
+    if (GetTimingInfo == GetTimingInfo_SystemAPIDispatcher || GetTimingInfo == 0)
+        Result.AddLast(RFTYPE::String("GetTimingInfo", sizeof("GetTimingInfo")));
+    if (GetModuleInfo == GetModuleInfo_SystemAPIDispatcher || GetModuleInfo == 0)
+        Result.AddLast(RFTYPE::String("GetModuleInfo", sizeof("GetModuleInfo")));
+    if (GetThreadInfo == GetThreadInfo_SystemAPIDispatcher || GetThreadInfo == 0)
+        Result.AddLast(RFTYPE::String("GetThreadInfo", sizeof("GetThreadInfo")));
 }

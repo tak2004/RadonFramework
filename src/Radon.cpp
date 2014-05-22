@@ -1,12 +1,12 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Radon.hpp"
 #include "RadonFramework/Plugins.hpp"
-#include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
-#include <RadonFramework/Drawing/Canvas3DServiceLocator.hpp>
-#include <RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp>
-#include <RadonFramework/IO/DecoderServiceLocator.hpp>
-#include <RadonFramework/IO/ProtocolServiceLocator.hpp>
-#include <RadonFramework/IO/FileProtocolService.hpp>
+#include "RadonFramework/Drawing/Forms/WindowServiceLocator.hpp"
+#include "RadonFramework/Drawing/Canvas3DServiceLocator.hpp"
+#include "RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp"
+#include "RadonFramework/IO/DecoderServiceLocator.hpp"
+#include "RadonFramework/IO/ProtocolServiceLocator.hpp"
+#include "RadonFramework/IO/FileProtocolService.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/System/Network/NetService.hpp"
 #include "RadonFramework/System/Environment.hpp"
@@ -15,12 +15,14 @@
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/System/Process.hpp"
 #include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/Core/Common/DataManagment.hpp"
 
+using namespace RadonFramework;
+using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Threading;
 using namespace RadonFramework::Time;
-using namespace RadonFramework;
 using namespace RadonFramework::Math::Hash;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
@@ -109,12 +111,12 @@ void Radon::InitSubSystem(UInt32 Flags)
 
     if (Flags & RadonFramework::Init::Hashing)
     {
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new MurmurHashHashfunctionService("MurmurHash")));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibMD5HashfunctionService("MD5")));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA1HashfunctionService("SHA1")));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService("SHA256")));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService("SHA384")));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService("SHA512")));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new MurmurHashHashfunctionService(RFTYPE::String("MurmurHash", sizeof("MurmurHash"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibMD5HashfunctionService(RFTYPE::String("MD5", sizeof("MD5"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA1HashfunctionService(RFTYPE::String("SHA1", sizeof("SHA1"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService(RFTYPE::String("SHA256", sizeof("SHA256"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService(RFTYPE::String("SHA384", sizeof("SHA384"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService(RFTYPE::String("SHA512", sizeof("SHA512"), DataManagment::UnmanagedInstance))));
         HashfunctionServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Hashing;
     }
@@ -123,7 +125,7 @@ void Radon::InitSubSystem(UInt32 Flags)
     {
         RFFILE::Dispatch();
         DecoderServiceLocator::Initialize();
-        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService("file")));
+        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RFTYPE::String("file", sizeof("file"), DataManagment::UnmanagedInstance))));
         ProtocolServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::IO;
     }

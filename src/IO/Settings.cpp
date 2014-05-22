@@ -81,7 +81,7 @@ void Settings::Load()
                     if (buf[i] == '\n')
                     {
                         String line = String(reinterpret_cast<const char*>(&buf[s]), i - s);
-                        AutoPointerArray<String> keyValue = line.Split("=");
+                        AutoPointerArray<String> keyValue = line.Split(String('='));
                         if (keyValue.Count() == 2)
                         {
                             const char* key = StringCache::Find(keyValue[0]);
@@ -117,7 +117,7 @@ void Settings::Save()
     {
         for (; it != end; ++it)
         {
-            String buf = String(it->first) + "=" + it->second + "\n";
+            String buf = String::UnsafeStringCreation(it->first) + "=" + it->second + "\n";
             fs.Write(reinterpret_cast<const UInt8*>(buf.c_str()), 0, buf.Length());
         }
         fs.Close();

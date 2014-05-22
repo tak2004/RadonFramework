@@ -1,12 +1,13 @@
 #include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/Core/Types/String.hpp"
 #include "RadonFramework/Math/Math.hpp"
-#include "RadonFramework/Collections/ArrayEnumerator.hpp"
 #include <string.h>
 
 using namespace RadonFramework::Memory;
-using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::Collections;
+
+using RadonFramework::Core::Types::String;
 
 String::String()
 :m_DataManagment(Common::DataManagment::Copy)
@@ -18,8 +19,8 @@ String::String()
             m_FixBuffer[0] = 0;
             break;
         default:
-            m_DynBuffer.data = 0;
-            m_DynBuffer.size = 0;
+            m_DynBuffer.m_Buffer = 0;
+            m_DynBuffer.m_Size = 0;
     }
 }
 
@@ -32,9 +33,9 @@ String::String(const String& Copy)
         if (m_Length >= BUFFER_SIZE)
         {
             m_DataManagment = DataManagment::AllocateAndCopy;
-            m_DynBuffer.data = new char[Copy.m_DynBuffer.size + 1];
-            m_DynBuffer.size = Copy.m_DynBuffer.size + 1;
-            RFMEM::Copy(static_cast<void*>(m_DynBuffer.Raw()), static_cast<const void*>(Copy.m_DynBuffer.Raw()), m_DynBuffer.size);
+            m_DynBuffer.m_Buffer = new char[Copy.m_DynBuffer.m_Size + 1];
+            m_DynBuffer.m_Size = Copy.m_DynBuffer.m_Size + 1;
+            RFMEM::Copy(static_cast<void*>(m_DynBuffer.Raw()), static_cast<const void*>(Copy.m_DynBuffer.Raw()), m_DynBuffer.m_Size);
         }
         else
         {
@@ -43,7 +44,7 @@ String::String(const String& Copy)
     }
 }
 
-String::String(const char* cString, const UInt32 cStringSize,
+String::String(const char* cString, const RFTYPE::Size cStringSize,
     DataManagment::Type Ownership)
 :m_DataManagment(Ownership)
 {
@@ -64,15 +65,15 @@ String::String(const char* cString, const UInt32 cStringSize,
                 else
                 {
                     m_DataManagment = DataManagment::AllocateAndCopy;
-                    m_DynBuffer.data = new char[cStringSize];
-                    m_DynBuffer.size = cStringSize;
-                    RFMEM::Copy(m_DynBuffer.data, cString, m_DynBuffer.size);
+                    m_DynBuffer.m_Buffer = new char[cStringSize];
+                    m_DynBuffer.m_Size = cStringSize;
+                    RFMEM::Copy(m_DynBuffer.m_Buffer, cString, m_DynBuffer.m_Size);
                 }
                 break;
             case Common::DataManagment::UnmanagedInstance:
             case Common::DataManagment::TransfereOwnership:
-                m_DynBuffer.data = (char*)cString;
-                m_DynBuffer.size = cStringSize;
+                m_DynBuffer.m_Buffer = (char*)cString;
+                m_DynBuffer.m_Size = cStringSize;
                 break;
             }
         }
@@ -85,31 +86,11 @@ String::String(const char* cString, const UInt32 cStringSize,
     }
 }
 
-
-String::String(const char* cString, UInt32 cStringSize)
-:m_DataManagment(Common::DataManagment::Copy)
-{
-    m_Length=strlen(cString);
-    if (cStringSize < BUFFER_SIZE)
-    {
-        RFMEM::Copy(static_cast<void*>(m_FixBuffer.Raw()),
-            static_cast<const void*>(cString), cStringSize);
-    }
-    else
-    {
-        m_DataManagment = DataManagment::AllocateAndCopy;
-        m_DynBuffer.data = new char[cStringSize];
-        m_DynBuffer.size = cStringSize;
-        RFMEM::Copy(m_DynBuffer.data, cString, m_DynBuffer.size);
-    }
-}
-
-
-String::String(const UInt32 StringSize)
+String::String(const RFTYPE::Size StringSize)
 :m_DataManagment(Common::DataManagment::Copy)
 {
     m_Length=StringSize-1;
-    if (StringSize < BUFFER_SIZE)
+    if (StringSize <= BUFFER_SIZE)
     {
         RFMEM::Set(static_cast<void*>(m_FixBuffer.Raw()), ' ', m_Length);
         m_FixBuffer[m_Length] = 0;
@@ -117,8 +98,8 @@ String::String(const UInt32 StringSize)
     else
     {
         m_DataManagment = DataManagment::AllocateAndCopy;
-        m_DynBuffer.data = new char[m_Length];
-        m_DynBuffer.size = m_Length;
+        m_DynBuffer.m_Buffer = new char[m_Length];
+        m_DynBuffer.m_Size = m_Length;
         RFMEM::Set(static_cast<void*>(m_DynBuffer.Raw()), ' ', m_Length);
         m_DynBuffer[m_Length] = 0;
     }
@@ -136,9 +117,18 @@ String::~String()
 {
     if (m_DataManagment==Common::DataManagment::UnmanagedInstance)
     {
-        delete[] m_DynBuffer.data;
-        m_DynBuffer.size = 0;
+        delete[] m_DynBuffer.m_Buffer;
+        m_DynBuffer.m_Size = 0;
     }
+}
+
+String String::UnsafeStringCreation(const char* CString)
+{
+    String result;
+    RFTYPE::Size size = 0;
+    for (;CString != 0; ++CString, ++size){}
+    result = String(CString, size);
+    return result;
 }
 
 void* String::operator new(size_t bytes)
@@ -153,43 +143,29 @@ void* String::operator new(size_t bytes, void* buffer)
     return static_cast<void*>(p);
 }
 
-UInt32 String::Length()const
+RFTYPE::UInt32 String::Length()const
 {
     return m_Length;
 }
 
 
-Int32 String::Contains(const String &Str)const
+RFTYPE::Int32 String::Contains(const String &Str)const
 {
     if (m_Length < Str.m_Length)
         return -1;
 
-    return IndexOf(Str.c_str(), 0, m_Length);
+    return IndexOf(Str, 0, m_Length);
 }
 
 
-Bool String::EndsWith(const String& Value)const
+RFTYPE::Bool String::EndsWith(const String& Value)const
 {
     //this test is faster as in the method with char*
     if (Value.m_Length > m_Length)
         return false;
 
-    return EndsWith(Value.c_str());
-}
-
-
-Bool String::EndsWith(const char* Value)const
-{
-    UInt32 valuelen=static_cast<UInt32>(strlen(Value));
-    if (valuelen > m_Length)
-        return false;
-
-    const char* buffer;
-    if (m_DataManagment == DataManagment::Copy)
-        buffer = m_FixBuffer.Raw();
-    else
-        buffer = m_DynBuffer.data;
-    Int32 j = valuelen - 1;
+    const char* buffer = GetBuffer();
+    Int32 j = m_Length - 1;
     for (UInt32 i = m_Length - 1; i >= 0; --i)
     {
         if(buffer[i] == Value[j])
@@ -203,91 +179,55 @@ Bool String::EndsWith(const char* Value)const
     return false;
 }
 
-
-Int32 String::IndexOf(const String& Value)const
+RFTYPE::Int32 String::IndexOf(const String& Value)const
 {
     if (m_Length<Value.m_Length)
         return -1;
 
-    return IndexOf(Value.c_str(),0,m_Length);
+    return IndexOf(Value, 0, m_Length);
 }
 
-
-Int32 String::IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize)const
-{
-    return IndexOf(Value, ValueSize, 0, m_Length);
-}
-
-
-Int32 String::IndexOf(const String& Value,
-                      const UInt32 StartAtIndex)const
+RFTYPE::Int32 String::IndexOf(const String& Value,
+                      const RFTYPE::UInt32 StartAtIndex)const
 {
     if (m_Length-StartAtIndex<Value.m_Length)
         return -1;
 
-    return IndexOf(Value.c_str(),StartAtIndex,m_Length-StartAtIndex);
+    return IndexOf(Value, StartAtIndex, m_Length - StartAtIndex);
 }
 
-
-Int32 String::IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize,
-                      const UInt32 StartAtIndex)const
+RFTYPE::Int32 String::IndexOf(const RFTYPE::String& Value,
+    const RFTYPE::UInt32 StartAtIndex, const RFTYPE::UInt32 Count)const
 {
-    return IndexOf(Value, ValueSize, StartAtIndex, m_Length - StartAtIndex);
-}
-
-
-Int32 String::IndexOf(const String& Value,
-                      const UInt32 StartAtIndex,
-                      const UInt32 Count)const
-{
-    if (Count<Value.m_Length)
+    if (Count < Value.m_Length)
         return -1;
 
-    return IndexOf(Value.c_str(),StartAtIndex,Count);
-}
-
-
-Int32 String::IndexOf(const char* Value, const RFTYPE::UInt32 ValueSize,
-                      const UInt32 StartAtIndex,
-                      const UInt32 Count)const
-{
-    if (m_Length==0)
-        return -1;
-
-    if (ValueSize>Count)
+    if (m_Length == 0)
         return -1;
 
     Int32 j=0;
     for (UInt32 i=StartAtIndex;i<StartAtIndex+Count;++i)
     {
-        const char* buffer;
-        if (m_DataManagment == DataManagment::Copy)
-            buffer = m_FixBuffer.Raw();
-        else
-            buffer = m_DynBuffer.data;
+        const char* buffer = GetBuffer();
 
         if(buffer[i]==Value[j])
             ++j;
         else
             j=0;
 
-        if (j==static_cast<Int32>(ValueSize))
+        if (j==static_cast<Int32>(m_Length))
             return i-(j-1);
     }
     return -1;
 }
 
-
-String String::Insert(const UInt32 AtIndex,
-                      const String& Value)
+RFTYPE::String String::Insert(const RFTYPE::UInt32 AtIndex,
+    const RFTYPE::String& Value)
 {
-    String str(m_Length+Value.m_Length);
+    RFTYPE::Size byteSize = m_Length+Value.m_Length;
+    String str(byteSize);
 
-    char* buffer;
-    if (m_DataManagment == DataManagment::Copy)
-        buffer = str.m_FixBuffer.Raw();
-    else
-        buffer = str.m_DynBuffer.data;
+    char* buffer = GetBuffer();
 
     if (AtIndex>0)
         RFMEM::Copy(buffer, c_str(), AtIndex);
@@ -298,75 +238,41 @@ String String::Insert(const UInt32 AtIndex,
     return str;
 }
 
-
-String String::Insert(const UInt32 AtIndex, const char* Value,
-    const UInt32 ValueSize)
-{
-    String tmp(Value, ValueSize, DataManagment::UnmanagedInstance);
-    return Insert(AtIndex, tmp);
-}
-
-
-Int32 String::LastIndexOf(const String& Value)const
+RFTYPE::Int32 String::LastIndexOf(const String& Value)const
 {
     if (m_Length<Value.m_Length)
         return -1;
 
-    return LastIndexOf(Value.c_str(),0,m_Length);
+    return LastIndexOf(Value, 0, m_Length);
 }
 
-
-Int32 String::LastIndexOf(const char* Value)const
-{
-    return LastIndexOf(Value,0,m_Length);
-}
-
-
-Int32 String::LastIndexOf(const String& Value,
-                          const UInt32 StartAtIndex)const
+RFTYPE::Int32 String::LastIndexOf(const RFTYPE::String& Value,
+    const RFTYPE::UInt32 StartAtIndex)const
 {
     if (m_Length-StartAtIndex<Value.m_Length)
         return -1;
 
-    return LastIndexOf(Value.c_str(),StartAtIndex,m_Length-StartAtIndex);
+    return LastIndexOf(Value, StartAtIndex, m_Length - StartAtIndex);
 }
 
-
-Int32 String::LastIndexOf(const char* Value,
-                                 const UInt32 StartAtIndex)const
-{
-    return LastIndexOf(Value,StartAtIndex,m_Length-StartAtIndex);
-}
-
-
-Int32 String::LastIndexOf(const String& Value,
-                          const UInt32 StartAtIndex,
-                          const UInt32 Count)const
+RFTYPE::Int32 String::LastIndexOf(const RFTYPE::String& Value,
+    const RFTYPE::UInt32 StartAtIndex, const RFTYPE::UInt32 Count)const
 {
     if (Count<Value.m_Length)
         return -1;
 
-    return LastIndexOf(Value.c_str(),StartAtIndex,Count);
-}
-
-
-Int32 String::LastIndexOf(const char* Value,
-                          const UInt32 StartAtIndex,
-                          const UInt32 Count)const
-{
-    UInt32 valuelen=static_cast<UInt32>(strlen(Value));
     if (m_Length==0)
         return -1;
 
-    if (valuelen>Count)
-        return -1;
+    const char* buffer = GetBuffer();
 
-    const char *str=m_Text.Get();
-    const char *p=str+(StartAtIndex+Count-valuelen+1);
-    const char *searchp=p;
-    const char *v=Value;
-    const char *vend=Value+valuelen;
-    const char *pend=str+StartAtIndex-1;
+    const char* value = GetBuffer();
+
+    const char* v = value;
+    const char *p = buffer + (StartAtIndex + Count - m_Length + 1);
+    const char *searchp = p;
+    const char *vend=value + m_Length;
+    const char *pend=buffer + StartAtIndex - 1;
 
     for(;p!=pend;--p,searchp=p)
     {
@@ -377,80 +283,99 @@ Int32 String::LastIndexOf(const char* Value,
         }
 
         if (v==vend)//finished search
-            return static_cast<Int32>(MemoryRange(p-str));
+            return static_cast<Int32>(MemoryRange(p-buffer));
         else
-            v=Value;//reset v for next search
+            v=value;//reset v for next search
     }
     return -1;
 }
 
-
-String String::PadLeft(const UInt32 TotalWidth,
-                       const Char PaddingChar)const
+String String::PadLeft(const RFTYPE::UInt32 TotalWidth,
+                       const RFTYPE::Char PaddingChar)const
 {
     if (TotalWidth<m_Length)
         return *this;
-    String str(TotalWidth);
-    UInt32 offset=TotalWidth-m_Length;
+
+    RFTYPE::Size byteSize = TotalWidth;
+    String str(byteSize);
+    UInt32 offset = TotalWidth - m_Length;
+    const char* buffer = GetBuffer();
+
+    char* strBuffer = str.GetBuffer();
+
     if (PaddingChar!=' ' && offset>0)
-        RFMEM::Set(str.m_Text.Get(),PaddingChar,offset);
-    RFMEM::Copy(str.m_Text.Get()+offset,m_Text.Get(),m_Length);
+        RFMEM::Set(strBuffer, PaddingChar, offset);
+
+    RFMEM::Copy(strBuffer + offset, buffer, m_Length);
     return str;
 }
 
-
-String String::PadRight(const UInt32 TotalWidth,
-                        const Char PaddingChar)const
+String String::PadRight(const RFTYPE::UInt32 TotalWidth,
+                        const RFTYPE::Char PaddingChar)const
 {
     if (TotalWidth<m_Length)
         return *this;
-    String str(TotalWidth);
-    UInt32 offset=TotalWidth-m_Length;
+    
+    RFTYPE::Size byteSize = TotalWidth;
+    String str(byteSize);
+    UInt32 offset = TotalWidth - m_Length;
+    const char* buffer = GetBuffer();
+
+    char* strBuffer = str.GetBuffer();
+
     if (PaddingChar!=' ' && offset>0)
-        RFMEM::Set(str.m_Text.Get()+m_Length,PaddingChar,offset);
-    RFMEM::Copy(str.m_Text.Get(),m_Text.Get(),m_Length);
+        RFMEM::Set(strBuffer + m_Length, PaddingChar, offset);
+    RFMEM::Copy(strBuffer, buffer, m_Length);
     return str;
 }
 
-
-String String::Remove(const UInt32 StartAtIndex)const
+String String::Remove(const RFTYPE::UInt32 StartAtIndex)const
 {
     if (StartAtIndex==0)
         return String();
-    String str(m_Text.Get(),StartAtIndex);
+    
+    const char* buffer = GetBuffer();
+
+
+    String str(buffer + StartAtIndex, m_Length - StartAtIndex);
     return str;
 }
 
-
-String String::Remove(const UInt32 StartAtIndex,
-                      const UInt32 Count)const
+String String::Remove(const RFTYPE::UInt32 StartAtIndex,
+                      const RFTYPE::UInt32 Count)const
 {
     if (StartAtIndex==0)
         return String();
-    if (StartAtIndex>m_Length || Count==0)
+
+    if (StartAtIndex > m_Length || Count == 0)
         return *this;
-    if (m_Length-StartAtIndex<Count)
-        return String(m_Text.Get(),StartAtIndex);
 
-    UInt32 sc=StartAtIndex+Count;
-    String str(m_Length-Count);
-    RFMEM::Copy(str.m_Text.Get(),m_Text.Get(),StartAtIndex);
-    RFMEM::Copy(str.m_Text.Get()+StartAtIndex,m_Text.Get()+sc,m_Length-sc);
+    if (m_Length - StartAtIndex < Count)
+        return Remove(StartAtIndex);
+
+    const char* buffer = GetBuffer();
+
+    UInt32 sc = StartAtIndex + Count;
+    RFTYPE::Size byteSize = m_Length - Count;
+    String str(byteSize);
+    char* dstBuffer = str.GetBuffer();
+
+    RFMEM::Copy(dstBuffer, buffer, StartAtIndex);
+    RFMEM::Copy(dstBuffer + StartAtIndex,buffer + sc,m_Length-sc);
     return str;
 }
 
-
-String String::Replace(const Char OldChar,
-                       const Char NewChar)const
+String String::Replace(const RFTYPE::Char OldChar,
+                       const RFTYPE::Char NewChar)const
 {
     String str(*this);
-    char *p=str.m_Text.Get();
-    for (UInt32 i=0;i<m_Length;++i)
-        if (p[i]==OldChar)
-            p[i]=NewChar;
+    char* p = str.GetBuffer();
+
+    for (UInt32 i = 0; i < m_Length; ++i)
+        if (p[i] == OldChar)
+            p[i] = NewChar;
     return str;
 }
-
 
 String String::Replace(const String& OldValue, const String& NewValue)const
 {
@@ -460,11 +385,12 @@ String String::Replace(const String& OldValue, const String& NewValue)const
     String str(*this);
     Int32 ind=0;
     Int32 diff=OldValue.m_Length-NewValue.m_Length;
+
     while((ind=str.IndexOf(OldValue))>-1)
     {
         if (OldValue.m_Length==NewValue.m_Length)
         {
-            RFMEM::Copy(str.m_Text.Get()+ind,NewValue.m_Text.Get(),NewValue.m_Length);
+            RFMEM::Copy(str.GetBuffer() + ind, NewValue.GetBuffer(), NewValue.m_Length);
         }
         else
         {
@@ -473,15 +399,14 @@ String String::Replace(const String& OldValue, const String& NewValue)const
 
             if (ind!=0)
             {
-                RFMEM::Copy(p.Get(),str.m_Text.Get(),ind);
+                RFMEM::Copy(p.Get(),str.GetBuffer(),ind);
             }
-            RFMEM::Copy(p.Get()+ind,NewValue.m_Text.Get(),NewValue.m_Length);
+            RFMEM::Copy(p.Get()+ind,NewValue.GetBuffer(),NewValue.m_Length);
             if (ind+OldValue.m_Length!=str.m_Length)
             {
-                RFMEM::Copy(p.Get()+ind+NewValue.m_Length,str.m_Text.Get()+(ind+OldValue.m_Length),str.m_Length-ind-OldValue.m_Length);
+                RFMEM::Copy(p.Get()+ind+NewValue.m_Length,str.GetBuffer()+(ind+OldValue.m_Length),str.m_Length-ind-OldValue.m_Length);
             }
-            str.m_Text=p;
-            str.m_Length-=diff;
+            str = String(p.Get(), p.Size());
         }
     }
     return str;
@@ -492,63 +417,63 @@ AutoPointerArray<String> String::Split(const String &Delimiters)const
 {
     AutoPointerArray<String> list;
     UInt32 lasthit=0;
-    Char* p=m_Text.Get();
+    const Char* p = GetBuffer();
     UInt32 hits=1;
     for (UInt32 i=0;i<m_Length-1;i++)
+    {
         for (UInt32 j=0;j<Delimiters.m_Length;j++)
+        {
             if (p[i]==Delimiters[j])
             {
                 ++hits;
                 break;
             }
+        }
+    }
 
     list=AutoPointerArray<String>(new String[hits],hits);
     hits=0;
     for (UInt32 i=0;i<m_Length;i++)
+    {
         for (UInt32 j=0;j<Delimiters.m_Length;j++)
+        {
             if (p[i]==Delimiters[j])
             {
                 String& str=list[hits];
-                str.m_Length=i-lasthit;
-                str.m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[str.m_Length+1],str.m_Length+1);
-                RFMEM::Copy(str.m_Text.Get(),p+lasthit,i-lasthit);
-                str.m_Text.Get()[i-lasthit]=0x00;
+                RFTYPE::Size bytes=i-lasthit;
+                str = String(bytes);
+                RFMEM::Copy(str.GetBuffer(), p + lasthit, i - lasthit);
                 lasthit=i+1;
                 ++hits;
                 break;
             }
+        }
+    }
 
     if (lasthit<m_Length)
     {
         String& str=list[hits];
-        str.m_Length=m_Length-lasthit;
-        str.m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[str.m_Length+1],str.m_Length+1);
-        RFMEM::Copy(str.m_Text.Get(),p+lasthit,m_Length-lasthit+1);//copy the 0 termination too
+        RFTYPE::Size bytes = m_Length - lasthit;
+        str = String(bytes);
+        RFMEM::Copy(str.GetBuffer(), p + lasthit, m_Length - lasthit + 1);//copy the 0 termination too
     }
     return list;
 }
 
-
-AutoPointerArray<String> String::Split(const Char* Delimiters)const
-{
-    return Split(String(Delimiters));
-}
-
-
-Bool String::StartsWith(const String& AString)const
+RFTYPE::Bool String::StartsWith(const String& AString)const
 {
     if (AString.m_Length>m_Length || AString.m_Length==0)
         return false;
-    return RFMEM::Compare(m_Text.Get(),AString.m_Text.Get(),AString.m_Length)==0?true:false;
+    return RFMEM::Compare(GetBuffer(), AString.GetBuffer(), AString.m_Length) == 0 ? true : false;
 }
 
 
-String String::SubString(const UInt32 StartIndex,
-                        const UInt32 Count)const
+String String::SubString(const RFTYPE::UInt32 StartIndex,
+                        const RFTYPE::UInt32 Count)const
 {
     if (StartIndex+Count>m_Length || Count==0)
         return String();
-    String str(m_Text.Get()+StartIndex,Count);
+    String str(GetBuffer() + StartIndex, Count);
     return str;
 }
 
@@ -567,12 +492,17 @@ String String::TrimStart(const String& TrimChars)const
     {
         foundone=false;
         for (UInt32 j=0;j<TrimChars.m_Length;++j)
-            if (m_Text.Get()[i]==TrimChars[j])
+        {
+            if (GetBuffer()[i]==TrimChars[j])
+            {
                 foundone=true;
+            }
+        }
+
         if (!foundone)
             break;
     }
-    String str(m_Text.Get()+i,m_Length-i);
+    String str(GetBuffer() + i, m_Length - i);
     return str;
 }
 
@@ -585,499 +515,356 @@ String String::TrimEnd(const String& TrimChars)const
     {
         foundone=false;
         for (UInt32 j=0;j<TrimChars.m_Length;++j)
-            if (m_Text.Get()[i]==TrimChars[j])
+        {
+            if (GetBuffer()[i]==TrimChars[j])
+            {
                 foundone=true;
+            }
+        }
+
         if (!foundone)
             break;
     }
-    String str(m_Text.Get(),i+1);
+    String str(GetBuffer(),i+1);
     return str;
 }
 
 
-Int32 String::Compare(const String& With)const
+RFTYPE::Int32 String::Compare(const String& With)const
 {
     if (m_Length==With.m_Length)
     {
         for (UInt32 i=0;i<m_Length;++i)
+        {
             if ((*this)[i]==With[i])
             {
             }
             else
+            {
                 return i+1;
+            }
+        }
     }
     else
         return -1;
     return 0;
 }
 
-
-char String::operator[](const MemoryRange Index)const
+char String::operator[](const RFTYPE::Size Index)const
 {
     Assert(static_cast<UInt32>(Index)<m_Length+1&&Index>=0, "Out of bound.");
-    return *(m_Text.Get()+Index);
+    return *(GetBuffer() + Index);
 }
 
-
-char& String::operator[](const MemoryRange Index)
+char& String::operator[](const RFTYPE::Size Index)
 {
     Assert(static_cast<UInt32>(Index)<m_Length+1&&Index>=0, "Out of bound");
-    return *(m_Text.Get()+Index);
+    return *(GetBuffer()+Index);
 }
-
 
 bool String::operator==(const String& Other)const
 {
     if (m_Length!=Other.m_Length)
+    {
         return false;
+    }
+
     for (UInt32 i=0;i<m_Length;i++)
-        if (m_Text.Get()[i]!=Other.m_Text.Get()[i])
+    {
+        if (GetBuffer()[i] != Other.GetBuffer()[i])
+        {
             return false;
+        }
+    }
     return true;
 }
-
-
-bool String::operator==(const char* Other)const
-{
-    UInt32 len=static_cast<UInt32>(strlen(Other));
-    if (len!=m_Length)
-        return false;
-    for  (UInt32 i=0;i<len;++i)
-        if (m_Text.Get()[i]!=Other[i])
-            return false;
-    return true;
-}
-
 
 bool String::operator!=(const String& Other)const
 {
     if (Other.m_Length!=m_Length)
+    {
         return true;
+    }
+
     for (UInt32 i=0;i<m_Length;++i)
-        if (m_Text.Get()[i]!=Other.m_Text.Get()[i])
+    {
+        if (GetBuffer()[i] != Other.GetBuffer()[i])
+        {
             return true;
+        }
+    }
     return false;
 }
-
-
-bool String::operator!=(const char* Other)const
-{
-    UInt32 len=static_cast<UInt32>(strlen(Other));
-    if (len!=m_Length)
-        return true;
-    for (UInt32 i=0;i<len;++i)
-        if (m_Text.Get()[i]!=Other[i])
-            return true;
-    return false;
-}
-
 
 String String::operator+(const String &Str)const
 {
-    String str;
-    str.m_Length=m_Length+Str.m_Length;
-    if (str.m_Length>0)
+    if (m_Length + Str.m_Length)
     {
-        str.m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[str.m_Length+1],str.m_Length+1);
+        RFTYPE::Size bytes = m_Length + Str.m_Length + 1;
+        String str(bytes);
+
         if (m_Length>0)
-            RFMEM::Copy(str.m_Text.Get(),m_Text.Get(),m_Length);
+            RFMEM::Copy(str.GetBuffer(), GetBuffer(), m_Length);
+
         if (Str.m_Length>0)
-            RFMEM::Copy(str.m_Text.Get()+m_Length,Str.m_Text.Get(),Str.m_Length);
+            RFMEM::Copy(str.GetBuffer() + m_Length, Str.GetBuffer(), Str.m_Length);
+
         str[str.m_Length]='\0';
+
+        return str;
     }
-    return str;
+    return String();
 }
 
-
-String String::operator+(const char* Str)const
+String String::operator+(const RFTYPE::Char Character)const
 {
-    String str;
-    str.m_Length=static_cast<UInt32>(strlen(Str)+m_Length);
-    if (str.m_Length>0)
-    {
-        str.m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[str.m_Length+1],str.m_Length+1);
-        if (m_Length>0)
-            RFMEM::Copy(str.m_Text.Get(),m_Text.Get(),m_Length);
-        if (Str[0]!='\0')
-            RFMEM::Copy(str.m_Text.Get()+m_Length, Str,strlen(Str));
-        str[str.m_Length]='\0';
-    }
-    return str;
-}
-
-
-String String::operator+(const Char Character)const
-{
-    String str;
-    str.m_Length=m_Length+1;
-    str.m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[str.m_Length+1],str.m_Length+1);
+    RFTYPE::Size bytes = m_Length + 2;
+    String str(bytes);
     if (m_Length>0)
-        RFMEM::Copy(str.m_Text.Get(),m_Text.Get(),m_Length);
+        RFMEM::Copy(str.GetBuffer(), GetBuffer(), m_Length);
+
     str[str.m_Length-1]=Character;
     str[str.m_Length]='\0';
     return str;
 }
 
-
-String String::operator+(const Bool& Value)const
+String String::operator+(const RFTYPE::Bool& Value)const
 {
     String res(*this);
     res+=(Value==true?"true":"false");
     return res;
 }
 
-
-String String::operator+(const Int8 Number)const
+String String::operator+(const RFTYPE::Int8 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String String::operator+(const Int16 Number)const
+String String::operator+(const RFTYPE::Int16 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String String::operator+(const Int32 Number)const
+String String::operator+(const RFTYPE::Int32 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String String::operator+(const Int64 Number)const
+String String::operator+(const RFTYPE::Int64 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String String::operator+(const UInt8 Number)const
+String String::operator+(const RFTYPE::UInt8 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String String::operator+(const UInt16 Number)const
+String String::operator+(const RFTYPE::UInt16 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String String::operator+(const UInt32 Number)const
+String String::operator+(const RFTYPE::UInt32 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String String::operator+(const UInt64 Number)const
+String String::operator+(const RFTYPE::UInt64 Number)const
 {
     String res(*this);
     res+=Convert::ToString(Number);
     return res;
 }
 
-
-String& String::operator+=(const char *Str)
+String& String::operator+=(const RFTYPE::Char Character)
 {
-    UInt32 len=static_cast<UInt32>(m_Length+strlen(Str));
-    if (len>0)
-    {
-        if (len>m_Length)
-        {
-            RadonFramework::Memory::AutoPointerArray<char> str=RadonFramework::Memory::AutoPointerArray<char>(new char[len+1],len+1);
-            if (m_Length>0)
-                RFMEM::Copy(str.Get(),m_Text.Get(),m_Length);
-            RFMEM::Copy(str.Get()+m_Length,Str,strlen(Str)+1);
-            m_Text=str;
-            m_Length+=static_cast<UInt32>(strlen(Str));
-        }
-    }
-    return *this;
-}
-
-
-String& String::operator+=(const Char Character)
-{
-    UInt32 len=m_Length+1;
-    RadonFramework::Memory::AutoPointerArray<char> str=RadonFramework::Memory::AutoPointerArray<char>(new char[len+1],len+1);
+    RFTYPE::Size bytes = m_Length + 2;
+    String newStr(bytes);
     if (m_Length>0)
-        RFMEM::Copy(str.Get(),m_Text.Get(),m_Length);
-    ++m_Length;
-    str[m_Length-1]=Character;
-    str[m_Length]='\0';
-    m_Text=str;
+        RFMEM::Copy(newStr.GetBuffer(), GetBuffer(), m_Length);
+
+    newStr[m_Length]=Character;
+    newStr[m_Length+1]='\0';
+
+    Swap(newStr);
     return *this;
 }
-
 
 String& String::operator+=(const String& Str)
 {
-    UInt32 len=m_Length+Str.m_Length;
-    if (len>0)
+    if (Str.m_Length > 0)
     {
-        if (len>m_Length)
-        {
-            RadonFramework::Memory::AutoPointerArray<char> str=RadonFramework::Memory::AutoPointerArray<char>(new char[len+1],len+1);
-            if (m_Length>0)
-                RFMEM::Copy(str.Get(),m_Text.Get(),m_Length);
-            RFMEM::Copy(str.Get()+m_Length,Str.m_Text.Get(),Str.m_Length+1);
-            m_Text=str;
-            m_Length+=Str.m_Length;
-        }
+        RFTYPE::Size bytes = m_Length + Str.m_Length + 1;
+        String newStr(bytes);
+
+        if (m_Length>0)
+            RFMEM::Copy(newStr.GetBuffer(), GetBuffer(), m_Length);
+        RFMEM::Copy(newStr.GetBuffer() + m_Length, Str.GetBuffer(), Str.m_Length + 1);
+        Swap(newStr);
     }
     return *this;
 }
 
-
-String& String::operator+=(const Bool& Value)
+String& String::operator+=(const RFTYPE::Bool& Value)
 {
-    *this+=(Value==true?"true":"false");
+    *this+=Convert::ToString(Value);
     return *this;
 }
 
-
-String& String::operator+=(const Int8 Number)
+String& String::operator+=(const RFTYPE::Int8 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator+=(const Int16 Number)
+String& String::operator+=(const RFTYPE::Int16 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator+=(const Int32 Number)
+String& String::operator+=(const RFTYPE::Int32 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator+=(const Int64 Number)
+String& String::operator+=(const RFTYPE::Int64 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator+=(const UInt8 Number)
+String& String::operator+=(const RFTYPE::UInt8 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator+=(const UInt16 Number)
+String& String::operator+=(const RFTYPE::UInt16 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator+=(const UInt32 Number)
+String& String::operator+=(const RFTYPE::UInt32 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator+=(const UInt64 Number)
+String& String::operator+=(const RFTYPE::UInt64 Number)
 {
     *this+=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const char *Str)
-{
-    m_Length=static_cast<UInt32>(strlen(Str));
-
-    if (m_DataManagment==Common::DataManagment::UnmanagedInstance)
-        m_Text.Reset();
-
-    if (m_Length>0)
-    {
-        m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-        RFMEM::Copy(m_Text.Get(),Str,m_Length+1);
-    }
-    return *this;
-}
-
-
-String& String::operator=(const Char Character)
+String& String::operator=(const RFTYPE::Char Character)
 {
     m_Length=1;
 
     if (m_DataManagment==Common::DataManagment::UnmanagedInstance)
-        m_Text.Reset();
+        m_DynBuffer.Free();
 
-    m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-    m_Text[m_Length-1]=Character;
-    m_Text[m_Length]='\0';
+    m_DataManagment = DataManagment::Copy;
+    m_FixBuffer[m_Length-1]=Character;
+    m_FixBuffer[m_Length]='\0';
     return *this;
 }
-
 
 String& String::operator=(const String &Other)
 {
-    m_Length=Other.m_Length;
-
-    if (m_DataManagment==Common::DataManagment::UnmanagedInstance)
-        m_Text.Reset();
-
-    if (m_Length>0)
-    {
-        m_Text=RadonFramework::Memory::AutoPointerArray<char>(new char[m_Length+1],m_Length+1);
-        RFMEM::Copy(m_Text.Get(),Other.m_Text.Get(),m_Length+1);
-    }
+    String newStr(Other);
+    Swap(newStr);
     return *this;
 }
 
-
-String& String::operator=(const Bool& Value)
+String& String::operator=(const RFTYPE::Bool& Value)
 {
-    *this=(Value==true?"true":"false");
+    *this=Convert::ToString(Value);
     return *this;
 }
 
-
-String& String::operator=(const Int8 Number)
+String& String::operator=(const RFTYPE::Int8 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const Int16 Number)
+String& String::operator=(const RFTYPE::Int16 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const Int32 Number)
+String& String::operator=(const RFTYPE::Int32 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const Int64 Number)
+String& String::operator=(const RFTYPE::Int64 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const UInt8 Number)
+String& String::operator=(const RFTYPE::UInt8 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const UInt16 Number)
+String& String::operator=(const RFTYPE::UInt16 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const UInt32 Number)
+String& String::operator=(const RFTYPE::UInt32 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
 
-
-String& String::operator=(const UInt64 Number)
+String& String::operator=(const RFTYPE::UInt64 Number)
 {
     *this=Convert::ToString(Number);
     return *this;
 }
-
 
 char const* String::c_str()const
 {
-    return m_Text.Get();
+    return GetBuffer();
 }
 
-
-Int32 String::HexToDec()const
+RFTYPE::Int32 String::HexToDec()const
 {
     Int64 val;
     RFSTR::ToInt64(*this, 16, val);
     return val;
 }
 
-
-String String::Format(const char* Str,...)
-{
-    va_list argp;
-    va_start(argp,Str);
-    String result = Format(Str, argp);
-    va_end(argp);
-    return result;
-}
-
-
 String String::Format(const String& Str,...)
 {
     va_list argp;
-    va_start(argp,Str);
-    String result = Format(Str.c_str(), argp);
-    va_end(argp);
-    return result;
-}
+    va_start(argp, Str);
 
-UInt32 String::Format(AutoPointerArray<UInt8>& Buffer, const UInt32 BufferBoundaryStart,
-    const UInt32 BufferBoundaryEnd, const char* Str,...)
-{
-    va_list argp;
-    va_start(argp,Str);
-    Int32 result = RFSTR::Format(Buffer.Get()+BufferBoundaryStart,
-        BufferBoundaryEnd-BufferBoundaryStart, String(Str, RadonFramework::Core::Common::DataManagment::UnmanagedInstance), argp);
-    va_end(argp);
-    if (result>=0 && static_cast<UInt32>(result)<BufferBoundaryEnd-BufferBoundaryStart)
-        return result;
-    else
-        return 0;
-}
-
-UInt32 String::Format(AutoPointerArray<UInt8>& Buffer, const UInt32 BufferBoundaryStart,
-    const UInt32 BufferBoundaryEnd, const String& Str,...)
-{
-    va_list argp;
-    va_start(argp,Str);
-    Int32 result = RFSTR::Format(Buffer.Get()+BufferBoundaryStart,
-        BufferBoundaryEnd-BufferBoundaryStart, Str, argp);
-    va_end(argp);
-    if (result>=0 && static_cast<UInt32>(result)<BufferBoundaryEnd-BufferBoundaryStart)
-        return result;
-    else
-        return 0;
-}
-
-String String::Format(const char* Str, va_list argptr)
-{
     RadonFramework::Memory::AutoPointerArray<char> out;
     RadonFramework::Memory::AutoPointerArray<char> dynBuf;
     Int32 len=0;
@@ -1086,11 +873,13 @@ String String::Format(const char* Str, va_list argptr)
     {
         buflen+=256;
         dynBuf=RadonFramework::Memory::AutoPointerArray<char>(new char[buflen],buflen);
-        len = RFSTR::Format(reinterpret_cast<UInt8*>(dynBuf.Get()), buflen-1, String(Str, RadonFramework::Core::Common::DataManagment::UnmanagedInstance), argptr);
+        len = RFSTR::Format(reinterpret_cast<UInt8*>(dynBuf.Get()), buflen-1, String(Str.GetBuffer(), Str.Size(), RadonFramework::Core::Common::DataManagment::UnmanagedInstance), argp);
     }
     out=RadonFramework::Memory::AutoPointerArray<char>(new char[len+1],len+1);
     RFMEM::Copy(out.Get(),dynBuf.Get(),len);
     out.Get()[len]=0;
+
+    va_end(argp);
     return String(out.Release().Ptr, DataManagment::TransfereOwnership);
 }
 
@@ -1104,10 +893,10 @@ void String::ToLower()
     *this = RFSTR::ToLower(*this);
 }
 
-Bool String::IsNumber()const 
+RFTYPE::Bool String::IsNumber()const 
 {
     for (UInt32 i=0;i<m_Length;++i)
-        if (m_Text.Get()[i]>=48 && m_Text.Get()[i]<=57)
+        if (GetBuffer()[i]>=48 && GetBuffer()[i]<=57)
         {
         }
         else
@@ -1115,10 +904,10 @@ Bool String::IsNumber()const
     return true;
 }
 
-Bool String::IsFloatingpointNumber()const 
+RFTYPE::Bool String::IsFloatingpointNumber()const 
 {
     for (UInt32 i=0;i<m_Length;++i)
-        if ((m_Text.Get()[i]>=48 && m_Text.Get()[i]<=57) || m_Text.Get()[i]=='.')
+        if ((GetBuffer()[i]>=48 && GetBuffer()[i]<=57) || GetBuffer()[i]=='.')
         {
         }
         else
@@ -1126,87 +915,77 @@ Bool String::IsFloatingpointNumber()const
     return true;
 }
 
-Bool String::IsBoolean()const 
+RFTYPE::Bool String::IsBoolean()const 
 {    
+    static const String TRUE("true", sizeof("true"));
+    static const String FALSE("false", sizeof("false"));
     String lowerCase=*this;
     lowerCase.ToLower();
-    return lowerCase=="true" || lowerCase=="false";
+    return lowerCase == TRUE || lowerCase == FALSE;
 }
 
 void String::Swap(String& Other)
 {
-    UInt32 l=m_Length;
-    m_Length=Other.m_Length;
-    Other.m_Length=l;
-
-    Common::DataManagment::Type t=m_DataManagment;
-    m_DataManagment=Other.m_DataManagment;
-    Other.m_DataManagment=t;
-
-    m_Text.Swap(Other.m_Text);
+    String tmp(Other);
+    Other = *this;
+    *this = tmp;
 }
 
-String& operator<<(String &Str, const Int8 &Self)
+String& operator<<(String &Str, const RFTYPE::Int8 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str += RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const Int16 &Self)
+String& operator<<(String &Str, const RFTYPE::Int16 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const Int32 &Self)
+String& operator<<(String &Str, const RFTYPE::Int32 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const Int64 &Self)
+String& operator<<(String &Str, const RFTYPE::Int64 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const UInt8 &Self)
+String& operator<<(String &Str, const RFTYPE::UInt8 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const UInt16 &Self)
+String& operator<<(String &Str, const RFTYPE::UInt16 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const UInt32 &Self)
+String& operator<<(String &Str, const RFTYPE::UInt32 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const UInt64 &Self)
+String& operator<<(String &Str, const RFTYPE::UInt64 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const Float32 &Self)
+String& operator<<(String &Str, const RFTYPE::Float32 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const Float64 &Self)
+String& operator<<(String &Str, const RFTYPE::Float64 &Self)
 {
-    return Str+=Convert::ToString(Self);
+    return Str+=RFTYPE::Convert::ToString(Self);
 }
 
-String& operator<<(String &Str, const Char &Self)
+String& operator<<(String &Str, const RFTYPE::Char &Self)
 {
     char str[2]={};
     str[0]=Self;
     Str+=str;
-    return Str;
-}
-
-String& operator<<(String &Str, const char *c_str)
-{
-    Str+=c_str;
     return Str;
 }
 
@@ -1216,77 +995,91 @@ String& operator<<(String &Str, const String &Self)
     return Str;
 }
 
-Int8& operator<<(Int8 &Self, const String &Str)
+RFTYPE::Int8& operator<<(RFTYPE::Int8 &Self, const String &Str)
 {
-    Convert::ToInt8(Str,Self);
+    RFTYPE::Convert::ToInt8(Str,Self);
     return Self;
 }
 
-Int16& operator<<(Int16 &Self, const String &Str)
+RFTYPE::Int16& operator<<(RFTYPE::Int16 &Self, const String &Str)
 {
-    Convert::ToInt16(Str,Self);
+    RFTYPE::Convert::ToInt16(Str,Self);
     return Self;
 }
 
-Int32& operator<<(Int32 &Self, const String &Str)
+RFTYPE::Int32& operator<<(RFTYPE::Int32 &Self, const String &Str)
 {
-    Convert::ToInt32(Str,Self);
+    RFTYPE::Convert::ToInt32(Str,Self);
     return Self;
 }
 
-Int64& operator<<(Int64 &Self, const String &Str)
+RFTYPE::Int64& operator<<(RFTYPE::Int64 &Self, const String &Str)
 {
-    Convert::ToInt64(Str,Self);
+    RFTYPE::Convert::ToInt64(Str,Self);
     return Self;
 }
 
-UInt8& operator<<(UInt8 &Self, const String &Str)
+RFTYPE::UInt8& operator<<(RFTYPE::UInt8 &Self, const String &Str)
 {
-    Convert::ToUInt8(Str,Self);
+    RFTYPE::Convert::ToUInt8(Str,Self);
     return Self;
 }
 
-UInt16& operator<<(UInt16 &Self, const String &Str)
+RFTYPE::UInt16& operator<<(RFTYPE::UInt16 &Self, const String &Str)
 {
-    Convert::ToUInt16(Str,Self);
+    RFTYPE::Convert::ToUInt16(Str,Self);
     return Self;
 }
 
-UInt32& operator<<(UInt32 &Self, const String &Str)
+RFTYPE::UInt32& operator<<(RFTYPE::UInt32 &Self, const String &Str)
 {
-    Convert::ToUInt32(Str,Self);
+    RFTYPE::Convert::ToUInt32(Str,Self);
     return Self;
 }
 
-UInt64& operator<<(UInt64 &Self, const String &Str)
+RFTYPE::UInt64& operator<<(RFTYPE::UInt64 &Self, const String &Str)
 {
-    Convert::ToUInt64(Str,Self);
+    RFTYPE::Convert::ToUInt64(Str,Self);
     return Self;
 }
 
-Float32& operator<<(Float32 &Self, const String &Str)
+RFTYPE::Float32& operator<<(RFTYPE::Float32 &Self, const String &Str)
 {
-    Convert::ToFloat32(Str,Self);
+    RFTYPE::Convert::ToFloat32(Str,Self);
     return Self;
 }
 
-Float64& operator<<(Float64 &Self, const String &Str)
+RFTYPE::Float64& operator<<(RFTYPE::Float64 &Self, const String &Str)
 {
-    Convert::ToFloat64(Str,Self);
+    RFTYPE::Convert::ToFloat64(Str,Self);
     return Self;
 }
 
-AutoPointer<ArrayEnumerator<char> > String::GetEnumerator()
+inline char* String::GetBuffer()
 {
-    return AutoPointer<ArrayEnumerator<char> >(new ArrayEnumerator<char>(m_Text.Get(), m_Text.Get()+m_Length));
+    if (m_DataManagment == DataManagment::Copy)
+        return m_FixBuffer.Raw();
+    else
+        return m_DynBuffer.Raw();
 }
 
-Bool String::IsEmpty() const
+inline const char* String::GetBuffer()const
+{
+    if (m_DataManagment == DataManagment::Copy)
+        return m_FixBuffer.Raw();
+    else
+        return m_DynBuffer.Raw();
+}
+
+RFTYPE::Bool String::IsEmpty() const
 {
     return m_Length == 0;
 }
 
-Size String::Size()const
+RFTYPE::Size String::Size()const
 {
-    return m_Text.Size();
+    if (m_DataManagment == DataManagment::Copy)
+        return m_Length;
+    else
+        return m_DynBuffer.m_Size;
 }

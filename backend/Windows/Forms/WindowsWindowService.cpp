@@ -12,7 +12,9 @@ using namespace RadonFramework::Collections;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::IO;
 
-static String CurrResNotSupportedError="Can't find current resolution in the supported resolution list of this display.";
+static String CurrResNotSupportedError(
+    "Can't find current resolution in the supported resolution list of this display.",
+    sizeof("Can't find current resolution in the supported resolution list of this display."));
 
 WindowsWindowService::WindowsWindowService(const RFTYPE::String &Name)
 :WindowService(Name),m_Application(0)

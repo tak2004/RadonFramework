@@ -133,8 +133,8 @@ inline Array<NetworkAdapter> GetLocalInterfacesImplementation()
     {
         if (pAdapter->Type==MIB_IF_TYPE_ETHERNET)
         {
-            String ip=String(pAdapter->IpAddressList.IpAddress.String);
-            String netmask=String(pAdapter->IpAddressList.IpMask.String);
+            String ip=String(pAdapter->IpAddressList.IpAddress.String, sizeof(IP_ADDRESS_STRING));
+            String netmask=String(pAdapter->IpAddressList.IpMask.String, sizeof(IP_ADDRESS_STRING));
             result(i).IP<<ip;
             result(i).Netmask<<netmask;
             ++i;
@@ -410,7 +410,7 @@ IPHostEntry NetService::GetHostEntry( const RFTYPE::String& HostnameOrAddress )
 
     // collect all IP's
     if (getaddrinfo(HostnameOrAddress.c_str(),NULL,&hints,&servinfo)!=0)
-        return IPHostEntry("",s,i);
+        return IPHostEntry(RFTYPE::String(),s,i);
 
     // collect all names related to the IP's
     for (element=servinfo;element!=NULL;element=element->ai_next)
@@ -420,7 +420,7 @@ IPHostEntry NetService::GetHostEntry( const RFTYPE::String& HostnameOrAddress )
                     hostname, NI_MAXHOST, NULL, 0, 0);
         i.AddLast(IPAddress(((sockaddr_in*)element->ai_addr)->sin_addr.s_addr));
         if (*hostname)
-            s.AddLast(RFTYPE::String(hostname));
+            s.AddLast(RFTYPE::String(hostname, NI_MAXHOST));
     }
     freeaddrinfo(servinfo);
     IPHostEntry result(HostnameOrAddress,s,i);
@@ -432,7 +432,7 @@ String NetService::GetHostname()
     char szHostname[255];
     RFTYPE::String str;
     if (gethostname(szHostname, 255)==0)
-        str=RFTYPE::String(szHostname);
+        str=RFTYPE::String(szHostname, 255);
     return str;
 }
 

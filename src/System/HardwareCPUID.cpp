@@ -1,35 +1,25 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
-/*
-void cpuid(RFTYPE::Int32 code, RFTYPE::UInt32 registers[4]);
+#include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
+
+using namespace RadonFramework;
+using namespace RadonFramework::Memory;
+using namespace RadonFramework::Collections;
+
+#ifdef RF_WINDOWS
+#include <intrin.h>
+#else
+#include <cpuid.h>
+#endif
+
+void CPUId(RFTYPE::Int32 code, RFTYPE::UInt32* registers)
 {
+    #ifdef RF_WINDOWS
     __cpuid(reinterpret_cast<int*>(registers),code);
-}
-
-RFTYPE::UInt32 GetAvailableLogicalProcessorCount()
-{
-    static RFTYPE::UInt32 NumberOfProcessors = 0;
-    RFTYPE::UInt32 result;
-    if (NumberOfProcessors > 0)
-    {
-        result = NumberOfProcessors;
-    }
-    else
-    {
-        SYSTEM_INFO sysInfo;
-        GetSystemInfo(&sysInfo);
-        result = sysInfo.dwNumberOfProcessors;
-        NumberOfProcessors = sysInfo.dwNumberOfProcessors;
-    }
-    return result;
-}
-
-RFTYPE::UInt32 GetCurrentProcessorNumberImplementation()
-{
-    RFTYPE::UInt32 result;
-    result = GetCurrentProcessorNumber();
-    return result;
+    #else
+    __cpuid(code, registers[0], registers[1], registers[2], registers[3]);
+    #endif
 }
 
 void DecodeCacheInfo(RFHDW::CacheInfo& CacheInfo, RFTYPE::UInt32 reg)
@@ -332,7 +322,7 @@ inline void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheData)
         RFTYPE::Size i = (count + 15) >> 4;
         for (; i > 0; --i)
         {
-            cpuid(2, reg);
+            CPUId(2, reg);
             switch (count % 16)
             {
                 case 0: DecodeCacheInfo(CacheData[i+3], reg[3] >> 24);
@@ -362,11 +352,11 @@ RFTYPE::Int32 DetectCacheCount()
     static const RFTYPE::UInt32 BITSHIFT_IS_CACHE_DATA_SET = 29;
     RFTYPE::Int32 result = 0;
     RFTYPE::UInt32 reg[4]={0,0,0,0};
-    cpuid(1, reg);
+    CPUId(1, reg);
     RFTYPE::Size entries = reg[0] & 0xff;
     for (RFTYPE::Size i = 0; i < entries; ++i)
     {
-        cpuid(1, reg);
+        CPUId(1, reg);
         // If highest bit of a register is 0 then it contains 4 cache entries.
         // Negate all bits to get 1 instead of 0 at highest bit, shift by 29 bits
         // and use bitwise AND with 4 to get 0 or 4.
@@ -378,46 +368,70 @@ RFTYPE::Int32 DetectCacheCount()
     return result;
 }
 
-RFTYPE::Int32 GetCacheCount()
+// Magic numbers
+static const RFTYPE::UInt32 BITMASK_AES=0x2000000;
+static const RFTYPE::UInt32 BITMASK_AVX=0x10000000;
+static const RFTYPE::UInt32 BITMASK_CLFLUSH=0x80000;
+static const RFTYPE::UInt32 BITMASK_CMOV=0x8000;
+static const RFTYPE::UInt32 BITMASK_CX16=0x2000;
+static const RFTYPE::UInt32 BITMASK_CX8=0x100;
+static const RFTYPE::UInt32 BITMASK_FMA=0x1000;
+static const RFTYPE::UInt32 BITMASK_FMOV=0x8001;
+static const RFTYPE::UInt32 BITMASK_FPU=1;
+static const RFTYPE::UInt32 BITMASK_HTT=0x10000000;
+static const RFTYPE::UInt32 BITMASK_MMX=0x800000;
+static const RFTYPE::UInt32 BITMASK_MOVBE=0x400000;
+static const RFTYPE::UInt32 BITMASK_PCLMUL=2;
+static const RFTYPE::UInt32 BITMASK_POPCNT=0x800000;
+static const RFTYPE::UInt32 BITMASK_SSE=0x2000000;
+static const RFTYPE::UInt32 BITMASK_SSE2=0x4000000;
+static const RFTYPE::UInt32 BITMASK_SSE3=1;
+static const RFTYPE::UInt32 BITMASK_SSSE3=0x200;
+static const RFTYPE::UInt32 BITMASK_SSE4_1=0x80000;
+static const RFTYPE::UInt32 BITMASK_SSE4_2=0x100000;
+static const RFTYPE::UInt32 BITMASK_TSC=0x10;
+
+RFTYPE::Bool GetLogicalProcessorFeatures(RFHDW::ProcessorFeatureMask& Features)
 {
-    static RFTYPE::Int32* CacheCount = 0;
-
-    RFTYPE::Int32 result = -1;
-    RFTYPE::UInt32 pid = GetCurrentProcessorNumber();
-    if (CacheCount > 0)
+    RFTYPE::Int32 result = false;
+    RFTYPE::UInt32 reg[4]={0,0,0,0};
+    // is CPUId supported
+    CPUId(0, reg);
+    if (reg[0] > 0)
     {
-        if (CacheCount[pid] > -1)
-        {
-        }
-        else
-        {
-            DWORD buffer_size = 0;
-            GetLogicalProcessorInformation(0, &buffer_size);
-            CacheCount[pid] = buffer_size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
-        }
+        CPUId(1, reg);
+        Features[RFHDW::ProcessorFeatures::AES] = (reg[2] & BITMASK_AES) != 0;
+        Features[RFHDW::ProcessorFeatures::AVX] = (reg[2] & BITMASK_AVX) != 0;
+        Features[RFHDW::ProcessorFeatures::CLFLUSH] = (reg[3] & BITMASK_CLFLUSH) != 0;
+        Features[RFHDW::ProcessorFeatures::CMOV] = (reg[3] & BITMASK_CMOV) != 0;
+        Features[RFHDW::ProcessorFeatures::CX16] = (reg[2] & BITMASK_CX16) != 0;
+        Features[RFHDW::ProcessorFeatures::CX8] = (reg[3] & BITMASK_CX8) != 0;
+        Features[RFHDW::ProcessorFeatures::FMA] = (reg[2] & BITMASK_FMA) != 0;
+        Features[RFHDW::ProcessorFeatures::FMOV] = (reg[3] & BITMASK_FMOV) != 0;
+        Features[RFHDW::ProcessorFeatures::FPU] = (reg[3] & BITMASK_FPU) != 0;
+        Features[RFHDW::ProcessorFeatures::HTT] = (reg[3] & BITMASK_HTT) != 0;
+        Features[RFHDW::ProcessorFeatures::MMX] = (reg[3] & BITMASK_MMX) != 0;
+        Features[RFHDW::ProcessorFeatures::MOVBE] = (reg[2] & BITMASK_MOVBE) != 0;
+        Features[RFHDW::ProcessorFeatures::PCLMUL] = (reg[2] & BITMASK_PCLMUL) != 0;
+        Features[RFHDW::ProcessorFeatures::POPCNT] = (reg[2] & BITMASK_POPCNT) != 0;
+        Features[RFHDW::ProcessorFeatures::SSE] = (reg[3] & BITMASK_SSE) != 0;
+        Features[RFHDW::ProcessorFeatures::SSE2] = (reg[3] & BITMASK_SSE2) != 0;
+        Features[RFHDW::ProcessorFeatures::SSE3] = (reg[2] & BITMASK_SSE3) != 0;
+        Features[RFHDW::ProcessorFeatures::SSSE3] = (reg[2] & BITMASK_SSSE3) != 0;
+        Features[RFHDW::ProcessorFeatures::SSE4_1] = (reg[2] & BITMASK_SSE4_1) != 0;
+        Features[RFHDW::ProcessorFeatures::SSE4_2] = (reg[2] & BITMASK_SSE4_2) != 0;
+        Features[RFHDW::ProcessorFeatures::TSC] = (reg[3] & BITMASK_TSC) != 0;
+        result = true;
     }
-    else
-    {
-        RFTYPE::UInt32 LPCount = ::GetAvailableLogicalProcessorCount();
-        typedef Singleton<AutoPointerArray<RFTYPE::Int32> > GlobalCacheCount;
-        AutoPointerArray<RFTYPE::Int32>& cacheCount = GlobalCacheCount::GetInstance();
-        cacheCount = AutoPointerArray<RFTYPE::Int32>(new RFTYPE::Int32[LPCount], LPCount);
-
-        for (RFTYPE::Size i = 0; i < LPCount; ++i)
-        {
-            cacheCount[i] = -1;
-        }
-
-        DWORD buffer_size = 0;
-        GetLogicalProcessorInformation(0, &buffer_size);
-        cacheCount[pid] = buffer_size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
-        CacheCount = cacheCount.Get();
-    }
-    result = CacheCount[pid];
     return result;
 }
-*/
+
 void RFHDW::Dispatch()
 {
-
+    RFHDW::GetCacheCount = ::DetectCacheCount;
+    GetLogicalProcessorFeatures = ::GetLogicalProcessorFeatures;
+    #ifdef RF_WINDOWS
+    extern void DispatchWindows();
+    DispatchWindows();
+    #endif
 }

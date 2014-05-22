@@ -35,13 +35,15 @@ void TestSuite::AddTest( TestMethod Test, const String& TestName )
 
 AutoPointer<UnitTestResult> TestSuite::ProcessTests( const UInt32 Number )
 {
+    register RFTYPE::Bool passed;
 	AutoPointer<UnitTestResult> result;
 	Assert(Number<m_TestMethods.Size(),"Out of bound.");
-	{
-		result=AutoPointer<UnitTestResult>(new UnitTestResult(m_TestMethods[Number].Name));
+    result = AutoPointer<UnitTestResult>(new UnitTestResult(m_TestMethods[Number].Name));
+	{		
 		ScopeTimer scopetime(result->TimeRequired());
-		result->Passed(m_TestMethods[Number].Method());
+		passed = m_TestMethods[Number].Method();
 	}
+    result->Passed(passed);
 	return result;
 }
 

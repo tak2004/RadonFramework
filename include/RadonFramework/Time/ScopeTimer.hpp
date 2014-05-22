@@ -7,20 +7,27 @@
 #include <RadonFramework/Time/TimeSpan.hpp>
 #include <RadonFramework/Time/DateTime.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Time {
+
+class ScopeTimer
 {
-	namespace Time
-	{
-        class ScopeTimer
-        {
-            protected:
-                TimeSpan &m_TimeSpan;
-                DateTime m_Start;
-            public:
-                ScopeTimer(TimeSpan& ts);
-                ~ScopeTimer();
-        };
-	}
-}
+public:
+    /** @brief ScopeTimer
+      *
+      * @todo: document this function
+      */
+    ScopeTimer(TimeSpan& ts);
+
+    /** @brief ~ScopeTimer
+      *
+      * @todo: document this function
+      */
+    ~ScopeTimer();
+protected:
+    TimeSpan &m_TimeSpan;
+    RFTYPE::UInt64 m_Start;
+};
+
+} }
 
 #endif // RF_TIME_SCOPETIMER_HPP

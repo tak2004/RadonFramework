@@ -6,13 +6,16 @@
 
 namespace RadonFramework { namespace Core { namespace Types {
 
-class DynamicString
+struct DynamicString
 {
-public:
-    Char operator[](const MemoryRange Index);
+    Char& operator[](const MemoryRange Index);
     Char operator[](const MemoryRange Index)const;
-protected:
-    RadonFramework::Memory::AutoPointerArray<Char> m_Buffer;
+    const Char* Raw()const;
+    Char* Raw();
+    void Free();
+
+    Char* m_Buffer;
+    Size m_Size;
 };
 
 } } }

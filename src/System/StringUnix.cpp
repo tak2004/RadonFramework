@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <limits.h>
+#include <ctype.h>
 
 using namespace RadonFramework::System::String;
 using namespace RadonFramework::Core::Types;
@@ -28,17 +30,21 @@ const String& GetLocale()
 
 Bool ToUpper(String& Instance)
 {
-    return _strupr_s(const_cast<char*>(Instance.c_str()), Instance.Size()) == 0;
+    unsigned c;
+    unsigned char *p = const_cast<unsigned char *>(reinterpret_cast<const unsigned char*>(Instance.c_str()));
+    while (c = *p) *p++ = toupper(c);
 }
 
 Bool ToLower(String& Instance)
 {
-    return _strlwr_s(const_cast<char*>(Instance.c_str()), Instance.Size()) == 0;
+    unsigned c;
+    unsigned char *p = const_cast<unsigned char *>(reinterpret_cast<const unsigned char*>(Instance.c_str()));
+    while (c = *p) *p++ = tolower(c);
 }
 
 Size Length(const UInt8* Buffer, const Size BufferSize)
 {
-    return strnlen_s(reinterpret_cast<const char*>(Buffer), BufferSize);
+    return strlen(reinterpret_cast<const char*>(Buffer));
 }
 
 Bool ToInt64(const String& Instance, Int32 Base, Int64& Out)
@@ -67,7 +73,6 @@ Int32 Format(RFTYPE::UInt8* Buffer, RFTYPE::Size BufferSize, const String& Forma
     return vsnprintf(reinterpret_cast<char*>(Buffer), BufferSize, Format.c_str(), arg);
 }
 
-
 void RFSTR::Dispatch()
 {
     SetLocale = ::SetLocale;
@@ -79,4 +84,9 @@ void RFSTR::Dispatch()
     ToUInt64 = ::ToUInt64;
     ToFloat64 = ::ToFloat64;
     Format = ::Format;
+
+    #ifdef RF_LINUX
+    extern void DispatchLinux();
+    DispatchLinux();
+    #endif
 }

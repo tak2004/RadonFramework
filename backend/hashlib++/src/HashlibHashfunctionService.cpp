@@ -41,7 +41,7 @@ class HashlibMD5Hashfunction:public IHashfunction
         {
             String result;
             for(int i=0; i<8; ++i)
-                result+=String::Format("%02X", m_buf[i]);
+                result+=String::Format(RFTYPE::String("%02X", sizeof("%02X")), m_buf[i]);
             return result;
         }
 
@@ -99,7 +99,7 @@ class HashlibSHA1Hashfunction:public IHashfunction
         {
             String result;
             for(int i=0; i<8; ++i)
-                result+=String::Format("%02X", m_buf[i]);
+                result+=String::Format(RFTYPE::String("%02X", sizeof("%02X")), m_buf[i]);
             return result;
         }
 
@@ -157,7 +157,7 @@ class HashlibSHA256Hashfunction:public IHashfunction
         {
             String result;
             for(int i=0; i<8; ++i)
-                result+=String::Format("%02X", m_buf[i]);
+                result+=String::Format(RFTYPE::String("%02X", sizeof("%02X")), m_buf[i]);
             return result;
         }
 
@@ -215,7 +215,7 @@ class HashlibSHA384Hashfunction:public IHashfunction
         {
             String result;
             for(int i=0; i<8; ++i)
-                result+=String::Format("%02X", m_buf[i]);
+                result+=String::Format(RFTYPE::String("%02X", sizeof("%02X")), m_buf[i]);
             return result;
         }
 
@@ -273,7 +273,7 @@ class HashlibSHA512Hashfunction:public IHashfunction
         {
             String result;
             for(int i=0; i<8; ++i)
-                result+=String::Format("%02X", m_buf[i]);
+                result+=String::Format(RFTYPE::String("%02X", sizeof("%02X")), m_buf[i]);
             return result;
         }
 

@@ -228,7 +228,9 @@ set(LIBSRCFILES_LINUX
 	
 set(LIBSRCFILES_UNIX
 	src/System/TimeUnix.cpp
-	src/System/ProcessUnix.cpp)
+	src/System/StringUnix.cpp
+	src/System/ProcessUnix.cpp
+	src/System/IO/FileSystemUnix.cpp)
 	
 set(LIBSRCFILES_OSX
 	src/System/TimeOSX.cpp)
@@ -349,7 +351,10 @@ set_source_files_properties(${LIBBACKENDHDRFILES} ${LIBHDRFILES} ${MODULES_HDRS}
 #
 # setup precompiled header
 #
-CreatePrecompiledHeader(RADONFRAMEWORK "RadonFramework/precompiled.hpp" "src/precompiled.cpp" SourceList)
+option(RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER "Activate precompiled header(Default: on)" ON)
+if(${RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER})
+	CreatePrecompiledHeader(RADONFRAMEWORK "RadonFramework/precompiled.hpp" "src/precompiled.cpp" SourceList)
+endif()
 
 set(RADONFRAMEWORK_FILES ${SourceList})
 set(RADONFRAMEWORK_LIBS ${OSLIBS})

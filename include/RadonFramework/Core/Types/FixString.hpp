@@ -20,14 +20,14 @@ protected:
 template<int LENGTH>
 Char& FixString<LENGTH>::operator [](const MemoryRange Index)
 {
-    ASSERT(Index >= LENGTH, "Index out of bound.");
+    Assert(Index >= LENGTH, "Index out of bound.");
     return m_Buffer[Index];
 }
 
 template<int LENGTH>
 Char FixString<LENGTH>::operator [](const MemoryRange Index)const
 {
-    ASSERT(Index >= LENGTH, "Index out of bound.");
+    Assert(Index >= LENGTH, "Index out of bound.");
     return m_Buffer[Index];
 }
 
