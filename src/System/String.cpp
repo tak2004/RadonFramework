@@ -119,8 +119,6 @@ Bool RFSTR::IsSuccessfullyDispatched()
 
 void RFSTR::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
 {
-    RFTYPE::StringLitteral sl1="SetLocale";
-    RFTYPE::StringLitteral sl2("SetLocale");
     if (SetLocale == SetLocale_SystemAPIDispatcher || SetLocale == 0) 
         Result.AddLast("SetLocale");
     if (GetLocale == GetLocaleCallback_SystemAPIDispatcher || GetLocale == 0) 

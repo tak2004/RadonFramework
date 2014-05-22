@@ -118,8 +118,7 @@ class PortableStringTest:public TestSuite
         
         RadonFramework::Core::Types::Bool CharConstructor()
         {
-            char* str1="hi";
-            String str(str1);
+            String str("hi");
             return str.Length()==2 && str[0]=='h' && str[1]=='i';
         }
 
@@ -132,7 +131,8 @@ class PortableStringTest:public TestSuite
 
         RadonFramework::Core::Types::Bool WithLengthConstructor()
         {
-            String str(static_cast<UInt32>(2));
+            RFTYPE::Size bytes = 3;
+            String str(bytes);
             String str1("  ");
             return str.Length()==2 && str==str1;
         }
@@ -418,7 +418,7 @@ class PortableStringTest:public TestSuite
             String str("  Hello  ");
             String str1("...Hello   ");
             String str2("Hello");
-            return str.Trim()==str2 && str1.Trim(" .")==str2;
+            return str.Trim("")==str2 && str1.Trim(" .")==str2;
         }
 
         RadonFramework::Core::Types::Bool TrimStart()
@@ -426,7 +426,7 @@ class PortableStringTest:public TestSuite
             String str("  Hello");
             String str1(". . Hello");
             String str2("Hello");
-            return str.TrimStart()==str2 && str1.TrimStart(" .")==str2;
+            return str.TrimStart("")==str2 && str1.TrimStart(" .")==str2;
         }
 
         RadonFramework::Core::Types::Bool TrimEnd()
@@ -434,7 +434,7 @@ class PortableStringTest:public TestSuite
             String str("Hello  ");
             String str1("Hello. . ");
             String str2("Hello");
-            return str.TrimEnd()==str2 && str1.TrimEnd(" .")==str2;
+            return str.TrimEnd("")==str2 && str1.TrimEnd(" .")==str2;
         }
 
         RadonFramework::Core::Types::Bool ConstListOperator()
@@ -463,9 +463,7 @@ class PortableStringTest:public TestSuite
         RadonFramework::Core::Types::Bool EqualPCharOperator()
         {
             String str("012");
-            char* pc="012";
-            char* pc1="123";
-            return str==pc && !(str==pc1);
+            return str == "012" && !(str == "123");
         }
 
         RadonFramework::Core::Types::Bool UnequalStringOperator()
@@ -479,9 +477,7 @@ class PortableStringTest:public TestSuite
         RadonFramework::Core::Types::Bool UnequalPCharOperator()
         {
             String str("012");
-            char* pc="012";
-            char* pc1="123";
-            return str!=pc1 && !(str!=pc);
+            return str != "123" && !(str != "012");
         }
 
         RadonFramework::Core::Types::Bool AddStringOperator()

@@ -173,7 +173,7 @@ bool TimeSpan::operator ==(const TimeSpan& TS)const
 RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
                                                 const RadonFramework::Time::TimeSpan& Other)
 {
-    stream << Other.ToString().c_str();
+    stream.WriteLine(Other.ToString());
     return stream;
 }
 

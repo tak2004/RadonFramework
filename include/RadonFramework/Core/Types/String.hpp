@@ -64,6 +64,10 @@ public:
     char operator[](const Size Index)const;
     char& operator[](const Size Index);
     bool operator==(const String& Other)const;
+
+    template<int N>
+    bool operator==(char const (&Other)[N])const;
+
     bool operator!=(const String& Other)const;
     String operator+(const String &Str)const;
     String operator+(const Char Character)const;
@@ -309,18 +313,12 @@ protected:
 #pragma endregion
 };
 
-struct StringLitteral
+template<int N>
+bool String::operator==(char const (&Other)[N])const
 {
-    template<int N>
-    StringLitteral(char const (&CString)[N])
-    {
-        cstring = &CString[0];
-        size = N;
-    }
-
-    char const* cstring;
-    Size size;
-};
+    String tmp(Other, N);
+    return *this == tmp;
+}
 
 } } }
 
@@ -340,7 +338,12 @@ RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Float64 &Self);
 
 RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Char &Self);
 
-RFTYPE::String& operator<<(RFTYPE::String &Str, const char *c_str);
+template<int N>
+RFTYPE::String& operator<<(RFTYPE::String &Str, char const (&Other)[N])
+{
+    Str += String(Other, N);
+    return Str;
+}
 
 RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::String &Self);
 
