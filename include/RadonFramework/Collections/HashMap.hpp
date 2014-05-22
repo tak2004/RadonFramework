@@ -7,8 +7,6 @@
 #pragma warning(disable : 4996) // vc++ raise a security warning because of uninitialized_copy
 #include <RadonFramework/backend/google/sparse_hash_map>
 #include <RadonFramework/backend/google/dense_hash_map>
-#include <RadonFramework/Core/Types/Bool.hpp>
-#include <RadonFramework/Core/Types/UInt32.hpp>
 
 using SPARSEHASH_HASH;
 //using ext::hash;

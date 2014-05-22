@@ -9,7 +9,7 @@ PointerID PointerID::GenerateFromPointer(void* Ptr)
     PointerID result;
     result.m_PtrID.ID=0;
     #if defined(RF_32BIT)
-        result.m_PtrID.Ptr32=Ptr;
+        result.m_PtrID.Pointer32Bit.Ptr32=Ptr;
     #elif defined(RF_64BIT)
         result.m_PtrID.Ptr=Ptr;
     #else
@@ -33,7 +33,7 @@ PtrID PointerID::GetID()const
 void* PointerID::GetPointer()const
 {
     #if defined(RF_32BIT)
-        return m_PtrID.Ptr32;
+        return m_PtrID.Pointer32Bit.Ptr32;
     #elif defined(RF_64BIT)
         return m_PtrID.Ptr;
     #else

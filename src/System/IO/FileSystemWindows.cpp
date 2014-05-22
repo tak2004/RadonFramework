@@ -209,21 +209,21 @@ AutoPointer<FileStatus> Stat(const String& Path)
         if (0 != GetFileInformationByHandle(fHndl, &info))
         {
             result=AutoPointer<FileStatus>(new FileStatus);
-            result->Size=info.nFileSizeHigh;
+            result->Size = info.nFileSizeHigh;
             result->Size <<= 32;
-            result->Size&=info.nFileSizeLow;
+            result->Size += info.nFileSizeLow;
             
-            result->CreateionTimestamp=info.ftCreationTime.dwHighDateTime;
+            result->CreateionTimestamp = info.ftCreationTime.dwHighDateTime;
             result->CreateionTimestamp <<= 32;
-            result->CreateionTimestamp &= info.ftCreationTime.dwLowDateTime;
+            result->CreateionTimestamp += info.ftCreationTime.dwLowDateTime;
 
-            result->LastAccessTimestamp=info.ftLastAccessTime.dwHighDateTime;
+            result->LastAccessTimestamp = info.ftLastAccessTime.dwHighDateTime;
             result->LastAccessTimestamp <<= 32;
-            result->LastAccessTimestamp &= info.ftLastAccessTime.dwLowDateTime;
+            result->LastAccessTimestamp += info.ftLastAccessTime.dwLowDateTime;
             
-            result->LastModificationTimestamp=info.ftLastWriteTime.dwHighDateTime;
+            result->LastModificationTimestamp = info.ftLastWriteTime.dwHighDateTime;
             result->LastModificationTimestamp <<= 32;
-            result->LastModificationTimestamp &= info.ftLastWriteTime.dwLowDateTime;
+            result->LastModificationTimestamp += info.ftLastWriteTime.dwLowDateTime;
 
             result->IsDirectory=(info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)!=0;
             result->IsHidden=(info.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)!=0;
@@ -485,7 +485,7 @@ Bool WaitForFileWatcher(const FileWatcherHandle& Handle, FileWatcherEvent& Event
     Bool result=false;
     if (pimpl)
     {
-        if (pimpl->m_Events.Count())
+        if (!pimpl->m_Events.IsEmpty())
         {
             result=pimpl->m_Events.Dequeue(Event);
         }
@@ -544,7 +544,7 @@ Bool GetFileWatcherEvent(const FileWatcherHandle& Handle, FileWatcherEvent& Even
 {
     Bool result=false;
     FileWatcherObject* pimpl=reinterpret_cast<FileWatcherObject*>(Handle.GetPointer());
-    if (pimpl!=0 && pimpl->m_Events.Count()>0)
+    if (pimpl!=0 && !pimpl->m_Events.IsEmpty())
         result = pimpl->m_Events.Dequeue(Event);
     return result;
 }

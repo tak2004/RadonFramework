@@ -468,7 +468,7 @@ class ArrayTest:public TestSuite
             vec.Item(0,1);
             vec.Item(1,2);
             vec.Item(2,3);
-            ArrayEnumerator<UInt32> enumerator=vec.GetEnumerator();
+            ArrayEnumerator<UInt32> enumerator=vec.GetArrayEnumerator();
             return enumerator.MoveNext() && *enumerator.Current()==1 &&
                    enumerator.MoveNext() && *enumerator.Current()==2 &&
                    enumerator.MoveNext() && *enumerator.Current()==3 &&

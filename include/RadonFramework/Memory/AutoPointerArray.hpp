@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <type_traits>
+
 namespace RadonFramework { namespace Memory {
 
 template <typename T>
@@ -25,8 +27,7 @@ class AutoPointerArray
 
         explicit AutoPointerArray();
                 
-        AutoPointerArray(ElementType* Ptr, RFTYPE::Size Count,
-            RFTYPE::Bool Copy = false);
+        AutoPointerArray(ElementType* Ptr, RFTYPE::Size Count);
 
         AutoPointerArray(AutoPointerArray& Copy);
 
@@ -94,18 +95,10 @@ AutoPointerArray<T>::AutoPointerArray()
 }
 
 template<typename T>
-AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RFTYPE::Size Count,
-    RFTYPE::Bool Copy)
+AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RFTYPE::Size Count)
 {
     m_Size=Count;
-    if (Copy)
-    {
-        m_Data=new ElementType[Count];
-        for (RFTYPE::Size i=0; i<Count; ++i)
-            m_Data[i]=ElementType(Ptr[i]);
-    }
-    else
-        m_Data=Ptr;
+    m_Data=Ptr;
 }
 
 template<typename T>

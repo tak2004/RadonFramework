@@ -20,7 +20,7 @@ namespace RadonFramework
             {
             public:
                 Scene();
-                virtual ~Scene();
+                ~Scene();
 
                 RFTYPE::Float64 Delta()const;
                 void SetDelta(RFTYPE::Float64 newDelta);

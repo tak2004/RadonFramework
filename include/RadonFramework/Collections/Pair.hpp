@@ -4,37 +4,35 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Collections {
+
+/**
+  * This class contains two member which are related as a pair.
+  */
+template <class FIRST, class SECOND>
+class Pair
 {
-    namespace Collections
-    {
-        /**
-         * This class contains two member which are related as a pair.
-         */
-        template <class FIRST, class SECOND>
-        class Pair
-        {
-            public:
-                Pair();
+public:
+    Pair();
 
-                Pair(const FIRST& FirstValue, const SECOND& SecondValue);
+    Pair(const FIRST& FirstValue, const SECOND& SecondValue);
 
-                FIRST First;
-                SECOND Second;
-        };
+    FIRST First;
+    SECOND Second;
+};
 
-        template <class FIRST, class SECOND>
-        Pair<FIRST,SECOND>::Pair()
-        {
-        }
-
-        template <class FIRST, class SECOND>
-        Pair<FIRST,SECOND>::Pair(const FIRST& FirstValue, const SECOND& SecondValue)
-        :First(FirstValue)
-        ,Second(SecondValue)
-        {
-        }
-    }
+template <class FIRST, class SECOND>
+Pair<FIRST,SECOND>::Pair()
+{
 }
+
+template <class FIRST, class SECOND>
+Pair<FIRST,SECOND>::Pair(const FIRST& FirstValue, const SECOND& SecondValue)
+:First(FirstValue)
+,Second(SecondValue)
+{
+}
+
+} }
 
 #endif // RF_COLLECTIONS_PAIR_HPP
