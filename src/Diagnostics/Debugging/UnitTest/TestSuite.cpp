@@ -12,39 +12,39 @@ using namespace RadonFramework::Time;
 TestSuite::TestSuite( const RadonFramework::Core::Types::String& Name ) 
 :m_Name(Name)
 {
-	Singleton<UnitTest>::GetInstance().RegisterTestSuide(this);
+    Singleton<UnitTest>::GetInstance().RegisterTestSuide(this);
 }
 
 String TestSuite::Name() const
 {
-	return m_Name;
+    return m_Name;
 }
 
 UInt32 TestSuite::TestCount()
 {
-	return m_TestMethods.Size();
+    return m_TestMethods.Size();
 }
 
 void TestSuite::AddTest( TestMethod Test, const String& TestName )
 {
-	Callback cb;
-	cb.Method=Test;
-	cb.Name=TestName;
-	m_TestMethods.AddLast(cb);
+    Callback cb;
+    cb.Method=Test;
+    cb.Name=TestName;
+    m_TestMethods.AddLast(cb);
 }
 
 AutoPointer<UnitTestResult> TestSuite::ProcessTests( const UInt32 Number )
 {
     register RFTYPE::Bool passed;
-	AutoPointer<UnitTestResult> result;
-	Assert(Number<m_TestMethods.Size(),"Out of bound.");
+    AutoPointer<UnitTestResult> result;
+    Assert(Number<m_TestMethods.Size(),"Out of bound.");
     result = AutoPointer<UnitTestResult>(new UnitTestResult(m_TestMethods[Number].Name));
-	{		
-		ScopeTimer scopetime(result->TimeRequired());
-		passed = m_TestMethods[Number].Method();
-	}
+    {		
+        ScopeTimer scopetime(result->TimeRequired());
+        passed = m_TestMethods[Number].Method();
+    }
     result->Passed(passed);
-	return result;
+    return result;
 }
 
 void TestSuite::SetUp()
