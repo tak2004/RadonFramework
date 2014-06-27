@@ -13,8 +13,6 @@
 
 namespace RadonFramework { namespace Collections {
 
-
-
 /** \brief This is a policy based template for BitArrays.
  *
  * \tparam RB Resize behaviour policy
@@ -153,6 +151,9 @@ public:
 
     RFTYPE::Bool IsAny()const;
     RFTYPE::Bool IsNone()const;
+
+    Memory::AutoPointerArray<RFTYPE::Size> GetSetIndices()const;
+    Memory::AutoPointerArray<RFTYPE::Size> GetUnsetIndices()const;
 
     BitArray& operator=(const BitArray& Other);
     BitArray& operator&=(const BitArray& Other);
@@ -370,6 +371,18 @@ BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Reset()
 {
     RFMEM::Set(m_Data, 0x00, m_ContainerInfo.ByteSize());
     return *this;
+}
+
+template<typename RB, typename MA, typename MO>
+Memory::AutoPointerArray<RFTYPE::Size> BitArray<RB, MA, MO>::GetSetIndices() const
+{
+
+}
+
+template<typename RB, typename MA, typename MO>
+Memory::AutoPointerArray<RFTYPE::Size> BitArray<RB, MA, MO>::GetUnsetIndices() const
+{
+
 }
 
 template<typename RB, typename MA, typename MO>

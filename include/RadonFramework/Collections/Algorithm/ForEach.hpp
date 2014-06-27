@@ -23,7 +23,7 @@ struct EnumeratorTaskData
 template <class C, typename FUNCTION>
 void EnumeratorTaskFunction(void* Data)
 {
-    auto data = reinterpret_cast<EnumeratorTaskData<C, FUNCTION>*>(Data);
+    auto* data = reinterpret_cast<EnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
     for(RFTYPE::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
     {
@@ -58,12 +58,12 @@ void ForEach(const C& Enumerable, FUNCTION Function)
     {
         if(elements <= i)
             Extra = 0;
-	    auto task = new EnumeratorTaskData<C, FUNCTION>;
-	    task->Enumeable = enumerator;
-	    task->Function = Function;
-	    task->From = offset;
-	    task->Steps = jobsPerWorker + Extra;
-	    task->OverallWork = &overallWork; 
+        auto* task = new EnumeratorTaskData<C, FUNCTION>;
+        task->Enumeable = enumerator;
+        task->Function = Function;
+        task->From = offset;
+        task->Steps = jobsPerWorker + Extra;
+        task->OverallWork = &overallWork; 
         Singleton<Threading::ThreadPool>::GetInstance().QueueUserWorkItem(EnumeratorTaskFunction<C, FUNCTION>, task); 
         offset += jobsPerWorker + Extra;
     }
