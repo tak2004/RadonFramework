@@ -19,13 +19,13 @@ public:
     PoolTask();
     ~PoolTask();
     PoolTask(ThreadPool::WaitCallback Callback, void* Data,
-             RFTYPE::Bool AutoCleanup);
+             ThreadPool::FreeCallback CustomFree);
     PoolTask(const PoolTask& Copy);
     PoolTask& operator=(const PoolTask& Other);
 
     ThreadPool::WaitCallback Callback;
     mutable void* Data;
-    RFTYPE::Bool AutoCleanup;
+    ThreadPool::FreeCallback FreeData;
 };
 
 class PoolThread : public System::Threading::Thread
@@ -225,26 +225,26 @@ void ThreadPool::GetAvailableThreads(UInt32& WorkerThreads, UInt32& CompletionPo
 }
 
 Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, TaskStrategy::Type Strategy, 
-                                   Bool AutoCleanup)
+    FreeCallback FreeData)
 {
-    return QueueUserWorkItem(Callback, 0, Strategy, AutoCleanup);
+    return QueueUserWorkItem(Callback, 0, Strategy, FreeData);
 }
 
 Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
-                                   TaskStrategy::Type Strategy, Bool AutoCleanup)
+    TaskStrategy::Type Strategy, FreeCallback FreeData)
 {
     if (m_PImpl->Running)
     {
-	    PoolTask task(Callback,State,AutoCleanup);
-	    if (Strategy==TaskStrategy::Concurrent)
+        PoolTask task(Callback, State, FreeData);
+        if (Strategy==TaskStrategy::Concurrent)
         {
             m_PImpl->ConcurrentTaskList.Enqueue(task); 
         }
-	    else
-	    {
-	        Int64 serialGrp=Thread::CurrentPid() % m_PImpl->WorkerThreads.Count();
-	        m_PImpl->SerialTaskLists[static_cast<UInt32>(serialGrp)].Enqueue(task);
-	    }   
+        else
+        {
+            Int64 serialGrp=Thread::CurrentPid() % m_PImpl->WorkerThreads.Count();
+            m_PImpl->SerialTaskLists[static_cast<UInt32>(serialGrp)].Enqueue(task);
+        }   
         return true;
     }
     return false;
@@ -290,6 +290,11 @@ void ThreadPool::GetThreadCount(UInt32& WorkerThreads, UInt32& CompletionPortThr
     CompletionPortThreads = m_PImpl->CompletionPortThreads.Count();
 }
 
+void ThreadPool::DefaultFree(void* Data)
+{
+    delete Data;
+}
+
 
 void PoolThread::Run()
 {
@@ -310,9 +315,9 @@ void PoolThread::Run()
         {
             task.Callback(task.Data);
 
-            if (task.Data && task.AutoCleanup)
+            if (task.Data && task.FreeData)
             {
-                delete task.Data;
+                task.FreeData(task.Data);
                 task.Data=0;
             }
         }
@@ -326,14 +331,14 @@ PoolTask::PoolTask()
 
 PoolTask::~PoolTask()
 {
-    if (Data)
-        delete Data;
+
 }
 
-PoolTask::PoolTask(ThreadPool::WaitCallback Callback, void* Data, Bool AutoCleanup)
+PoolTask::PoolTask(ThreadPool::WaitCallback Callback, void* Data,
+    ThreadPool::FreeCallback FreeData)
 :Callback(Callback)
 ,Data(Data)
-,AutoCleanup(AutoCleanup)
+,FreeData(FreeData)
 {
 }
 
@@ -347,6 +352,6 @@ PoolTask& PoolTask::operator=(const PoolTask& Other)
     Callback=Other.Callback;
     Data=Other.Data;
     Other.Data=0;
-    AutoCleanup=Other.AutoCleanup;
+    FreeData=Other.FreeData;
     return *this;
 }

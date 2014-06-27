@@ -27,6 +27,8 @@ public:
     static RFTYPE::UInt32 GetBestThreadAmountByProcessorCoreAmount(RFTYPE::UInt32 Amount);
 
     typedef Delegate1<void*> WaitCallback;
+    typedef void (*FreeCallback)(void* Data);
+    static void DefaultFree(void* Data);
 
     void GetMaxThreads(RFTYPE::UInt32& WorkerThreads,
                        RFTYPE::UInt32& CompletionPortThreads);
@@ -48,11 +50,11 @@ public:
 
     RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
         TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
-        RFTYPE::Bool AutoCleanup=true);
+        FreeCallback FreeData = DefaultFree);
 
     RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
         void* State, TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
-        RFTYPE::Bool AutoCleanup=true);
+        FreeCallback FreeData = DefaultFree);
 
     /** \brief Disable the queing of new work items and wait till all allready
       * queued items are processed and freed.

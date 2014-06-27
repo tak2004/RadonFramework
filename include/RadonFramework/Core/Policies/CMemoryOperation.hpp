@@ -22,34 +22,43 @@ struct CMemoryOperation
     static T* Copy(T* Destination, const T* Source,
         Types::Size ElementCount)
     {
+        // Visual Studio suppor the necessary C++11 trait since 2012.
+        #if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
         if(std::is_trivially_copyable<T>::value == false)
+        #endif
         {
             for(Types::Size i = 0; i < ElementCount; ++i)
                 Destination[i] = Source[i];
             return Destination;
         }
-        else
+        #if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
+        else        
         {
             RFMEM::Copy(Destination, Source, ElementCount*sizeof(T));
             return Destination;
         }
+        #endif
     }
 
     template <typename T>
     static T* Move(T* Destination, const T* Source,
         Types::Size ElementCount)
     {
+        #if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
         if(std::is_trivially_copyable<T>::value == false)
         {
+        #endif
             for(Types::Size i = 0; i < ElementCount; ++i)
                 Destination[i] = Source[i];
             return Destination;
+        #if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
         }
         else
         {
             RFMEM::Move(Destination, Source, ElementCount*sizeof(T));
             return Destination;
         }
+        #endif
     }
 
     template <typename T>

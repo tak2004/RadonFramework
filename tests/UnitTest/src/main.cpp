@@ -3,6 +3,7 @@
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/TestResultCollector.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/BriefProgressCollector.hpp>
+#include <RadonFramework/Diagnostics/Debugging/UnitTest/DebugCollector.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/JUnitOutput.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTestResult.hpp>
 #include <RadonFramework/IO/Log.hpp>
@@ -32,6 +33,7 @@ int main(int argc, char** argv)
     BriefProgressCollector progress;
     Singleton<UnitTest>::GetInstance().AddCollector(results);
     Singleton<UnitTest>::GetInstance().AddCollector(progress);
+    Singleton<UnitTest>::GetInstance().AddCollector(DebugCollector());
     Singleton<UnitTest>::GetInstance().Run();
 
     JUnitOutput output;

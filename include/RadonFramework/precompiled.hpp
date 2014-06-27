@@ -88,6 +88,7 @@ namespace RFMEM = RadonFramework::System::Memory;
 
 // Util classes for types
 #include <RadonFramework/Core/Types/Convert.hpp>
+#include <RadonFramework/Core/Types/Utils/StringOperators.hpp>
 
 // Each compiler can implement it on it's own way.
 #include <stdarg.h>

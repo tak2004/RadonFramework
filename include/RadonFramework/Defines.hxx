@@ -35,22 +35,25 @@
 //---------------------------------------------------------------------------//
 
 //-------detect compiler---------//
-#if defined(RF_WINDOWS)          //
-    //Visual Studio C++ compiler //
-    #if defined(_MSC_VER)        //
-        #define RF_VISUALCPP     //
-    #endif                       //
-#endif                           //
-                                 //
-//MinGW compiler                 //
-#if defined(__MINGW32__)         //
-    #define RF_MINGW32           //
-#endif                           //
-                                 //
-//GCC                            //
-#if defined(__GNUC__)            //
-    #define RF_GCC               //
-#endif                           //
+#if defined(RF_WINDOWS)          
+    //Visual Studio C++ compiler
+    #if defined(_MSC_VER)       
+        #define RF_VISUALCPP    
+		#if _MSC_VER <= 1600
+			#define RF_VISUALCPP_OLDER_2012
+		#endif
+    #endif                      
+#endif                          
+                                
+//MinGW compiler                
+#if defined(__MINGW32__)        
+    #define RF_MINGW32          
+#endif                          
+                                
+//GCC                           
+#if defined(__GNUC__)           
+    #define RF_GCC              
+#endif                          
 //-------------------------------//
 
 //--------detect debug mode--------//

@@ -28,15 +28,13 @@ public:
     String(const String& Copy);
 
     /// Generate a String with a size of StringSize(including 0 termination).
+    /// The String will be filled up with ' '(Space) characters.
     explicit String(const Size StringSize);
 
     explicit String(const char Letter);
 
     template<int N>
-    String(char const (&CString)[N])
-    {
-        String(&CString[0], N);
-    }
+    String(char const (&CString)[N]);
 
     ~String();
 
@@ -60,49 +58,32 @@ public:
     /// Overload new operator to ensure String alignment.
     void* operator new(Size Bytes);
     /// Overload replacement new operator to ensure String alignment.
-    void* operator new(Size Bytes, void* buffer);
+    void* operator new(Size Bytes, void* Buffer);
+    /// Overload delete operator to ensure safe String deallocation.
+    void operator delete(void* Buffer);
+
     char operator[](const Size Index)const;
     char& operator[](const Size Index);
-    bool operator==(const String& Other)const;
 
     template<int N>
     bool operator==(char const (&Other)[N])const;
+    bool operator==(const String& Other)const;
 
+    template<int N>
+    bool operator!=(char const (&Other)[N])const;
     bool operator!=(const String& Other)const;
-    String operator+(const String &Str)const;
-    String operator+(const Char Character)const;
-    /// Append "true" or "false" on the string.
-    String operator+(const Bool& Value)const;
-    String operator+(const Int8 Number)const;
-    String operator+(const Int16 Number)const;
-    String operator+(const Int32 Number)const;
-    String operator+(const Int64 Number)const;
-    String operator+(const UInt8 Number)const;
-    String operator+(const UInt16 Number)const;
-    String operator+(const UInt32 Number)const;
-    String operator+(const UInt64 Number)const;
-    String& operator+=(const Char Character);
-    String& operator+=(const String& Str);
-    String& operator+=(const Bool& Value);
-    String& operator+=(const Int8 Number);
-    String& operator+=(const Int16 Number);
-    String& operator+=(const Int32 Number);
-    String& operator+=(const Int64 Number);
-    String& operator+=(const UInt8 Number);
-    String& operator+=(const UInt16 Number);
-    String& operator+=(const UInt32 Number);
-    String& operator+=(const UInt64 Number);
-    String& operator=(const Char Character);
+
+    template<int N>
+    String operator+(char const (&Other)[N])const;
+    String operator+(const String &Other)const;
+
+    template<int N>
+    String& operator+=(char const (&Other)[N]);
+    String& operator+=(const String &Other);
+
+    template<int N>
+    String& operator=(char const (&Other)[N]);
     String& operator=(const String &Other);
-    String& operator=(const Bool& Value);
-    String& operator=(const Int8 Number);
-    String& operator=(const Int16 Number);
-    String& operator=(const Int32 Number);
-    String& operator=(const Int64 Number);
-    String& operator=(const UInt8 Number);
-    String& operator=(const UInt16 Number);
-    String& operator=(const UInt32 Number);
-    String& operator=(const UInt64 Number);
     #pragma endregion
 
     #pragma region Properties
@@ -123,6 +104,8 @@ public:
     /// UTF-8 can consists of multiple bytes for a character. 
     /// Use this to get the size instead of the character amount.
     Size Size()const;
+
+    static const UInt32 BUFFER_SIZE = 27;
     #pragma endregion
 
     #pragma region Methods
@@ -275,6 +258,8 @@ public:
      * http://www.cplusplus.com/reference/clibrary/cstdio/printf/
      **/
     static String Format(const String &Str,...);
+    /// Like Format method but restrict the formatting to a specified variadic list.
+    static String FormatStrict(const String &Str, va_list ArgumentList);
 
     /// Convert all lower case to upper case chars.
     void ToUpper();
@@ -298,7 +283,6 @@ public:
     #pragma endregion
 protected:
 #pragma region Internal variables
-    static const UInt32 BUFFER_SIZE = 27;
 
     union
     {//0 terminated to boost the speed
@@ -314,51 +298,59 @@ protected:
 };
 
 template<int N>
+String::String(char const (&CString)[N])
+:m_Length(0)// Swap will skip copy to tmp step if m_Length is 0
+{
+    if (N <= BUFFER_SIZE)
+    {// the locale buffer is a little bit faster
+        m_DataManagment = Common::DataManagment::Copy;
+        m_Length = RFSTR::Length(reinterpret_cast<const RFTYPE::UInt8*>(CString), N);
+        RFMEM::Copy(m_FixBuffer.Raw(), CString, N);
+    }
+    else
+    {// use the pointer of the string literal instead of create a copy
+        String knownStringSize(&CString[0], N, Common::DataManagment::UnmanagedInstance);
+        this->Swap(knownStringSize);
+    }
+}
+
+template<int N>
 bool String::operator==(char const (&Other)[N])const
 {
     String tmp(Other, N);
     return *this == tmp;
 }
 
-} } }
-
-//OtherType to String
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Int8 &Self);
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Int16 &Self);
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Int32 &Self);
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Int64 &Self);
-
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::UInt8 &Self);
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::UInt16 &Self);
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::UInt32 &Self);
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::UInt64 &Self);
-
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Float32 &Self);
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Float64 &Self);
-
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::Char &Self);
-
 template<int N>
-RFTYPE::String& operator<<(RFTYPE::String &Str, char const (&Other)[N])
+bool String::operator!=(char const (&Other)[N])const
 {
-    Str += String(Other, N);
-    return Str;
+    String tmp(Other, N);
+    return *this != tmp;
 }
 
-RFTYPE::String& operator<<(RFTYPE::String &Str, const RFTYPE::String &Self);
+template<int N>
+String String::operator+(char const (&Other)[N])const
+{
+    String tmp(Other, N);
+    return *this+tmp;
+}
 
-//String to OtherType
-RFTYPE::Int8& operator<<(RFTYPE::Int8 &Self, const RFTYPE::String &Str);
-RFTYPE::Int16& operator<<(RFTYPE::Int16 &Self, const RFTYPE::String &Str);
-RFTYPE::Int32& operator<<(RFTYPE::Int32 &Self, const RFTYPE::String &Str);
-RFTYPE::Int64& operator<<(RFTYPE::Int64 &Self, const RFTYPE::String &Str);
+template<int N>
+String& String::operator+=(char const (&Other)[N])
+{
+    String tmp(Other, N);
+    *this+=tmp;
+    return *this;
+}
 
-RFTYPE::UInt8& operator<<(RFTYPE::UInt8 &Self, const RFTYPE::String &Str);
-RFTYPE::UInt16& operator<<(RFTYPE::UInt16 &Self, const RFTYPE::String &Str);
-RFTYPE::UInt32& operator<<(RFTYPE::UInt32 &Self, const RFTYPE::String &Str);
-RFTYPE::UInt64& operator<<(RFTYPE::UInt64 &Self, const RFTYPE::String &Str);
+template<int N>
+String& String::operator=(char const (&Other)[N])
+{
+    String tmp(Other, N);
+    Swap(tmp);
+    return *this;
+}
 
-RFTYPE::Float32& operator<<(RFTYPE::Float32 &Self, const RFTYPE::String &Str);
-RFTYPE::Float64& operator<<(RFTYPE::Float64 &Self, const RFTYPE::String &Str);
+} } }
 
 #endif // RF_CORE_TYPES_STRING_HPP
