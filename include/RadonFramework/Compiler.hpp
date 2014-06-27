@@ -39,14 +39,15 @@
     #define ALIGN(X) __attribute__ ((aligned (X)))
 #endif
 
+// clang: check if __has_feature is available
+#ifndef __has_feature
+    #define __has_feature(x) 0
+#endif
+
 // detect if compiler can use constexpr
 // gcc: available since 4.0.6
 #if (__GNUC__ * 100 + __GNUC_MINOR__) >= 406
     #define RF_HAVE_CONSTEXPR
-#endif
-// clang: check if __has_feature is available
-#ifndef __has_feature
-    #define __has_feature(x) 0
 #endif
 #if __has_feature(cxx_constexpr)
     #define RF_HAVE_CONSTEXPR
@@ -56,6 +57,16 @@
     #define RF_CONSTEXPR constexpr
 #else
     #define RF_CONSTEXPR
+#endif
+
+// detect if compiler can use is_trivially_copyable
+// available since VS2012
+#if (defined(RF_VISUALCPP) && !defined(RF_VISUALCPP_OLDER_2012))
+    #define RF_HAVE_IS_TRIVIALLY_COPYABLE
+#endif
+
+#if !defined(RF_VISUALCPP)
+    #define RF_HAVE_IS_TRIVIALLY_COPYABLE
 #endif
 
 #endif // RF_COMPILER_HPP
