@@ -42,6 +42,8 @@ namespace RFTYPE=RadonFramework::Core::Types;
 
 #include <RadonFramework/Core/Common/DataManagment.hpp>
 
+#include <RadonFramework/Memory/Allocator.hpp>
+
 #if defined(RF_PRECOMPILED_PIMPL)
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 namespace RFIDIOM = RadonFramework::Core::Idioms;

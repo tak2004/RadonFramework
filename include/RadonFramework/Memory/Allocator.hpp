@@ -4,111 +4,63 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Memory {
-
-template<class T>
-class Allocator
+template<typename T, class ARENA>
+void Delete(T* Object, ARENA& Arena)
 {
-public:
-    typedef T ValueType;
-    typedef T* Pointer;
-    typedef T& Reference;
-    typedef const T* ConstPointer;
-    typedef const T& ConstReference;
-    typedef RFTYPE::MemoryRange SizeType;
-
-    // constructors/destructor
-    Allocator();
-    Allocator(const Allocator& Copy);
-    ~Allocator();
-
-    // helper functions
-    Pointer Address(Reference Ref)const;
-    ConstPointer Address(ConstReference Ref)const;
-    SizeType MaxSize()const;
-
-    // methods to affect memory
-    inline Pointer Allocate(SizeType ElementCount, void* Hint=0);
-    inline void Deallocate(Pointer Ptr, SizeType ElementCount);
-    inline void Construct(Pointer Ptr, ConstReference Value);
-    inline void Destroy(Pointer Ptr);
-protected:
-    COLLECTORLOGIC<ALLOCATOR> m_Collector;
-};
-
-template<>
-class Allocator<void>
-{
-    public:
-        typedef void ValueType;
-        typedef void* Pointer;
-        typedef const void* ConstPointer;
-        typedef RFTYPE::MemoryRange SizeType;
-};
-
-template<class T>
-Allocator<T>::Allocator()
-{
+    Object->~T();
+    Arena.Free(Object);
 }
 
-template<class T>
-Allocator<T>::Allocator(const Allocator<T>& Copy)
+template<typename T, class ARENA>
+T* NewArray(ARENA& Arena, size_t N)
 {
+    union
+    {
+        void* as_void;
+        size_t* as_size_t;
+        T* as_T;
+    };
+
+    as_void = Arena.Allocate(sizeof(T)*N + sizeof(size_t), __alignof(T));
+
+    *as_size_t++ = N;
+
+    const T* const onePastLast = as_T + N;
+    while(as_T < onePastLast)
+    {
+        new (as_T++) T;
+    }
+
+    return (as_T - N);
 }
 
-template<class T>
-Allocator<T>::~Allocator()
+template<typename T, class ARENA>
+void DeleteArray(T* Ptr, ARENA& Arena)
 {
+    union
+    {
+        size_t* as_size_t;
+        T* as_T;
+    };
+
+    as_T = Ptr;
+
+    const size_t N = as_size_t[-1];
+
+    for(size_t i = N; i > 0; --i)
+    {
+        as_T[i - 1].~T();
+    }
+
+    Arena.Free(as_size_t-1);
 }
 
-template<class T>
-typename Allocator<T>::Pointer Allocator<T>::Address(Reference Ref)const
-{
-    return &Ref;
-}
+#define RF_New(Type, Arena) new ((Arena)->Allocate(sizeof(Type), __alignof(Type)))Type
 
-template<class T>
-typename Allocator<T>::ConstPointer Allocator<T>::Address(ConstReference Ref)const
-{
-    return &Ref;
-}
+#define RF_New_Array(Type, Arena, Elements) NewArray<Type>(Arena, Elements);
 
-template<class T>
-typename Allocator<T>::SizeType Allocator<T>::MaxSize()const
-{
-    return RFTYPE::MemoryRangeMax / sizeof(ValueType);
-}
+#define RF_Delete(Ptr, Arena) Delete(Ptr, Arena);
 
-template<class T>
-typename Allocator<T>::Pointer Allocator<T>::Allocate(SizeType ElementCount, 
-                                                        void* Hint)
-{
-    return ElementCount !=0 ?
-                static_cast<Pointer>(
-                    m_Collector.Allocate(
-                        ElementCount * sizeof(ValueType)
-                    )
-                ) : 0;
-}
-
-template<class T>
-void Allocator<T>::Deallocate(Pointer Ptr, SizeType ElementCount)
-{
-    m_Collector.Deallocate(Ptr, ElementCount * sizeof(ValueType));
-}
-
-template<class T>
-void Allocator<T>::Construct(Pointer Ptr, ConstReference Value)
-{
-    new(Ptr)T(Value);
-}
-
-template<class T>
-void Allocator<T>::Destroy(Pointer Ptr)
-{
-    Ptr->~Ptr();
-}
-
-} }
+#define RF_Delete_Array(Ptr, Arena) DeleteArray(Ptr, Arena);
 
 #endif // RF_MEMORY_ALLOCATOR_HPP

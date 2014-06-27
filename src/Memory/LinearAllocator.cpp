@@ -8,25 +8,25 @@ using namespace RadonFramework::Core::Types;
 
 LinearAllocator* LinearAllocator::CreateInstance(const Size MemorySize )
 {
-    Size memoryBlockSize=MemorySize + sizeof(LinearAllocator) + 15;// +15 Byte to ensure 16Byte alignment
-    LinearAllocator* allocator=reinterpret_cast<LinearAllocator*>(RFMEM::Allocate(memoryBlockSize));
-    allocator->m_TotalSize=memoryBlockSize;
+    Size memoryBlockSize = MemorySize + sizeof(LinearAllocator) + 15;// +15 Byte to ensure 16Byte alignment
+    LinearAllocator* allocator = reinterpret_cast<LinearAllocator*>(RFMEM::Allocate(memoryBlockSize));
+    allocator->m_TotalSize = memoryBlockSize;
     Size next16ByteBoundary = reinterpret_cast<MemoryRange>(allocator) - (reinterpret_cast<MemoryRange>(allocator) & ~15);
     allocator->m_OffsetToFirstFreeByte = sizeof(LinearAllocator) + next16ByteBoundary;
     return allocator;
 }
 
 
-void LinearAllocator::FreeInstance(LinearAllocator*& instance)
+void LinearAllocator::FreeInstance(LinearAllocator*& Instance)
 {
-    if (instance->m_TotalSize > 0)
+    if (Instance->m_TotalSize > 0)
     {
-        RFMEM::Free(instance);
-        instance = 0;
+        RFMEM::Free(Instance);
+        Instance = 0;
     }
 }
 
-void LinearAllocator::ClearInstance()
+void LinearAllocator::Clear()
 {
     Size next16ByteBoundary = reinterpret_cast<MemoryRange>(this) - (reinterpret_cast<MemoryRange>(this) & ~15);
     m_OffsetToFirstFreeByte = sizeof(LinearAllocator) + next16ByteBoundary;
@@ -34,10 +34,10 @@ void LinearAllocator::ClearInstance()
 
 void* LinearAllocator::Allocate(const Size Bytes)
 {
-    void* result=0;
-    if (m_OffsetToFirstFreeByte+Bytes <= m_TotalSize)
+    void* result = 0;
+    if (m_OffsetToFirstFreeByte + Bytes <= m_TotalSize)
     {
-        result=reinterpret_cast<UInt8*>(this) + m_OffsetToFirstFreeByte;
+        result = reinterpret_cast<UInt8*>(this) + m_OffsetToFirstFreeByte;
         if (Bytes & 0xf)
             m_OffsetToFirstFreeByte += (Bytes & ~0xf) + 16;
         else
