@@ -244,7 +244,7 @@ const GraphicDriverInformationOpenGL& OpenGLCanvas::GetContextRelatedGraphicDriv
                 elementcount=count;
             }
 
-            OpenGLCapability cap(GLConstantWrapper[i].Type,GLConstantWrapper[i].GLConstantName,elementcount);
+            OpenGLCapability cap(GLConstantWrapper[i].Type, String::UnsafeStringCreation(GLConstantWrapper[i].GLConstantName), elementcount);
             const GLubyte* str=0;
             if (elementcount)
             {
@@ -267,7 +267,7 @@ const GraphicDriverInformationOpenGL& OpenGLCanvas::GetContextRelatedGraphicDriv
                         break;
                     case OpenGLCapabilitiesType::GLSTRING:
                         str=glGetString(GLConstantWrapper[i].GLConstant);
-                        *reinterpret_cast<Core::Types::String*>(cap.Ptr())=String(reinterpret_cast<const char*>(str));
+                        *reinterpret_cast<Core::Types::String*>(cap.Ptr())=String::UnsafeStringCreation(reinterpret_cast<const char*>(str));
                         break;
                     default:
                         Assert(false,"Global GLConstantWrapper array is corrupted.");
@@ -281,7 +281,7 @@ const GraphicDriverInformationOpenGL& OpenGLCanvas::GetContextRelatedGraphicDriv
         const char* pext=(const char*)glGetString(GL_EXTENSIONS);
         if (glGetError()==GL_NO_ERROR)
         {
-            String extstr(pext);
+            String extstr = String::UnsafeStringCreation(pext);
             AutoPointerArray<String> vec=extstr.Split(" ");
             for (UInt32 i=0;i<vec.Count();++i)
                 ext.PushBack(AutoPointer<String>(new String(vec[i])));

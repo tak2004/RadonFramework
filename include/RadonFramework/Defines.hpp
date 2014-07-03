@@ -75,9 +75,13 @@
 #endif
 
 //defines for cmake
+#ifndef RF_USE_OPENGL
+#define RF_USE_OPENGL
+#endif
 
-
-
+#ifndef RF_USE_GDI
+#define RF_USE_GDI
+#endif
 
 #ifndef RF_PRECOMPILED_PIMPL
     #define RF_PRECOMPILED_PIMPL 1

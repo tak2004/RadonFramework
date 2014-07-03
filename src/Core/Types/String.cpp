@@ -51,23 +51,23 @@ String::String(const char* cString, const RFTYPE::Size cStringSize,
     DataManagment::Type Ownership)
 :m_DataManagment(Ownership)
 {
-    if (cString != 0 && cStringSize > 0 && cString[cStringSize-1]=='\0')
+    if (cString != 0 && cStringSize > 0)
     {
         m_Length = RFSTR::Length(reinterpret_cast<const UInt8*>(cString), cStringSize);
-
+        RFTYPE::Size bytesInUse = RFSTR::CStringSizeOf(reinterpret_cast<const UInt8*>(cString), cStringSize);
         switch (m_DataManagment)
         {
         case Common::DataManagment::Copy:
-            if (cStringSize <= BUFFER_SIZE)
+            if(bytesInUse <= BUFFER_SIZE)
             {
                 RFMEM::Copy(static_cast<void*>(m_FixBuffer.Raw()),
-                            static_cast<const void*>(cString), cStringSize);
+                    static_cast<const void*>(cString), bytesInUse);
             }
             else
             {
                 m_DataManagment = DataManagment::AllocateAndCopy;
-                m_DynBuffer.m_Buffer = new char[cStringSize];
-                m_DynBuffer.m_Size = cStringSize;
+                m_DynBuffer.m_Buffer = new char[bytesInUse];
+                m_DynBuffer.m_Size = bytesInUse;
                 RFMEM::Copy(m_DynBuffer.Raw(), cString, m_DynBuffer.m_Size);
             }
             break;
@@ -75,7 +75,7 @@ String::String(const char* cString, const RFTYPE::Size cStringSize,
             m_DataManagment = Common::DataManagment::AllocateAndCopy;
         case Common::DataManagment::UnmanagedInstance:
             m_DynBuffer.m_Buffer = (char*)cString;
-            m_DynBuffer.m_Size = cStringSize;
+            m_DynBuffer.m_Size = bytesInUse;
             break;
         }
     }
@@ -246,10 +246,10 @@ RFTYPE::String String::Insert(const RFTYPE::UInt32 AtIndex,
 
 RFTYPE::Int32 String::LastIndexOf(const String& Value)const
 {
-    if (m_Length<Value.m_Length)
+    if(Size()<Value.Size())
         return -1;
 
-    return LastIndexOf(Value, 0, m_Length);
+    return LastIndexOf(Value, 0, Size());
 }
 
 RFTYPE::Int32 String::LastIndexOf(const RFTYPE::String& Value,
@@ -264,7 +264,7 @@ RFTYPE::Int32 String::LastIndexOf(const RFTYPE::String& Value,
 RFTYPE::Int32 String::LastIndexOf(const RFTYPE::String& Value,
     const RFTYPE::UInt32 StartAtIndex, const RFTYPE::UInt32 Count)const
 {
-    if (Count<Value.m_Length)
+    if (Count<Value.Size())
         return -1;
 
     if (m_Length==0)
@@ -275,9 +275,9 @@ RFTYPE::Int32 String::LastIndexOf(const RFTYPE::String& Value,
     const char* value = GetBuffer();
 
     const char* v = value;
-    const char *p = buffer + (StartAtIndex + Count - m_Length + 1);
+    const char *p = buffer + (StartAtIndex + Count - Size() + 1);
     const char *searchp = p;
-    const char *vend=value + m_Length;
+    const char *vend = value + Size();
     const char *pend=buffer + StartAtIndex - 1;
 
     for(;p!=pend;--p,searchp=p)

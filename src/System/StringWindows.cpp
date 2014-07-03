@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <mbstring.h>
 
 using namespace RadonFramework::System::String;
 using namespace RadonFramework::Core::Types;
@@ -36,9 +37,14 @@ Bool ToLower(String& Instance)
     return _strlwr_s(const_cast<char*>(Instance.c_str()), Instance.Size()) == 0;
 }
 
+Size StrSize(const UInt8* Buffer, const Size BufferSize)
+{
+    return strnlen(reinterpret_cast<const char*>(Buffer), BufferSize) + sizeof('\0');
+}
+
 Size Length(const UInt8* Buffer, const Size BufferSize)
 {
-    return strnlen_s(reinterpret_cast<const char*>(Buffer), BufferSize);
+    return _mbsnlen(Buffer, BufferSize);
 }
 
 Bool ToInt64(const String& Instance, Int32 Base, Int64& Out)
@@ -74,6 +80,7 @@ void RFSTR::Dispatch()
     GetLocale = ::GetLocale;
     ToUpper = ::ToUpper;
     ToLower = ::ToLower;
+    CStringSizeOf = ::StrSize;
     Length = ::Length;
     ToInt64 = ::ToInt64;
     ToUInt64 = ::ToUInt64;

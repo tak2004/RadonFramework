@@ -30,7 +30,7 @@ set(HDRS_BACKEND
     include/RadonFramework/backend/FastDelegate.h
     include/RadonFramework/backend/FastDelegateBind.h)
 	
-if(OPENGL_FOUND)
+if(RADONFRAMEWORK_USE_OPENGL)
 	set(SRC_BACKEND_GLEW backend/Glew/glew.c)
         
     set_source_files_properties(backend/Glew/glew.c PROPERTIES LANGUAGE CXX)
@@ -39,7 +39,7 @@ if(OPENGL_FOUND)
 		include/RadonFramework/backend/GL/glew.h
 		include/RadonFramework/backend/GL/glxew.h
 		include/RadonFramework/backend/GL/wglew.h)
-endif(OPENGL_FOUND)
+endif(RADONFRAMEWORK_USE_OPENGL)
 
 set(HDRS_BACKEND_GOOGLE
     include/RadonFramework/backend/google/dense_hash_map
@@ -93,7 +93,7 @@ set(SRC_BACKEND_MURMURHASH
 set(HDRS_BACKEND_MURMURHASH
     include/RadonFramework/backend/MurmurHash/MurmurHashHashfunctionService.hpp)
 
-if(OPENGL_FOUND)
+if(RADONFRAMEWORK_USE_OPENGL)
 	set(SRC_BACKEND_OPENGL
 		backend/OpenGL/OpenGLCanvas.cpp
 		backend/OpenGL/GraphicDriverInformationOpenGL.cpp)
@@ -101,7 +101,7 @@ if(OPENGL_FOUND)
 	set(HDRS_BACKEND_OPENGL
 		include/RadonFramework/backend/OpenGL/OpenGLCanvas.hpp
 		include/RadonFramework/backend/OpenGL/GraphicDriverInformationOpenGL.hpp)
-endif(OPENGL_FOUND)
+endif(RADONFRAMEWORK_USE_OPENGL)
 
 AddSourceDirectory(filelist "backend/stringcoders" "Sources\\backend\\stringcoders")
 set(SRC_BACKEND_STRINGCODERS ${filelist})
@@ -110,7 +110,7 @@ set_source_files_properties(${SRC_BACKEND_STRINGCODERS} PROPERTIES LANGUAGE CXX)
 AddHeaderDirectory(filelist "include/RadonFramework/backend/stringcoders" "Includes\\backend\\stringcoders")
 set(HDRS_BACKEND_STRINGCODERS ${filelist})
 	
-if(OPENGL_FOUND)
+if(RADONFRAMEWORK_USE_OPENGL)
 set(SRC_BACKEND_WINDOWS_DRAWING
     backend/Windows/Drawing/GDIOpenGL1Canvas3D.cpp
     backend/Windows/Drawing/GDIOpenGL1Canvas3DService.cpp
@@ -138,7 +138,7 @@ set(HDRS_BACKEND_WINDOWS_FORMS
     include/RadonFramework/backend/Windows/Forms/WindowsWindow.hpp
     include/RadonFramework/backend/Windows/Forms/WindowsWindowService.hpp)
 
-if(OPENGL_FOUND)
+if(RADONFRAMEWORK_USE_OPENGL)
 set(SRC_BACKEND_X11_DRAWING
 	backend/X11/Drawing/X11OpenGL1Canvas3D.cpp
 	backend/X11/Drawing/X11OpenGL1Canvas3DService.cpp

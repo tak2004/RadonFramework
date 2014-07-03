@@ -5,7 +5,6 @@
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 
-
 LinearAllocator* LinearAllocator::CreateInstance(const Size MemorySize )
 {
     Size memoryBlockSize = MemorySize + sizeof(LinearAllocator) + 15;// +15 Byte to ensure 16Byte alignment
@@ -15,7 +14,6 @@ LinearAllocator* LinearAllocator::CreateInstance(const Size MemorySize )
     allocator->m_OffsetToFirstFreeByte = sizeof(LinearAllocator) + next16ByteBoundary;
     return allocator;
 }
-
 
 void LinearAllocator::FreeInstance(LinearAllocator*& Instance)
 {

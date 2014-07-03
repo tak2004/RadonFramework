@@ -9,15 +9,15 @@ using namespace RadonFramework::Math::Geometry;
 
 Form::Form()
 {
-    m_Backend=WindowServiceLocator::Default().NewWindow();
-    m_Backend->OnIdle+=Connector<Form,const IObserver*>(&Form::Idle);
-    m_Backend->OnResize+=Connector<Form,const Math::Geometry::Size2D<>&>(&Form::Resize);
+    m_Backend = WindowServiceLocator::Default().NewWindow();
+    m_Backend->OnIdle += Connector<Form, const IObserver*>(&Form::Idle);
+    m_Backend->OnResize += Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
     m_Backend->OnReposition += Connector<Form, const Math::Geometry::Point2D<>&>(&Form::Reposition);
-    m_Backend->OnKeyPress+=Connector<Form,const VirtualKey::Type>(&Form::KeyPressed);
-    m_Backend->OnKeyRelease+=Connector<Form,const VirtualKey::Type>(&Form::KeyReleased);
-    m_Backend->OnMouseButtonPressed+=Connector<Form,const IO::MouseEvent&>(&Form::MouseButtonPressed);
-    m_Backend->OnMouseButtonReleased+=Connector<Form,const IO::MouseEvent&>(&Form::MouseButtonReleased);
-    m_Backend->OnMouseMove+=Connector<Form,const IO::MouseEvent&>(&Form::MouseMove);
+    m_Backend->OnKeyPress += Connector<Form, const VirtualKey::Type>(&Form::KeyPressed);
+    m_Backend->OnKeyRelease += Connector<Form, const VirtualKey::Type>(&Form::KeyReleased);
+    m_Backend->OnMouseButtonPressed += Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonPressed);
+    m_Backend->OnMouseButtonReleased += Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonReleased);
+    m_Backend->OnMouseMove += Connector<Form, const IO::MouseEvent&>(&Form::MouseMove);
     InitializeComponent();
 }
 
@@ -43,7 +43,7 @@ void Form::Title(const String &Value)
 
 void Form::InitializeComponent()
 {
-    this->m_ClientRectangle.SetSize(Size2D<>(640,480));
+    this->m_ClientRectangle.SetSize(Size2D<>(640, 480));
     m_Backend->ClientRectSize(m_ClientRectangle.GetSize());
     m_Backend->Visible(true);
 }

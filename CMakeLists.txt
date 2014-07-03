@@ -12,6 +12,8 @@ mark_as_advanced(RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL)
 OPTION(RADONFRAMEWORK_USE_MICROCRT "Radon framework will provide code for running without crt and std functions." OFF)
 mark_as_advanced(RADONFRAMEWORK_USE_MICROCRT)
 
+OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL" ON)
+
 #
 # set destination directory for all binaries
 #
@@ -46,7 +48,7 @@ mark_as_advanced(RADONFRAMEWORK_USE_MICROCRT)
 # setup graphic
 #
 	#find_package(OpenGL)
-	if(OPENGL_FOUND)
+	if(RADONFRAMEWORK_USE_OPENGL)
 		set(USEOPENGL "#ifndef RF_USE_OPENGL\n#define RF_USE_OPENGL\n#endif")
 		if(UNIX)
 			set(OSLIBS ${OSLIBS} GL GLU)
@@ -72,9 +74,9 @@ mark_as_advanced(RADONFRAMEWORK_USE_MICROCRT)
 		include_directories(${OPENGL_INCLUDE_DIR})
 		add_definitions(-DGLEW_STATIC)    
 		message(STATUS "OpenGL support: Yes")
-	else(OPENGL_FOUND)
+	else(RADONFRAMEWORK_USE_OPENGL)
 		message(STATUS "OpenGL support: No")
-	endif(OPENGL_FOUND)
+	endif(RADONFRAMEWORK_USE_OPENGL)
 
 find_package(Doxygen)
 if (DOXYGEN_FOUND)

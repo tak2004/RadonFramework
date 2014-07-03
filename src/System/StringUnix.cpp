@@ -42,9 +42,23 @@ Bool ToLower(String& Instance)
     while (c = *p) *p++ = tolower(c);
 }
 
+Size CStringSizeOf(const UInt8* Buffer, const Size BufferSize)
+{
+    return strnlen(reinterpret_cast<const char*>(Buffer), BufferSize) + sizeof('\0');
+}
+
 Size Length(const UInt8* Buffer, const Size BufferSize)
 {
-    return strlen(reinterpret_cast<const char*>(Buffer));
+    char const * pos = reinterpret_cast<const char*>(Buffer);
+    Size length = 0;
+
+    while(*pos != '\0')
+    {
+        ++length;
+        pos += mblen(pos, MB_CUR_MAX);
+    }
+
+    return length;
 }
 
 Bool ToInt64(const String& Instance, Int32 Base, Int64& Out)
@@ -79,6 +93,7 @@ void RFSTR::Dispatch()
     GetLocale = ::GetLocale;
     ToUpper = ::ToUpper;
     ToLower = ::ToLower;
+    CStringSizeOf = ::StrSize;
     Length = ::Length;
     ToInt64 = ::ToInt64;
     ToUInt64 = ::ToUInt64;

@@ -43,6 +43,15 @@ Bool ToLowerCallback_SystemAPIDispatcher(String& Instance)
     return ToLower(Instance);
 }
 
+Size SizeCallback_SystemAPIDispatcher(const UInt8* Buffer, const Size BufferSize)
+{
+    CStringSizeOf = 0;
+    Dispatch();
+    Assert(CStringSizeOf != SizeCallback_SystemAPIDispatcher,
+        "Function was called and couldn't be dispatched");
+    return CStringSizeOf(Buffer, BufferSize);
+}
+
 Size LengthCallback_SystemAPIDispatcher(const UInt8* Buffer, const Size BufferSize)
 {
     Length = 0;
@@ -96,6 +105,7 @@ SetLocaleCallback RFSTR::SetLocale = SetLocale_SystemAPIDispatcher;
 GetLocaleCallback RFSTR::GetLocale = GetLocaleCallback_SystemAPIDispatcher;
 ToUpperCallback RFSTR::ToUpper = ToUpperCallback_SystemAPIDispatcher;
 ToLowerCallback RFSTR::ToLower = ToLowerCallback_SystemAPIDispatcher;
+SizeCallback RFSTR::CStringSizeOf = SizeCallback_SystemAPIDispatcher;
 LengthCallback RFSTR::Length = LengthCallback_SystemAPIDispatcher;
 ToInt64Callback RFSTR::ToInt64 = ToInt64Callback_SystemAPIDispatcher;
 ToUInt64Callback RFSTR::ToUInt64 = ToUInt64Callback_SystemAPIDispatcher;
@@ -109,6 +119,7 @@ Bool RFSTR::IsSuccessfullyDispatched()
     result = result && GetLocale != GetLocaleCallback_SystemAPIDispatcher && GetLocale != 0;
     result = result && ToUpper != ToUpperCallback_SystemAPIDispatcher && ToUpper != 0;
     result = result && ToLower != ToLowerCallback_SystemAPIDispatcher && ToLower != 0;
+    result = result && CStringSizeOf != SizeCallback_SystemAPIDispatcher && CStringSizeOf != 0;
     result = result && Length != LengthCallback_SystemAPIDispatcher && Length != 0;
     result = result && ToInt64 != ToInt64Callback_SystemAPIDispatcher && ToInt64 != 0;
     result = result && ToUInt64 != ToUInt64Callback_SystemAPIDispatcher && ToUInt64 != 0;
@@ -127,6 +138,8 @@ void RFSTR::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
         Result.AddLast("ToUpper");
     if (ToLower == ToLowerCallback_SystemAPIDispatcher || ToLower == 0)
         Result.AddLast("ToLower");
+    if(CStringSizeOf == SizeCallback_SystemAPIDispatcher || CStringSizeOf == 0)
+        Result.AddLast("CStringSizeOf");
     if (Length == LengthCallback_SystemAPIDispatcher || Length == 0)
         Result.AddLast("Length");
     if (ToInt64 == ToInt64Callback_SystemAPIDispatcher || ToInt64 == 0)
