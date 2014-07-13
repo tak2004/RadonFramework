@@ -6,7 +6,7 @@ using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 
-Size LowestFirst(Pair<Size,String>& A,Pair<Size,String>& B)
+Size LowestFirst(const Pair<Size,String>& A,const Pair<Size,String>& B)
 {
     if (A.First==B.First)
         return 0;
@@ -47,7 +47,7 @@ void Canvas3DServiceConfig::Set(DataTree::NodeType& TreeNode)
 
     if (FallbackDriver.Count()>0)
     {
-        Delegate2<Pair<Size,String>&,Pair<Size,String>&,Size> callback(&LowestFirst);
+        Delegate2<const Pair<Size,String>&,const Pair<Size,String>&,Size> callback(&LowestFirst);
         FallbackDriver.Sort(callback);
     }
 

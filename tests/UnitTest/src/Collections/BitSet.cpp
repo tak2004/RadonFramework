@@ -17,90 +17,119 @@ class BitSetTest:public TestSuite
             :TestSuite("RadonFramework::Collections::BitSet-Test")
         {
             AddTest(MakeDelegate(this,&BitSetTest::Constructor),
+                "BitSetTest::Constructor",
                 "Constructor");
 
             AddTest(MakeDelegate(this,&BitSetTest::CopyConstructor),
+                "BitSetTest::CopyConstructor",
                 "Copy constructor");
 
             AddTest(MakeDelegate(this,&BitSetTest::AssignOperator),
+                "BitSetTest::AssignOperator",
                 "Assign operator");
 
             AddTest(MakeDelegate(this,&BitSetTest::AndAssignOperator),
+                "BitSetTest::AndAssignOperator",
                 "Bit AND and assign operator");
 
             AddTest(MakeDelegate(this,&BitSetTest::OrAssignOperator),
+                "BitSetTest::OrAssignOperator",
                 "Bit OR and assign operator");
 
             AddTest(MakeDelegate(this,&BitSetTest::XORAssignOperator),
+                "BitSetTest::XORAssignOperator",
                 "Bit XOR and assign operator");
 
             AddTest(MakeDelegate(this,&BitSetTest::LeftShiftAssignOperator),
+                "BitSetTest::LeftShiftAssignOperator",
                 "Left shift and assign operator");
 
             AddTest(MakeDelegate(this,&BitSetTest::RightShiftAssignOperator),
+                "BitSetTest::RightShiftAssignOperator",
                 "Right shift and assign operator");
 
             AddTest(MakeDelegate(this,&BitSetTest::LeftShiftOperator),
+                "BitSetTest::LeftShiftOperator",
                 "Left shift operator");
 
             AddTest(MakeDelegate(this,&BitSetTest::RightShiftOperator),
+                "BitSetTest::RightShiftOperator",
                 "Right shift operator");            
 
             AddTest(MakeDelegate(this,&BitSetTest::Set),
+                "BitSetTest::Set",
                 "Set method");            
 
             AddTest(MakeDelegate(this,&BitSetTest::Reset),
+                "BitSetTest::Reset",
                 "Reset method");            
 
             AddTest(MakeDelegate(this,&BitSetTest::Flip),
+                "BitSetTest::Flip",
                 "Flip method");            
 
             AddTest(MakeDelegate(this,&BitSetTest::InverseOperator),
+                "BitSetTest::InverseOperator",
                 "Inverse operator");            
 
             AddTest(MakeDelegate(this,&BitSetTest::SetIndex),
+                "BitSetTest::SetIndex",
                 "Set method with index parameter");            
 
             AddTest(MakeDelegate(this,&BitSetTest::ResetIndex),
+                "BitSetTest::ResetIndex",
                 "Reset method with index parameter");            
 
             AddTest(MakeDelegate(this,&BitSetTest::FlipIndex),
+                "BitSetTest::FlipIndex",
                 "Flip method with index parameter");     
 
             AddTest(MakeDelegate(this,&BitSetTest::Size),
+                "BitSetTest::Size",
                 "Size method");  
 
             AddTest(MakeDelegate(this,&BitSetTest::Count),
+                "BitSetTest::Count",
                 "Count method");  
 
             AddTest(MakeDelegate(this,&BitSetTest::Any),
+                "BitSetTest::Any",
                 "Any method");  
 
             AddTest(MakeDelegate(this,&BitSetTest::None),
+                "BitSetTest::None",
                 "None method");  
 
             AddTest(MakeDelegate(this,&BitSetTest::Test),
+                "BitSetTest::Test",
                 "Test method");  
 
             AddTest(MakeDelegate(this,&BitSetTest::ArrayAccessOperatorConst),
+                "BitSetTest::ArrayAccessOperatorConst",
                 "Read only array access operator");  
 
             AddTest(MakeDelegate(this,&BitSetTest::ArrayAccessOperator),
+                "BitSetTest::ArrayAccessOperator",
                 "Array access operator");  
 
             AddTest(MakeDelegate(this,&BitSetTest::EqualCompareOperator),
+                "BitSetTest::EqualCompareOperator",
                 "Equal compare operator");  
 
             AddTest(MakeDelegate(this,&BitSetTest::UnequalCompareOperator),
+                "BitSetTest::UnequalCompareOperator",
                 "Uneqal compare operator");  
 
             AddTest(MakeDelegate(this,&BitSetTest::AndOperator),
+                "BitSetTest::AndOperator",
                 "And operator"); 
 
             AddTest(MakeDelegate(this,&BitSetTest::OrOperator),
+                "BitSetTest::OrOperator",
                 "Or operator"); 
 
             AddTest(MakeDelegate(this,&BitSetTest::XOROperator),
+                "BitSetTest::XOROperator",
                 "XOR operator"); 
         }
 

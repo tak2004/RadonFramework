@@ -12,23 +12,38 @@ class StringBuilderTest:public TestSuite
 {
 public:
     StringBuilderTest()
-    :TestSuite("RadonFramework::Core::Types::String-Test")
+    :TestSuite("RadonFramework::Core::Types::StringBuilder-Test")
     {
-        AddTest(MakeDelegate(this,&StringBuilderTest::DefaultConstructor),"StringBuilderDefaultConstructor");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Destructor), "StringBuilderDestructor");
-        AddTest(MakeDelegate(this,&StringBuilderTest::AppendFormat), "StringBuilderAppendformat");
-        AddTest(MakeDelegate(this,&StringBuilderTest::AppendLine), "StringBuilderAppendLine");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Append), "StringBuilderAppend");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Clear), "StringBuilderClear");
-        AddTest(MakeDelegate(this,&StringBuilderTest::EnsureCapacity), "StringBuilderEnsureCapacity");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Insert), "StringBuilderInsert");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Remove), "StringBuilderRemove");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Replace), "StringBuilderReplace");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Length), "StringBuilderLength");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Size), "StringBuilderSize");
-        AddTest(MakeDelegate(this,&StringBuilderTest::Capacity), "StringBuilderCapacity");
-        AddTest(MakeDelegate(this,&StringBuilderTest::AsCString), "StringBuilderAsCString");
-        AddTest(MakeDelegate(this,&StringBuilderTest::ToString), "StringBuilderToString");
+        AddTest(MakeDelegate(this,&StringBuilderTest::DefaultConstructor),
+            "StringBuilderTest::DefaultConstructor", "StringBuilderDefaultConstructor");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Destructor),
+            "StringBuilderTest::Destructor", "StringBuilderDestructor");
+        AddTest(MakeDelegate(this,&StringBuilderTest::AppendFormat),
+            "StringBuilderTest::AppendFormat", "StringBuilderAppendformat");
+        AddTest(MakeDelegate(this,&StringBuilderTest::AppendLine),
+            "StringBuilderTest::AppendLine", "StringBuilderAppendLine");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Append),
+            "StringBuilderTest::Append", "StringBuilderAppend");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Clear),
+            "StringBuilderTest::Clear", "StringBuilderClear");
+        AddTest(MakeDelegate(this,&StringBuilderTest::EnsureCapacity),
+            "StringBuilderTest::EnsureCapacity", "StringBuilderEnsureCapacity");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Insert),
+            "StringBuilderTest::Insert", "StringBuilderInsert");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Remove),
+            "StringBuilderTest::Remove", "StringBuilderRemove");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Replace),
+            "StringBuilderTest::Replace", "StringBuilderReplace");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Length),
+            "StringBuilderTest::Length", "StringBuilderLength");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Size),
+            "StringBuilderTest::Size", "StringBuilderSize");
+        AddTest(MakeDelegate(this,&StringBuilderTest::Capacity),
+            "StringBuilderTest::Capacity", "StringBuilderCapacity");
+        AddTest(MakeDelegate(this,&StringBuilderTest::AsCString),
+            "StringBuilderTest::AsCString", "StringBuilderAsCString");
+        AddTest(MakeDelegate(this,&StringBuilderTest::ToString),
+            "StringBuilderTest::ToString", "StringBuilderToString");
     }
 
     RFTYPE::Bool DefaultConstructor()

@@ -17,6 +17,8 @@
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 
+#include <stdlib.h>
+
 namespace RadonFramework { namespace Collections {
 
 /** 
@@ -206,7 +208,7 @@ public:
     *                 each element of the array.
     */
     RFTYPE::Size BinarySearch(const T& Value, 
-        const Delegate2<T&,T&,RFTYPE::Size>* Comparer=0);
+        const Delegate2<const T&,const T&,RFTYPE::Size>* Comparer=0);
 
     /**
     * \brief Searches an entire one-dimensional sorted Array 
@@ -220,7 +222,7 @@ public:
     */
     RFTYPE::Size BinarySearch(RFTYPE::Size Index, 
         RFTYPE::Size Length, const T& Value, 
-        const Delegate2<T&,T&,RFTYPE::Size>* Comparer=0);
+        const Delegate2<const T&,const T&,RFTYPE::Size>* Comparer=0);
                 
     /**
     * \brief Creates a shallow copy of the Array.
@@ -720,7 +722,7 @@ public:
     * \param Comparer The method which will be called for each
     *                 element of the Array.
     */
-    void Sort(const Delegate2<T&,T&,RFTYPE::Size>& Comparer);
+    void Sort(const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer);
 
     /**
     * \brief Sorts the elements in a range of elements in an 
@@ -731,8 +733,8 @@ public:
     * \param Comparer The method which will be called for each
     *                 element of the Array.
     */
-    void Sort(RFTYPE::Size Index, RFTYPE::Size Length,
-                const Delegate2<T&,T&,RFTYPE::Size>& Comparer);
+    void Sort(RFTYPE::Size Index, RFTYPE::Size LastIndex,
+                const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer);
 
     /**
     * \brief Sorts a pair of Array objects (one contains the 
@@ -753,7 +755,7 @@ public:
     template <typename TKey, typename TValue>
     static void Sort(Array<TKey,SP,MA,MO>& Keys, 
                         Array<TValue,SP,MA,MO>& Items,
-                        const Delegate2<T&,T&,RFTYPE::Size>& Comparer);
+                        const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer);
 
     /**
     * \brief Sorts a range of elements in a pair of Array 
@@ -775,11 +777,9 @@ public:
     *                 element of the Array.
     */
     template <typename TKey, typename TValue>
-    static void Sort(Array<TKey,SP,MA,MO>& Keys, 
-                        Array<TValue,SP,MA,MO>& Items,
-                        RFTYPE::Size Index, 
-                        RFTYPE::Size Length,
-                        const Delegate2<T&,T&,RFTYPE::Size>& Comparer);
+    static void Sort(Array<TKey,SP,MA,MO>& Keys, Array<TValue,SP,MA,MO>& Items,
+                     RFTYPE::Size Index, RFTYPE::Size LastIndex,
+                     const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer);
 
     /**
     * \brief Determines whether every element in the array matches 
@@ -832,6 +832,7 @@ public:
                         const RFTYPE::Size Index2,
                         const RFTYPE::Size Index3)const;
 
+    void Exchange(const RFTYPE::Size IndexA, const RFTYPE::Size IndexB);
 protected:
     RFTYPE::Size* m_Length;
     RFTYPE::Size m_Rank;
@@ -845,6 +846,15 @@ protected:
     RFTYPE::Bool InitArray(RFTYPE::Size Rank, 
         const RFTYPE::Size* LengthArray);
 };
+
+template<typename T, typename SP, typename MA, typename MO>
+inline void Array<T, SP, MA, MO>::Exchange( 
+    const RFTYPE::Size IndexA, const RFTYPE::Size IndexB )
+{
+    T swap = m_Data[IndexA];
+    m_Data[IndexA] = m_Data[IndexB];
+    m_Data[IndexB] = swap;
+}
 
 // Constructor & Destructor
 
@@ -988,7 +998,7 @@ T& Array<T,SP,MA,MO>::Item(RFTYPE::Size Index)const
 
 template<typename T, typename SP, typename MA, typename MO>
 RFTYPE::Size Array<T,SP,MA,MO>::BinarySearch(const T& Value, 
-    const Delegate2<T&,T&,RFTYPE::Size>* Comparer)
+    const Delegate2<const T&,const T&,RFTYPE::Size>* Comparer)
 {
     return BinarySearch(0,m_ElementCount,Value,Comparer);
 }
@@ -996,7 +1006,7 @@ RFTYPE::Size Array<T,SP,MA,MO>::BinarySearch(const T& Value,
 template<typename T, typename SP, typename MA, typename MO>
 RFTYPE::Size Array<T,SP,MA,MO>::BinarySearch(
     RFTYPE::Size Index, RFTYPE::Size Length, const T& Value, 
-    const Delegate2<T&,T&,RFTYPE::Size>* Comparer)
+    const Delegate2<const T&,const T&,RFTYPE::Size>* Comparer)
 {
     RFTYPE::Size left=Index,right=Index+Length-1,middle;
     while(left<=right && right < m_ElementCount)
@@ -1202,11 +1212,15 @@ RFTYPE::Size Array<T,SP,MA,MO>::FindLastIndex(
     RFTYPE::Size StartIndex, RFTYPE::Size Count, 
     const Delegate1<T,RFTYPE::Bool>& Match)
 {
-    Assert(m_Rank==1,"Unexpected dimension of array.");                
-    RFTYPE::Size end=StartIndex-(Count-1);
-    for (RFTYPE::Size i=StartIndex;i>=end;--i)
+    Assert(m_Rank==1,"Unexpected dimension of array.");
+    RFTYPE::Int32 end = StartIndex - (Count - 1);
+    for (RFTYPE::Int32 i = StartIndex; i >= end; --i)
+    {
         if (Match(m_Data[i]))
+        {
             return i;
+        }
+    }
     return -1;
 }
 
@@ -1344,12 +1358,16 @@ RFTYPE::Size Array<T,SP,MA,MO>::LastIndexOf(
     const T& Value, const RFTYPE::Size StartIndex,
     const RFTYPE::Size Count)
 {
-    Assert(m_Rank==1,"Unexpected dimension of array.");                
-    RFTYPE::Size end=StartIndex-(Count-1);
+    Assert(m_Rank==1,"Unexpected dimension of array.");
+    RFTYPE::Int32 end=StartIndex-(Count-1);
     Assert(end>=0,"Operation out of bound.");
-    for (RFTYPE::Size i=StartIndex;i>=end;--i)
+    for (RFTYPE::Int32 i = StartIndex; i >= end; --i)
+    {
         if (m_Data[i]==Value)
+        {
             return i;
+        }
+    }
     return -1;
 }
 
@@ -1459,147 +1477,156 @@ void Array<T,SP,MA,MO>::SetValue(const T& Value,
 }
 
 template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Sort(const Delegate2<T&,T&,RFTYPE::Size>& Comparer)
+void Array<T,SP,MA,MO>::Sort(const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer)
 {
-    Sort(0,m_ElementCount,Comparer);
+    Sort(0,m_ElementCount-1,Comparer);
 }
 
 template<typename T, typename SP, typename MA, typename MO>
 void Array<T,SP,MA,MO>::Sort(RFTYPE::Size Index, 
-    RFTYPE::Size Length,
-    const Delegate2<T&,T&,RFTYPE::Size>& Comparer)
+    RFTYPE::Size LastIndex,
+    const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer)
 {
-    Assert(Index+Length<=m_ElementCount,"Index out of bound.");
+    Assert(LastIndex < m_ElementCount,"Index out of bound.");
+    if (LastIndex <= Index)
+        return;
 
-    // look at http://alienryderflex.com/quicksort/ for more details
-    #define  MAX_LEVELS  300
-    T piv;
-    RFTYPE::Int64  i = 0, beg[MAX_LEVELS], end[MAX_LEVELS], L, R, swap ;
-    beg[0]=Index; end[0]=Index+Length;
+    T swap;
 
-    while (i>=0) 
+    T pivot1 = m_Data[Index];
+    T pivot2 = m_Data[LastIndex];
+
+    if (Comparer(pivot1,pivot2) > 0)
     {
-        L=beg[i]; 
-        R=end[i]-1;
-        // Continue if there are at least 2 elements left.
-        if (L<R) 
+        Exchange(Index, LastIndex);
+        pivot1 = m_Data[Index];
+        pivot2 = m_Data[LastIndex];
+    }
+    else
+    {
+        if (Comparer(pivot1,pivot2) == 0)
         {
-            piv=this->m_Data[L];
-
-            while (L<R) 
+            while(Comparer(pivot1,pivot2) == 0 && Index<LastIndex)
             {
-                while (Comparer(this->m_Data[R],piv)>=0 && L<R) 
-                    R--; 
-
-                if (L<R) 
-                    this->m_Data[L++]=this->m_Data[R];
-
-                while (Comparer(this->m_Data[L],piv)<=0 && L<R) 
-                    L++; 
-
-                if (L<R) 
-                    this->m_Data[R--]=this->m_Data[L]; 
-            }
-
-            this->m_Data[L]=piv; 
-            beg[i+1]=L+1; 
-            end[i+1]=end[i]; 
-            end[i++]=L;
-
-            if (end[i]-beg[i]>end[i-1]-beg[i-1]) 
-            {
-                swap=beg[i]; 
-                beg[i]=beg[i-1]; 
-                beg[i-1]=swap;
-                swap=end[i]; 
-                end[i]=end[i-1]; 
-                end[i-1]=swap; 
+                ++Index;
+                pivot1 = m_Data[Index];
             }
         }
-        else 
-            i--;
     }
+
+    Size i = Index+1;
+    Size lt = Index+1;
+    Size gt = LastIndex-1;
+
+    while(i <= gt)
+    {
+        if (Comparer(m_Data[i], pivot1) < 0)
+        {
+            Exchange(i++, lt++);
+        }
+        else
+        {
+            if (Comparer(pivot2, m_Data[i]) < 0)
+            {
+                Exchange(i, gt--);
+            }
+            else
+            {
+                ++i;
+            }
+        }
+    }
+
+    Exchange(Index, --lt);
+    Exchange(LastIndex, ++gt);
+
+    if (lt > 0)
+        Sort(Index, lt-1, Comparer);
+    if (gt > 0)
+        Sort(lt+1,gt-1, Comparer);
+    Sort(gt+1, LastIndex, Comparer);
 }
 
 template<typename T, typename SP, typename MA, typename MO>
 template<typename TKey, typename TValue>
 void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys, 
     Array<TValue,SP,MA,MO>& Items,
-    const Delegate2<T&,T&,RFTYPE::Size>& Comparer)
+    const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer)
 {
-    Sort(Keys,Items,0,Keys.m_ElementCount,Comparer);
+    Sort(Keys,Items,0,Keys.m_ElementCount-1,Comparer);
 }
 
 template<typename T, typename SP, typename MA, typename MO>
 template <typename TKey, typename TValue>
-void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys, 
-                                    Array<TValue,SP,MA,MO>& Items,
-                                    RFTYPE::Size Index, 
-                                    RFTYPE::Size Length,
-                const Delegate2<T&,T&,RFTYPE::Size>& Comparer)
+void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys,
+    Array<TValue,SP,MA,MO>& Items, RFTYPE::Size Index, RFTYPE::Size LastIndex,
+    const Delegate2<const T&,const T&,RFTYPE::Size>& Comparer)
 {
     Assert(Keys.m_ElementCount==Items.m_ElementCount,"Invalid parameter.");
-    Assert((Index+Length)<=Keys.m_ElementCount,"Index out of bound.");
+    Assert(LastIndex<Keys.m_ElementCount,"Index out of bound.");
 
-    // look at http://alienryderflex.com/quicksort/ for more details
-    #define  MAX_LEVELS  300
-    TKey key;
-    TValue value;
-    RFTYPE::Int64  beg[MAX_LEVELS], end[MAX_LEVELS], i=0, L, R, swap ;
-    beg[0]=Index; end[0]=Index+Length;
+    if (LastIndex <= Index)
+        return;
 
-    while (i>=0) 
+    T swap;
+
+    T pivot1 = Items.Item(Index);
+    T pivot2 = Items.Item(LastIndex);
+
+    if (Comparer(pivot1, pivot2) > 0)
     {
-        L=beg[i]; 
-        R=end[i]-1;
-
-        if (L<R) 
+        Items.Exchange(Index, LastIndex);
+        Keys.Exchange(Index, LastIndex);
+        pivot1 = Items.Item(Index);
+        pivot2 = Items.Item(LastIndex);
+    }
+    else
+    {
+        if (Comparer(pivot1, pivot2) == 0)
         {
-            key=Keys.Item(L);
-            value=Items.Item(L);
-
-            while (L<R) 
+            while(Comparer(pivot1, pivot2) == 0 && Index < LastIndex)
             {
-                while (Comparer(Items.Item(R),value)>=0 && L<R) 
-                    R--; 
-
-                if (L<R) 
-                {
-                    Items.Item(L,Items.Item(R));
-                    Keys.Item(L,Keys.Item(R));
-                    ++L;
-                }
-
-                while (Comparer(Items.Item(L),value)<=0 && L<R) 
-                    L++; 
-
-                if (L<R) 
-                {
-                    Items.Item(R,Items.Item(L));
-                    Keys.Item(R,Keys.Item(L));
-                    --R;
-                }
-            }
-
-            Keys.Item(L,key); 
-            Items.Item(L,value); 
-            beg[i+1]=L+1; 
-            end[i+1]=end[i]; 
-            end[i++]=L;
-
-            if (end[i]-beg[i]>end[i-1]-beg[i-1]) 
-            {
-                swap=beg[i]; 
-                beg[i]=beg[i-1]; 
-                beg[i-1]=swap;
-                swap=end[i]; 
-                end[i]=end[i-1]; 
-                end[i-1]=swap; 
+                ++Index;
+                pivot1 = Items.Item(Index);
             }
         }
-        else 
-            i--;
     }
+
+    Size i = Index+1;
+    Size lt = Index+1;
+    Size gt = LastIndex-1;
+
+    while(i <= gt)
+    {
+        if (Comparer(Items.Item(i), pivot1) < 0)
+        {
+            Keys.Exchange(i, lt);
+            Items.Exchange(i++, lt++);
+        }
+        else
+        {
+            if (Comparer(pivot2, Items.Item(i)) < 0)
+            {
+                Keys.Exchange(i, gt);
+                Items.Exchange(i, gt--);
+            }
+            else
+            {
+                ++i;
+            }
+        }
+    }
+
+    Items.Exchange(Index, --lt);
+    Keys.Exchange(Index, lt);
+    Items.Exchange(LastIndex, ++gt);
+    Keys.Exchange(LastIndex, gt);
+
+    if (lt > 0)
+        Sort(Keys, Items, Index, lt-1, Comparer);
+    if (gt > 0)
+        Sort(Keys, Items, lt+1,gt-1, Comparer);
+    Sort(Keys, Items, gt+1, LastIndex, Comparer);
 }
 
 template<typename T, typename SP, typename MA, typename MO>

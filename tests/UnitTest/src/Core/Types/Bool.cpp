@@ -14,7 +14,8 @@ public:
     BoolTest()
     :TestSuite("RadonFramework::Core::Types::Bool-Test")
     {
-        AddTest(MakeDelegate(this, &BoolTest::Assign),"Assign");
+        AddTest(MakeDelegate(this, &BoolTest::Assign),
+            "BoolTest::Assign", "Assign");
     }
 
     Bool Assign()

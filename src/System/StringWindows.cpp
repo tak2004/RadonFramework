@@ -49,14 +49,24 @@ Size Length(const UInt8* Buffer, const Size BufferSize)
 
 Bool ToInt64(const String& Instance, Int32 Base, Int64& Out)
 {
+    errno = 0;
     Out = strtol(Instance.c_str(), 0, Base);
-    return !(errno == ERANGE && (Out == LONG_MIN || Out == LONG_MAX));
+
+    Bool noNumber = Out == 0 && Instance.c_str() != 0 && Instance != "0";
+    Bool outOfRange = errno == ERANGE && (Out == LONG_MIN || Out == LONG_MAX);
+
+    return noNumber == false && outOfRange == false;
 }
 
 Bool ToUInt64(const String& Instance, Int32 Base, UInt64& Out)
 {
+    errno = 0;
     Out = strtoul(Instance.c_str(), 0, Base);
-    return !(errno == ERANGE && Out == ULONG_MAX);
+
+    Bool noNumber = Out == 0 && Instance.c_str() != 0 && Instance != "0";
+    Bool outOfRange = errno == ERANGE && Out == ULONG_MAX;
+    
+    return noNumber == false && outOfRange == false;
 }
 
 Bool ToFloat64(const String& Instance, Float64& Out)

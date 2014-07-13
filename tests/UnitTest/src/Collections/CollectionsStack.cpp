@@ -14,12 +14,18 @@ class CollectionsStackTest:public RadonFramework::Diagnostics::Debugging::UnitTe
         CollectionsStackTest()
             :TestSuite("RadonFramework::Collections::Stack-Test")
         {
-            AddTest(MakeDelegate(this,&CollectionsStackTest::Constructor),"Constructor");
-            AddTest(MakeDelegate(this,&CollectionsStackTest::Push),"Push");
-            AddTest(MakeDelegate(this,&CollectionsStackTest::Pop),"Pop");
-            AddTest(MakeDelegate(this,&CollectionsStackTest::Clear),"Clear");
-            AddTest(MakeDelegate(this,&CollectionsStackTest::Size),"Size");
-            AddTest(MakeDelegate(this,&CollectionsStackTest::Peek),"Peek");
+            AddTest(MakeDelegate(this,&CollectionsStackTest::Constructor),
+                "CollectionsStackTest::Constructor", "Constructor");
+            AddTest(MakeDelegate(this,&CollectionsStackTest::Push),
+                "CollectionsStackTest::Push", "Push");
+            AddTest(MakeDelegate(this,&CollectionsStackTest::Pop),
+                "CollectionsStackTest::Pop", "Pop");
+            AddTest(MakeDelegate(this,&CollectionsStackTest::Clear),
+                "CollectionsStackTest::Clear", "Clear");
+            AddTest(MakeDelegate(this,&CollectionsStackTest::Size),
+                "CollectionsStackTest::Size", "Size");
+            AddTest(MakeDelegate(this,&CollectionsStackTest::Peek),
+                "CollectionsStackTest::Peek", "Peek");
         }
 
         Bool Constructor()

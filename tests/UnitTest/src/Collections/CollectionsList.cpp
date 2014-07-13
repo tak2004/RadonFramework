@@ -12,20 +12,34 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
         CollectionsListTest()
         :TestSuite("Collections::List-Test")
         {
-            AddTest(MakeDelegate(this,&CollectionsListTest::Constructor),"Constructor");
-            AddTest(MakeDelegate(this,&CollectionsListTest::FindFail),"FindFail");
-            AddTest(MakeDelegate(this,&CollectionsListTest::AddAfter),"AddAfter");
-            AddTest(MakeDelegate(this,&CollectionsListTest::AddBefore),"AddBefore");
-            AddTest(MakeDelegate(this,&CollectionsListTest::AddLast),"AddLast");
-            AddTest(MakeDelegate(this,&CollectionsListTest::AddFirst),"AddFirst");
-            AddTest(MakeDelegate(this,&CollectionsListTest::AddList),"AddList");
-            AddTest(MakeDelegate(this,&CollectionsListTest::Item),"Item");
-            AddTest(MakeDelegate(this,&CollectionsListTest::Insert),"Insert");
-            AddTest(MakeDelegate(this,&CollectionsListTest::FindMatch),"FindMatch");
-            AddTest(MakeDelegate(this,&CollectionsListTest::ClearList),"ClearList");
-            AddTest(MakeDelegate(this,&CollectionsListTest::RemoveIterator),"RemoveIterator");
-            AddTest(MakeDelegate(this,&CollectionsListTest::RemoveAt),"RemoveAt");
-            AddTest(MakeDelegate(this,&CollectionsListTest::CheckListSize),"CheckListSize");
+            AddTest(MakeDelegate(this,&CollectionsListTest::Constructor),
+                "CollectionsListTest::Constructor", "Constructor");
+            AddTest(MakeDelegate(this,&CollectionsListTest::FindFail),
+                "CollectionsListTest::FindFail", "FindFail");
+            AddTest(MakeDelegate(this,&CollectionsListTest::AddAfter),
+                "CollectionsListTest::AddAfter", "AddAfter");
+            AddTest(MakeDelegate(this,&CollectionsListTest::AddBefore),
+                "CollectionsListTest::AddBefore", "AddBefore");
+            AddTest(MakeDelegate(this,&CollectionsListTest::AddLast),
+                "CollectionsListTest::AddLast", "AddLast");
+            AddTest(MakeDelegate(this,&CollectionsListTest::AddFirst),
+                "CollectionsListTest::AddFirst", "AddFirst");
+            AddTest(MakeDelegate(this,&CollectionsListTest::AddList),
+                "CollectionsListTest::AddList", "AddList");
+            AddTest(MakeDelegate(this,&CollectionsListTest::Item),
+                "CollectionsListTest::Item", "Item");
+            AddTest(MakeDelegate(this,&CollectionsListTest::Insert),
+                "CollectionsListTest::Insert", "Insert");
+            AddTest(MakeDelegate(this,&CollectionsListTest::FindMatch),
+                "CollectionsListTest::FindMatch", "FindMatch");
+            AddTest(MakeDelegate(this,&CollectionsListTest::ClearList),
+                "CollectionsListTest::ClearList", "ClearList");
+            AddTest(MakeDelegate(this,&CollectionsListTest::RemoveIterator),
+                "CollectionsListTest::RemoveIterator", "RemoveIterator");
+            AddTest(MakeDelegate(this,&CollectionsListTest::RemoveAt),
+                "CollectionsListTest::RemoveAt", "RemoveAt");
+            AddTest(MakeDelegate(this,&CollectionsListTest::CheckListSize),
+                "CollectionsListTest::CheckListSize", "CheckListSize");
         }
 
         RadonFramework::Core::Types::Bool Constructor()

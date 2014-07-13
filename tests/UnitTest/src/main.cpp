@@ -1,6 +1,7 @@
 #include "precompiled.hpp"
 #include <RadonFramework/Radon.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/TestResultCollector.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/BriefProgressCollector.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/DebugCollector.hpp>
@@ -34,6 +35,34 @@ int main(int argc, char** argv)
     Singleton<UnitTest>::GetInstance().AddCollector(results);
     Singleton<UnitTest>::GetInstance().AddCollector(progress);
     Singleton<UnitTest>::GetInstance().AddCollector(DebugCollector());
+
+    TestSuite* bitArrayTestSuite = Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitArray-Test");
+    if (bitArrayTestSuite)
+    {
+        bitArrayTestSuite->IgnoreTest("BitArrayTest::Constructor");
+        bitArrayTestSuite->IgnoreTest("BitArrayTest::Resize");
+    }
+
+    TestSuite* bitSetTestSuite = Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitSet-Test");
+    if (bitSetTestSuite)
+    {
+        bitSetTestSuite->IgnoreTest("BitSetTest::UnequalCompareOperator");
+    }
+
+    TestSuite* queueTestSuite = Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::Queue-Test");
+    if (queueTestSuite)
+    {
+        queueTestSuite->IgnoreTest("QueueTest::Dequeue");
+    }
+
+    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Core::Types::StringBuilder-Test");
+
+    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::Directory-Test");
+
+    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::File-Test");
+
+    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Memory");
+
     Singleton<UnitTest>::GetInstance().Run();
 
     JUnitOutput output;

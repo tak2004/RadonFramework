@@ -26,6 +26,11 @@ Char* DynamicString::Raw()
     return m_Buffer;
 }
 
+Size DynamicString::GetSize() const
+{
+    return m_Size;
+}
+
 void DynamicString::Free()
 {
     if (m_Buffer)

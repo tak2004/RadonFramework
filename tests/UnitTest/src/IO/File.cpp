@@ -11,18 +11,19 @@ using namespace RadonFramework::IO;
 
 class FileTest:public TestSuite
 {
-    public:
-        FileTest()
-        :TestSuite("RadonFramework::IO::File-Test")
-        {
-            AddTest(MakeDelegate(this,&FileTest::CreateTempFile),"CreateTempFile");
-        }
+public:
+    FileTest()
+    :TestSuite("RadonFramework::IO::File-Test")
+    {
+        AddTest(MakeDelegate(this,&FileTest::CreateTempFile),
+            "FileTest::CreateTempFile", "CreateTempFile");
+    }
 
-        RadonFramework::Core::Types::Bool CreateTempFile()
-        {
-            AutoPointer<File> tmp(File::CreateTempFile());
-            return tmp && tmp->Name()!="";
-        }
+    RadonFramework::Core::Types::Bool CreateTempFile()
+    {
+        AutoPointer<File> tmp(File::CreateTempFile());
+        return tmp && tmp->Name()!="";
+    }
 };
 
 FileTest FileTestInstance;

@@ -15,27 +15,48 @@ class ConvertTest:public TestSuite
         ConvertTest()
         :TestSuite("RadonFramework::Core::Types::Convert-Test")
         {
-            AddTest(MakeDelegate(this,&ConvertTest::StringToBool),"StringToBool");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToInt8),"StringToInt8");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToInt16),"StringToInt16");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToInt32),"StringToInt32");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToInt64),"StringToInt64");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt8),"StringToUInt8");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt16),"StringToUInt16");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt32),"StringToUInt32");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt64),"StringToUInt64");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToFloat32),"StringToFloat32");
-            AddTest(MakeDelegate(this,&ConvertTest::StringToFloat64),"StringToFloat64");
-            AddTest(MakeDelegate(this,&ConvertTest::Int8ToString),"Int8ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::Int16ToString),"Int16ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::Int32ToString),"Int32ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::Int64ToString),"Int64ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::UInt8ToString),"UInt8ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::UInt16ToString),"UInt16ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::UInt32ToString),"UInt32ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::UInt64ToString),"UInt64ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::Float32ToString),"Float32ToString");
-            AddTest(MakeDelegate(this,&ConvertTest::Float64ToString),"Float64ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToBool),
+                "ConvertTest::StringToBool", "StringToBool");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToInt8),
+                "ConvertTest::StringToInt8", "StringToInt8");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToInt16),
+                "ConvertTest::StringToInt16", "StringToInt16");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToInt32),
+                "ConvertTest::StringToInt32", "StringToInt32");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToInt64),
+                "ConvertTest::StringToInt64", "StringToInt64");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt8),
+                "ConvertTest::StringToUInt8", "StringToUInt8");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt16),
+                "ConvertTest::StringToUInt16", "StringToUInt16");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt32),
+                "ConvertTest::StringToUInt32", "StringToUInt32");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToUInt64),
+                "ConvertTest::StringToUInt64", "StringToUInt64");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToFloat32),
+                "ConvertTest::StringToFloat32", "StringToFloat32");
+            AddTest(MakeDelegate(this,&ConvertTest::StringToFloat64),
+                "ConvertTest::StringToFloat64", "StringToFloat64");
+            AddTest(MakeDelegate(this,&ConvertTest::Int8ToString),
+                "ConvertTest::Int8ToString", "Int8ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::Int16ToString),
+                "ConvertTest::Int16ToString", "Int16ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::Int32ToString),
+                "ConvertTest::Int32ToString", "Int32ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::Int64ToString),
+                "ConvertTest::Int64ToString", "Int64ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::UInt8ToString),
+                "ConvertTest::UInt8ToString", "UInt8ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::UInt16ToString),
+                "ConvertTest::UInt16ToString", "UInt16ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::UInt32ToString),
+                "ConvertTest::UInt32ToString", "UInt32ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::UInt64ToString),
+                "ConvertTest::UInt64ToString", "UInt64ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::Float32ToString),
+                "ConvertTest::Float32ToString", "Float32ToString");
+            AddTest(MakeDelegate(this,&ConvertTest::Float64ToString),
+                "ConvertTest::Float64ToString", "Float64ToString");
         }
 
         RadonFramework::Core::Types::Bool StringToBool()
@@ -67,6 +88,7 @@ class ConvertTest:public TestSuite
             Int16 c,d=127;
             a=Convert::ToInt16(str,c);
             b=Convert::ToInt16(str1,d);
+
             return a && b==false && c==1 && d==127;
         }
 

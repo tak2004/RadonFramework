@@ -13,8 +13,11 @@ struct FixString
     Char operator[](const MemoryRange Index)const;
     const Char* Raw()const;
     Char* Raw();
+    Size GetSize()const;
+    void SetSize(const UInt8 NewSize);
 protected:
     Char m_Buffer[LENGTH];
+    UInt8 m_Size;
 };
 
 template<int LENGTH>
@@ -41,6 +44,19 @@ template<int LENGTH>
 Char* FixString<LENGTH>::Raw()
 {
     return m_Buffer;
+}
+
+template<int LENGTH>
+Size FixString<LENGTH>::GetSize()const
+{
+    return m_Size;
+}
+
+template<int LENGTH>
+void FixString<LENGTH>::SetSize(const UInt8 NewSize)
+{
+    Assert(NewSize <= LENGTH, "Out of bound");
+    m_Size = NewSize;
 }
 
 } } }
