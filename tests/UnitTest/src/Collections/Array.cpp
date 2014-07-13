@@ -17,136 +17,177 @@ public:
     :TestSuite("RadonFramework::Collections::Array-Test")
     {
         AddTest(MakeDelegate(this,&ArrayTest::Constructor),
+            "ArrayTest::Constructor",
             "Constructor");
 
         AddTest(MakeDelegate(this,&ArrayTest::CopyConstructor),
+            "ArrayTest::CopyConstructor",
             "Copy constructor");
 
         AddTest(MakeDelegate(this,&ArrayTest::Constructor1Dimension),
+            "ArrayTest::Constructor1Dimension",
             "Constructor which create a 1 dimensional array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Constructor2Dimension),
+            "ArrayTest::Constructor2Dimension",
             "Constructor which create a 2 dimensional array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Constructor3Dimension),
+            "ArrayTest::Constructor3Dimension",
             "Constructor which create a 3 dimensional array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::ConstructorMultiDimension),
+            "ArrayTest::ConstructorMultiDimension",
             "Constructor which create a multi dimensional array.");
             
         AddTest(MakeDelegate(this,&ArrayTest::Constructor1DimensionC),
+            "ArrayTest::Constructor1DimensionC",
             "Constructor which copy from a 1 dimensional c array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::ItemGet),
+            "ArrayTest::ItemGet",
             "Get the item of a specific index.");
 
         AddTest(MakeDelegate(this,&ArrayTest::ItemSet),
+            "ArrayTest::ItemSet",
             "Set the value of a specific item.");
 
         AddTest(MakeDelegate(this,&ArrayTest::BinarySearch),
+            "ArrayTest::BinarySearch",
             "Search a value in the array with binary search algorithm.");
 
         AddTest(MakeDelegate(this,&ArrayTest::SortComparer),
+            "ArrayTest::SortComparer",
             "Sort the elements of the array by a comparer.");
 
         AddTest(MakeDelegate(this,&ArrayTest::SortArraysComparer),
+            "ArrayTest::SortArraysComparer",
             "Sort the elements of two coupled arrays by a comparer.");
 
         AddTest(MakeDelegate(this,&ArrayTest::TrueForAll),
+            "ArrayTest::TrueForAll",
             "Go through all elements of the array and execute a user \
             defined match algorithm.");
 
         AddTest(MakeDelegate(this,&ArrayTest::FunctionOperatorAccess1D),
+            "ArrayTest::FunctionOperatorAccess1D",
             "Access an element of the array by the function operator.");
 
         AddTest(MakeDelegate(this,&ArrayTest::FunctionOperatorAccess2D),
+            "ArrayTest::FunctionOperatorAccess2D",
             "Access an element of the 2 dimensional array by the function operator.");
 
         AddTest(MakeDelegate(this,&ArrayTest::FunctionOperatorAccess3D),
+            "ArrayTest::FunctionOperatorAccess3D",
             "Access an element of the 3 dimensional array by the function operator.");
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValue1D),
+            "ArrayTest::SetValue1D",
             "Set the value of an element of the 1D array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValue2D),
+            "ArrayTest::SetValue2D",
             "Set the value of an element of the 2D array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValue3D),
+            "ArrayTest::SetValue3D",
             "Set the value of an element of the 3D array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValueVariableDimension),
+            "ArrayTest::SetValueVariableDimension",
             "Set the value of an element of a multi dimension array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::GetLength),
+            "ArrayTest::GetLength",
             "Return the number of elements in the specified dimension of the array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValue1D),
+            "ArrayTest::GetValue1D",
             "Get the value of an element of the 1D array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValue2D),
+            "ArrayTest::GetValue2D",
             "Get the value of an element of the 2D array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValue3D),
+            "ArrayTest::GetValue3D",
             "Get the value of an element of the 3D array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValueVariableDimension),
+            "ArrayTest::GetValueVariableDimension",
             "Get the value of an element of a multi dimension array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Reverse),
+            "ArrayTest::Reverse",
             "Reverses the sequence of the elements in the entire 1D Array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Resize),
+            "ArrayTest::Resize",
             "Changes the number of elements of an array to the specified new size.");
 
         AddTest(MakeDelegate(this,&ArrayTest::LastIndexOf),
+            "ArrayTest::LastIndexOf",
             "Searches for the specified object and returns the index of \
             the last occurrence.");
 
         AddTest(MakeDelegate(this,&ArrayTest::IndexOf),
+            "ArrayTest::IndexOf",
             "Searches for the specified object and returns the index of \
             the first occurrence.");
 
         AddTest(MakeDelegate(this,&ArrayTest::GetEnumerator),
+            "ArrayTest::GetEnumerator",
             "Returns an IEnumerator for the Array.");
 
         AddTest(MakeDelegate(this,&ArrayTest::ForEach),
+            "ArrayTest::ForEach",
             "Execute a method for each element of the array");
 
         AddTest(MakeDelegate(this,&ArrayTest::FindLastIndex),
+            "ArrayTest::FindLastIndex",
             "Searches for the element which pass the method and returns \
             the index of the last occurrence.");
 
         AddTest(MakeDelegate(this,&ArrayTest::FindIndex),
+            "ArrayTest::FindIndex",
             "Searches for the element which pass the method and returns \
             the index of the first occurrence.");
 
         AddTest(MakeDelegate(this,&ArrayTest::FindLast),
+            "ArrayTest::FindLast",
             "Searches for the element which pass the method and returns \
             the index of the last occurrence.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Find),
+            "ArrayTest::Find",
             "Searches for the element which pass the method and returns \
             the index of the first occurrence.");
 
         AddTest(MakeDelegate(this,&ArrayTest::FindAll),
+            "ArrayTest::FindAll",
             "Retrieves all the elements that match the conditions defined \
             by the specified predicate.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Exists),
+            "ArrayTest::Exists",
             "Determines whether the specified array contains elements that \
             match the conditions defined by the specified predicate.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Copy),
+            "ArrayTest::Copy",
             "Copies a range of elements from an Array to an other.");
 
         AddTest(MakeDelegate(this,&ArrayTest::ConvertAll),
+            "ArrayTest::ConvertAll",
             "Converts an array of one type to an array of another type.");
 
         AddTest(MakeDelegate(this,&ArrayTest::ConstrainedCopy),
+            "ArrayTest::ConstrainedCopy",
             "Copies a range of elements from an Array to an other if the \
             Arrays have the same structure.");
 
         AddTest(MakeDelegate(this,&ArrayTest::Clone),
+            "ArrayTest::Clone",
             "Creates a shallow copy of the Array.");
     }
 
@@ -234,7 +275,7 @@ public:
                 16==index3; // case 4                
     }
 
-    Size Int32LargestFirst(Int32& A, Int32& B)
+    Size Int32LargestFirst(const Int32& A, const Int32& B)
     {
         if (A==B)
             return 0;
@@ -254,8 +295,9 @@ public:
             list.Item(i,i);
 
         list.Sort(MakeDelegate(this,&ArrayTest::Int32LargestFirst));
-        return list.Item(0)==15 &&
-                list.Item(15)==0;
+        Bool result1 = list.Item(0)==15;
+        Bool result2 = list.Item(15)==0;
+        return result1 && result2;
     }
 
     Bool SortArraysComparer()
@@ -271,8 +313,11 @@ public:
         }
 
         Array<Int32>::Sort(keys,values,MakeDelegate(this,&ArrayTest::Int32LargestFirst));
-        return keys.Item(0)==15 && values.Item(0)==45 &&
-                keys.Item(15)==0 && values.Item(15)==0;
+        Bool result1 = keys.Item(0)==15;
+        Bool result2 = values.Item(0)==45;
+        Bool result3 = keys.Item(15)==0;
+        Bool result4 = values.Item(15)==0;
+        return result1 && result2 && result3 && result3;
     }
 
     Bool OnlyEvenNumbers(UInt32 value)
@@ -446,9 +491,12 @@ public:
         vec.Item(0,3);
         vec.Item(1,2);
         vec.Item(2,3);
-        return 2==vec.LastIndexOf(3) && -1==vec.LastIndexOf(3,1,1) &&
-                -1==vec.LastIndexOf(0) && 0==vec.LastIndexOf(3,1,2) &&
-                0==vec.LastIndexOf(3,1);
+        Bool result1 = 2==vec.LastIndexOf(3);
+        Bool result2 = -1==vec.LastIndexOf(3,1,1);
+        Bool result3 = -1==vec.LastIndexOf(0);
+        Bool result4 = 0==vec.LastIndexOf(3,1,2);
+        Bool result5 = 0==vec.LastIndexOf(3,1);
+        return result1 && result2 && result3 && result4 && result5;
     }
 
     Bool IndexOf()
@@ -508,9 +556,13 @@ public:
         vec.Item(2,3);
         Delegate1<UInt32,Bool> three=MakeDelegate(this,&ArrayTest::FindThree);
         Delegate1<UInt32,Bool> zero=MakeDelegate(this,&ArrayTest::FindZero);
-        return 2==vec.FindLastIndex(three) && -1==vec.FindLastIndex(1,1,three) &&
-                -1==vec.FindLastIndex(zero) && 0==vec.FindLastIndex(1,2,three) &&
-                0==vec.FindLastIndex(1,three);
+
+        Bool result1 = 2==vec.FindLastIndex(three);
+        Bool result2 = -1==vec.FindLastIndex(1,1,three);
+        Bool result3 = -1==vec.FindLastIndex(zero);
+        Bool result4 = 0==vec.FindLastIndex(1,2,three);
+        Bool result5 = 0==vec.FindLastIndex(1,three);
+        return result1 && result2 && result3 && result4 && result5;
     }
 
     Bool FindIndex()

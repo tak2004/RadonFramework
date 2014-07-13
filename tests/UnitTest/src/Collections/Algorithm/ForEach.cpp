@@ -29,8 +29,10 @@ public:
     :TestSuite("RadonFramework::Collections::Algorithm::ForEach-Test")
     {
         AddTest(MakeDelegate(this, &ForEachTest::CustomCompareFunction),
+            "ForEachTest::CustomCompareFunction",
             "Search on collection with custom compare function.");
         AddTest(MakeDelegate(this, &ForEachTest::CustomCompareFunction2),
+            "ForEachTest::CustomCompareFunction2",
             "Search on collection with custom compare function2.");
     }
 

@@ -15,6 +15,7 @@ class BinarySearchTest: public TestSuite
         :TestSuite("RadonFramework::Collections::Algorithm::BinarySearch-Test")
         {
             AddTest(MakeDelegate(this, &BinarySearchTest::CustomCompareFunction),
+                "BinarySearchTest::CustomCompareFunction",
                 "Search on collection with custom compare function.");
 
         }

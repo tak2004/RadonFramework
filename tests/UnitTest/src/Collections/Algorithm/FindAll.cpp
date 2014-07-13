@@ -30,6 +30,7 @@ public:
     :TestSuite("RadonFramework::Collections::Algorithm::FindAll-Test")
     {
         AddTest(MakeDelegate(this, &FindAllTest::CustomCompareFunction),
+            "FindAllTest::CustomCompareFunction",
             "Search on collection with custom compare function.");
 
     }

@@ -11,6 +11,7 @@ struct DynamicString
     Char& operator[](const MemoryRange Index);
     Char operator[](const MemoryRange Index)const;
     const Char* Raw()const;
+    Size GetSize()const;
     Char* Raw();
     void Free();
 

@@ -105,7 +105,7 @@ public:
     /// Use this to get the size instead of the character amount.
     Size Size()const;
 
-    static const UInt32 BUFFER_SIZE = 27;
+    static const UInt32 BUFFER_SIZE = 26;
     #pragma endregion
 
     #pragma region Methods
@@ -299,18 +299,19 @@ protected:
 
 template<int N>
 String::String(char const (&CString)[N])
-:m_Length(0)// Swap will skip copy to tmp step if m_Length is 0
 {
+    m_Length = RFSTR::Length(reinterpret_cast<const RFTYPE::UInt8*>(CString), N);
     if (N <= BUFFER_SIZE)
     {// the locale buffer is a little bit faster
         m_DataManagment = Common::DataManagment::Copy;
-        m_Length = RFSTR::Length(reinterpret_cast<const RFTYPE::UInt8*>(CString), N);
         RFMEM::Copy(m_FixBuffer.Raw(), CString, N);
+        m_FixBuffer.SetSize(N);
     }
     else
     {// use the pointer of the string literal instead of create a copy
-        String knownStringSize(&CString[0], N, Common::DataManagment::UnmanagedInstance);
-        this->Swap(knownStringSize);
+        m_DataManagment = Common::DataManagment::UnmanagedInstance;
+        m_DynBuffer.m_Buffer = const_cast<RFTYPE::Char*>(reinterpret_cast<const RFTYPE::Char*>(&CString[0]));
+        m_DynBuffer.m_Size = N;
     }
 }
 

@@ -130,7 +130,13 @@ String& operator+=(String &LH, const Int64& Number)
 
 String& operator+=(String &LH, const Char& Character)
 {
-    Size bytes = LH.Size() + 1;
+    const int TERMINATION = 1;
+    Size bytes = LH.Size();
+    if (bytes == 0)
+        bytes = 2;
+    else
+        bytes += TERMINATION;
+
     String newStr(bytes);
     if (LH.Length() > 0)
         RFMEM::Copy(const_cast<char*>(newStr.c_str()), LH.c_str(), bytes);

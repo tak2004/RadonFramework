@@ -16,14 +16,19 @@ class UnitTest
 public:
     UnitTest();
     void AddCollector(Collector& ACollector);
-    void RegisterTestSuide(TestSuite* ATestSuite);
+    void RegisterTestSuite(TestSuite* ATestSuite);
     void Run();
-    void Run(const RFTYPE::String& Testname);
-    void SetSequentialTestExecution(RFTYPE::UInt32 Rounds);
-protected:
+    void RunSuiteWithName(const RFTYPE::String& Suitename);
+    void SetSequentialTestExecution(RFTYPE::Size Probes);
+    void IgnoreSuite(const RFTYPE::String& Suitename);
+    TestSuite* GetSuite(const RFTYPE::String& Suitename);
+private:
+    Collections::List<RFTYPE::String> m_IgnoreSuite;
     Collections::List<TestSuite*> m_TestSuites;
     Collections::List<Collector*> m_Collector;
-    RFTYPE::UInt32 m_TestRounds;
+    RFTYPE::Size m_TestProbes;
+
+    void RunSuiteAt(const RFTYPE::Size Index);
 };
 
 } } } }

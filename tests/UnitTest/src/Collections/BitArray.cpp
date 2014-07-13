@@ -18,28 +18,36 @@ public:
     :TestSuite("RadonFramework::Collections::BitArray-Test")
     {        
         AddTest(MakeDelegate(this, &BitArrayTest::Constructor),
+            "BitArrayTest::Constructor",
             "Constructor");
 
         AddTest(MakeDelegate(this, &BitArrayTest::CopyConstructor),
+            "BitArrayTest::CopyConstructor",
             "Copy constructor");
 
         AddTest(MakeDelegate(this, &BitArrayTest::Constructor1Dimension),
+            "BitArrayTest::Constructor1Dimension",
             "Constructor which create a 1 dimensional BitArray.");
 
         AddTest(MakeDelegate(this, &BitArrayTest::Constructor1DimensionC),
+            "BitArrayTest::Constructor1DimensionC",
             "Constructor which copy from a 1 dimensional c BitArray.");
 
         AddTest(MakeDelegate(this, &BitArrayTest::Resize),
+            "BitArrayTest::Resize",
             "Changes the number of elements of an BitArray to the specified new size.");
 
         AddTest(MakeDelegate(this, &BitArrayTest::Copy),
+            "BitArrayTest::Copy",
             "Copies a range of elements from an BitArray to an other.");
 
         AddTest(MakeDelegate(this, &BitArrayTest::ConstrainedCopy),
+            "BitArrayTest::ConstrainedCopy",
             "Copies a range of elements from an BitArray to an other if the \
                         BitArrays have the same structure.");
 
         AddTest(MakeDelegate(this, &BitArrayTest::Clone),
+            "BitArrayTest::Clone",
             "Creates a shallow copy of the BitArray.");
     }
 

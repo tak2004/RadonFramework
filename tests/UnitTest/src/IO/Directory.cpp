@@ -15,7 +15,8 @@ public:
     DirectoryTest()
     :TestSuite("RadonFramework::IO::Directory-Test")
     {
-        AddTest(MakeDelegate(this,&DirectoryTest::CheckName),"Check directory name");
+        AddTest(MakeDelegate(this,&DirectoryTest::CheckName),
+            "DirectoryTest::CheckName", "Check directory name");
     }
 
     RFTYPE::Bool CheckName()

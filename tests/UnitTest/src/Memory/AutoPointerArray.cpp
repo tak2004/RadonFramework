@@ -13,9 +13,12 @@ public:
     MemoryAutoPointerArrayTest()
         :TestSuite("RadonFramework::Collections::Stack-Test")
     {
-        AddTest(MakeDelegate(this,&MemoryAutoPointerArrayTest::Constructor),"Constructor");
-        AddTest(MakeDelegate(this,&MemoryAutoPointerArrayTest::ConstructorOwnerTransfere),"ConstructorOwnerTransfere");
-        AddTest(MakeDelegate(this,&MemoryAutoPointerArrayTest::ConstructorCopy),"ConstructorCopy");
+        AddTest(MakeDelegate(this,&MemoryAutoPointerArrayTest::Constructor),
+            "MemoryAutoPointerArrayTest::Constructor", "Constructor");
+        AddTest(MakeDelegate(this,&MemoryAutoPointerArrayTest::ConstructorOwnerTransfere),
+            "MemoryAutoPointerArrayTest::ConstructorOwnerTransfere", "ConstructorOwnerTransfere");
+        AddTest(MakeDelegate(this,&MemoryAutoPointerArrayTest::ConstructorCopy),
+            "MemoryAutoPointerArrayTest::ConstructorCopy", "ConstructorCopy");
     }
 
     Bool Constructor()

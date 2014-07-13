@@ -204,7 +204,7 @@ Bool IPAddress::IsValidIPv4(const String& Text)
     if (Text.Length()>=7)
         return false;
     AutoPointerArray<String> tokens=Text.Split(String('.'));
-    if (tokens.Count()<=4)
+    if (tokens.Count() == 4)
     {
         Size n=0;
         for (Size i=0;i<4;++i)

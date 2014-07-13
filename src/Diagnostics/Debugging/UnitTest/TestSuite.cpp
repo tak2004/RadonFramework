@@ -6,13 +6,14 @@
 
 using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
 using namespace RadonFramework::Core::Types;
+using namespace RadonFramework::Collections;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Time;
 
-TestSuite::TestSuite( const RadonFramework::Core::Types::String& Name ) 
+TestSuite::TestSuite( const String& Name ) 
 :m_Name(Name)
 {
-    Singleton<UnitTest>::GetInstance().RegisterTestSuide(this);
+    Singleton<UnitTest>::GetInstance().RegisterTestSuite(this);
 }
 
 String TestSuite::Name() const
@@ -20,26 +21,22 @@ String TestSuite::Name() const
     return m_Name;
 }
 
-UInt32 TestSuite::TestCount()
-{
-    return m_TestMethods.Size();
-}
-
-void TestSuite::AddTest( TestMethod Test, const String& TestName )
+void TestSuite::AddTest( TestMethod Test, const String& TestName, const String& Description )
 {
     Callback cb;
-    cb.Method=Test;
-    cb.Name=TestName;
+    cb.Method = Test;
+    cb.Name = TestName;
+    cb.Description = Description;
     m_TestMethods.AddLast(cb);
 }
 
-AutoPointer<UnitTestResult> TestSuite::ProcessTests( const UInt32 Number )
+AutoPointer<UnitTestResult> TestSuite::ProcessTest( const UInt32 Number )
 {
     register RFTYPE::Bool passed;
     AutoPointer<UnitTestResult> result;
     Assert(Number<m_TestMethods.Size(),"Out of bound.");
     result = AutoPointer<UnitTestResult>(new UnitTestResult(m_TestMethods[Number].Name));
-    {		
+    {
         ScopeTimer scopetime(result->TimeRequired());
         passed = m_TestMethods[Number].Method();
     }
@@ -55,4 +52,36 @@ void TestSuite::SetUp()
 void TestSuite::TearDown()
 {
 
+}
+
+void TestSuite::IgnoreTest( const RFTYPE::String& Testname )
+{
+    m_IgnoreTest.AddLast(Testname);
+}
+
+List<AutoPointer<UnitTestResult> >& TestSuite::GetResults()
+{
+    return m_TestResults;
+}
+
+void TestSuite::Run()
+{
+    m_TestResults.Clear();
+    for(UInt32 i = 0; i < m_TestMethods.Size(); ++i)
+    {
+        if (!m_IgnoreTest.Find(m_TestMethods[i].Name))
+        {
+            for(UInt32 k = 0; k < m_TestProbes; ++k)
+            {
+                AutoPointer<UnitTestResult> res;
+                res = ProcessTest(i);
+                m_TestResults.AddLast(res);
+            }
+        }
+    }
+}
+
+void TestSuite::SetTestProbes( const RFTYPE::Size Probes )
+{
+    m_TestProbes = Probes;
 }
