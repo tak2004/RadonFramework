@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.11)
 project(RadonFramework)
 
-include("${CMAKE_CURRENT_LIST_DIR}/cmake/util/svn.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/util/git.cmake")
 
 OPTION(RADONFRAMEWORK_WITH_VISUALGDB "Generate a VisualGDB target for remote build." OFF)
 mark_as_advanced(RADONFRAMEWORK_WITH_VISUALGDB)
@@ -114,7 +114,7 @@ else()
 	set(RADONFRAMEWORK_MICROCRT "")
 endif()
 
-Subversion_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
+GIT_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
 set(RADONFRAMEWORK_MAJORNUMBER "0")
 set(RADONFRAMEWORK_MINORNUMBER "3")
 set(RADONFRAMEWORK_REVISIONNUMBER "${ProjectRevision}")
