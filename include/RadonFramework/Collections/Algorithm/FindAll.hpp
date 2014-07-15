@@ -4,30 +4,38 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Threading/ThreadPool.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/AtomicInt32.hpp>
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
+#include <RadonFramework/Threading/ThreadPool.hpp>
 #include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Time/TimeSpan.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
+
+#include <RadonFramework/System/Threading/Thread.hpp>
 
 namespace RadonFramework { namespace Collections { namespace Algorithm {
 
 template <class C, typename FUNCTION>
-struct EnumeratorTaskData
+struct FindAllEnumeratorTaskData
 {
     FUNCTION Function;
     typename C::EnumeratorType Enumeable;
-    RFTYPE::UInt32 From;
-    RFTYPE::UInt32 Steps;
-    RFTYPE::AtomicInt32* OverallWork;
-    Array<RFTYPE::UInt8>* Results;
-    RFTYPE::AtomicInt32* Hits;
+    RF_Type::UInt32 From;
+    RF_Type::UInt32 Steps;
+    RF_Type::AtomicInt32* OverallWork;
+    RF_Collect::Array<RF_Type::UInt8>* Results;
+    RF_Type::AtomicInt32* Hits;
 };
 
 template <class C, typename FUNCTION>
-void EnumeratorTaskFunction(void* Data)
+void FindAllEnumeratorTaskFunction(void* Data)
 {
-    auto* data = reinterpret_cast<EnumeratorTaskData<C, FUNCTION>*>(Data);
+    auto* data = reinterpret_cast<FindAllEnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
-    for(RFTYPE::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
+    for(RF_Type::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
     {
         if (data->Function(data->Enumeable))
         {
@@ -43,17 +51,17 @@ void EnumeratorTaskFunction(void* Data)
 }
 
 template <class C, typename FUNCTION>
-Memory::AutoPointerArray<RFTYPE::Size> FindAll(const C& Enumerable, FUNCTION Function)
+Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Function)
 {
     auto enumerator = Enumerable.GetEnumerator();
     
-    RFTYPE::Size elements = enumerator.Size();
-    RFTYPE::UInt32 worker, cport;
-    Singleton<Threading::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
-    RFTYPE::UInt32 jobsPerWorker = 0;    
-    RFTYPE::AtomicInt32 overallWork(elements);
-    RFTYPE::AtomicInt32 hits;
-    Array<RFTYPE::UInt8> results(elements);
+    RF_Type::Size elements = enumerator.Size();
+    RF_Type::UInt32 worker, cport;
+    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
+    RF_Type::UInt32 jobsPerWorker = 0;    
+    RF_Type::AtomicInt32 overallWork(elements);
+    RF_Type::AtomicInt32 hits;
+    RF_Collect::Array<RF_Type::UInt8> results(elements);
     
     if(elements > worker)
     {
@@ -66,11 +74,11 @@ Memory::AutoPointerArray<RFTYPE::Size> FindAll(const C& Enumerable, FUNCTION Fun
         worker = elements;
     }
 
-    for(RFTYPE::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
+    for(RF_Type::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
     {
         if(elements <= i)
             Extra = 0;
-        auto* task = new EnumeratorTaskData<C, FUNCTION>;
+        auto* task = new FindAllEnumeratorTaskData<C, FUNCTION>;
         task->Enumeable = enumerator;
         task->Function = Function;
         task->From = offset;
@@ -78,20 +86,21 @@ Memory::AutoPointerArray<RFTYPE::Size> FindAll(const C& Enumerable, FUNCTION Fun
         task->OverallWork = &overallWork;
         task->Results = &results;
         task->Hits = &hits;
-        Singleton<Threading::ThreadPool>::GetInstance().QueueUserWorkItem(EnumeratorTaskFunction<C, FUNCTION>, task); 
+        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(FindAllEnumeratorTaskFunction<C, FUNCTION>, task);
         offset += jobsPerWorker + Extra;
     }
 
     // Wait for other threads. Sleep(0) will ensure that the thread return if no
     // other process/thread will work for the rest of the time slice on this core.
-    Time::TimeSpan sleep = Time::TimeSpan::CreateByTicks(0);
+    RF_Time::TimeSpan sleep = RF_Time::TimeSpan::CreateByTicks(0);
     while(overallWork != 0)
     {
-        System::Threading::Thread::Sleep(sleep);
+        
+        RadonFramework::System::Threading::Thread::Sleep(sleep);
     }
 
-    Memory::AutoPointerArray<RFTYPE::Size> result(new RFTYPE::Size[hits], hits);
-    for (RFTYPE::Size i = 0, ci = 0; i < elements; ++i)
+    RF_Mem::AutoPointerArray<RF_Type::Size> result(new RF_Type::Size[hits], hits);
+    for (RF_Type::Size i = 0, ci = 0; i < elements; ++i)
     {
         if (results(i) == 1)
         {
@@ -103,5 +112,10 @@ Memory::AutoPointerArray<RFTYPE::Size> FindAll(const C& Enumerable, FUNCTION Fun
 }
 
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_ALGO
+#define RF_SHORTHAND_NAMESPACE_ALGO
+namespace RF_Algo = RadonFramework::Collections::Algorithm;
+#endif
 
 #endif // RF_COLLECTIONS_ALGORITHM_FINDALL_HPP

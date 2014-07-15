@@ -7,7 +7,7 @@ using namespace RadonFramework::System::Time;
 using namespace RadonFramework::Collections;
 
 TimerHandle CreateTimerQueue_SystemAPIDispatcher(TimerCallback Callback, 
-    void* Parameter, RFTYPE::Int32 DueTime, RFTYPE::Int32 Period)
+    void* Parameter, RF_Type::Int32 DueTime, RF_Type::Int32 Period)
 {
     CreateTimerQueue = 0;
     Dispatch();
@@ -86,18 +86,18 @@ Bool RFTIME::IsSuccessfullyDispatched()
     return result;
 }
 
-void RFTIME::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
+void RFTIME::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if (CreateTimerQueue == CreateTimerQueue_SystemAPIDispatcher || CreateTimerQueue == 0) 
-        Result.AddLast(RFTYPE::String("CreateTimerQueue", sizeof("CreateTimerQueue")));
+        Result.AddLast(RF_Type::String("CreateTimerQueue", sizeof("CreateTimerQueue")));
     if (DeleteTimerQueue == DeleteTimerQueue_SystemAPIDispatcher || DeleteTimerQueue == 0) 
-        Result.AddLast(RFTYPE::String("DeleteTimerQueue", sizeof("DeleteTimerQueue")));
+        Result.AddLast(RF_Type::String("DeleteTimerQueue", sizeof("DeleteTimerQueue")));
     if (GetNow == GetNow_SystemAPIDispatcher || GetNow == 0) 
-        Result.AddLast(RFTYPE::String("GetNow", sizeof("GetNow")));
+        Result.AddLast(RF_Type::String("GetNow", sizeof("GetNow")));
     if (GetMinutesWestOfGMT == GetMinutesWestOfGMT_SystemAPIDispatcher || GetMinutesWestOfGMT == 0) 
-        Result.AddLast(RFTYPE::String("GetMinutesWestOfGMT", sizeof("GetMinutesWestOfGMT")));
+        Result.AddLast(RF_Type::String("GetMinutesWestOfGMT", sizeof("GetMinutesWestOfGMT")));
     if (GetHighResolutionCounter == GetHighResolutionCounter_SystemAPIDispatcher || GetHighResolutionCounter == 0) 
-        Result.AddLast(RFTYPE::String("GetHighResolutionCounter", sizeof("GetHighResolutionCounter")));
+        Result.AddLast(RF_Type::String("GetHighResolutionCounter", sizeof("GetHighResolutionCounter")));
     if (IsHighResolutionCounterSupported == IsHighResolutionCounterSupported_SystemAPIDispatcher || IsHighResolutionCounterSupported == 0) 
-        Result.AddLast(RFTYPE::String("IsHighResolutionCounterSupported", sizeof("IsHighResolutionCounterSupported")));
+        Result.AddLast(RF_Type::String("IsHighResolutionCounterSupported", sizeof("IsHighResolutionCounterSupported")));
 }

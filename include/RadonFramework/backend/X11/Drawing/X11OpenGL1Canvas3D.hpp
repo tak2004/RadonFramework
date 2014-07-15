@@ -37,7 +37,7 @@ namespace RadonFramework
         void SetWindowInfos(Forms::IWindow* Window);
         void Clear();
         void SwapBuffer();
-        void UpdateRectangle(Math::Geometry::Rectangle<RFTYPE::Int32> &Rec);
+        void UpdateRectangle(Math::Geometry::Rectangle<RF_Type::Int32> &Rec);
 
         Math::Geometry::Matrix4f& TexturecoordMatrix();
     };

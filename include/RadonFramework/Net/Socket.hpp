@@ -44,25 +44,25 @@ namespace RadonFramework
                 
                 SocketError Connect(const EndPoint& RemoteEP);
                 SocketError Connect(const IPAddress& IP, 
-                                    const RFTYPE::UInt32 Port);
+                                    const RF_Type::UInt32 Port);
                 
                 //SocketError Disconnect();
                 
-                SocketError Listen(const RFTYPE::UInt32 MaxWaitingClients);
+                SocketError Listen(const RF_Type::UInt32 MaxWaitingClients);
                 
-                SocketError Receive(Memory::AutoPointerArray<RFTYPE::UInt8>& Data);
+                SocketError Receive(Memory::AutoPointerArray<RF_Type::UInt8>& Data);
                 
-                SocketError ReceiveFrom(Memory::AutoPointerArray<RFTYPE::UInt8>& Data, 
+                SocketError ReceiveFrom(Memory::AutoPointerArray<RF_Type::UInt8>& Data, 
                                         const EndPoint &RemoteEP);                
                 
-                SocketError Send(const RFTYPE::UInt8* Data, 
-                                 const RFTYPE::UInt32 DataSize,
-                                 RFTYPE::UInt32& SendDataSize);
+                SocketError Send(const RF_Type::UInt8* Data, 
+                                 const RF_Type::UInt32 DataSize,
+                                 RF_Type::UInt32& SendDataSize);
                 /*
-                SocketError::Type SendTo(const Memory::AutoPointerArray<RFTYPE::UInt8> Data,
-                                         const RFTYPE::UInt32 DataSize, 
+                SocketError::Type SendTo(const Memory::AutoPointerArray<RF_Type::UInt8> Data,
+                                         const RF_Type::UInt32 DataSize, 
                                          const EndPoint &RemoteEP, 
-                                         Memory::AutoPointer<RFTYPE::UInt32>& SendDataSize);
+                                         Memory::AutoPointer<RF_Type::UInt32>& SendDataSize);
 
                 SocketError::Type Shutdown(const SocketShutdown::Type How);              
                */

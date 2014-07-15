@@ -4,27 +4,9 @@ set(HDRS_ROOT ${filelist})
 AddSourceDirectory(filelist "src" "Sources")
 set(SRC_ROOT ${filelist})
 	
-AddSourceDirectory(filelist "src/Drawing" "Sources\\Drawing")
-set(SRC_DRAWING ${filelist})
+set(LIBSRCFILES ${SRC_ROOT})
 
-AddHeaderDirectory(filelist "include/RadonFramework/Drawing" "Includes\\Drawing")
-set(HDRS_DRAWING ${filelist})
-
-AddSourceDirectory(filelist "src/Drawing/Forms" "Sources\\Drawing\\Forms")
-set(SRC_DRAWING_FORMS ${filelist})
-
-AddHeaderDirectory(filelist "include/RadonFramework/Drawing/Forms" "Includes\\Drawing\\Forms")
-set(HDRS_DRAWING_FORMS ${filelist})
-
-set(LIBSRCFILES
-	${SRC_ROOT}
-    ${SRC_DRAWING}
-	${SRC_DRAWING_FORMS})
-
-set(LIBHDRFILES
-    ${HDRS_ROOT}
-    ${HDRS_DRAWING}
-	${HDRS_DRAWING_FORMS})
+set(LIBHDRFILES ${HDRS_ROOT})
 
 set(HDRS_BACKEND
     include/RadonFramework/backend/FastDelegate.h
@@ -305,29 +287,51 @@ AddSourceDirectoryRecursive(filelist "src/Net" "Sources\\Net")
 list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Reflection" "Sources\\Reflection")
 list(APPEND LIBSRCFILES ${filelist})
+AddSourceDirectoryRecursive(filelist "src/Drawing" "Sources\\Drawing")
+list(APPEND LIBSRCFILES ${filelist})
+
+macro(GenerateIncludes variable files)
+	foreach(includefile ${files})
+		STRING(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/include/" "" escaped_includefile ${includefile}) 
+		set(${variable} "${${variable}}\n#include <${escaped_includefile}>")
+	endforeach()
+endmacro()
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Reflection" "Includes\\Reflection")
+GenerateIncludes(INCLUDES_REFLECTION "${filelist}")
 list(APPEND LIBHDRFILES ${filelist})	
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Collections" "Includes\\Collections")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_COLLECTIONS "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Core" "Includes\\Core")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_CORE "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Diagnostics" "Includes\\Diagnostics")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_DIAGNOSTICS "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Math" "Includes\\Math")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_MATH "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/IO" "Includes\\IO")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_IO "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Memory" "Includes\\Memory")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_MEMORY "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/System" "Includes\\System")
 list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Threading" "Includes\\Threading")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_THREADING "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Time" "Includes\\Time")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_TIME "${filelist}")
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Net" "Includes\\Net")
 list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_NET "${filelist}")
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Drawing" "Includes\\Drawing")
+list(APPEND LIBHDRFILES ${filelist})
+GenerateIncludes(INCLUDES_DRAWING "${filelist}")
 
 # custom CMake files
 source_group("cmake" FILES "libRadonFramework.cmake")

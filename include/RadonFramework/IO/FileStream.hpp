@@ -15,7 +15,7 @@ namespace RadonFramework
                 FileStream();
                 ~FileStream();
 
-                RFTYPE::Bool Open(const Uri& Location,
+                RF_Type::Bool Open(const Uri& Location,
                                 const System::IO::FileSystem::FileAccessMode::Type Mode,
                                 const System::IO::FileSystem::FileAccessPriority::Type AccessPriority);
 
@@ -23,23 +23,23 @@ namespace RadonFramework
 
                 void Flush();
 
-                RFTYPE::UInt64 Read(RFTYPE::UInt8* Buffer,
-                                  const RFTYPE::UInt64 Index,
-                                  const RFTYPE::UInt64 Count);
+                RF_Type::UInt64 Read(RF_Type::UInt8* Buffer,
+                                  const RF_Type::UInt64 Index,
+                                  const RF_Type::UInt64 Count);
 
-                RFTYPE::UInt64 Seek(const RFTYPE::UInt64 Offset,
+                RF_Type::UInt64 Seek(const RF_Type::UInt64 Offset,
                                   const SeekOrigin::Type Origin);
 
-                RFTYPE::UInt64 Write(const RFTYPE::UInt8* Buffer,
-                                   const RFTYPE::UInt64 Offset,
-                                   const RFTYPE::UInt64 Count);
+                RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer,
+                                   const RF_Type::UInt64 Offset,
+                                   const RF_Type::UInt64 Count);
 
-                RFTYPE::Bool CanRead()const;
-                RFTYPE::Bool CanSeek()const;
-                RFTYPE::Bool CanWrite()const;
-                RFTYPE::Bool CanTimeout()const;
-                RFTYPE::UInt64 Length()const;
-                RFTYPE::UInt64 Position()const;
+                RF_Type::Bool CanRead()const;
+                RF_Type::Bool CanSeek()const;
+                RF_Type::Bool CanWrite()const;
+                RF_Type::Bool CanTimeout()const;
+                RF_Type::UInt64 Length()const;
+                RF_Type::UInt64 Position()const;
                 Time::TimeSpan ReadTimeout()const;
                 Time::TimeSpan WriteTimeout()const;
             protected:

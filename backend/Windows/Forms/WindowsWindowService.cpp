@@ -16,7 +16,7 @@ static String CurrResNotSupportedError(
     "Can't find current resolution in the supported resolution list of this display.",
     sizeof("Can't find current resolution in the supported resolution list of this display."));
 
-WindowsWindowService::WindowsWindowService(const RFTYPE::String &Name)
+WindowsWindowService::WindowsWindowService(const RF_Type::String &Name)
 :WindowService(Name),m_Application(0)
 {
 }

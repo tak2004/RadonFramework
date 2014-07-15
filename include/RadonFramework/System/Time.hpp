@@ -7,7 +7,7 @@
 #include <RadonFramework/Collections/List.hpp>
 
 namespace RadonFramework { namespace System { namespace Time {
-    typedef RadonFramework::Memory::PointerID TimerHandle;
+    typedef RF_Mem::PointerID TimerHandle;
 
     typedef void (*TimerCallback)(void*);
 
@@ -17,20 +17,20 @@ namespace RadonFramework { namespace System { namespace Time {
     /** This function will be called by RadonFraemwork_Init function to
       * check if the dispatching was successfully.
       **/
-    RFTYPE::Bool IsSuccessfullyDispatched();
+    RF_Type::Bool IsSuccessfullyDispatched();
 
     /// This function is for debugging purpose and return all unassigned functions.
-    void GetNotDispatchedFunctions(RadonFramework::Collections::List<RFTYPE::String>& Result);
+    void GetNotDispatchedFunctions(RadonFramework::Collections::List<RF_Type::String>& Result);
 
-    typedef TimerHandle (*CreateTimerQueueCallback)(TimerCallback Callback, void* Parameter, RFTYPE::Int32 DueTime, RFTYPE::Int32 Period);
+    typedef TimerHandle (*CreateTimerQueueCallback)(TimerCallback Callback, void* Parameter, RF_Type::Int32 DueTime, RF_Type::Int32 Period);
     typedef void (*DeleteTimerQueueCallback)(TimerHandle& Handle);
     /// Get time in 100 nanosecond resolution(GMT).
-    typedef RFTYPE::UInt64 (*GetNowCallback)();
+    typedef RF_Type::UInt64 (*GetNowCallback)();
     /// Get time offset to UTC in 10 micro second resolution.
-    typedef RFTYPE::UInt64 (*GetMinutesWestOfGMTCallback)();
+    typedef RF_Type::UInt64 (*GetMinutesWestOfGMTCallback)();
     /// Get time in microsecond resolution.
-    typedef RFTYPE::UInt64 (*GetHighResolutionCounterCallback)();
-    typedef RFTYPE::Bool (*IsHighResolutionCounterSupportedCallback)();
+    typedef RF_Type::UInt64 (*GetHighResolutionCounterCallback)();
+    typedef RF_Type::Bool (*IsHighResolutionCounterSupportedCallback)();
 
     extern CreateTimerQueueCallback CreateTimerQueue;
     extern DeleteTimerQueueCallback DeleteTimerQueue;

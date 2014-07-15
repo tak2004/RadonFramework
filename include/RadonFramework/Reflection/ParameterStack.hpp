@@ -18,8 +18,8 @@ namespace RadonFramework
         {
             void* Data;
             TypeKind::Type Datatype;
-            RFTYPE::UInt32 Datasize;
-            RFTYPE::UInt32 Count;
+            RF_Type::UInt32 Datasize;
+            RF_Type::UInt32 Count;
         };
 
         class ParameterStack
@@ -27,8 +27,8 @@ namespace RadonFramework
             public:
                 ParameterStack();
                 ~ParameterStack();
-                void Push(const void* Data, const TypeKind::Type Datatype, const RFTYPE::UInt32 Count=1);
-                void Push(const void* Data, const RFTYPE::UInt32 Datasize, const RFTYPE::UInt32 Count=1);
+                void Push(const void* Data, const TypeKind::Type Datatype, const RF_Type::UInt32 Count=1);
+                void Push(const void* Data, const RF_Type::UInt32 Datasize, const RF_Type::UInt32 Count=1);
 
                 void Pop();
                 void ResetCursor();
@@ -42,12 +42,12 @@ namespace RadonFramework
                     return 0;
                 }
                 TypeKind::Type TopType();
-                RFTYPE::Bool IsEmpty();
-                RFTYPE::Bool IsSameType(const ParameterStack &Stack);
-                RFTYPE::UInt32 Size() const;
+                RF_Type::Bool IsEmpty();
+                RF_Type::Bool IsSameType(const ParameterStack &Stack);
+                RF_Type::UInt32 Size() const;
             protected:
                 std::vector<Parameter> m_Parameters;
-                RFTYPE::Int32 m_Cursor;
+                RF_Type::Int32 m_Cursor;
         };
     }
 }

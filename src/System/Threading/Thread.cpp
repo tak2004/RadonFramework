@@ -252,7 +252,7 @@ inline Bool ThrImplementationSetAffinityMask(void* Data, const BitArray<>& NewVa
     );
     for (Size i = 0; i < end; ++i)
     {
-        threadAffinityMask |= NewValue.Test(i) << i;
+        threadAffinityMask |= static_cast<DWORD_PTR>(NewValue.Test(i)) << i;
     }
     return SetThreadAffinityMask(p->thread, threadAffinityMask);
 }

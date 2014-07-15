@@ -8,39 +8,42 @@
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/System/IO/FileSystem.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace IO {
+        
+class FileWatcher: RF_Pattern::IObserver
 {
-    namespace IO
-    {
-        class FileWatcher: IObserver
-        {
-            public:
-                FileWatcher();
-                FileWatcher(const FileWatcher& Copy);
-                ~FileWatcher();
+public:
+    FileWatcher();
+    FileWatcher(const FileWatcher& Copy);
+    ~FileWatcher();
 
-                void Initialize(const Uri& Path,
-                                const RFTYPE::String& Filter = RFTYPE::String("",1));
+    void Initialize(const Uri& Path,
+                    const RF_Type::String& Filter = RF_Type::String("",1));
                 
-                const Uri& Path()const;
-                const RFTYPE::String& Filter();
+    const Uri& Path()const;
+    const RF_Type::String& Filter();
 
-                /// Retun False on time out else True.
-                RFTYPE::Bool WaitForEvent(System::IO::FileSystem::FileWatcherEvent& Event);
+    /// Retun False on time out else True.
+    RF_Type::Bool WaitForEvent(System::IO::FileSystem::FileWatcherEvent& Event);
 
-                void Start();
-                void ProcessBuffer();
-                void Stop();
+    void Start();
+    void ProcessBuffer();
+    void Stop();
 
-                Event<const RFTYPE::String&> OnCreated;
-                Event<const RFTYPE::String&> OnChanged;
-                Event<const RFTYPE::String&> OnDeleted;
-            private:
-                System::IO::FileSystem::FileWatcherHandle m_Handle;
-                RFTYPE::String m_Filter;
-                Uri m_Path;
-        };
-    }
-}
+    RF_Pattern::Event<const RF_Type::String&> OnCreated;
+    RF_Pattern::Event<const RF_Type::String&> OnChanged;
+    RF_Pattern::Event<const RF_Type::String&> OnDeleted;
+private:
+    System::IO::FileSystem::FileWatcherHandle m_Handle;
+    RF_Type::String m_Filter;
+    Uri m_Path;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_IO_FILEWATCHER_HPP

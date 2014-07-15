@@ -78,7 +78,7 @@ Bool ToFloat64(const String& Instance, Float64& Out)
            Math::Math<Float64>::FAbs(Out - HUGE_VAL) < Math::Math<Float64>::EPSILION));
 }
 
-Int32 Format(RFTYPE::UInt8* Buffer, RFTYPE::Size BufferSize, const String& Format, va_list arg)
+Int32 Format(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, const String& Format, va_list arg)
 {
     return vsnprintf(reinterpret_cast<char*>(Buffer), BufferSize, Format.c_str(), arg);
 }

@@ -7,7 +7,7 @@
 using namespace RadonFramework::System::Hardware;
 using namespace RadonFramework::Collections;
 
-RFTYPE::UInt32 GetAvailableLogicalProcessorCount_SystemAPIDispatcher()
+RF_Type::UInt32 GetAvailableLogicalProcessorCount_SystemAPIDispatcher()
 {
     GetAvailableLogicalProcessorCount = 0;
     Dispatch();
@@ -17,7 +17,7 @@ RFTYPE::UInt32 GetAvailableLogicalProcessorCount_SystemAPIDispatcher()
     return GetAvailableLogicalProcessorCount();
 }
 
-RFTYPE::UInt32 GetCurrentProcessorNumber_SystemAPIDispatcher()
+RF_Type::UInt32 GetCurrentProcessorNumber_SystemAPIDispatcher()
 {
     GetCurrentProcessorNumber = 0;
     Dispatch();
@@ -27,7 +27,7 @@ RFTYPE::UInt32 GetCurrentProcessorNumber_SystemAPIDispatcher()
     return GetCurrentProcessorNumber();
 }
 
-RFTYPE::Bool GetCacheInfo_SystemAPIDispatcher(CacheInfo& Info, RFTYPE::UInt32 Index)
+RF_Type::Bool GetCacheInfo_SystemAPIDispatcher(CacheInfo& Info, RF_Type::UInt32 Index)
 {
     GetCacheInfo = 0;
     Dispatch();
@@ -37,7 +37,7 @@ RFTYPE::Bool GetCacheInfo_SystemAPIDispatcher(CacheInfo& Info, RFTYPE::UInt32 In
     return GetCacheInfo(Info, Index);
 }
 
-RFTYPE::Int32 GetCacheCount_SystemAPIDispatcher()
+RF_Type::Int32 GetCacheCount_SystemAPIDispatcher()
 {
     GetCacheCount = 0;
     Dispatch();
@@ -47,7 +47,7 @@ RFTYPE::Int32 GetCacheCount_SystemAPIDispatcher()
     return GetCacheCount();
 }
 
-RFTYPE::Bool GetLogicalProcessorFeatures_SystemAPIDispatcher(ProcessorFeatureMask& Features)
+RF_Type::Bool GetLogicalProcessorFeatures_SystemAPIDispatcher(ProcessorFeatureMask& Features)
 {
     GetLogicalProcessorFeatures = 0;
     Dispatch();
@@ -63,9 +63,9 @@ RFHDW::GetCacheInfoCallback RFHDW::GetCacheInfo = GetCacheInfo_SystemAPIDispatch
 RFHDW::GetCacheCountCallback RFHDW::GetCacheCount = GetCacheCount_SystemAPIDispatcher;
 RFHDW::GetLogicalProcessorFeaturesCallback RFHDW::GetLogicalProcessorFeatures = GetLogicalProcessorFeatures_SystemAPIDispatcher;
 
-RFTYPE::Bool RFHDW::IsSuccessfullyDispatched()
+RF_Type::Bool RFHDW::IsSuccessfullyDispatched()
 {
-    RFTYPE::Bool result = true;
+    RF_Type::Bool result = true;
     result = result && GetAvailableLogicalProcessorCount != GetAvailableLogicalProcessorCount_SystemAPIDispatcher && GetAvailableLogicalProcessorCount != 0;
     result = result && GetCurrentProcessorNumber != GetCurrentProcessorNumber_SystemAPIDispatcher && GetCurrentProcessorNumber != 0;
     result = result && GetCacheInfo != GetCacheInfo_SystemAPIDispatcher && GetCacheInfo != 0;
@@ -74,16 +74,16 @@ RFTYPE::Bool RFHDW::IsSuccessfullyDispatched()
     return result;
 }
 
-void RFHDW::GetNotDispatchedFunctions( List<RFTYPE::String>& Result )
+void RFHDW::GetNotDispatchedFunctions( List<RF_Type::String>& Result )
 {
     if (GetAvailableLogicalProcessorCount == GetAvailableLogicalProcessorCount_SystemAPIDispatcher || GetAvailableLogicalProcessorCount == 0) 
-        Result.AddLast(RFTYPE::String("GetAvailableLogicalProcessorCount", sizeof("GetAvailableLogicalProcessorCount")));
+        Result.AddLast(RF_Type::String("GetAvailableLogicalProcessorCount", sizeof("GetAvailableLogicalProcessorCount")));
     if (GetCurrentProcessorNumber == GetCurrentProcessorNumber_SystemAPIDispatcher || GetCurrentProcessorNumber == 0) 
-        Result.AddLast(RFTYPE::String("GetCurrentProcessorNumber", sizeof("GetCurrentProcessorNumber")));
+        Result.AddLast(RF_Type::String("GetCurrentProcessorNumber", sizeof("GetCurrentProcessorNumber")));
     if (GetCacheInfo == GetCacheInfo_SystemAPIDispatcher || GetCacheInfo == 0) 
-        Result.AddLast(RFTYPE::String("GetCacheInfo", sizeof("GetCacheInfo")));
+        Result.AddLast(RF_Type::String("GetCacheInfo", sizeof("GetCacheInfo")));
     if (GetCacheCount == GetCacheCount_SystemAPIDispatcher || GetCacheCount == 0) 
-        Result.AddLast(RFTYPE::String("GetCacheCount", sizeof("GetCacheCount")));
+        Result.AddLast(RF_Type::String("GetCacheCount", sizeof("GetCacheCount")));
     if (GetLogicalProcessorFeatures == GetLogicalProcessorFeatures_SystemAPIDispatcher || GetLogicalProcessorFeatures == 0) 
-        Result.AddLast(RFTYPE::String("GetLogicalProcessorFeatures", sizeof("GetLogicalProcessorFeatures")));
+        Result.AddLast(RF_Type::String("GetLogicalProcessorFeatures", sizeof("GetLogicalProcessorFeatures")));
 }

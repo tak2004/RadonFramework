@@ -5,28 +5,31 @@
 #endif // _MSC_VER > 1000
 
 #include <RadonFramework/Collections/HashMap.hpp>
-#include <RadonFramework/Collections/Generic/Array.hpp>
+#include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Collections { namespace SceneGraph {
+
+template<class NodePolicies>
+class SceneGraph
 {
-    namespace Collections
+public:
+    class Node:public NodePolicies
     {
-        template<class NodePolicies>
-        class SceneGraph
-        {
-            public:
-                class Node:public NodePolicies
-                {
-                    public:
+        public:
 
-                    protected:
-                        Array<Node*> m_Neighbors;
-                };
-            protected:
-                HashMap<const char*,Node> m_Nodes;
-                Node* m_Root;
-        };
-    }
-}
+        protected:
+            Array<Node*> m_Neighbors;
+    };
+protected:
+    HashMap<const char*,Node> m_Nodes;
+    Node* m_Root;
+};
+
+} } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
 
 #endif // RF_COLLECTIONS_SCENEGRAPH_HPP

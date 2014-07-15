@@ -25,47 +25,48 @@ namespace RadonFramework { namespace IO {
 
 namespace RadonFramework { namespace System { namespace IO {
 
-enum ConsoleCommand{
+enum ConsoleCommand
+{
     EndLine
 };
 
-class Console:public Singleton<Console>, public IObserver
+class Console:public RF_Pattern::Singleton<Console>, public RF_Pattern::IObserver
 {
 public:
     void ResetColor();
                     
-    void BackgroundColor(RadonFramework::IO::ConsoleColor::Type Color);
+    void BackgroundColor(RF_IO::ConsoleColor::Type Color);
 
-    RadonFramework::IO::ConsoleColor::Type BackgroundColor();
+    RF_IO::ConsoleColor::Type BackgroundColor();
                     
-    void ForegroundColor(RadonFramework::IO::ConsoleColor::Type Color);
+    void ForegroundColor(RF_IO::ConsoleColor::Type Color);
 
-    RadonFramework::IO::ConsoleColor::Type ForegroundColor();
+    RF_IO::ConsoleColor::Type ForegroundColor();
 
     void WriteLine(char *Format,...);
     void WriteLine(const char *Str);
 
-    void WriteColoredLine(const RFTYPE::String &Str,
-        RadonFramework::IO::ConsoleColor::Type BackgroundColor,
-        RadonFramework::IO::ConsoleColor::Type ForegroundColor);
-    void WriteLine(const RFTYPE::String &Str);
-    void WriteLine(const RFTYPE::UInt8 &Number);
-    void WriteLine(const RFTYPE::UInt16 &Number);
-    void WriteLine(const RFTYPE::UInt32 &Number);
-    void WriteLine(const RFTYPE::UInt64 &Number);
-    void WriteLine(const RFTYPE::Int8 &Number);
-    void WriteLine(const RFTYPE::Int16 &Number);
-    void WriteLine(const RFTYPE::Int32 &Number);
-    void WriteLine(const RFTYPE::Int64 &Number);
+    void WriteColoredLine(const RF_Type::String &Str,
+        RF_IO::ConsoleColor::Type BackgroundColor,
+        RF_IO::ConsoleColor::Type ForegroundColor);
+    void WriteLine(const RF_Type::String &Str);
+    void WriteLine(const RF_Type::UInt8 &Number);
+    void WriteLine(const RF_Type::UInt16 &Number);
+    void WriteLine(const RF_Type::UInt32 &Number);
+    void WriteLine(const RF_Type::UInt64 &Number);
+    void WriteLine(const RF_Type::Int8 &Number);
+    void WriteLine(const RF_Type::Int16 &Number);
+    void WriteLine(const RF_Type::Int32 &Number);
+    void WriteLine(const RF_Type::Int64 &Number);
     template<typename T,unsigned int Len> void WriteLine(const Net::FixedLengthString<T,Len>& Str);
                     
     void NewLine();
     bool IsBusy();
 protected:
-    friend class Singleton<Console>;
+    friend class RF_Pattern::Singleton<Console>;
     Console();
-    RadonFramework::IO::ConsoleColor::Type m_ForegroundColor;
-    RadonFramework::IO::ConsoleColor::Type m_BackgroundColor;
+    RF_IO::ConsoleColor::Type m_ForegroundColor;
+    RF_IO::ConsoleColor::Type m_BackgroundColor;
 };
 
 // C/C++ types

@@ -11,7 +11,7 @@ using namespace RadonFramework::IO;
 #if defined(RF_WINDOWS)
 #include <Windows.h>
 
-void* LoadLib(const RFTYPE::String& Name)
+void* LoadLib(const RF_Type::String& Name)
 {
     void* result=0;
     HMODULE dl=LoadLibrary(TEXT(Name.c_str()));
@@ -35,7 +35,7 @@ void* LibDataCopy(void* Data)
     return result;
 }
 
-void* GetFunctionLib(void* Data, const RFTYPE::String& Name)
+void* GetFunctionLib(void* Data, const RF_Type::String& Name)
 {
     return static_cast<void*>(GetProcAddress(*static_cast<HMODULE*>(Data),Name.c_str()));
 }
@@ -44,7 +44,7 @@ void* GetFunctionLib(void* Data, const RFTYPE::String& Name)
 #if defined(RF_UNIX)
 #include <dlfcn.h>
 
-void* LoadLib(const RFTYPE::String& Name)
+void* LoadLib(const RF_Type::String& Name)
 {
     void* result=0;
     void* dl=dlopen(Name.c_str(),RTLD_LAZY);
@@ -68,7 +68,7 @@ void* LibDataCopy(void* Data)
     return result;
 }
 
-void* GetFunctionLib(void* Data, const RFTYPE::String& Name)
+void* GetFunctionLib(void* Data, const RF_Type::String& Name)
 {
     return static_cast<void*>(dlsym(*static_cast<void**>(Data),Name.c_str()));
 }
@@ -96,14 +96,14 @@ Bool DynamicLibrary::Unload(DynamicLibrary& LibHandle)
     return false;
 }
 
-const RFTYPE::String& DynamicLibrary::LineEnding()
+const RF_Type::String& DynamicLibrary::LineEnding()
 {    
 #if defined(RF_WINDOWS)
-static RFTYPE::String LINEENDING("dll", sizeof("dll"));
+static RF_Type::String LINEENDING("dll", sizeof("dll"));
 return LINEENDING;
 #else
     #if defined(RF_LINUX)
-    static RFTYPE::String LINEENDING("so");
+    static RF_Type::String LINEENDING("so");
     return LINEENDING;    
     #else
     RF_COMPILER_WARNING("Congratulation, you're the one who allowed to implement this case!");
@@ -136,7 +136,7 @@ DynamicLibrary& DynamicLibrary::operator=(const DynamicLibrary& Other)
     return *this;
 }
 
-void* DynamicLibrary::GetFunctionAddress(const RFTYPE::String &Name)
+void* DynamicLibrary::GetFunctionAddress(const RF_Type::String &Name)
 {
     if (m_ImplementationData)
         return GetFunctionLib(m_ImplementationData,Name);

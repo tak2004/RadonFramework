@@ -10,9 +10,9 @@ namespace RadonFramework { namespace System { namespace Process {
 class GeneralInfo
 {
 public:
-    RFTYPE::UInt32 ID;
-    RFTYPE::String BinaryName;
-    RFTYPE::String Name;
+    RF_Type::UInt32 ID;
+    RF_Type::String BinaryName;
+    RF_Type::String Name;
 };
 
 } } }

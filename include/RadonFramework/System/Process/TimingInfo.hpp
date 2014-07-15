@@ -11,14 +11,12 @@ namespace RadonFramework { namespace System { namespace Process {
 
 struct TimingInfo
 {
-    RadonFramework::Time::DateTime CreationTime;
-    RadonFramework::Time::DateTime ExitTime;
-    RadonFramework::Time::TimeSpan KernelTime;
-    RadonFramework::Time::TimeSpan UserTime;
+    RF_Time::DateTime CreationTime;
+    RF_Time::DateTime ExitTime;
+    RF_Time::TimeSpan KernelTime;
+    RF_Time::TimeSpan UserTime;
 };
 
 } } }
-
-namespace RFPROC = RadonFramework::System::Process;
 
 #endif // RF_SYSTEM_PROCESS_TIMINGINFO_HPP

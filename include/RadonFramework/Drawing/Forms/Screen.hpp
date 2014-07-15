@@ -1,5 +1,5 @@
-#ifndef RF_SCREEN_HPP
-#define RF_SCREEN_HPP
+#ifndef RF_DRAWING_FORM_SCREEN_HPP
+#define RF_DRAWING_FORM_SCREEN_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
@@ -11,112 +11,115 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Drawing/Forms/DisplayInformation.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Forms {
+
+namespace ScreenError
 {
-    namespace Forms
+    enum Type
     {
-        namespace ScreenError
-        {
-            enum Type
-            {
-                NoError,
-                ResolutionNotSupported,//the device don't support this resolution
-                InvalidParameter//one or more parameter are invalid(like BitsPerPixel=0)
-            };
-        }
-
-        class Screen
-        {
-            public:
-                ~Screen();
-
-                /// Return a list of all supported resolutions by this screen.
-                const Collections::Array<Resolution>& SupportedResolutions()const;
-                /// Return the width of the current resolution.
-                RFTYPE::UInt32 Width()const;
-                /// Return the height of the current resolution.
-                RFTYPE::UInt32 Height()const;
-                /// Return the bits per pixel of the current resolution.
-                RFTYPE::UInt32 BitsPerPixel()const;
-                /// Return the device name of this screen.
-                RFTYPE::String DeviceName()const;
-                /// Return true if this is the primary screen else false.
-                RFTYPE::Bool IsPrimary()const;
-                /// Return true if this display is mirrored.
-                RFTYPE::Bool IsMirroring()const;
-                /// Return true if this display is attached to desktop.
-                RFTYPE::Bool IsAttachedToDesktop()const;
-                /// Return the current selected resolution.
-                const Resolution& CurrentResolution()const;
-
-                /// Try to change the resolution of this screen to NewResolution.
-                ScreenError::Type ChangeResolution(const Resolution& NewResolution)const;
-                /// Return the list of all available screens.
-                static const Memory::AutoPointerArray<Screen>& AllScreens();
-                /// Return the primary screen.
-                static const Screen& PrimaryScreen();
-            private:
-                // Allow the Array template to use the default constructor.
-                friend class Memory::AutoPointerArray<Screen>;
-                /// This constructor is for the Array template.
-                Screen();
-                /// This is the copy-constructor.
-                Screen(const Screen& Copy);
-                /// This constructor will be called by the static method AllScreens().
-                Screen(Memory::AutoPointer<DisplayInformation> DisplayInfos,
-                       const RFTYPE::UInt32 CurrentResolution);
-                Screen& operator=(const Screen& Other);
-
-                mutable RFTYPE::UInt32 m_CurrentResolution;
-                Memory::AutoPointer<DisplayInformation> m_DisplayInfos;
-                static Memory::AutoPointerArray<Screen> m_Screens;
-        };
-
-        inline const Collections::Array<Resolution>& Screen::SupportedResolutions()const
-        {
-            return m_DisplayInfos->AvaiableResolution;
-        }
-
-        inline RFTYPE::UInt32 Screen::Width()const
-        {
-            return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Width;
-        }
-
-        inline RFTYPE::UInt32 Screen::Height()const
-        {
-            return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Height;
-        }
-
-        inline RFTYPE::UInt32 Screen::BitsPerPixel()const
-        {
-            return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).BitsPerPixel;
-        }
-
-        inline RFTYPE::String Screen::DeviceName()const
-        {
-            return m_DisplayInfos->DisplayName;
-        }
-
-        inline RFTYPE::Bool RadonFramework::Forms::Screen::IsPrimary()const
-        {
-            return m_DisplayInfos->IsPrimary;
-        }
-
-        inline RFTYPE::Bool RadonFramework::Forms::Screen::IsMirroring()const
-        {
-            return m_DisplayInfos->IsMirroring;
-        }
-
-        inline RFTYPE::Bool RadonFramework::Forms::Screen::IsAttachedToDesktop()const
-        {
-            return m_DisplayInfos->IsAttachedToDesktop;
-        }
-
-        inline const Resolution& RadonFramework::Forms::Screen::CurrentResolution()const
-        {
-            return m_DisplayInfos->AvaiableResolution(m_CurrentResolution);
-        }
-    }
+        NoError,
+        ResolutionNotSupported,//the device don't support this resolution
+        InvalidParameter//one or more parameter are invalid(like BitsPerPixel=0)
+    };
 }
 
-#endif // RF_SCREEN_HPP
+class Screen
+{
+public:
+    ~Screen();
+
+    /// Return a list of all supported resolutions by this screen.
+    const RF_Collect::Array<Resolution>& SupportedResolutions()const;
+    /// Return the width of the current resolution.
+    RF_Type::UInt32 Width()const;
+    /// Return the height of the current resolution.
+    RF_Type::UInt32 Height()const;
+    /// Return the bits per pixel of the current resolution.
+    RF_Type::UInt32 BitsPerPixel()const;
+    /// Return the device name of this screen.
+    RF_Type::String DeviceName()const;
+    /// Return true if this is the primary screen else false.
+    RF_Type::Bool IsPrimary()const;
+    /// Return true if this display is mirrored.
+    RF_Type::Bool IsMirroring()const;
+    /// Return true if this display is attached to desktop.
+    RF_Type::Bool IsAttachedToDesktop()const;
+    /// Return the current selected resolution.
+    const Resolution& CurrentResolution()const;
+
+    /// Try to change the resolution of this screen to NewResolution.
+    ScreenError::Type ChangeResolution(const Resolution& NewResolution)const;
+    /// Return the list of all available screens.
+    static const RF_Mem::AutoPointerArray<Screen>& AllScreens();
+    /// Return the primary screen.
+    static const Screen& PrimaryScreen();
+private:
+    // Allow the Array template to use the default constructor.
+    friend class RF_Mem::AutoPointerArray<Screen>;
+    /// This constructor is for the Array template.
+    Screen();
+    /// This is the copy-constructor.
+    Screen(const Screen& Copy);
+    /// This constructor will be called by the static method AllScreens().
+    Screen(RF_Mem::AutoPointer<DisplayInformation> DisplayInfos,
+            const RF_Type::UInt32 CurrentResolution);
+    Screen& operator=(const Screen& Other);
+
+    mutable RF_Type::UInt32 m_CurrentResolution;
+    RF_Mem::AutoPointer<DisplayInformation> m_DisplayInfos;
+    static RF_Mem::AutoPointerArray<Screen> m_Screens;
+};
+
+inline const RF_Collect::Array<Resolution>& Screen::SupportedResolutions()const
+{
+    return m_DisplayInfos->AvaiableResolution;
+}
+
+inline RF_Type::UInt32 Screen::Width()const
+{
+    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Width;
+}
+
+inline RF_Type::UInt32 Screen::Height()const
+{
+    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Height;
+}
+
+inline RF_Type::UInt32 Screen::BitsPerPixel()const
+{
+    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).BitsPerPixel;
+}
+
+inline RF_Type::String Screen::DeviceName()const
+{
+    return m_DisplayInfos->DisplayName;
+}
+
+inline RF_Type::Bool RadonFramework::Forms::Screen::IsPrimary()const
+{
+    return m_DisplayInfos->IsPrimary;
+}
+
+inline RF_Type::Bool RadonFramework::Forms::Screen::IsMirroring()const
+{
+    return m_DisplayInfos->IsMirroring;
+}
+
+inline RF_Type::Bool RadonFramework::Forms::Screen::IsAttachedToDesktop()const
+{
+    return m_DisplayInfos->IsAttachedToDesktop;
+}
+
+inline const Resolution& RadonFramework::Forms::Screen::CurrentResolution()const
+{
+    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution);
+}
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_FORM
+#define RF_SHORTHAND_NAMESPACE_FORM
+namespace RF_Form = RadonFramework::Forms;
+#endif
+
+#endif // RF_DRAWING_FORM_SCREEN_HPP

@@ -15,9 +15,9 @@ using namespace RadonFramework::System::Memory;
 // On-Demand dispatched functions which are CPU dependent and have always a fallback
 //
 
-extern RFTYPE::Int32 Compare_SSE4(const void* P1, const void* P2, RFTYPE::Size Bytes);
-extern RFTYPE::Int32 Compare_Std(const void* P1, const void* P2, RFTYPE::Size Bytes);
-RFTYPE::Int32 Compare_CPUDispatcher(const void* P1, const void* P2, RFTYPE::Size Bytes)
+extern RF_Type::Int32 Compare_SSE4(const void* P1, const void* P2, RF_Type::Size Bytes);
+extern RF_Type::Int32 Compare_Std(const void* P1, const void* P2, RF_Type::Size Bytes);
+RF_Type::Int32 Compare_CPUDispatcher(const void* P1, const void* P2, RF_Type::Size Bytes)
 {
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
@@ -28,9 +28,9 @@ RFTYPE::Int32 Compare_CPUDispatcher(const void* P1, const void* P2, RFTYPE::Size
     return RFMEM::Compare(P1, P2, Bytes);
 }
 
-extern void Set_SSE2(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes);
-extern void Set_Std(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes);
-void Set_CPUDispatcher(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes)
+extern void Set_SSE2(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes);
+extern void Set_Std(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes);
+void Set_CPUDispatcher(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes)
 {
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
@@ -126,15 +126,15 @@ Bool RFMEM::IsSuccessfullyDispatched()
     return result;
 }
 
-void RFMEM::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
+void RFMEM::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if (GetPageSize == GetPageSize_SystemAPIDispatcher || GetPageSize == 0) 
-        Result.AddLast(RFTYPE::String("GetPageSize", sizeof("GetPageSize")));
+        Result.AddLast(RF_Type::String("GetPageSize", sizeof("GetPageSize")));
     if (EnableTerminationOnHeapCorruption == EnableTerminationOnHeapCorruption_SystemAPIDispatcher
         || EnableTerminationOnHeapCorruption == 0) 
-        Result.AddLast(RFTYPE::String("EnableTerminationOnHeapCorruption", sizeof("EnableTerminationOnHeapCorruption")));
+        Result.AddLast(RF_Type::String("EnableTerminationOnHeapCorruption", sizeof("EnableTerminationOnHeapCorruption")));
     if (Allocate == Allocate_SystemAPIDispatcher || Allocate == 0)
-        Result.AddLast(RFTYPE::String("Allocate", sizeof("Allocate")));
+        Result.AddLast(RF_Type::String("Allocate", sizeof("Allocate")));
     if (Free == Free_SystemAPIDispatcher || Free == 0)
-        Result.AddLast(RFTYPE::String("Free", sizeof("Free")));
+        Result.AddLast(RF_Type::String("Free", sizeof("Free")));
 }

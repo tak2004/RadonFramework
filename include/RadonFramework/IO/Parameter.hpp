@@ -16,23 +16,23 @@ class Parameter
 {
 public:
     /// Parse standard C application parameter.
-    RFTYPE::Bool ParsingWithErrorOutput(const char* argv[], int argc, 
+    RF_Type::Bool ParsingWithErrorOutput(const char* argv[], int argc, 
         const Memory::AutoPointerArray<OptionRule>& Rules,
-        RFTYPE::String& ErrorMessage);
+        RF_Type::String& ErrorMessage);
 
     /// Parse standard C application parameter.
-    RFTYPE::Bool ParsingWithLogging(const char* argv[], int argc,
+    RF_Type::Bool ParsingWithLogging(const char* argv[], int argc,
         const Memory::AutoPointerArray<OptionRule>& Rules);
 
     /// Parse a string array and write to ErrorMessage if an error occur.
-    RFTYPE::Bool SafeParsingWithErrorOutput(
-        const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
+    RF_Type::Bool SafeParsingWithErrorOutput(
+        const Memory::AutoPointerArray<RF_Type::String>& Parameters,
         const Memory::AutoPointerArray<OptionRule>& Rules,
-        RFTYPE::String& ErrorMessage);
+        RF_Type::String& ErrorMessage);
 
     /// Parse a string array.
-    RFTYPE::Bool SafeParsingWithLogging(
-        const Memory::AutoPointerArray<RFTYPE::String>& Parameters,
+    RF_Type::Bool SafeParsingWithLogging(
+        const Memory::AutoPointerArray<RF_Type::String>& Parameters,
         const Memory::AutoPointerArray<OptionRule>& Rules);
 
 

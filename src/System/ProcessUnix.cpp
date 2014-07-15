@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 // Append "Implementation" at function name to avoid name collision with windows.
-RFTYPE::UInt32 GetCurrentProcessIdImplementation()
+RF_Type::UInt32 GetCurrentProcessIdImplementation()
 {
     return getpid();
 }

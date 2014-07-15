@@ -6,16 +6,16 @@
 #include <sys/timeb.h>
 #include <stdlib.h>
 
-RFTYPE::UInt64 GetHighResolutionCounter()
+RF_Type::UInt64 GetHighResolutionCounter()
 {
     timespec tmp;	
-    RFTYPE::UInt64 result=0;
+    RF_Type::UInt64 result=0;
     if (clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tmp) == 0)
         result=tmp.tv_sec*1000000000llu+tmp.tv_nsec;
     return result;
 }
 
-RFTYPE::Bool IsHighResolutionCounterSupported()
+RF_Type::Bool IsHighResolutionCounterSupported()
 {
     timespec tmp;
     return clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&tmp)==0;

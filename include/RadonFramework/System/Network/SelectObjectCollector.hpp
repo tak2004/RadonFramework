@@ -26,7 +26,7 @@ namespace RadonFramework
                 public:       
                     class PIMPL;
 
-                    static RadonFramework::Memory::AutoPointer<SelectObjectCollector> Create(
+                    static RF_Mem::AutoPointer<SelectObjectCollector> Create(
                         const Net::Socket& Handler);
 
                     Net::Error::Type Select(const Net::SelectMode::Type Mode,
@@ -34,10 +34,10 @@ namespace RadonFramework
 
                     ~SelectObjectCollector();
                     void Add(const NetService::SocketHandler& Handler);
-                    void Remove(const RFTYPE::Size Index);
+                    void Remove(const RF_Type::Size Index);
                     
-                    RFTYPE::Size Count()const;
-                    RFTYPE::Bool IsSet(const RFTYPE::Size Index)const;
+                    RF_Type::Size Count()const;
+                    RF_Type::Bool IsSet(const RF_Type::Size Index)const;
                 protected:
                     PIMPL* m_Data;
                 private:

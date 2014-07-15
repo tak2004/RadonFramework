@@ -9,7 +9,7 @@
 
 namespace RadonFramework { namespace Math { namespace Geometry {
 
-template<class T=RFTYPE::Int32>
+template<class T=RF_Type::Int32>
 class Rectangle
 {
 public:
@@ -31,9 +31,9 @@ public:
     T Bottom()const;
     T Right()const;
 
-    RFTYPE::Bool Equals(const Rectangle<T> &Other)const;
-    RFTYPE::Bool IsIntersect(const Rectangle<T> &Other)const;
-    RFTYPE::Bool IsIntersect(const Point2D<T> &Other)const;
+    RF_Type::Bool Equals(const Rectangle<T> &Other)const;
+    RF_Type::Bool IsIntersect(const Rectangle<T> &Other)const;
+    RF_Type::Bool IsIntersect(const Point2D<T> &Other)const;
 protected:
     T m_Left;
     T m_Top;
@@ -147,19 +147,19 @@ void Rectangle<T>::SetPosition(const Point2D<T>& Point)
 }
 
 template<class T>
-RFTYPE::Bool Rectangle<T>::Equals(const Rectangle<T>& Other)const
+RF_Type::Bool Rectangle<T>::Equals(const Rectangle<T>& Other)const
 {
   return m_Left==Other.m_Left && m_Top==Other.m_Top && m_Right==Other.m_Right && m_Bottom==Other.m_Bottom;
 }
 
 template<class T>
-RFTYPE::Bool Rectangle<T>::IsIntersect(const Rectangle<T> &Other)const
+RF_Type::Bool Rectangle<T>::IsIntersect(const Rectangle<T> &Other)const
 {
   return !(Other.m_Left>m_Right || Other.m_Right<m_Left || Other.m_Top>m_Bottom || Other.m_Bottom<m_Top);
 }
 
 template<class T>
-RFTYPE::Bool Rectangle<T>::IsIntersect(const Point2D<T>& Other)const
+RF_Type::Bool Rectangle<T>::IsIntersect(const Point2D<T>& Other)const
 {
   return Other.X>=m_Left && Other.X<=m_Right && Other.Y>=m_Bottom && Other.Y<=m_Top;
 }
@@ -189,5 +189,10 @@ T Rectangle<T>::Right()const
 }
 
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_GEO
+#define RF_SHORTHAND_NAMESPACE_GEO
+namespace RF_Geo = RadonFramework::Math::Geometry;
+#endif
 
 #endif // RF_MATH_GEOMETRY_RECTANGLE_HPP

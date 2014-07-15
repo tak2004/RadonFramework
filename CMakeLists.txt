@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.11)
 project(RadonFramework)
 
-include("${CMAKE_CURRENT_LIST_DIR}/cmake/util/svn.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/util/git.cmake")
 
 OPTION(RADONFRAMEWORK_WITH_VISUALGDB "Generate a VisualGDB target for remote build." OFF)
 mark_as_advanced(RADONFRAMEWORK_WITH_VISUALGDB)
@@ -11,6 +11,10 @@ mark_as_advanced(RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL)
 
 OPTION(RADONFRAMEWORK_USE_MICROCRT "Radon framework will provide code for running without crt and std functions." OFF)
 mark_as_advanced(RADONFRAMEWORK_USE_MICROCRT)
+
+OPTION(RADONFRAMEWORK_BUILD_UNITTEST "Enable the unit test" ON)
+OPTION(RADONFRAMEWORK_BUILD_RESOURCETEST "Enable the resource test" ON)
+OPTION(RADONFRAMEWORK_BUILD_SYSTEMTEST "Enable the system test" ON)
 
 OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL" ON)
 
@@ -114,7 +118,7 @@ else()
 	set(RADONFRAMEWORK_MICROCRT "")
 endif()
 
-Subversion_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
+GIT_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
 set(RADONFRAMEWORK_MAJORNUMBER "0")
 set(RADONFRAMEWORK_MINORNUMBER "3")
 set(RADONFRAMEWORK_REVISIONNUMBER "${ProjectRevision}")
@@ -122,6 +126,8 @@ if (NOT DEFINED RADONFRAMEWORK_BUILDNUMBER )
 	set(RADONFRAMEWORK_BUILDNUMBER "0")
 endif ()
 
+message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hpp")
+configure_file("${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hxx" "${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hpp" @ONLY)
 message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp")
 configure_file("${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hxx" "${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp" @ONLY)
 message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cpp")
@@ -140,9 +146,15 @@ if(RADONFRAMEWORK_USE_MODULES)
 	endif()
 endif()
 
-add_subdirectory(tests/SystemTest)
-add_subdirectory(tests/UnitTest)
-add_subdirectory(tests/ResourceTest)
+if(RADONFRAMEWORK_BUILD_UNITTEST)
+	add_subdirectory(tests/UnitTest)
+endif()
+if(RADONFRAMEWORK_BUILD_SYSTEMTEST)
+	add_subdirectory(tests/SystemTest)
+endif()
+if(RADONFRAMEWORK_BUILD_RESOURCETEST)
+	add_subdirectory(tests/ResourceTest)
+endif()
 
 #
 #

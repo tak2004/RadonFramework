@@ -54,7 +54,7 @@ Node& Scene::CreateNode()
 
     AutoPointer<NodeItem> node(new NodeItem);
     node->ID = m_PImpl->m_Nodes.Size()+1;
-    node->Name = String("Node", sizeof("Node")) + node->ID;
+    node->Name = RF_Type::String("Node", sizeof("Node")) + node->ID;
     AutoPointer<Node> n(new Node(node));
     n->SetParent(*m_PImpl->m_Root);
 

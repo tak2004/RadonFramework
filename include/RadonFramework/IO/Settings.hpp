@@ -7,29 +7,32 @@
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 
-namespace RadonFramework
-{
-    namespace IO
-    {
-        class Directory;
+namespace RadonFramework { namespace IO {
 
-        class Settings: public Singleton<Settings>
-        {
-            public:
-                void Initialize(const RFTYPE::String& Organisation, const RFTYPE::String& Applicationname);
-                RFTYPE::String GetValue(const char* PropertyName);
-                void SetValue(const char* PropertyName, const RFTYPE::String& Value);
-                void Save();
-                void Load();
-                void Load(const RFTYPE::String& Organisation, const RFTYPE::String& Applicationname);
-                Directory GetAppDataDir();
-            protected:
-                friend class Singleton<Settings>;
-                Settings();
-            private:
-                Core::Idioms::PImpl<Settings> m_PImpl;
-        };
-    }
-}
+class Directory;
+
+class Settings: public RF_Pattern::Singleton<Settings>
+{
+public:
+    void Initialize(const RF_Type::String& Organisation, const RF_Type::String& Applicationname);
+    RF_Type::String GetValue(const char* PropertyName);
+    void SetValue(const char* PropertyName, const RF_Type::String& Value);
+    void Save();
+    void Load();
+    void Load(const RF_Type::String& Organisation, const RF_Type::String& Applicationname);
+    Directory GetAppDataDir();
+protected:
+    friend class RF_Pattern::Singleton<Settings>;
+    Settings();
+private:
+    Core::Idioms::PImpl<Settings> m_PImpl;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_IO_SETTINGS_HPP

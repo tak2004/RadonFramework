@@ -7,18 +7,21 @@
 #include <RadonFramework/Collections/IEnumerator.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Collections {
+
+template<typename T>
+class IEnumerable
 {
-    namespace Collections
-    {
-        template<typename T>
-        class IEnumerable
-        {
-            public:
-                /// Returns an enumerator that iterates through the collection.
-                virtual Memory::AutoPointer<IEnumerator<T> > GetEnumerator()=0;
-        };
-    }
-}
+public:
+    /// Returns an enumerator that iterates through the collection.
+    virtual RF_Mem::AutoPointer<IEnumerator<T> > GetEnumerator()=0;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
 
 #endif // RF_COLLECTIONS_GENERIC_IENUMERABLE_HPP

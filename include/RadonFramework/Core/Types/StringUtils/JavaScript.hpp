@@ -6,22 +6,14 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Core { namespace Types { namespace StringUtils {
+
+class JavaScriptConverter
 {
-    namespace Core
-    {
-        namespace Types
-        {
-            namespace StringUtils
-            {
-                class JavaScriptConverter
-                {
-                    public:
-                        static String Encode(const String &Source);
-                };
-            }
-        }
-    }
-}
+public:
+    static RF_Type::String Encode(const RF_Type::String &Source);
+};
+
+} } } }
 
 #endif // RF_CORE_TYPES_STRINGUTILS_JAVASCRIPT_HPP

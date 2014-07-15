@@ -12,10 +12,10 @@ namespace RadonFramework
     {
         struct Resolution
         {
-            RFTYPE::UInt32 Width;
-            RFTYPE::UInt32 Height;
-            RFTYPE::UInt32 BitsPerPixel;
-            RFTYPE::UInt32 Frequency;
+            RF_Type::UInt32 Width;
+            RF_Type::UInt32 Height;
+            RF_Type::UInt32 BitsPerPixel;
+            RF_Type::UInt32 Frequency;
         };
     }
 }

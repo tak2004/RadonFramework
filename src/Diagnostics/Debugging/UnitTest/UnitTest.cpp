@@ -33,7 +33,7 @@ void UnitTest::Run()
     }
 }
 
-void UnitTest::RunSuiteWithName(const RFTYPE::String& Suitename)
+void UnitTest::RunSuiteWithName(const RF_Type::String& Suitename)
 {
     if (!m_IgnoreSuite.Find(Suitename))
     {
@@ -48,7 +48,7 @@ void UnitTest::RunSuiteWithName(const RFTYPE::String& Suitename)
     }
 }
 
-void UnitTest::RunSuiteAt( RFTYPE::Size Index )
+void UnitTest::RunSuiteAt( RF_Type::Size Index )
 {
     m_TestSuites[Index]->SetUp();
     for(Size i = 0; i < m_Collector.Size(); ++i)
@@ -67,17 +67,17 @@ void UnitTest::RunSuiteAt( RFTYPE::Size Index )
     }
 }
 
-void UnitTest::SetSequentialTestExecution(RFTYPE::Size Probes)
+void UnitTest::SetSequentialTestExecution(RF_Type::Size Probes)
 {
     m_TestProbes = Probes;
 }
 
-void UnitTest::IgnoreSuite( const RFTYPE::String& Suitename )
+void UnitTest::IgnoreSuite( const RF_Type::String& Suitename )
 {
     m_IgnoreSuite.AddLast(Suitename);
 }
 
-TestSuite* UnitTest::GetSuite( const RFTYPE::String& Suitename )
+TestSuite* UnitTest::GetSuite( const RF_Type::String& Suitename )
 {
     TestSuite* result = 0;
     for(UInt32 i = 0; i < m_TestSuites.Size(); ++i)

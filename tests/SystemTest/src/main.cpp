@@ -15,15 +15,15 @@ int main()
 {
     Radon framework;
 
-    Memory::AutoPointer<Diagnostics::Appender> console(new LogConsole);
+    RF_Mem::AutoPointer<RF_Diag::Appender> console(new LogConsole);
     Log::AddAppender(console);
 
-    Collections::List<String> missingFunctions;
-    Diagnostics::Debugging::FrameworkDiagnostics::GetAllMissingSystemFunctions(missingFunctions);
+    RF_Collect::List<String> missingFunctions;
+    RF_Debug::FrameworkDiagnostics::GetAllMissingSystemFunctions(missingFunctions);
     for (Size i = 0; i < missingFunctions.Size(); ++i)
     {
         LogError("Missing system function: %s", missingFunctions[i].c_str());
     }
-    Singleton<Threading::ThreadPool>::GetInstance().DisableAndWaitTillDone();
+    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().DisableAndWaitTillDone();
     return missingFunctions.Size();
 }

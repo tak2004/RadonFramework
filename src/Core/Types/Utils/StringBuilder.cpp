@@ -12,7 +12,7 @@ StringBuilder::~StringBuilder()
 {
 }
 
-StringBuilder& StringBuilder::AppendFormat(const RFTYPE::String& Format, ...)
+StringBuilder& StringBuilder::AppendFormat(const RF_Type::String& Format, ...)
 {
     return *this;
 }
@@ -22,7 +22,7 @@ StringBuilder& StringBuilder::AppendLine()
     return *this;
 }
 
-StringBuilder& StringBuilder::Append(const RFTYPE::String& Value)
+StringBuilder& StringBuilder::Append(const RF_Type::String& Value)
 {
     return *this;
 }
@@ -31,50 +31,50 @@ void StringBuilder::Clear()
 {
 }
 
-void StringBuilder::EnsureCapacity(const RFTYPE::Size NewCapacity)
+void StringBuilder::EnsureCapacity(const RF_Type::Size NewCapacity)
 {
 }
 
-StringBuilder& StringBuilder::Insert(const RFTYPE::String& Value, const RFTYPE::Size Index)
-{
-    return *this;
-}
-
-StringBuilder& StringBuilder::Remove(const RFTYPE::Size Index, const RFTYPE::Size GlyphCount)
+StringBuilder& StringBuilder::Insert(const RF_Type::String& Value, const RF_Type::Size Index)
 {
     return *this;
 }
 
-StringBuilder& StringBuilder::Replace(const RFTYPE::String& ThisString, 
-        const RFTYPE::String& ByString)
+StringBuilder& StringBuilder::Remove(const RF_Type::Size Index, const RF_Type::Size GlyphCount)
 {
     return *this;
 }
 
-RFTYPE::Size StringBuilder::Length()const
+StringBuilder& StringBuilder::Replace(const RF_Type::String& ThisString, 
+        const RF_Type::String& ByString)
+{
+    return *this;
+}
+
+RF_Type::Size StringBuilder::Length()const
 {
     return m_Length;
 }
 
-RFTYPE::Size StringBuilder::Size()const
+RF_Type::Size StringBuilder::Size()const
 {
     return m_Size;
 }
 
-RFTYPE::Size StringBuilder::Capacity()const
+RF_Type::Size StringBuilder::Capacity()const
 {
-    RFTYPE::Size result=0;
+    RF_Type::Size result=0;
     return result;
 }
 
-RadonFramework::Memory::AutoPointer<RFTYPE::String> StringBuilder::ToString()const
+RF_Mem::AutoPointer<RF_Type::String> StringBuilder::ToString()const
 {
-    RadonFramework::Memory::AutoPointer<RFTYPE::String> result(new RFTYPE::String(
+    RF_Mem::AutoPointer<RF_Type::String> result(new RF_Type::String(
         m_Data, m_Size, RadonFramework::Core::Common::DataManagment::UnmanagedInstance));
     return result;
 }
 
-RFTYPE::Char* StringBuilder::AsCString() const
+RF_Type::Char* StringBuilder::AsCString() const
 {
     return m_Data;
 }

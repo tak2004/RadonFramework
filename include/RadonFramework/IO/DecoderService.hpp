@@ -18,8 +18,8 @@ namespace RadonFramework
         unsigned int m_FourCC;
         bool m_IsAvailable;
       public:
-        DecoderService(const RFTYPE::String &Name);
-        DecoderService(const RFTYPE::String &Name,const unsigned int FourCC);
+        DecoderService(const RF_Type::String &Name);
+        DecoderService(const RF_Type::String &Name,const unsigned int FourCC);
         const unsigned int FourCC();
         virtual IDecoder* CreateDecoder(std::istream* StreamInput, bool Seekable)=0;
         virtual bool IsAvailable();

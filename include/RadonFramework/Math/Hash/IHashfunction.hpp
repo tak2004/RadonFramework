@@ -14,15 +14,20 @@ class IHashfunction
 {
 public:
     virtual void Reset()=0;
-    virtual void Update(RFTYPE::UInt8 Input)=0;
-    virtual void Update(const RFTYPE::UInt8 * Data, RFTYPE::UInt32 Size)=0;
+    virtual void Update(RF_Type::UInt8 Input)=0;
+    virtual void Update(const RF_Type::UInt8 * Data, RF_Type::UInt32 Size)=0;
     virtual void Final()=0;
-    virtual RFTYPE::String ToString()=0;
-    virtual RFTYPE::UInt32 GetDigestLength()=0;
-    virtual RFTYPE::UInt8* Digest()=0;
+    virtual RF_Type::String ToString()=0;
+    virtual RF_Type::UInt32 GetDigestLength()=0;
+    virtual RF_Type::UInt8* Digest()=0;
 };
     
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_HASH
+#define RF_SHORTHAND_NAMESPACE_HASH
+namespace RF_Hash = RadonFramework::Math::Hash;
+#endif
 
 #endif // RF_MATH_HASH_HASHFUNCTION_HPP
 

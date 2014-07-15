@@ -54,14 +54,14 @@ Control::~Control()
 {
 }
 
-void Control::Resize(const RadonFramework::Math::Geometry::Size2D<>& Value)
+void Control::Resize(const RF_Geo::Size2D<>& Value)
 {
     for (List<Control*>::Iterator it=Controls.Begin(); it!=Controls.End(); ++it)
         (*it)->Resize(Value);
     OnResize(Value);
 }
 
-void Control::Reposition(const RadonFramework::Math::Geometry::Point2D<>& Value)
+void Control::Reposition(const RF_Geo::Point2D<>& Value)
 {
     for (List<Control*>::Iterator it = Controls.Begin(); it != Controls.End(); ++it)
         (*it)->Reposition(Value);

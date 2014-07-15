@@ -25,7 +25,7 @@ public:
     ~ScopeTimer();
 protected:
     TimeSpan &m_TimeSpan;
-    RFTYPE::UInt64 m_Start;
+    RF_Type::UInt64 m_Start;
 };
 
 } }

@@ -29,22 +29,22 @@ namespace RadonFramework
                 RF_MAX};
         }
 
-        const RFTYPE::String TypeKindName[TypeKind::RF_MAX] = {
-            RFTYPE::String("unknown type", sizeof("unknown type")),
-            RFTYPE::String("Float32", sizeof("Float32")),
-            RFTYPE::String("Float64", sizeof("Float64")),
-            RFTYPE::String("Int32", sizeof("Int32")),
-            RFTYPE::String("UInt32", sizeof("UInt32")),
-            RFTYPE::String("Int64", sizeof("Int64")),
-            RFTYPE::String("UInt64", sizeof("UInt64")),
-            RFTYPE::String("Int16", sizeof("Int16")),
-            RFTYPE::String("UInt16", sizeof("UInt16")),
-            RFTYPE::String("Int8", sizeof("Int8")),
-            RFTYPE::String("UInt8", sizeof("UInt8")),
-            RFTYPE::String("String", sizeof("String")),
-            RFTYPE::String("Char", sizeof("Char")),
-            RFTYPE::String("Bool", sizeof("Bool"))};
-        const RFTYPE::UInt32 TypeSize[TypeKind::RF_MAX]={0,4,8,4,4,8,8,2,2,1,1,0,1,1};
+        const RF_Type::String TypeKindName[TypeKind::RF_MAX] = {
+            RF_Type::String("unknown type", sizeof("unknown type")),
+            RF_Type::String("Float32", sizeof("Float32")),
+            RF_Type::String("Float64", sizeof("Float64")),
+            RF_Type::String("Int32", sizeof("Int32")),
+            RF_Type::String("UInt32", sizeof("UInt32")),
+            RF_Type::String("Int64", sizeof("Int64")),
+            RF_Type::String("UInt64", sizeof("UInt64")),
+            RF_Type::String("Int16", sizeof("Int16")),
+            RF_Type::String("UInt16", sizeof("UInt16")),
+            RF_Type::String("Int8", sizeof("Int8")),
+            RF_Type::String("UInt8", sizeof("UInt8")),
+            RF_Type::String("String", sizeof("String")),
+            RF_Type::String("Char", sizeof("Char")),
+            RF_Type::String("Bool", sizeof("Bool"))};
+        const RF_Type::UInt32 TypeSize[TypeKind::RF_MAX]={0,4,8,4,4,8,8,2,2,1,1,0,1,1};
     }
 }
 

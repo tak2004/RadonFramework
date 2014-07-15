@@ -15,10 +15,10 @@ namespace RadonFramework
             class ScopeLogMessage
             {
                 public:
-                    ScopeLogMessage(const RFTYPE::String& Functionname);
+                    ScopeLogMessage(const RF_Type::String& Functionname);
                     ~ScopeLogMessage();
                 protected:
-                    RFTYPE::String m_Functionname;
+                    RF_Type::String m_Functionname;
             };            
         }
     }    

@@ -14,7 +14,7 @@ namespace RadonFramework
         class NullCanvas3DService:public Canvas3DService
         {
             public:
-                NullCanvas3DService(const RFTYPE::String &Name):Canvas3DService(Name){}
+                NullCanvas3DService(const RF_Type::String &Name):Canvas3DService(Name){}
                 ICanvas3D* CreateCanvas3D(){return 0;}
         };
 

@@ -16,7 +16,7 @@ namespace RadonFramework
             public:
                 PacketWithHeader()
                 {
-                    m_Data=RadonFramework::Memory::AutoPointerArray<char>(new char[sizeof(_Header)+sizeof(_Data)],sizeof(_Header)+sizeof(_Data));
+                    m_Data=RF_Mem::AutoPointerArray<char>(new char[sizeof(_Header)+sizeof(_Data)],sizeof(_Header)+sizeof(_Data));
                     Header=(_Header*)(m_Data.Get());
                     Data=(_Data*)(m_Data.Get()+sizeof(_Header));
                 }
@@ -28,7 +28,7 @@ namespace RadonFramework
                 {
                     char* data=new char[sizeof(_Header)+sizeof(_Data)];
                     RFMEM::Copy(data, DataPtr, sizeof(_Header) + sizeof(_Data));
-                    m_Data=RadonFramework::Memory::AutoPointerArray<char>(data,sizeof(_Header)+sizeof(_Data));
+                    m_Data=RF_Mem::AutoPointerArray<char>(data,sizeof(_Header)+sizeof(_Data));
                     Header=(_Header*)(m_Data.Get());
                     Data=(_Data*)(m_Data.Get()+sizeof(_Header));
                 }
@@ -43,7 +43,7 @@ namespace RadonFramework
                     return m_Data.Get();
                 }
             protected:
-                RadonFramework::Memory::AutoPointerArray<char> m_Data;
+                RF_Mem::AutoPointerArray<char> m_Data;
         };
     }
 }

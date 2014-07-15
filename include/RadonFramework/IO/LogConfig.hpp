@@ -16,12 +16,12 @@ namespace RadonFramework
 	{
         struct LogConfigData
         {
-            RFTYPE::Bool IsInfoEnabled;
-            RFTYPE::Bool IsErrorEnabled;
-            RFTYPE::Bool IsFatalErrorEnabled;
-            RFTYPE::Bool IsDebugEnabled;
-            RFTYPE::UInt32 AppenderCount;
-            RFTYPE::UInt64 AppenderPointerOffset;
+            RF_Type::Bool IsInfoEnabled;
+            RF_Type::Bool IsErrorEnabled;
+            RF_Type::Bool IsFatalErrorEnabled;
+            RF_Type::Bool IsDebugEnabled;
+            RF_Type::UInt32 AppenderCount;
+            RF_Type::UInt64 AppenderPointerOffset;
         };
 
 		class LogConfig
@@ -33,26 +33,26 @@ namespace RadonFramework
                 LogConfig& operator=(const LogConfig& Other);
                 void Configure();
                 // Reader functionality
-                RFTYPE::Bool ReadFromBinaryData(Memory::AutoPointerArray<RFTYPE::UInt8> Data);
-                RFTYPE::Bool IsInfoEnabled()const;
-                RFTYPE::Bool IsErrorEnabled()const;
-                RFTYPE::Bool IsFatalErrorEnabled()const;
-                RFTYPE::Bool IsDebugEnabled()const;
-                RFTYPE::UInt32 AppenderCount()const;
-                RFTYPE::UInt32 GetAppenderID(RFTYPE::UInt32 Index)const;
-                Memory::AutoPointer<Appender> GenerateAppender(RFTYPE::UInt32 AppenderID);
+                RF_Type::Bool ReadFromBinaryData(Memory::AutoPointerArray<RF_Type::UInt8> Data);
+                RF_Type::Bool IsInfoEnabled()const;
+                RF_Type::Bool IsErrorEnabled()const;
+                RF_Type::Bool IsFatalErrorEnabled()const;
+                RF_Type::Bool IsDebugEnabled()const;
+                RF_Type::UInt32 AppenderCount()const;
+                RF_Type::UInt32 GetAppenderID(RF_Type::UInt32 Index)const;
+                Memory::AutoPointer<Appender> GenerateAppender(RF_Type::UInt32 AppenderID);
                 Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Appender> > > GenerateAppenders();
                 // Writer functionality
-                void SetInfoEnabled(RFTYPE::Bool NewValue);
-                void SetErrorEnabled(RFTYPE::Bool NewValue);
-                void SetFatalErrorEnabled(RFTYPE::Bool NewValue);
-                void SetDebugEnabled(RFTYPE::Bool NewValue);
-                void SetAppenders(const Collections::Array<RFTYPE::UInt32>& AppenderIDs);
-                Memory::AutoPointerArray<RFTYPE::UInt8> GenerateBinaryData();
-                static Collections::Array<Collections::Pair<RFTYPE::UInt32,Appender* (*)()> > AppenderLookupTable;
+                void SetInfoEnabled(RF_Type::Bool NewValue);
+                void SetErrorEnabled(RF_Type::Bool NewValue);
+                void SetFatalErrorEnabled(RF_Type::Bool NewValue);
+                void SetDebugEnabled(RF_Type::Bool NewValue);
+                void SetAppenders(const Collections::Array<RF_Type::UInt32>& AppenderIDs);
+                Memory::AutoPointerArray<RF_Type::UInt8> GenerateBinaryData();
+                static Collections::Array<Collections::Pair<RF_Type::UInt32,Appender* (*)()> > AppenderLookupTable;
             protected:
                 Memory::AutoPointer<LogConfigData> m_Data;
-                RFTYPE::UInt32* m_AppenderIDs;
+                RF_Type::UInt32* m_AppenderIDs;
 		};
 	}
 }

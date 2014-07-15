@@ -15,16 +15,16 @@ namespace RadonFramework
     {
         class Reflectable;
 
-        typedef RFTYPE::Int32 (Reflectable::*Callback)(ParameterStack &Stack);
+        typedef RF_Type::Int32 (Reflectable::*Callback)(ParameterStack &Stack);
 
         class ReflectionMethode
         {
             public:
-                ReflectionMethode(const RFTYPE::String &Name, Callback Ptr);
-                const RFTYPE::String& GetName()const;
+                ReflectionMethode(const RF_Type::String &Name, Callback Ptr);
+                const RF_Type::String& GetName()const;
                 Callback GetCallback();
             protected:
-                RFTYPE::String m_Name;
+                RF_Type::String m_Name;
                 Callback m_Callback;
         };
     }

@@ -14,32 +14,38 @@ namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespa
 class TestSuite
 {
 public:
-    typedef Delegate<RFTYPE::Bool> TestMethod;
+    typedef Delegate<RF_Type::Bool> TestMethod;
 
-    TestSuite(const RFTYPE::String& Name);
-    RFTYPE::String Name() const;
-    void SetTestProbes(const RFTYPE::Size Probes);
-    void AddTest(TestMethod Test, const RFTYPE::String& Testname, const RFTYPE::String& Description);
+    TestSuite(const RF_Type::String& Name);
+    RF_Type::String Name() const;
+    void SetTestProbes(const RF_Type::Size Probes);
+    void AddTest(TestMethod Test, const RF_Type::String& Testname, 
+                 const RF_Type::String& Description);
     virtual void SetUp();
     virtual void TearDown();
-    void IgnoreTest(const RFTYPE::String& Testname);
+    void IgnoreTest(const RF_Type::String& Testname);
     void Run();
-    Collections::List<Memory::AutoPointer<UnitTestResult> >& GetResults();
+    RF_Collect::List<RF_Mem::AutoPointer<UnitTestResult> >& GetResults();
 protected:
     struct Callback{
-        RFTYPE::String Name;
-        RFTYPE::String Description;
+        RF_Type::String Name;
+        RF_Type::String Description;
         TestMethod Method;
     };
-    Collections::List<Callback> m_TestMethods;
-    RFTYPE::String m_Name;
-    Collections::List<RFTYPE::String> m_IgnoreTest;
-    Collections::List<Memory::AutoPointer<UnitTestResult> > m_TestResults;
-    RFTYPE::Size m_TestProbes;
+    RF_Collect::List<Callback> m_TestMethods;
+    RF_Type::String m_Name;
+    RF_Collect::List<RF_Type::String> m_IgnoreTest;
+    RF_Collect::List<RF_Mem::AutoPointer<UnitTestResult> > m_TestResults;
+    RF_Type::Size m_TestProbes;
 
-    Memory::AutoPointer<UnitTestResult> ProcessTest(const RFTYPE::UInt32 Number);
+    RF_Mem::AutoPointer<UnitTestResult> ProcessTest(const RF_Type::UInt32 Number);
 };
 
 } } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_TEST
+#define RF_SHORTHAND_NAMESPACE_TEST
+namespace RF_Test = RadonFramework::Diagnostics::Debugging::UnitTest;
+#endif
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_TESTSUITE_HPP

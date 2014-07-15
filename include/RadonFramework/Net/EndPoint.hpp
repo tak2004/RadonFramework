@@ -16,7 +16,7 @@ namespace RadonFramework
 			public:
 				EndPoint();
 				EndPoint(const IPAddress &Addr, unsigned int Port=0);
-				const RFTYPE::String ToString()const;
+				const RF_Type::String ToString()const;
 				const IPAddress& Address()const;
 				void Address(const IPAddress &Value);
 				unsigned int Port()const;

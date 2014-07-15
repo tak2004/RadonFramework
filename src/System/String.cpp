@@ -91,8 +91,8 @@ Bool ToFloat64Callback_SystemAPIDispatcher(const String& Instance, Float64& Out)
 }
 
 
-Int32 FormatCallback_SystemAPIDispatcher(RFTYPE::UInt8* Buffer, RFTYPE::Size BufferSize,
-                                         const RFTYPE::String& Format, va_list arg)
+Int32 FormatCallback_SystemAPIDispatcher(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize,
+                                         const RF_Type::String& Format, va_list arg)
 {
     RFSTR::Format = 0;
     Dispatch();
@@ -128,7 +128,7 @@ Bool RFSTR::IsSuccessfullyDispatched()
     return result;
 }
 
-void RFSTR::GetNotDispatchedFunctions(List<RFTYPE::String>& Result)
+void RFSTR::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if (SetLocale == SetLocale_SystemAPIDispatcher || SetLocale == 0) 
         Result.AddLast("SetLocale");

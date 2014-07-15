@@ -17,7 +17,7 @@ void DebugCollector::ProcessResult(const UnitTestResult& Result)
 #endif
 }
 
-void DebugCollector::CreateSuite( const RFTYPE::String& Name )
+void DebugCollector::CreateSuite( const RF_Type::String& Name )
 {
     m_CurrentSuite = Name;
 }

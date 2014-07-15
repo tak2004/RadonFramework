@@ -15,13 +15,13 @@ namespace RadonFramework
         {
             public:
                 static Memory::AutoPointer<File> CreateTempFile();
-                static RFTYPE::String GenerateTemporaryFilename();
+                static RF_Type::String GenerateTemporaryFilename();
                 static Memory::AutoPointer<File> GenerateFile(const Uri& Location);
 
-                static const RFTYPE::String& PathSeperator();
-                static const RFTYPE::Char PathSeperatorChar();
-                static const RFTYPE::String& Seperator();
-                static const RFTYPE::Char SeperatorChar();
+                static const RF_Type::String& PathSeperator();
+                static const RF_Type::Char PathSeperatorChar();
+                static const RF_Type::String& Seperator();
+                static const RF_Type::Char SeperatorChar();
 
                 File();
                 ~File();
@@ -29,25 +29,25 @@ namespace RadonFramework
                 File& operator =(const File& Other);
 
                 void SetLocation(const Uri& Location);
-                RFTYPE::Bool CreateNewFile()const;
-                RFTYPE::Bool Preallocate(const RFTYPE::Size SizeInBytes)const;
-                RFTYPE::Bool Delete()const;
-                RFTYPE::Bool Exists()const;
-                RFTYPE::Bool CopyTo(const RFTYPE::String& Destination);
-                const RFTYPE::String Name()const;
-                RFTYPE::String Path()const;
-                RFTYPE::Bool IsHidden()const;
-                RFTYPE::Bool IsFile()const;
-                RFTYPE::UInt64 LastModified()const;
-                RFTYPE::UInt64 CreatedOn()const;
-                RFTYPE::UInt64 LastAccess()const;
-                RFTYPE::UInt64 Size()const;
-                RFTYPE::Bool RenameTo(const Uri& NewLocation);
-                RFTYPE::Bool AccessMode(AccessMode::Type NewValue);
+                RF_Type::Bool CreateNewFile()const;
+                RF_Type::Bool Preallocate(const RF_Type::Size SizeInBytes)const;
+                RF_Type::Bool Delete()const;
+                RF_Type::Bool Exists()const;
+                RF_Type::Bool CopyTo(const RF_Type::String& Destination);
+                const RF_Type::String Name()const;
+                RF_Type::String Path()const;
+                RF_Type::Bool IsHidden()const;
+                RF_Type::Bool IsFile()const;
+                RF_Type::UInt64 LastModified()const;
+                RF_Type::UInt64 CreatedOn()const;
+                RF_Type::UInt64 LastAccess()const;
+                RF_Type::UInt64 Size()const;
+                RF_Type::Bool RenameTo(const Uri& NewLocation);
+                RF_Type::Bool AccessMode(AccessMode::Type NewValue);
                 AccessMode::Type AccessMode();
                 const Uri& Location()const;
-                Memory::AutoPointerArray<RFTYPE::UInt8> Read();
-                RFTYPE::Bool Write(const Memory::AutoPointerArray<RFTYPE::UInt8>& Data);
+                Memory::AutoPointerArray<RF_Type::UInt8> Read();
+                RF_Type::Bool Write(const Memory::AutoPointerArray<RF_Type::UInt8>& Data);
             protected:
                 Uri m_Location;
         };

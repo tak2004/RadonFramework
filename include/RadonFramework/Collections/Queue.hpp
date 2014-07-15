@@ -32,15 +32,15 @@ public:
     void Clear();
 
     /// Removes and assign the object at the beginning of the Queue<T> to Item.
-    RFTYPE::Bool Dequeue(T& Item);
+    RF_Type::Bool Dequeue(T& Item);
 
     /// Removes the object at the beginning of the Queue<T>.
-    RFTYPE::Bool Dequeue();
+    RF_Type::Bool Dequeue();
 
     /// Adds a copy of an object to the end of the Queue<T>.
     void Enqueue(const T& Item);
 
-    RFTYPE::Bool IsEmpty()const;
+    RF_Type::Bool IsEmpty()const;
 protected:
     struct Node
     {
@@ -48,8 +48,8 @@ protected:
         T m_Value;
     };
 
-    RFTYPE::AtomicPointer<Node> m_Head;
-    RFTYPE::AtomicPointer<Node> m_Tail;
+    RF_Type::AtomicPointer<Node> m_Head;
+    RF_Type::AtomicPointer<Node> m_Tail;
 private:
     Queue(const Queue& Copy);
     Queue& operator = (const Queue& Other);
@@ -85,9 +85,9 @@ void Queue<T,MA,MO>::Enqueue(const T& Item)
 }
 
 template<typename T, typename MA, typename MO>
-RFTYPE::Bool Queue<T,MA,MO>::Dequeue(T& Item)
+RF_Type::Bool Queue<T,MA,MO>::Dequeue(T& Item)
 {
-    RFTYPE::Bool result=false;
+    RF_Type::Bool result=false;
     Node* parameter = 0;
     // take head pointer and replace it temporary by 0 
     parameter = m_Head.FetchAndExchange(0);
@@ -105,9 +105,9 @@ RFTYPE::Bool Queue<T,MA,MO>::Dequeue(T& Item)
 }
 
 template<typename T, typename MA, typename MO>
-RFTYPE::Bool Queue<T, MA, MO>::Dequeue()
+RF_Type::Bool Queue<T, MA, MO>::Dequeue()
 {
-    RFTYPE::Bool result = false;
+    RF_Type::Bool result = false;
     Node* node = 0;
     // take head pointer and replace it temporary by 0 
     node = m_Head.FetchAndExchange(0);
@@ -130,7 +130,7 @@ void Queue<T,MA,MO>::Clear()
 }
 
 template<typename T, typename MA, typename MO>
-RFTYPE::Bool Queue<T, MA, MO>::IsEmpty()const
+RF_Type::Bool Queue<T, MA, MO>::IsEmpty()const
 {
     return m_Head == 0;
 }
@@ -147,5 +147,10 @@ Queue<T, MA, MO>& Queue<T, MA, MO>::operator=(const Queue<T, MA, MO>& Other)
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
 
 #endif // RF_COLLECTIONS_QUEUE_HPP

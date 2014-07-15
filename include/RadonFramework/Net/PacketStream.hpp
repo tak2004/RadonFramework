@@ -23,15 +23,15 @@ namespace RadonFramework
         class PacketStream
         {
             public:
-                typedef Delegate1<IO::MemoryCollectionStream&,RFTYPE::Bool> SplitFunctionType;
-                typedef Delegate1<Memory::AutoPointerArray<RFTYPE::UInt8>&,RFTYPE::Bool> DispatcherFunctionType;
+                typedef Delegate1<IO::MemoryCollectionStream&,RF_Type::Bool> SplitFunctionType;
+                typedef Delegate1<Memory::AutoPointerArray<RF_Type::UInt8>&,RF_Type::Bool> DispatcherFunctionType;
                 PacketStream();
 
-                void Enqueue(Memory::AutoPointerArray<RFTYPE::UInt8>& packet);
+                void Enqueue(Memory::AutoPointerArray<RF_Type::UInt8>& packet);
 
-                void MaxDataSize(const RFTYPE::UInt32 NewSize);
+                void MaxDataSize(const RF_Type::UInt32 NewSize);
 
-                RFTYPE::UInt32 MaxDataSize()const;
+                RF_Type::UInt32 MaxDataSize()const;
 
                 void SetPacketSplitFunction(SplitFunctionType SplitFunction);
 

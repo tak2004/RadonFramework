@@ -16,11 +16,11 @@ namespace RadonFramework
         class Reflectable
         {
           public:
-            virtual const RFTYPE::String& GetName()const;
-            virtual RFTYPE::UInt32 PropertiesCount();
-            virtual RFTYPE::UInt32 MethodeCount();
-            virtual ReflectionProperty* Property(RFTYPE::UInt32 Index);
-            virtual ReflectionMethode* Methode(RFTYPE::UInt32 Index);
+            virtual const RF_Type::String& GetName()const;
+            virtual RF_Type::UInt32 PropertiesCount();
+            virtual RF_Type::UInt32 MethodeCount();
+            virtual ReflectionProperty* Property(RF_Type::UInt32 Index);
+            virtual ReflectionMethode* Methode(RF_Type::UInt32 Index);
             REFLECT(Reflectable){}
         };
     }

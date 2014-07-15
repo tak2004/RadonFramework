@@ -9,10 +9,10 @@ using namespace RadonFramework;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
-RFTYPE::UInt32 GetAvailableLogicalProcessorCount()
+RF_Type::UInt32 GetAvailableLogicalProcessorCount()
 {
-    static RFTYPE::UInt32 NumberOfProcessors = 0;
-    RFTYPE::UInt32 result;
+    static RF_Type::UInt32 NumberOfProcessors = 0;
+    RF_Type::UInt32 result;
     if (NumberOfProcessors > 0)
     {
         result = NumberOfProcessors;
@@ -27,25 +27,25 @@ RFTYPE::UInt32 GetAvailableLogicalProcessorCount()
     return result;
 }
 
-RFTYPE::UInt32 GetCurrentProcessorNumberImplementation()
+RF_Type::UInt32 GetCurrentProcessorNumberImplementation()
 {
-    RFTYPE::UInt32 result;
+    RF_Type::UInt32 result;
     result = GetCurrentProcessorNumber();
     return result;
 }
 
 // Util function: use it only for internal purpose
-void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RFTYPE::Int32 PId)
+void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RF_Type::Int32 PId)
 {
     
     DWORD buffer_size = 0;
     GetLogicalProcessorInformation(0, &buffer_size);
-    RFTYPE::Int32 count = buffer_size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+    RF_Type::Int32 count = buffer_size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
     SYSTEM_LOGICAL_PROCESSOR_INFORMATION* buffer = new SYSTEM_LOGICAL_PROCESSOR_INFORMATION[count];
     GetLogicalProcessorInformation(&buffer[0], &buffer_size);
 
-    RFTYPE::Int32 CacheCount = 0;
-    for (RFTYPE::Size i = 0; i != count; ++i)
+    RF_Type::Int32 CacheCount = 0;
+    for (RF_Type::Size i = 0; i != count; ++i)
     {
         if (buffer[i].Relationship == RelationCache && (buffer[i].ProcessorMask & PId) == PId)
         {
@@ -54,7 +54,7 @@ void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RFTYPE::
     }
 
     CacheDataList = AutoPointerArray<RFHDW::CacheInfo>(new RFHDW::CacheInfo[CacheCount], CacheCount);
-    for (RFTYPE::Size i = 0, j = 0; i < count; ++i)
+    for (RF_Type::Size i = 0, j = 0; i < count; ++i)
     {
         if (buffer[i].Relationship == RelationCache && (buffer[i].ProcessorMask & PId) == PId)
         {
@@ -118,13 +118,13 @@ void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RFTYPE::
     delete[] buffer;
 }
 
-RFTYPE::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RFTYPE::UInt32 Index)
+RF_Type::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RF_Type::UInt32 Index)
 {
     static AutoPointerArray<RFHDW::CacheInfo>* CacheData = 0;
-    typedef Singleton<AutoPointerArray<AutoPointerArray<RFHDW::CacheInfo> > > GlobalCacheData;
+    typedef RF_Pattern::Singleton<AutoPointerArray<AutoPointerArray<RFHDW::CacheInfo> > > GlobalCacheData;
 
-    RFTYPE::Bool result = false;
-    RFTYPE::UInt32 pid = GetCurrentProcessorNumber();
+    RF_Type::Bool result = false;
+    RF_Type::UInt32 pid = GetCurrentProcessorNumber();
     if (CacheData > 0)
     {
         if (CacheData[pid].Count() > Index)
@@ -144,7 +144,7 @@ RFTYPE::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RFTYPE::UInt32 Index)
     }
     else
     {
-        RFTYPE::UInt32 count = ::GetAvailableLogicalProcessorCount();
+        RF_Type::UInt32 count = ::GetAvailableLogicalProcessorCount();
         AutoPointerArray<AutoPointerArray<RFHDW::CacheInfo> >& infos = GlobalCacheData::GetInstance();
         infos = AutoPointerArray<AutoPointerArray<RFHDW::CacheInfo> >(new AutoPointerArray<RFHDW::CacheInfo>[count], count);
         CacheData = infos.Get();
@@ -160,16 +160,16 @@ RFTYPE::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RFTYPE::UInt32 Index)
 }
 
 // Util function: use it only for internal purpose
-RFTYPE::Int32 CacheCountFromLPInfo(RFTYPE::Int32 PId)
+RF_Type::Int32 CacheCountFromLPInfo(RF_Type::Int32 PId)
 {
     DWORD buffer_size = 0;
     GetLogicalProcessorInformation(0, &buffer_size);
-    RFTYPE::Int32 count = buffer_size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+    RF_Type::Int32 count = buffer_size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
     SYSTEM_LOGICAL_PROCESSOR_INFORMATION* buffer = new SYSTEM_LOGICAL_PROCESSOR_INFORMATION[count];
     GetLogicalProcessorInformation(&buffer[0], &buffer_size);
 
-    RFTYPE::Int32 cacheCount = 0;
-    for (RFTYPE::Size i = 0; i != count; ++i)
+    RF_Type::Int32 cacheCount = 0;
+    for (RF_Type::Size i = 0; i != count; ++i)
     {
         if (buffer[i].Relationship == RelationCache && (buffer[i].ProcessorMask & PId) == PId)
         {
@@ -180,12 +180,12 @@ RFTYPE::Int32 CacheCountFromLPInfo(RFTYPE::Int32 PId)
     return cacheCount;
 }
 
-RFTYPE::Int32 GetCacheCount()
+RF_Type::Int32 GetCacheCount()
 {
-    static RFTYPE::Int32* CacheCount = 0;
+    static RF_Type::Int32* CacheCount = 0;
 
-    RFTYPE::Int32 result = -1;
-    RFTYPE::UInt32 pid = GetCurrentProcessorNumber();
+    RF_Type::Int32 result = -1;
+    RF_Type::UInt32 pid = GetCurrentProcessorNumber();
     if (CacheCount > 0)
     {
         if (CacheCount[pid] > -1)
@@ -198,12 +198,12 @@ RFTYPE::Int32 GetCacheCount()
     }
     else
     {
-        RFTYPE::UInt32 LPCount = ::GetAvailableLogicalProcessorCount();
-        typedef Singleton<AutoPointerArray<RFTYPE::Int32> > GlobalCacheCount;
-        AutoPointerArray<RFTYPE::Int32>& cacheCountList = GlobalCacheCount::GetInstance();
-        cacheCountList = AutoPointerArray<RFTYPE::Int32>(new RFTYPE::Int32[LPCount], LPCount);
+        RF_Type::UInt32 LPCount = ::GetAvailableLogicalProcessorCount();
+        typedef RF_Pattern::Singleton<AutoPointerArray<RF_Type::Int32> > GlobalCacheCount;
+        AutoPointerArray<RF_Type::Int32>& cacheCountList = GlobalCacheCount::GetInstance();
+        cacheCountList = AutoPointerArray<RF_Type::Int32>(new RF_Type::Int32[LPCount], LPCount);
 
-        for (RFTYPE::Size i = 0; i < LPCount; ++i)
+        for (RF_Type::Size i = 0; i < LPCount; ++i)
         {
             cacheCountList[i] = -1;
         }

@@ -17,7 +17,7 @@ namespace RadonFramework
             class NullHashfunctionService:public HashfunctionService
             {
                 public:
-                    NullHashfunctionService(const RFTYPE::String &Name)
+                    NullHashfunctionService(const RF_Type::String &Name)
                     :HashfunctionService(Name)
                     {
                     }

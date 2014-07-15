@@ -13,7 +13,7 @@ using namespace RadonFramework::Collections;
 #include <cpuid.h>
 #endif
 
-void CPUId(RFTYPE::Int32 code, RFTYPE::UInt32* registers)
+void CPUId(RF_Type::Int32 code, RF_Type::UInt32* registers)
 {
     #ifdef RF_WINDOWS
     __cpuid(reinterpret_cast<int*>(registers),code);
@@ -22,7 +22,7 @@ void CPUId(RFTYPE::Int32 code, RFTYPE::UInt32* registers)
     #endif
 }
 
-void DecodeCacheInfo(RFHDW::CacheInfo& CacheInfo, RFTYPE::UInt32 reg)
+void DecodeCacheInfo(RFHDW::CacheInfo& CacheInfo, RF_Type::UInt32 reg)
 {
     reg &= 0xff;
 
@@ -307,19 +307,19 @@ void DecodeCacheInfo(RFHDW::CacheInfo& CacheInfo, RFTYPE::UInt32 reg)
     CacheInfo.LineCount = CacheInfo.Size / CacheInfo.LineSize;
 }
 
-RFTYPE::Int32 GetCacheCount();
+RF_Type::Int32 GetCacheCount();
 
 // Util function: use it only for internal purpose
 inline void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheData)
 {
-    RFTYPE::Int32 count = ::GetCacheCount();
+    RF_Type::Int32 count = ::GetCacheCount();
     CacheData = AutoPointerArray<RFHDW::CacheInfo>(new RFHDW::CacheInfo[count], count);
 
-    RFTYPE::UInt32 reg[4]={0,0,0,0};
+    RF_Type::UInt32 reg[4]={0,0,0,0};
 
     // Duff device
     {
-        RFTYPE::Size i = (count + 15) >> 4;
+        RF_Type::Size i = (count + 15) >> 4;
         for (; i > 0; --i)
         {
             CPUId(2, reg);
@@ -347,14 +347,14 @@ inline void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheData)
 }
 
 // Util function: use it only for internal purpose
-RFTYPE::Int32 DetectCacheCount()
+RF_Type::Int32 DetectCacheCount()
 {
-    static const RFTYPE::UInt32 BITSHIFT_IS_CACHE_DATA_SET = 29;
-    RFTYPE::Int32 result = 0;
-    RFTYPE::UInt32 reg[4]={0,0,0,0};
+    static const RF_Type::UInt32 BITSHIFT_IS_CACHE_DATA_SET = 29;
+    RF_Type::Int32 result = 0;
+    RF_Type::UInt32 reg[4]={0,0,0,0};
     CPUId(1, reg);
-    RFTYPE::Size entries = reg[0] & 0xff;
-    for (RFTYPE::Size i = 0; i < entries; ++i)
+    RF_Type::Size entries = reg[0] & 0xff;
+    for (RF_Type::Size i = 0; i < entries; ++i)
     {
         CPUId(1, reg);
         // If highest bit of a register is 0 then it contains 4 cache entries.
@@ -369,32 +369,32 @@ RFTYPE::Int32 DetectCacheCount()
 }
 
 // Magic numbers
-static const RFTYPE::UInt32 BITMASK_AES=0x2000000;
-static const RFTYPE::UInt32 BITMASK_AVX=0x10000000;
-static const RFTYPE::UInt32 BITMASK_CLFLUSH=0x80000;
-static const RFTYPE::UInt32 BITMASK_CMOV=0x8000;
-static const RFTYPE::UInt32 BITMASK_CX16=0x2000;
-static const RFTYPE::UInt32 BITMASK_CX8=0x100;
-static const RFTYPE::UInt32 BITMASK_FMA=0x1000;
-static const RFTYPE::UInt32 BITMASK_FMOV=0x8001;
-static const RFTYPE::UInt32 BITMASK_FPU=1;
-static const RFTYPE::UInt32 BITMASK_HTT=0x10000000;
-static const RFTYPE::UInt32 BITMASK_MMX=0x800000;
-static const RFTYPE::UInt32 BITMASK_MOVBE=0x400000;
-static const RFTYPE::UInt32 BITMASK_PCLMUL=2;
-static const RFTYPE::UInt32 BITMASK_POPCNT=0x800000;
-static const RFTYPE::UInt32 BITMASK_SSE=0x2000000;
-static const RFTYPE::UInt32 BITMASK_SSE2=0x4000000;
-static const RFTYPE::UInt32 BITMASK_SSE3=1;
-static const RFTYPE::UInt32 BITMASK_SSSE3=0x200;
-static const RFTYPE::UInt32 BITMASK_SSE4_1=0x80000;
-static const RFTYPE::UInt32 BITMASK_SSE4_2=0x100000;
-static const RFTYPE::UInt32 BITMASK_TSC=0x10;
+static const RF_Type::UInt32 BITMASK_AES=0x2000000;
+static const RF_Type::UInt32 BITMASK_AVX=0x10000000;
+static const RF_Type::UInt32 BITMASK_CLFLUSH=0x80000;
+static const RF_Type::UInt32 BITMASK_CMOV=0x8000;
+static const RF_Type::UInt32 BITMASK_CX16=0x2000;
+static const RF_Type::UInt32 BITMASK_CX8=0x100;
+static const RF_Type::UInt32 BITMASK_FMA=0x1000;
+static const RF_Type::UInt32 BITMASK_FMOV=0x8001;
+static const RF_Type::UInt32 BITMASK_FPU=1;
+static const RF_Type::UInt32 BITMASK_HTT=0x10000000;
+static const RF_Type::UInt32 BITMASK_MMX=0x800000;
+static const RF_Type::UInt32 BITMASK_MOVBE=0x400000;
+static const RF_Type::UInt32 BITMASK_PCLMUL=2;
+static const RF_Type::UInt32 BITMASK_POPCNT=0x800000;
+static const RF_Type::UInt32 BITMASK_SSE=0x2000000;
+static const RF_Type::UInt32 BITMASK_SSE2=0x4000000;
+static const RF_Type::UInt32 BITMASK_SSE3=1;
+static const RF_Type::UInt32 BITMASK_SSSE3=0x200;
+static const RF_Type::UInt32 BITMASK_SSE4_1=0x80000;
+static const RF_Type::UInt32 BITMASK_SSE4_2=0x100000;
+static const RF_Type::UInt32 BITMASK_TSC=0x10;
 
-RFTYPE::Bool GetLogicalProcessorFeatures(RFHDW::ProcessorFeatureMask& Features)
+RF_Type::Bool GetLogicalProcessorFeatures(RFHDW::ProcessorFeatureMask& Features)
 {
-    RFTYPE::Int32 result = false;
-    RFTYPE::UInt32 reg[4]={0,0,0,0};
+    RF_Type::Int32 result = false;
+    RF_Type::UInt32 reg[4]={0,0,0,0};
     // is CPUId supported
     CPUId(0, reg);
     if (reg[0] > 0)

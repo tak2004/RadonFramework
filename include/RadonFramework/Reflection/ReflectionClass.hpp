@@ -25,15 +25,15 @@ namespace RadonFramework
         class ReflectionClass
         {
             public:
-                ReflectionClass(const RFTYPE::String& Name,
+                ReflectionClass(const RF_Type::String& Name,
                                 void (*Configure)(ReflectionClass* Cls),
                                 CreateInstanceFunction Function);
                 RadonFramework::Collections::AutoVector<ReflectionProperty> Properties;
                 RadonFramework::Collections::AutoVector<ReflectionMethode> Methodes;
-                const RFTYPE::String& GetName()const;
+                const RF_Type::String& GetName()const;
                 ReflectionClassInstance* CreateInstance();
             private:
-                RFTYPE::String m_Name;
+                RF_Type::String m_Name;
                 CreateInstanceFunction m_CreateInstanceFunction;
         };
     }

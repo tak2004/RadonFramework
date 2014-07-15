@@ -178,7 +178,7 @@ int GetNativeAccessPriority(const FileAccessPriority::Type Priority)
     return result[Priority];
 }
 
-FileHandle OpenFile(const RFTYPE::String& Filepath, const FileAccessMode::Type AccessMode,
+FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type AccessMode,
                     const FileAccessPriority::Type AccessPriority)
 {
     FileHandle result = FileHandle::Zero();
@@ -192,7 +192,7 @@ FileHandle OpenFile(const RFTYPE::String& Filepath, const FileAccessMode::Type A
     return result;
 }
 
-RFTYPE::Bool CloseFile(FileHandle& Handle)
+RF_Type::Bool CloseFile(FileHandle& Handle)
 {
     int file = static_cast<int>(Handle.GetID());
     Bool result = close(file) == 0;

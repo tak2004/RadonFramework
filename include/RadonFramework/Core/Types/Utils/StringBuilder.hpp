@@ -17,41 +17,46 @@ public:
     /// Destructor
     ~StringBuilder();
     /// Can be used to append a formatted string.
-    StringBuilder& AppendFormat(const RFTYPE::String& Format, ...);
+    StringBuilder& AppendFormat(const RF_Type::String& Format, ...);
     /// Append a line break to the end of the string.
     StringBuilder& AppendLine();
     ///
-    StringBuilder& Append(const RFTYPE::String& Value);
+    StringBuilder& Append(const RF_Type::String& Value);
     /// Remove all character.
     void Clear();
     /// Ensure to provide the specified capacity.
-    void EnsureCapacity(const RFTYPE::Size NewCapacity);
+    void EnsureCapacity(const RF_Type::Size NewCapacity);
     /// 
-    StringBuilder& Insert(const RFTYPE::String& Value, const RFTYPE::Size Index);
+    StringBuilder& Insert(const RF_Type::String& Value, const RF_Type::Size Index);
     ///
-    StringBuilder& Remove(const RFTYPE::Size Index, const RFTYPE::Size GlyphCount);
+    StringBuilder& Remove(const RF_Type::Size Index, const RF_Type::Size GlyphCount);
     ///
-    StringBuilder& Replace(const RFTYPE::String& ThisString, 
-        const RFTYPE::String& ByString);
+    StringBuilder& Replace(const RF_Type::String& ThisString, 
+        const RF_Type::String& ByString);
 
     /// Length of the string.
-    RFTYPE::Size Length()const;
+    RF_Type::Size Length()const;
     /// Size in bytes of the string.
-    RFTYPE::Size Size()const;
+    RF_Type::Size Size()const;
     /// Available bytes.
-    RFTYPE::Size Capacity()const;
+    RF_Type::Size Capacity()const;
     /** Return the internal buffer as C-string.
     * Use this method for data access only and you should know what your doing.
     **/
-    RFTYPE::Char* AsCString()const;
+    RF_Type::Char* AsCString()const;
     ///
-    Memory::AutoPointer<RFTYPE::String> ToString()const;
+    Memory::AutoPointer<RF_Type::String> ToString()const;
 protected:
-    RFTYPE::Char* m_Data;
-    RFTYPE::Size m_Size;
-    RFTYPE::Size m_Length;
+    RF_Type::Char* m_Data;
+    RF_Type::Size m_Size;
+    RF_Type::Size m_Length;
 };
 
 } } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_UTIL
+#define RF_SHORTHAND_NAMESPACE_UTIL
+namespace RF_Util = RadonFramework::Core::Types::Utils;
+#endif
 
 #endif // RF_CORE_TYPES_UITLS_STRINGBUILDER_HPP

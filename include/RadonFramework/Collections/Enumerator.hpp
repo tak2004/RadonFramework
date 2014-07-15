@@ -29,9 +29,9 @@ struct Enumerator
     ///
     const T* operator->()const;
 
-    Enumerator& MoveBy(const RFTYPE::Size Steps);
+    Enumerator& MoveBy(const RF_Type::Size Steps);
 
-    RFTYPE::Size Size()const;
+    RF_Type::Size Size()const;
 };
 
 template<typename T, class ENUMERATORTYPE>
@@ -83,17 +83,22 @@ const T* Enumerator<T, ENUMERATORTYPE>::operator->() const
 }
 
 template<typename T, class ENUMERATORTYPE>
-Enumerator<T, ENUMERATORTYPE>& Enumerator<T, ENUMERATORTYPE>::MoveBy(const RFTYPE::Size Steps)
+Enumerator<T, ENUMERATORTYPE>& Enumerator<T, ENUMERATORTYPE>::MoveBy(const RF_Type::Size Steps)
 {
     static_assert(false, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
-RFTYPE::Size Enumerator<T, ENUMERATORTYPE>::Size() const
+RF_Type::Size Enumerator<T, ENUMERATORTYPE>::Size() const
 {
     static_assert(false, "Container isn't supported yet.");
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
 
 #endif // RF_COLLECTIONS_ENUMERATOR_HPP

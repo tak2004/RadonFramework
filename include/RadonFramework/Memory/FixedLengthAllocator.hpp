@@ -6,22 +6,23 @@
 
 #include <RadonFramework/Core/Types/UInt8.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Memory {
+
+template <typename BLOCKOFFSETTYPE, typename BLOCKSIZETYPE, BLOCKSIZETYPE BLOCKSIZE>
+struct Chunk
 {
-    namespace Memory
-    {
-        template <typename BLOCKOFFSETTYPE, typename BLOCKSIZETYPE, BLOCKSIZETYPE BLOCKSIZE>
-        struct Chunk
-        {
-            RFTYPE::UInt8 *Data;
-            BLOCKOFFSETTYPE FirstAvailableBlock;
+    RF_Type::UInt8 *Data;
+    BLOCKOFFSETTYPE FirstAvailableBlock;
 
-            static BLOCKSIZETYPE BlockSize;
+    static BLOCKSIZETYPE BlockSize;
 
-        };
+};
 
+} }
 
-    }
-}
+#ifndef RF_SHORTHAND_NAMESPACE_MEM
+#define RF_SHORTHAND_NAMESPACE_MEM
+namespace RF_Mem = RadonFramework::Memory;
+#endif
 
 #endif // RF_FIXEDLENGTHALLOCATOR_HPP

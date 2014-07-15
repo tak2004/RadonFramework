@@ -4,37 +4,40 @@
 #pragma once
 #endif
 
-namespace RadonFramework
-{
-    namespace IO
-    {
-        namespace AccessMode
-        {
-            enum Type
-            {
-                None=0,
-                Exists,
-                Read,
-                ReadExists,
-                Write,
-                WriteExists,
-                WriteRead,
-                WriteReadExists,
-                Execute,
-                ExecuteExists,
-                ExecuteRead,
-                ExecuteReadExists,
-                ExecuteWrite,
-                ExecuteWriteExists,
-                ExecuteWriteRead,
-                ExecuteWriteReadExists,
-                MAX
-            };
-        }
+namespace RadonFramework { namespace IO {
 
-        AccessMode::Type operator |(const AccessMode::Type A, const AccessMode::Type B);
-        AccessMode::Type& operator |=(AccessMode::Type& A, const AccessMode::Type B);
-    }
+namespace AccessMode
+{
+    enum Type
+    {
+        None=0,
+        Exists,
+        Read,
+        ReadExists,
+        Write,
+        WriteExists,
+        WriteRead,
+        WriteReadExists,
+        Execute,
+        ExecuteExists,
+        ExecuteRead,
+        ExecuteReadExists,
+        ExecuteWrite,
+        ExecuteWriteExists,
+        ExecuteWriteRead,
+        ExecuteWriteReadExists,
+        MAX
+    };
 }
+
+AccessMode::Type operator |(const AccessMode::Type A, const AccessMode::Type B);
+AccessMode::Type& operator |=(AccessMode::Type& A, const AccessMode::Type B);
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_IO_ACCESSMODE_HPP

@@ -21,12 +21,12 @@ namespace RadonFramework
         XSetWindowAttributes m_WindowFlags;
         WindowService *m_Service;
 
-        RFTYPE::String m_Title;
-        RFTYPE::Bool m_Border;
-        RFTYPE::Bool m_Visible;
-        RFTYPE::Bool m_CursorVisible;
-        RFTYPE::Bool m_Created;//true if window is created;
-        RFTYPE::Bool m_CloseButton;
+        RF_Type::String m_Title;
+        RF_Type::Bool m_Border;
+        RF_Type::Bool m_Visible;
+        RF_Type::Bool m_CursorVisible;
+        RF_Type::Bool m_Created;//true if window is created;
+        RF_Type::Bool m_CloseButton;
 
         static std::vector<X11Window*>m_Objects;
       public:
@@ -35,16 +35,16 @@ namespace RadonFramework
 
         //IWindow
         void* Handle();
-        RFTYPE::Bool Visible();
-        void Visible(const RFTYPE::Bool Value);
-        RFTYPE::String Title();
-        void Title(const RFTYPE::String &Value);
+        RF_Type::Bool Visible();
+        void Visible(const RF_Type::Bool Value);
+        RF_Type::String Title();
+        void Title(const RF_Type::String &Value);
         void Size(const Math::Geometry::Size2D<>& NewSize);
         void Position(const Math::Geometry::Point2D<>& NewPosition);
-        void Border(const RFTYPE::Bool Value);
-        void CursorVisible(const RFTYPE::Bool Value);
+        void Border(const RF_Type::Bool Value);
+        void CursorVisible(const RF_Type::Bool Value);
         void ClientRectSize(const Math::Geometry::Size2D<>& NewSize);
-        void CloseButton(const RFTYPE::Bool Show);
+        void CloseButton(const RF_Type::Bool Show);
 
         Window GetHandle();
         Atom GetDeleteAtom();

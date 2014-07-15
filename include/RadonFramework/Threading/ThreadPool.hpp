@@ -13,6 +13,7 @@
 #include <RadonFramework/Threading/TaskStrategy.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Collections/Queue.hpp>
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
 
 namespace RadonFramework { namespace Threading {
 
@@ -24,35 +25,35 @@ public:
 
     /// The function will calculate the best working thread amount
     /// for the specified processor core amount.
-    static RFTYPE::UInt32 GetBestThreadAmountByProcessorCoreAmount(RFTYPE::UInt32 Amount);
+    static RF_Type::UInt32 GetBestThreadAmountByProcessorCoreAmount(RF_Type::UInt32 Amount);
 
     typedef Delegate1<void*> WaitCallback;
     typedef void (*FreeCallback)(void* Data);
     static void DefaultFree(void* Data);
 
-    void GetMaxThreads(RFTYPE::UInt32& WorkerThreads,
-                       RFTYPE::UInt32& CompletionPortThreads);
+    void GetMaxThreads(RF_Type::UInt32& WorkerThreads,
+                       RF_Type::UInt32& CompletionPortThreads);
 
-    RFTYPE::Bool SetMaxThreads(RFTYPE::UInt32 WorkerThreads,
-                               RFTYPE::UInt32 CompletionPortThreads);
+    RF_Type::Bool SetMaxThreads(RF_Type::UInt32 WorkerThreads,
+                               RF_Type::UInt32 CompletionPortThreads);
 
-    void GetMinThreads(RFTYPE::UInt32& WorkerThreads,
-                       RFTYPE::UInt32& CompletionPortThreads);
+    void GetMinThreads(RF_Type::UInt32& WorkerThreads,
+                       RF_Type::UInt32& CompletionPortThreads);
 
-    RFTYPE::Bool SetMinThreads(RFTYPE::UInt32 WorkerThreads,
-                               RFTYPE::UInt32 CompletionPortThreads);
+    RF_Type::Bool SetMinThreads(RF_Type::UInt32 WorkerThreads,
+                               RF_Type::UInt32 CompletionPortThreads);
 
-    void GetAvailableThreads(RFTYPE::UInt32& WorkerThreads,
-                             RFTYPE::UInt32& CompletionPortThreads);
+    void GetAvailableThreads(RF_Type::UInt32& WorkerThreads,
+                             RF_Type::UInt32& CompletionPortThreads);
 
-    void GetThreadCount(RFTYPE::UInt32& WorkerThreads,
-                        RFTYPE::UInt32& CompletionPortThreads);
+    void GetThreadCount(RF_Type::UInt32& WorkerThreads,
+                        RF_Type::UInt32& CompletionPortThreads);
 
-    RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
+    RF_Type::Bool QueueUserWorkItem(WaitCallback Callback,
         TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
         FreeCallback FreeData = DefaultFree);
 
-    RFTYPE::Bool QueueUserWorkItem(WaitCallback Callback,
+    RF_Type::Bool QueueUserWorkItem(WaitCallback Callback,
         void* State, TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
         FreeCallback FreeData = DefaultFree);
 
@@ -70,7 +71,7 @@ public:
     /// Wait till all queued work items are processed and freed.
     void WaitTillDone();
 private:
-    Core::Idioms::PImpl<ThreadPool> m_PImpl;
+    RF_Idiom::PImpl<ThreadPool> m_PImpl;
 };
 
 } }

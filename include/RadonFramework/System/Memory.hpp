@@ -23,24 +23,24 @@ void Dispatch();
 /** This function will be called by RadonFraemwork_Init function to
     * check if the dispatching was successfully.
     **/
-RFTYPE::Bool IsSuccessfullyDispatched();
+RF_Type::Bool IsSuccessfullyDispatched();
     
 /// This function is for debugging purpose and return all unassigned functions.
-void GetNotDispatchedFunctions(Collections::List<RFTYPE::String>& Result);
+void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
     
-typedef RFTYPE::UInt32 (*GetPageSizeCallback)();
+typedef RF_Type::UInt32 (*GetPageSizeCallback)();
 typedef void (*EnableTerminationOnHeapCorruptionCallback)();
-typedef void* (*AllocateCallback)(const RFTYPE::UInt32 Bytes);
+typedef void* (*AllocateCallback)(const RF_Type::UInt32 Bytes);
 typedef void (*FreeCallback)(void* FirstPage);
 
-typedef RFTYPE::Int32 (*CompareCallback)(const void* P1, const void* P2,
-                                        RFTYPE::Size Bytes);
+typedef RF_Type::Int32 (*CompareCallback)(const void* P1, const void* P2,
+                                        RF_Type::Size Bytes);
 typedef void (*CopyCallback)(void* Destination, const void* Source,
-                                RFTYPE::Size Bytes);
+                                RF_Type::Size Bytes);
 typedef void (*MoveCallback)(void* Destination, const void* Source,
-                                RFTYPE::Size Bytes);
-typedef void (*SetCallback)(void* Pointer, RFTYPE::Int32 Value,
-                            RFTYPE::Size Bytes);
+                                RF_Type::Size Bytes);
+typedef void (*SetCallback)(void* Pointer, RF_Type::Int32 Value,
+                            RF_Type::Size Bytes);
 
 extern GetPageSizeCallback GetPageSize;
 extern EnableTerminationOnHeapCorruptionCallback EnableTerminationOnHeapCorruption;

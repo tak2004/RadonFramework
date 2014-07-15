@@ -14,13 +14,13 @@
 
 namespace RadonFramework { namespace IO {
 /*
-   foo://example.com:8042/over/there?name=ferret#nose
-   \_/   \______________/\_________/ \_________/ \__/
-    |           |            |            |        |
-scheme     authority       path        query   fragment
-    |   _____________________|__
-   / \ /                        \
-   urn:example:animal:ferret:nose
+    foo://example.com:8042/over/there?name=ferret#nose
+    \_/   \______________/\_________/ \_________/ \__/
+     |           |            |            |        |
+  scheme     authority       path        query   fragment
+     |   _____________________|__
+    / \ /                        \
+    urn:example:animal:ferret:nose
 */
 
 class Uri
@@ -28,7 +28,7 @@ class Uri
 public:
     // Constructors & Destructor
     Uri();
-    Uri(const RFTYPE::String& UriString,
+    Uri(const RF_Type::String& UriString,
         const UriKind::Type UriKind=UriKind::RelativeOrAbsolute);
 
     // Make a copy from an existing instance.
@@ -41,142 +41,147 @@ public:
             
     // Gets the specified components of the current instance using the
     // specified escaping for special characters.
-    RFTYPE::String GetComponents(const UriComponents::Type Components=UriComponents::All,
+    RF_Type::String GetComponents(const UriComponents::Type Components=UriComponents::All,
                                         const UriFormat::Type Format=UriFormat::Unescaped)const;
 
     // Static methods
 
     // Determines whether the specified host name is a valid DNS name.
-    static UriHostNameType::Type HostNameType(const RFTYPE::String& Name);
+    static UriHostNameType::Type HostNameType(const RF_Type::String& Name);
             
     // Determines whether the specified scheme name is valid.
-    static RFTYPE::Bool CheckSchemeName(const RFTYPE::String& SchemeName);
+    static RF_Type::Bool CheckSchemeName(const RF_Type::String& SchemeName);
             
     // Compares the specified parts of two URIs using the specified 
     // comparison rules. If the result is 0 then they are equal, -1 means
     // they are different in length and greater 0 is the position of the
     // first difference.
-    static RFTYPE::Int32 Compare(const Uri& Uri1, const Uri& Uri2,
+    static RF_Type::Int32 Compare(const Uri& Uri1, const Uri& Uri2,
                                         const UriComponents::Type PartToCompare,
                                         const UriFormat::Type CompareFormat);
 
     // Converts a string to its escaped representation.
-    static RFTYPE::String EscapeDataString(
-        const RFTYPE::String& StringToEscape);
+    static RF_Type::String EscapeDataString(
+        const RF_Type::String& StringToEscape);
             
     // Converts a URI string to its escaped representation.
-    static RFTYPE::String EscapeUriString(
-        const RFTYPE::String& StringToEscape);
+    static RF_Type::String EscapeUriString(
+        const RF_Type::String& StringToEscape);
             
     // Gets the decimal value of a hexadecimal digit.
-    static RFTYPE::Int32 FromHex(const RFTYPE::Char Digit);
+    static RF_Type::Int32 FromHex(const RF_Type::Char Digit);
 
     // Converts a specified character into its hexadecimal equivalent.
-    static RFTYPE::String HexEscape(const RFTYPE::Char Character);
+    static RF_Type::String HexEscape(const RF_Type::Char Character);
             
     // Converts a specified hexadecimal representation of a character 
     // to the character.
-    static RFTYPE::Char HexUnescape(const RFTYPE::String& Pattern, 
-                                            RFTYPE::UInt32& Index);
+    static RF_Type::Char HexUnescape(const RF_Type::String& Pattern, 
+                                            RF_Type::UInt32& Index);
 
     // Determines whether a specified character is a valid hexadecimal digit.
-    static RFTYPE::Bool IsHexDigit(const RFTYPE::Char Character);
+    static RF_Type::Bool IsHexDigit(const RF_Type::Char Character);
 
     // Determines whether a character in a string is hexadecimal encoded.
-    static RFTYPE::Bool IsHexEncoding(const RFTYPE::String& Pattern,
-                                            const RFTYPE::UInt32 Index);
+    static RF_Type::Bool IsHexEncoding(const RF_Type::String& Pattern,
+                                            const RF_Type::UInt32 Index);
 
     // Converts a string to its unescaped representation.
-    static RFTYPE::String UnescapeDataString(
-        const RFTYPE::String& StringToUnescape);
+    static RF_Type::String UnescapeDataString(
+        const RF_Type::String& StringToUnescape);
 
     // Properties
 
     // Gets the path of the URI.
-    RFTYPE::String Path()const;
+    RF_Type::String Path()const;
 
     // Gets the user data, Domain Name System (DNS) host name or IP address 
     // and the port number for a server.
-    RFTYPE::String Authority()const;
+    RF_Type::String Authority()const;
 
     // Gets the escaped URI fragment.
-    RFTYPE::String Fragment()const;
+    RF_Type::String Fragment()const;
             
     // Gets the host component of this instance.
-    RFTYPE::String Host()const;
+    RF_Type::String Host()const;
             
     // Gets the type of the host name specified in the URI.
     UriHostNameType::Type HostNameType()const;
             
     // Gets whether the Uri instance is absolute.
-    RFTYPE::Bool IsAbsolute()const;
+    RF_Type::Bool IsAbsolute()const;
             
     // Gets whether the port value of the URI is the default for this scheme.
-    RFTYPE::Bool IsDefaultPort()const;
+    RF_Type::Bool IsDefaultPort()const;
 
     // Gets whether the userinfo of the URI is the default for this scheme.
-    RFTYPE::Bool IsDefaultUser()const;
+    RF_Type::Bool IsDefaultUser()const;
 
     // Gets the original URI string that was passed to the Uri constructor.
-    RFTYPE::String OriginalString()const;
+    RF_Type::String OriginalString()const;
             
     // Gets the port number of this URI.
-    RFTYPE::Int32 Port()const;
+    RF_Type::Int32 Port()const;
             
     // Gets any query information included in the specified URI.
-    RFTYPE::String Query()const;
+    RF_Type::String Query()const;
             
     // Gets the scheme name for this URI.
-    RFTYPE::String Scheme()const;
+    RF_Type::String Scheme()const;
             
     // Gets the scheme specific part for this URI.
-    RFTYPE::String SchemeSpecificPart()const;
+    RF_Type::String SchemeSpecificPart()const;
 
     // Indicates that the URI string was completely escaped before the
     // Uri instance was created.
-    RFTYPE::Bool UserEscaped()const;
+    RF_Type::Bool UserEscaped()const;
 
     // Gets the user name, password, or other user-specific information
     // associated with the specified URI.
-    RFTYPE::String UserInfo()const;
+    RF_Type::String UserInfo()const;
 
     // An opaque URI is an absolute URI whose scheme-specific part does
     // not begin with a slash character('/').
-    RFTYPE::Bool IsOpaque()const;
+    RF_Type::Bool IsOpaque()const;
 
     // Specifies the characters that separate the communication protocol
     // scheme from the address portion of the URI.
-    static RFTYPE::String SchemeDelimiter;
+    static RF_Type::String SchemeDelimiter;
     /// Represent a URI path seperator.
-    static RFTYPE::String PathSeperator;
+    static RF_Type::String PathSeperator;
 
     bool operator ==(const Uri& Other);
     bool operator !=(const Uri& Other);
 protected:
     // Uri
-    RFTYPE::String m_OriginalString;
+    RF_Type::String m_OriginalString;
     // basic components
-    RFTYPE::String m_Path;
-    RFTYPE::String m_Authority;
-    RFTYPE::String m_Fragment;
-    RFTYPE::String m_Query;
-    RFTYPE::String m_Scheme;
-    RFTYPE::String m_SchemeSpecificPart;
+    RF_Type::String m_Path;
+    RF_Type::String m_Authority;
+    RF_Type::String m_Fragment;
+    RF_Type::String m_Query;
+    RF_Type::String m_Scheme;
+    RF_Type::String m_SchemeSpecificPart;
     // split up data
-    RFTYPE::String m_Host;
-    RFTYPE::String m_UserInfo;
+    RF_Type::String m_Host;
+    RF_Type::String m_UserInfo;
     UriHostNameType::Type m_HostNameType;
-    RFTYPE::Int32 m_Port;
-    RFTYPE::Bool m_IsAbsolute;
-    RFTYPE::Bool m_IsDefaultPort;
-    RFTYPE::Bool m_IsDefaultUser;
-    RFTYPE::Bool m_UserEscaped;
-    RFTYPE::Bool m_IsOpaque;
-    static RFTYPE::Char HexUpperChars[16];
-    static RFTYPE::Bool NeedToEscapeUriChar[256];
-    static RFTYPE::Bool NeedToEscapeDataChar[256];
+    RF_Type::Int32 m_Port;
+    RF_Type::Bool m_IsAbsolute;
+    RF_Type::Bool m_IsDefaultPort;
+    RF_Type::Bool m_IsDefaultUser;
+    RF_Type::Bool m_UserEscaped;
+    RF_Type::Bool m_IsOpaque;
+    static RF_Type::Char HexUpperChars[16];
+    static RF_Type::Bool NeedToEscapeUriChar[256];
+    static RF_Type::Bool NeedToEscapeDataChar[256];
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_IO_URI_HPP

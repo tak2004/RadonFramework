@@ -10,7 +10,7 @@ using namespace RadonFramework::Memory;
 AutoPointer<Resource> ProtocolServiceLocator::GenerateResource(const Uri& URI)
 {
     ProtocolService& protocol=Find(URI.Scheme());
-    if (protocol.Name() == RFTYPE::String("NullService", sizeof("NullService")))
+    if (protocol.Name() == RF_Type::String("NullService", sizeof("NullService")))
     {
         LogError("Can't find a service for the requested protocol.");
         return AutoPointer<Resource>();

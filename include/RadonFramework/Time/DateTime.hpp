@@ -36,34 +36,34 @@ namespace DateTimeKind{
 struct DateTime
 {
     static DateTime CreateByTicks(TimeValue Value, DateTimeKind::Type Kind = DateTimeKind::Undefined);
-    static DateTime CreateByTime(RFTYPE::UInt32 Year, RFTYPE::UInt32 Month, RFTYPE::UInt32 Day,
-        RFTYPE::UInt32 Hour = 0, RFTYPE::UInt32 Minute = 0, RFTYPE::UInt32 Second = 0,
-        RFTYPE::UInt32 Millisecond = 0, RFTYPE::UInt32 Microsecond = 0,
+    static DateTime CreateByTime(RF_Type::UInt32 Year, RF_Type::UInt32 Month, RF_Type::UInt32 Day,
+        RF_Type::UInt32 Hour = 0, RF_Type::UInt32 Minute = 0, RF_Type::UInt32 Second = 0,
+        RF_Type::UInt32 Millisecond = 0, RF_Type::UInt32 Microsecond = 0,
         DateTimeKind::Type Kind = DateTimeKind::Undefined);
     static DateTime Now();
     static DateTime Today();
     static DateTime UtcNow();
 
-    RFTYPE::UInt32 Year()const;
+    RF_Type::UInt32 Year()const;
     MonthOfYear::Type GetMonthOfYear()const;
-    RFTYPE::UInt32 Month()const;
+    RF_Type::UInt32 Month()const;
     DayOfWeek::Type GetDayOfWeek()const;
-    RFTYPE::UInt32 DayOfYear()const;
-    RFTYPE::UInt32 Day()const;
-    RFTYPE::UInt32 Hour()const;
-    RFTYPE::UInt32 Minute()const;
-    RFTYPE::UInt32 Second()const;
-    RFTYPE::UInt32 Millisecond()const;
-    RFTYPE::UInt32 Microsecond()const;
+    RF_Type::UInt32 DayOfYear()const;
+    RF_Type::UInt32 Day()const;
+    RF_Type::UInt32 Hour()const;
+    RF_Type::UInt32 Minute()const;
+    RF_Type::UInt32 Second()const;
+    RF_Type::UInt32 Millisecond()const;
+    RF_Type::UInt32 Microsecond()const;
 
     TimeSpan TimeOfDay()const;
     TimeSpan AsTimeSpan()const;
     TimeValue Ticks()const;
 
-    RFTYPE::String ToString()const;
+    RF_Type::String ToString()const;
 
-    static RFTYPE::UInt32 DaysInMonth(RFTYPE::UInt32 Year, RFTYPE::UInt32 Month);
-    static bool IsLeapYear(RFTYPE::UInt32 Year);
+    static RF_Type::UInt32 DaysInMonth(RF_Type::UInt32 Year, RF_Type::UInt32 Month);
+    static bool IsLeapYear(RF_Type::UInt32 Year);
     static DateTime MinValue;
     static DateTime MaxValue;
     static bool LessThan(DateTime t1, DateTime t2);
@@ -72,12 +72,14 @@ protected:
     TimeSpan m_Ticks;
     DateTimeKind::Type m_Kind;
         
-    RFTYPE::UInt32 FromTicks(TickDayConverterTyp::Type To)const;
+    RF_Type::UInt32 FromTicks(TickDayConverterTyp::Type To)const;
         
-    static RFTYPE::UInt32 AbsoluteDays(RFTYPE::UInt32 Year, RFTYPE::UInt32 Month, RFTYPE::UInt32 Day);
+    static RF_Type::UInt32 AbsoluteDays(RF_Type::UInt32 Year, RF_Type::UInt32 Month, RF_Type::UInt32 Day);
     static bool IsInvalid( const TimeValue& );
 };
 
 } }
+
+namespace RF_Time = ::RadonFramework::Time;
 
 #endif // RF_TIME_DATETIME_HPP

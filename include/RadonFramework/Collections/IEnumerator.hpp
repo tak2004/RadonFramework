@@ -6,28 +6,31 @@
 
 #include <RadonFramework/Core/Types/Bool.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Collections {
+        
+template<typename T>
+class IEnumerator
 {
-    namespace Collections
-    {
-        template<typename T>
-        class IEnumerator
-        {
-            public:
-                /** Gets the element in the collection at the current 
-                    * position of the enumerator.
-                    **/
-                virtual T* Current()const=0;
+public:
+    /** Gets the element in the collection at the current 
+        * position of the enumerator.
+        **/
+    virtual T* Current()const=0;
 
-                /// Advances the enumerator to the next element of the collection.
-                virtual RFTYPE::Bool MoveNext()=0;
+    /// Advances the enumerator to the next element of the collection.
+    virtual RF_Type::Bool MoveNext()=0;
 
-                /** Sets the enumerator to its initial position, which is 
-                    * before the first element in the collection.
-                    **/
-                virtual void Reset()=0;
-        };
-    }
-}
+    /** Sets the enumerator to its initial position, which is 
+        * before the first element in the collection.
+        **/
+    virtual void Reset()=0;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
 
 #endif // RF_COLLECTIONS_GENERIC_IENUMERATOR_HPP

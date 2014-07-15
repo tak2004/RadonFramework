@@ -1,5 +1,5 @@
-#ifndef RF_DELEGATE_HPP
-#define RF_DELEGATE_HPP
+#ifndef RF_CORE_PATTERN_DELEGATE_HPP
+#define RF_CORE_PATTERN_DELEGATE_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif

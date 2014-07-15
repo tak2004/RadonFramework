@@ -17,4 +17,6 @@ extern const Int32 Int32Min;
 
 } } }
 
+namespace RF_Type = ::RadonFramework::Core::Types;
+
 #endif // RF_CORE_TYPES_INT32_HPP

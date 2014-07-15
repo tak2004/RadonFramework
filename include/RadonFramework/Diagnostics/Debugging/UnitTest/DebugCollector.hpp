@@ -12,10 +12,10 @@ namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespa
 class DebugCollector:public Collector
 {
 public:
-    virtual void CreateSuite(const RFTYPE::String& Name);
+    virtual void CreateSuite(const RF_Type::String& Name);
     virtual void ProcessResult(const UnitTestResult& Result);
 protected:
-    RFTYPE::String m_CurrentSuite;
+    RF_Type::String m_CurrentSuite;
 };
 
 } } } }

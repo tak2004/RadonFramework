@@ -39,4 +39,10 @@ T Integer<T>::ClampLowerBound(const T Value, const T LowerBound)
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MATH
+#define RF_SHORTHAND_NAMESPACE_MATH
+namespace RF_Math = RadonFramework::Math;
+#endif
+
 #endif // RF_MATH_INTEGER_HPP

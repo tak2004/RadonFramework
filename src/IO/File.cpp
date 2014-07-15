@@ -85,7 +85,7 @@ Bool File::CreateNewFile() const
     return FileSystem::CreateFile(m_Location.GetComponents(UriComponents::Path));
 }
 
-Bool File::Preallocate(const RFTYPE::Size SizeInBytes)const
+Bool File::Preallocate(const RF_Type::Size SizeInBytes)const
 {
     return FileSystem::CreatePreAllocatedFile(m_Location.GetComponents(UriComponents::Path), SizeInBytes);
 }

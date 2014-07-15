@@ -4,18 +4,18 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Collections { namespace SceneGraph {
+
+struct ComponentItem
 {
-    namespace Collections
-    {
-        namespace SceneGraph
-        {
-            struct ComponentItem
-            {
-                RFTYPE::Bool isActive;
-            };
-        }
-    }
-}
+    RF_Type::Bool isActive;
+};
+
+} } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SCENE
+#define RF_SHORTHAND_NAMESPACE_SCENE
+namespace RF_Scene = RadonFramework::Collections::SceneGraph;
+#endif
 
 #endif // RF_COLLECTIONS_SCENEGRAPH_COMPONENTITEM_HPP

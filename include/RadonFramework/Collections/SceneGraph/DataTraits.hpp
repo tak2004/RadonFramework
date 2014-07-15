@@ -4,19 +4,19 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Collections { namespace SceneGraph {
+            
+template <class T>
+struct DataTraits
 {
-    namespace Collections
-    {
-        namespace SceneGraph
-        {
-            template <class T>
-            struct DataTraits
-            {
-                typedef RFTYPE::Int64 IDType;
-            };
-        }
-    }
-}
+    typedef RF_Type::Int64 IDType;
+};
+
+} } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SCENE
+#define RF_SHORTHAND_NAMESPACE_SCENE
+namespace RF_Scene = RadonFramework::Collections::SceneGraph;
+#endif
 
 #endif // RF_COLLECTIONS_SCENEGRAPH_DATATRAITS_HPP

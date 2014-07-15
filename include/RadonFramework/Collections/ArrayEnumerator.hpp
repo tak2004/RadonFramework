@@ -12,10 +12,10 @@ class ArrayEnumerator
 public:
     ArrayEnumerator(T* Begin, T* End);
     T* Current()const;
-    RFTYPE::Bool MoveNext();
+    RF_Type::Bool MoveNext();
     void Reset();
-    RFTYPE::Size GetLength()const;
-    RFTYPE::Bool MoveTo(RFTYPE::Size Amount);
+    RF_Type::Size GetLength()const;
+    RF_Type::Bool MoveTo(RF_Type::Size Amount);
     Memory::AutoPointer<ArrayEnumerator<T> > Begin()const;
     Memory::AutoPointer<ArrayEnumerator<T> > End()const;
 protected:
@@ -41,7 +41,7 @@ T* ArrayEnumerator<T>::Current()const
 }
 
 template <class T>
-RFTYPE::Bool ArrayEnumerator<T>::MoveNext()
+RF_Type::Bool ArrayEnumerator<T>::MoveNext()
 {
     if (m_Current==0 && m_Previous==0)
     {
@@ -69,13 +69,13 @@ void ArrayEnumerator<T>::Reset()
 }
 
 template <class T>
-RFTYPE::Size ArrayEnumerator<T>::GetLength()const
+RF_Type::Size ArrayEnumerator<T>::GetLength()const
 {
-    return static_cast<RFTYPE::Size>(m_End - m_Begin);
+    return static_cast<RF_Type::Size>(m_End - m_Begin);
 }
 
 template <class T>
-RFTYPE::Bool ArrayEnumerator<T>::MoveTo(RFTYPE::Size Amount)
+RF_Type::Bool ArrayEnumerator<T>::MoveTo(RF_Type::Size Amount)
 {
     if (GetLength()>Amount)
     {
@@ -108,5 +108,10 @@ Memory::AutoPointer<ArrayEnumerator<T> > ArrayEnumerator<T>::End()const
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
 
 #endif // RF_COLLECTIONS_ARRAYENUMERATOR_HPP

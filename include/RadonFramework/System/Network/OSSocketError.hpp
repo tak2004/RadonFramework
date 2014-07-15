@@ -32,7 +32,7 @@ namespace RadonFramework
 
                 static Net::Error::Type ConvertOSError();
 
-                static Net::Error::Type ConvertOSError(const RFTYPE::Int32 Code);
+                static Net::Error::Type ConvertOSError(const RF_Type::Int32 Code);
 
                 static void InitializeLookupTable();
             };

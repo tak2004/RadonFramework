@@ -10,7 +10,7 @@ Random::Random(const Int32 Seed)
  m_K(1),
  m_Index(0)
 {
-    m_Buffer[54]=m_Seed;
+    m_Buffer[BUFFER_ELEMENT_COUNT - 1] = m_Seed;
     for (Int32 i=0;i<165;++i)//walk three times through the buffer
         Sample();
 }
@@ -42,7 +42,7 @@ Float32 Random::Sample()
         volume 2: Seminumerical Algorithms".
         Addison-Wesley, second edition, Page 171-173 .
     */
-    Int32 index=(21*m_Index)%55;
+    Int32 index = (21 * m_Index) % BUFFER_ELEMENT_COUNT;
     m_Buffer[index]=m_K;
     m_K=m_J-m_K;
     if (m_K<0)
@@ -50,7 +50,7 @@ Float32 Random::Sample()
     m_J=m_Buffer[index];
 
     m_Index++;
-    if (m_Index==55) m_Index=0;
+    if(m_Index == BUFFER_ELEMENT_COUNT) m_Index = 0;
 
     return (Float32)m_J/(Float32)Int32Max;
 }

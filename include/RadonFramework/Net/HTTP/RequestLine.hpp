@@ -17,24 +17,24 @@ namespace RadonFramework
             struct RequestLine
             {
                 // Returns the length of the written bytes if no error occurred.                
-                static RFTYPE::UInt32 Create(
-                    Memory::AutoPointerArray<RFTYPE::UInt8>& Buffer,
-                    const RFTYPE::UInt32 BufferBoundaryStart,
-                    const RFTYPE::UInt32 BufferBoundaryEnd,
+                static RF_Type::UInt32 Create(
+                    Memory::AutoPointerArray<RF_Type::UInt8>& Buffer,
+                    const RF_Type::UInt32 BufferBoundaryStart,
+                    const RF_Type::UInt32 BufferBoundaryEnd,
                     const typename M::Type Method, 
-                    const RFTYPE::String& URI, 
-                    const RFTYPE::UInt32 MajorHTTPVersion,
-                    const RFTYPE::UInt32 MinorHTTPVersion)
+                    const RF_Type::String& URI, 
+                    const RF_Type::UInt32 MajorHTTPVersion,
+                    const RF_Type::UInt32 MinorHTTPVersion)
                 {
                     Assert(Buffer.Count()>0,"Invalid operation!");
-                    return RFTYPE::String::Format(Buffer, BufferBoundaryStart, 
+                    return RF_Type::String::Format(Buffer, BufferBoundaryStart, 
                         BufferBoundaryEnd, "%s /%s HTTP/%d.%d\015\012",
                         M::Value[Method], URI.c_str(), MajorHTTPVersion,
                         MinorHTTPVersion);                    
                 }
 
-                void Parse(const RFTYPE::UInt8* Buffer, 
-                           const RFTYPE::UInt32 Bytes)
+                void Parse(const RF_Type::UInt8* Buffer, 
+                           const RF_Type::UInt32 Bytes)
                 {
                     Tokenizer tokenizer;
                     tokenizer.Parse(Buffer,Bytes);
@@ -46,7 +46,7 @@ namespace RadonFramework
                             tokenizer.Expect(Tokenizer::SP) &&
                             tokenizer.Expect(Tokenizer::Token))
                         {
-                            RFTYPE::String uri(Buffer+tokenizer.Start(),tokenizer.Length());
+                            RF_Type::String uri(Buffer+tokenizer.Start(),tokenizer.Length());
                             if (tokenizer.Expect(Tokenizer::SP) &&
                                 tokenizer.Expect(Tokenizer::Token) &&
                                 tokenizer.Length()>=7 && 

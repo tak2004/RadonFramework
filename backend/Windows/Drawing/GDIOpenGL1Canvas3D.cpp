@@ -81,7 +81,7 @@ void GDIOpenGL1Canvas3D::SwapBuffer()
     SwapBuffers(m_DeviceContext);
 }
 
-void GDIOpenGL1Canvas3D::UpdateRectangle(RadonFramework::Math::Geometry::Rectangle<> &Rec)
+void GDIOpenGL1Canvas3D::UpdateRectangle(RF_Geo::Rectangle<> &Rec)
 {
   glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
 }

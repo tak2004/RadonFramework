@@ -4,44 +4,47 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Memory {
+
+typedef RF_Type::UInt64 PtrID;
+typedef union
 {
-    namespace Memory
+    PtrID ID;
+    void* Ptr;
+
+    struct
     {
-        typedef RFTYPE::UInt64 PtrID;
-        typedef union
-        {
-            PtrID ID;
-            void* Ptr;
+        RF_Type::UInt32 ID32;
+        RF_Type::UInt32 unset1;
+    }Identifier32Bit;
 
-            struct
-            {
-                RFTYPE::UInt32 ID32;
-                RFTYPE::UInt32 unset1;
-            }Identifier32Bit;
+    struct
+    {
+        void* Ptr32;
+        RF_Type::UInt32 unset2;
+    }Pointer32Bit;
+}PointerIDHolder;
 
-            struct
-            {
-                void* Ptr32;
-                RFTYPE::UInt32 unset2;
-            }Pointer32Bit;
-        }PointerIDHolder;
+struct PointerID
+{
+    static const PointerID& Zero();
+    static PointerID GenerateFromPointer(void* Ptr);
+    static PointerID GenerateFromID(PtrID ID);
 
-        struct PointerID
-        {
-            static const PointerID& Zero();
-            static PointerID GenerateFromPointer(void* Ptr);
-            static PointerID GenerateFromID(PtrID ID);
+    PtrID GetID()const;
+    void* GetPointer()const;
 
-            PtrID GetID()const;
-            void* GetPointer()const;
+    bool operator==(const PointerID& other)const;
+    bool operator!=(const PointerID& other)const;
+private:
+    PointerIDHolder m_PtrID;
+};
+    
+} }
 
-            bool operator==(const PointerID& other)const;
-            bool operator!=(const PointerID& other)const;
-            private:
-                PointerIDHolder m_PtrID;
-        };
-    }
-}
+#ifndef RF_SHORTHAND_NAMESPACE_MEM
+#define RF_SHORTHAND_NAMESPACE_MEM
+namespace RF_Mem = RadonFramework::Memory;
+#endif
 
 #endif

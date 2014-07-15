@@ -38,7 +38,7 @@ class Radon::PIMPL
         PIMPL()
         :m_IsSubSystemInitialized(0)
         {}
-        RFTYPE::UInt32 m_IsSubSystemInitialized;
+        RF_Type::UInt32 m_IsSubSystemInitialized;
 };
 
 Bool Radon::m_IsInitialized=false;
@@ -111,12 +111,12 @@ void Radon::InitSubSystem(UInt32 Flags)
 
     if (Flags & RadonFramework::Init::Hashing)
     {
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new MurmurHashHashfunctionService(RFTYPE::String("MurmurHash", sizeof("MurmurHash"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibMD5HashfunctionService(RFTYPE::String("MD5", sizeof("MD5"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA1HashfunctionService(RFTYPE::String("SHA1", sizeof("SHA1"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService(RFTYPE::String("SHA256", sizeof("SHA256"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService(RFTYPE::String("SHA384", sizeof("SHA384"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService(RFTYPE::String("SHA512", sizeof("SHA512"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new MurmurHashHashfunctionService(RF_Type::String("MurmurHash", sizeof("MurmurHash"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibMD5HashfunctionService(RF_Type::String("MD5", sizeof("MD5"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA1HashfunctionService(RF_Type::String("SHA1", sizeof("SHA1"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService(RF_Type::String("SHA256", sizeof("SHA256"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService(RF_Type::String("SHA384", sizeof("SHA384"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService(RF_Type::String("SHA512", sizeof("SHA512"), DataManagment::UnmanagedInstance))));
         HashfunctionServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Hashing;
     }
@@ -125,7 +125,7 @@ void Radon::InitSubSystem(UInt32 Flags)
     {
         RFFILE::Dispatch();
         DecoderServiceLocator::Initialize();
-        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RFTYPE::String("file", sizeof("file"), DataManagment::UnmanagedInstance))));
+        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RF_Type::String("file", sizeof("file"), DataManagment::UnmanagedInstance))));
         ProtocolServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::IO;
     }
@@ -202,7 +202,7 @@ void Radon::QuitSubSystem(UInt32 Flags)
     }
 }
 
-Bool Radon::IsSubSystemInitialized(RFTYPE::UInt32 Flag)const
+Bool Radon::IsSubSystemInitialized(RF_Type::UInt32 Flag)const
 {
     return false;
 }

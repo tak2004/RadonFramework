@@ -4,21 +4,24 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace IO {
+
+namespace SeekOrigin
 {
-    namespace IO
+    enum Type
     {
-        namespace SeekOrigin
-        {
-            enum Type
-            {
-                Begin=0,
-                Current,
-                End,
-                MAX
-            };
-        }
-    }
+        Begin=0,
+        Current,
+        End,
+        MAX
+    };
 }
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_IO_SEEKORIGIN_HPP

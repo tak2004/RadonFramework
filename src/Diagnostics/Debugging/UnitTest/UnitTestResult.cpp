@@ -3,7 +3,7 @@
 
 using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
 
-UnitTestResult::UnitTestResult(const RFTYPE::String& Name)
+UnitTestResult::UnitTestResult(const RF_Type::String& Name)
 :m_Passed(true),
  m_Error(false),
  m_Name(Name)
@@ -26,12 +26,12 @@ UnitTestResult::UnitTestResult( const UnitTestResult& Copy )
 
 }
 
-void UnitTestResult::Error(RFTYPE::Bool val)
+void UnitTestResult::Error(RF_Type::Bool val)
 {
 	m_Error=val;
 }
 
-RFTYPE::Bool UnitTestResult::Error() const
+RF_Type::Bool UnitTestResult::Error() const
 {
 	return m_Error;
 }
@@ -42,12 +42,12 @@ UnitTestResult::~UnitTestResult()
 
 }
 
-RFTYPE::Bool UnitTestResult::Passed() const
+RF_Type::Bool UnitTestResult::Passed() const
 {
 	return m_Passed;
 }
 
-void UnitTestResult::Passed(RFTYPE::Bool val)
+void UnitTestResult::Passed(RF_Type::Bool val)
 {
 	m_Passed = val;
 }
@@ -67,12 +67,12 @@ void UnitTestResult::TimeRequired(RadonFramework::Time::TimeSpan val)
 	m_TimeRequired = val;
 }
 
-const RFTYPE::String& UnitTestResult::Name() const
+const RF_Type::String& UnitTestResult::Name() const
 {
 	return m_Name;
 }
 
-void UnitTestResult::Name(const RFTYPE::String& val)
+void UnitTestResult::Name(const RF_Type::String& val)
 {
 	m_Name = val;
 }

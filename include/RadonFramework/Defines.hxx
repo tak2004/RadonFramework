@@ -63,7 +63,7 @@
 //---------------------------------//
 
 // detect architecture
-#if defined(_LP64) && _LP64==1 || defined(_WIN64) // gcc, VS
+#if defined __LP64__ || defined _M_X64 || defined __MING64__ || defined _LP64
     #define RF_64BIT
 #else
     #define RF_32BIT

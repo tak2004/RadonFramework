@@ -32,38 +32,38 @@ int main(int argc, char** argv)
 
     TestResultCollector results;
     BriefProgressCollector progress;
-    Singleton<UnitTest>::GetInstance().AddCollector(results);
-    Singleton<UnitTest>::GetInstance().AddCollector(progress);
-    Singleton<UnitTest>::GetInstance().AddCollector(DebugCollector());
+    RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(results);
+    RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(progress);
+    RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(DebugCollector());
 
-    TestSuite* bitArrayTestSuite = Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitArray-Test");
+    TestSuite* bitArrayTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitArray-Test");
     if (bitArrayTestSuite)
     {
         bitArrayTestSuite->IgnoreTest("BitArrayTest::Constructor");
         bitArrayTestSuite->IgnoreTest("BitArrayTest::Resize");
     }
 
-    TestSuite* bitSetTestSuite = Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitSet-Test");
+    TestSuite* bitSetTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitSet-Test");
     if (bitSetTestSuite)
     {
         bitSetTestSuite->IgnoreTest("BitSetTest::UnequalCompareOperator");
     }
 
-    TestSuite* queueTestSuite = Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::Queue-Test");
+    TestSuite* queueTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::Queue-Test");
     if (queueTestSuite)
     {
         queueTestSuite->IgnoreTest("QueueTest::Dequeue");
     }
 
-    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Core::Types::StringBuilder-Test");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Core::Types::StringBuilder-Test");
 
-    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::Directory-Test");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::Directory-Test");
 
-    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::File-Test");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::File-Test");
 
-    Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Memory");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Memory");
 
-    Singleton<UnitTest>::GetInstance().Run();
+    RF_Pattern::Singleton<UnitTest>::GetInstance().Run();
 
     JUnitOutput output;
     output.WriteToFile(Uri(FileSystem::WorkingDirectory()).GetComponents()+"/UnitTest.xml",results);
@@ -75,6 +75,6 @@ int main(int argc, char** argv)
     }
     else
         LogError("Test failed.");
-    Singleton<Threading::ThreadPool>::GetInstance().DisableAndWaitTillDone();
+    RF_Pattern::Singleton<Threading::ThreadPool>::GetInstance().DisableAndWaitTillDone();
     return res;
 }

@@ -13,20 +13,20 @@ public:
 
     OptionValue(const OptionValue& Copy);
 
-    OptionValue(const RFTYPE::String& Value);
+    OptionValue(const RF_Type::String& Value);
                                 
     OptionValue& operator=(const OptionValue& Other);
 
-    OptionValue& operator=(const RFTYPE::String& Value);
+    OptionValue& operator=(const RF_Type::String& Value);
 
     void Set();
 
-    RFTYPE::Bool IsSet()const;
+    RF_Type::Bool IsSet()const;
 
-    const RFTYPE::String& Value()const;
+    const RF_Type::String& Value()const;
 protected:
-    RFTYPE::String m_Value;
-    RFTYPE::Bool m_ValueSet;
+    RF_Type::String m_Value;
+    RF_Type::Bool m_ValueSet;
 };
 
 } }

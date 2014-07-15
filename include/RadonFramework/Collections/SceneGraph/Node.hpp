@@ -8,36 +8,44 @@
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 
 namespace RadonFramework { namespace Collections { namespace SceneGraph {
-    class Component;
-    class NodeItem;
 
-    class Node
-    {
-        public:
-            Node();
-            Node(Memory::AutoPointer<NodeItem> nodeData);
-            ~Node();
+class Component;
+class NodeItem;
 
-            typedef DataTraits<Node>::IDType IDType;
+class Node
+{
+public:
+    Node();
+    Node(RF_Mem::AutoPointer<NodeItem> nodeData);
+    ~Node();
 
-            template<class T>
-            T* AddComponent();
-
-            Component* AddComponent(Memory::AutoPointer<Component> Component);
-
-            void LoadComponents(Memory::AutoPointerArray<Component> Components);
-
-            IDType ID()const;
-
-            RFTYPE::Bool SetParent(Node& newParent);
-        private:
-            Core::Idioms::PImpl<Node> m_PImpl;
-    };
+    typedef DataTraits<Node>::IDType IDType;
 
     template<class T>
-    T* Node::AddComponent()
-    {
-        return reinterpret_cast<T*>(AddComponent(Memory::AutoPointer<Component>(reinterpret_cast<Component*>(new T()))));
-    }
+    T* AddComponent();
+
+    Component* AddComponent(RF_Mem::AutoPointer<Component> Component);
+
+    void LoadComponents(RF_Mem::AutoPointerArray<Component> Components);
+
+    IDType ID()const;
+
+    RF_Type::Bool SetParent(Node& newParent);
+private:
+    RF_Idiom::PImpl<Node> m_PImpl;
+};
+
+template<class T>
+T* Node::AddComponent()
+{
+    return reinterpret_cast<T*>(AddComponent(RF_Mem::AutoPointer<Component>(reinterpret_cast<Component*>(new T()))));
+}
+
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SCENE
+#define RF_SHORTHAND_NAMESPACE_SCENE
+namespace RF_Scene = RadonFramework::Collections::SceneGraph;
+#endif
+
 #endif // RF_COLLECTIONS_SCENEGRAPH_NODE_HPP
