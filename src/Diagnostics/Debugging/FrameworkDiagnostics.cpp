@@ -13,18 +13,18 @@ void RadonFramework::Diagnostics::Debugging::FrameworkDiagnostics::GetAllMissing
 {
     if (!RFENV::IsSuccessfullyDispatched()) 
         RFENV::GetNotDispatchedFunctions(Result);
-    if (!RFMEM::IsSuccessfullyDispatched()) 
-        RFMEM::GetNotDispatchedFunctions(Result);
+    if (!RF_SysMem::IsSuccessfullyDispatched()) 
+        RF_SysMem::GetNotDispatchedFunctions(Result);
     if (!RFFILE::IsSuccessfullyDispatched()) 
         RFFILE::GetNotDispatchedFunctions(Result);
     if (!RFTIME::IsSuccessfullyDispatched()) 
         RFTIME::GetNotDispatchedFunctions(Result);
-    if (!RFSTR::IsSuccessfullyDispatched())
-        RFSTR::GetNotDispatchedFunctions(Result);
+    if (!RF_SysStr::IsSuccessfullyDispatched())
+        RF_SysStr::GetNotDispatchedFunctions(Result);
     if (!RFPROC::IsSuccessfullyDispatched())
         RFPROC::GetNotDispatchedFunctions(Result);
-    if (!RFMEM::IsSuccessfullyDispatched())
-        RFMEM::GetNotDispatchedFunctions(Result);
+    if (!RF_SysMem::IsSuccessfullyDispatched())
+        RF_SysMem::GetNotDispatchedFunctions(Result);
     if (!RFHDW::IsSuccessfullyDispatched())
         RFHDW::GetNotDispatchedFunctions(Result);
 }

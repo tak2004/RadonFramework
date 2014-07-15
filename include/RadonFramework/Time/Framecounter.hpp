@@ -10,16 +10,16 @@
 
 namespace RadonFramework { namespace Time {
 
-    class Framecounter:public RF_Pattern::IObserver
+class Framecounter:public RF_Pattern::IObserver
 {
-    protected:
+protected:
     TimeSpan m_Delta;
     DateTime m_Now;
     DateTime m_LastTime;
     DateTime m_LastFPSChangedTime;
     unsigned int m_Frames;
     unsigned int m_LastFPS;
-    public:
+public:
     Framecounter();
     float Delta();
     unsigned int Frames();

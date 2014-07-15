@@ -22,10 +22,10 @@ RF_Type::Int32 Compare_CPUDispatcher(const void* P1, const void* P2, RF_Type::Si
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
     if (features[RFHDW::ProcessorFeatures::SSE4_2])
-        RFMEM::Compare = Compare_SSE4;
+        RF_SysMem::Compare = Compare_SSE4;
     else
-        RFMEM::Compare = Compare_Std;
-    return RFMEM::Compare(P1, P2, Bytes);
+        RF_SysMem::Compare = Compare_Std;
+    return RF_SysMem::Compare(P1, P2, Bytes);
 }
 
 extern void Set_SSE2(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes);
@@ -35,10 +35,10 @@ void Set_CPUDispatcher(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes)
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
     if (features[RFHDW::ProcessorFeatures::SSE2])
-        RFMEM::Set = Set_SSE2;
+        RF_SysMem::Set = Set_SSE2;
     else
-        RFMEM::Set = Set_Std;
-    return RFMEM::Set(Pointer, Value, Bytes);
+        RF_SysMem::Set = Set_Std;
+    return RF_SysMem::Set(Pointer, Value, Bytes);
 }
 
 extern void Copy_SSE2(void* Destination, const void* Source, Size Bytes);
@@ -48,23 +48,23 @@ void Copy_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
     if (features[RFHDW::ProcessorFeatures::SSE2])
-        RFMEM::Copy = Copy_SSE2;
+        RF_SysMem::Copy = Copy_SSE2;
     else
-        RFMEM::Copy = Copy_Std;
+        RF_SysMem::Copy = Copy_Std;
     Copy(Destination, Source, Bytes);
 }
 
 extern void Move_Std(void* Destination, const void* Source, Size Bytes);
 void Move_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
 {
-    RFMEM::Move = Move_Std;
+    RF_SysMem::Move = Move_Std;
     Move(Destination, Source, Bytes);
 }
 
-CompareCallback RFMEM::Compare=Compare_CPUDispatcher;
-SetCallback RFMEM::Set=Set_CPUDispatcher;
-CopyCallback RFMEM::Copy=Copy_CPUDispatcher;
-MoveCallback RFMEM::Move=Move_CPUDispatcher;
+CompareCallback RF_SysMem::Compare=Compare_CPUDispatcher;
+SetCallback RF_SysMem::Set=Set_CPUDispatcher;
+CopyCallback RF_SysMem::Copy=Copy_CPUDispatcher;
+MoveCallback RF_SysMem::Move=Move_CPUDispatcher;
 
 //
 // On-Demand dispatched functions which are OS API dependent and have to be implemented on each platform
@@ -110,12 +110,12 @@ void Free_SystemAPIDispatcher(void* FirstPage)
     Free(FirstPage);
 }
 
-GetPageSizeCallback RFMEM::GetPageSize= GetPageSize_SystemAPIDispatcher;
-EnableTerminationOnHeapCorruptionCallback RFMEM::EnableTerminationOnHeapCorruption=EnableTerminationOnHeapCorruption_SystemAPIDispatcher;
-AllocateCallback RFMEM::Allocate=Allocate_SystemAPIDispatcher;
-FreeCallback RFMEM::Free=Free_SystemAPIDispatcher;
+GetPageSizeCallback RF_SysMem::GetPageSize= GetPageSize_SystemAPIDispatcher;
+EnableTerminationOnHeapCorruptionCallback RF_SysMem::EnableTerminationOnHeapCorruption=EnableTerminationOnHeapCorruption_SystemAPIDispatcher;
+AllocateCallback RF_SysMem::Allocate=Allocate_SystemAPIDispatcher;
+FreeCallback RF_SysMem::Free=Free_SystemAPIDispatcher;
 
-Bool RFMEM::IsSuccessfullyDispatched()
+Bool RF_SysMem::IsSuccessfullyDispatched()
 {
     Bool result=true;
     result=result && GetPageSize != GetPageSize_SystemAPIDispatcher && GetPageSize != 0;
@@ -126,7 +126,7 @@ Bool RFMEM::IsSuccessfullyDispatched()
     return result;
 }
 
-void RFMEM::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
+void RF_SysMem::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if (GetPageSize == GetPageSize_SystemAPIDispatcher || GetPageSize == 0) 
         Result.AddLast(RF_Type::String("GetPageSize", sizeof("GetPageSize")));

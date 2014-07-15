@@ -64,7 +64,10 @@ protected:
 
 } }
 
-namespace RF_Time = ::RadonFramework::Time;
+#ifndef RF_SHORTHAND_NAMESPACE_TIME
+#define RF_SHORTHAND_NAMESPACE_TIME
+namespace RF_Time = RadonFramework::Time;
+#endif
 
 namespace RadonFramework { namespace System { namespace IO {
     // forward decleration

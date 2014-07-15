@@ -8,27 +8,35 @@
 
 namespace RadonFramework { namespace Time {
 
-namespace DayOfWeek {
-    enum Type{
+namespace DayOfWeek 
+{
+    enum Type
+    {
         Monday, Tuesday, Wednesday, Thursday, Saturday, Sunday
     };
 }
 
-namespace MonthOfYear{
-    enum Type{
+namespace MonthOfYear
+{
+    enum Type
+    {
         January, Februrary, March, April, May, June, July, August, September,
         October, November, December
     };
 }
 
-namespace TickDayConverterTyp{
-    enum Type{
+namespace TickDayConverterTyp
+{
+    enum Type
+    {
         Day, DayYear, Month, Year
     };
 }
 
-namespace DateTimeKind{
-    enum Type{
+namespace DateTimeKind
+{
+    enum Type
+    {
         Undefined, Local, UTC
     };
 }
@@ -80,6 +88,9 @@ protected:
 
 } }
 
-namespace RF_Time = ::RadonFramework::Time;
+#ifndef RF_SHORTHAND_NAMESPACE_TIME
+#define RF_SHORTHAND_NAMESPACE_TIME
+namespace RF_Time = RadonFramework::Time;
+#endif
 
 #endif // RF_TIME_DATETIME_HPP

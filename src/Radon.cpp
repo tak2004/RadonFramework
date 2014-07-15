@@ -69,7 +69,7 @@ void Radon::InitSubSystem(UInt32 Flags)
 {
     if (Flags & RadonFramework::Init::Memory)
     {
-        RFMEM::Dispatch();
+        RF_SysMem::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Memory;
     }
 
@@ -144,7 +144,7 @@ void Radon::InitSubSystem(UInt32 Flags)
 
     if (Flags & RadonFramework::Init::Core)
     {
-        RFSTR::Dispatch();
+        RF_SysStr::Dispatch();
         RFENV::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Core;
     }

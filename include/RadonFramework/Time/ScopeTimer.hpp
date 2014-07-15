@@ -4,24 +4,15 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
-#include <RadonFramework/Time/DateTime.hpp>
 
 namespace RadonFramework { namespace Time {
 
 class ScopeTimer
 {
 public:
-    /** @brief ScopeTimer
-      *
-      * @todo: document this function
-      */
     ScopeTimer(TimeSpan& ts);
-
-    /** @brief ~ScopeTimer
-      *
-      * @todo: document this function
-      */
     ~ScopeTimer();
 protected:
     TimeSpan &m_TimeSpan;
@@ -29,5 +20,10 @@ protected:
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_TIME
+#define RF_SHORTHAND_NAMESPACE_TIME
+namespace RF_Time = RadonFramework::Time;
+#endif
 
 #endif // RF_TIME_SCOPETIMER_HPP

@@ -123,7 +123,7 @@ std::string sha256wrapper::getTestHash(void)
 sha256wrapper::sha256wrapper()
 {
     this->sha256 = new SHA256();
-    RFMEM::Set(&context,0,sizeof(HL_SHA256_CTX));
+    RF_SysMem::Set(&context,0,sizeof(HL_SHA256_CTX));
 }
 
 /**

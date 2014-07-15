@@ -19,7 +19,7 @@ public:
             "DirectoryTest::CheckName", "Check directory name");
     }
 
-    RFTYPE::Bool CheckName()
+    RF_Type::Bool CheckName()
     {
         Uri pathWithSeperator("file:///test/");
         Uri pathWithoutSeperator("file:///test");
@@ -30,7 +30,7 @@ public:
         return dirWithoutSeperator.Name() == dirWithSeperator.Name();
     }
 
-    RFTYPE::Bool CheckPath()
+    RF_Type::Bool CheckPath()
     {
         Uri pathWithSeperator("file:///test/");
         Uri pathWithoutSeperator("file:///test");

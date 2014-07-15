@@ -179,7 +179,7 @@ const AddressFamily::Type IPAddress::AddressFamily()const
 
 Bool IPAddress::operator==( const IPAddress &Other )
 {
-    return (m_AddressFamily==Other.m_AddressFamily) && (m_IP.Count()==Other.m_IP.Count()) && (RFMEM::Compare(&m_IP(0), &Other.m_IP(0), m_IP.Count())==0);
+    return (m_AddressFamily==Other.m_AddressFamily) && (m_IP.Count()==Other.m_IP.Count()) && (RF_SysMem::Compare(&m_IP(0), &Other.m_IP(0), m_IP.Count())==0);
 }
 
 Bool IsHexChar(const char& chr)

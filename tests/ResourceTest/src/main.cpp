@@ -43,9 +43,9 @@ int main(int argc, const char **argv)
 
     TestResultCollector results;
     BriefProgressCollector progress;
-    Singleton<UnitTest>::GetInstance().AddCollector(results);
-    Singleton<UnitTest>::GetInstance().AddCollector(progress);
-    Singleton<UnitTest>::GetInstance().SetSequentialTestExecution(10);
+    RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(results);
+    RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(progress);
+    RF_Pattern::Singleton<UnitTest>::GetInstance().SetSequentialTestExecution(10);
 
     AutoPointerArray<OptionRule> rules(new OptionRule[ApplicationOptions::MAX], ApplicationOptions::MAX);
     rules[ApplicationOptions::ApplicationDirectory].Init(0, 0, StandardRuleChecker::Text, 0, OptionRule::Required);
@@ -55,11 +55,11 @@ int main(int argc, const char **argv)
     {
         if(param.Values()[ApplicationOptions::RunSpecificTestSuite].IsSet())
         {
-            Singleton<UnitTest>::GetInstance().Run(param.Values()[ApplicationOptions::RunSpecificTestSuite].Value());
+            RF_Pattern::Singleton<UnitTest>::GetInstance().RunSuiteWithName(param.Values()[ApplicationOptions::RunSpecificTestSuite].Value());
         }
         else
         {
-            Singleton<UnitTest>::GetInstance().Run();
+            RF_Pattern::Singleton<UnitTest>::GetInstance().Run();
         }
     }
 
@@ -74,6 +74,6 @@ int main(int argc, const char **argv)
     else
         LogError("Test failed.");
 
-    Singleton<Threading::ThreadPool>::GetInstance().DisableAndWaitTillDone();
+    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().DisableAndWaitTillDone();
     return res;
 }

@@ -12,10 +12,10 @@ String operator+(const String& LH, const String &RH)
         String str(bytes);
 
         if (LH.Length() > 0)
-            RFMEM::Copy(const_cast<char*>(str.c_str()), LH.c_str(), LH.Size());
+            RF_SysMem::Copy(const_cast<char*>(str.c_str()), LH.c_str(), LH.Size());
 
         if (RH.Length() > 0)
-            RFMEM::Copy(const_cast<char*>(str.c_str() + LH.Size() - 1), RH.c_str(), RH.Size());
+            RF_SysMem::Copy(const_cast<char*>(str.c_str() + LH.Size() - 1), RH.c_str(), RH.Size());
 
         return str;
     }
@@ -27,7 +27,7 @@ String operator+(const String& LH, const Char &RH)
     Size bytes = LH.Size() + 1;
     String str(bytes);
     if (LH.Length() > 0)
-        RFMEM::Copy(const_cast<char*>(str.c_str()), LH.c_str(), bytes - 2);
+        RF_SysMem::Copy(const_cast<char*>(str.c_str()), LH.c_str(), bytes - 2);
 
     str[str.Length()-1] = RH;
     str[str.Length()]='\0';
@@ -139,7 +139,7 @@ String& operator+=(String &LH, const Char& Character)
 
     String newStr(bytes);
     if (LH.Length() > 0)
-        RFMEM::Copy(const_cast<char*>(newStr.c_str()), LH.c_str(), bytes);
+        RF_SysMem::Copy(const_cast<char*>(newStr.c_str()), LH.c_str(), bytes);
 
     newStr[bytes-2] = Character;
     newStr[bytes-1] = '\0';

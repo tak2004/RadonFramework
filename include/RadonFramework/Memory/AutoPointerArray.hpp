@@ -220,7 +220,7 @@ AutoPointerArray<T> AutoPointerArray<T>::Clone()const
     AutoPointerArray arr;
     arr.m_Data=new ElementType[m_Size];
     arr.m_Size=m_Size;
-    RFMEM::Copy(arr.m_Data, m_Data, m_Size*sizeof(T));
+    RF_SysMem::Copy(arr.m_Data, m_Data, m_Size*sizeof(T));
     return arr;
 }
 

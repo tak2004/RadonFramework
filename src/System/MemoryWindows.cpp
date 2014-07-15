@@ -32,7 +32,7 @@ void Free(void* FirstPage)
     HeapFree(GetProcessHeap(), 0, FirstPage);
 }
 
-void RFMEM::Dispatch()
+void RF_SysMem::Dispatch()
 {
     GetPageSize=::GetPageSize;
     EnableTerminationOnHeapCorruption=::EnableTerminationOnHeapCorruption;

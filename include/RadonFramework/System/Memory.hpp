@@ -54,4 +54,9 @@ extern SetCallback Set;
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_SYSMEM
+#define RF_SHORTHAND_NAMESPACE_SYSMEM
+namespace RF_SysMem = RadonFramework::System::Memory;
+#endif
+
 #endif // RF_SYSTEM_MEMORY_HPP

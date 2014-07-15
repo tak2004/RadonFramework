@@ -92,4 +92,10 @@ extern ToFloat64Callback ToFloat64;
 extern FormatCallback Format;
 
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SYSSTR
+#define RF_SHORTHAND_NAMESPACE_SYSSTR
+namespace RF_SysStr = RadonFramework::System::String;
+#endif
+
 #endif // RF_SYSTEM_STRING_HPP

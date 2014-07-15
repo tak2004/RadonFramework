@@ -34,7 +34,7 @@ AutoPointerArray<RF_Type::UInt32> GetProcessList()
     } while (processcount * sizeof(RF_Type::UInt32) == UsedMemory);
     processcount = UsedMemory / sizeof(RF_Type::UInt32);
     result = AutoPointerArray<RF_Type::UInt32>(new RF_Type::UInt32[processcount], processcount);
-    RFMEM::Copy(result.Get(), processes.Get(), UsedMemory);
+    RF_SysMem::Copy(result.Get(), processes.Get(), UsedMemory);
 
     return result;
 }

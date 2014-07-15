@@ -19,7 +19,7 @@ class HashlibMD5Hashfunction:public IHashfunction
         void Reset()
         {
             m_md5.MD5Init(&m_ctx);
-            RFMEM::Set(m_buf,0,16);
+            RF_SysMem::Set(m_buf,0,16);
         }
 
         void Update(UInt8 Input)
@@ -77,7 +77,7 @@ class HashlibSHA1Hashfunction:public IHashfunction
         void Reset()
         {
             m_sha1.SHA1Reset(&m_ctx);
-            RFMEM::Set(m_buf,0,20);
+            RF_SysMem::Set(m_buf,0,20);
         }
 
         void Update(UInt8 Input)
@@ -135,7 +135,7 @@ class HashlibSHA256Hashfunction:public IHashfunction
         void Reset()
         {
             m_sha256.SHA256_Init(&m_ctx);
-            RFMEM::Set(m_buf,0,65);
+            RF_SysMem::Set(m_buf,0,65);
         }
 
         void Update(UInt8 Input)
@@ -193,7 +193,7 @@ class HashlibSHA384Hashfunction:public IHashfunction
         void Reset()
         {
             m_sha384.SHA384_Init(&m_ctx);
-            RFMEM::Set(m_buf,0,97);
+            RF_SysMem::Set(m_buf,0,97);
         }
 
         void Update(UInt8 Input)
@@ -251,7 +251,7 @@ class HashlibSHA512Hashfunction:public IHashfunction
         void Reset()
         {
             m_sha512.SHA512_Init(&m_ctx);
-            RFMEM::Set(m_buf,0,129);
+            RF_SysMem::Set(m_buf,0,129);
         }
 
         void Update(UInt8 Input)

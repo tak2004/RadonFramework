@@ -15,7 +15,7 @@ StackAllocator::StackAllocator(Size ReservedMemorySize)
 void StackAllocator::Clear()
 {
     if (m_ZeroFreedMemory)
-        RFMEM::Set(m_ReservedMemory.Get(), 0, m_ReservedMemory.Size());
+        RF_SysMem::Set(m_ReservedMemory.Get(), 0, m_ReservedMemory.Size());
     m_AllocatedMemorySize=0;
 }
 
@@ -48,7 +48,7 @@ void StackAllocator::Pop()
 {
     Size* ptr=GetSize();
     if (m_ZeroPopedMemory)
-        RFMEM::Set(ptr-(*ptr),0,(size_t)(*ptr));
+        RF_SysMem::Set(ptr-(*ptr),0,(size_t)(*ptr));
     (m_AllocatedMemorySize-=(*ptr))-=sizeof(Size);
 }
 

@@ -194,7 +194,7 @@ public:
     RadonFramework::Core::Types::Bool CopyConstructor()
     {
         String unmanagedStr("This is a very long text which don't fit into the locale buffer.");
-        RFTYPE::Size bytes = 32;
+        RF_Type::Size bytes = 32;
         String dynamicStr(bytes);
         String localeStr("",3);
             
@@ -226,10 +226,10 @@ public:
 
     RadonFramework::Core::Types::Bool ByteSizeConstructor()
     {
-        RFTYPE::Size bytes = 3;
+        RF_Type::Size bytes = 3;
         String str(bytes);
         String str1("  ");
-        RFTYPE::Size dynamicByteSize = 33;
+        RF_Type::Size dynamicByteSize = 33;
         String str2(dynamicByteSize);
         return str.Length() == 2 && str == str1 && str.Size() == bytes &&
             str2.Length() == 32 && str2.Size() == 33;
@@ -247,7 +247,7 @@ public:
         String str("hiho");
         String unmanagedStr("This is a very long text which don't fit into the locale buffer.");
         String str1;
-        RFTYPE::Size bytes = 32;
+        RF_Type::Size bytes = 32;
         String str2(bytes);
 
         str1.Swap(str);
@@ -920,7 +920,7 @@ public:
 
     RadonFramework::Core::Types::Bool Size()
     {
-        RFTYPE::Size bytes = 32;
+        RF_Type::Size bytes = 32;
         String dynamicStringSize(bytes);
         String fixedStringSize("hi");
         return dynamicStringSize.Size()==32 && fixedStringSize.Size() == 3;

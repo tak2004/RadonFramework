@@ -16,7 +16,7 @@ LogConfig::LogConfig()
 :m_Data(new LogConfigData)
 ,m_AppenderIDs(0)
 {    
-    RFMEM::Set(m_Data.Get(),0,sizeof(LogConfigData));
+    RF_SysMem::Set(m_Data.Get(),0,sizeof(LogConfigData));
 }
 
 LogConfig::LogConfig(const LogConfig& Copy)
@@ -32,7 +32,7 @@ LogConfig& LogConfig::operator=(const LogConfig& Other)
 {
     UInt32 size=Other.AppenderCount()*sizeof(UInt32)+sizeof(LogConfigData);
     AutoPointerArray<UInt8> binary(new UInt8[size],size);
-    RFMEM::Copy(binary.Get(),Other.m_Data.Get(),size);
+    RF_SysMem::Copy(binary.Get(),Other.m_Data.Get(),size);
 
     m_Data.Reset(reinterpret_cast<LogConfigData*>(binary.Release().Ptr));
     if (m_Data->AppenderCount)
@@ -150,14 +150,14 @@ void LogConfig::SetAppenders(const Array<UInt32>& AppenderIDs)
     Size size=AppenderIDs.Count()*sizeof(UInt32)+sizeof(LogConfigData);
     AutoPointerArray<UInt8> data(new UInt8[size], size);
 
-    RFMEM::Copy(data.Get(),m_Data.Get(),sizeof(LogConfigData));
+    RF_SysMem::Copy(data.Get(),m_Data.Get(),sizeof(LogConfigData));
     m_Data.Reset(reinterpret_cast<LogConfigData*>(data.Release().Ptr));
     m_Data->AppenderCount=static_cast<UInt32>(AppenderIDs.Count());
     m_Data->AppenderPointerOffset=sizeof(LogConfigData);
     if (m_Data->AppenderCount)
     {
         m_AppenderIDs=reinterpret_cast<UInt32*>(reinterpret_cast<UInt8*>(m_Data.Get())+m_Data->AppenderPointerOffset);
-        RFMEM::Copy(m_AppenderIDs,&AppenderIDs(0),sizeof(UInt32)*m_Data->AppenderCount);
+        RF_SysMem::Copy(m_AppenderIDs,&AppenderIDs(0),sizeof(UInt32)*m_Data->AppenderCount);
     }
     else
         m_AppenderIDs=0;
@@ -167,6 +167,6 @@ AutoPointerArray<UInt8> LogConfig::GenerateBinaryData()
 {
     Size size=m_Data->AppenderCount*sizeof(UInt32)+sizeof(LogConfigData);
     AutoPointerArray<UInt8> result(new UInt8[size], size);
-    RFMEM::Copy(result.Get(),m_Data.Get(),size);
+    RF_SysMem::Copy(result.Get(),m_Data.Get(),size);
     return result;
 }

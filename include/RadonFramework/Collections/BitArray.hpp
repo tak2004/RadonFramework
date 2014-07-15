@@ -362,14 +362,14 @@ BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Flip()
 template<typename RB, typename MA, typename MO>
 BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Set()
 {
-    RFMEM::Set(m_Data, 0xff, m_ContainerInfo.ByteSize());
+    RF_SysMem::Set(m_Data, 0xff, m_ContainerInfo.ByteSize());
     return *this;
 }
 
 template<typename RB, typename MA, typename MO>
 BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Reset()
 {
-    RFMEM::Set(m_Data, 0x00, m_ContainerInfo.ByteSize());
+    RF_SysMem::Set(m_Data, 0x00, m_ContainerInfo.ByteSize());
     return *this;
 }
 

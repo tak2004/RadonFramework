@@ -46,14 +46,14 @@ public:
             "StringBuilderTest::ToString", "StringBuilderToString");
     }
 
-    RFTYPE::Bool DefaultConstructor()
+    RF_Type::Bool DefaultConstructor()
     {
         StringBuilder builder;
         return builder.AsCString() == 0 && builder.Length() == 0 && 
             builder.Size() == 0 && builder.Capacity() == 0;
     }
 
-    RFTYPE::Bool Destructor()
+    RF_Type::Bool Destructor()
     {
         StringBuilder builder;
         builder.~StringBuilder();
@@ -61,7 +61,7 @@ public:
             builder.Size() == 0 && builder.Capacity() == 0;
     }
 
-    RFTYPE::Bool AppendFormat()
+    RF_Type::Bool AppendFormat()
     {
         StringBuilder builder;
         builder.AppendFormat("Hello %s!", "World");
@@ -69,7 +69,7 @@ public:
             builder.Capacity() >= 13 && builder.AsCString() != 0;
     }
 
-    RFTYPE::Bool AppendLine()
+    RF_Type::Bool AppendLine()
     {
         StringBuilder builder;
         builder.AppendLine();
@@ -78,7 +78,7 @@ public:
             builder.AsCString()[0] == '\0';
     }
 
-    RFTYPE::Bool Append()
+    RF_Type::Bool Append()
     {
         StringBuilder builder;
         builder.Append("Hi");
@@ -88,24 +88,24 @@ public:
             builder.AsCString()[2] == '\0';
     }
 
-    RFTYPE::Bool Clear()
+    RF_Type::Bool Clear()
     {
         StringBuilder builder;
         builder.Append("test");
-        RFTYPE::Size capacity = builder.Capacity();
+        RF_Type::Size capacity = builder.Capacity();
         builder.Clear();
         return builder.Capacity() == capacity && builder.Size() == 0 &&
             builder.Length() == 0;
     }
 
-    RFTYPE::Bool EnsureCapacity()
+    RF_Type::Bool EnsureCapacity()
     {
         StringBuilder builder;
         builder.EnsureCapacity(1024);
         return builder.Capacity() >= 1024;
     }
 
-    RFTYPE::Bool Insert()
+    RF_Type::Bool Insert()
     {
         StringBuilder builder;
         builder.Insert("Hello !",0);
@@ -115,7 +115,7 @@ public:
             builder.AsCString()[11] == '!';
     }
 
-    RFTYPE::Bool Remove()
+    RF_Type::Bool Remove()
     {
         StringBuilder builder;
         builder.Append("Hello World!");
@@ -124,7 +124,7 @@ public:
             builder.Capacity() >= 8 && builder.AsCString()[6] == '!';
     }
 
-    RFTYPE::Bool Replace()
+    RF_Type::Bool Replace()
     {
         StringBuilder builder;
         builder.Append("Hello W!");
@@ -133,35 +133,35 @@ public:
             builder.Capacity() >= 13 && builder.AsCString()[7] == 'o';
     }
 
-    RFTYPE::Bool Length()
+    RF_Type::Bool Length()
     {
         StringBuilder builder;
         builder.Append("Hi");
         return builder.Length() == 2;
     }
 
-    RFTYPE::Bool Size()
+    RF_Type::Bool Size()
     {
         StringBuilder builder;
         builder.Append("Hi");
         return builder.Size() == 3;
     }
 
-    RFTYPE::Bool Capacity()
+    RF_Type::Bool Capacity()
     {
         StringBuilder builder;
         builder.EnsureCapacity(1024);
         return builder.Capacity() >= 1024;
     }
 
-    RFTYPE::Bool AsCString()
+    RF_Type::Bool AsCString()
     {
         StringBuilder builder;
         builder.Append("Hi");
         return builder.AsCString()[0] == 'H' && builder.AsCString()[1] == 'i';
     }
 
-    RFTYPE::Bool ToString()
+    RF_Type::Bool ToString()
     {
         StringBuilder builder;
         builder.Append("hi");

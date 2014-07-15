@@ -116,7 +116,7 @@ UInt64 MemoryCollectionStream::Write( const UInt8* Buffer, const UInt64 Offset,
         // expect the best case: a small enough write without process multiple buffers
         if (static_cast<UInt64>(m_Collection[static_cast<UInt32>(m_CursorIndex)].Size())-m_CursorOffset>Count)
         {
-            RFMEM::Copy(m_Collection[static_cast<UInt32>(m_CursorIndex)].Get()+m_CursorOffset,Buffer+Offset,Count);    
+            RF_SysMem::Copy(m_Collection[static_cast<UInt32>(m_CursorIndex)].Get()+m_CursorOffset,Buffer+Offset,Count);    
             m_Position+=Count;
             m_CursorOffset+=Count;
             return Count;
@@ -125,7 +125,7 @@ UInt64 MemoryCollectionStream::Write( const UInt8* Buffer, const UInt64 Offset,
         {// worst case: the write is larger as the size of the current buffer
             // get number of available bytes of current buffer
             UInt64 writtenBytes=static_cast<UInt64>(m_Collection[static_cast<UInt32>(m_CursorIndex)].Size())-m_CursorOffset;
-            RFMEM::Copy(m_Collection[static_cast<UInt32>(m_CursorIndex)].Get()+m_CursorOffset,Buffer+Offset,writtenBytes);    
+            RF_SysMem::Copy(m_Collection[static_cast<UInt32>(m_CursorIndex)].Get()+m_CursorOffset,Buffer+Offset,writtenBytes);    
             // update cursor and properties
             m_Position+=writtenBytes;
             ++m_CursorIndex;

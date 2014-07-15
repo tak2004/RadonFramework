@@ -139,7 +139,7 @@ std::string sha1wrapper::getTestHash(void)
 sha1wrapper::sha1wrapper()
 {    
     this->sha1 = new SHA1();
-    RFMEM::Set(&context,0,sizeof(HL_SHA1_CTX));
+    RF_SysMem::Set(&context,0,sizeof(HL_SHA1_CTX));
 }
 
 /**

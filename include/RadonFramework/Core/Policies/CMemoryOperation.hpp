@@ -15,7 +15,7 @@ struct CMemoryOperation
     static Types::Int32 Compare(const T* P1, const T* P2,
         Types::Size ElementCount)
     {
-        return RFMEM::Compare(reinterpret_cast<const void*>(P1), reinterpret_cast<const void*>(P2), ElementCount*sizeof(T));
+        return RF_SysMem::Compare(reinterpret_cast<const void*>(P1), reinterpret_cast<const void*>(P2), ElementCount*sizeof(T));
     }
 
     template <typename T>
@@ -34,7 +34,7 @@ struct CMemoryOperation
         #if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
         else        
         {
-            RFMEM::Copy(Destination, Source, ElementCount*sizeof(T));
+            RF_SysMem::Copy(Destination, Source, ElementCount*sizeof(T));
             return Destination;
         }
         #endif
@@ -55,7 +55,7 @@ struct CMemoryOperation
         }
         else
         {
-            RFMEM::Move(Destination, Source, ElementCount*sizeof(T));
+            RF_SysMem::Move(Destination, Source, ElementCount*sizeof(T));
             return Destination;
         }
         #endif
@@ -65,7 +65,7 @@ struct CMemoryOperation
     static T* Set(T* Pointer, Types::UInt32 Value,
         Types::Size ElementCount)
     {
-        RFMEM::Set(Pointer, Value, ElementCount*sizeof(T));
+        RF_SysMem::Set(Pointer, Value, ElementCount*sizeof(T));
         return Pointer;
     }
 };

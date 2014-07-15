@@ -27,12 +27,12 @@ public:
     LinearAllocatorTest()
     :TestSuite("RadonFramework::Memory::LinearAllocator")
     {
-        AddTest(MakeDelegate(this,&LinearAllocatorTest::AllocationThroughput),"Test linear allocator allocation throughput(4MB)");
+        AddTest(MakeDelegate(this,&LinearAllocatorTest::AllocationThroughput), "LinearAllocatorTest::AllocationThroughput", "Test linear allocator allocation throughput(4MB)");
     }
 
     void SetUp()
     {
-        pageSize=RFMEM::GetPageSize();
+        pageSize=RF_SysMem::GetPageSize();
         reserveBytes=((sizeof(Blob)*BLOBALLOCATIONS)/pageSize+1)*pageSize;
     }
 
@@ -41,7 +41,7 @@ public:
         LinearAllocator* allocator = LinearAllocator::CreateInstance(reserveBytes);
         for (UInt32 i=0; i<BLOBALLOCATIONS; ++i)
             allocator->Allocate(sizeof(Blob));
-        allocator->ClearInstance();
+        allocator->Clear();
         LinearAllocator::FreeInstance(allocator);
         return true;
     }

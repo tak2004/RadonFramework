@@ -34,7 +34,7 @@ Bool Convert::ToInt8(const String& In, Int8& Out)
     if (In.Length() > 0)
     {
         Int64 n;
-        if (RFSTR::ToInt64(In, 10, n) && n >= Int8Min && n <= Int8Max)
+        if (RF_SysStr::ToInt64(In, 10, n) && n >= Int8Min && n <= Int8Max)
         {
             Out = static_cast<UInt8>(n);
             result = true;
@@ -49,7 +49,7 @@ Bool Convert::ToInt16(const String& In, Int16& Out)
     if (In.Length() > 0)
     {
         Int64 n;
-        if (RFSTR::ToInt64(In, 10, n) && n >= Int16Min && n <= Int16Max)
+        if (RF_SysStr::ToInt64(In, 10, n) && n >= Int16Min && n <= Int16Max)
         {
             Out = static_cast<UInt16>(n);
             result = true;
@@ -64,7 +64,7 @@ Bool Convert::ToInt32(const String& In, Int32& Out)
     if (In.Length() > 0)
     {
         Int64 n;;
-        if (RFSTR::ToInt64(In, 10, n) && n >= Int32Min && n <= Int32Max)
+        if (RF_SysStr::ToInt64(In, 10, n) && n >= Int32Min && n <= Int32Max)
         {
             Out = n;
             result = true;
@@ -79,7 +79,7 @@ Bool Convert::ToInt64(const String& In, Int64& Out)
     if (In.Length() > 0)
     {
         Int64 n;
-        if (RFSTR::ToInt64(In, 10, n) && n >= Int64Min && n <= Int64Max)
+        if (RF_SysStr::ToInt64(In, 10, n) && n >= Int64Min && n <= Int64Max)
         {
             Out = n;
             result = true;
@@ -94,7 +94,7 @@ Bool Convert::ToUInt8(const String& In, UInt8& Out)
     if (In.Length() > 0)
     {
         UInt64 n;
-        if (RFSTR::ToUInt64(In, 10, n) && n >= UInt8Min && n <= UInt8Max)
+        if (RF_SysStr::ToUInt64(In, 10, n) && n >= UInt8Min && n <= UInt8Max)
         {
             Out = static_cast<UInt8>(n);
             result = true;
@@ -109,7 +109,7 @@ Bool Convert::ToUInt16(const String& In, UInt16& Out)
     if (In.Length() > 0)
     {
         UInt64 n;
-        if (RFSTR::ToUInt64(In, 10, n) && n >= UInt16Min && n <= UInt16Max)
+        if (RF_SysStr::ToUInt64(In, 10, n) && n >= UInt16Min && n <= UInt16Max)
         {
             Out = static_cast<UInt16>(n);
             result = true;
@@ -124,7 +124,7 @@ Bool Convert::ToUInt32(const String& In, UInt32& Out)
     if (In.Length() > 0)
     {
         UInt64 n;
-        if (RFSTR::ToUInt64(In, 10, n) && n >= UInt32Min && n <= UInt32Max)
+        if (RF_SysStr::ToUInt64(In, 10, n) && n >= UInt32Min && n <= UInt32Max)
         {
             Out = n;
             result = true;
@@ -139,7 +139,7 @@ Bool Convert::ToUInt64(const String& In, UInt64& Out)
     if (In.Length() > 0)
     {
         UInt64 n;
-        if (RFSTR::ToUInt64(In, 10, n) && n >= UInt64Min && n <= UInt64Max)
+        if (RF_SysStr::ToUInt64(In, 10, n) && n >= UInt64Min && n <= UInt64Max)
         {
             Out = n;
             result = true;
@@ -154,7 +154,7 @@ Bool Convert::ToFloat32(const String& In, Float32& Out)
     if (In.Length() > 0)
     {
         Float64 n;
-        if (RFSTR::ToFloat64(In, n) && n >= Float32Min && n <= Float32Max)
+        if (RF_SysStr::ToFloat64(In, n) && n >= Float32Min && n <= Float32Max)
         {
             Out = static_cast<Float32>(n);
             result = true;
@@ -169,7 +169,7 @@ Bool Convert::ToFloat64(const String& In, Float64& Out)
     if (In.Length() > 0)
     {
         Float64 n;
-        if (RFSTR::ToFloat64(In, n) && n >= Float64Min && n <= Float64Max)
+        if (RF_SysStr::ToFloat64(In, n) && n >= Float64Min && n <= Float64Max)
         {
             Out = n;
             result = true;
@@ -184,7 +184,7 @@ Bool Convert::ToSize(const String& In, Size& Out)
     if (In.Length() > 0)
     {
         UInt64 n;
-        if (RFSTR::ToUInt64(In, 10, n) && n >= SizeMin && n <= SizeMax)
+        if (RF_SysStr::ToUInt64(In, 10, n) && n >= SizeMin && n <= SizeMax)
         {
             Out = n;
             result = true;

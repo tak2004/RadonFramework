@@ -56,7 +56,7 @@ void ParameterStack::Push(const void* Data, const TypeKind::Type Datatype, const
         {
             par.Datasize=TypeSize[Datatype];
             par.Data=new char[par.Datasize*par.Count];
-            RFMEM::Copy(par.Data,Data,par.Datasize*par.Count);
+            RF_SysMem::Copy(par.Data,Data,par.Datasize*par.Count);
         }
 
         if ( (m_Cursor+1) < m_Parameters.size() )
@@ -93,7 +93,7 @@ void ParameterStack::Push(const void* Data, const UInt32 Datasize, const UInt32 
     par.Datasize=Datasize;
     par.Count=Count;
     par.Data=new char[par.Datasize*par.Count];
-    RFMEM::Copy(par.Data,Data,par.Datasize*par.Count);
+    RF_SysMem::Copy(par.Data,Data,par.Datasize*par.Count);
     par.Datatype=TypeKind::RF_UNKNOWN;
 
     if (m_Cursor<m_Parameters.size())

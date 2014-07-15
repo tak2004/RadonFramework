@@ -187,7 +187,7 @@ class GeometryQuaternionTest:public TestSuite
         {
             Float32 a[]={-1,0,0, 0,-1,0, 0,0,1};
             Matrix<Float32,3,3> mat;
-            RFMEM::Copy(mat.Value,a,sizeof(Float32)*9);
+            RF_SysMem::Copy(mat.Value,a,sizeof(Float32)*9);
             Quaternion<Float32> q(mat);
             Vector<Float32,4> v(0,0,0,1);
             return Math::Math<Float32>::IsAlmostEqual(&q[0],&v[0],4);
@@ -434,7 +434,7 @@ class GeometryQuaternionTest:public TestSuite
             Matrix<Float32,3,3> rot;
             Matrix<Float32,3,3> rot1;
             Float32 v[]={-1,0,0, 0,-1,0, 0,0,1};
-            RFMEM::Copy(rot1.Value,v,sizeof(Float32)*9);
+            RF_SysMem::Copy(rot1.Value,v,sizeof(Float32)*9);
             rot=q.AsRotationMatrix();
             return rot==rot1;
         }
@@ -445,7 +445,7 @@ class GeometryQuaternionTest:public TestSuite
             Matrix<Float32,4,4> rot;
             Matrix<Float32,4,4> rot1;
             Float32 v[]={-1,0,0,0, 0,-1,0,0, 0,0,1,0, 0,0,0,1};
-            RFMEM::Copy(rot1.Value,v,sizeof(Float32)*12);
+            RF_SysMem::Copy(rot1.Value,v,sizeof(Float32)*12);
             rot=q.AsMatrix();
             return rot==rot1;
         }

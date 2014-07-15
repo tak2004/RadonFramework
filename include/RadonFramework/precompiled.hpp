@@ -34,8 +34,6 @@
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
 
-namespace RFTYPE=RadonFramework::Core::Types;
-
 // Information about types
 #include <RadonFramework/Core/Types/CompilerConfig.hpp>
 #include <RadonFramework/Core/Types/TypeCode.hpp>
@@ -46,17 +44,13 @@ namespace RFTYPE=RadonFramework::Core::Types;
 
 #if defined(RF_PRECOMPILED_PIMPL)
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
-namespace RFIDIOM = RadonFramework::Core::Idioms;
 #endif
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 
 //--------- depending on upper includes -----------
 
 #include <RadonFramework/System/String.hpp>
-namespace RFSTR = RadonFramework::System::String;
-
 #include <RadonFramework/System/Memory.hpp>
-namespace RFMEM = RadonFramework::System::Memory;
 
 // Random size
 #include <RadonFramework/Core/Types/Vec.hpp>

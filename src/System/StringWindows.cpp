@@ -84,7 +84,7 @@ Int32 Format(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, const String& For
 }
 
 
-void RFSTR::Dispatch()
+void RF_SysStr::Dispatch()
 {
     SetLocale = ::SetLocale;
     GetLocale = ::GetLocale;

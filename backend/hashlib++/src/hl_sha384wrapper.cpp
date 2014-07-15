@@ -117,7 +117,7 @@ std::string sha384wrapper::getTestHash(void)
 sha384wrapper::sha384wrapper()
 {
     this->sha384 = new SHA2ext();
-    RFMEM::Set(&context,0,sizeof(HL_SHA_384_CTX));
+    RF_SysMem::Set(&context,0,sizeof(HL_SHA_384_CTX));
 }
 
 /**

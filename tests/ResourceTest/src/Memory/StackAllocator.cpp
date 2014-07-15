@@ -52,12 +52,12 @@ public:
     StackAllocatorTest()
         :TestSuite("RadonFramework::Memory::StackAllocator")
     {
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocation),"Allocate int with c++ new/delete 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocation),"Allocate int from StackAllocator 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationPOD),"Allocate POD struct with c++ new/delete 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationPOD),"Allocate POD struct from StackAllocator 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationNoPOD),"Allocate a class with c++ new/delete 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationNoPOD),"Allocate a class from StackAllocator 10000000x");
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocation), "StackAllocatorTest::DoCPlusPlusAllocation", "Allocate int with c++ new/delete 10000000x");
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocation),"StackAllocatorTest::DoStackAllocation","Allocate int from StackAllocator 10000000x");
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationPOD),"StackAllocatorTest::DoCPlusPlusAllocationPOD","Allocate POD struct with c++ new/delete 10000000x");
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationPOD),"StackAllocatorTest::DoStackAllocationPOD","Allocate POD struct from StackAllocator 10000000x");
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationNoPOD),"StackAllocatorTest::DoCPlusPlusAllocationNoPOD","Allocate a class with c++ new/delete 10000000x");
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationNoPOD),"StackAllocatorTest::DoStackAllocationNoPOD","Allocate a class from StackAllocator 10000000x");
     }
 
     void SetUp()
@@ -65,7 +65,7 @@ public:
         allocatedIntList=AutoPointerArray<int*>(new int*[INTALLOCATIONS], INTALLOCATIONS);
         allocatedPODList=AutoPointerArray<PODStruct*>(new PODStruct*[STUCTALLOCATIONS], STUCTALLOCATIONS);
         allocatedNoPODList=AutoPointerArray<NoPOD*>(new NoPOD*[CLASSALLOCATIONS], CLASSALLOCATIONS);
-        pageSize=RFMEM::GetPageSize();
+        pageSize=RF_SysMem::GetPageSize();
         reserveBytesForIntStack=(((sizeof(int)+sizeof(Size))*INTALLOCATIONS)/pageSize+1)*pageSize;
         reserveBytesForPODStack=(((sizeof(PODStruct)+sizeof(Size))*STUCTALLOCATIONS)/pageSize+1)*pageSize;
         reserveBytesForNoPODStack=(((sizeof(NoPOD)+sizeof(Size))*CLASSALLOCATIONS)/pageSize+1)*pageSize;

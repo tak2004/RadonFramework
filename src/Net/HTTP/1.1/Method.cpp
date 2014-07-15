@@ -48,7 +48,7 @@ Method::Type Method::Parse(const UInt8* Buffer, const UInt32 Bytes)
 
     if (index<8)
         for (;index<lastIndex;++index)
-            if (RFMEM::Compare(Buffer,Value[index],Bytes)==0)
+            if (RF_SysMem::Compare(Buffer,Value[index],Bytes)==0)
                 return Method::Type(index);
     return Unknown;
 }

@@ -16,7 +16,7 @@ class FixedLengthString
 public:
     FixedLengthString(){
         m_Len=0;
-        RFMEM::Set(m_Data,0,Len+1);
+        RF_SysMem::Set(m_Data,0,Len+1);
     }
 
     T MaxSize()const
@@ -35,7 +35,7 @@ public:
         Assert(Len>=len, "Index out of bound.");
         m_Len=static_cast<T>(len);
         if (m_Len>0)
-            RFMEM::Copy(m_Data, Text, m_Len);
+            RF_SysMem::Copy(m_Data, Text, m_Len);
         m_Data[m_Len]=0;
     }
 
@@ -44,7 +44,7 @@ public:
         Assert(Len>=Str.Length(),"Index out of bound.");
         m_Len=Str.Length();
         if (m_Len>0)
-            RFMEM::Copy(m_Data,Str.c_str(),m_Len);
+            RF_SysMem::Copy(m_Data,Str.c_str(),m_Len);
         m_Data[m_Len]=0;
     }
 

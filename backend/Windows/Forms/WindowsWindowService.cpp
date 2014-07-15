@@ -82,7 +82,7 @@ AutoVector<DisplayInformation> WindowsWindowService::GetAllDisplays()
                 }
                 display->AvaiableResolution=Array<Resolution>(reslist.Size());
                 for (UInt32 i=0;i<reslist.Size();++i)
-                    RFMEM::Copy(&display->AvaiableResolution(i), reslist[i], sizeof(Resolution));
+                    RF_SysMem::Copy(&display->AvaiableResolution(i), reslist[i], sizeof(Resolution));
                 list.PushBack(display);
             }
 //            ZeroMemory(&ddMon, sizeof(ddMon));

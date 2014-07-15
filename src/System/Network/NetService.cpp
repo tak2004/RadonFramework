@@ -404,7 +404,7 @@ IPHostEntry NetService::GetHostEntry( const RF_Type::String& HostnameOrAddress )
     List<IPAddress> i;
     struct addrinfo hints,*servinfo,*element;
 
-    RFMEM::Set(&hints, 0, sizeof hints);
+    RF_SysMem::Set(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
@@ -543,7 +543,7 @@ Error::Type NetService::Receive(const NetService::SocketHandler Handler,
     if (ret>0)
     {
         Data=AutoPointerArray<UInt8>(new UInt8[ret],ret);
-        RFMEM::Copy(Data.Get(),Buffer,ret);
+        RF_SysMem::Copy(Data.Get(),Buffer,ret);
         return Error::Ok;
     }
     else
@@ -578,7 +578,7 @@ Error::Type NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     if (ret>0)
     {
         Data=AutoPointerArray<UInt8>(new UInt8[ret],ret);
-        RFMEM::Copy(Data.Get(),Buffer,ret);
+        RF_SysMem::Copy(Data.Get(),Buffer,ret);
         return Error::Ok;
     }
     else

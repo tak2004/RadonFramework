@@ -309,11 +309,11 @@ protected:
 template<int N>
 String::String(char const (&CString)[N])
 {
-    m_Length = RFSTR::Length(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
+    m_Length = RF_SysStr::Length(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
     if (N <= BUFFER_SIZE)
     {// the locale buffer is a little bit faster
         m_DataManagment = Common::DataManagment::Copy;
-        RFMEM::Copy(m_FixBuffer.Raw(), CString, N);
+        RF_SysMem::Copy(m_FixBuffer.Raw(), CString, N);
         m_FixBuffer.SetSize(N);
     }
     else
@@ -363,6 +363,9 @@ String& String::operator=(char const (&Other)[N])
 
 } } }
 
-namespace RF_Type = ::RadonFramework::Core::Types;
+#ifndef RF_SHORTHAND_NAMESPACE_TYPE
+#define RF_SHORTHAND_NAMESPACE_TYPE
+namespace RF_Type = RadonFramework::Core::Types;
+#endif
 
 #endif // RF_CORE_TYPES_STRING_HPP

@@ -15,7 +15,7 @@ AutoPointerArray<UInt8> Hash::Generate(const UInt8 * Data, UInt32 Size,
     Hashfunction.Update((unsigned char*)Data,Size);
     Hashfunction.Final();
     result=AutoPointerArray<UInt8>(new UInt8[Hashfunction.GetDigestLength()],Hashfunction.GetDigestLength());
-    RFMEM::Copy(result.Get(),Hashfunction.Digest(),Hashfunction.GetDigestLength());
+    RF_SysMem::Copy(result.Get(),Hashfunction.Digest(),Hashfunction.GetDigestLength());
     return result;
 }
 

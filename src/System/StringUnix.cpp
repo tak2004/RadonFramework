@@ -87,7 +87,7 @@ Int32 Format(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, const String& For
     return vsnprintf(reinterpret_cast<char*>(Buffer), BufferSize, Format.c_str(), arg);
 }
 
-void RFSTR::Dispatch()
+void RF_SysStr::Dispatch()
 {
     SetLocale = ::SetLocale;
     GetLocale = ::GetLocale;

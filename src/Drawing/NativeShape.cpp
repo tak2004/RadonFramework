@@ -109,9 +109,9 @@ void NativeShape::StripeOutUnchangedRegisterMoves()
                 ind=static_cast<Int32>(Math::Math<Float32>::Floor((opCode-GLOpCode::MoveFloat32Reg0)/static_cast<Float32>(regTypes)));
                 offset=OpenGLMachine::RegisterSize*ind;
                 lastp=p;
-                RFMEM::Copy(lastRegisterValue+offset,OpenGLMachine::Registers+offset,8);
+                RF_SysMem::Copy(lastRegisterValue+offset,OpenGLMachine::Registers+offset,8);
                 OpenGLMachine::CallOpCode(opCode,p);
-                if (opCode!=lastOpCall[ind] || (opCode==lastOpCall[ind] && RFMEM::Compare(lastRegisterValue+offset,OpenGLMachine::Registers+offset,ptrdiff_t(p-lastp))!=0))
+                if (opCode!=lastOpCall[ind] || (opCode==lastOpCall[ind] && RF_SysMem::Compare(lastRegisterValue+offset,OpenGLMachine::Registers+offset,ptrdiff_t(p-lastp))!=0))
                 {
                     pipe.WriteType<GLOpCode::Type>(opCode);                    
                     pipe.Write(lastp,0,ptrdiff_t(p-lastp));

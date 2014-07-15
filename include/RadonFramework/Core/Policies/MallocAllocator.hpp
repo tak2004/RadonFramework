@@ -20,28 +20,11 @@ struct MallocAllocator
                             Traits::AllocatorTraits<void>::SizeType NewSize);
 };
 
-void* MallocAllocator::Allocate(Traits::AllocatorTraits<void>::SizeType Size)
-{
-    Assert(Size < RF_Type::MemoryRangeMax,"Acquired memory block is to large.");
-    return malloc(Size);
-}
-
-void MallocAllocator::Deallocate(void* Ptr,
-                                    Traits::AllocatorTraits<void>::SizeType Size)
-{
-    free(Ptr);
-}
-
-void* MallocAllocator::Reallocate(void* Ptr, 
-                                    Traits::AllocatorTraits<void>::SizeType OldSize, 
-                                    Traits::AllocatorTraits<void>::SizeType NewSize)
-{
-    Assert(NewSize < RF_Type::MemoryRangeMax,"Acquired memory block is to large.");
-    return realloc(Ptr,NewSize);
-}
-
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_POLICY
+#define RF_SHORTHAND_NAMESPACE_POLICY
 namespace RF_Policy = RadonFramework::Core::Policies;
+#endif
 
 #endif // RF_CORE_POLICIES_MALLOCALLOCATOR_HPP

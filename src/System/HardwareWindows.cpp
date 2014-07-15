@@ -129,7 +129,7 @@ RF_Type::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RF_Type::UInt32 Index)
     {
         if (CacheData[pid].Count() > Index)
         {
-            RFMEM::Copy(&Info, &CacheData[pid][Index], sizeof(RFHDW::CacheInfo));
+            RF_SysMem::Copy(&Info, &CacheData[pid][Index], sizeof(RFHDW::CacheInfo));
             result = true;
         }
         else
@@ -137,7 +137,7 @@ RF_Type::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RF_Type::UInt32 Index)
             if (CacheData[pid].Count() == 0)
             {
                 DetectCacheInfo(CacheData[pid], pid);
-                RFMEM::Copy(&Info, &CacheData[pid][Index], sizeof(RFHDW::CacheInfo));
+                RF_SysMem::Copy(&Info, &CacheData[pid][Index], sizeof(RFHDW::CacheInfo));
                 result = true;
             }
         }
@@ -153,7 +153,7 @@ RF_Type::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RF_Type::UInt32 Index)
         if (CacheData[pid].Count() > Index)
         {
             result = true;
-            RFMEM::Copy(&Info, &CacheData[pid][Index], sizeof(RFHDW::CacheInfo));
+            RF_SysMem::Copy(&Info, &CacheData[pid][Index], sizeof(RFHDW::CacheInfo));
         }
     }
     return result;

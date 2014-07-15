@@ -148,7 +148,7 @@ std::string md5wrapper::getTestHash(void)
 md5wrapper::md5wrapper()
 {
     md5 = new MD5();
-    RFMEM::Set(&ctx,0,sizeof(HL_MD5_CTX));
+    RF_SysMem::Set(&ctx,0,sizeof(HL_MD5_CTX));
 }
 
 /**

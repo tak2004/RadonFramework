@@ -168,7 +168,7 @@ public:
 
     Matrix(const Matrix& Copy)
     {
-        RFMEM::Copy(Value, Copy.Value, sizeof(T)*4);
+        RF_SysMem::Copy(Value, Copy.Value, sizeof(T)*4);
     }
 
     Vector<T,2> GetRow(RF_Type::Size Row)const
@@ -189,7 +189,7 @@ public:
 
     void SetColumn(RF_Type::Size Column,const Vector<T,2> & Vec)
     {
-        RFMEM::Copy(&Value[Column * 2], Vec.Value, sizeof(T) * 2);
+        RF_SysMem::Copy(&Value[Column * 2], Vec.Value, sizeof(T) * 2);
     }
 
     Matrix& LoadIdentity()
@@ -202,7 +202,7 @@ public:
 
     Matrix& LoadZero()
     {
-        RFMEM::Set(Value, 0, 4 * sizeof(T));
+        RF_SysMem::Set(Value, 0, 4 * sizeof(T));
         return *this;
     }
 
@@ -358,7 +358,7 @@ class Matrix<T,3,3>
 
     Matrix(const Matrix& Copy)
     {
-        RFMEM::Copy(Value, Copy.Value, sizeof(T)*9);
+        RF_SysMem::Copy(Value, Copy.Value, sizeof(T)*9);
     }
 
     Vector<T,3> GetRow(RF_Type::Size Row)const
@@ -379,7 +379,7 @@ class Matrix<T,3,3>
 
     void SetColumn(RF_Type::Size Column,const Vector<T,3> & Vec)
     {
-        RFMEM::Copy(&Value[Column * 3], Vec.Value, sizeof(T) * 3);
+        RF_SysMem::Copy(&Value[Column * 3], Vec.Value, sizeof(T) * 3);
     }
 
     Matrix& LoadIdentity()
@@ -392,7 +392,7 @@ class Matrix<T,3,3>
 
     Matrix& LoadZero()
     {
-        RFMEM::Set(Value, 0, 9 * sizeof(T));
+        RF_SysMem::Set(Value, 0, 9 * sizeof(T));
         return *this;
     }
 
@@ -627,7 +627,7 @@ class Matrix<T,4,4>
 
     Matrix& LoadZero()
     {
-        RFMEM::Set(Value, 0, 16 * sizeof(T));
+        RF_SysMem::Set(Value, 0, 16 * sizeof(T));
         return *this;
     }
 
