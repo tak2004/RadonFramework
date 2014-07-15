@@ -8,21 +8,24 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Collections/Pair.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Drawing {
+
+struct Canvas3DServiceConfig
 {
-    namespace Drawing
-    {
-        struct Canvas3DServiceConfig
-        {
-            static void Set(Collections::DataTree::NodeType& TreeNode);
-            static RFTYPE::Bool Fallback(Collections::DataTree::NodeType& TreeNode,
-                                       RFTYPE::Size& Priority, 
-                                       RFTYPE::String& Parameter);
-            static RFTYPE::String DefaultDriver;
-            static Collections::Array<Collections::Pair<
-                RFTYPE::Size,RFTYPE::String> > FallbackDriver;
-        };
-    }
-}
+    static void Set(RF_Collect::DataTree::NodeType& TreeNode);
+    static RF_Type::Bool Fallback(RF_Collect::DataTree::NodeType& TreeNode,
+                                RF_Type::Size& Priority, 
+                                RF_Type::String& Parameter);
+    static RF_Type::String DefaultDriver;
+    static RF_Collect::Array<RF_Collect::Pair<
+        RF_Type::Size,RF_Type::String> > FallbackDriver;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_DRAW
+#define RF_SHORTHAND_NAMESPACE_DRAW
+namespace RF_Draw = RadonFramework::Drawing;
+#endif
 
 #endif // RF_DRAWING_CANVAS3DSERVICECONFIG_HPP

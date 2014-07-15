@@ -14,7 +14,7 @@ namespace RadonFramework
         class RegisteredWaitHandle
         {
             public:
-                RFTYPE::Bool Unregister(IWaitHandle* WaitObject);
+                RF_Type::Bool Unregister(IWaitHandle* WaitObject);
         };
     }
 }

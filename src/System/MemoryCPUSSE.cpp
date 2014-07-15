@@ -8,18 +8,18 @@ using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::System::Memory;
 
-RFTYPE::Int32 Compare_SSE4(const void* P1, const void* P2, RFTYPE::Size Bytes)
+RF_Type::Int32 Compare_SSE4(const void* P1, const void* P2, RF_Type::Size Bytes)
 {
     const __m128i* mp1 = reinterpret_cast<const __m128i*>(P1);
     const __m128i* mp2 = reinterpret_cast<const __m128i*>(P2);
-    const RFTYPE::UInt8 *p1 = reinterpret_cast<const RFTYPE::UInt8*>(P1),
-                      *p2 = reinterpret_cast<const RFTYPE::UInt8*>(P2);
+    const RF_Type::UInt8 *p1 = reinterpret_cast<const RF_Type::UInt8*>(P1),
+                      *p2 = reinterpret_cast<const RF_Type::UInt8*>(P2);
     __m128i a, b, cmp;
     const int mode = _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_EACH | _SIDD_NEGATIVE_POLARITY;
     int result = 16;
 
     // not aligned pointer compare bytewise
-    while( Bytes && (reinterpret_cast<RFTYPE::MemoryRange>(p1) & 0xf || reinterpret_cast<RFTYPE::MemoryRange>(p2) & 0xf))
+    while( Bytes && (reinterpret_cast<RF_Type::MemoryRange>(p1) & 0xf || reinterpret_cast<RF_Type::MemoryRange>(p2) & 0xf))
     {
         if (*p1 != *p2)
         {
@@ -49,12 +49,12 @@ RFTYPE::Int32 Compare_SSE4(const void* P1, const void* P2, RFTYPE::Size Bytes)
     if (result < 16 && Bytes >= 16)
     {
         a = _mm_sub_epi8(a, b);
-        return *(reinterpret_cast<RFTYPE::UInt8*>(&a) + result) && 0xFF;
+        return *(reinterpret_cast<RF_Type::UInt8*>(&a) + result) && 0xFF;
     }
 
     // compare trailing bytes
-    p1 = reinterpret_cast<const RFTYPE::UInt8*>(mp1);
-    p2 = reinterpret_cast<const RFTYPE::UInt8*>(mp2);
+    p1 = reinterpret_cast<const RF_Type::UInt8*>(mp1);
+    p2 = reinterpret_cast<const RF_Type::UInt8*>(mp2);
     while(Bytes--)
     {
         if (*p1 != *p2)
@@ -71,22 +71,22 @@ RFTYPE::Int32 Compare_SSE4(const void* P1, const void* P2, RFTYPE::Size Bytes)
     return 0;
 }
 
-void Set_SSE2(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes)
+void Set_SSE2(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes)
 {
-    RFTYPE::UInt8* p = reinterpret_cast<RFTYPE::UInt8*>(Pointer);
-    RFTYPE::Size* mp;
-    RFTYPE::Size size = Value;
+    RF_Type::UInt8* p = reinterpret_cast<RF_Type::UInt8*>(Pointer);
+    RF_Type::Size* mp;
+    RF_Type::Size size = Value;
     // not aligned pointer fill bytewise
-    while( Bytes && reinterpret_cast<RFTYPE::MemoryRange>(p) & 0xf)
+    while( Bytes && reinterpret_cast<RF_Type::MemoryRange>(p) & 0xf)
     {
-        *(p++) = static_cast<RFTYPE::UInt8>(Value);
+        *(p++) = static_cast<RF_Type::UInt8>(Value);
         --Bytes;
     }
 
     // aligned pointer fill 16byte pieces
     __m128i v;
     __m128i* m = reinterpret_cast<__m128i*>(p);
-    RFTYPE::UInt32 ui = static_cast<RFTYPE::UInt32>(Value);
+    RF_Type::UInt32 ui = static_cast<RF_Type::UInt32>(Value);
     ui = ui << 8 | ui;
     ui = ui << 16 | ui;
     v = _mm_set_epi32(ui,ui,ui,ui);
@@ -97,22 +97,22 @@ void Set_SSE2(void* Pointer, RFTYPE::Int32 Value, RFTYPE::Size Bytes)
         Bytes -= 16;
     }
 
-    p = reinterpret_cast<RFTYPE::UInt8*>(m);
+    p = reinterpret_cast<RF_Type::UInt8*>(m);
     // fill up last unaligned bytes
     while(Bytes--)
     {
-        *(p++) = static_cast<RFTYPE::UInt8>(Value);
+        *(p++) = static_cast<RF_Type::UInt8>(Value);
     }
 }
 
 void Copy_SSE2(void* Destination, const void* Source, Size Bytes)
 {
-    RFTYPE::UInt8* dst = reinterpret_cast<RFTYPE::UInt8*>(Destination);
-    const RFTYPE::UInt8* src = reinterpret_cast<const RFTYPE::UInt8*>(Source);
+    RF_Type::UInt8* dst = reinterpret_cast<RF_Type::UInt8*>(Destination);
+    const RF_Type::UInt8* src = reinterpret_cast<const RF_Type::UInt8*>(Source);
 
     // not aligned pointer fill bytewise
-    while( Bytes && (reinterpret_cast<RFTYPE::MemoryRange>(dst) & 0xf ||
-                     reinterpret_cast<RFTYPE::MemoryRange>(src) & 0xf ))
+    while( Bytes && (reinterpret_cast<RF_Type::MemoryRange>(dst) & 0xf ||
+                     reinterpret_cast<RF_Type::MemoryRange>(src) & 0xf ))
     {
         *(dst++) = *(src++);
         --Bytes;
@@ -129,8 +129,8 @@ void Copy_SSE2(void* Destination, const void* Source, Size Bytes)
         Bytes -= 16;
     }
 
-    dst = reinterpret_cast<RFTYPE::UInt8*>(mDst);
-    src = reinterpret_cast<const RFTYPE::UInt8*>(mSrc);
+    dst = reinterpret_cast<RF_Type::UInt8*>(mDst);
+    src = reinterpret_cast<const RF_Type::UInt8*>(mSrc);
     // fill up last unaligned bytes
     while(Bytes--)
     {

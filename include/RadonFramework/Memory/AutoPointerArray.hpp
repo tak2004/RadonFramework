@@ -9,7 +9,7 @@
 namespace RadonFramework { namespace Memory {
 
 template <typename T>
-struct AutoPointerArrayData{T* Ptr; RFTYPE::Size Count;};
+struct AutoPointerArrayData{T* Ptr; RF_Type::Size Count;};
 
 template <typename T>
 struct AutoPointerArrayReference
@@ -22,62 +22,62 @@ struct AutoPointerArrayReference
 template <typename T>
 class AutoPointerArray
 {
-    public:
-        typedef T ElementType;
+public:
+    typedef T ElementType;
 
-        explicit AutoPointerArray();
+    explicit AutoPointerArray();
                 
-        AutoPointerArray(ElementType* Ptr, RFTYPE::Size Count);
+    AutoPointerArray(ElementType* Ptr, RF_Type::Size Count);
 
-        AutoPointerArray(AutoPointerArray& Copy);
+    AutoPointerArray(AutoPointerArray& Copy);
 
-        template <typename T1>
-        AutoPointerArray(AutoPointerArray<T1>& Ref);
+    template <typename T1>
+    AutoPointerArray(AutoPointerArray<T1>& Ref);
 
-        AutoPointerArray(AutoPointerArrayReference<ElementType> Ref);
+    AutoPointerArray(AutoPointerArrayReference<ElementType> Ref);
 
-        ~AutoPointerArray();
+    ~AutoPointerArray();
 
-        ElementType* Get()const;
+    ElementType* Get()const;
 
-        RFTYPE::Size Count()const;
+    RF_Type::Size Count()const;
 
-        RFTYPE::Size Size()const;
+    RF_Type::Size Size()const;
 
-        AutoPointerArray& operator=(const AutoPointerArray& Copy);
+    AutoPointerArray& operator=(const AutoPointerArray& Copy);
 
-        template <typename T1>
-        AutoPointerArray& operator=(AutoPointerArray<T1>& Copy);
+    template <typename T1>
+    AutoPointerArray& operator=(AutoPointerArray<T1>& Copy);
 
-        AutoPointerArray& operator=(const AutoPointerArrayReference<ElementType>& Ref);
+    AutoPointerArray& operator=(const AutoPointerArrayReference<ElementType>& Ref);
 
-        AutoPointerArrayData<T> Release();
+    AutoPointerArrayData<T> Release();
 
-        void Reset();
+    void Reset();
 
-        void Reset(AutoPointerArrayData<T> Data);
+    void Reset(AutoPointerArrayData<T> Data);
 
-        AutoPointerArray Clone()const;
+    AutoPointerArray Clone()const;
 
-        template <typename T1>
-        operator AutoPointerArrayReference<T1>();
+    template <typename T1>
+    operator AutoPointerArrayReference<T1>();
 
-        template <typename T1>
-        operator AutoPointerArray<T1>();
+    template <typename T1>
+    operator AutoPointerArray<T1>();
 
-        T& operator [](const RFTYPE::Size Index);
+    T& operator [](const RF_Type::Size Index);
 
-        const T& operator [](const RFTYPE::Size Index)const;
+    const T& operator [](const RF_Type::Size Index)const;
 
-        /// Return true if the pointer is 0 else false.
-        RFTYPE::Bool operator!();
-        /// Convert to Bool to allow boolean operation.
-        operator RFTYPE::Bool();
+    /// Return true if the pointer is 0 else false.
+    RF_Type::Bool operator!();
+    /// Convert to Bool to allow boolean operation.
+    operator RF_Type::Bool();
 
-        void Swap(AutoPointerArray<T>& Other);
-    private:
-        mutable T* m_Data;
-        mutable RFTYPE::Size m_Size;
+    void Swap(AutoPointerArray<T>& Other);
+private:
+    mutable T* m_Data;
+    mutable RF_Type::Size m_Size;
 };
 
 template<typename T>
@@ -95,7 +95,7 @@ AutoPointerArray<T>::AutoPointerArray()
 }
 
 template<typename T>
-AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RFTYPE::Size Count)
+AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RF_Type::Size Count)
 {
     m_Size=Count;
     m_Data=Ptr;
@@ -141,13 +141,13 @@ T* AutoPointerArray<T>::Get()const
 }
 
 template<typename T>
-RFTYPE::Size AutoPointerArray<T>::Count()const
+RF_Type::Size AutoPointerArray<T>::Count()const
 {
     return m_Size;
 }
 
 template<typename T>
-RFTYPE::Size AutoPointerArray<T>::Size()const
+RF_Type::Size AutoPointerArray<T>::Size()const
 {
     return m_Size*sizeof(T);
 }
@@ -241,14 +241,14 @@ AutoPointerArray<T>::operator AutoPointerArray<T1>()
 }
 
 template<typename T>
-T& AutoPointerArray<T>::operator [](const RFTYPE::Size Index)
+T& AutoPointerArray<T>::operator [](const RF_Type::Size Index)
 {
     Assert(Index<m_Size, "Out of bound.");
     return m_Data[Index];
 }
 
 template<typename T>
-const T& AutoPointerArray<T>::operator [](const RFTYPE::Size Index)const
+const T& AutoPointerArray<T>::operator [](const RF_Type::Size Index)const
 {
     Assert(Index<m_Size, "Out of bound.");
     return m_Data[Index];
@@ -260,23 +260,28 @@ void AutoPointerArray<T>::Swap(AutoPointerArray<T>& Other)
     T* p=m_Data;
     m_Data=Other.m_Data;
     Other.m_Data=p;
-    RFTYPE::Size s = m_Size;
+    RF_Type::Size s = m_Size;
     m_Size=Other.m_Size;
     Other.m_Size=s;
 }
 
 template<typename T>
-RFTYPE::Bool AutoPointerArray<T>::operator!()
+RF_Type::Bool AutoPointerArray<T>::operator!()
 {
     return 0==m_Data;
 }
 
 template<typename T>
-AutoPointerArray<T>::operator RFTYPE::Bool()
+AutoPointerArray<T>::operator RF_Type::Bool()
 {
     return 0!=m_Data;
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MEM
+#define RF_SHORTHAND_NAMESPACE_MEM
+namespace RF_Mem = RadonFramework::Memory;
+#endif
 
 #endif // RF_AUTOPOINTERARRAY_HPP

@@ -4,20 +4,20 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Threading {
+        
+namespace ThreadPriority
 {
-    namespace Threading
+    enum Type
     {
-        namespace ThreadPriority
-        {
-            enum Type
-            {
-                Minimal,
-                Normal,
-                Maximal
-            };
-        }
-    }
+        Minimal,
+        Normal,
+        Maximal
+    };
 }
+
+} }
+
+namespace RF_Thread = ::RadonFramework::Threading;
 
 #endif // RF_THREADING_THREADPRIORITY_HPP

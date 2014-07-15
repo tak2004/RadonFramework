@@ -21,19 +21,19 @@ void Dispatch();
 /** This function will be called by RadonFraemwork_Init function to
   * check if the dispatching was successfully.
   **/
-RFTYPE::Bool IsSuccessfullyDispatched();
+RF_Type::Bool IsSuccessfullyDispatched();
     
 /// This function is for debugging purpose and return all unassigned functions.
-void GetNotDispatchedFunctions(Collections::List<RFTYPE::String>& Result);
+void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 
-typedef RadonFramework::Memory::AutoPointerArray<RFTYPE::UInt32> (*GetProcessListCallback)();
-typedef RFTYPE::UInt32 (*GetCurrentProcessIdCallback)();
-typedef RFTYPE::Bool (*GetGeneralInfoCallback)(RFTYPE::UInt32 PId, GeneralInfo& Info);
-typedef RFTYPE::Bool (*GetIOInfoCallback)(RFTYPE::UInt32 PId, IOInfo& Info);
-typedef RFTYPE::Bool (*GetMemoryInfoCallback)(RFTYPE::UInt32 PId, MemoryInfo& Info);
-typedef RFTYPE::Bool (*GetTimingInfoCallback)(RFTYPE::UInt32 PId, TimingInfo& Info);
-typedef RFTYPE::Bool (*GetModuleInfoCallback)(RFTYPE::UInt32 PId, ModuleInfo& Info);
-typedef RFTYPE::Bool (*GetThreadInfoCallback)(RFTYPE::UInt32 PId, ThreadInfoList& Info);
+typedef RF_Mem::AutoPointerArray<RF_Type::UInt32> (*GetProcessListCallback)();
+typedef RF_Type::UInt32 (*GetCurrentProcessIdCallback)();
+typedef RF_Type::Bool (*GetGeneralInfoCallback)(RF_Type::UInt32 PId, GeneralInfo& Info);
+typedef RF_Type::Bool (*GetIOInfoCallback)(RF_Type::UInt32 PId, IOInfo& Info);
+typedef RF_Type::Bool (*GetMemoryInfoCallback)(RF_Type::UInt32 PId, MemoryInfo& Info);
+typedef RF_Type::Bool (*GetTimingInfoCallback)(RF_Type::UInt32 PId, TimingInfo& Info);
+typedef RF_Type::Bool (*GetModuleInfoCallback)(RF_Type::UInt32 PId, ModuleInfo& Info);
+typedef RF_Type::Bool (*GetThreadInfoCallback)(RF_Type::UInt32 PId, ThreadInfoList& Info);
 
 extern GetProcessListCallback GetProcessList;
 extern GetCurrentProcessIdCallback GetCurrentProcessId;

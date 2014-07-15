@@ -4,28 +4,28 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Time/DateTime.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
 #include <RadonFramework/Threading/ThreadPriority.hpp>
+#include <RadonFramework/Collections/Array.hpp>
 
 namespace RadonFramework { namespace System { namespace Process {
 
 struct ThreadInfo
 {
     //General
-    RFTYPE::UInt32 ID;
-    RadonFramework::Threading::ThreadPriority::Type Priority;
+    RF_Type::UInt32 ID;
+    RF_Thread::ThreadPriority::Type Priority;
     //Timing
-    RadonFramework::Time::DateTime CreationTime;
-    RadonFramework::Time::DateTime ExitTime;
-    RadonFramework::Time::TimeSpan KernelTime;
-    RadonFramework::Time::TimeSpan UserTime;
+    RF_Time::DateTime CreationTime;
+    RF_Time::DateTime ExitTime;
+    RF_Time::TimeSpan KernelTime;
+    RF_Time::TimeSpan UserTime;
 };
 
-typedef RadonFramework::Collections::Array<ThreadInfo> ThreadInfoList;
+typedef RF_Collect::Array<ThreadInfo> ThreadInfoList;
 
 } } }
-
-namespace RFPROC = RadonFramework::System::Process;
 
 #endif // RF_SYSTEM_PROCESS_THREADINFO_HPP

@@ -15,7 +15,7 @@ namespace RadonFramework
         class FileProtocolService:public ProtocolService
         {
             public:
-                FileProtocolService(const RFTYPE::String &Name);
+                FileProtocolService(const RF_Type::String &Name);
                 Memory::AutoPointer<Resource> GenerateResource(const Uri &Location);
         };
     }

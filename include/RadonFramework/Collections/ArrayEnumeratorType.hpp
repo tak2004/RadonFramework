@@ -30,12 +30,12 @@ struct Enumerator <T, ArrayEnumeratorType>
     ///
     const T* operator->()const;
 
-    Enumerator& MoveBy(const RFTYPE::Size Steps);
+    Enumerator& MoveBy(const RF_Type::Size Steps);
 
-    RFTYPE::Size Size()const;
+    RF_Type::Size Size()const;
 
     T* m_Start;
-    RFTYPE::Size m_Elements;
+    RF_Type::Size m_Elements;
     T* m_Current;
 };
 
@@ -102,7 +102,7 @@ const T* Enumerator<T, ArrayEnumeratorType>::operator->() const
 }
 
 template<typename T>
-Enumerator<T, ArrayEnumeratorType>& Enumerator<T, ArrayEnumeratorType>::MoveBy(const RFTYPE::Size Steps)
+Enumerator<T, ArrayEnumeratorType>& Enumerator<T, ArrayEnumeratorType>::MoveBy(const RF_Type::Size Steps)
 {
     Assert(m_Current + Steps <= m_Start + m_Elements, "Out of bound");
     m_Current += Steps;
@@ -110,11 +110,16 @@ Enumerator<T, ArrayEnumeratorType>& Enumerator<T, ArrayEnumeratorType>::MoveBy(c
 }
 
 template<typename T>
-RFTYPE::Size Enumerator<T, ArrayEnumeratorType>::Size() const
+RF_Type::Size Enumerator<T, ArrayEnumeratorType>::Size() const
 {
     return m_Elements;
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
 
 #endif // RF_COLLECTIONS_ARRAYENUMERATORTYPE_HPP

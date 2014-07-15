@@ -6,19 +6,22 @@
 
 #include <RadonFramework/Core/Types/UInt32.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Memory {
+
+class MemoryInfo
 {
-    namespace Memory
-    {
-        class MemoryInfo
-        {
-            public:
-                // Return the size of installed memory in megabytes.
-                static RFTYPE::UInt32 InstalledMemory();
-            protected:
-                static void* m_Backend;
-        };
-    }
-}
+public:
+    // Return the size of installed memory in megabytes.
+    static RF_Type::UInt32 InstalledMemory();
+protected:
+    static void* m_Backend;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MEM
+#define RF_SHORTHAND_NAMESPACE_MEM
+namespace RF_Mem = RadonFramework::Memory;
+#endif
 
 #endif // RF_MEMORYINFO_HPP

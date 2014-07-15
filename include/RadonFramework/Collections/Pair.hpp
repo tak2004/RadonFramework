@@ -35,4 +35,9 @@ Pair<FIRST,SECOND>::Pair(const FIRST& FirstValue, const SECOND& SecondValue)
 
 } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
+#define RF_SHORTHAND_NAMESPACE_COLLECT
+namespace RF_Collect = RadonFramework::Collections;
+#endif
+
 #endif // RF_COLLECTIONS_PAIR_HPP

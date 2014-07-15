@@ -15,13 +15,13 @@ namespace RadonFramework
         class ReflectionProperty
         {
             public:
-                ReflectionProperty(const RFTYPE::String &Name,const TypeKind::Type Type,Callback Setter,Callback Getter);
-                const RFTYPE::String& GetName()const;
+                ReflectionProperty(const RF_Type::String &Name,const TypeKind::Type Type,Callback Setter,Callback Getter);
+                const RF_Type::String& GetName()const;
                 TypeKind::Type GetType()const;
                 Callback GetGetter();
                 Callback GetSetter();
             protected:
-                RFTYPE::String m_Name;
+                RF_Type::String m_Name;
                 TypeKind::Type m_Type;
                 Callback m_Getter;
                 Callback m_Setter;

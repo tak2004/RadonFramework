@@ -21,7 +21,7 @@ namespace RadonFramework
                 }
 
                 template <typename T>
-                static T* NewArray(RFTYPE::Size Length)
+                static T* NewArray(RF_Type::Size Length)
                 {
                     if (Length==0)
                         return 0;

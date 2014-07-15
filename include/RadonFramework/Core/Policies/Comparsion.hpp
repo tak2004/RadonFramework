@@ -9,7 +9,7 @@ namespace RadonFramework
             template<class T1, class T2>
             struct Comparsion
             {
-                typedef Delegate2<T1,T2,RFTYPE::Int32> Type;
+                typedef Delegate2<T1,T2,RF_Type::Int32> Type;
             };
         }
     }

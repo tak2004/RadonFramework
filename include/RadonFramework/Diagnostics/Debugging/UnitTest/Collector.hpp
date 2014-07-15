@@ -14,7 +14,7 @@ class UnitTestResult;
 class Collector
 {
 public:
-    virtual void CreateSuite(const RFTYPE::String& Name)=0;
+    virtual void CreateSuite(const RF_Type::String& Name)=0;
     virtual void ProcessResult(const UnitTestResult& Result)=0;
 };
 

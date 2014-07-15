@@ -7,33 +7,36 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/Drawing/Forms/WindowService.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Forms {
+
+class NullWindowService:public WindowService
 {
-    namespace Forms
+public:
+    NullWindowService(const RF_Type::String &Name):WindowService(Name){}
+    IWindow* NewWindow(){return 0;}
+    IApplication* Application(){return 0;}
+                
+    RF_Collect::AutoVector<DisplayInformation> GetAllDisplays()
     {
-        class NullWindowService:public WindowService
-        {
-            public:
-                NullWindowService(const RFTYPE::String &Name):WindowService(Name){}
-                IWindow* NewWindow(){return 0;}
-                IApplication* Application(){return 0;}
-                
-                Collections::AutoVector<DisplayInformation> GetAllDisplays()
-                {
-                    return Collections::AutoVector<DisplayInformation>();
-                }
-                
-                WindowServiceError ScreenResolution(const DisplayInformation& DiplayInfo,
-                                                    RFTYPE::UInt32& ResolutionListIndex)
-                {
-					ResolutionListIndex=0; return WindowServiceError::Generate(WindowServiceErrors::InvalidArgument);
-                }
-
-				void ScreenResolution(const DisplayInformation& DiplayInfo, const Resolution& NewResolution){}
-        };
-
-        typedef Core::Pattern::Locator<WindowService,NullWindowService> WindowServiceLocator;
+        return RF_Collect::AutoVector<DisplayInformation>();
     }
-}
+                
+    WindowServiceError ScreenResolution(const DisplayInformation& DiplayInfo,
+                                        RF_Type::UInt32& ResolutionListIndex)
+    {
+		ResolutionListIndex=0; return WindowServiceError::Generate(WindowServiceErrors::InvalidArgument);
+    }
+
+	void ScreenResolution(const DisplayInformation& DiplayInfo, const Resolution& NewResolution){}
+};
+
+typedef RF_Pattern::Locator<WindowService,NullWindowService> WindowServiceLocator;
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_FORM
+#define RF_SHORTHAND_NAMESPACE_FORM
+namespace RF_Form = RadonFramework::Forms;
+#endif
 
 #endif

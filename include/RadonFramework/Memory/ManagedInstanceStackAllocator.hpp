@@ -6,48 +6,51 @@
 
 #include <RadonFramework/Memory/StackAllocator.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Memory {
+
+class ManagedInstanceStackAllocator
 {
-    namespace Memory
-    {
-        class ManagedInstanceStackAllocator
-        {
-            public:
-                ManagedInstanceStackAllocator(RFTYPE::Size ReservedMemorySize);
-                void Clear();
+public:
+    ManagedInstanceStackAllocator(RF_Type::Size ReservedMemorySize);
+    void Clear();
 
-                template<class T>
-                T* PushClass();
+    template<class T>
+    T* PushClass();
                 
-                void* PushRaw(RFTYPE::Size MemorySize);
-                void Pop();
-                void* Peek();
-            protected:
-                typedef void(*DestructorCallback)(void*);
+    void* PushRaw(RF_Type::Size MemorySize);
+    void Pop();
+    void* Peek();
+protected:
+    typedef void(*DestructorCallback)(void*);
 
-                template<class T>
-                static void CallDestructor(void* Object);
+    template<class T>
+    static void CallDestructor(void* Object);
 
-                void SetDestructorCallback(void* Buffer, RFTYPE::Size MemorySize, DestructorCallback Destructor);
-                StackAllocator m_Allocator;
-        };
+    void SetDestructorCallback(void* Buffer, RF_Type::Size MemorySize, DestructorCallback Destructor);
+    StackAllocator m_Allocator;
+};
 
-        template<class T>
-        T* ManagedInstanceStackAllocator::PushClass()
-        {
-            void* buffer=PushRaw(sizeof(T)+sizeof(DestructorCallback));
-            T* object=new (reinterpret_cast<T*>(buffer)) T();
-            SetDestructorCallback(buffer, sizeof(T), CallDestructor<T>);
-            return object;
-        }
-
-        template<class T>
-        void ManagedInstanceStackAllocator::CallDestructor(void* Object)
-        {
-            T* p = reinterpret_cast<T*>(Object);
-            p->T::~T();
-        }
-    }
+template<class T>
+T* ManagedInstanceStackAllocator::PushClass()
+{
+    void* buffer=PushRaw(sizeof(T)+sizeof(DestructorCallback));
+    T* object=new (reinterpret_cast<T*>(buffer)) T();
+    SetDestructorCallback(buffer, sizeof(T), CallDestructor<T>);
+    return object;
 }
+
+template<class T>
+void ManagedInstanceStackAllocator::CallDestructor(void* Object)
+{
+    T* p = reinterpret_cast<T*>(Object);
+    p->T::~T();
+}
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MEM
+#define RF_SHORTHAND_NAMESPACE_MEM
+namespace RF_Mem = RadonFramework::Memory;
+#endif
 
 #endif // RF_MANAGEDINSTANCEALLOCATOR_HPP

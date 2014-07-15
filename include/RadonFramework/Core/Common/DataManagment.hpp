@@ -8,7 +8,7 @@ namespace RadonFramework { namespace Core { namespace Common {
 
 namespace DataManagment
 {
-    enum Type : RFTYPE::UInt8
+    enum Type : RF_Type::UInt8
     {
         // create a copy of data
         Copy=0,
@@ -22,4 +22,10 @@ namespace DataManagment
 }
 
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_COMMON
+#define RF_SHORTHAND_NAMESPACE_COMMON
+namespace RF_Common = RadonFramework::Core::Common;
+#endif
+
 #endif // RF_CORE_COMMON_DATAMANAGMENT_HPP

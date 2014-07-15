@@ -11,21 +11,21 @@
 namespace RadonFramework { namespace Collections { namespace Algorithm {
 
 template <class C, typename FUNCTION>
-struct EnumeratorTaskData
+struct ForEachEnumeratorTaskData
 {
     FUNCTION Function;
     typename C::EnumeratorType Enumeable;
-    RFTYPE::UInt32 From;
-    RFTYPE::UInt32 Steps;
-    RFTYPE::AtomicInt32* OverallWork;
+    RF_Type::UInt32 From;
+    RF_Type::UInt32 Steps;
+    RF_Type::AtomicInt32* OverallWork;
 };
 
 template <class C, typename FUNCTION>
-void EnumeratorTaskFunction(void* Data)
+void ForEachEnumeratorTaskFunction(void* Data)
 {
-    auto* data = reinterpret_cast<EnumeratorTaskData<C, FUNCTION>*>(Data);
+    auto* data = reinterpret_cast<ForEachEnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
-    for(RFTYPE::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
+    for(RF_Type::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
     {
         data->Function(data->Enumeable);
         data->OverallWork->Decrement();
@@ -37,11 +37,11 @@ void ForEach(const C& Enumerable, FUNCTION Function)
 {
     auto enumerator = Enumerable.GetEnumerator();
     
-    RFTYPE::Size elements = enumerator.Size();
-    RFTYPE::UInt32 worker, cport;
-    Singleton<Threading::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
-    RFTYPE::UInt32 jobsPerWorker = 0;    
-    RFTYPE::AtomicInt32 overallWork(elements);
+    RF_Type::Size elements = enumerator.Size();
+    RF_Type::UInt32 worker, cport;
+    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
+    RF_Type::UInt32 jobsPerWorker = 0;    
+    RF_Type::AtomicInt32 overallWork(elements);
     
     if(elements > worker)
     {
@@ -54,17 +54,17 @@ void ForEach(const C& Enumerable, FUNCTION Function)
         worker = elements;
     }
     
-    for(RFTYPE::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
+    for(RF_Type::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
     {
         if(elements <= i)
             Extra = 0;
-        auto* task = new EnumeratorTaskData<C, FUNCTION>;
+        auto* task = new ForEachEnumeratorTaskData<C, FUNCTION>;
         task->Enumeable = enumerator;
         task->Function = Function;
         task->From = offset;
         task->Steps = jobsPerWorker + Extra;
         task->OverallWork = &overallWork; 
-        Singleton<Threading::ThreadPool>::GetInstance().QueueUserWorkItem(EnumeratorTaskFunction<C, FUNCTION>, task); 
+        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ForEachEnumeratorTaskFunction<C, FUNCTION>, task);
         offset += jobsPerWorker + Extra;
     }
     
@@ -78,5 +78,10 @@ void ForEach(const C& Enumerable, FUNCTION Function)
 }
 
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_ALGO
+#define RF_SHORTHAND_NAMESPACE_ALGO
+namespace RF_Algo = RadonFramework::Collections::Algorithm;
+#endif
 
 #endif // RF_COLLECTIONS_ALGORITHM_FOREACH_HPP

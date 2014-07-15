@@ -8,17 +8,17 @@ namespace RadonFramework { namespace IO {
 
 struct StandardRuleChecker
 {
-    static RFTYPE::Bool Text(const RFTYPE::String& Value)
+    static RF_Type::Bool Text(const RF_Type::String& Value)
     {
         return Value != "";
     }
 
-    static RFTYPE::Bool Numeric(const RFTYPE::String& Value)
+    static RF_Type::Bool Numeric(const RF_Type::String& Value)
     {
         return Value.IsNumber();
     }
 
-    static RFTYPE::Bool Boolean(const RFTYPE::String& Value)
+    static RF_Type::Bool Boolean(const RF_Type::String& Value)
     {
         return Value.IsBoolean();
     }

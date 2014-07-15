@@ -14,10 +14,10 @@ namespace RadonFramework
         class Directory
         {
             public:
-                static const RFTYPE::String& PathSeperator();
-                static const RFTYPE::Char PathSeperatorChar();
-                static const RFTYPE::String& Seperator();
-                static const RFTYPE::Char SeperatorChar();
+                static const RF_Type::String& PathSeperator();
+                static const RF_Type::Char PathSeperatorChar();
+                static const RF_Type::String& Seperator();
+                static const RF_Type::Char SeperatorChar();
 
                 /// Return the directory from where the application was started.
                 static Memory::AutoPointer<Directory> WorkingDirectory();
@@ -38,23 +38,23 @@ namespace RadonFramework
                 Directory& operator =(const Directory& Other);
 
                 void SetLocation(const Uri& Location);
-                RFTYPE::Bool CreateNewDirectory(const RFTYPE::Bool Recursive = true)const;
-                RFTYPE::Bool Delete()const;
-                RFTYPE::Bool Exists()const;
-                RFTYPE::String Name()const;
+                RF_Type::Bool CreateNewDirectory(const RF_Type::Bool Recursive = true)const;
+                RF_Type::Bool Delete()const;
+                RF_Type::Bool Exists()const;
+                RF_Type::String Name()const;
                 Uri Location()const;
-                RFTYPE::Bool IsHidden()const;
-                RFTYPE::Bool IsDirectory()const;
-                RFTYPE::UInt64 LastModified()const;
-                RFTYPE::UInt64 CreatedOn()const;
-                RFTYPE::UInt64 LastAccess()const;
-                RFTYPE::UInt64 Length()const;
-                RFTYPE::Bool RenameTo(const Uri& NewLocation);
-                RFTYPE::Bool AccessMode(AccessMode::Type NewValue);
+                RF_Type::Bool IsHidden()const;
+                RF_Type::Bool IsDirectory()const;
+                RF_Type::UInt64 LastModified()const;
+                RF_Type::UInt64 CreatedOn()const;
+                RF_Type::UInt64 LastAccess()const;
+                RF_Type::UInt64 Length()const;
+                RF_Type::Bool RenameTo(const Uri& NewLocation);
+                RF_Type::Bool AccessMode(AccessMode::Type NewValue);
                 AccessMode::Type AccessMode();
-                RFTYPE::String ToSystemPath()const;
-                Memory::AutoPointerArray<RFTYPE::String> Files()const;
-                Memory::AutoPointerArray<RFTYPE::String> FilesIncludingSubdirectories()const;
+                RF_Type::String ToSystemPath()const;
+                Memory::AutoPointerArray<RF_Type::String> Files()const;
+                Memory::AutoPointerArray<RF_Type::String> FilesIncludingSubdirectories()const;
                 Memory::AutoPointerArray<Directory> Directories()const;
             protected:
                 Uri m_Uri;

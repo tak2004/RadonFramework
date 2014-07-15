@@ -12,16 +12,16 @@ namespace RadonFramework
     {
         namespace Debugging
         {
-            template <typename Parent, typename ErrorEnum,RFTYPE::UInt32 ErrorCount>
+            template <typename Parent, typename ErrorEnum,RF_Type::UInt32 ErrorCount>
             struct Error
             {
                 //computer readable
                 ErrorEnum ErrorCode;
                 //human readable
-                RFTYPE::UInt32 InternalErrorText;//default:0
-                RFTYPE::UInt32 InternalDebugData;//default:0
+                RF_Type::UInt32 InternalErrorText;//default:0
+                RF_Type::UInt32 InternalDebugData;//default:0
 
-                static RFTYPE::String ErrorText[ErrorCount];  
+                static RF_Type::String ErrorText[ErrorCount];  
 
                 static Parent Generate(ErrorEnum AError)
                 {
@@ -33,7 +33,7 @@ namespace RadonFramework
                 }
 
                 static Parent Generate(ErrorEnum AError,
-                    const RFTYPE::String& AInternalErrorText)
+                    const RF_Type::String& AInternalErrorText)
                 {
                     Parent err; 
                     err.ErrorCode=AError; 
@@ -43,7 +43,7 @@ namespace RadonFramework
                 }
 
                 static Parent Generate(ErrorEnum AError,
-                    const RFTYPE::String& AInternalErrorText,
+                    const RF_Type::String& AInternalErrorText,
                     void* AInternalDebugData)
                 {
                     Parent err; 

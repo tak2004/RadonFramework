@@ -4,20 +4,25 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+#include <RadonFramework/Memory/AutoPointer.hpp>
+
+namespace RadonFramework { namespace Collections { namespace SceneGraph {
+
+class Node;
+class Scene;
+
+class Graph
 {
-    namespace Collections
-    {
-        namespace SceneGraph
-        {
-            class Graph
-            {
-                private:
-                    AutoPointer<Node> root;
-                    AutoPointer<Scene> data;
-            };
-        }
-    }
-}
+private:
+    RF_Mem::AutoPointer<Node> root;
+    RF_Mem::AutoPointer<Scene> data;
+};
+
+} } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SCENE
+#define RF_SHORTHAND_NAMESPACE_SCENE
+namespace RF_Scene = RadonFramework::Collections::SceneGraph;
+#endif
 
 #endif // RF_COLLECTIONS_SCENEGRAPH_GRAPH_HPP

@@ -29,7 +29,7 @@ void Log::WriteInfo(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
-        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogInfoTask,Text.Release(),TaskStrategy::SerialPerThread, StringFree);
+        RF_Pattern::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogInfoTask,Text.Release(),TaskStrategy::SerialPerThread, StringFree);
     }
 }
 
@@ -37,7 +37,7 @@ void Log::WriteError(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
-        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogErrorTask,Text.Release(),TaskStrategy::SerialPerThread, StringFree);
+        RF_Pattern::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogErrorTask, Text.Release(), TaskStrategy::SerialPerThread, StringFree);
     }
 }
 
@@ -45,7 +45,7 @@ void Log::WriteFatalError(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
-        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogFatalErrorTask,Text.Release(),TaskStrategy::SerialPerThread, StringFree);
+        RF_Pattern::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogFatalErrorTask, Text.Release(), TaskStrategy::SerialPerThread, StringFree);
     }
 }
 
@@ -53,7 +53,7 @@ void Log::WriteDebug(AutoPointer<String>& Text)
 {                    
     if (m_Appender.Count())
     {
-        RadonFramework::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogDebugTask,Text.Release(),TaskStrategy::SerialPerThread, StringFree);
+        RF_Pattern::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(PoolLogDebugTask, Text.Release(), TaskStrategy::SerialPerThread, StringFree);
     }
 }
 

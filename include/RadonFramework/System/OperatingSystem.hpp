@@ -20,8 +20,8 @@ namespace RadonFramework
                                 const Core::Common::Version& VersionNumber);
 
                 PlatformID::Type Platform()const;
-                RFTYPE::String PlatformString()const;
-                RFTYPE::String VersionString()const;
+                RF_Type::String PlatformString()const;
+                RF_Type::String VersionString()const;
                 const Core::Common::Version& VersionNumber()const;
             protected:
                 PlatformID::Type m_Platform;

@@ -13,19 +13,19 @@ namespace RadonFramework { namespace IO {
 class Log
 {
 public:
-    static void WriteInfo(Memory::AutoPointer<RFTYPE::String>& Text);
-    static void WriteError(Memory::AutoPointer<RFTYPE::String>& Text);
-    static void WriteFatalError(Memory::AutoPointer<RFTYPE::String>& Text);
-    static void WriteDebug(Memory::AutoPointer<RFTYPE::String>& Text);
+    static void WriteInfo(Memory::AutoPointer<RF_Type::String>& Text);
+    static void WriteError(Memory::AutoPointer<RF_Type::String>& Text);
+    static void WriteFatalError(Memory::AutoPointer<RF_Type::String>& Text);
+    static void WriteDebug(Memory::AutoPointer<RF_Type::String>& Text);
     static void AddAppender(Memory::AutoPointer<Diagnostics::Appender>& Value);
     static void AddAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > >& Values);
     static void ReplaceAppenders(Memory::AutoPointer<Collections::Array<Memory::AutoPointer<Diagnostics::Appender> > >& Values);
     static void RemoveAppender(const Diagnostics::Appender& Value);
 
-    static RFTYPE::Bool IsInfoEnabled;
-    static RFTYPE::Bool IsErrorEnabled;
-    static RFTYPE::Bool IsFatalErrorEnabled;
-    static RFTYPE::Bool IsDebugEnabled;
+    static RF_Type::Bool IsInfoEnabled;
+    static RF_Type::Bool IsErrorEnabled;
+    static RF_Type::Bool IsFatalErrorEnabled;
+    static RF_Type::Bool IsDebugEnabled;
 protected:
     static void PoolLogInfoTask(void* Data);
     static void PoolLogErrorTask(void* Data);
@@ -37,56 +37,61 @@ protected:
 
 inline void LogInfo(const char* Str,...)
 {
-    if (RadonFramework::IO::Log::IsInfoEnabled)
+    if (Log::IsInfoEnabled)
     {
-        RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
+        RF_Mem::AutoPointer<RF_Type::String> ptr(new RF_Type::String());
         va_list argp;
         va_start(argp, Str);
-        RFTYPE::String str = RFTYPE::String::FormatStrict(RFTYPE::String::UnsafeStringCreation(Str), argp);
+        RF_Type::String str = RF_Type::String::FormatStrict(RF_Type::String::UnsafeStringCreation(Str), argp);
         va_end(argp);
-        ptr->Swap(str); RadonFramework::IO::Log::WriteInfo(ptr);
+        ptr->Swap(str); Log::WriteInfo(ptr);
     }
 }
 
 inline void LogError(const char* Str,...)
 {
-    if (RadonFramework::IO::Log::IsErrorEnabled)
+    if (Log::IsErrorEnabled)
     {
-        RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
+        RF_Mem::AutoPointer<RF_Type::String> ptr(new RF_Type::String());
         va_list argp;
         va_start(argp, Str);
-        RFTYPE::String str = RFTYPE::String::FormatStrict(RFTYPE::String::UnsafeStringCreation(Str), argp);
+        RF_Type::String str = RF_Type::String::FormatStrict(RF_Type::String::UnsafeStringCreation(Str), argp);
         va_end(argp);
-        ptr->Swap(str); RadonFramework::IO::Log::WriteError(ptr);
+        ptr->Swap(str); Log::WriteError(ptr);
     }
 }
 
 inline void LogFatalError(const char* Str,...)
 {
-    if (RadonFramework::IO::Log::IsFatalErrorEnabled)
+    if (Log::IsFatalErrorEnabled)
     {
-        RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
+        RF_Mem::AutoPointer<RF_Type::String> ptr(new RF_Type::String());
         va_list argp;
         va_start(argp, Str);
-        RFTYPE::String str = RFTYPE::String::FormatStrict(RFTYPE::String::UnsafeStringCreation(Str), argp);
+        RF_Type::String str = RF_Type::String::FormatStrict(RF_Type::String::UnsafeStringCreation(Str), argp);
         va_end(argp);
-        ptr->Swap(str); RadonFramework::IO::Log::WriteFatalError(ptr);
+        ptr->Swap(str); Log::WriteFatalError(ptr);
     }
 }
 
 inline void LogDebug(char* Str,...)
 {
-    if (RadonFramework::IO::Log::IsDebugEnabled)
+    if (Log::IsDebugEnabled)
     {
-        RadonFramework::Memory::AutoPointer<RFTYPE::String> ptr(new RFTYPE::String());
+        RF_Mem::AutoPointer<RF_Type::String> ptr(new RF_Type::String());
         va_list argp;
         va_start(argp, Str);
-        RFTYPE::String str = RFTYPE::String::FormatStrict(RFTYPE::String::UnsafeStringCreation(Str), argp);
+        RF_Type::String str = RF_Type::String::FormatStrict(RF_Type::String::UnsafeStringCreation(Str), argp);
         va_end(argp);
-        ptr->Swap(str); RadonFramework::IO::Log::WriteDebug(ptr);
+        ptr->Swap(str); Log::WriteDebug(ptr);
     }
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_IO_LOG_HPP

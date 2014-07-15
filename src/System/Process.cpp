@@ -5,7 +5,7 @@
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::System::Process;
 
-AutoPointerArray<RFTYPE::UInt32> GetProcessList_SystemAPIDispatcher()
+AutoPointerArray<RF_Type::UInt32> GetProcessList_SystemAPIDispatcher()
 {
     GetProcessList = 0;
     Dispatch();
@@ -15,7 +15,7 @@ AutoPointerArray<RFTYPE::UInt32> GetProcessList_SystemAPIDispatcher()
     return GetProcessList();
 }
 
-RFTYPE::UInt32 GetCurrentProcessId_SystemAPIDispatcher()
+RF_Type::UInt32 GetCurrentProcessId_SystemAPIDispatcher()
 {
     GetCurrentProcessId = 0;
     Dispatch();
@@ -25,7 +25,7 @@ RFTYPE::UInt32 GetCurrentProcessId_SystemAPIDispatcher()
     return GetCurrentProcessId();
 }
 
-RFTYPE::Bool GetGeneralInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::GeneralInfo& Info)
+RF_Type::Bool GetGeneralInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::GeneralInfo& Info)
 {
     GetGeneralInfo = 0;
     Dispatch();
@@ -35,7 +35,7 @@ RFTYPE::Bool GetGeneralInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Gene
     return GetGeneralInfo(PId, Info);
 }
 
-RFTYPE::Bool GetIOInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::IOInfo& Info)
+RF_Type::Bool GetIOInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::IOInfo& Info)
 {
     GetIOInfo = 0;
     Dispatch();
@@ -45,7 +45,7 @@ RFTYPE::Bool GetIOInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::IOInfo& I
     return GetIOInfo(PId, Info);
 }
 
-RFTYPE::Bool GetMemoryInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::MemoryInfo& Info)
+RF_Type::Bool GetMemoryInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::MemoryInfo& Info)
 {
     GetMemoryInfo = 0;
     Dispatch();
@@ -55,7 +55,7 @@ RFTYPE::Bool GetMemoryInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Memor
     return GetMemoryInfo(PId, Info);
 }
 
-RFTYPE::Bool GetTimingInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::TimingInfo& Info)
+RF_Type::Bool GetTimingInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::TimingInfo& Info)
 {
     GetTimingInfo = 0;
     Dispatch();
@@ -65,7 +65,7 @@ RFTYPE::Bool GetTimingInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Timin
     return GetTimingInfo(PId, Info);
 }
 
-RFTYPE::Bool GetModuleInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::ModuleInfo& Info)
+RF_Type::Bool GetModuleInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::ModuleInfo& Info)
 {
     GetModuleInfo = 0;
     Dispatch();
@@ -75,7 +75,7 @@ RFTYPE::Bool GetModuleInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::Modul
     return GetModuleInfo(PId, Info);
 }
 
-RFTYPE::Bool GetThreadInfo_SystemAPIDispatcher(RFTYPE::UInt32 PId, RFPROC::ThreadInfoList& Info)
+RF_Type::Bool GetThreadInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
 {
     GetThreadInfo = 0;
     Dispatch();
@@ -94,9 +94,9 @@ RFPROC::GetTimingInfoCallback RFPROC::GetTimingInfo = GetTimingInfo_SystemAPIDis
 RFPROC::GetModuleInfoCallback RFPROC::GetModuleInfo = GetModuleInfo_SystemAPIDispatcher;
 RFPROC::GetThreadInfoCallback RFPROC::GetThreadInfo = GetThreadInfo_SystemAPIDispatcher;
 
-RFTYPE::Bool RFPROC::IsSuccessfullyDispatched()
+RF_Type::Bool RFPROC::IsSuccessfullyDispatched()
 {
-    RFTYPE::Bool result = true;
+    RF_Type::Bool result = true;
     result = result && GetProcessList != GetProcessList_SystemAPIDispatcher && GetProcessList != 0;
     result = result && GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher && GetCurrentProcessId != 0;
     result = result && GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher && GetGeneralInfo != 0;
@@ -108,22 +108,22 @@ RFTYPE::Bool RFPROC::IsSuccessfullyDispatched()
     return result;
 }
 
-void RFPROC::GetNotDispatchedFunctions( RadonFramework::Collections::List<RFTYPE::String>& Result )
+void RFPROC::GetNotDispatchedFunctions( RadonFramework::Collections::List<RF_Type::String>& Result )
 {
     if (GetProcessList == GetProcessList_SystemAPIDispatcher || GetProcessList == 0) 
-        Result.AddLast(RFTYPE::String("GetProcessList", sizeof("GetProcessList")));
+        Result.AddLast(RF_Type::String("GetProcessList", sizeof("GetProcessList")));
     if (GetCurrentProcessId == GetCurrentProcessId_SystemAPIDispatcher || GetCurrentProcessId == 0) 
-        Result.AddLast(RFTYPE::String("GetCurrentProcessId", sizeof("GetCurrentProcessId")));
+        Result.AddLast(RF_Type::String("GetCurrentProcessId", sizeof("GetCurrentProcessId")));
     if (GetGeneralInfo == GetGeneralInfo_SystemAPIDispatcher || GetGeneralInfo == 0) 
-        Result.AddLast(RFTYPE::String("GetGeneralInfo", sizeof("GetGeneralInfo")));
+        Result.AddLast(RF_Type::String("GetGeneralInfo", sizeof("GetGeneralInfo")));
     if (GetIOInfo == GetIOInfo_SystemAPIDispatcher || GetIOInfo == 0)
-        Result.AddLast(RFTYPE::String("GetIOInfo", sizeof("GetIOInfo")));
+        Result.AddLast(RF_Type::String("GetIOInfo", sizeof("GetIOInfo")));
     if (GetMemoryInfo == GetMemoryInfo_SystemAPIDispatcher || GetMemoryInfo == 0)
-        Result.AddLast(RFTYPE::String("GetMemoryInfo", sizeof("GetMemoryInfo")));
+        Result.AddLast(RF_Type::String("GetMemoryInfo", sizeof("GetMemoryInfo")));
     if (GetTimingInfo == GetTimingInfo_SystemAPIDispatcher || GetTimingInfo == 0)
-        Result.AddLast(RFTYPE::String("GetTimingInfo", sizeof("GetTimingInfo")));
+        Result.AddLast(RF_Type::String("GetTimingInfo", sizeof("GetTimingInfo")));
     if (GetModuleInfo == GetModuleInfo_SystemAPIDispatcher || GetModuleInfo == 0)
-        Result.AddLast(RFTYPE::String("GetModuleInfo", sizeof("GetModuleInfo")));
+        Result.AddLast(RF_Type::String("GetModuleInfo", sizeof("GetModuleInfo")));
     if (GetThreadInfo == GetThreadInfo_SystemAPIDispatcher || GetThreadInfo == 0)
-        Result.AddLast(RFTYPE::String("GetThreadInfo", sizeof("GetThreadInfo")));
+        Result.AddLast(RF_Type::String("GetThreadInfo", sizeof("GetThreadInfo")));
 }

@@ -17,7 +17,7 @@ namespace RadonFramework
                 class BriefProgressCollector:public Collector
                 {
                     public:
-                        void CreateSuite(const RFTYPE::String& Name);
+                        void CreateSuite(const RF_Type::String& Name);
                         void ProcessResult(const UnitTestResult& Result);
                 };
             }

@@ -4,20 +4,23 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace IO {
+
+struct FileStatus
 {
-    namespace IO
-    {
-        struct FileStatus
-        {
-            RFTYPE::UInt64 Size;
-            RFTYPE::UInt64 LastModificationTimestamp;
-            RFTYPE::UInt64 LastAccessTimestamp;
-            RFTYPE::UInt64 CreateionTimestamp;
-            RFTYPE::Bool IsDirectory;
-            RFTYPE::Bool IsHidden;
-        };
-    }
-}
+    RF_Type::UInt64 Size;
+    RF_Type::UInt64 LastModificationTimestamp;
+    RF_Type::UInt64 LastAccessTimestamp;
+    RF_Type::UInt64 CreateionTimestamp;
+    RF_Type::Bool IsDirectory;
+    RF_Type::Bool IsHidden;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_IO_FILESTATUS_HPP

@@ -9,19 +9,19 @@ namespace RadonFramework { namespace System { namespace Process {
 struct MemoryInfo
 {
     /// This process has read permission for the memory information.
-    RFTYPE::Bool MemoryAccessRights;
+    RF_Type::Bool MemoryAccessRights;
     /// Total memory usage.
-    RFTYPE::UInt64 MemoryUsage;
+    RF_Type::UInt64 MemoryUsage;
     /// Maximum used memory till yet.
-    RFTYPE::UInt64 PeakMemoryUsage;
+    RF_Type::UInt64 PeakMemoryUsage;
     /// Available virtual memory for this process.
-    RFTYPE::UInt64 UsableVirtualMemory;
+    RF_Type::UInt64 UsableVirtualMemory;
     /// Number of bytes not in page pool.
-    RFTYPE::UInt64 NonPagedPool;
+    RF_Type::UInt64 NonPagedPool;
     /// Number of bytes in page pool(swap).
-    RFTYPE::UInt64 PagedPool;
+    RF_Type::UInt64 PagedPool;
     /// Number of memory access on page pool.
-    RFTYPE::UInt64 PageFaultCount;
+    RF_Type::UInt64 PageFaultCount;
 };
 
 } } }

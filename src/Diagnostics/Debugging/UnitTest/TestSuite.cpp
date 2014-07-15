@@ -13,7 +13,7 @@ using namespace RadonFramework::Time;
 TestSuite::TestSuite( const String& Name ) 
 :m_Name(Name)
 {
-    Singleton<UnitTest>::GetInstance().RegisterTestSuite(this);
+    RF_Pattern::Singleton<UnitTest>::GetInstance().RegisterTestSuite(this);
 }
 
 String TestSuite::Name() const
@@ -32,7 +32,7 @@ void TestSuite::AddTest( TestMethod Test, const String& TestName, const String& 
 
 AutoPointer<UnitTestResult> TestSuite::ProcessTest( const UInt32 Number )
 {
-    register RFTYPE::Bool passed;
+    register RF_Type::Bool passed;
     AutoPointer<UnitTestResult> result;
     Assert(Number<m_TestMethods.Size(),"Out of bound.");
     result = AutoPointer<UnitTestResult>(new UnitTestResult(m_TestMethods[Number].Name));
@@ -54,7 +54,7 @@ void TestSuite::TearDown()
 
 }
 
-void TestSuite::IgnoreTest( const RFTYPE::String& Testname )
+void TestSuite::IgnoreTest( const RF_Type::String& Testname )
 {
     m_IgnoreTest.AddLast(Testname);
 }
@@ -81,7 +81,7 @@ void TestSuite::Run()
     }
 }
 
-void TestSuite::SetTestProbes( const RFTYPE::Size Probes )
+void TestSuite::SetTestProbes( const RF_Type::Size Probes )
 {
     m_TestProbes = Probes;
 }

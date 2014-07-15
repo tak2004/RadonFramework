@@ -6,7 +6,6 @@
 
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
-#include <RadonFramework/Net/Request.hpp>
 
 namespace RadonFramework
 {

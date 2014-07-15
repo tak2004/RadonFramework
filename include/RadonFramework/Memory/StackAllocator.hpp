@@ -6,53 +6,56 @@
 
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Memory {
+
+class StackAllocator
 {
-    namespace Memory
-    {
-        class StackAllocator
-        {
-            public:
-                StackAllocator(RFTYPE::Size ReservedMemorySize);
-                void Clear();
-                void* Push(RFTYPE::Size MemorySize);
-                void Pop();
-                void* Peek()const;
-                RFTYPE::Size PeekSize()const;
+public:
+    StackAllocator(RF_Type::Size ReservedMemorySize);
+    void Clear();
+    void* Push(RF_Type::Size MemorySize);
+    void Pop();
+    void* Peek()const;
+    RF_Type::Size PeekSize()const;
 
-                void ZeroPopedMemory(RFTYPE::Bool choice);
-                void ZeroFreedMemory(RFTYPE::Bool choice);
-                RFTYPE::Bool ZeroFreedMemory()const;
-                RFTYPE::Bool ZeroPopedMemory()const;
-            protected:
-                Memory::AutoPointerArray<RFTYPE::UInt8> m_ReservedMemory;
-                RFTYPE::Size m_AllocatedMemorySize;
-                RFTYPE::Bool m_ZeroFreedMemory;
-                RFTYPE::Bool m_ZeroPopedMemory;
+    void ZeroPopedMemory(RF_Type::Bool choice);
+    void ZeroFreedMemory(RF_Type::Bool choice);
+    RF_Type::Bool ZeroFreedMemory()const;
+    RF_Type::Bool ZeroPopedMemory()const;
+protected:
+    Memory::AutoPointerArray<RF_Type::UInt8> m_ReservedMemory;
+    RF_Type::Size m_AllocatedMemorySize;
+    RF_Type::Bool m_ZeroFreedMemory;
+    RF_Type::Bool m_ZeroPopedMemory;
 
-                RFTYPE::Size* GetSize()const;
-        };
+    RF_Type::Size* GetSize()const;
+};
 
-        inline RFTYPE::Bool StackAllocator::ZeroFreedMemory()const
-        {
-            return m_ZeroFreedMemory;
-        }
-
-        inline RFTYPE::Bool StackAllocator::ZeroPopedMemory()const
-        {
-            return m_ZeroPopedMemory;
-        }
-
-        inline void StackAllocator::ZeroPopedMemory(RFTYPE::Bool choice)
-        {
-            m_ZeroPopedMemory=choice;
-        }
-
-        inline void StackAllocator::ZeroFreedMemory(RFTYPE::Bool choice)
-        {
-            m_ZeroFreedMemory=choice;
-        }
-    }
+inline RF_Type::Bool StackAllocator::ZeroFreedMemory()const
+{
+    return m_ZeroFreedMemory;
 }
+
+inline RF_Type::Bool StackAllocator::ZeroPopedMemory()const
+{
+    return m_ZeroPopedMemory;
+}
+
+inline void StackAllocator::ZeroPopedMemory(RF_Type::Bool choice)
+{
+    m_ZeroPopedMemory=choice;
+}
+
+inline void StackAllocator::ZeroFreedMemory(RF_Type::Bool choice)
+{
+    m_ZeroFreedMemory=choice;
+}
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MEM
+#define RF_SHORTHAND_NAMESPACE_MEM
+namespace RF_Mem = RadonFramework::Memory;
+#endif
 
 #endif

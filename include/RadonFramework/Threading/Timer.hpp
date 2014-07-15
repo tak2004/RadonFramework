@@ -16,13 +16,13 @@ namespace RadonFramework
             public:
                 Timer();
 
-                RFTYPE::Bool Update(Time::TimeSpan DueTime, Time::TimeSpan Period, 
+                RF_Type::Bool Update(Time::TimeSpan DueTime, Time::TimeSpan Period, 
                                   void* Parameter , System::Time::TimerCallback Callback);
 
                 void Start();
                 void Stop();
 
-                RFTYPE::Bool IsRunning();
+                RF_Type::Bool IsRunning();
             private:
                 System::Time::TimerHandle m_Handler;
                 Time::TimeSpan m_DueTime;

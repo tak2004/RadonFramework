@@ -18,96 +18,99 @@
 #include <RadonFramework/Core/Types/Float64.hpp>
 #include <RadonFramework/Core/Types/Char.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Memory {
+
+class ReadBuffer
 {
-	namespace Memory
-	{
-		class ReadBuffer
-		{
-			public:
-				ReadBuffer();
-				ReadBuffer(ReadBuffer& Other);
-				ReadBuffer(AutoPointerArray<RFTYPE::UInt8> Data,
-					       const RFTYPE::UInt32 MemorySize,
-						   const RFTYPE::Bool SourceEndianIsLittle=true);
+public:
+	ReadBuffer();
+	ReadBuffer(ReadBuffer& Other);
+	ReadBuffer(AutoPointerArray<RF_Type::UInt8> Data,
+				const RF_Type::UInt32 MemorySize,
+				const RF_Type::Bool SourceEndianIsLittle=true);
 
-				/** @brief This method read 1 Byte from the Buffer.
-				  * This will be performed by a common register copy.
-				  */
-				RFTYPE::Bool ReadBool();
-				/** @brief This method read 1 Byte from the Buffer.
-				  * This will be performed by a common register copy.
-				  */
-				RFTYPE::UInt8 ReadUInt8();
-				/** @brief This method read 1 Byte from the Buffer.
-				  * This will be performed by a 8Bit register copy.
-				  */
-				RFTYPE::Int8 ReadInt8();
-				/** @brief This method read 1 Byte from the Buffer.
-				  * This will be performed by a 8Bit register copy.
-				  */
-				RFTYPE::Char ReadChar();
-				/** @brief This method read 2 Bytes from the Buffer.
-				  * This will be performed by a 16Bit register copy.
-				  */
-				RFTYPE::UInt16 ReadUInt16();
-				/** @brief This method read 2 Bytes from the Buffer.
-				  * This will be performed by a 16Bit register copy.
-				  */
-				RFTYPE::Int16 ReadInt16();
-				/** @brief This method read 4 Bytes from the Buffer.
-				  * This will be performed by a 32bit register copy.
-				  */
-				RFTYPE::UInt32 ReadUInt32();
-				/** @brief This method read 4 Bytes from the Buffer.
-				  * This will be performed by a 32bit register copy.
-				  */
-				RFTYPE::Int32 ReadInt32();
-				/** @brief This method read 4 Bytes from the Buffer.
-				  * This will be performed by a 32bit register copy.
-				  */
-				RFTYPE::Float32 ReadFloat32();
-				/** @brief This method read 8 Bytes from the Buffer.
-				  * This will be performed by two 32Bit register copies on
-				  * a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
-				  */
-				RFTYPE::UInt64 ReadUInt64();
-				/** @brief This method read 8 Bytes from the Buffer.
-				  * This will be performed by two 32Bit register copies on
-				  * a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
-				  */
-				RFTYPE::Int64 ReadInt64();
-				/** @brief This method read 8 Bytes from the Buffer.
-				  * This will be performed by two 32Bit register copies on
-				  * a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
-				  */
-				RFTYPE::Float64 ReadFloat64();
+	/** @brief This method read 1 Byte from the Buffer.
+		* This will be performed by a common register copy.
+		*/
+	RF_Type::Bool ReadBool();
+	/** @brief This method read 1 Byte from the Buffer.
+		* This will be performed by a common register copy.
+		*/
+	RF_Type::UInt8 ReadUInt8();
+	/** @brief This method read 1 Byte from the Buffer.
+		* This will be performed by a 8Bit register copy.
+		*/
+	RF_Type::Int8 ReadInt8();
+	/** @brief This method read 1 Byte from the Buffer.
+		* This will be performed by a 8Bit register copy.
+		*/
+	RF_Type::Char ReadChar();
+	/** @brief This method read 2 Bytes from the Buffer.
+		* This will be performed by a 16Bit register copy.
+		*/
+	RF_Type::UInt16 ReadUInt16();
+	/** @brief This method read 2 Bytes from the Buffer.
+		* This will be performed by a 16Bit register copy.
+		*/
+	RF_Type::Int16 ReadInt16();
+	/** @brief This method read 4 Bytes from the Buffer.
+		* This will be performed by a 32bit register copy.
+		*/
+	RF_Type::UInt32 ReadUInt32();
+	/** @brief This method read 4 Bytes from the Buffer.
+		* This will be performed by a 32bit register copy.
+		*/
+	RF_Type::Int32 ReadInt32();
+	/** @brief This method read 4 Bytes from the Buffer.
+		* This will be performed by a 32bit register copy.
+		*/
+	RF_Type::Float32 ReadFloat32();
+	/** @brief This method read 8 Bytes from the Buffer.
+		* This will be performed by two 32Bit register copies on
+		* a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
+		*/
+	RF_Type::UInt64 ReadUInt64();
+	/** @brief This method read 8 Bytes from the Buffer.
+		* This will be performed by two 32Bit register copies on
+		* a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
+		*/
+	RF_Type::Int64 ReadInt64();
+	/** @brief This method read 8 Bytes from the Buffer.
+		* This will be performed by two 32Bit register copies on
+		* a 32Bit CPU or one 64Bit register copy on a 64Bit CPU.
+		*/
+	RF_Type::Float64 ReadFloat64();
 
-				RFTYPE::UInt8 AsUInt8()const;
+	RF_Type::UInt8 AsUInt8()const;
 /*
-				RFTYPE::UInt8* Read4Byte(const RFTYPE::UInt32 Quantity);
-				RFTYPE::UInt8* Read8Byte(const RFTYPE::UInt32 Quantity);
-				RFTYPE::UInt8* Read16Byte(const RFTYPE::UInt32 Quantity);
-				*/
-				AutoPointerArray<RFTYPE::UInt8> ReadBytes(const RFTYPE::UInt32 Bytes);
+	RF_Type::UInt8* Read4Byte(const RF_Type::UInt32 Quantity);
+	RF_Type::UInt8* Read8Byte(const RF_Type::UInt32 Quantity);
+	RF_Type::UInt8* Read16Byte(const RF_Type::UInt32 Quantity);
+	*/
+	AutoPointerArray<RF_Type::UInt8> ReadBytes(const RF_Type::UInt32 Bytes);
 
-				RFTYPE::UInt32 Seek(const RFTYPE::UInt32 Bytes);
-				RFTYPE::Bool IsEnd()const;
-				RFTYPE::UInt32 GetSize()const;
-				RFTYPE::UInt8 const* GetData()const;
-				RFTYPE::UInt8 const* GetCursorData()const;
-				void ResetCursor();
+	RF_Type::UInt32 Seek(const RF_Type::UInt32 Bytes);
+	RF_Type::Bool IsEnd()const;
+	RF_Type::UInt32 GetSize()const;
+	RF_Type::UInt8 const* GetData()const;
+	RF_Type::UInt8 const* GetCursorData()const;
+	void ResetCursor();
 
-				ReadBuffer& operator=(ReadBuffer& OldOwner);
-				ReadBuffer Clone()const;
-				ReadBuffer& AssignTo(ReadBuffer& Destination)const;
-			protected:
-				AutoPointerArray<RFTYPE::UInt8> m_Data;
-				RFTYPE::UInt32 m_Size;
-				RFTYPE::UInt32 m_CursorPosition;
-				RFTYPE::Bool m_IsLittleEndian;
-		};
-	}
-}
+	ReadBuffer& operator=(ReadBuffer& OldOwner);
+	ReadBuffer Clone()const;
+	ReadBuffer& AssignTo(ReadBuffer& Destination)const;
+protected:
+	AutoPointerArray<RF_Type::UInt8> m_Data;
+	RF_Type::UInt32 m_Size;
+	RF_Type::UInt32 m_CursorPosition;
+	RF_Type::Bool m_IsLittleEndian;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MEM
+#define RF_SHORTHAND_NAMESPACE_MEM
+namespace RF_Mem = RadonFramework::Memory;
+#endif
 
 #endif

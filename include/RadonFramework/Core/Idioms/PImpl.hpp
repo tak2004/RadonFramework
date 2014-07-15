@@ -29,4 +29,9 @@ private:
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_IDIOM
+#define RF_SHORTHAND_NAMESPACE_IDIOM
+namespace RF_Idiom = RadonFramework::Core::Idioms;
+#endif
+
 #endif // RF_CORE_IDIOMS_PIMPL_HPP

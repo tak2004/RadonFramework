@@ -17,7 +17,7 @@ namespace RadonFramework
         class ProtocolService:public Core::Pattern::Service
         {
             public:
-                ProtocolService(const RFTYPE::String &Name);
+                ProtocolService(const RF_Type::String &Name);
 
                 virtual Memory::AutoPointer<Resource> GenerateResource(const Uri& URI)=0;
         };

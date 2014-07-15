@@ -13,10 +13,10 @@ namespace RadonFramework
         class LogConsole:public Diagnostics::Appender
         {
             public:
-                void WriteInfo(const RFTYPE::String& Text);
-                void WriteError(const RFTYPE::String& Text);
-                void WriteFatalError(const RFTYPE::String& Text);
-                void WriteDebug(const RFTYPE::String& Text);
+                void WriteInfo(const RF_Type::String& Text);
+                void WriteError(const RF_Type::String& Text);
+                void WriteFatalError(const RF_Type::String& Text);
+                void WriteDebug(const RF_Type::String& Text);
         };
     }
 }

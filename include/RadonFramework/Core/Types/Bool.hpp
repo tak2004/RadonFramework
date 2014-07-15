@@ -10,4 +10,6 @@ typedef bool Bool;
 
 } } }
 
+namespace RF_Type = ::RadonFramework::Core::Types;
+
 #endif // RF_CORE_TYPES_BOOL_HPP

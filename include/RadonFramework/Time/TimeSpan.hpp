@@ -4,9 +4,14 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/UInt64.hpp>
+#include <RadonFramework/Core/Types/Float64.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
+
 namespace RadonFramework { namespace Time {
 
-typedef RFTYPE::UInt64 TimeValue;
+typedef RF_Type::UInt64 TimeValue;
 
 struct TimeSpan
 {
@@ -18,28 +23,28 @@ struct TimeSpan
     static TimeValue TicksPerMicrosecond;
 
     static TimeSpan CreateByTicks(TimeValue Value);
-    static TimeSpan CreateByTime(RFTYPE::UInt32 Hours, RFTYPE::UInt32 Minutes,
-                                 RFTYPE::UInt32 Seconds);
-    static TimeSpan CreateByTime(RFTYPE::UInt32 Days, RFTYPE::UInt32 Hours,
-        RFTYPE::UInt32 Minutes, RFTYPE::UInt32 Seconds, RFTYPE::UInt32 Milliseconds = 0,
-        RFTYPE::UInt32 Microseconds = 0);
+    static TimeSpan CreateByTime(RF_Type::UInt32 Hours, RF_Type::UInt32 Minutes,
+                                 RF_Type::UInt32 Seconds);
+    static TimeSpan CreateByTime(RF_Type::UInt32 Days, RF_Type::UInt32 Hours,
+        RF_Type::UInt32 Minutes, RF_Type::UInt32 Seconds, RF_Type::UInt32 Milliseconds = 0,
+        RF_Type::UInt32 Microseconds = 0);
 
-    RFTYPE::UInt32 Days()const;
-    RFTYPE::UInt32 Hours()const;
-    RFTYPE::UInt32 Minutes()const;
-    RFTYPE::UInt32 Seconds()const;
-    RFTYPE::UInt32 Milliseconds()const;
-    RFTYPE::UInt32 Microseconds()const;
+    RF_Type::UInt32 Days()const;
+    RF_Type::UInt32 Hours()const;
+    RF_Type::UInt32 Minutes()const;
+    RF_Type::UInt32 Seconds()const;
+    RF_Type::UInt32 Milliseconds()const;
+    RF_Type::UInt32 Microseconds()const;
 
     TimeValue Ticks()const;
 
-    RFTYPE::Float64 TotalDays()const;
-    RFTYPE::Float64 TotalHours()const;
-    RFTYPE::Float64 TotalMinutes()const;
-    RFTYPE::Float64 TotalSeconds()const;
-    RFTYPE::Float64 TotalMilliseconds()const;
-    RFTYPE::Float64 TotalMicroseconds()const;
-    RFTYPE::String ToString()const;
+    RF_Type::Float64 TotalDays()const;
+    RF_Type::Float64 TotalHours()const;
+    RF_Type::Float64 TotalMinutes()const;
+    RF_Type::Float64 TotalSeconds()const;
+    RF_Type::Float64 TotalMilliseconds()const;
+    RF_Type::Float64 TotalMicroseconds()const;
+    RF_Type::String ToString()const;
 
     TimeSpan Add(const TimeSpan& TS)const;
     TimeSpan Sub(const TimeSpan& TS)const;
@@ -59,12 +64,14 @@ protected:
 
 } }
 
+namespace RF_Time = ::RadonFramework::Time;
+
 namespace RadonFramework { namespace System { namespace IO {
     // forward decleration
     class Console;
 } } }
 
 RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
-                                                const RadonFramework::Time::TimeSpan& Other);
+                                                const RF_Time::TimeSpan& Other);
 
 #endif // RF_TIME_TIMESPAN_HPP

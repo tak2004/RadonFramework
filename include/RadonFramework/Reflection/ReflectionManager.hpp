@@ -8,35 +8,38 @@
 #include <RadonFramework/Collections/List.hpp>
 
 #define REFLECT(__CLASS)\
-    virtual RadonFramework::Reflection::ReflectionClass& GetReflectionClass(){return __CLASS::DescriptionClass;}\
-    virtual const RadonFramework::Reflection::ReflectionClass& GetReflectionClass()const {return __CLASS::DescriptionClass;}\
-    static RadonFramework::Reflection::ReflectionClass DescriptionClass;\
-    static void ConfigureDescriptionClass##__CLASS(RadonFramework::Reflection::ReflectionClass* Cls)
+    virtual RF_Reflect::ReflectionClass& GetReflectionClass(){return __CLASS::DescriptionClass;}\
+    virtual const RF_Reflect::ReflectionClass& GetReflectionClass()const {return __CLASS::DescriptionClass;}\
+    static RF_Reflect::ReflectionClass DescriptionClass;\
+    static void ConfigureDescriptionClass##__CLASS(RF_Reflect::ReflectionClass* Cls)
 
 #define PROPERTY(__NAME,__TYPE,__SETTER,__GETTER)\
-    RadonFramework::Memory::AutoPointer<RadonFramework::Reflection::ReflectionProperty> propertyptr##__NAME(new RadonFramework::Reflection::ReflectionProperty(#__NAME,__TYPE,(RadonFramework::Reflection::Callback)__SETTER,(RadonFramework::Reflection::Callback)__GETTER));\
+    RF_Mem::AutoPointer<RF_Reflect::ReflectionProperty> propertyptr##__NAME(new RF_Reflect::ReflectionProperty(#__NAME,__TYPE,(RF_Reflect::Callback)__SETTER,(RF_Reflect::Callback)__GETTER));\
     Cls->Properties.PushBack(propertyptr##__NAME);
 
 #define METHODE(__NAME,__FUNCTIONPTR)\
-    RadonFramework::Memory::AutoPointer<RadonFramework::Reflection::ReflectionMethode> methodeptr##__NAME(new RadonFramework::Reflection::ReflectionMethode(#__NAME,(RadonFramework::Reflection::Callback)__FUNCTIONPTR));\
+    RF_Mem::AutoPointer<RF_Reflect::ReflectionMethode> methodeptr##__NAME(new RF_Reflect::ReflectionMethode(#__NAME,(RF_Reflect::Callback)__FUNCTIONPTR));\
     Cls->Methodes.PushBack(methodeptr##__NAME);
 
 #define REGISTER_REFLECTION_CLASS(__CLASS,__NAME)\
-    RadonFramework::Reflection::ReflectionClass __CLASS::DescriptionClass(__NAME,&__CLASS::ConfigureDescriptionClass##__CLASS,&RadonFramework::Reflection::CreateInstance<__CLASS>);
+    RF_Reflect::ReflectionClass __CLASS::DescriptionClass(__NAME,&__CLASS::ConfigureDescriptionClass##__CLASS,&RF_Reflect::CreateInstance<__CLASS>);
 
-namespace RadonFramework
+namespace RadonFramework { namespace Reflection {
+
+//forward declaration
+class ReflectionClass;
+
+class ReflectionManager:public RF_Pattern::Singleton<ReflectionManager>
 {
-    namespace Reflection
-    {
-        //forward decleration
-        class ReflectionClass;
+    public:
+        RF_Collect::List<ReflectionClass*> Classes;
+};
 
-        class ReflectionManager:public Singleton<ReflectionManager>
-        {
-            public:
-                RadonFramework::Collections::List<ReflectionClass*> Classes;
-        };
-    }
-}
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_REFLECT
+#define RF_SHORTHAND_NAMESPACE_REFLECT
+namespace RF_Reflect = RadonFramework::Reflection;
+#endif
 
 #endif

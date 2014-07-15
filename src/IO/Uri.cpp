@@ -6,9 +6,6 @@
 
 using namespace RadonFramework;
 using namespace RadonFramework::IO;
-using RadonFramework::Net::IPAddress;
-using RadonFramework::IO::Log;
-using RadonFramework::Memory::AutoPointer;
 using namespace RadonFramework::Core::Types;
 
 Uri::Uri()
@@ -197,7 +194,7 @@ Uri::~Uri()
 
 UriHostNameType::Type Uri::HostNameType(const String& Name)
 {
-    if (IPAddress::IsValidIPv4(Name))
+    if (RF_Net::IPAddress::IsValidIPv4(Name))
         return UriHostNameType::IPv4;
     //check if hostname
     if (Name.Length()<=255)//only a max length of 255 character is allowed
@@ -217,7 +214,7 @@ UriHostNameType::Type Uri::HostNameType(const String& Name)
             return UriHostNameType::DomainName;
     }
     if (Name.Length()>3 && Name[0]=='[' && Name[Name.Length()-1]==']')
-        if (IPAddress::IsValidIPv6(Name.SubString(1,Name.Length()-2)))
+        if (RF_Net::IPAddress::IsValidIPv6(Name.SubString(1,Name.Length()-2)))
             return UriHostNameType::IPv6;
     return UriHostNameType::Unknown;
 }

@@ -5,7 +5,7 @@
 #endif
 
 #include <RadonFramework/IO/IDecoder.hpp>
-#include <RadonFramework/Drawing/Image.hpp>
+//#include <RadonFramework/Drawing/Image.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
@@ -17,9 +17,9 @@ namespace RadonFramework
     {
       public:
         virtual ~IImageDecoder(){};
-        virtual Memory::AutoPointer<Drawing::ImageInfo> Information()=0;
-        virtual Memory::AutoPointerArray<RFTYPE::UInt8> LoadLayer(RFTYPE::UInt32 Frame, 
-                                                                    RFTYPE::UInt32 Layer)=0;
+        //virtual Memory::AutoPointer<Drawing::ImageInfo> Information()=0;
+        virtual Memory::AutoPointerArray<RF_Type::UInt8> LoadLayer(RF_Type::UInt32 Frame, 
+                                                                    RF_Type::UInt32 Layer)=0;
     };
   }
 }

@@ -398,9 +398,9 @@ Error::Type NetService::Free()
     return FreeImplementation();
 }
 
-IPHostEntry NetService::GetHostEntry( const RFTYPE::String& HostnameOrAddress )
+IPHostEntry NetService::GetHostEntry( const RF_Type::String& HostnameOrAddress )
 {
-    List<RFTYPE::String> s;
+    List<RF_Type::String> s;
     List<IPAddress> i;
     struct addrinfo hints,*servinfo,*element;
 
@@ -410,7 +410,7 @@ IPHostEntry NetService::GetHostEntry( const RFTYPE::String& HostnameOrAddress )
 
     // collect all IP's
     if (getaddrinfo(HostnameOrAddress.c_str(),NULL,&hints,&servinfo)!=0)
-        return IPHostEntry(RFTYPE::String(),s,i);
+        return IPHostEntry(RF_Type::String(),s,i);
 
     // collect all names related to the IP's
     for (element=servinfo;element!=NULL;element=element->ai_next)
@@ -420,7 +420,7 @@ IPHostEntry NetService::GetHostEntry( const RFTYPE::String& HostnameOrAddress )
                     hostname, NI_MAXHOST, NULL, 0, 0);
         i.AddLast(IPAddress(((sockaddr_in*)element->ai_addr)->sin_addr.s_addr));
         if (*hostname)
-            s.AddLast(RFTYPE::String(hostname, NI_MAXHOST));
+            s.AddLast(RF_Type::String(hostname, NI_MAXHOST));
     }
     freeaddrinfo(servinfo);
     IPHostEntry result(HostnameOrAddress,s,i);
@@ -430,9 +430,9 @@ IPHostEntry NetService::GetHostEntry( const RFTYPE::String& HostnameOrAddress )
 String NetService::GetHostname()
 {
     char szHostname[255];
-    RFTYPE::String str;
+    RF_Type::String str;
     if (gethostname(szHostname, 255)==0)
-        str=RFTYPE::String(szHostname, 255);
+        str=RF_Type::String(szHostname, 255);
     return str;
 }
 
@@ -514,7 +514,7 @@ Error::Type NetService::Connect(const NetService::SocketHandler Handler,
     sockaddr_in addrIn;
     int addrSize=sizeof(sockaddr_in);
 
-    RFTYPE::String str=RemoteEP.Address().ToString();
+    RF_Type::String str=RemoteEP.Address().ToString();
     addrIn.sin_addr.s_addr=inet_addr(str.c_str());
     addrIn.sin_family=SocketAddressFamily[RemoteEP.Address().AddressFamily()];
     addrIn.sin_port=htons(RemoteEP.Port());

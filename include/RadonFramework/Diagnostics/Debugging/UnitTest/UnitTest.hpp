@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
 namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
@@ -18,19 +20,24 @@ public:
     void AddCollector(Collector& ACollector);
     void RegisterTestSuite(TestSuite* ATestSuite);
     void Run();
-    void RunSuiteWithName(const RFTYPE::String& Suitename);
-    void SetSequentialTestExecution(RFTYPE::Size Probes);
-    void IgnoreSuite(const RFTYPE::String& Suitename);
-    TestSuite* GetSuite(const RFTYPE::String& Suitename);
+    void RunSuiteWithName(const RF_Type::String& Suitename);
+    void SetSequentialTestExecution(RF_Type::Size Probes);
+    void IgnoreSuite(const RF_Type::String& Suitename);
+    TestSuite* GetSuite(const RF_Type::String& Suitename);
 private:
-    Collections::List<RFTYPE::String> m_IgnoreSuite;
-    Collections::List<TestSuite*> m_TestSuites;
-    Collections::List<Collector*> m_Collector;
-    RFTYPE::Size m_TestProbes;
+    RF_Collect::List<RF_Type::String> m_IgnoreSuite;
+    RF_Collect::List<TestSuite*> m_TestSuites;
+    RF_Collect::List<Collector*> m_Collector;
+    RF_Type::Size m_TestProbes;
 
-    void RunSuiteAt(const RFTYPE::Size Index);
+    void RunSuiteAt(const RF_Type::Size Index);
 };
 
 } } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_TEST
+#define RF_SHORTHAND_NAMESPACE_TEST
+namespace RF_Test = RadonFramework::Diagnostics::Debugging::UnitTest;
+#endif
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_UNITTEST_HPP

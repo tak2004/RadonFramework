@@ -72,4 +72,9 @@ struct CMemoryOperation
         
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_POLICY
+#define RF_SHORTHAND_NAMESPACE_POLICY
+namespace RF_Policy = RadonFramework::Core::Policies;
+#endif
+
 #endif // RF_CORE_POLICIES_CMEMORYOPERATION_HPP

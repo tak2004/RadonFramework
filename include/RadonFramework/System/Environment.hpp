@@ -16,15 +16,15 @@ namespace RadonFramework {  namespace System { namespace Environment {
     /** This function will be called by RadonFraemwork_Init function to
         * check if the dispatching was successfully.
         **/
-    RFTYPE::Bool IsSuccessfullyDispatched();
+    RF_Type::Bool IsSuccessfullyDispatched();
             
     /// This function is for debugging purpose and return all unassigned functions.
-    void GetNotDispatchedFunctions(Collections::List<RFTYPE::String>& Result);
+    void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 
     typedef MemoryArchitecture::Type(*MemoryArchitectureOfOSCallback)();
-    typedef RFTYPE::Bool(*Is32BitEmulationCallback)();
+    typedef RF_Type::Bool(*Is32BitEmulationCallback)();
     typedef const OperatingSystem&(*OSVersionCallback)();
-    typedef void(*GetVariableCallback)(const RFTYPE::String& Name, RFTYPE::String& Result);
+    typedef void(*GetVariableCallback)(const RF_Type::String& Name, RF_Type::String& Result);
     typedef PlatformID::Type(*PlatformCallback)();
     typedef OperatingSystemFamily::Type(*OSFamilyCallback)();
 

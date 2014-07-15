@@ -4,20 +4,23 @@
 #pragma once
 #endif
 
-#include <RadonFramework/IO/VirtualKey.hpp>
+#include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/IO/VirtualMouseButton.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace IO {
+
+struct MouseEvent
 {
-    namespace IO
-    {
-        struct MouseEvent
-        {
-            RFTYPE::Bool MouseButtonState[IO::VirtualMouseButton::MAX];
-            Math::Geometry::Point2D<> CurrentPosition;
-        };
-    }
-}
+    RF_Type::Bool MouseButtonState[VirtualMouseButton::MAX];
+    RF_Geo::Point2D<> CurrentPosition;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif // RF_MOUSEEVENT_HPP

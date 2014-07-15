@@ -78,12 +78,12 @@ void Form::MouseMove(const MouseEvent& Value)
     OnMouseMove(Value);
 }
 
-void Form::Size(const RadonFramework::Math::Geometry::Size2D<>& NewSize)
+void Form::Size(const RF_Geo::Size2D<>& NewSize)
 {
     m_Backend->Size(NewSize);
 }
 
-void Form::Position(const RadonFramework::Math::Geometry::Point2D<>& NewPosition)
+void Form::Position(const RF_Geo::Point2D<>& NewPosition)
 {
     m_Backend->Position(NewPosition);
 }

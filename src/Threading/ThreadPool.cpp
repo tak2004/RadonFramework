@@ -78,7 +78,7 @@ public:
         
         // clean up the list and trigger a change that the threads can leave Wait()
         ConcurrentTaskList.Clear();
-        for (RFTYPE::Size i = 0; i < SerialTaskLists.Count(); ++i)
+        for (RF_Type::Size i = 0; i < SerialTaskLists.Count(); ++i)
         {
             SerialTaskLists[i].Clear();
         }
@@ -174,7 +174,7 @@ ThreadPool::~ThreadPool()
 {
 }
 
-RFTYPE::UInt32 ThreadPool::GetBestThreadAmountByProcessorCoreAmount(RFTYPE::UInt32 Amount)
+RF_Type::UInt32 ThreadPool::GetBestThreadAmountByProcessorCoreAmount(RF_Type::UInt32 Amount)
 {
     // twice more as logical processor count
     return Math::Math<UInt32>::Max(Amount, 1) << 1;

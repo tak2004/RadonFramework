@@ -19,36 +19,36 @@ namespace RadonFramework
 
             struct Hash
             {
-                static Memory::AutoPointerArray<RFTYPE::UInt8> Generate(
-                    const RFTYPE::UInt8 * Data, 
-                    RFTYPE::UInt32 Size,
+                static Memory::AutoPointerArray<RF_Type::UInt8> Generate(
+                    const RF_Type::UInt8 * Data, 
+                    RF_Type::UInt32 Size,
                     IHashfunction& Hashfunction);
 
-                static Memory::AutoPointerArray<RFTYPE::UInt8> Generate(
-                    const RFTYPE::UInt8 * Data, 
-                    RFTYPE::UInt32 Size,
-                    const RFTYPE::String& HashfunctionName);
+                static Memory::AutoPointerArray<RF_Type::UInt8> Generate(
+                    const RF_Type::UInt8 * Data, 
+                    RF_Type::UInt32 Size,
+                    const RF_Type::String& HashfunctionName);
                     
-                static Memory::AutoPointerArray<RFTYPE::UInt8> Generate(
+                static Memory::AutoPointerArray<RF_Type::UInt8> Generate(
                     const char* Text,
-                    const RFTYPE::String& HashfunctionName);
+                    const RF_Type::String& HashfunctionName);
 
                 template <typename T>
-                static T Generate(const RFTYPE::UInt8 * Data, 
-                                  RFTYPE::UInt32 Size,
-                                  const RFTYPE::String& HashfunctionName);
+                static T Generate(const RF_Type::UInt8 * Data, 
+                                  RF_Type::UInt32 Size,
+                                  const RF_Type::String& HashfunctionName);
 
                 template <typename T>
                 static T Generate(const char* Text,
-                                  const RFTYPE::String& HashfunctionName);
+                                  const RF_Type::String& HashfunctionName);
             };
 
             template <typename T>
-            T Hash::Generate(const RFTYPE::UInt8 * Data, 
-                                RFTYPE::UInt32 Size,
-                                const RFTYPE::String& HashfunctionName)
+            T Hash::Generate(const RF_Type::UInt8 * Data, 
+                                RF_Type::UInt32 Size,
+                                const RF_Type::String& HashfunctionName)
             {
-                Memory::AutoPointerArray<RFTYPE::UInt8> data=Generate(Data,Size,HashfunctionName);
+                Memory::AutoPointerArray<RF_Type::UInt8> data=Generate(Data,Size,HashfunctionName);
                 if (data)
                     if (data.Size()>=sizeof(T))
                         return *reinterpret_cast<T*>(data.Get());
@@ -57,9 +57,9 @@ namespace RadonFramework
 
             template <typename T>
             T Hash::Generate(const char* Text,
-                                const RFTYPE::String& HashfunctionName)
+                                const RF_Type::String& HashfunctionName)
             {
-                Memory::AutoPointerArray<RFTYPE::UInt8> data=Generate(Text,HashfunctionName);
+                Memory::AutoPointerArray<RF_Type::UInt8> data=Generate(Text,HashfunctionName);
                 if (data)
                     if (data.Size()>=sizeof(T))
                         return *reinterpret_cast<T*>(data.Get());

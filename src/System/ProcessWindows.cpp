@@ -17,32 +17,32 @@ using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Time;
 using namespace RadonFramework::Threading;
 
-AutoPointerArray<RFTYPE::UInt32> GetProcessList()
+AutoPointerArray<RF_Type::UInt32> GetProcessList()
 {
-    AutoPointerArray<RFTYPE::UInt32> result;
+    AutoPointerArray<RF_Type::UInt32> result;
     
-    RFTYPE::UInt32 processcount=0;
-    AutoPointerArray<RFTYPE::UInt32> processes;
-    RFTYPE::UInt32 UsedMemory;
+    RF_Type::UInt32 processcount=0;
+    AutoPointerArray<RF_Type::UInt32> processes;
+    RF_Type::UInt32 UsedMemory;
 
     do
     {
         processcount += 1024;
-        processes = AutoPointerArray<RFTYPE::UInt32>(new RFTYPE::UInt32[processcount], processcount);
-        EnumProcesses((DWORD*)processes.Get(), processcount*sizeof(RFTYPE::UInt32),
+        processes = AutoPointerArray<RF_Type::UInt32>(new RF_Type::UInt32[processcount], processcount);
+        EnumProcesses((DWORD*)processes.Get(), processcount*sizeof(RF_Type::UInt32),
                       (LPDWORD)&UsedMemory);
-    } while (processcount * sizeof(RFTYPE::UInt32) == UsedMemory);
-    processcount = UsedMemory / sizeof(RFTYPE::UInt32);
-    result = AutoPointerArray<RFTYPE::UInt32>(new RFTYPE::UInt32[processcount], processcount);
+    } while (processcount * sizeof(RF_Type::UInt32) == UsedMemory);
+    processcount = UsedMemory / sizeof(RF_Type::UInt32);
+    result = AutoPointerArray<RF_Type::UInt32>(new RF_Type::UInt32[processcount], processcount);
     RFMEM::Copy(result.Get(), processes.Get(), UsedMemory);
 
     return result;
 }
 
 // Append "Implementation" at function name to avoid name collision with windows.
-RFTYPE::UInt32 GetCurrentProcessIdImplementation()
+RF_Type::UInt32 GetCurrentProcessIdImplementation()
 {
-    return static_cast<RFTYPE::UInt32>(GetCurrentProcessId());
+    return static_cast<RF_Type::UInt32>(GetCurrentProcessId());
 }
 
 TimeSpan FILETIMEToTimeSpan(const FILETIME &Time)
@@ -60,9 +60,9 @@ DateTime FILETIMEToDate(const FILETIME &Time)
     return DateTime::CreateByTicks(t);
 }
 
-RFTYPE::Bool GetGeneralInfo(RFTYPE::UInt32 PId, RFPROC::GeneralInfo& Info)
+RF_Type::Bool GetGeneralInfo(RF_Type::UInt32 PId, RFPROC::GeneralInfo& Info)
 {
-    RFTYPE::Bool result = false;
+    RF_Type::Bool result = false;
     Info.ID = PId;
 
     HANDLE hProcess;
@@ -100,9 +100,9 @@ RFTYPE::Bool GetGeneralInfo(RFTYPE::UInt32 PId, RFPROC::GeneralInfo& Info)
     return result;
 }
 
-RFTYPE::Bool GetIOInfo(RFTYPE::UInt32 PId, RFPROC::IOInfo& Info)
+RF_Type::Bool GetIOInfo(RF_Type::UInt32 PId, RFPROC::IOInfo& Info)
 {
-    RFTYPE::Bool result = false;
+    RF_Type::Bool result = false;
 
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION,FALSE, PId );//win vista and newer
     if (NULL==hProcess)
@@ -129,7 +129,7 @@ RFTYPE::Bool GetIOInfo(RFTYPE::UInt32 PId, RFPROC::IOInfo& Info)
     return result;
 }
 
-RFTYPE::Bool GetMemoryInfo(RFTYPE::UInt32 PId, RFPROC::MemoryInfo& Info)
+RF_Type::Bool GetMemoryInfo(RF_Type::UInt32 PId, RFPROC::MemoryInfo& Info)
 {
     PROCESS_MEMORY_COUNTERS pmc;
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
@@ -157,9 +157,9 @@ RFTYPE::Bool GetMemoryInfo(RFTYPE::UInt32 PId, RFPROC::MemoryInfo& Info)
     return true;
 }
 
-RFTYPE::Bool GetTimingInfo(RFTYPE::UInt32 PId, RFPROC::TimingInfo& Info)
+RF_Type::Bool GetTimingInfo(RF_Type::UInt32 PId, RFPROC::TimingInfo& Info)
 {
-    RFTYPE::Bool result = false;
+    RF_Type::Bool result = false;
     HANDLE hProcess=OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION,FALSE, PId );//win vista and newer
     if (NULL==hProcess)
     {
@@ -184,9 +184,9 @@ RFTYPE::Bool GetTimingInfo(RFTYPE::UInt32 PId, RFPROC::TimingInfo& Info)
     return result;
 }
 
-RFTYPE::Bool GetModuleInfo(RFTYPE::UInt32 PId, RFPROC::ModuleInfo& Info)
+RF_Type::Bool GetModuleInfo(RF_Type::UInt32 PId, RFPROC::ModuleInfo& Info)
 {
-    RFTYPE::Bool result = false;
+    RF_Type::Bool result = false;
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
                                   FALSE, PId);
     if (hProcess)
@@ -212,16 +212,16 @@ RFTYPE::Bool GetModuleInfo(RFTYPE::UInt32 PId, RFPROC::ModuleInfo& Info)
     return result;
 }
 
-RFTYPE::Bool GetThreadInfo(RFTYPE::UInt32 PId, RFPROC::ThreadInfoList& Info)
+RF_Type::Bool GetThreadInfo(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
 {
-    RFTYPE::Bool result = false;
+    RF_Type::Bool result = false;
     HANDLE hThreadSnap = INVALID_HANDLE_VALUE;
     THREADENTRY32 te32;
     hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (hThreadSnap != INVALID_HANDLE_VALUE)
     {
         te32.dwSize = sizeof(THREADENTRY32);
-        RFTYPE::UInt32 amount = 0, i = 0;
+        RF_Type::UInt32 amount = 0, i = 0;
         if(Thread32First(hThreadSnap, &te32))
         {
             do

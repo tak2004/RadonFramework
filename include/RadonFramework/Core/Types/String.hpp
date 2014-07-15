@@ -4,6 +4,15 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Char.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Int32.hpp>
+#include <RadonFramework/Core/Common/DataManagment.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Core/Types/FixString.hpp>
+#include <RadonFramework/Core/Types/DynamicString.hpp>
+
 namespace RadonFramework { namespace Core { namespace Types {
 
 /** @brief Standard String class.
@@ -44,7 +53,7 @@ public:
     * make an copy or share the same data.
     **/
     explicit String(const char* CString, const Size CStringSize,
-           Common::DataManagment::Type Ownership=Common::DataManagment::Copy);
+        RF_Common::DataManagment::Type Ownership = RF_Common::DataManagment::Copy);
 
     /** \brief This constructor accept a C string without any information
     *          about size.
@@ -203,7 +212,7 @@ public:
       * Unicode character in this instance are replaced with another
       * specified Unicode character.
       **/
-    String Replace(const RFTYPE::Char OldChar, const Char NewChar)const;
+    String Replace(const RF_Type::Char OldChar, const Char NewChar)const;
 
     /** Returns a new string in which all occurrences of a specified
       * string in the current instance are replaced with another
@@ -290,7 +299,7 @@ protected:
         DynamicString m_DynBuffer;
     };
     Common::DataManagment::Type m_DataManagment;
-    RFTYPE::UInt32 m_Length;
+    RF_Type::UInt32 m_Length;
 
     char* GetBuffer();
     const char* GetBuffer()const;
@@ -300,7 +309,7 @@ protected:
 template<int N>
 String::String(char const (&CString)[N])
 {
-    m_Length = RFSTR::Length(reinterpret_cast<const RFTYPE::UInt8*>(CString), N);
+    m_Length = RFSTR::Length(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
     if (N <= BUFFER_SIZE)
     {// the locale buffer is a little bit faster
         m_DataManagment = Common::DataManagment::Copy;
@@ -310,7 +319,7 @@ String::String(char const (&CString)[N])
     else
     {// use the pointer of the string literal instead of create a copy
         m_DataManagment = Common::DataManagment::UnmanagedInstance;
-        m_DynBuffer.m_Buffer = const_cast<RFTYPE::Char*>(reinterpret_cast<const RFTYPE::Char*>(&CString[0]));
+        m_DynBuffer.m_Buffer = const_cast<RF_Type::Char*>(reinterpret_cast<const RF_Type::Char*>(&CString[0]));
         m_DynBuffer.m_Size = N;
     }
 }
@@ -353,5 +362,7 @@ String& String::operator=(char const (&Other)[N])
 }
 
 } } }
+
+namespace RF_Type = ::RadonFramework::Core::Types;
 
 #endif // RF_CORE_TYPES_STRING_HPP

@@ -13,26 +13,31 @@ namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespa
 class UnitTestResult
 {
 public:
-    UnitTestResult(const RFTYPE::String& Name);
+    UnitTestResult(const RF_Type::String& Name);
     UnitTestResult();
     UnitTestResult(const UnitTestResult& Copy);
     ~UnitTestResult();
-    RFTYPE::Bool Passed() const;
-    void Passed(RFTYPE::Bool val);
-    RadonFramework::Time::TimeSpan TimeRequired() const;
-    RadonFramework::Time::TimeSpan& TimeRequired();
-    void TimeRequired(RadonFramework::Time::TimeSpan val);
-    const RFTYPE::String& Name() const;
-    void Name(const RFTYPE::String& val);
-    void Error(RFTYPE::Bool val);
-    RFTYPE::Bool Error()const;
+    RF_Type::Bool Passed() const;
+    void Passed(RF_Type::Bool val);
+    RF_Time::TimeSpan TimeRequired() const;
+    RF_Time::TimeSpan& TimeRequired();
+    void TimeRequired(RF_Time::TimeSpan val);
+    const RF_Type::String& Name() const;
+    void Name(const RF_Type::String& val);
+    void Error(RF_Type::Bool val);
+    RF_Type::Bool Error()const;
 protected:
-    RFTYPE::Bool m_Passed;
-    RFTYPE::Bool m_Error;
-    RadonFramework::Time::TimeSpan m_TimeRequired;
-    RFTYPE::String m_Name;
+    RF_Type::Bool m_Passed;
+    RF_Type::Bool m_Error;
+    RF_Time::TimeSpan m_TimeRequired;
+    RF_Type::String m_Name;
 };
 
 } } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_TEST
+#define RF_SHORTHAND_NAMESPACE_TEST
+namespace RF_Test = RadonFramework::Diagnostics::Debugging::UnitTest;
+#endif
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_UNITTEST_UNITTESTRESULT_HPP

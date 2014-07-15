@@ -13,7 +13,7 @@ namespace RadonFramework
     {        
         struct SocketError
         {
-            operator RFTYPE::Bool();
+            operator RF_Type::Bool();
             Error::Type Code;
         };
     }

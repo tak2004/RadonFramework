@@ -8,10 +8,8 @@
 
 namespace RadonFramework { namespace System { namespace Process {
 
-typedef RadonFramework::Collections::Array<RFTYPE::String> ModuleInfo;
+typedef RF_Collect::Array<RF_Type::String> ModuleInfo;
 
 } } }
-
-namespace RFPROC = RadonFramework::System::Process;
 
 #endif // RF_SYSTEM_PROCESS_MODULEINFO_HPP

@@ -113,7 +113,7 @@ const AutoPointerArray<OptionValue>& Parameter::Values()
     return m_Values;
 }
 
-RFTYPE::Bool Parameter::ParsingWithLogging(const char* argv[], int argc,
+RF_Type::Bool Parameter::ParsingWithLogging(const char* argv[], int argc,
     const AutoPointerArray<OptionRule>& Rules)
 {
     AutoPointerArray<String> param(new String[argc], argc);
@@ -125,9 +125,9 @@ RFTYPE::Bool Parameter::ParsingWithLogging(const char* argv[], int argc,
     return SafeParsingWithLogging(param, Rules);
 }
 
-RFTYPE::Bool Parameter::ParsingWithErrorOutput(const char* argv[], int argc,
+RF_Type::Bool Parameter::ParsingWithErrorOutput(const char* argv[], int argc,
     const AutoPointerArray<OptionRule>& Rules,
-    RFTYPE::String& ErrorMessage)
+    RF_Type::String& ErrorMessage)
 {
     AutoPointerArray<String> param(new String[argc], argc);
     for(UInt32 i = 0; i < argc; ++i)

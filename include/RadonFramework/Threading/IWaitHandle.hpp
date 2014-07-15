@@ -17,69 +17,69 @@ namespace RadonFramework
         class IWaitHandle
         {
             public:
-                static const RFTYPE::Int32 WaitTimeout;
+                static const RF_Type::Int32 WaitTimeout;
 
-                static RFTYPE::Bool SignalAndWait(IWaitHandle* toSignal,
+                static RF_Type::Bool SignalAndWait(IWaitHandle* toSignal,
                                               IWaitHandle* toWaitOn);
 
-                static RFTYPE::Bool SignalAndWait(IWaitHandle* toSignal,
+                static RF_Type::Bool SignalAndWait(IWaitHandle* toSignal,
                                               IWaitHandle* toWaitOn,
-                                              RFTYPE::Int32 MillisecondsTimeout,
-                                              RFTYPE::Bool ExitContext);
+                                              RF_Type::Int32 MillisecondsTimeout,
+                                              RF_Type::Bool ExitContext);
 
-                static RFTYPE::Bool SignalAndWait(IWaitHandle* toSignal,
+                static RF_Type::Bool SignalAndWait(IWaitHandle* toSignal,
                                               IWaitHandle* toWaitOn,
                                               Time::TimeSpan& Timeout,
-                                              RFTYPE::Bool ExitContext);
+                                              RF_Type::Bool ExitContext);
 
-                static RFTYPE::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles);
+                static RF_Type::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles);
 
-                static RFTYPE::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
-                                        RFTYPE::Int32 MillisecondsTimeout);
+                static RF_Type::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
+                                        RF_Type::Int32 MillisecondsTimeout);
 
-                static RFTYPE::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
+                static RF_Type::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
                                         Time::TimeSpan Timeout);
 
-                static RFTYPE::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
-                                        RFTYPE::Int32 MillisecondsTimeout,
-                                        RFTYPE::Bool ExitContext);
+                static RF_Type::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
+                                        RF_Type::Int32 MillisecondsTimeout,
+                                        RF_Type::Bool ExitContext);
 
-                static RFTYPE::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
+                static RF_Type::Bool WaitAll(Collections::Array<IWaitHandle>& WaitHandles,
                                         Time::TimeSpan Timeout,
-                                        RFTYPE::Bool ExitContext);
+                                        RF_Type::Bool ExitContext);
 
-                static RFTYPE::Int32 WaitAny(Collections::Array<IWaitHandle>& WaitHandles);
+                static RF_Type::Int32 WaitAny(Collections::Array<IWaitHandle>& WaitHandles);
 
-                static RFTYPE::Int32 WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
-                                         RFTYPE::Int32 MillisecondsTimeout);
+                static RF_Type::Int32 WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
+                                         RF_Type::Int32 MillisecondsTimeout);
 
-                static RFTYPE::Bool WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
+                static RF_Type::Bool WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
                                         Time::TimeSpan Timeout);
 
-                static RFTYPE::Bool WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
-                                        RFTYPE::Int32 MillisecondsTimeout,
-                                        RFTYPE::Bool ExitContext);
+                static RF_Type::Bool WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
+                                        RF_Type::Int32 MillisecondsTimeout,
+                                        RF_Type::Bool ExitContext);
 
-                static RFTYPE::Bool WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
+                static RF_Type::Bool WaitAny(Collections::Array<IWaitHandle>& WaitHandles,
                                         Time::TimeSpan Timeout,
-                                        RFTYPE::Bool ExitContext);
+                                        RF_Type::Bool ExitContext);
 
                 //SafeWaitHandle SafeWaitHandle();
                 //void SafeWaitHandle(SafeWaitHandle NewValue);
 
                 virtual void Close()=0;
 
-                virtual RFTYPE::Bool WaitOne()=0;
+                virtual RF_Type::Bool WaitOne()=0;
 
-                virtual RFTYPE::Bool WaitOne(RFTYPE::Int32 MillisecondsTimeout)=0;
+                virtual RF_Type::Bool WaitOne(RF_Type::Int32 MillisecondsTimeout)=0;
 
-                virtual RFTYPE::Bool WaitOne(Time::TimeSpan& Timeout)=0;
+                virtual RF_Type::Bool WaitOne(Time::TimeSpan& Timeout)=0;
 
-                virtual RFTYPE::Bool WaitOne(RFTYPE::Int32 MillisecondsTimeout,
-                                         RFTYPE::Bool ExitContext)=0;
+                virtual RF_Type::Bool WaitOne(RF_Type::Int32 MillisecondsTimeout,
+                                         RF_Type::Bool ExitContext)=0;
 
-                virtual RFTYPE::Bool WaitOne(Time::TimeSpan& Timeout,
-                                         RFTYPE::Bool ExitContext)=0;
+                virtual RF_Type::Bool WaitOne(Time::TimeSpan& Timeout,
+                                         RF_Type::Bool ExitContext)=0;
             protected:
                 static const Memory::PointerID InvalidHandle;
         };

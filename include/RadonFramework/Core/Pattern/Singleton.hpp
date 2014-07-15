@@ -1,42 +1,43 @@
-#ifndef RF_SINGLETON_HPP
-#define RF_SINGLETON_HPP
+#ifndef RF_CORE_PATTERN_SINGLETON_HPP
+#define RF_CORE_PATTERN_SINGLETON_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework {
+namespace RadonFramework { namespace Core { namespace Pattern {
+
 /**
-    * \brief Template based singleton pattern.
-    * This singleton implementation will clean up it's self at program exit.
-    * use: class MyClass:public Singleton<MyClass>{}; or
-    *      Singleton<MyClass>::GetInstance().foo();
-    */
+* \brief Template based singleton pattern.
+* This singleton implementation will clean up it's self at program exit.
+* use: class MyClass:public Singleton<MyClass>{}; or
+*      Singleton<MyClass>::GetInstance().foo();
+*/
 template <class T>
 class Singleton
 {
-    public:
-        static T& GetInstance();
-        static T* Instance();
-        /** \brief Manually destroy an existing instance.
-            * This function can be very dangerous in combination with
-            * multi threaded usage or access the pointer/reference after
-            * calling it.
-            */
-        static void DestroyInstance();
-    protected:
-        Singleton(){}
-        virtual ~Singleton(){}
-        static T* m_Instance;
-    private:
-        class WatchDog
-        {
-            public:
-                ~WatchDog();
-        };
-        friend class WatchDog;
+public:
+    static T& GetInstance();
+    static T* Instance();
+    /** \brief Manually destroy an existing instance.
+    * This function can be very dangerous in combination with
+    * multi threaded usage or access the pointer/reference after
+    * calling it.
+    */
+    static void DestroyInstance();
+protected:
+    Singleton(){}
+    virtual ~Singleton(){}
+    static T* m_Instance;
+private:
+    class WatchDog
+    {
+        public:
+            ~WatchDog();
+    };
+    friend class WatchDog;
             
-        Singleton(const Singleton&);
-        Singleton& operator=( const Singleton& );
+    Singleton(const Singleton&);
+    Singleton& operator=( const Singleton& );
 };
 
 template<class T>
@@ -78,6 +79,11 @@ void Singleton<T>::DestroyInstance()
     }
 }
 
-}
+} } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_PATTERN
+#define RF_SHORTHAND_NAMESPACE_PATTERN
+namespace RF_Pattern = RadonFramework::Core::Pattern;
+#endif
 
 #endif // RF_SINGLETON_HPP

@@ -4,6 +4,10 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Bool.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
+
 #include <math.h>
 // On some systems math.h defines INFINITY as macro !
 #ifdef INFINITY
@@ -13,12 +17,12 @@
 namespace RadonFramework { namespace Math {
 
 /** @brief This class support basic math functions.
- *
- * The Math class can be used as Float32 and Float64 template.
- * It support's consts and most basic math functions.
- * There are also faster implementation which use different algorithm, with
- * less accuracy but shorter execution time.
- */
+*
+* The Math class can be used as Float32 and Float64 template.
+* It support's consts and most basic math functions.
+* There are also faster implementation which use different algorithm, with
+* less accuracy but shorter execution time.
+*/
 template <class T>
 class Math
 {
@@ -73,18 +77,18 @@ public:
     static T Min(const T A, const T B);
     static T Max(const T A, const T B);
 
-    static RFTYPE::Bool IsAlmostEqual(const T a, const T b);
-    static RFTYPE::Bool IsAlmostEqual(const T* a, const T* b,
-        RFTYPE::UInt32 ElementCount);
+    static RF_Type::Bool IsAlmostEqual(const T a, const T b);
+    static RF_Type::Bool IsAlmostEqual(const T* a, const T* b,
+        RF_Type::UInt32 ElementCount);
 
-    static RFTYPE::Bool IsNaN(const T Value);
-    static RFTYPE::Bool IsInfinity(const T Value);
+    static RF_Type::Bool IsNaN(const T Value);
+    static RF_Type::Bool IsInfinity(const T Value);
 protected:
-    static const RFTYPE::UInt32 FastSinArrayLen = 720;
-    static const RFTYPE::Float32 FastSinArray[FastSinArrayLen];
-    static RFTYPE::UInt32 GetFastSinArrayElement(const T Angle);
+    static const RF_Type::UInt32 FastSinArrayLen = 720;
+    static const RF_Type::Float32 FastSinArray[FastSinArrayLen];
+    static RF_Type::UInt32 GetFastSinArrayElement(const T Angle);
     static void Init();
-    static RFTYPE::Bool WasInitialized;
+    static RF_Type::Bool WasInitialized;
 };
 
 template<class T> T Math<T>::DegToRad(const T X)
@@ -242,45 +246,45 @@ template<class T> T Math<T>::Max(const T A, const T B)
 }
 
 template<class T>
-RFTYPE::Bool Math<T>::IsAlmostEqual(const T* a, const T* b,
-    RFTYPE::UInt32 ElementCount)
+RF_Type::Bool Math<T>::IsAlmostEqual(const T* a, const T* b,
+    RF_Type::UInt32 ElementCount)
 {
-    for(RFTYPE::UInt32 i = 0; i<ElementCount; ++i)
+    for(RF_Type::UInt32 i = 0; i<ElementCount; ++i)
         if(FAbs(a[i] - b[i])>EPSILION)
             return false;
     return true;
 }
 
 template<class T>
-RFTYPE::Bool Math<T>::IsAlmostEqual(const T a, const T b)
+RF_Type::Bool Math<T>::IsAlmostEqual(const T a, const T b)
 {
     return (FAbs(a - b) <= EPSILION);
 }
 
 template<class T>
-RFTYPE::Bool Math<T>::IsNaN(const T Value)
+RF_Type::Bool Math<T>::IsNaN(const T Value)
 {// NAN is never equal, try equal it self
     return Value != Value; //-V501
 }
 
 template<class T>
-RFTYPE::Bool Math<T>::IsInfinity(const T Value)
+RF_Type::Bool Math<T>::IsInfinity(const T Value)
 {
     return Value == INFINITY || Value == NEG_INFINITY;
 }
 
 template<class T>
-RFTYPE::UInt32 Math<T>::GetFastSinArrayElement(const T Angle)
+RF_Type::UInt32 Math<T>::GetFastSinArrayElement(const T Angle)
 {
     if(WasInitialized)
     {
-        RFTYPE::UInt32 index = (FastSinArrayLen / (T)360)*(Angle % 360);
+        RF_Type::UInt32 index = (FastSinArrayLen / (T)360)*(Angle % 360);
         return FastSinArray[index];
     }
     else
     {
         Init();
-        RFTYPE::UInt32 index = (FastSinArrayLen / (T)360)*(Angle % 360);
+        RF_Type::UInt32 index = (FastSinArrayLen / (T)360)*(Angle % 360);
         return FastSinArray[index];
     }
 }
@@ -288,12 +292,17 @@ RFTYPE::UInt32 Math<T>::GetFastSinArrayElement(const T Angle)
 template<class T>
 void Math<T>::Init()
 {
-    RFTYPE::Float32 steps = (PI / 180.0f) / FastSinArrayLen;
-    for(RFTYPE::UInt32 i = 0; i < FastSinArrayLen; ++i)
+    RF_Type::Float32 steps = (PI / 180.0f) / FastSinArrayLen;
+    for(RF_Type::UInt32 i = 0; i < FastSinArrayLen; ++i)
         FastSinArray[i] = Sin(i*steps);
     WasInitialized = true;
 }
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MATH
+#define RF_SHORTHAND_NAMESPACE_MATH
+namespace RF_Math = RadonFramework::Math;
+#endif
 
 #endif // RF_MATH_MATH_HPP

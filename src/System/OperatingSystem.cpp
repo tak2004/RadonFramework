@@ -22,9 +22,9 @@ PlatformID::Type OperatingSystem::Platform()const
     return m_Platform;
 }
 
-RFTYPE::String OperatingSystem::PlatformString()const
+RF_Type::String OperatingSystem::PlatformString()const
 {
-    RFTYPE::String result;
+    RF_Type::String result;
     switch (m_Platform) 
     {
         case PlatformID::Win32NT:
@@ -55,9 +55,9 @@ RFTYPE::String OperatingSystem::PlatformString()const
     return result;
 }
 
-RFTYPE::String OperatingSystem::VersionString()const
+RF_Type::String OperatingSystem::VersionString()const
 {
-    RFTYPE::String result=PlatformString()+" "+m_VersionNumber.ToString();
+    RF_Type::String result=PlatformString()+" "+m_VersionNumber.ToString();
     return result;
 }
 

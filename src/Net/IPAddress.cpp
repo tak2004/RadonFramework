@@ -140,9 +140,9 @@ String IPAddress::ToString()const
         case AddressFamily::InterNetwork6:
             for (int i=0; i<16; i=i+2)
                 if (i!=14)
-                    ip+=String::Format(RFTYPE::String("%x%x", sizeof("%x%x")), m_IP(i), m_IP(i+1));
+                    ip+=String::Format(RF_Type::String("%x%x", sizeof("%x%x")), m_IP(i), m_IP(i+1));
                 else
-                    ip+=String::Format(RFTYPE::String("%x%x:", sizeof("%x%x:")),m_IP(i), m_IP(i+1));
+                    ip+=String::Format(RF_Type::String("%x%x:", sizeof("%x%x:")),m_IP(i), m_IP(i+1));
             break;
         case AddressFamily::Unix:
             break;

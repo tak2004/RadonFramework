@@ -17,4 +17,6 @@ extern const UInt32 UInt32Max;
 
 } } }
 
+namespace RF_Type = ::RadonFramework::Core::Types;
+
 #endif // RF_CORE_TYPES_UINT32_HPP

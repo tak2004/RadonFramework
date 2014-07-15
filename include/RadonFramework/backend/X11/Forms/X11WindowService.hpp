@@ -12,14 +12,14 @@ namespace RadonFramework
       protected:
         IApplication* m_Application;
       public:
-        X11WindowService(const RFTYPE::String &Name);
+        X11WindowService(const RF_Type::String &Name);
         ~X11WindowService();
         IWindow* NewWindow();
         IApplication* Application();
 
         Collections::AutoVector<DisplayInformation> GetAllDisplays();
         WindowServiceError ScreenResolution(const DisplayInformation& DiplayInfo,
-                                                    RFTYPE::UInt32& ResolutionListIndex);
+                                                    RF_Type::UInt32& ResolutionListIndex);
         void ScreenResolution(const DisplayInformation& DiplayInfo, const Resolution& NewResolution);
     };
   }

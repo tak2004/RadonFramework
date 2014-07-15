@@ -174,7 +174,7 @@ WindowsWindow::WindowsWindow(WindowService *Service)
 
 WindowsWindow::~WindowsWindow()
 {
-    for (RFTYPE::Size i=0;i<m_Objects.Size();i++)
+    for (RF_Type::Size i=0;i<m_Objects.Size();i++)
     if (m_Objects[i]->m_Handle==m_Handle)
     {
         WindowsWindow::m_Objects.RemoveAt(i);
@@ -228,25 +228,25 @@ void WindowsWindow::Title(const String &Value)
         m_Title=Value;
 }
 
-void WindowsWindow::ClientRectSize(const RadonFramework::Math::Geometry::Size2D<>& NewSize)
+void WindowsWindow::ClientRectSize(const RF_Geo::Size2D<>& NewSize)
 {
     RECT r;
     r.left=0; r.top=0; r.right=NewSize.Width; r.bottom=NewSize.Height;
     AdjustWindowRect(&r,m_WindowFlags,FALSE);
-    RadonFramework::Math::Geometry::Size2D<> wndSize;
+    RF_Geo::Size2D<> wndSize;
     wndSize.Width=r.right-r.left;
     wndSize.Height=r.bottom-r.top;
     Size(wndSize);
 }
 
-void WindowsWindow::Size(const RadonFramework::Math::Geometry::Size2D<>& NewSize)
+void WindowsWindow::Size(const RF_Geo::Size2D<>& NewSize)
 {        
     m_Size=NewSize;
     if (m_Visible)
         SetWindowPos(m_Handle,HWND_TOP,0,0,m_Size.Width,m_Size.Height,SWP_NOMOVE);
 }
 
-void WindowsWindow::Position(const RadonFramework::Math::Geometry::Point2D<>& NewPosition)
+void WindowsWindow::Position(const RF_Geo::Point2D<>& NewPosition)
 {
     m_Pos=NewPosition;
     if (m_Visible)
@@ -280,7 +280,7 @@ void WindowsWindow::CursorVisible(const Bool Value)
 
 WindowsWindow* WindowsWindow::GetObjectByHandle(const HWND Handle)
 {
-    for (RFTYPE::Size i=0;i<m_Objects.Size();i++)
+    for (RF_Type::Size i=0;i<m_Objects.Size();i++)
         if (m_Objects[i]->m_Handle==Handle)
             return m_Objects[i];
     return 0;
@@ -306,7 +306,7 @@ WindowService* WindowsWindow::GetService()
     return m_Service;
 }
 
-void WindowsWindow::CloseButton(const RFTYPE::Bool Show)
+void WindowsWindow::CloseButton(const RF_Type::Bool Show)
 {
     if (Show != m_CloseButton)
     {

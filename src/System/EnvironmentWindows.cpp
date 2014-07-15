@@ -83,11 +83,11 @@ const OperatingSystem& OSVersion()
     return os;
 }
 
-void GetVariable(const RFTYPE::String& Name, RFTYPE::String& Result)
+void GetVariable(const RF_Type::String& Name, RF_Type::String& Result)
 {
     char buf[MAX_PATH];
     GetEnvironmentVariableA(Name.c_str(), buf, MAX_PATH);
-    Result=RFTYPE::String(buf, MAX_PATH);
+    Result=RF_Type::String(buf, MAX_PATH);
 }
 
 OperatingSystemFamily::Type OSFamily()
