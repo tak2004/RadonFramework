@@ -4,24 +4,24 @@
 
 using namespace RadonFramework::Core::Types;
 
-Char& DynamicString::operator [](const MemoryRange Index)
+UInt8& DynamicString::operator [](const MemoryRange Index)
 {
     Assert(Index < m_Size, "Index out of bound.");
     return m_Buffer[Index];
 }
 
-Char DynamicString::operator [](const MemoryRange Index)const
+UInt8 DynamicString::operator [](const MemoryRange Index)const
 {
     Assert(Index < m_Size, "Index out of bound.");
     return m_Buffer[Index];
 }
 
-const Char* DynamicString::Raw()const
+const UInt8* DynamicString::Raw()const
 {
     return m_Buffer;
 }
 
-Char* DynamicString::Raw()
+UInt8* DynamicString::Raw()
 {
     return m_Buffer;
 }

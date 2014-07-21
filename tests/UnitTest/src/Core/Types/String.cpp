@@ -19,8 +19,6 @@ public:
             "PortableStringTest::DefaultConstructor", "StringDefaultConstructor");
         AddTest(MakeDelegate(this,&PortableStringTest::CopyConstructor),
             "PortableStringTest::CopyConstructor", "StringCopyConstructor");
-        AddTest(MakeDelegate(this,&PortableStringTest::CharConstructor),
-            "PortableStringTest::CharConstructor", "StringCharConstructor");
         AddTest(MakeDelegate(this,&PortableStringTest::LiteralConstructor),
             "PortableStringTest::LiteralConstructor", "StringLiteralConstructor");
         AddTest(MakeDelegate(this,&PortableStringTest::CharWithLengthConstructor),
@@ -206,12 +204,6 @@ public:
             testStr1.Size() == 32 && 
             testStr2.Length() == 0 && testStr2.Size() == 0 &&
             testStr3.Length() == 64 && testStr3.Size() == 65;
-    }
-        
-    RadonFramework::Core::Types::Bool CharConstructor()
-    {
-        String str('H');
-        return str.Length()==1 && str[0]=='H';
     }
 
     RadonFramework::Core::Types::Bool CharWithLengthConstructor()
@@ -556,7 +548,13 @@ public:
     {
         String str("<b>This is bold text</b>");
         String str1("This is bold text");
-        return str.SubString(3,17)==str1 && str.SubString(0,0)==String() && str.SubString(20,5)==String();
+        String str2("</b>");
+
+        Bool result1 = str.SubString(3,17)==str1;
+        Bool result2 = str.SubString(0,0)==String();
+        Bool result3 = str.SubString(20,5)==String();
+        Bool result4 = str.SubString(20,4)==str2;
+        return result1 && result2 && result3 && result4;
     }
 
     RadonFramework::Core::Types::Bool Trim()

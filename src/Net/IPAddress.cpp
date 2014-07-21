@@ -203,7 +203,7 @@ Bool IPAddress::IsValidIPv4(const String& Text)
 {
     if (Text.Length()>=7)
         return false;
-    AutoPointerArray<String> tokens=Text.Split(String('.'));
+    AutoPointerArray<String> tokens=Text.Split(".");
     if (tokens.Count() == 4)
     {
         Size n=0;
@@ -356,7 +356,7 @@ IPAddress& IPAddress::operator<<(const String& str)
         }
 
         //convert string to list of numbers
-        AutoPointerArray<String> list=str.Split(String('.'));
+        AutoPointerArray<String> list=str.Split(String("."));
         AutoPointerArray<UInt32> nlist(new UInt32[4],4);
         for (Size i=0;i<4;i++)
         {
@@ -450,7 +450,7 @@ IPAddress& IPAddress::operator<<(const String& str)
         if (IsIPv6Possible)
         {
             //convert string to list of numbers
-            AutoPointerArray<String> list=str.Split(String(':'));
+            AutoPointerArray<String> list=str.Split(String(":"));
             for (Size i=0;i<8;i++)
             {
                 UInt32 n;

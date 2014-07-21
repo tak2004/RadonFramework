@@ -9,39 +9,39 @@ namespace RadonFramework { namespace Core { namespace Types{
 template<int LENGTH>
 struct FixString
 {
-    Char& operator[](const MemoryRange Index);
-    Char operator[](const MemoryRange Index)const;
-    const Char* Raw()const;
-    Char* Raw();
+    UInt8& operator[](const MemoryRange Index);
+    UInt8 operator[](const MemoryRange Index)const;
+    const UInt8* Raw()const;
+    UInt8* Raw();
     Size GetSize()const;
     void SetSize(const UInt8 NewSize);
 protected:
-    Char m_Buffer[LENGTH];
+    UInt8 m_Buffer[LENGTH];
     UInt8 m_Size;
 };
 
 template<int LENGTH>
-Char& FixString<LENGTH>::operator [](const MemoryRange Index)
+UInt8& FixString<LENGTH>::operator [](const MemoryRange Index)
 {
     Assert(Index < LENGTH, "Index out of bound.");
     return m_Buffer[Index];
 }
 
 template<int LENGTH>
-Char FixString<LENGTH>::operator [](const MemoryRange Index)const
+UInt8 FixString<LENGTH>::operator [](const MemoryRange Index)const
 {
     Assert(Index < LENGTH, "Index out of bound.");
     return m_Buffer[Index];
 }
 
 template<int LENGTH>
-const Char* FixString<LENGTH>::Raw()const
+const UInt8* FixString<LENGTH>::Raw()const
 {
     return m_Buffer;
 }
 
 template<int LENGTH>
-Char* FixString<LENGTH>::Raw()
+UInt8* FixString<LENGTH>::Raw()
 {
     return m_Buffer;
 }

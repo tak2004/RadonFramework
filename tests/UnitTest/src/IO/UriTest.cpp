@@ -49,8 +49,8 @@ public:
 
     Bool Constructor()
     {
-        Uri testInstance("http://thomas@localhost:99/test/index.html&id=1&str=2#para1");
-        Bool result1 = testInstance.Path() == "/test/index.html";
+        Uri testInstance("http://thomas@localhost:99/test/index.html?id=1&str=2#para1");
+        Bool result1 = testInstance.Path() == "test/index.html";
         Bool result2 = testInstance.Authority() == "thomas@localhost:99";
         Bool result3 = testInstance.Fragment() == "para1";
         Bool result4 = testInstance.Host() == "localhost";
@@ -58,14 +58,14 @@ public:
         Bool result6 = testInstance.IsAbsolute() == true;
         Bool result7 = testInstance.IsDefaultPort() == false;
         Bool result8 = testInstance.IsDefaultUser() == false;
-        Bool result9 = testInstance.OriginalString() == "http://thomas@localhost:99/test/index.html&id=1&str=2#para1";
+        Bool result9 = testInstance.OriginalString() == "http://thomas@localhost:99/test/index.html?id=1&str=2#para1";
         Bool result10 = testInstance.Port() == 99;
         Bool result11 = testInstance.Query() == "id=1&str=2";
         Bool result12 = testInstance.Scheme() == "http";
-        Bool result13 = testInstance.SchemeSpecificPart() == "//thomas@localhost:99/test/index.html&id=1&str=2#para1";
-        Bool result14 = testInstance.UserEscaped() == false;
+        Bool result13 = testInstance.SchemeSpecificPart() == "//thomas@localhost:99/test/index.html?id=1&str=2";
+        Bool result14 = testInstance.UserEscaped() == true;
         Bool result15 = testInstance.UserInfo() == "thomas";
-        Bool result16 = testInstance.IsOpaque() == true;
+        Bool result16 = testInstance.IsOpaque() == false;
 
         return result1 && result2 && result3 && result4 && result5 &&
             result6 && result7 && result8 && result9 && result10 &&

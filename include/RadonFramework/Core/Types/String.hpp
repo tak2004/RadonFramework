@@ -40,8 +40,6 @@ public:
     /// The String will be filled up with ' '(Space) characters.
     explicit String(const Size StringSize);
 
-    explicit String(const char Letter);
-
     template<int N>
     String(char const (&CString)[N]);
 
@@ -51,6 +49,7 @@ public:
     * Zero terminated c strings are the same type like StringBase
     * internal data type. This allow to transfer the ownership,
     * make an copy or share the same data.
+    * @param CStringSize Contains the size of the CString including the 0 termination.
     **/
     explicit String(const char* CString, const Size CStringSize,
         RF_Common::DataManagment::Type Ownership = RF_Common::DataManagment::Copy);
@@ -71,8 +70,15 @@ public:
     /// Overload delete operator to ensure safe String deallocation.
     void operator delete(void* Buffer);
 
-    char operator[](const Size Index)const;
-    char& operator[](const Size Index);
+    /// Allow random access to the specified byte.
+    RF_Type::UInt8 operator[](const Size Index)const;
+    /// Allow random access to the specified byte.
+    RF_Type::UInt8& operator[](const Size Index);
+
+    /// Sequential read till the specified amount of unicode glyphs passed..
+    const RF_Type::UInt8* operator()(const Size ElementIndex)const;
+    /// Sequential read till the specified amount of unicode glyphs passed.
+    RF_Type::UInt8* operator()(const Size ElementIndex);
 
     template<int N>
     bool operator==(char const (&Other)[N])const;
@@ -290,7 +296,7 @@ public:
     /// Check if the String instance is empty.
     Bool IsEmpty()const;
     #pragma endregion
-protected:
+private:
 #pragma region Internal variables
 
     union
@@ -301,8 +307,12 @@ protected:
     Common::DataManagment::Type m_DataManagment;
     RF_Type::UInt32 m_Length;
 
-    char* GetBuffer();
-    const char* GetBuffer()const;
+    RF_Type::UInt8* GetBuffer();
+    const RF_Type::UInt8* GetBuffer()const;
+    RF_Type::Bool IsASCII()const;
+    RF_Type::Bool CanGlyphsBeCompared(const String& Other)const;
+    RF_Type::Size MoveByGlyphs(const RF_Type::UInt8 *& Buffer, const RF_Type::Size Glyphs)const;
+
 #pragma endregion
 };
 
@@ -319,7 +329,7 @@ String::String(char const (&CString)[N])
     else
     {// use the pointer of the string literal instead of create a copy
         m_DataManagment = Common::DataManagment::UnmanagedInstance;
-        m_DynBuffer.m_Buffer = const_cast<RF_Type::Char*>(reinterpret_cast<const RF_Type::Char*>(&CString[0]));
+        m_DynBuffer.m_Buffer = const_cast<RF_Type::UInt8*>(reinterpret_cast<const RF_Type::UInt8*>(&CString[0]));
         m_DynBuffer.m_Size = N;
     }
 }
