@@ -81,7 +81,7 @@ void Settings::Load()
                     if (buf[i] == '\n')
                     {
                         String line = String(reinterpret_cast<const char*>(&buf[s]), i - s);
-                        AutoPointerArray<String> keyValue = line.Split(String('='));
+                        AutoPointerArray<String> keyValue = line.Split(String("="));
                         if (keyValue.Count() == 2)
                         {
                             const char* key = StringCache::Find(keyValue[0]);

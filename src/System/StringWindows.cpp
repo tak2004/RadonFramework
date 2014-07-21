@@ -83,6 +83,14 @@ Int32 Format(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, const String& For
     return vsnprintf(reinterpret_cast<char*>(Buffer), BufferSize, Format.c_str(), arg);
 }
 
+const UInt8* Find(const RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, 
+    const RF_Type::UInt8* LookingFor, RF_Type::Size LookingForSize)
+{
+    const UInt8* result = reinterpret_cast<const UInt8*>(strstr(reinterpret_cast<const char*>(Buffer), reinterpret_cast<const char*>(LookingFor)));
+    if ((Buffer + BufferSize - result) < LookingForSize)
+        result = 0;
+    return result;
+}
 
 void RF_SysStr::Dispatch()
 {
@@ -96,4 +104,5 @@ void RF_SysStr::Dispatch()
     ToUInt64 = ::ToUInt64;
     ToFloat64 = ::ToFloat64;
     Format = ::Format;
+    Find = ::Find;
 }

@@ -80,6 +80,10 @@ typedef RF_Type::Bool (*ToFloat64Callback)(const RF_Type::String& Instance,
 typedef RF_Type::Int32 (*FormatCallback)(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize,
                                         const RF_Type::String& Format, va_list arg);
 
+typedef const RF_Type::UInt8* (*FindCallback)(const RF_Type::UInt8* Buffer, 
+    RF_Type::Size BufferSize, const RF_Type::UInt8* LookingFor, 
+    RF_Type::Size LookingForSize);
+
 extern SetLocaleCallback SetLocale;
 extern GetLocaleCallback GetLocale;
 extern ToLowerCallback ToUpper;
@@ -90,6 +94,7 @@ extern ToInt64Callback ToInt64;
 extern ToUInt64Callback ToUInt64;
 extern ToFloat64Callback ToFloat64;
 extern FormatCallback Format;
+extern FindCallback Find;
 
 } } }
 

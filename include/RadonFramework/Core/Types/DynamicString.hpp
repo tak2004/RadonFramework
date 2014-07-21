@@ -8,14 +8,14 @@ namespace RadonFramework { namespace Core { namespace Types {
 
 struct DynamicString
 {
-    Char& operator[](const MemoryRange Index);
-    Char operator[](const MemoryRange Index)const;
-    const Char* Raw()const;
+    UInt8& operator[](const MemoryRange Index);
+    UInt8 operator[](const MemoryRange Index)const;
+    const UInt8* Raw()const;
     Size GetSize()const;
-    Char* Raw();
+    UInt8* Raw();
     void Free();
 
-    Char* m_Buffer;
+    UInt8* m_Buffer;
     Size m_Size;
 };
 

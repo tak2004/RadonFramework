@@ -101,6 +101,17 @@ Int32 FormatCallback_SystemAPIDispatcher(RF_Type::UInt8* Buffer, RF_Type::Size B
     return RF_SysStr::Format(Buffer, BufferSize, Format, arg);
 }
 
+const UInt8* FindCallback_SystemAPIDispatcher(const RF_Type::UInt8* Buffer, 
+    RF_Type::Size BufferSize, const RF_Type::UInt8* LookingFor, 
+    RF_Type::Size LookingForSize)
+{
+    RF_SysStr::Find = 0;
+    Dispatch();
+    Assert(RF_SysStr::Find != FindCallback_SystemAPIDispatcher,
+           "Function was called and couldn't be dispatched");
+    return RF_SysStr::Find(Buffer, BufferSize, LookingFor, LookingForSize);
+}
+
 SetLocaleCallback RF_SysStr::SetLocale = SetLocale_SystemAPIDispatcher;
 GetLocaleCallback RF_SysStr::GetLocale = GetLocaleCallback_SystemAPIDispatcher;
 ToUpperCallback RF_SysStr::ToUpper = ToUpperCallback_SystemAPIDispatcher;
@@ -111,6 +122,7 @@ ToInt64Callback RF_SysStr::ToInt64 = ToInt64Callback_SystemAPIDispatcher;
 ToUInt64Callback RF_SysStr::ToUInt64 = ToUInt64Callback_SystemAPIDispatcher;
 ToFloat64Callback RF_SysStr::ToFloat64 = ToFloat64Callback_SystemAPIDispatcher;
 FormatCallback RF_SysStr::Format = FormatCallback_SystemAPIDispatcher;
+FindCallback RF_SysStr::Find = FindCallback_SystemAPIDispatcher;
 
 Bool RF_SysStr::IsSuccessfullyDispatched()
 {
@@ -125,6 +137,7 @@ Bool RF_SysStr::IsSuccessfullyDispatched()
     result = result && ToUInt64 != ToUInt64Callback_SystemAPIDispatcher && ToUInt64 != 0;
     result = result && ToFloat64 != ToFloat64Callback_SystemAPIDispatcher && ToFloat64 != 0;
     result = result && Format != FormatCallback_SystemAPIDispatcher && Format != 0;
+    result = result && Find != FindCallback_SystemAPIDispatcher && Find != 0;
     return result;
 }
 
@@ -150,4 +163,6 @@ void RF_SysStr::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
         Result.AddLast("ToFloat64");
     if (Format == FormatCallback_SystemAPIDispatcher || Format == 0)
         Result.AddLast("Format");
+    if (Find == FindCallback_SystemAPIDispatcher || Find == 0)
+        Result.AddLast("Find");
 }
