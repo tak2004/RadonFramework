@@ -6,11 +6,12 @@
 
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Core/Pattern/Event.hpp>
+#include <RadonFramework/Core/Pattern/Signal.hpp>
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 
 namespace RadonFramework { namespace Forms {
 
-class Form:public Control, public RF_Pattern::IObserver
+class Form:public Control, public RF_Pattern::IObserver, public RF_Pattern::SignalReceiver
 {
 public:
     Form();
@@ -19,7 +20,7 @@ public:
     virtual RF_Type::String Title();
     virtual void Title(const RF_Type::String &Value);
     virtual void InitializeComponent();
-    virtual void Idle(const RF_Pattern::IObserver* Sender);
+    virtual void Idle();
     virtual void KeyPressed(const IO::VirtualKey::Type VK);
     virtual void KeyReleased(const IO::VirtualKey::Type VK);
     virtual void MouseButtonPressed(const IO::MouseEvent& Value);
@@ -32,7 +33,7 @@ public:
     virtual void CloseButton(const RF_Type::Bool Show);
     virtual void CursorVisible(const bool Value);
 
-    RF_Pattern::Event<const IObserver*> OnIdle;
+    RF_Pattern::Signal OnIdle;
     RF_Pattern::Event<const IO::VirtualKey::Type> OnKeyPress;
     RF_Pattern::Event<const IO::VirtualKey::Type> OnKeyRelease;
     RF_Pattern::Event<const IO::MouseEvent&> OnMouseButtonPressed;

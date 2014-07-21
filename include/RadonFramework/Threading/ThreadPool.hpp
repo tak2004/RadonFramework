@@ -27,7 +27,7 @@ public:
     /// for the specified processor core amount.
     static RF_Type::UInt32 GetBestThreadAmountByProcessorCoreAmount(RF_Type::UInt32 Amount);
 
-    typedef Delegate1<void*> WaitCallback;
+    typedef Delegate1<void(void*)> WaitCallback;
     typedef void (*FreeCallback)(void* Data);
     static void DefaultFree(void* Data);
 

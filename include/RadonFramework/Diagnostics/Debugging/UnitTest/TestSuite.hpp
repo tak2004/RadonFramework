@@ -14,7 +14,7 @@ namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespa
 class TestSuite
 {
 public:
-    typedef Delegate<RF_Type::Bool> TestMethod;
+    typedef Delegate<RF_Type::Bool()> TestMethod;
 
     TestSuite(const RF_Type::String& Name);
     RF_Type::String Name() const;

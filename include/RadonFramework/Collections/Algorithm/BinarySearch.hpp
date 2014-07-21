@@ -25,7 +25,7 @@ namespace RadonFramework { namespace Collections { namespace Algorithm {
 */
 template<class T>
 RF_Type::Size BinarySearch(ArrayEnumerator<T>& Range, const T& Value,
-                           const Delegate2<T&,T&,RF_Type::Int32> Comparer);
+    const Delegate2<RF_Type::Int32(T&, T&)> Comparer);
 
 /**
 * \brief Searches an entire one-dimensional sorted Array 
@@ -60,7 +60,7 @@ RF_Type::Size BinarySearch(ArrayEnumerator<T>& Range, const T& Value)
 
 template<class T>
 RF_Type::Size BinarySearch(ArrayEnumerator<T>& Range, const T& Value,
-    const Delegate2<T&, T&, RF_Type::Int32> Comparer)
+    const Delegate2<RF_Type::Int32(T&, T&)> Comparer)
 {
     RF_Mem::AutoPointer<ArrayEnumerator<T> > upperBorderIterator = Range.Begin();
     RF_Mem::AutoPointer<ArrayEnumerator<T> > lowerBorderIterator = Range.End();

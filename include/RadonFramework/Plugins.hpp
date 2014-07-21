@@ -9,6 +9,7 @@
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL1Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL2Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3DService.hpp>
+    #include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3DService.hpp>
 #endif
 
 #if defined(RF_LINUX)

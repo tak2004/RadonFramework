@@ -23,8 +23,8 @@ namespace RadonFramework
         class PacketStream
         {
             public:
-                typedef Delegate1<IO::MemoryCollectionStream&,RF_Type::Bool> SplitFunctionType;
-                typedef Delegate1<Memory::AutoPointerArray<RF_Type::UInt8>&,RF_Type::Bool> DispatcherFunctionType;
+                typedef Delegate1<RF_Type::Bool(IO::MemoryCollectionStream&)> SplitFunctionType;
+                typedef Delegate1<RF_Type::Bool(Memory::AutoPointerArray<RF_Type::UInt8>&)> DispatcherFunctionType;
                 PacketStream();
 
                 void Enqueue(Memory::AutoPointerArray<RF_Type::UInt8>& packet);

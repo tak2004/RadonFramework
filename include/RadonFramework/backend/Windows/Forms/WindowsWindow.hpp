@@ -15,7 +15,7 @@ namespace RadonFramework
         {
             public:
                 WindowsWindow(WindowService *Service);
-                ~WindowsWindow();
+                virtual ~WindowsWindow();
 
                 //IWindow
                 void* Handle();

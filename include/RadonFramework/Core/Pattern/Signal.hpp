@@ -14,16 +14,12 @@ namespace RadonFramework { namespace Core { namespace Pattern {
 class SignalReciever;
 class Signal;
 
-class Connection0
+class SignalConnection
 {
-typedef Delegate<> DefaultMethod;
-protected:
-    DefaultMethod m_Method;
-    Collections::List<Signal*> m_Signals;
-    System::Threading::Mutex m_Mutex;
+friend class SignalReceiver;
+typedef Delegate<void()> DefaultMethod;
 public:
-    Connection0(DefaultMethod Methode);
-    ~Connection0();
+    ~SignalConnection();
 
     DefaultMethod Methode();
     void operator()()const
@@ -33,21 +29,26 @@ public:
     void AddSignal(Signal* Obj);
     void RemoveSignal(Signal* Obj);
     void UnsafeRemoveSignal(Signal* Obj);            
+protected:
+    DefaultMethod m_Method;
+    Collections::List<Signal*> m_Signals;
+
+    SignalConnection(DefaultMethod Methode);
 };
 
 class SignalReceiver
 {
 protected:
-    Collections::List<Connection0*> m_Connections;
+    Collections::List<SignalConnection*> m_Connections;
     System::Threading::Mutex m_Mutex;
 public:
     template<class T>
-    Connection0* Connector(void(T::*Method)())
+    SignalConnection* Connector(void(T::*Method)())
     {
         Threading::Scopelock lock(m_Mutex);
-        Delegate<> delegate(dynamic_cast<T*>(this),Method);
-        Connection0* con=new Connection0(delegate);
-        m_Connections.AddLast((Connection0*)con);
+        Delegate<void()> delegate(static_cast<T*>(this),Method);
+        SignalConnection* con=new SignalConnection(delegate);
+        m_Connections.AddLast((SignalConnection*)con);
         return con;
     }
     virtual ~SignalReceiver();
@@ -56,12 +57,12 @@ public:
 class Signal
 {
 protected:
-    Collections::List<Connection0*> m_EventHandler;
+    Collections::List<SignalConnection*> m_EventHandler;
     System::Threading::Mutex m_Mutex;
 public:
     ~Signal()
     {
-        for (Collections::List<Connection0*>::Iterator it=m_EventHandler.Begin();
+        for (Collections::List<SignalConnection*>::Iterator it=m_EventHandler.Begin();
                 it!=m_EventHandler.End();)
         {
             (*it)->UnsafeRemoveSignal(this);
@@ -69,17 +70,17 @@ public:
         }
     }
 
-    void Attach(Connection0* ConnectionHandler)
+    void Attach(SignalConnection* ConnectionHandler)
     {
         Threading::Scopelock lock(m_Mutex);
         m_EventHandler.AddLast(ConnectionHandler);
         ConnectionHandler->AddSignal(this);
     }
 
-    void Detach(Connection0* ConnectionHandler)
+    void Detach(SignalConnection* ConnectionHandler)
     {
         Threading::Scopelock lock(m_Mutex);
-        for (Collections::List<Connection0*>::Iterator it=m_EventHandler.Begin();
+        for (Collections::List<SignalConnection*>::Iterator it=m_EventHandler.Begin();
                 it!=m_EventHandler.End();)
             if ((void*)*it==(void*)ConnectionHandler)
             {
@@ -89,10 +90,10 @@ public:
             }
     }
 
-    void ConnectionRemoved(Connection0* ConnectionHandler)
+    void ConnectionRemoved(SignalConnection* ConnectionHandler)
     {
         Threading::Scopelock lock(m_Mutex);
-        for (Collections::List<Connection0*>::Iterator it=m_EventHandler.Begin();
+        for (Collections::List<SignalConnection*>::Iterator it=m_EventHandler.Begin();
                 it!=m_EventHandler.End();)
             if ((void*)*it==(void*)ConnectionHandler)
             {
@@ -104,7 +105,7 @@ public:
     void Notify()
     {
         Threading::Scopelock lock(m_Mutex);
-        for (Collections::List<Connection0*>::Iterator it=m_EventHandler.Begin();
+        for (Collections::List<SignalConnection*>::Iterator it=m_EventHandler.Begin();
                 it!=m_EventHandler.End(); ++it)
             (*(*it))();
     }
@@ -114,13 +115,13 @@ public:
         Notify();
     }
 
-    inline Signal& operator+=(Connection0 *Con)
+    inline Signal& operator+=(SignalConnection *Con)
     {
         Attach(Con);
         return *this;
     }
 
-    inline Signal& operator-=(Connection0 *Con)
+    inline Signal& operator-=(SignalConnection *Con)
     {
         Detach(Con);
         return *this;

@@ -32,7 +32,7 @@ struct ThreadHelper
     DWORD ID;
     Int64* PID;
     RFT::IRunnable* run;
-    Delegate<> OnFinished;
+    Delegate<void()> OnFinished;
 };
 
 void ThrImplementationAlive(void* Data, Bool Value)

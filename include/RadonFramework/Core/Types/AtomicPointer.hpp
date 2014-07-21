@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/System/Threading/Interlocked.hpp>
+
 namespace RadonFramework { namespace Core { namespace Types {
 
 template<typename T>

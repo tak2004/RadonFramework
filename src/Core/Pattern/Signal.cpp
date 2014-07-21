@@ -4,27 +4,25 @@
 using namespace RadonFramework::Core::Pattern;
 using namespace RadonFramework::Threading;
 
-Connection0::Connection0(Connection0::DefaultMethod Methode)
+SignalConnection::SignalConnection(SignalConnection::DefaultMethod Methode)
 :m_Method(Methode)
 {
 }
 
-Connection0::~Connection0()
+SignalConnection::~SignalConnection()
 {
-    Scopelock lock(m_Mutex);
     for ( RF_Collect::List<Signal*>::Iterator it=m_Signals.Begin();
             it!=m_Signals.End(); ++it)
         (*it)->ConnectionRemoved(this);
 }
 
-Connection0::DefaultMethod Connection0::Methode()
+SignalConnection::DefaultMethod SignalConnection::Methode()
 {
     return m_Method;
 }
 
-void Connection0::AddSignal(Signal* Obj)
+void SignalConnection::AddSignal(Signal* Obj)
 {
-    Scopelock lock(m_Mutex);
     for ( RF_Collect::List<Signal*>::Iterator it=m_Signals.Begin();
             it!=m_Signals.End(); ++it)
         if ((void*)*it==(void*)Obj)
@@ -32,13 +30,12 @@ void Connection0::AddSignal(Signal* Obj)
     m_Signals.AddLast(Obj);
 }
 
-void Connection0::RemoveSignal(Signal* Obj)
+void SignalConnection::RemoveSignal(Signal* Obj)
 {
-    Scopelock lock(m_Mutex);
     UnsafeRemoveSignal(Obj);
 }
 
-void Connection0::UnsafeRemoveSignal(Signal* Obj)
+void SignalConnection::UnsafeRemoveSignal(Signal* Obj)
 {    
     for ( RF_Collect::List<Signal*>::Iterator it=m_Signals.Begin();
             it!=m_Signals.End();)
@@ -52,7 +49,6 @@ void Connection0::UnsafeRemoveSignal(Signal* Obj)
 
 SignalReceiver::~SignalReceiver()
 {
-    Scopelock lock(m_Mutex);
-    for (RF_Collect::List<Connection0*>::Iterator it=m_Connections.Begin();it!=m_Connections.End(); ++it)
+    for (RF_Collect::List<SignalConnection*>::Iterator it=m_Connections.Begin();it!=m_Connections.End(); ++it)
         delete *it;
 }

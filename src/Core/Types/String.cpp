@@ -493,6 +493,7 @@ String String::SubString(const RF_Type::UInt32 StartIndex,
     if (StartIndex+Count>m_Length || Count==0)
         return String();
     String str(GetBuffer() + StartIndex, Count);
+    str.GetBuffer()[Count - 1] = '\0';
     return str;
 }
 

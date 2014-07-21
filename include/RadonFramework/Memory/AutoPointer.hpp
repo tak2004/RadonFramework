@@ -22,7 +22,8 @@ public:
     typedef T ElementType;
 
     // Constructor
-    explicit AutoPointer(ElementType* Ptr=0);
+    AutoPointer();
+    explicit AutoPointer(ElementType* Ptr);
     AutoPointer(AutoPointer& Copy);
     template <typename T1>
     AutoPointer(AutoPointer<T1>& Ref);
@@ -68,6 +69,11 @@ public:
 private:
     mutable T* m_Data;
 };
+
+template <typename T>
+AutoPointer<T>::AutoPointer()
+:m_Data(0)
+{}
 
 template <typename T>
 AutoPointer<T>::AutoPointer(ElementType* Ptr)

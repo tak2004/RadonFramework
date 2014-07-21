@@ -42,6 +42,7 @@ void ForEach(const C& Enumerable, FUNCTION Function)
     RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
     RF_Type::UInt32 jobsPerWorker = 0;    
     RF_Type::AtomicInt32 overallWork(elements);
+    RF_Type::UInt32 extra = 1;
     
     if(elements > worker)
     {
@@ -52,20 +53,21 @@ void ForEach(const C& Enumerable, FUNCTION Function)
     {
         jobsPerWorker = 1;
         worker = elements;
+        extra = 0;
     }
     
-    for(RF_Type::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
+    for(RF_Type::UInt32 i = 0, offset = 0; i < worker; ++i)
     {
         if(elements <= i)
-            Extra = 0;
+            extra = 0;
         auto* task = new ForEachEnumeratorTaskData<C, FUNCTION>;
         task->Enumeable = enumerator;
         task->Function = Function;
         task->From = offset;
-        task->Steps = jobsPerWorker + Extra;
+        task->Steps = jobsPerWorker + extra;
         task->OverallWork = &overallWork; 
         RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ForEachEnumeratorTaskFunction<C, FUNCTION>, task);
-        offset += jobsPerWorker + Extra;
+        offset += jobsPerWorker + extra;
     }
     
     // Wait for other threads. Sleep(0) will ensure that the thread return if no

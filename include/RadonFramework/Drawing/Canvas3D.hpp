@@ -5,8 +5,8 @@
 #endif // _MSC_VER > 1000
 
 #include <RadonFramework/Drawing/Forms/Control.hpp>
-#include <RadonFramework/Math/Geometry/ProjectionMatrix.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
+#include <RadonFramework/Math/Geometry/Matrix.hpp>
 
 namespace RadonFramework
 {
@@ -33,7 +33,6 @@ namespace RadonFramework
                 Canvas3D(Control* Parent);
                 virtual void Resize(const Math::Geometry::Size2D<>& Value);
 
-                Math::Geometry::ProjectionMatrix ProjectionMatrix;
                 void Clear();
                 void SwapBuffer();
                 Math::Geometry::Matrix4f& TexturecoordMatrix();

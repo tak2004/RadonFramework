@@ -26,7 +26,6 @@ Canvas3D::Canvas3D(Control* Parent)
 void Canvas3D::Resize(const RF_Geo::Size2D<>& Value)
 {
   Math::Geometry::Rectangle<> rec(Point2D<>(0,0),Point2D<>(Value.Width,Value.Height));
-  ProjectionMatrix.SetSize(Value);
   m_Backend->UpdateRectangle(rec);
 }
 

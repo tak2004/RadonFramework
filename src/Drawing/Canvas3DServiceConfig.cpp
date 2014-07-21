@@ -47,7 +47,7 @@ void Canvas3DServiceConfig::Set(DataTree::NodeType& TreeNode)
 
     if (FallbackDriver.Count()>0)
     {
-        Delegate2<const Pair<Size,String>&,const Pair<Size,String>&,Size> callback(&LowestFirst);
+        Delegate2<Size(const Pair<Size, String>&, const Pair<Size, String>&)> callback(&LowestFirst);
         FallbackDriver.Sort(callback);
     }
 

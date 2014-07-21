@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/Core/Pattern/Event.hpp>
+#include <RadonFramework/Core/Pattern/Signal.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/IO/VirtualKey.hpp>
@@ -33,7 +34,7 @@ public:
 
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
-    RF_Pattern::Event<const RF_Pattern::IObserver*> OnIdle;
+    RF_Pattern::Signal OnIdle;
     RF_Pattern::Event<const RF_IO::VirtualKey::Type> OnKeyPress;
     RF_Pattern::Event<const RF_IO::VirtualKey::Type> OnKeyRelease;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonPressed;

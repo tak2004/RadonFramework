@@ -81,6 +81,7 @@ void Radon::InitSubSystem(UInt32 Flags)
 
     if (Flags & RadonFramework::Init::Drawing)
     {
+        Canvas3DServiceLocator::Initialize();
         #ifdef RF_USE_OPENGL
             #ifdef RF_USE_X11
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL1Canvas3DService("OpenGL1.x")));
@@ -91,33 +92,34 @@ void Radon::InitSubSystem(UInt32 Flags)
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL1Canvas3DService("OpenGL1.x")));
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL2Canvas3DService("OpenGL2.x")));
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL3Canvas3DService("OpenGL3.x")));
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGLCanvas3DService("Newest OpenGL Version")));
+            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version");
             #endif
         #endif
-        Canvas3DServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Drawing;
     }
 
     if (Flags & RadonFramework::Init::Forms)
     {
+        WindowServiceLocator::Initialize();
         #ifdef RF_USE_X11
         WindowServiceLocator::Register(AutoPointer<WindowService>(new X11WindowService("Linux_X11")));
         #endif
         #ifdef RF_USE_GDI
         WindowServiceLocator::Register(AutoPointer<WindowService>(new WindowsWindowService("Windows_GDI")));
         #endif
-        WindowServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Forms;
     }
 
     if (Flags & RadonFramework::Init::Hashing)
     {
+        HashfunctionServiceLocator::Initialize();
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new MurmurHashHashfunctionService(RF_Type::String("MurmurHash", sizeof("MurmurHash"), DataManagment::UnmanagedInstance))));
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibMD5HashfunctionService(RF_Type::String("MD5", sizeof("MD5"), DataManagment::UnmanagedInstance))));
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA1HashfunctionService(RF_Type::String("SHA1", sizeof("SHA1"), DataManagment::UnmanagedInstance))));
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService(RF_Type::String("SHA256", sizeof("SHA256"), DataManagment::UnmanagedInstance))));
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService(RF_Type::String("SHA384", sizeof("SHA384"), DataManagment::UnmanagedInstance))));
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService(RF_Type::String("SHA512", sizeof("SHA512"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Initialize();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Hashing;
     }
 
@@ -125,8 +127,8 @@ void Radon::InitSubSystem(UInt32 Flags)
     {
         RFFILE::Dispatch();
         DecoderServiceLocator::Initialize();
-        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RF_Type::String("file", sizeof("file"), DataManagment::UnmanagedInstance))));
         ProtocolServiceLocator::Initialize();
+        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RF_Type::String("file", sizeof("file"), DataManagment::UnmanagedInstance))));
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::IO;
     }
 

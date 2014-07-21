@@ -12,13 +12,6 @@ namespace RadonFramework { namespace Time {
 
 class Framecounter:public RF_Pattern::IObserver
 {
-protected:
-    TimeSpan m_Delta;
-    DateTime m_Now;
-    DateTime m_LastTime;
-    DateTime m_LastFPSChangedTime;
-    unsigned int m_Frames;
-    unsigned int m_LastFPS;
 public:
     Framecounter();
     float Delta();
@@ -26,6 +19,13 @@ public:
     unsigned int LastFPS();
     void Update();
     RF_Pattern::Event<const RF_Pattern::IObserver*> OnFPSChanged;
+protected:
+    TimeSpan m_Delta;
+    DateTime m_Now;
+    DateTime m_LastTime;
+    DateTime m_LastFPSChangedTime;
+    unsigned int m_Frames;
+    unsigned int m_LastFPS;
 };
 
 } }

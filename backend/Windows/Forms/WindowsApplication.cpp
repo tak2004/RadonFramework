@@ -32,7 +32,7 @@ void WindowsApplication::Run(Form *MainForm)
         }
 
         for (unsigned int i=0;i<WindowsWindow::GetObjectCount();i++)
-            WindowsWindow::GetObjectByIndex(i)->OnIdle(reinterpret_cast<const RF_Pattern::IObserver*>(this));
+            WindowsWindow::GetObjectByIndex(i)->OnIdle();
 
         if (MainForm == 0)
             break;

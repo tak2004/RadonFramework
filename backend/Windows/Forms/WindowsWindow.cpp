@@ -159,15 +159,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 WindowsWindow::WindowsWindow(WindowService *Service)
-:m_Service(Service),
-    m_Title("unnamed", sizeof("unnamed")),
-    m_Border(true),
-    m_Visible(false),
-    m_CursorVisible(true),
-    m_Created(false),
-    m_Handle(0),
-    m_CloseButton(true),
-    m_WindowFlags(WS_OVERLAPPEDWINDOW)
+:m_Service(Service)
+,m_Title("unnamed", sizeof("unnamed"))
+,m_Border(true)
+,m_Visible(false)
+,m_CursorVisible(true)
+,m_Created(false)
+,m_Handle(0)
+,m_CloseButton(true)
+,m_WindowFlags(WS_OVERLAPPEDWINDOW)
 {
     WindowsWindow::m_Objects.AddLast(this);
 }

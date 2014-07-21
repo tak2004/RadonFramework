@@ -7,7 +7,7 @@
 #include <type_traits>
 
 #include <RadonFramework/Threading/ISynchronize.hpp>
-
+#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
 #include <RadonFramework/Core/Policies/CPPAllocator.hpp>
 #include <RadonFramework/Threading/Policies/NoSynchronization.hpp>
@@ -208,7 +208,7 @@ public:
     *                 each element of the array.
     */
     RF_Type::Size BinarySearch(const T& Value, 
-        const Delegate2<const T&,const T&,RF_Type::Size>* Comparer=0);
+        const Delegate2<RF_Type::Size(const T&, const T&)>* Comparer = 0);
 
     /**
     * \brief Searches an entire one-dimensional sorted Array 
@@ -222,7 +222,7 @@ public:
     */
     RF_Type::Size BinarySearch(RF_Type::Size Index, 
         RF_Type::Size Length, const T& Value, 
-        const Delegate2<const T&,const T&,RF_Type::Size>* Comparer=0);
+        const Delegate2<RF_Type::Size(const T&, const T&)>* Comparer = 0);
                 
     /**
     * \brief Creates a shallow copy of the Array.
@@ -289,7 +289,7 @@ public:
     */
     template<typename Out>
     Memory::AutoPointer<Array<Out,SP> > ConvertAll(
-        const Delegate1<T,Out>& Converter);
+        const Delegate1<Out(T)>& Converter);
 
     /**
     * \brief Copies a range of elements from an Array starting 
@@ -333,7 +333,7 @@ public:
     * \param Match The function that defines the conditions of
     *              the elements to search for.
     */
-    RF_Type::Bool Exists(const Delegate1<T,RF_Type::Bool>& Match);
+    RF_Type::Bool Exists(const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -343,7 +343,7 @@ public:
     * \param Match The function that defines the conditions of 
     *              the element to search for.
     */
-    T* Find(const Delegate1<T,RF_Type::Bool>& Match);
+    T* Find(const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Retrieves all the elements that match the conditions 
@@ -353,7 +353,7 @@ public:
     *              the elements to search for.
     */
     Memory::AutoPointer<Array<T,SP,MA,MO> > FindAll(
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -365,7 +365,7 @@ public:
     *              the element to search for.
     */
     RF_Type::Size FindIndex(
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -378,7 +378,7 @@ public:
     *              the element to search for.
     */
     RF_Type::Size FindIndex(RF_Type::Size StartIndex,
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -393,7 +393,7 @@ public:
     */
     RF_Type::Size FindIndex(RF_Type::Size StartIndex,
         RF_Type::Size Count, 
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -403,7 +403,7 @@ public:
     * \param Match The function that defines the conditions of
     *              the element to search for.
     */
-    T* FindLast(const Delegate1<T,RF_Type::Bool>& Match);
+    T* FindLast(const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -415,7 +415,7 @@ public:
     *              the element to search for.
     */
     RF_Type::Size FindLastIndex(
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -430,7 +430,7 @@ public:
     */
     RF_Type::Size FindLastIndex(
         RF_Type::Size StartIndex,
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -446,7 +446,7 @@ public:
     */
     RF_Type::Size FindLastIndex(
         RF_Type::Size StartIndex, RF_Type::Size Count, 
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
     * \brief Performs the specified action for each element of 
@@ -454,7 +454,7 @@ public:
     *
     * \param Action The function to perform on each element of array.
     */
-    void ForEach(const Delegate1<T&>& Action);
+    void ForEach(const Delegate1<void(T&)>& Action);
             
 
     /**
@@ -466,7 +466,7 @@ public:
     * \param Param A value which will be passed additionally to the Action.
     */
     template<typename X>
-    void ForEach(const Delegate2<T&,X>& Action,X Param);
+    void ForEach(const Delegate2<void(T&,X)>& Action,X Param);
 
     /**
     * Returns an IEnumerator for the Array.
@@ -722,7 +722,7 @@ public:
     * \param Comparer The method which will be called for each
     *                 element of the Array.
     */
-    void Sort(const Delegate2<const T&,const T&,RF_Type::Size>& Comparer);
+    void Sort(const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
 
     /**
     * \brief Sorts the elements in a range of elements in an 
@@ -734,7 +734,7 @@ public:
     *                 element of the Array.
     */
     void Sort(RF_Type::Size Index, RF_Type::Size LastIndex,
-                const Delegate2<const T&,const T&,RF_Type::Size>& Comparer);
+        const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
 
     /**
     * \brief Sorts a pair of Array objects (one contains the 
@@ -753,9 +753,8 @@ public:
     *                 element of the Array.
     */
     template <typename TKey, typename TValue>
-    static void Sort(Array<TKey,SP,MA,MO>& Keys, 
-                        Array<TValue,SP,MA,MO>& Items,
-                        const Delegate2<const T&,const T&,RF_Type::Size>& Comparer);
+    static void Sort(Array<TKey,SP,MA,MO>& Keys, Array<TValue,SP,MA,MO>& Items,
+        const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
 
     /**
     * \brief Sorts a range of elements in a pair of Array 
@@ -779,7 +778,7 @@ public:
     template <typename TKey, typename TValue>
     static void Sort(Array<TKey,SP,MA,MO>& Keys, Array<TValue,SP,MA,MO>& Items,
                      RF_Type::Size Index, RF_Type::Size LastIndex,
-                     const Delegate2<const T&,const T&,RF_Type::Size>& Comparer);
+                     const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
 
     /**
     * \brief Determines whether every element in the array matches 
@@ -793,7 +792,7 @@ public:
     *         value is true.
     */
     RF_Type::Bool TrueForAll(
-        const Delegate1<T,RF_Type::Bool>& Match);
+        const Delegate1<RF_Type::Bool(T)>& Match);
 
     void Swap(Array<T,SP,MA,MO>& Other);
 // Operators
@@ -998,7 +997,7 @@ T& Array<T,SP,MA,MO>::Item(RF_Type::Size Index)const
 
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::BinarySearch(const T& Value, 
-    const Delegate2<const T&,const T&,RF_Type::Size>* Comparer)
+    const Delegate2<RF_Type::Size(const T&, const T&)>* Comparer)
 {
     return BinarySearch(0,m_ElementCount,Value,Comparer);
 }
@@ -1006,7 +1005,7 @@ RF_Type::Size Array<T,SP,MA,MO>::BinarySearch(const T& Value,
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::BinarySearch(
     RF_Type::Size Index, RF_Type::Size Length, const T& Value, 
-    const Delegate2<const T&,const T&,RF_Type::Size>* Comparer)
+    const Delegate2<RF_Type::Size(const T&, const T&)>* Comparer)
 {
     RF_Type::Size left=Index,right=Index+Length-1,middle;
     while(left<=right && right < m_ElementCount)
@@ -1064,7 +1063,7 @@ RF_Type::Bool Array<T,SP,MA,MO>::ConstrainedCopy(
 template<typename T, typename SP, typename MA, typename MO>
 template<typename Out>
 Memory::AutoPointer<Array<Out,SP> > Array<T,SP,MA,MO>::ConvertAll(
-    const Delegate1<T,Out>& Converter)
+    const Delegate1<Out(T)>& Converter)
 {
     Array<RF_Type::Size,SP,MA,MO> lengths(m_Rank);
     for (RF_Type::Size i=0;i<m_Rank;++i)
@@ -1098,7 +1097,7 @@ void Array<T,SP,MA,MO>::Copy(RF_Type::Size Index,
             
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Bool Array<T,SP,MA,MO>::Exists(
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=0;i<end;++i)
@@ -1108,7 +1107,7 @@ RF_Type::Bool Array<T,SP,MA,MO>::Exists(
 }
 
 template<typename T, typename SP, typename MA, typename MO>
-T* Array<T,SP,MA,MO>::Find(const Delegate1<T,RF_Type::Bool>& Match)
+T* Array<T,SP,MA,MO>::Find(const Delegate1<RF_Type::Bool(T)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=0;i<end;++i)
@@ -1118,7 +1117,7 @@ T* Array<T,SP,MA,MO>::Find(const Delegate1<T,RF_Type::Bool>& Match)
 }
 
 template<typename T, typename SP, typename MA, typename MO>
-T* Array<T,SP,MA,MO>::FindLast(const Delegate1<T,RF_Type::Bool>& Match)
+T* Array<T,SP,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(T)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=end;i>=0 && i <= end;--i)
@@ -1129,7 +1128,7 @@ T* Array<T,SP,MA,MO>::FindLast(const Delegate1<T,RF_Type::Bool>& Match)
 
 template<typename T, typename SP, typename MA, typename MO>
 Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::FindAll(
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Memory::AutoPointer<Array<T,SP,MA,MO> > result;
     // reserve memory with the size of pow
@@ -1161,7 +1160,7 @@ Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::FindAll(
 
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindIndex(0,m_Length[0],Match);
@@ -1170,7 +1169,7 @@ RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
     RF_Type::Size StartIndex,
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindIndex(StartIndex,m_Length[0]-StartIndex,Match);
@@ -1180,7 +1179,7 @@ template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
     RF_Type::Size StartIndex,
     RF_Type::Size Count, 
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     RF_Type::Size end=StartIndex+Count;
@@ -1192,7 +1191,7 @@ RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
 
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindLastIndex(m_Length[0]-1,m_Length[0],Match);
@@ -1201,7 +1200,7 @@ RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
     RF_Type::Size StartIndex,
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindLastIndex(StartIndex,m_Length[0]-StartIndex,Match);
@@ -1210,7 +1209,7 @@ RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
     RF_Type::Size StartIndex, RF_Type::Size Count, 
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     RF_Type::Int32 end = StartIndex - (Count - 1);
@@ -1225,7 +1224,7 @@ RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
 }
 
 template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::ForEach(const Delegate1<T&>& Action)
+void Array<T,SP,MA,MO>::ForEach(const Delegate1<void(T&)>& Action)
 {
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
         Action(m_Data[i]);
@@ -1233,7 +1232,7 @@ void Array<T,SP,MA,MO>::ForEach(const Delegate1<T&>& Action)
 
 template<typename T, typename SP, typename MA, typename MO>
 template<typename X>
-void Array<T,SP,MA,MO>::ForEach(const Delegate2<T&,X>& Action, X Param)
+void Array<T,SP,MA,MO>::ForEach(const Delegate2<void(T&,X)>& Action, X Param)
 {
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
         Action(m_Data[i],Param);
@@ -1477,7 +1476,7 @@ void Array<T,SP,MA,MO>::SetValue(const T& Value,
 }
 
 template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Sort(const Delegate2<const T&,const T&,RF_Type::Size>& Comparer)
+void Array<T, SP, MA, MO>::Sort(const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
     Sort(0,m_ElementCount-1,Comparer);
 }
@@ -1485,7 +1484,7 @@ void Array<T,SP,MA,MO>::Sort(const Delegate2<const T&,const T&,RF_Type::Size>& C
 template<typename T, typename SP, typename MA, typename MO>
 void Array<T,SP,MA,MO>::Sort(RF_Type::Size Index, 
     RF_Type::Size LastIndex,
-    const Delegate2<const T&,const T&,RF_Type::Size>& Comparer)
+    const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
     Assert(LastIndex < m_ElementCount,"Index out of bound.");
     if (LastIndex <= Index)
@@ -1551,7 +1550,7 @@ template<typename T, typename SP, typename MA, typename MO>
 template<typename TKey, typename TValue>
 void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys, 
     Array<TValue,SP,MA,MO>& Items,
-    const Delegate2<const T&,const T&,RF_Type::Size>& Comparer)
+    const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
     Sort(Keys,Items,0,Keys.m_ElementCount-1,Comparer);
 }
@@ -1560,7 +1559,7 @@ template<typename T, typename SP, typename MA, typename MO>
 template <typename TKey, typename TValue>
 void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys,
     Array<TValue,SP,MA,MO>& Items, RF_Type::Size Index, RF_Type::Size LastIndex,
-    const Delegate2<const T&,const T&,RF_Type::Size>& Comparer)
+    const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
     Assert(Keys.m_ElementCount==Items.m_ElementCount,"Invalid parameter.");
     Assert(LastIndex<Keys.m_ElementCount,"Index out of bound.");
@@ -1631,7 +1630,7 @@ void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys,
 
 template<typename T, typename SP, typename MA, typename MO>
 RF_Type::Bool Array<T,SP,MA,MO>::TrueForAll(
-    const Delegate1<T,RF_Type::Bool>& Match)
+    const Delegate1<RF_Type::Bool(T)>& Match)
 {
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
         if (false==Match(m_Data[i]))

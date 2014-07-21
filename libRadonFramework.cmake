@@ -93,60 +93,34 @@ AddHeaderDirectory(filelist "include/RadonFramework/backend/stringcoders" "Inclu
 set(HDRS_BACKEND_STRINGCODERS ${filelist})
 	
 if(RADONFRAMEWORK_USE_OPENGL)
-set(SRC_BACKEND_WINDOWS_DRAWING
-    backend/Windows/Drawing/GDIOpenGL1Canvas3D.cpp
-    backend/Windows/Drawing/GDIOpenGL1Canvas3DService.cpp
-    backend/Windows/Drawing/GDIOpenGL2Canvas3D.cpp
-    backend/Windows/Drawing/GDIOpenGL2Canvas3DService.cpp
-    backend/Windows/Drawing/GDIOpenGL3Canvas3D.cpp
-    backend/Windows/Drawing/GDIOpenGL3Canvas3DService.cpp)
+# OpenGL Windows
+AddSourceDirectoryRecursive(filelist "backend/Windows/Drawing" "Backend\\Windows\\Drawing")
+list(APPEND SRC_BACKEND_WINDOWS_DRAWING ${filelist})	
+	
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Drawing" "Includes\\Backend\\Windows\\Drawing")
+list(APPEND HDRS_BACKEND_WINDOWS_DRAWING ${filelist})	
 
-set(HDRS_BACKEND_WINDOWS_DRAWING
-    include/RadonFramework/backend/Windows/Drawing/GDIOpenGL1Canvas3D.hpp
-    include/RadonFramework/backend/Windows/Drawing/GDIOpenGL1Canvas3DService.hpp
-    include/RadonFramework/backend/Windows/Drawing/GDIOpenGL2Canvas3D.hpp
-    include/RadonFramework/backend/Windows/Drawing/GDIOpenGL2Canvas3DService.hpp
-    include/RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3D.hpp
-    include/RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3DService.hpp)
+# OpenGL X11
+AddSourceDirectoryRecursive(filelist "backend/X11/Drawing" "Backend\\X11\\Drawing")
+list(APPEND SRC_BACKEND_X11_DRAWING ${filelist})	
+	
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Drawing" "Includes\\Backend\\X11\\Drawing")
+list(APPEND HDRS_BACKEND_X11_DRAWING ${filelist})		
 endif()
 
-set(SRC_BACKEND_WINDOWS_FORMS
-    backend/Windows/Forms/WindowsApplication.cpp
-    backend/Windows/Forms/WindowsWindow.cpp
-    backend/Windows/Forms/WindowsWindowService.cpp)
+# Windows window managment
+AddSourceDirectoryRecursive(filelist "backend/Windows/Forms" "Backend\\Windows\\Forms")
+list(APPEND SRC_BACKEND_WINDOWS_FORMS ${filelist})	
+	
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Forms" "Includes\\Backend\\Windows\\Forms")
+list(APPEND HDRS_BACKEND_WINDOWS_FORMS ${filelist})		
 
-set(HDRS_BACKEND_WINDOWS_FORMS
-    include/RadonFramework/backend/Windows/Forms/WindowsApplication.hpp
-    include/RadonFramework/backend/Windows/Forms/WindowsWindow.hpp
-    include/RadonFramework/backend/Windows/Forms/WindowsWindowService.hpp)
-
-if(RADONFRAMEWORK_USE_OPENGL)
-set(SRC_BACKEND_X11_DRAWING
-	backend/X11/Drawing/X11OpenGL1Canvas3D.cpp
-	backend/X11/Drawing/X11OpenGL1Canvas3DService.cpp
-	backend/X11/Drawing/X11OpenGL2Canvas3D.cpp
-	backend/X11/Drawing/X11OpenGL2Canvas3DService.cpp
-	backend/X11/Drawing/X11OpenGL3Canvas3D.cpp
-	backend/X11/Drawing/X11OpenGL3Canvas3DService.cpp)
-
-set(HDRS_BACKEND_X11_DRAWING
-	include/RadonFramework/backend/X11/Drawing/X11OpenGL1Canvas3D.hpp
-	include/RadonFramework/backend/X11/Drawing/X11OpenGL1Canvas3DService.hpp
-	include/RadonFramework/backend/X11/Drawing/X11OpenGL2Canvas3D.hpp
-	include/RadonFramework/backend/X11/Drawing/X11OpenGL2Canvas3DService.hpp
-	include/RadonFramework/backend/X11/Drawing/X11OpenGL3Canvas3D.hpp
-	include/RadonFramework/backend/X11/Drawing/X11OpenGL3Canvas3DService.hpp)
-endif()
-
-set(SRC_BACKEND_X11_FORMS
-	backend/X11/Forms/X11Application.cpp
-	backend/X11/Forms/X11Window.cpp
-	backend/X11/Forms/X11WindowService.cpp)
-
-set(HDRS_BACKEND_X11_FORMS
-	include/RadonFramework/backend/X11/Forms/X11Application.hpp
-	include/RadonFramework/backend/X11/Forms/X11Window.hpp
-	include/RadonFramework/backend/X11/Forms/X11WindowService.hpp)
+# X11 window managment
+AddSourceDirectoryRecursive(filelist "backend/X11/Forms" "Backend\\X11\\Forms")
+list(APPEND SRC_BACKEND_X11_FORMS ${filelist})	
+	
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Forms" "Includes\\Backend\\X11\\Forms")
+list(APPEND HDRS_BACKEND_X11_FORMS ${filelist})		
 
 set(LIBBACKENDGENERALSRCFILES
     ${SRC_BACKEND_GLEW}
@@ -257,12 +231,10 @@ source_group("Includes\\backend\\Windows\\Forms" FILES ${HDRS_BACKEND_WINDOWS_FO
 
 # Linux specific source code
 source_group("Sources\\backend\\Linux" FILES ${SRC_BACKEND_LINUX})
-source_group("Sources\\backend\\X11\\Drawing" FILES ${SRC_BACKEND_X11_DRAWING})
 source_group("Sources\\backend\\X11\\Forms" FILES ${SRC_BACKEND_X11_FORMS})
 
 # Linux specific headers
 source_group("Includes\\backend\\Linux" FILES ${HDRS_BACKEND_LINUX})
-source_group("Includes\\backend\\X11\\Drawing" FILES ${HDRS_BACKEND_X11_DRAWING})
 source_group("Includes\\backend\\X11\\Forms" FILES ${HDRS_BACKEND_X11_FORMS})
 
 AddSourceDirectoryRecursive(filelist "src/Collections" "Sources\\Collections")

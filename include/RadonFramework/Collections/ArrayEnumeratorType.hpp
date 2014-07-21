@@ -42,7 +42,7 @@ struct Enumerator <T, ArrayEnumeratorType>
 template<typename T>
 Enumerator<T, ArrayEnumeratorType> Enumerator<T, ArrayEnumeratorType>::operator++(int)
 {
-    Assert(m_Current < m_Start + m_Elements, "Out of bound");
+    Assert(m_Current < (m_Start + m_Elements), "Out of bound");
     auto result = *this;
     ++m_Current;
     return result;
@@ -51,7 +51,7 @@ Enumerator<T, ArrayEnumeratorType> Enumerator<T, ArrayEnumeratorType>::operator+
 template<typename T>
 Enumerator<T, ArrayEnumeratorType>& Enumerator<T, ArrayEnumeratorType>::operator++()
 {
-    Assert(m_Current < m_Start + m_Elements, "Out of bound");
+    Assert(m_Current < (m_Start + m_Elements), "Out of bound");
     ++m_Current;
     return *this;
 }
@@ -76,35 +76,35 @@ Enumerator<T, ArrayEnumeratorType>& Enumerator<T, ArrayEnumeratorType>::operator
 template<typename T>
 T& Enumerator<T, ArrayEnumeratorType>::operator*()
 {
-    Assert(m_Current >= m_Start && m_Current < m_Start + m_Elements, "Out of bound");
+    Assert(m_Current >= m_Start && m_Current < (m_Start + m_Elements), "Out of bound");
     return *m_Current;
 }
 
 template<typename T>
 const T& Enumerator<T, ArrayEnumeratorType>::operator*() const
 {
-    Assert(m_Current >= m_Start && m_Current < m_Start + m_Elements, "Out of bound");
+    Assert(m_Current >= m_Start && m_Current < (m_Start + m_Elements), "Out of bound");
     return *m_Current;
 }
 
 template<typename T>
 T* Enumerator<T, ArrayEnumeratorType>::operator->()
 {
-    Assert(m_Current >= m_Start && m_Current < m_Start + m_Elements, "Out of bound");
+    Assert(m_Current >= m_Start && m_Current < (m_Start + m_Elements), "Out of bound");
     return m_Current;
 }
 
 template<typename T>
 const T* Enumerator<T, ArrayEnumeratorType>::operator->() const
 {
-    Assert(m_Current >= m_Start && m_Current < m_Start + m_Elements, "Out of bound");
+    Assert(m_Current >= m_Start && m_Current < (m_Start + m_Elements), "Out of bound");
     return m_Current;
 }
 
 template<typename T>
 Enumerator<T, ArrayEnumeratorType>& Enumerator<T, ArrayEnumeratorType>::MoveBy(const RF_Type::Size Steps)
 {
-    Assert(m_Current + Steps <= m_Start + m_Elements, "Out of bound");
+    Assert((m_Current + Steps) <= (m_Start + m_Elements), "Out of bound");
     m_Current += Steps;
     return *this;
 }
