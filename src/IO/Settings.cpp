@@ -75,7 +75,7 @@ void Settings::Load()
             AutoPointerArray<UInt8> buf(new UInt8[config.Size()], config.Size());
             if (fs.Open(config.Location(), FileAccessMode::Read, FileAccessPriority::ReadThroughput))
             {
-                fs.Read(buf.Get(), 0, config.Size());
+                fs.Read(buf.Get(), 0, buf.Size());
                 fs.Close();
                 for (Size i = 0, s = 0; i < buf.Size(); ++i)
                     if (buf[i] == '\n')

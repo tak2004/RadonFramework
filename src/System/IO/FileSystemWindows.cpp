@@ -184,19 +184,28 @@ String GenerateTempFilename(const String& Path)
 
 Bool Access(const String& Path, const AccessMode::Type Mode)
 {
-    return false;
+    if(Mode != AccessMode::None)
+    {
+        int result = 0;
+        if(Mode & AccessMode::Exists)
+            result |= _access(Path.c_str(), 0);
+        if(Mode & AccessMode::Read)
+            result |= _access(Path.c_str(), 4);
+        if(Mode & AccessMode::Write)
+            result |= _access(Path.c_str(), 2);
+        return result == 0;
+    }
+    return true;
 }
 
-Char PathSeperator()
+String PathSeperator()
 {
-    static const Char result=';';
-    return result;
+    return String(";");
 }
 
-Char Seperator()
+String Seperator()
 {
-    static const Char result='\\'; 
-    return result;
+    return String("\\");
 }
 
 AutoPointer<FileStatus> Stat(const String& Path)
@@ -317,8 +326,18 @@ String ApplicationDirectory()
     char buf[MAX_PATH];
     GetModuleFileName(NULL,buf,MAX_PATH);
     String result(buf, MAX_PATH);
-    result=result.SubString(0,result.LastIndexOf(String(::Seperator())));
-    result=WinToUri(result);
+    
+    RF_Type::Int32 index = result.LastIndexOf(::Seperator());
+    if(index > 0)
+    {
+        result = result.SubString(0, index + ::Seperator().Length());
+        result = WinToUri(result);
+    }
+    else
+    {
+        result = String();
+    }
+
     return result;
 }
 
@@ -561,7 +580,7 @@ void RadonFramework::System::IO::FileSystem::Dispatch()
     FlushFile=::FlushFile;
     SeekFile=::SeekFile;
     TellFile=::TellFile;
-    //Access=::Access;
+    Access=::Access;
     PathSeperator=::PathSeperator;
     Seperator=::Seperator;
     Stat=::Stat;

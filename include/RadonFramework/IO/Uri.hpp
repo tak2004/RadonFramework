@@ -172,7 +172,7 @@ protected:
     RF_Type::Bool m_IsDefaultUser;
     RF_Type::Bool m_UserEscaped;
     RF_Type::Bool m_IsOpaque;
-    static RF_Type::Char HexUpperChars[16];
+    static RF_Type::String HexUpperChars[16];
     static RF_Type::Bool NeedToEscapeUriChar[256];
     static RF_Type::Bool NeedToEscapeDataChar[256];
 

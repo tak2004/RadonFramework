@@ -491,7 +491,7 @@ String String::SubString(const RF_Type::UInt32 StartIndex,
         return String();
 
     RF_SysMem::Copy(str.GetBuffer(), buffer, Count);
-    str.GetBuffer()[Count - 1] = '\0';
+    str.GetBuffer()[Count] = '\0';
     return str;
 }
 
@@ -628,16 +628,17 @@ bool String::operator!=(const String& Other)const
 
 String String::operator+(const String& Str)const
 {
+    const int TERMINATION = 1;
     if (Length() + Str.Length())
     {
-        RF_Type::Size bytes = Size() + Str.Size() - 1;
+        RF_Type::Size bytes = Size() + Str.Size() - TERMINATION;
         String str(bytes);
 
         if (Length() > 0)
             RF_SysMem::Copy(const_cast<char*>(str.c_str()), c_str(), Size());
 
         if (Str.Length() > 0)
-            RF_SysMem::Copy(const_cast<char*>(str.c_str() + Size() - 1), Str.c_str(), Str.Size());
+            RF_SysMem::Copy(const_cast<char*>(str.c_str() + Size() - TERMINATION), Str.c_str(), Str.Size());
 
         return str;
     }

@@ -34,24 +34,12 @@ AutoPointer<File> File::GenerateFile(const Uri& Location)
     return result;
 }
 
-const String& File::PathSeperator()
-{
-    static String result(PathSeperatorChar());
-    return result;
-}
-
-const Char File::PathSeperatorChar()
+String File::PathSeperator()
 {
     return FileSystem::PathSeperator();
 }
 
-const String& File::Seperator()
-{
-    static String result(SeperatorChar());
-    return result;
-}
-
-const Char File::SeperatorChar()
+String File::Seperator()
 {
     return FileSystem::Seperator();
 }

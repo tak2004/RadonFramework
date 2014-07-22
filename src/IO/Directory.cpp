@@ -20,24 +20,12 @@ Directory::~Directory()
 {
 }
 
-const String& Directory::PathSeperator()
-{
-    static String result(PathSeperatorChar());
-    return result;
-}
-
-const Char Directory::PathSeperatorChar()
+String Directory::PathSeperator()
 {
     return FileSystem::PathSeperator();
 }
 
-const String& Directory::Seperator()
-{
-    static String result(SeperatorChar());
-    return result;
-}
-
-const Char Directory::SeperatorChar()
+String Directory::Seperator()
 {
     return FileSystem::Seperator();
 }

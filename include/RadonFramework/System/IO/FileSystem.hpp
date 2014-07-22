@@ -80,8 +80,8 @@ void GetNotDispatchedFunctions(RadonFramework::Collections::List<RF_Type::String
 // utilities
 typedef RF_Type::Bool (*AccessCallback)(const RF_Type::String& Path,
     const RF_IO::AccessMode::Type Mode);
-typedef RF_Type::Char (*PathSeperatorCallback)();
-typedef RF_Type::Char (*SeperatorCallback)();
+typedef RF_Type::String (*PathSeperatorCallback)();
+typedef RF_Type::String (*SeperatorCallback)();
 typedef RF_Mem::AutoPointer<RF_IO::FileStatus> (*StatCallback)(
     const RF_Type::String& Path);
 typedef RF_Type::Bool (*ChangeModeCallback)(const RF_Type::String& Path,

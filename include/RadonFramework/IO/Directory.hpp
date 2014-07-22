@@ -14,10 +14,8 @@ namespace RadonFramework
         class Directory
         {
             public:
-                static const RF_Type::String& PathSeperator();
-                static const RF_Type::Char PathSeperatorChar();
-                static const RF_Type::String& Seperator();
-                static const RF_Type::Char SeperatorChar();
+                static RF_Type::String PathSeperator();
+                static RF_Type::String Seperator();
 
                 /// Return the directory from where the application was started.
                 static Memory::AutoPointer<Directory> WorkingDirectory();

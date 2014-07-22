@@ -21,7 +21,7 @@ Bool Access_SystemAPIDispatcher(const String& Path, const AccessMode::Type Mode)
     return Access(Path, Mode);
 }
 
-Char PathSeperator_SystemAPIDispatcher()
+String PathSeperator_SystemAPIDispatcher()
 {
     PathSeperator = 0;
     Dispatch();
@@ -30,7 +30,7 @@ Char PathSeperator_SystemAPIDispatcher()
     return PathSeperator();
 }
 
-Char Seperator_SystemAPIDispatcher()
+String Seperator_SystemAPIDispatcher()
 {
     Seperator = 0;
     Dispatch();

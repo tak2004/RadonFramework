@@ -11,41 +11,36 @@
 #include <RadonFramework/Net/SelectMode.hpp>
 #include <RadonFramework/Net/Error.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Time {
+class TimeSpan;
+} }
+
+namespace RadonFramework { namespace System { namespace Network {
+
+class SelectObjectCollector
 {
-    namespace Time
-    {
-        class TimeSpan;
-    }
-    namespace System
-    {
-        namespace Network
-        {
-            class SelectObjectCollector
-            {
-                public:       
-                    class PIMPL;
+public:       
+    class PIMPL;
 
-                    static RF_Mem::AutoPointer<SelectObjectCollector> Create(
-                        const Net::Socket& Handler);
+    static RF_Mem::AutoPointer<SelectObjectCollector> Create(
+        const Net::Socket& Handler);
 
-                    Net::Error::Type Select(const Net::SelectMode::Type Mode,
-                        const Time::TimeSpan* Timeout=0);
+    Net::Error::Type Select(const Net::SelectMode::Type Mode,
+        const RadonFramework::Time::TimeSpan* Timeout=0);
 
-                    ~SelectObjectCollector();
-                    void Add(const NetService::SocketHandler& Handler);
-                    void Remove(const RF_Type::Size Index);
+    ~SelectObjectCollector();
+    void Add(const NetService::SocketHandler& Handler);
+    void Remove(const RF_Type::Size Index);
                     
-                    RF_Type::Size Count()const;
-                    RF_Type::Bool IsSet(const RF_Type::Size Index)const;
-                protected:
-                    PIMPL* m_Data;
-                private:
-                    SelectObjectCollector();
-                    SelectObjectCollector(const SelectObjectCollector& Copy);
-            };
-        }
-    }
-}
+    RF_Type::Size Count()const;
+    RF_Type::Bool IsSet(const RF_Type::Size Index)const;
+protected:
+    PIMPL* m_Data;
+private:
+    SelectObjectCollector();
+    SelectObjectCollector(const SelectObjectCollector& Copy);
+};
+
+} } }
 
 #endif // RF_SYSTEM_NETWORK_SELECTOBJECTCOLLECTOR_HPP

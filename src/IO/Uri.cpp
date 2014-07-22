@@ -256,7 +256,7 @@ String Uri::EscapeDataString(const String& StringToEscape)
         if (NeedToEscapeDataChar[static_cast<UInt8>(StringToEscape[i])])
             str+=HexEscape(StringToEscape[i]);
         else
-            str+=StringToEscape[i];
+            str += StringToEscape.SubString(i,1);
     return str;
 }
 
@@ -267,7 +267,7 @@ String Uri::EscapeUriString(const String& StringToEscape)
         if (NeedToEscapeUriChar[static_cast<UInt8>(StringToEscape[i])])
             str+=HexEscape(StringToEscape[i]);
         else
-            str+=StringToEscape[i];
+            str+=StringToEscape.SubString(i,1);
     return str;
 }
 
@@ -357,7 +357,7 @@ String Uri::GetComponents(const UriComponents::Type Components,
     return str;
 }
 
-Char Uri::HexUpperChars[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+String Uri::HexUpperChars[]={"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
 
 String Uri::HexEscape(const Char Character)
 {

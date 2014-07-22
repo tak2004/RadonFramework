@@ -18,10 +18,8 @@ namespace RadonFramework
                 static RF_Type::String GenerateTemporaryFilename();
                 static Memory::AutoPointer<File> GenerateFile(const Uri& Location);
 
-                static const RF_Type::String& PathSeperator();
-                static const RF_Type::Char PathSeperatorChar();
-                static const RF_Type::String& Seperator();
-                static const RF_Type::Char SeperatorChar();
+                static RF_Type::String PathSeperator();
+                static RF_Type::String Seperator();
 
                 File();
                 ~File();
