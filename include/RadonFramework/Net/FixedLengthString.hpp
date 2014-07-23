@@ -29,7 +29,7 @@ public:
         RF_Type::Size len=0;
         if (Text)
         {
-            RF_Type::String str(Text, Core::Common::DataManagment::UnmanagedInstance);
+            RF_Type::String str = RF_Type::String::UnsafeStringCreation(Text, Core::Common::DataManagment::UnmanagedInstance);
             len=str.Length();
         }
         Assert(Len>=len, "Index out of bound.");

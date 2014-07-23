@@ -6,20 +6,17 @@
 
 namespace RadonFramework { namespace Core { namespace Common {
 
-namespace DataManagment
+enum class DataManagment : RF_Type::UInt8
 {
-    enum Type : RF_Type::UInt8
-    {
-        // create a copy of data
-        Copy=0,
-        // prioritize dynamic buffers over locale one
-        AllocateAndCopy,
-        // data are managed from outside 
-        UnmanagedInstance,
-        // data are managed from this object now
-        TransfereOwnership
-    };
-}
+    // create a copy of data
+    Copy=0,
+    // prioritize dynamic buffers over locale one
+    AllocateAndCopy,
+    // data are managed from outside 
+    UnmanagedInstance,
+    // data are managed from this object now
+    TransfereOwnership
+};
 
 } } }
 

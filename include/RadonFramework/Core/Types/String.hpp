@@ -52,14 +52,15 @@ public:
     * @param CStringSize Contains the size of the CString including the 0 termination.
     **/
     explicit String(const char* CString, const Size CStringSize,
-        RF_Common::DataManagment::Type Ownership = RF_Common::DataManagment::Copy);
+        RF_Common::DataManagment Ownership = RF_Common::DataManagment::Copy);
 
     /** \brief This constructor accept a C string without any information
     *          about size.
     *
     * The constructor will determine the size, length and create a copy.
     */
-    static String UnsafeStringCreation(const char* CString);
+    static String UnsafeStringCreation(const char* CString, 
+        RF_Common::DataManagment Ownership = RF_Common::DataManagment::Copy);
     #pragma endregion
 
     #pragma region Operator
@@ -304,7 +305,7 @@ private:
         FixString<BUFFER_SIZE> m_FixBuffer;
         DynamicString m_DynBuffer;
     };
-    Common::DataManagment::Type m_DataManagment;
+    Common::DataManagment m_DataManagment;
     RF_Type::UInt32 m_Length;
 
     RF_Type::UInt8* GetBuffer();
@@ -312,6 +313,7 @@ private:
     RF_Type::Bool IsASCII()const;
     RF_Type::Bool CanGlyphsBeCompared(const String& Other)const;
     RF_Type::Size MoveByGlyphs(const RF_Type::UInt8 *& Buffer, const RF_Type::Size Glyphs)const;
+    RF_Type::Size GetLength(const RF_Type::UInt8* CString, const RF_Type::Size CStringByteSize);
 
 #pragma endregion
 };
@@ -319,7 +321,7 @@ private:
 template<int N>
 String::String(char const (&CString)[N])
 {
-    m_Length = RF_SysStr::Length(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
+    m_Length = GetLength(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
     if (N <= BUFFER_SIZE)
     {// the locale buffer is a little bit faster
         m_DataManagment = Common::DataManagment::Copy;

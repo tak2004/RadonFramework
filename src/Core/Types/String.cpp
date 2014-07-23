@@ -6,7 +6,7 @@ using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::Collections;
 
-using RadonFramework::Core::Types::String;
+namespace RadonFramework { namespace Core { namespace Types {
 
 String::String()
 :m_DataManagment(Common::DataManagment::Copy)
@@ -49,8 +49,7 @@ String::String(const String& Copy)
     }
 }
 
-String::String(const char* cString, const RF_Type::Size cStringSize,
-    DataManagment::Type Ownership)
+String::String(const char* cString, const RF_Type::Size cStringSize, DataManagment Ownership)
 :m_DataManagment(Ownership)
 {
     if (cString != 0 && cStringSize > 0)
@@ -124,13 +123,13 @@ String::~String()
     }
 }
 
-String String::UnsafeStringCreation(const char* CString)
+String String::UnsafeStringCreation(const char* CString, RF_Common::DataManagment Ownership)
 {
     String result;
     RF_Type::Size size = 0;
     const char* stringEnd = CString;
     for (;*stringEnd != '\0'; ++stringEnd, ++size){}
-    result = String(CString, size+1);
+    result = String(CString, size+1, Ownership);
     return result;
 }
 
@@ -882,3 +881,10 @@ RF_Type::Size String::MoveByGlyphs(RF_Type::UInt8 const*& Buffer, const RF_Type:
     }
     return Glyphs - glyphsLeft;
 }
+
+RF_Type::Size String::GetLength(const RF_Type::UInt8* CString, const RF_Type::Size CStringByteSize)
+{
+    return RF_SysStr::Length(CString, CStringByteSize);
+}
+
+} } }

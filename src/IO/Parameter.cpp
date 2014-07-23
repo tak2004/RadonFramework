@@ -67,12 +67,20 @@ Bool Parameter::SafeParsingWithErrorOutput(const AutoPointerArray<String>& Param
             switch(Rules[i].Availability)
             {
             case OptionRule::Required:// going crazy
-                ErrorMessage = String::Format(String("Can't parse '%s', exspected '%s' or '%s'.",
-                        sizeof("Can't parse '%s', exspected '%s' or '%s'.")),
-                    Parameters[parameterIndex].c_str(),
-                    Rules[i].LongName,
-                    Rules[i].ShortName);
+            {
+                if(matchingParameter)
+                {
+                    ErrorMessage = String::Format("Can't parse '%s', expected '%s' or '%s'.",
+                        Parameters[parameterIndex].c_str(),
+                        Rules[i].LongName,
+                        Rules[i].ShortName);
+                }
+                else
+                {
+                    ErrorMessage = String("Not enough parameters!");
+                }
                 return false;
+            }
             case OptionRule::Optional:// don't care check the next one
                 continue;
             }
@@ -119,7 +127,7 @@ RF_Type::Bool Parameter::ParsingWithLogging(const char* argv[], int argc,
     AutoPointerArray<String> param(new String[argc], argc);
     for(UInt32 i = 0; i < argc; ++i)
     {
-        param[i] = String(argv[i], Core::Common::DataManagment::UnmanagedInstance);
+        param[i] = String::UnsafeStringCreation(argv[i], Core::Common::DataManagment::UnmanagedInstance);
     }
 
     return SafeParsingWithLogging(param, Rules);
@@ -132,7 +140,7 @@ RF_Type::Bool Parameter::ParsingWithErrorOutput(const char* argv[], int argc,
     AutoPointerArray<String> param(new String[argc], argc);
     for(UInt32 i = 0; i < argc; ++i)
     {
-        param[i] = String(argv[i], Core::Common::DataManagment::UnmanagedInstance);
+        param[i] = String::UnsafeStringCreation(argv[i], Core::Common::DataManagment::UnmanagedInstance);
     }
 
     return SafeParsingWithErrorOutput(param, Rules, ErrorMessage);
