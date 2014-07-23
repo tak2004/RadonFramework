@@ -273,14 +273,19 @@ String Uri::EscapeUriString(const String& StringToEscape)
 
 Int32 Uri::FromHex(const Char Digit)
 {
-    Int32 i=(Int32)(Digit-'0');
-    if (i>9)
-        i=(Int32)(Digit-'A');
-    if (i>25)
-        i=(Int32)(Digit-'a');
-    if (i>25)
-        i=-1;
-    return i;
+    if(Digit >= '0' && Digit <= '9')
+    {
+        return Digit - '0';
+    }
+    if(Digit >= 'a' && Digit <= 'f')
+    {
+        return Digit - 'a' + 10;
+    }
+    if(Digit >= 'A' && Digit <= 'F')
+    {
+        return Digit - 'A' + 10;
+    }
+    return -1;
 }
 
 String Uri::GetComponents(const UriComponents::Type Components,
@@ -370,7 +375,8 @@ Char Uri::HexUnescape(const String& Pattern, UInt32& Index)
     Char chr;
     if (IsHexEncoding(Pattern,Index))
     {
-        chr=(Char)(FromHex(Pattern[Index+1])*16+FromHex(Pattern[Index+2]));
+        Int32 value = (FromHex(Pattern[Index + 1]) * 16) + FromHex(Pattern[Index + 2]);
+        chr = static_cast<Char>(value);
         Index+=3;
     }
     else
