@@ -311,6 +311,25 @@ RF_Type::Bool GetThreadInfo(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
     return result;
 }
 
+RF_Type::Int32 ExecuteProgram(const RF_Type::String& Executable,
+	const RF_Type::String& Parameters)
+{
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+
+	RF_Type::String cmd(Executable + " " + Parameters);
+	char* p = const_cast<char*>(cmd.c_str());
+	if (CreateProcessA(0, p, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi) == FALSE)
+		return -1;
+
+	WaitForSingleObject(pi.hProcess, INFINITE);
+	return 0;
+}
+
 void RFPROC::Dispatch()
 {
     GetProcessList = ::GetProcessList;
@@ -321,4 +340,5 @@ void RFPROC::Dispatch()
     GetTimingInfo = ::GetTimingInfo;
     GetModuleInfo = ::GetModuleInfo;
     GetThreadInfo = ::GetThreadInfo;
+	ExecuteProgram = ::ExecuteProgram;
 }

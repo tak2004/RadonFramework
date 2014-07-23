@@ -85,6 +85,17 @@ RF_Type::Bool GetThreadInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::Thr
     return GetThreadInfo(PId, Info);
 }
 
+RF_Type::Int32 ExecuteProgram_SystemAPIDispatcher(const RF_Type::String& Executable,
+    const RF_Type::String& Parameters)
+{
+    ExecuteProgram = 0;
+    Dispatch();
+    Assert(ExecuteProgram != ExecuteProgram_SystemAPIDispatcher &&
+           ExecuteProgram != 0,
+           "Function was called and couldn't be dispatched");
+	return ExecuteProgram(Executable, Parameters);
+}
+
 RFPROC::GetProcessListCallback RFPROC::GetProcessList = GetProcessList_SystemAPIDispatcher;
 RFPROC::GetCurrentProcessIdCallback RFPROC::GetCurrentProcessId = GetCurrentProcessId_SystemAPIDispatcher;
 RFPROC::GetGeneralInfoCallback RFPROC::GetGeneralInfo = GetGeneralInfo_SystemAPIDispatcher;
@@ -93,6 +104,7 @@ RFPROC::GetMemoryInfoCallback RFPROC::GetMemoryInfo = GetMemoryInfo_SystemAPIDis
 RFPROC::GetTimingInfoCallback RFPROC::GetTimingInfo = GetTimingInfo_SystemAPIDispatcher;
 RFPROC::GetModuleInfoCallback RFPROC::GetModuleInfo = GetModuleInfo_SystemAPIDispatcher;
 RFPROC::GetThreadInfoCallback RFPROC::GetThreadInfo = GetThreadInfo_SystemAPIDispatcher;
+RFPROC::ExecuteProgramCallback RFPROC::ExecuteProgram = ExecuteProgram_SystemAPIDispatcher;
 
 RF_Type::Bool RFPROC::IsSuccessfullyDispatched()
 {
@@ -105,6 +117,7 @@ RF_Type::Bool RFPROC::IsSuccessfullyDispatched()
     result = result && GetTimingInfo != GetTimingInfo_SystemAPIDispatcher && GetTimingInfo != 0;
     result = result && GetModuleInfo != GetModuleInfo_SystemAPIDispatcher && GetModuleInfo != 0;
     result = result && GetThreadInfo != GetThreadInfo_SystemAPIDispatcher && GetThreadInfo != 0;
+	result = result && ExecuteProgram != ExecuteProgram_SystemAPIDispatcher && ExecuteProgram != 0;
     return result;
 }
 
@@ -126,4 +139,6 @@ void RFPROC::GetNotDispatchedFunctions( RadonFramework::Collections::List<RF_Typ
         Result.AddLast(RF_Type::String("GetModuleInfo", sizeof("GetModuleInfo")));
     if (GetThreadInfo == GetThreadInfo_SystemAPIDispatcher || GetThreadInfo == 0)
         Result.AddLast(RF_Type::String("GetThreadInfo", sizeof("GetThreadInfo")));
+	if (ExecuteProgram == ExecuteProgram_SystemAPIDispatcher || ExecuteProgram == 0)
+		Result.AddLast(RF_Type::String("ExecuteProgram", sizeof("ExecuteProgram")));
 }
