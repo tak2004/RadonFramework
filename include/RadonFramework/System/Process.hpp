@@ -34,6 +34,7 @@ typedef RF_Type::Bool (*GetMemoryInfoCallback)(RF_Type::UInt32 PId, MemoryInfo& 
 typedef RF_Type::Bool (*GetTimingInfoCallback)(RF_Type::UInt32 PId, TimingInfo& Info);
 typedef RF_Type::Bool (*GetModuleInfoCallback)(RF_Type::UInt32 PId, ModuleInfo& Info);
 typedef RF_Type::Bool (*GetThreadInfoCallback)(RF_Type::UInt32 PId, ThreadInfoList& Info);
+typedef RF_Type::Int32 (*ExecuteProgramCallback)(const RF_Type::String& Executable, const RF_Type::String& Parameters);
 
 extern GetProcessListCallback GetProcessList;
 extern GetCurrentProcessIdCallback GetCurrentProcessId;
@@ -43,9 +44,15 @@ extern GetMemoryInfoCallback GetMemoryInfo;
 extern GetTimingInfoCallback GetTimingInfo;
 extern GetModuleInfoCallback GetModuleInfo;
 extern GetThreadInfoCallback GetThreadInfo;
+extern ExecuteProgramCallback ExecuteProgram;
 
 } } }
 
 namespace RFPROC = RadonFramework::System::Process;
+
+#ifndef RF_SHORTHAND_NAMESPACE_PROC
+#define RF_SHORTHAND_NAMESPACE_PROC
+namespace RF_SysProc = RadonFramework::System::Process;
+#endif
 
 #endif // RF_SYSTEM_PROCESS_HPP
