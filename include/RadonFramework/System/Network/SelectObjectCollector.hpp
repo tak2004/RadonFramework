@@ -43,4 +43,9 @@ private:
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_SYS_NET
+#define RF_SHORTHAND_NAMESPACE_SYS_NET
+namespace RF_SysNet = RadonFramework::System::Network;
+#endif
+
 #endif // RF_SYSTEM_NETWORK_SELECTOBJECTCOLLECTOR_HPP

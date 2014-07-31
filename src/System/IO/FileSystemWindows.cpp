@@ -294,7 +294,7 @@ Bool RenameFile(const String& From, const String& To)
 
 String WinToUri(const String& WinPath)
 {
-    String result=String("file:///", sizeof("file:///"))+WinPath;
+    String result(String("file:///")+WinPath);
     for (UInt32 i=0;i<result.Length();++i)
     {
         if (result[i]=='\\')
@@ -422,7 +422,7 @@ void FileWatcherObject::Process(const UInt32 Bytes)
                                         pNotify->FileNameLength / sizeof(WCHAR),
                                         szFile, MAX_PATH - 1, NULL, NULL);
             szFile[count] = TEXT('\0');
-            args.Name=szFile;
+            args.Name = String(szFile, count).Replace("\\", "/");
 
             switch(pNotify->Action)
             {

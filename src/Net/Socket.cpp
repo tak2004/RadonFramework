@@ -3,21 +3,23 @@
 #include "RadonFramework/System/Network/NetService.hpp"
 #include "RadonFramework/System/Network/SelectObjectCollector.hpp"
 
-using namespace RadonFramework::Net;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::System::Network;
 
-class RadonFramework::Net::PIMPL
-{
-    public:
-        PIMPL()
-        {
-        }
+namespace RadonFramework { namespace Net {
 
-        NetService::SocketHandler Handler;
-        EndPoint LocalEndPoint;
+class PIMPL
+{
+public:
+    PIMPL()
+    {
+    }
+
+    NetService::SocketHandler Handler;
+    EndPoint LocalEndPoint;
+    Bool Blocking;
 };
 
 AutoPointer<Socket> Socket::Create(NetService::SocketHandler& Handler)
@@ -29,8 +31,8 @@ AutoPointer<Socket> Socket::Create(NetService::SocketHandler& Handler)
     return result;
 }
 
-AutoPointer<Socket> Socket::Create(const AddressFamily::Type Family, 
-    const SocketType::Type Type, SocketError& Error)
+AutoPointer<Socket> Socket::Create(const AddressFamily Family, 
+    const SocketType Type, SocketError& Error)
 {
     AutoPointer<Socket> result;
     // Create a socket resource.
@@ -42,8 +44,8 @@ AutoPointer<Socket> Socket::Create(const AddressFamily::Type Family,
     return result;
 }
 
-AutoPointer<Socket> Socket::Create(const AddressFamily::Type Family, 
-    const SocketType::Type Type)
+AutoPointer<Socket> Socket::Create(const AddressFamily Family, 
+    const SocketType Type)
 {
     AutoPointer<Socket> result;
     // Create a socket resource.
@@ -61,7 +63,7 @@ Socket::Socket()
 
 Socket::~Socket()
 {
-    //Disconnect();
+    Disconnect();
     if (m_Data)
     {
         delete m_Data;
@@ -153,32 +155,20 @@ SocketError RadonFramework::Net::Socket::SendTo( const char *Data, const UInt32 
     }
     return res;
 }
-
-SocketError RadonFramework::Net::Socket::Disconnect()
+*/
+SocketError Socket::Disconnect()
 {
-    SocketError::Type res=SocketError::NoError;
-    if (m_Backend)
+    SocketError res;
+    res.Code = NetService::Shutdown(m_Data->Handler, SocketShutdown::Both);
+    if (res.Code == Error::Ok)
     {
-        res=m_Backend->Shutdown(SocketShutdown::Both);
-        if (res==SocketError::NoError)
-        {
-            res=m_Backend->Close();
-            m_CreateSuccessful=false;
-        }
-    }
-    else
-        res=SocketError::NoBackendAvailable;
+        res.Code = NetService::Close(m_Data->Handler);
+        m_Data->Handler = 0;
+    }    
 
-    if (res!=SocketError::NoError)
-    {
-        SocketErrorArgument arg;
-        arg.Sender=this;
-        arg.Error=res;
-        OnError(arg);
-    }
     return res;
 }
-
+/*
 SocketError::Type RadonFramework::Net::Socket::Shutdown(SocketShutdown::Type How)
 {
     SocketError::Type res=SocketError::NoError;
@@ -342,39 +332,27 @@ Bool RadonFramework::Net::Socket::Working()
 {
     return m_Backend && m_CreateSuccessful;
 }
-
-Bool RadonFramework::Net::Socket::Blocking()
+*/
+Bool Socket::Blocking()const
 {
-    return m_Blocking;
+    return m_Data->Blocking;
 }
 
-SocketError::Type RadonFramework::Net::Socket::Blocking(const Core::Types::Bool NewValue)
+SocketError Socket::Blocking(const Bool NewValue)
 {
-    SocketError::Type res=SocketError::NoError;
-    if (m_Blocking!=NewValue)
+    SocketError res;
+    if(m_Data->Blocking != NewValue)
     {
-        if (m_Backend)
-        {
-            res=m_Backend->SetBlockingMode(NewValue);
-            if (res==SocketError::NoError)
-                m_Blocking=NewValue;
-        }
-        else
-            res=SocketError::NoBackendAvailable;
-    }
-
-    if (res!=SocketError::NoError)
-    {
-        SocketErrorArgument arg;
-        arg.Sender=this;
-        arg.Error=res;
-        OnError(arg);
+        res.Code = NetService::SetBlockingMode(m_Data->Handler, NewValue);
+        if (res.Code==Error::Ok)
+            m_Data->Blocking = NewValue;
     }
     return res;
 }
-*/
 
 void Socket::AssignSelectObjectCollector(SelectObjectCollector& Collector)const
 {
     Collector.Add(m_Data->Handler);
 }
+
+} }

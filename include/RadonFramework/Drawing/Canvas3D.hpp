@@ -8,42 +8,32 @@
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace System { namespace Threading {
+class Mutex;
+} } }
+
+namespace RadonFramework { namespace Drawing {
+
+class ICanvas3D;
+class GraphicDriverInformation;
+
+class Canvas3D:public Forms::Control
 {
-    namespace System
-    {
-        namespace Threading
-        {
-            class Mutex;
-        }
-    }
-    namespace Geometry
-    {
-        class Mesh;
-    }
+public:
+    Canvas3D(Control* Parent);
+    virtual void Resize(const Math::Geometry::Size2D<>& Value);
 
-    namespace Drawing
-    {
-        class ICanvas3D;
-        class GraphicDriverInformation;
+    void Clear();
+    void SwapBuffer();
+    Math::Geometry::Matrix4f& TexturecoordMatrix();
+    const GraphicDriverInformation& GetGraphicDriverInformation();
+    void MakeCurrent();
+    System::Threading::Mutex& GetRenderLock();
+    ICanvas3D const* Backend()const;
+protected:
+    ICanvas3D* m_Backend;
+};
 
-        class Canvas3D:public Forms::Control
-        {
-            public:
-                Canvas3D(Control* Parent);
-                virtual void Resize(const Math::Geometry::Size2D<>& Value);
-
-                void Clear();
-                void SwapBuffer();
-                Math::Geometry::Matrix4f& TexturecoordMatrix();
-                const GraphicDriverInformation& GetGraphicDriverInformation();
-                void MakeCurrent();
-                System::Threading::Mutex& GetRenderLock();
-                ICanvas3D const* Backend()const;
-            protected:
-                ICanvas3D* m_Backend;
-        };
-    }
-}
+} }
 
 #endif // RF_DRAWING_CANVAS3D_HPP

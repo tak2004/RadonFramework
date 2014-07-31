@@ -172,7 +172,7 @@ UInt32 IPAddress::ToUInt32()const
     return *reinterpret_cast<const UInt32*>(&this->m_IP(0));
 }
 
-const AddressFamily::Type IPAddress::AddressFamily()const
+const AddressFamily IPAddress::GetAddressFamily()const
 {
     return m_AddressFamily;
 }
@@ -499,7 +499,7 @@ Bool IPAddress::IsPrivateNetworkAddress( IPAddress IP )
     }
     else
     {
-        LogInfo("Tried to use a not supported IP version(%s,AddressFamily=%u).",IP.ToString().c_str(),IP.AddressFamily());
+        LogInfo("Tried to use a not supported IP version(%s,AddressFamily=%u).",IP.ToString().c_str(),IP.GetAddressFamily());
     }
     return res;
 }

@@ -36,11 +36,11 @@ using namespace RadonFramework::Collections;
 
 class SelectObjectCollector::PIMPL
 {
-    public:
-        fd_set FileDescriptors;
-        fd_set Lookup;
-        Size FDCount;
-        Array<NetService::SocketHandler> Sockets;
+public:
+    fd_set FileDescriptors;
+    fd_set Lookup;
+    Size FDCount;
+    Array<NetService::SocketHandler> Sockets;
 };
 
 SelectObjectCollector::SelectObjectCollector()

@@ -7,16 +7,19 @@
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Net/Error.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Net {        
+
+struct SocketError
 {
-    namespace Net
-    {        
-        struct SocketError
-        {
-            operator RF_Type::Bool();
-            Error::Type Code;
-        };
-    }
-}
+    operator RF_Type::Bool();
+    Error::Type Code;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_NET
+#define RF_SHORTHAND_NAMESPACE_NET
+namespace RF_Net = RadonFramework::Net;
+#endif
 
 #endif // RF_NET_SOCKETERROR_HPP

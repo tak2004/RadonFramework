@@ -10,70 +10,75 @@
 #include <RadonFramework/Net/SocketError.hpp>
 #include <RadonFramework/System/Network/NetService.hpp>
 
-namespace RadonFramework
-{
-    namespace System
-    {
-        namespace Network
-        {
-            class SelectObjectCollector;
-        }
-    }
-    namespace Net
-    {
-        class PIMPL;
+namespace RadonFramework { namespace System { namespace Network {
+
+class SelectObjectCollector;
+
+} } }
+
+namespace RadonFramework { namespace Net {
         
-        class Socket
-        {
-            public:
-                static Memory::AutoPointer<Socket> Create(
-                    System::Network::NetService::SocketHandler& Handler);
+class PIMPL;
+        
+class Socket
+{
+public:
+    static RF_Mem::AutoPointer<Socket> Create(
+        RF_SysNet::NetService::SocketHandler& Handler);
 
-                static Memory::AutoPointer<Socket> Create(
-                    const AddressFamily::Type Family, const SocketType::Type Type);
+    static RF_Mem::AutoPointer<Socket> Create(
+        const AddressFamily Family, const SocketType Type);
                 
-                static Memory::AutoPointer<Socket> Create(
-                    const AddressFamily::Type Family, const SocketType::Type Type,
-                    SocketError& Error);
+    static RF_Mem::AutoPointer<Socket> Create(
+        const AddressFamily Family, const SocketType Type,
+        SocketError& Error);
 
-                ~Socket();
+    ~Socket();
                 
-                SocketError Accept(Memory::AutoPointer<Socket>& Client);
+    SocketError Accept(RF_Mem::AutoPointer<Socket>& Client);
 
-                SocketError Bind(const EndPoint& LocalEP);
+    SocketError Bind(const EndPoint& LocalEP);
                 
-                SocketError Connect(const EndPoint& RemoteEP);
-                SocketError Connect(const IPAddress& IP, 
-                                    const RF_Type::UInt32 Port);
+    SocketError Connect(const EndPoint& RemoteEP);
+    SocketError Connect(const IPAddress& IP, 
+                        const RF_Type::UInt32 Port);
                 
-                //SocketError Disconnect();
+    SocketError Disconnect();
                 
-                SocketError Listen(const RF_Type::UInt32 MaxWaitingClients);
+    SocketError Listen(const RF_Type::UInt32 MaxWaitingClients);
                 
-                SocketError Receive(Memory::AutoPointerArray<RF_Type::UInt8>& Data);
+    SocketError Receive(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
                 
-                SocketError ReceiveFrom(Memory::AutoPointerArray<RF_Type::UInt8>& Data, 
-                                        const EndPoint &RemoteEP);                
+    SocketError ReceiveFrom(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data,
+                            const EndPoint &RemoteEP);                
                 
-                SocketError Send(const RF_Type::UInt8* Data, 
-                                 const RF_Type::UInt32 DataSize,
-                                 RF_Type::UInt32& SendDataSize);
-                /*
-                SocketError::Type SendTo(const Memory::AutoPointerArray<RF_Type::UInt8> Data,
-                                         const RF_Type::UInt32 DataSize, 
-                                         const EndPoint &RemoteEP, 
-                                         Memory::AutoPointer<RF_Type::UInt32>& SendDataSize);
+    SocketError Send(const RF_Type::UInt8* Data, 
+                        const RF_Type::UInt32 DataSize,
+                        RF_Type::UInt32& SendDataSize);
+    /*
+    SocketError::Type SendTo(const RF_Mem::AutoPointerArray<RF_Type::UInt8> Data,
+                                const RF_Type::UInt32 DataSize, 
+                                const EndPoint &RemoteEP, 
+                                RF_Mem::AutoPointer<RF_Type::UInt32>& SendDataSize);
 
-                SocketError::Type Shutdown(const SocketShutdown::Type How);              
-               */
-                void AssignSelectObjectCollector(
-                    System::Network::SelectObjectCollector& Collector)const;
-            protected:
-                PIMPL* m_Data;
-            private:
-                Socket();
-        };
-    }
-}
+    SocketError::Type Shutdown(const SocketShutdown::Type How);              
+    */
+    void AssignSelectObjectCollector(
+        System::Network::SelectObjectCollector& Collector)const;
+
+    SocketError Blocking(const RF_Type::Bool NewValue);
+    RF_Type::Bool Blocking()const;
+protected:
+    PIMPL* m_Data;
+private:
+    Socket();
+};
+    
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_NET
+#define RF_SHORTHAND_NAMESPACE_NET
+namespace RF_Net = RadonFramework::Net;
+#endif
 
 #endif // RF_NET_SOCKET_HPP

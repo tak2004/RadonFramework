@@ -57,7 +57,7 @@ public:
         void* State, TaskStrategy::Type Strategy=TaskStrategy::Concurrent,
         FreeCallback FreeData = DefaultFree);
 
-    /** \brief Disable the queing of new work items and wait till all allready
+    /** \brief Disable the queuing of new work items and wait till all already
       * queued items are processed and freed.
       **/
     void DisableAndWaitTillDone();
@@ -70,6 +70,16 @@ public:
 
     /// Wait till all queued work items are processed and freed.
     void WaitTillDone();
+
+    /// The task scheduler lower the latency but rise the cpu power
+    /// consumption if there are not enough tasks.
+    void LowLatencyPool();
+
+    /// The task scheduler rise the latency but lower the cpu power consumption.
+    void HighLatencyPool();
+
+    /// Returns true if the task scheduler work in low latency mode else false.
+    bool IsLowLatencyPool();
 private:
     RF_Idiom::PImpl<ThreadPool> m_PImpl;
 };

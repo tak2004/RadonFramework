@@ -45,6 +45,7 @@ public:
     ,MaxCompletionPortThreads(0)
     ,MinWorkerThreads(0)
     ,MinCompletionPortThreads(0)
+    ,Latency(10000)
     ,Running(true)
     {
         UInt32 lps = Hardware::GetAvailableLogicalProcessorCount();
@@ -163,6 +164,7 @@ public:
     UInt32 MaxCompletionPortThreads;
     UInt32 MinWorkerThreads;
     UInt32 MinCompletionPortThreads;
+    RF_Time::TimeValue Latency;
     Bool Running;
 };
 
@@ -295,6 +297,21 @@ void ThreadPool::DefaultFree(void* Data)
     delete Data;
 }
 
+void ThreadPool::LowLatencyPool()
+{
+    m_PImpl->Latency = 0;
+}
+
+void ThreadPool::HighLatencyPool()
+{
+    m_PImpl->Latency = 10000;
+}
+
+bool ThreadPool::IsLowLatencyPool()
+{
+    return m_PImpl->Latency == 0;
+}
+
 
 void PoolThread::Run()
 {
@@ -308,7 +325,8 @@ void PoolThread::Run()
         {
             result = Pool->ConcurrentTaskList.Dequeue(task);
 
-            Thread::Sleep(Time::TimeSpan::CreateByTicks(0));
+            if(result == false)
+                Thread::Sleep(Time::TimeSpan::CreateByTicks(Pool->Latency));
         }
 
         if (result)

@@ -4,22 +4,22 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Net {
+
+enum class AddressFamily
 {
-	namespace Net
-	{
-		namespace AddressFamily
-		{
-			enum Type
-			{
-				InterNetwork,//IPv4
-				InterNetwork6,//IPv6
-				Unix,//unix domain socket(very fast, tcp base designed and for local process communication)
-				None,
-				MAX
-			};
-		}
-	}
-}
+	InterNetwork,//IPv4
+	InterNetwork6,//IPv6
+	Unix,//unix domain socket(very fast, tcp base designed and for local process communication)
+	None,
+	MAX
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_NET
+#define RF_SHORTHAND_NAMESPACE_NET
+namespace RF_Net = RadonFramework::Net;
+#endif
 
 #endif

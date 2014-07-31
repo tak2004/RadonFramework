@@ -66,4 +66,113 @@ RF_Type::UInt64& operator<<(RF_Type::UInt64 &Self, const RF_Type::String &Str);
 RF_Type::Float32& operator<<(RF_Type::Float32 &Self, const RF_Type::String &Str);
 RF_Type::Float64& operator<<(RF_Type::Float64 &Self, const RF_Type::String &Str);
 
+struct Murmur
+{
+    static const RF_Type::UInt64 m = 0xc6a4a7935bd1e995;
+    static const int r = 47;
+
+    template<RF_Type::Size N>
+    __forceinline Murmur(const char(&Str)[N])
+    {
+        const RF_Type::Size LEN = N - 1;
+        const RF_Type::Size FIRSTNONLOOPINDEX = (LEN / 8) * 8;
+        RF_Type::UInt64 h = 0 ^ (LEN * m);
+        h = Loop(Str, h);
+
+        switch(LEN & 7)
+        {
+        case 7: h ^= static_cast<RF_Type::UInt64>(Str[FIRSTNONLOOPINDEX + 6]) << 48;
+        case 6: h ^= static_cast<RF_Type::UInt64>(Str[FIRSTNONLOOPINDEX + 5]) << 40;
+        case 5: h ^= static_cast<RF_Type::UInt64>(Str[FIRSTNONLOOPINDEX + 4]) << 32;
+        case 4: h ^= static_cast<RF_Type::UInt64>(Str[FIRSTNONLOOPINDEX + 3]) << 24;
+        case 3: h ^= static_cast<RF_Type::UInt64>(Str[FIRSTNONLOOPINDEX + 2]) << 16;
+        case 2: h ^= static_cast<RF_Type::UInt64>(Str[FIRSTNONLOOPINDEX + 1]) << 8;
+        case 1: h ^= static_cast<RF_Type::UInt64>(Str[FIRSTNONLOOPINDEX]);
+                h *= m;
+        };
+                
+        h ^= h >> r;
+        h *= m;
+        h ^= h >> r;
+        m_Result = h;
+    }
+
+    operator RF_Type::UInt64()
+    {
+        return m_Result;
+    }
+private:
+    RF_Type::UInt64 m_Result;
+
+    template<RF_Type::Size N>
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[N], const RF_Type::UInt64 h)
+    {
+        const RF_Type::Size LEN = N - 1;
+        const RF_Type::Size NEXT8BYTEINDEX = (LEN / 8) * 8;
+        typedef const char(&truncated_str)[LEN - 8];
+        RF_Type::UInt64 result = Loop((truncated_str)Str, h);
+        RF_Type::UInt64 k = *reinterpret_cast<const RF_Type::UInt64*>(&Str[NEXT8BYTEINDEX - 8]);
+        k *= m;
+        k ^= k >> r;
+        k *= m;
+        result ^= k;
+        result *= m;
+        return result;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[9], const RF_Type::UInt64 h)
+    {
+        RF_Type::UInt64 result = h;
+        RF_Type::UInt64 k = *reinterpret_cast<const RF_Type::UInt64*>(Str);
+        k *= m;
+        k ^= k >> r;
+        k *= m;
+        result ^= k;
+        result *= m;
+        return result;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[8], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[7], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[6], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[5], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[4], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[3], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[2], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+
+    __forceinline RF_Type::UInt64 Loop(const char(&Str)[1], const RF_Type::UInt64 h)
+    {
+        return h;
+    }
+};
+
+#define RF_HASH(str) Murmur(str)
+
 #endif // RF_CORE_TYPES_UTILS_STRINGOPERATORS_HPP

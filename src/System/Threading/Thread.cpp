@@ -158,7 +158,8 @@ void ThrImplementationSetName(void* Data, const String& Name)
 
 inline void ThrImplementationSleep(const TimeSpan& Delta)
 {
-    ::Sleep((unsigned int)(Delta.TotalMilliseconds()));
+    unsigned int timeInMiliseconds = Delta.TotalMilliseconds();
+    ::Sleep(timeInMiliseconds);
 }
 
 inline Int64 ThrImplementationPid()

@@ -217,7 +217,10 @@ void MemoryCollectionStream::Insert( const UInt32 Index, AutoPointerArray<UInt8>
 
 void MemoryCollectionStream::Clear()
 {
-    m_Length=0;
+    m_Length = 0;
+    m_CursorIndex = 0;
+    m_CursorOffset = 0;
+    m_Position = 0;
     m_Collection.Clear();
 }
 

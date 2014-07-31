@@ -173,19 +173,22 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
 
 Uri::Uri(const Uri& Copy)
 {
-    m_Path=Copy.m_Path;
-    m_Authority=Copy.m_Authority;
-    m_Fragment=Copy.m_Fragment;
-    m_Host=Copy.m_Host;
-    m_OriginalString=Copy.m_OriginalString;
-    m_Query=Copy.m_Query;
-    m_Scheme=Copy.m_Scheme;
-    m_HostNameType=Copy.m_HostNameType;
-    m_Port=Copy.m_Port;
-    m_IsAbsolute=Copy.m_IsAbsolute;
-    m_IsDefaultPort=Copy.m_IsDefaultPort;
-    m_IsDefaultUser=Copy.m_IsDefaultUser;
-    m_UserEscaped=Copy.m_UserEscaped;
+    m_OriginalString = Copy.m_OriginalString;
+    m_Path = Copy.m_Path;
+    m_Authority = Copy.m_Authority;
+    m_Fragment = Copy.m_Fragment;
+    m_Query = Copy.m_Query;
+    m_Scheme = Copy.m_Scheme;
+    m_SchemeSpecificPart = Copy.m_SchemeSpecificPart;
+    m_Host = Copy.m_Host;
+    m_UserInfo = Copy.m_UserInfo;
+    m_HostNameType = Copy.m_HostNameType;
+    m_Port = Copy.m_Port;
+    m_IsAbsolute = Copy.m_IsAbsolute;
+    m_IsDefaultPort = Copy.m_IsDefaultPort;
+    m_IsDefaultUser = Copy.m_IsDefaultUser;
+    m_UserEscaped = Copy.m_UserEscaped;
+    m_IsOpaque = Copy.m_IsOpaque;
 }
 
 Uri::~Uri()

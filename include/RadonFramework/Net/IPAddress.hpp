@@ -32,7 +32,7 @@ public:
     IPAddress& operator<<(const RF_Type::String& str);
 
     RF_Type::Bool operator==(const IPAddress &Other);
-    const AddressFamily::Type AddressFamily()const;
+    const AddressFamily GetAddressFamily()const;
 
     static IPAddress GetBroadCastAddress(IPAddress IP, IPAddress NetMask);
     static IPAddress GetNetworkAddress(IPAddress IP, IPAddress NetMask);
@@ -56,7 +56,7 @@ protected:
         Hex,
         Number
     };
-    AddressFamily::Type m_AddressFamily;
+    AddressFamily m_AddressFamily;
     Collections::Array<RF_Type::UInt8> m_IP;
 };
 

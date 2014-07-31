@@ -10,7 +10,7 @@ using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Policies;
 using namespace RadonFramework::System::Network;
 
-UInt32 SocketBlockingMode[2]={0,1};
+UInt32 SocketBlockingMode[2]={1,0};
 
 #if defined(RF_WINDOWS)
 /** Define WINVER and NT Version to WIN_VERSION_XP.
@@ -304,7 +304,7 @@ inline Error::Type CloseImplementation(const NetService::SocketHandler Handler)
 }
 #endif // RF_LINUX
 
-int SocketAddressFamily[AddressFamily::MAX]=
+int SocketAddressFamily[static_cast<RF_Type::Size>(AddressFamily::MAX)]=
     {
         AF_INET,
         AF_INET6,
@@ -312,7 +312,7 @@ int SocketAddressFamily[AddressFamily::MAX]=
         0
     };
 
-int SocketSocketType[SocketType::MAX]=
+int SocketSocketType[static_cast<RF_Type::Size>(SocketType::MAX)] =
     {
         SOCK_DGRAM,
         SOCK_STREAM,
@@ -320,7 +320,7 @@ int SocketSocketType[SocketType::MAX]=
         0
     };
 
-int SocketProtocolType[SocketType::MAX]=
+int SocketProtocolType[static_cast<RF_Type::Size>(SocketType::MAX)] =
     {
         IPPROTO_UDP,
         IPPROTO_TCP,
@@ -328,7 +328,7 @@ int SocketProtocolType[SocketType::MAX]=
         0
     };
 
-int SockOptionLevel[SocketOptionLevel::MAX]=
+int SockOptionLevel[static_cast<RF_Type::Size>(SocketOptionLevel::MAX)] =
     {
         0,//Unset
         SOL_SOCKET,//Socket
@@ -339,7 +339,7 @@ int SockOptionLevel[SocketOptionLevel::MAX]=
     };
 
 //This assign the OptionName to the right OptionLevel types.
-SocketOptionLevel::Type SocketOptionAviableLevel[SocketOptionName::MAX]=
+SocketOptionLevel::Type SocketOptionAviableLevel[static_cast<RF_Type::Size>(SocketOptionName::MAX)] =
     {
         SocketOptionLevel::Unset,//Unset
         SocketOptionLevel::Socket,//Debug
@@ -462,11 +462,11 @@ Error::Type NetService::Accept(const NetService::SocketHandler& Listener,
 }
 
 Error::Type NetService::Create(NetService::SocketHandler& Handler,
-    const AddressFamily::Type Family, const SocketType::Type Type)
+    const AddressFamily Family, const SocketType Type)
 {
-    int af=SocketAddressFamily[Family];
-    int st=SocketSocketType[Type];
-    int pt=SocketProtocolType[Type];
+    int af = SocketAddressFamily[static_cast<RF_Type::Size>(Family)];
+    int st = SocketSocketType[static_cast<RF_Type::Size>(Type)];
+    int pt = SocketProtocolType[static_cast<RF_Type::Size>(Type)];
     int sock=SOCKET_ERROR;
 
     sock=static_cast<int>(socket(af,st,pt));
@@ -484,11 +484,11 @@ Error::Type NetService::Bind(const NetService::SocketHandler Handler,
 {
     sockaddr_in addrIn;
     int addrSize=sizeof(sockaddr_in);
-    addrIn.sin_family=SocketAddressFamily[LocalEP.Address().AddressFamily()];
+    addrIn.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(LocalEP.Address().GetAddressFamily())];
     addrIn.sin_port=htons(LocalEP.Port());
     Array<UInt8> addr=LocalEP.Address().GetAddressBytes();
 
-    switch(LocalEP.Address().AddressFamily())
+    switch(LocalEP.Address().GetAddressFamily())
     {
         case AddressFamily::InterNetwork:
             addrIn.sin_addr.s_addr=htonl(*reinterpret_cast<u_long*>(&addr(0)));
@@ -516,7 +516,7 @@ Error::Type NetService::Connect(const NetService::SocketHandler Handler,
 
     RF_Type::String str=RemoteEP.Address().ToString();
     addrIn.sin_addr.s_addr=inet_addr(str.c_str());
-    addrIn.sin_family=SocketAddressFamily[RemoteEP.Address().AddressFamily()];
+    addrIn.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
     addrIn.sin_port=htons(RemoteEP.Port());
 
     if (connect(Handler,reinterpret_cast<sockaddr*>(&addrIn),addrSize)!=SOCKET_ERROR)
@@ -561,11 +561,11 @@ Error::Type NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     char Buffer[2048];
     sockaddr_in src;
     socklen_t addrSize=sizeof(sockaddr_in);
-    src.sin_family=SocketAddressFamily[RemoteEP.Address().AddressFamily()];
+    src.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
     src.sin_port=htons(RemoteEP.Port());
     Array<UInt8> addr=RemoteEP.Address().GetAddressBytes();
 
-    switch(RemoteEP.Address().AddressFamily())
+    switch(RemoteEP.Address().GetAddressFamily())
     {
     case AddressFamily::InterNetwork:
         src.sin_addr.s_addr=htonl(*reinterpret_cast<u_long*>(&addr(0)));
@@ -608,11 +608,11 @@ Error::Type NetService::SendTo(const NetService::SocketHandler Handler,
     const AutoPointerArray<UInt8>& Data, const EndPoint &RemoteEP, UInt32 *SendDataSize)
 {
     sockaddr_in dst;
-    dst.sin_family=SocketAddressFamily[RemoteEP.Address().AddressFamily()];
+    dst.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
     dst.sin_port=htons(RemoteEP.Port());
     Array<UInt8> addr=RemoteEP.Address().GetAddressBytes();
 
-    switch(RemoteEP.Address().AddressFamily())
+    switch(RemoteEP.Address().GetAddressFamily())
     {
     case AddressFamily::InterNetwork:
         dst.sin_addr.s_addr=htonl(*reinterpret_cast<u_long*>(&addr(0)));
