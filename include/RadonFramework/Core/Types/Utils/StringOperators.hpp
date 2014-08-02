@@ -77,7 +77,8 @@ struct Murmur
         const RF_Type::Size LEN = N - 1;
         const RF_Type::Size FIRSTNONLOOPINDEX = (LEN / 8) * 8;
         RF_Type::UInt64 h = 0 ^ (LEN * m);
-        h = Loop(Str, h);
+        typedef const char(&truncated_str)[LEN];
+        h = Loop((truncated_str)Str, h);
 
         switch(LEN & 7)
         {
@@ -107,23 +108,10 @@ private:
     template<RF_Type::Size N>
     __forceinline RF_Type::UInt64 Loop(const char(&Str)[N], const RF_Type::UInt64 h)
     {
-        const RF_Type::Size LEN = N - 1;
-        const RF_Type::Size NEXT8BYTEINDEX = (LEN / 8) * 8;
-        typedef const char(&truncated_str)[LEN - 8];
+        static const RF_Type::Size NEXT8BYTEINDEX = N & ~7;
+        typedef const char(&truncated_str)[N - 8];
         RF_Type::UInt64 result = Loop((truncated_str)Str, h);
-        RF_Type::UInt64 k = *reinterpret_cast<const RF_Type::UInt64*>(&Str[NEXT8BYTEINDEX - 8]);
-        k *= m;
-        k ^= k >> r;
-        k *= m;
-        result ^= k;
-        result *= m;
-        return result;
-    }
-
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[9], const RF_Type::UInt64 h)
-    {
-        RF_Type::UInt64 result = h;
-        RF_Type::UInt64 k = *reinterpret_cast<const RF_Type::UInt64*>(Str);
+        RF_Type::UInt64 k = *reinterpret_cast<const RF_Type::UInt64*>(&Str[NEXT8BYTEINDEX-8]);
         k *= m;
         k ^= k >> r;
         k *= m;
@@ -134,7 +122,14 @@ private:
 
     __forceinline RF_Type::UInt64 Loop(const char(&Str)[8], const RF_Type::UInt64 h)
     {
-        return h;
+        RF_Type::UInt64 result = h;
+        RF_Type::UInt64 k = *reinterpret_cast<const RF_Type::UInt64*>(Str);
+        k *= m;
+        k ^= k >> r;
+        k *= m;
+        result ^= k;
+        result *= m;
+        return result;
     }
 
     __forceinline RF_Type::UInt64 Loop(const char(&Str)[7], const RF_Type::UInt64 h)

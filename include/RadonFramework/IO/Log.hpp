@@ -87,6 +87,18 @@ inline void LogDebug(char* Str,...)
     }
 }
 
+inline void LogDebugBuild(char* Str, ...)
+{
+#ifdef RF_DEBUG
+    RF_Mem::AutoPointer<RF_Type::String> ptr(new RF_Type::String());
+    va_list argp;
+    va_start(argp, Str);
+    RF_Type::String str = RF_Type::String::FormatStrict(RF_Type::String::UnsafeStringCreation(Str), argp);
+    va_end(argp);
+    ptr->Swap(str); Log::WriteDebug(ptr);
+#endif
+}
+
 } }
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO

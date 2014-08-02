@@ -30,6 +30,7 @@ public:
     T& Peek();
     const T& Peek()const;
     RF_Type::UInt32 Size()const;
+    T operator[](const RF_Type::Size Index)const;
 protected:
     class Node
     {
@@ -52,6 +53,18 @@ protected:
     Node *m_Data;
     Node *m_Top;
 };
+
+template <typename T>
+T Stack<T>::operator[](const RF_Type::Size Index) const
+{
+    Assert(m_Size>Index, "Out of bound.");
+    Node* p = m_Data;
+    RF_Type::Size count = Index;
+    for(;count > 0; p = p->GetNext(), --count)
+    {
+    }
+    return p->Value();
+}
 
 template<typename T>
 Stack<T>::Node::Node()

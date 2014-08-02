@@ -28,9 +28,9 @@ public:
 
     void Update(const UInt8 * Data, UInt32 Size)
     {
-        RF_Type::Size size = m_Data.Count();
-        m_Data.Resize(m_Data.Count() + Size);
-        RF_SysMem::Copy(&m_Data(size), Data, Size);
+        RF_Type::Size bufferSize = m_Data.Count();
+        m_Data.Resize(bufferSize + Size);
+        RF_SysMem::Copy(&m_Data(bufferSize), Data, Size);
     }
 
     void Final()
