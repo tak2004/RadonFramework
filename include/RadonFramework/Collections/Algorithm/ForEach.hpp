@@ -13,6 +13,10 @@ namespace RadonFramework { namespace Collections { namespace Algorithm {
 template <class C, typename FUNCTION>
 struct ForEachEnumeratorTaskData
 {
+    explicit ForEachEnumeratorTaskData(FUNCTION function)
+    :Function(function)
+    {        
+    }
     FUNCTION Function;
     typename C::EnumeratorType Enumeable;
     RF_Type::UInt32 From;
@@ -60,9 +64,8 @@ void ForEach(const C& Enumerable, FUNCTION Function)
     {
         if(elements <= i)
             extra = 0;
-        auto* task = new ForEachEnumeratorTaskData<C, FUNCTION>;
+        auto* task = new ForEachEnumeratorTaskData<C, FUNCTION>(Function);
         task->Enumeable = enumerator;
-        task->Function = Function;
         task->From = offset;
         task->Steps = jobsPerWorker + extra;
         task->OverallWork = &overallWork; 

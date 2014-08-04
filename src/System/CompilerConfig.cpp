@@ -6,4 +6,4 @@ using namespace RadonFramework::Core::Common;
 
 const Endian::Type CompilerConfig::Endianness=Endian::Little;
 const MemoryArchitecture::Type CompilerConfig::CompiledForArchitecture=MemoryArchitecture::_64Bit;
-const Version CompilerConfig::FrameworkVersion=Version(0,3,0,54);
+const Version CompilerConfig::FrameworkVersion=Version(0,3,0,55);
