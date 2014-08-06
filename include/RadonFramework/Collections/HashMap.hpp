@@ -34,6 +34,7 @@ private:
     typedef typename LOGIC::Type hm;
 public:
     typedef typename hm::iterator Iterator;
+    typedef typename hm::const_iterator ConstIterator;
     void Clear(){
         m_HashMap.clear();
     }
@@ -54,6 +55,10 @@ public:
     }
     Iterator Begin(){
         return m_HashMap.begin();
+    }
+    ConstIterator Find(const KEYTYPE& Key)const
+    {
+        return m_HashMap.find(Key);
     }
     Iterator End(){
         return m_HashMap.end();

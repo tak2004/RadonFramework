@@ -26,6 +26,9 @@ struct PluginInfo
     typedef double (*GetNumberFunction)(void* vm, int stackIndex);
     typedef const char* (*GetStringFunction)(void* vm, int stackIndex);
     typedef int (*GetIntegerFunction)(void* vm, int stackIndex);
+    typedef void (*PushNumberFunction)(void* vm, double value);
+    typedef void (*PushStringFunction)(void* vm, const char* value);
+    typedef void (*PushIntegerFunction)(void* vm, int value);
 
     PluginVersion Version;
     char Name[32];
@@ -40,6 +43,9 @@ struct PluginInfo
     GetNumberFunction GetNumber;
     GetStringFunction GetString;
     GetIntegerFunction GetInteger;
+    PushNumberFunction PushNumber;
+    PushStringFunction PushString;
+    PushIntegerFunction PushInteger;
 };
 
 typedef void (*InitPlugin)(PluginInfo& Info);
