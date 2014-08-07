@@ -1,8 +1,5 @@
 #ifndef RF_DRAWING_NATIVESHAPE_HPP
 #define RF_DRAWING_NATIVESHAPE_HPP
-#if _MSC_VER > 1000
-#pragma once
-#endif
 
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Memory/PointerID.hpp>
