@@ -6,7 +6,7 @@ using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Core::Types;
 
 UInt8 OpenGLMachine::Registers[OpenGLMachine::RegisterCount*OpenGLMachine::RegisterSize];
-UInt8 OpenGLMachine::FunctionParameterCount[GLFunctions::MAX]={
+const UInt8 OpenGLMachine::FunctionParameterCount[GLFunctions::MAX]={
 	2, 2, 1, 2, 3, 1, 2, 1, 2, 2, 3, 1, 3, 2, 3, 5, 4, 6, 3, 4, 2, 7, 3, 1, 2,
 	2, 3, 2, 3, 2, 1, 4, 5, 7, 4, 1, 2, 3, 2, 2, 4, 5, 3, 10, 4, 4, 4, 1, 3, 1,
 	2, 1, 4, 5, 7, 4, 3, 3, 3, 4, 1, 1, 1, 1, 5, 11, 1, 3, 2, 3, 1, 3, 1, 3, 1,

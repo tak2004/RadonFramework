@@ -1088,8 +1088,114 @@ namespace RadonFramework
 				static const RF_Type::UInt32 RegisterSize=8;
 				static const RF_Type::UInt32 RegisterCount=15;
 				static RF_Type::UInt8 Registers[RegisterCount*RegisterSize];
-				static RF_Type::UInt8 FunctionParameterCount[GLFunctions::MAX];
+				static const RF_Type::UInt8 FunctionParameterCount[GLFunctions::MAX];
 		};
+
+        template<typename T>
+        struct GetOpCode
+        {
+            static const GLOpCode::Type COMMAND[OpenGLMachine::RegisterCount];
+        };
+
+        template<typename T>
+        const GLOpCode::Type GetOpCode<T>::COMMAND[] = {
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX,
+            GLOpCode::MAX
+        };
+
+        template<typename T>
+        struct GetOpCodeTrait
+        {
+            enum { SUPPORTED = false };
+        };
+
+        template<>
+        const GLOpCode::Type GetOpCode<RF_Type::Float32>::COMMAND[] = {
+            GLOpCode::MoveFloat32Reg0,
+            GLOpCode::MoveFloat32Reg1,
+            GLOpCode::MoveFloat32Reg2,
+            GLOpCode::MoveFloat32Reg3,
+            GLOpCode::MoveFloat32Reg4,
+            GLOpCode::MoveFloat32Reg5,
+            GLOpCode::MoveFloat32Reg6,
+            GLOpCode::MoveFloat32Reg7,
+            GLOpCode::MoveFloat32Reg8,
+            GLOpCode::MoveFloat32Reg9,
+            GLOpCode::MoveFloat32Reg10,
+            GLOpCode::MoveFloat32Reg11,
+            GLOpCode::MoveFloat32Reg12,
+            GLOpCode::MoveFloat32Reg13,
+            GLOpCode::MoveFloat32Reg14
+        };
+
+        template<>
+        struct GetOpCodeTrait<RF_Type::Float32>
+        {
+            enum { SUPPORTED = true };
+        };
+
+        template<>
+        const GLOpCode::Type GetOpCode<RF_Type::UInt32>::COMMAND[] = {
+            GLOpCode::MoveUInt32Reg0,
+            GLOpCode::MoveUInt32Reg1,
+            GLOpCode::MoveUInt32Reg2,
+            GLOpCode::MoveUInt32Reg3,
+            GLOpCode::MoveUInt32Reg4,
+            GLOpCode::MoveUInt32Reg5,
+            GLOpCode::MoveUInt32Reg6,
+            GLOpCode::MoveUInt32Reg7,
+            GLOpCode::MoveUInt32Reg8,
+            GLOpCode::MoveUInt32Reg9,
+            GLOpCode::MoveUInt32Reg10,
+            GLOpCode::MoveUInt32Reg11,
+            GLOpCode::MoveUInt32Reg12,
+            GLOpCode::MoveUInt32Reg13,
+            GLOpCode::MoveUInt32Reg14
+        };
+
+        template<>
+        struct GetOpCodeTrait<RF_Type::UInt32>
+        {
+            enum { SUPPORTED = true };
+        };
+
+        template<>
+        const GLOpCode::Type GetOpCode<RF_Type::Int32>::COMMAND[] = {
+            GLOpCode::MoveInt32Reg0,
+            GLOpCode::MoveInt32Reg1,
+            GLOpCode::MoveInt32Reg2,
+            GLOpCode::MoveInt32Reg3,
+            GLOpCode::MoveInt32Reg4,
+            GLOpCode::MoveInt32Reg5,
+            GLOpCode::MoveInt32Reg6,
+            GLOpCode::MoveInt32Reg7,
+            GLOpCode::MoveInt32Reg8,
+            GLOpCode::MoveInt32Reg9,
+            GLOpCode::MoveInt32Reg10,
+            GLOpCode::MoveInt32Reg11,
+            GLOpCode::MoveInt32Reg12,
+            GLOpCode::MoveInt32Reg13,
+            GLOpCode::MoveInt32Reg14
+        };
+
+        template<>
+        struct GetOpCodeTrait<RF_Type::Int32>
+        {
+            enum { SUPPORTED = true };
+        };
 	}
 }
 #endif // RF_DRAWING_OPENGLMACHINE_HPP

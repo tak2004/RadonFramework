@@ -2,35 +2,85 @@
 #define RF_DRAWING_COMMANDBUFFER_HPP
 
 #include <RadonFramework/Drawing/OpenGLMachine.hpp>
+#include <RadonFramework/IO/MemoryCollectionStream.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
 class CommandBuffer
 {
 public:
-    template<typename T>
-    class OpCode
+    enum { CHUNKSIZE = 4096 };
+
+    template<GLFunctions::Type FUNC, typename... ARGS>
+    void Call(ARGS... Parameters)
     {
-    public:
-        OpCode(GLOpCode::Type Which, const T& Value);
-    private:
-        OpCode()delete;
-    protected:
-        GLOpCode::Type Which;
-        T Value;
-    };
+        static const RF_Type::UInt64 PARAMETERS = sizeof...(ARGS);
+        Assert(OpenGLMachine::FunctionParameterCount[FUNC] == PARAMETERS, "");
 
-    CommandBuffer& operator << (GLFunctions::Type Function);
+        if(m_ScratchPad.Length() - m_ScratchPad.Position() < (sizeof(RF_Type::UInt64) + sizeof(RF_Type::UInt16)) * (PARAMETERS + 1))
+        {
+            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+            m_ScratchPad.AddLast(newMemoryBlock);
+        }
+
+        Resolve(Parameters...);
+        m_ScratchPad.Write<RF_Type::UInt16>(FUNC);
+    }
+
+    template<GLFunctions::Type FUNC>
+    void Call()
+    {
+        Assert(OpenGLMachine::FunctionParameterCount[FUNC] == 0, "");
+
+        if(m_ScratchPad.Length() - m_ScratchPad.Position() < sizeof(RF_Type::UInt16))
+        {
+            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+            m_ScratchPad.AddLast(newMemoryBlock);
+        }
+
+        m_ScratchPad.Write<RF_Type::UInt16>(FUNC);
+    }
+
+    RF_Type::Bool Finalize()
+    {
+        RF_Type::Bool result = false;
+        m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(new RF_Type::UInt8[m_ScratchPad.Position()], m_ScratchPad.Position());
+        m_ScratchPad.Read(m_Final.Get(), 0, m_ScratchPad.Position());
+        return result;
+    }
+
+    const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data()const
+    {
+        return m_Final;
+    }
+private:
+    RF_IO::MemoryCollectionStream m_ScratchPad;
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Final;
 
     template<typename T>
-    CommandBuffer& operator << (OpCode<T>& OpCodeObject);
-};
+    void Resolve(T Value)
+    {
+        static_assert(GetOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
+        static_assert(OpenGLMachine::RegisterCount >= 1, "There is no Move command for this amount of parameter!");
+        static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[0];
 
-template<typename T>
-CommandBuffer& CommandBuffer::operator<<(OpCode<T>& OpCodeObject)
-{
-    return this
-}
+        m_ScratchPad.Write<RF_Type::UInt16>(opCode);
+        m_ScratchPad.Write(Value);
+    }
+
+    template<typename T, typename... ARGS>
+    void Resolve(T First, ARGS... Rest)
+    {
+        static_assert(GetOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
+        static const RF_Type::UInt64 PARAMETERS = sizeof...(ARGS);
+        static_assert(OpenGLMachine::RegisterCount > PARAMETERS, "There is no Move command for this amount of parameter!");
+        static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[PARAMETERS];
+
+        Resolve(Rest...);
+        m_ScratchPad.Write<RF_Type::UInt16>(opCode);
+        m_ScratchPad.Write(First);
+    }
+};
 
 } }
 
