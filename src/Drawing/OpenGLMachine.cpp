@@ -229,7 +229,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::BufferData:
 		glBufferData(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizeiptr*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16),
+			*reinterpret_cast<const void **>(Registers+16),
 			*reinterpret_cast<GLenum*>(Registers+24)); break;
 	case GLFunctions::BufferStorage:
 		glBufferStorage(*reinterpret_cast<GLenum*>(Registers),
@@ -240,13 +240,13 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glBufferSubData(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLintptr*>(Registers+8),
 			*reinterpret_cast<GLsizeiptr*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24)); break;
+			*reinterpret_cast<const void **>(Registers+24)); break;
 	case GLFunctions::CallList:
 		glCallList(*reinterpret_cast<GLuint*>(Registers)); break;
 	case GLFunctions::CallLists:
 		glCallLists(*reinterpret_cast<GLsizei*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16)); break;
+			*reinterpret_cast<const void **>(Registers+16)); break;
 	case GLFunctions::CheckFramebufferStatus:
 		glCheckFramebufferStatus(*reinterpret_cast<GLenum*>(Registers)); break;
 	case GLFunctions::ClampColor:
@@ -464,7 +464,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glColorPointer(*reinterpret_cast<GLint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
 			*reinterpret_cast<GLsizei*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24)); break;
+			*reinterpret_cast<const void **>(Registers+24)); break;
 	case GLFunctions::CompileShader:
 		glCompileShader(*reinterpret_cast<GLuint*>(Registers)); break;
 	case GLFunctions::CompressedTexImage1D:
@@ -474,7 +474,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+24),
 			*reinterpret_cast<GLint*>(Registers+32),
 			*reinterpret_cast<GLsizei*>(Registers+40),
-			*reinterpret_cast<const GLvoid **>(Registers+48)); break;
+			*reinterpret_cast<const void **>(Registers+48)); break;
 	case GLFunctions::CompressedTexImage2D:
 		glCompressedTexImage2D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -483,7 +483,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+32),
 			*reinterpret_cast<GLint*>(Registers+40),
 			*reinterpret_cast<GLsizei*>(Registers+48),
-			*reinterpret_cast<const GLvoid **>(Registers+56)); break;
+			*reinterpret_cast<const void **>(Registers+56)); break;
 	case GLFunctions::CompressedTexImage3D:
 		glCompressedTexImage3D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -493,7 +493,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+40),
 			*reinterpret_cast<GLint*>(Registers+48),
 			*reinterpret_cast<GLsizei*>(Registers+56),
-			*reinterpret_cast<const GLvoid **>(Registers+64)); break;
+			*reinterpret_cast<const void **>(Registers+64)); break;
 	case GLFunctions::CompressedTexSubImage1D:
 		glCompressedTexSubImage1D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -501,7 +501,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+24),
 			*reinterpret_cast<GLenum*>(Registers+32),
 			*reinterpret_cast<GLsizei*>(Registers+40),
-			*reinterpret_cast<const GLvoid **>(Registers+48)); break;
+			*reinterpret_cast<const void **>(Registers+48)); break;
 	case GLFunctions::CompressedTexSubImage2D:
 		glCompressedTexSubImage2D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -511,7 +511,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+40),
 			*reinterpret_cast<GLenum*>(Registers+48),
 			*reinterpret_cast<GLsizei*>(Registers+56),
-			*reinterpret_cast<const GLvoid **>(Registers+64)); break;
+			*reinterpret_cast<const void **>(Registers+64)); break;
 	case GLFunctions::CompressedTexSubImage3D:
 		glCompressedTexSubImage3D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -523,7 +523,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+56),
 			*reinterpret_cast<GLenum*>(Registers+64),
 			*reinterpret_cast<GLsizei*>(Registers+72),
-			*reinterpret_cast<const GLvoid **>(Registers+80)); break;
+			*reinterpret_cast<const void **>(Registers+80)); break;
 	case GLFunctions::CopyBufferSubData:
 		glCopyBufferSubData(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
@@ -700,7 +700,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+16)); break;
 	case GLFunctions::DrawArraysIndirect:
 		glDrawArraysIndirect(*reinterpret_cast<GLenum*>(Registers),
-			*reinterpret_cast<const GLvoid **>(Registers+8)); break;
+			*reinterpret_cast<const void **>(Registers+8)); break;
 	case GLFunctions::DrawArraysInstanced:
 		glDrawArraysInstanced(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -721,22 +721,22 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glDrawElements(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24)); break;
+			*reinterpret_cast<const void **>(Registers+24)); break;
 	case GLFunctions::DrawElementsBaseVertex:
 		glDrawElementsBaseVertex(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24),
+			*reinterpret_cast<const void **>(Registers+24),
 			*reinterpret_cast<GLint*>(Registers+32)); break;
 	case GLFunctions::DrawElementsIndirect:
 		glDrawElementsIndirect(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16)); break;
+			*reinterpret_cast<const void **>(Registers+16)); break;
 	case GLFunctions::DrawElementsInstanced:
 		glDrawElementsInstanced(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24),
+			*reinterpret_cast<const void **>(Registers+24),
 			*reinterpret_cast<GLsizei*>(Registers+32)); break;
 	case GLFunctions::DrawElementsInstancedBaseInstance:
 		glDrawElementsInstancedBaseInstance(*reinterpret_cast<GLenum*>(Registers),
@@ -749,7 +749,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glDrawElementsInstancedBaseVertex(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24),
+			*reinterpret_cast<const void **>(Registers+24),
 			*reinterpret_cast<GLsizei*>(Registers+32),
 			*reinterpret_cast<GLint*>(Registers+40)); break;
 	case GLFunctions::DrawElementsInstancedBaseVertexBaseInstance:
@@ -765,21 +765,21 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
 			*reinterpret_cast<GLenum*>(Registers+24),
-			*reinterpret_cast<const GLvoid **>(Registers+32)); break;
+			*reinterpret_cast<const void **>(Registers+32)); break;
 	case GLFunctions::DrawRangeElements:
 		glDrawRangeElements(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLuint*>(Registers+8),
 			*reinterpret_cast<GLuint*>(Registers+16),
 			*reinterpret_cast<GLsizei*>(Registers+24),
 			*reinterpret_cast<GLenum*>(Registers+32),
-			*reinterpret_cast<const GLvoid **>(Registers+40)); break;
+			*reinterpret_cast<const void **>(Registers+40)); break;
 	case GLFunctions::DrawRangeElementsBaseVertex:
 		glDrawRangeElementsBaseVertex(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLuint*>(Registers+8),
 			*reinterpret_cast<GLuint*>(Registers+16),
 			*reinterpret_cast<GLsizei*>(Registers+24),
 			*reinterpret_cast<GLenum*>(Registers+32),
-			*reinterpret_cast<const GLvoid **>(Registers+40),
+			*reinterpret_cast<const void **>(Registers+40),
 			*reinterpret_cast<GLint*>(Registers+48)); break;
 	case GLFunctions::DrawTransformFeedback:
 		glDrawTransformFeedback(*reinterpret_cast<GLenum*>(Registers),
@@ -801,7 +801,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glEdgeFlag(*reinterpret_cast<GLboolean*>(Registers)); break;
 	case GLFunctions::EdgeFlagPointer:
 		glEdgeFlagPointer(*reinterpret_cast<GLsizei*>(Registers),
-			*reinterpret_cast<const GLvoid **>(Registers+8)); break;
+			*reinterpret_cast<const void **>(Registers+8)); break;
 	case GLFunctions::EdgeFlagv:
 		glEdgeFlagv(*reinterpret_cast<const GLboolean **>(Registers)); break;
 	case GLFunctions::Enable:
@@ -877,7 +877,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::FogCoordPointer:
 		glFogCoordPointer(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16)); break;
+			*reinterpret_cast<const void **>(Registers+16)); break;
 	case GLFunctions::FogCoordd:
 		glFogCoordd(*reinterpret_cast<GLdouble*>(Registers)); break;
 	case GLFunctions::FogCoorddv:
@@ -1067,19 +1067,19 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::GetBufferPointerv:
 		glGetBufferPointerv(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
-			*reinterpret_cast<GLvoid ***>(Registers+16)); break;
+			*reinterpret_cast<void ***>(Registers+16)); break;
 	case GLFunctions::GetBufferSubData:
 		glGetBufferSubData(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLintptr*>(Registers+8),
 			*reinterpret_cast<GLsizeiptr*>(Registers+16),
-			*reinterpret_cast<GLvoid **>(Registers+24)); break;
+			*reinterpret_cast<void **>(Registers+24)); break;
 	case GLFunctions::GetClipPlane:
 		glGetClipPlane(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLdouble **>(Registers+8)); break;
 	case GLFunctions::GetCompressedTexImage:
 		glGetCompressedTexImage(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
-			*reinterpret_cast<GLvoid **>(Registers+16)); break;
+			*reinterpret_cast<void **>(Registers+16)); break;
 	case GLFunctions::GetDebugMessageLog:
 		glGetDebugMessageLog(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
@@ -1200,7 +1200,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLushort **>(Registers+8)); break;
 	case GLFunctions::GetPointerv:
 		glGetPointerv(*reinterpret_cast<GLenum*>(Registers),
-			*reinterpret_cast<GLvoid ***>(Registers+8)); break;
+			*reinterpret_cast<void ***>(Registers+8)); break;
 	case GLFunctions::GetPolygonStipple:
 		glGetPolygonStipple(*reinterpret_cast<GLubyte **>(Registers)); break;
 	case GLFunctions::GetProgramBinary:
@@ -1208,7 +1208,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+8),
 			*reinterpret_cast<GLsizei **>(Registers+16),
 			*reinterpret_cast<GLenum **>(Registers+24),
-			*reinterpret_cast<GLvoid **>(Registers+32)); break;
+			*reinterpret_cast<void **>(Registers+32)); break;
 	case GLFunctions::GetProgramInfoLog:
 		glGetProgramInfoLog(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
@@ -1373,7 +1373,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLint*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
 			*reinterpret_cast<GLenum*>(Registers+24),
-			*reinterpret_cast<GLvoid **>(Registers+32)); break;
+			*reinterpret_cast<void **>(Registers+32)); break;
 	case GLFunctions::GetTexLevelParameterfv:
 		glGetTexLevelParameterfv(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -1454,7 +1454,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::GetVertexAttribPointerv:
 		glGetVertexAttribPointerv(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
-			*reinterpret_cast<GLvoid ***>(Registers+16)); break;
+			*reinterpret_cast<void ***>(Registers+16)); break;
 	case GLFunctions::GetVertexAttribdv:
 		glGetVertexAttribdv(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
@@ -1475,7 +1475,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::IndexPointer:
 		glIndexPointer(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16)); break;
+			*reinterpret_cast<const void **>(Registers+16)); break;
 	case GLFunctions::Indexd:
 		glIndexd(*reinterpret_cast<GLdouble*>(Registers)); break;
 	case GLFunctions::Indexdv:
@@ -1501,7 +1501,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::InterleavedArrays:
 		glInterleavedArrays(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16)); break;
+			*reinterpret_cast<const void **>(Registers+16)); break;
 	case GLFunctions::InvalidateBufferData:
 		glInvalidateBufferData(*reinterpret_cast<GLuint*>(Registers)); break;
 	case GLFunctions::InvalidateBufferSubData:
@@ -1724,13 +1724,13 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glMultiDrawElements(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<const GLsizei **>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
-			*reinterpret_cast<const GLvoid *const**>(Registers+24),
+			*reinterpret_cast<const void *const**>(Registers+24),
 			*reinterpret_cast<GLsizei*>(Registers+32)); break;
 	case GLFunctions::MultiDrawElementsBaseVertex:
 		glMultiDrawElementsBaseVertex(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<const GLsizei **>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
-			*reinterpret_cast<const GLvoid *const**>(Registers+24),
+			*reinterpret_cast<const void *const**>(Registers+24),
 			*reinterpret_cast<GLsizei*>(Registers+32),
 			*reinterpret_cast<const GLint **>(Registers+40)); break;
 	case GLFunctions::MultiDrawElementsIndirect:
@@ -1933,7 +1933,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::NormalPointer:
 		glNormalPointer(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16)); break;
+			*reinterpret_cast<const void **>(Registers+16)); break;
 	case GLFunctions::ObjectLabel:
 		glObjectLabel(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLuint*>(Registers+8),
@@ -2028,7 +2028,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 	case GLFunctions::ProgramBinary:
 		glProgramBinary(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
-			*reinterpret_cast<const GLvoid **>(Registers+16),
+			*reinterpret_cast<const void **>(Registers+16),
 			*reinterpret_cast<GLsizei*>(Registers+24)); break;
 	case GLFunctions::ProgramParameteri:
 		glProgramParameteri(*reinterpret_cast<GLuint*>(Registers),
@@ -2409,7 +2409,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+24),
 			*reinterpret_cast<GLenum*>(Registers+32),
 			*reinterpret_cast<GLenum*>(Registers+40),
-			*reinterpret_cast<GLvoid **>(Registers+48)); break;
+			*reinterpret_cast<void **>(Registers+48)); break;
 	case GLFunctions::Rectd:
 		glRectd(*reinterpret_cast<GLdouble*>(Registers),
 			*reinterpret_cast<GLdouble*>(Registers+8),
@@ -2583,7 +2583,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glSecondaryColorPointer(*reinterpret_cast<GLint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
 			*reinterpret_cast<GLsizei*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24)); break;
+			*reinterpret_cast<const void **>(Registers+24)); break;
 	case GLFunctions::SelectBuffer:
 		glSelectBuffer(*reinterpret_cast<GLsizei*>(Registers),
 			*reinterpret_cast<GLuint **>(Registers+8)); break;
@@ -2593,7 +2593,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glShaderBinary(*reinterpret_cast<GLsizei*>(Registers),
 			*reinterpret_cast<const GLuint **>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24),
+			*reinterpret_cast<const void **>(Registers+24),
 			*reinterpret_cast<GLsizei*>(Registers+32)); break;
 	case GLFunctions::ShaderSource:
 		glShaderSource(*reinterpret_cast<GLuint*>(Registers),
@@ -2753,7 +2753,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glTexCoordPointer(*reinterpret_cast<GLint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
 			*reinterpret_cast<GLsizei*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24)); break;
+			*reinterpret_cast<const void **>(Registers+24)); break;
 	case GLFunctions::TexEnvf:
 		glTexEnvf(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
@@ -2802,7 +2802,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLint*>(Registers+32),
 			*reinterpret_cast<GLenum*>(Registers+40),
 			*reinterpret_cast<GLenum*>(Registers+48),
-			*reinterpret_cast<const GLvoid **>(Registers+56)); break;
+			*reinterpret_cast<const void **>(Registers+56)); break;
 	case GLFunctions::TexImage2D:
 		glTexImage2D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -2812,7 +2812,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLint*>(Registers+40),
 			*reinterpret_cast<GLenum*>(Registers+48),
 			*reinterpret_cast<GLenum*>(Registers+56),
-			*reinterpret_cast<const GLvoid **>(Registers+64)); break;
+			*reinterpret_cast<const void **>(Registers+64)); break;
 	case GLFunctions::TexImage2DMultisample:
 		glTexImage2DMultisample(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
@@ -2830,7 +2830,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLint*>(Registers+48),
 			*reinterpret_cast<GLenum*>(Registers+56),
 			*reinterpret_cast<GLenum*>(Registers+64),
-			*reinterpret_cast<const GLvoid **>(Registers+72)); break;
+			*reinterpret_cast<const void **>(Registers+72)); break;
 	case GLFunctions::TexImage3DMultisample:
 		glTexImage3DMultisample(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLsizei*>(Registers+8),
@@ -2903,7 +2903,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+24),
 			*reinterpret_cast<GLenum*>(Registers+32),
 			*reinterpret_cast<GLenum*>(Registers+40),
-			*reinterpret_cast<const GLvoid **>(Registers+48)); break;
+			*reinterpret_cast<const void **>(Registers+48)); break;
 	case GLFunctions::TexSubImage2D:
 		glTexSubImage2D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -2913,7 +2913,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+40),
 			*reinterpret_cast<GLenum*>(Registers+48),
 			*reinterpret_cast<GLenum*>(Registers+56),
-			*reinterpret_cast<const GLvoid **>(Registers+64)); break;
+			*reinterpret_cast<const void **>(Registers+64)); break;
 	case GLFunctions::TexSubImage3D:
 		glTexSubImage3D(*reinterpret_cast<GLenum*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
@@ -2925,7 +2925,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLsizei*>(Registers+56),
 			*reinterpret_cast<GLenum*>(Registers+64),
 			*reinterpret_cast<GLenum*>(Registers+72),
-			*reinterpret_cast<const GLvoid **>(Registers+80)); break;
+			*reinterpret_cast<const void **>(Registers+80)); break;
 	case GLFunctions::TextureView:
 		glTextureView(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
@@ -3489,7 +3489,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLint*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
 			*reinterpret_cast<GLsizei*>(Registers+24),
-			*reinterpret_cast<const GLvoid **>(Registers+32)); break;
+			*reinterpret_cast<const void **>(Registers+32)); break;
 	case GLFunctions::VertexAttribL1d:
 		glVertexAttribL1d(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLdouble*>(Registers+8)); break;
@@ -3530,7 +3530,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLint*>(Registers+8),
 			*reinterpret_cast<GLenum*>(Registers+16),
 			*reinterpret_cast<GLsizei*>(Registers+24),
-			*reinterpret_cast<const GLvoid **>(Registers+32)); break;
+			*reinterpret_cast<const void **>(Registers+32)); break;
 	case GLFunctions::VertexAttribP1ui:
 		glVertexAttribP1ui(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
@@ -3577,7 +3577,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 			*reinterpret_cast<GLenum*>(Registers+16),
 			*reinterpret_cast<GLboolean*>(Registers+24),
 			*reinterpret_cast<GLsizei*>(Registers+32),
-			*reinterpret_cast<const GLvoid **>(Registers+40)); break;
+			*reinterpret_cast<const void **>(Registers+40)); break;
 	case GLFunctions::VertexBindingDivisor:
 		glVertexBindingDivisor(*reinterpret_cast<GLuint*>(Registers),
 			*reinterpret_cast<GLuint*>(Registers+8)); break;
@@ -3603,7 +3603,7 @@ void OpenGLMachine::CallFunction(GLFunctions::Type ID)
 		glVertexPointer(*reinterpret_cast<GLint*>(Registers),
 			*reinterpret_cast<GLenum*>(Registers+8),
 			*reinterpret_cast<GLsizei*>(Registers+16),
-			*reinterpret_cast<const GLvoid **>(Registers+24)); break;
+			*reinterpret_cast<const void **>(Registers+24)); break;
 	case GLFunctions::Viewport:
 		glViewport(*reinterpret_cast<GLint*>(Registers),
 			*reinterpret_cast<GLint*>(Registers+8),
