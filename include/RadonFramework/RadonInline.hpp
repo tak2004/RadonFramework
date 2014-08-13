@@ -221,6 +221,7 @@
 #include <RadonFramework/Memory/Allocator.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Memory/DoubleSideStackAllocator.hpp>
 #include <RadonFramework/Memory/FixedLengthAllocator.hpp>
 #include <RadonFramework/Memory/LinearAllocator.hpp>
 #include <RadonFramework/Memory/ManagedInstanceStackAllocator.hpp>
