@@ -75,6 +75,9 @@ protected:
     hm m_HashMap;
 };
 
+template<class K, class T>
+using SparseHashMap = HashMap<K, T, SPARSEHASH_HASH<K>, STL_NAMESPACE::equal_to<K>, HashMapOperationEfficient<K, T, SPARSEHASH_HASH<K>, STL_NAMESPACE::equal_to<K> > >;
+
 } }
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
