@@ -305,12 +305,14 @@ public:
         m4b.Value[2]=3.0; m4b.Value[6]=4.0; m4b.Value[10]=2.0; m4b.Value[14]=2.0;
         m4b.Value[3]=4.0; m4b.Value[7]=1.0; m4b.Value[11]=4.0; m4b.Value[15]=1.0;
         m4=m4b;
-        return (m4.Value[0]==2.0 && m4.Value[4]==3.0 && m4.Value[8]==1.0 &&
-                m4.Value[12]==4.0 && m4.Value[1]==1.0 && m4.Value[5]==2.0 &&
-                m4.Value[9]==3.0 && m4.Value[13]==3.0 && m4.Value[2]==3.0 &&
-                m4.Value[6]==4.0 && m4.Value[10]==2.0 && m4.Value[14]==2.0 &&
-                m4.Value[3]==4.0 && m4.Value[7]==1.0 && m4.Value[11]==4.0 &&
-                m4.Value[15]==1.0);
+
+        RF_Type::Bool result = (m4.Value[0] == 2.0 && m4.Value[4] == 3.0 && m4.Value[8] == 1.0 &&
+            m4.Value[12] == 4.0 && m4.Value[1] == 1.0 && m4.Value[5] == 2.0 &&
+            m4.Value[9] == 3.0 && m4.Value[13] == 3.0 && m4.Value[2] == 3.0 &&
+            m4.Value[6] == 4.0 && m4.Value[10] == 2.0 && m4.Value[14] == 2.0 &&
+            m4.Value[3] == 4.0 && m4.Value[7] == 1.0 && m4.Value[11] == 4.0 &&
+            m4.Value[15] == 1.0);
+        return result;
     }
 
     Bool Matrix2fGetRow()
@@ -550,9 +552,11 @@ public:
         m3.SetColumn(2,Vec3f(3.0,1.0,2.0));
         m3b=m3;
         m3=m3*m3b;
-        return (m3.Value[0]==10.0 && m3.Value[3]==13.0 && m3.Value[6]==13.0 &&
-                m3.Value[1]==13.0 && m3.Value[4]==10.0 && m3.Value[7]==13.0 &&
-                m3.Value[2]==13.0 && m3.Value[5]==13.0 && m3.Value[8]==10.0);
+
+        RF_Type::Bool result = (m3.Value[0] == 10.0 && m3.Value[3] == 13.0 && m3.Value[6] == 13.0 &&
+            m3.Value[1] == 13.0 && m3.Value[4] == 10.0 && m3.Value[7] == 13.0 &&
+            m3.Value[2] == 13.0 && m3.Value[5] == 13.0 && m3.Value[8] == 10.0);
+        return result;
     }
 
     Bool Matrix4fMultiplicationOperator()
