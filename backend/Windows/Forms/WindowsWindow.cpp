@@ -21,7 +21,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     WindowsWindow *wnd=0;
     Size2D<> size;
     Point2D<> pos;
-    VirtualKey::Type vk=VirtualKey::NotSet;
+    VirtualKey vk=VirtualKey::NotSet;
     switch (uMsg)
     {
         case WM_PAINT:
@@ -60,9 +60,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 case VK_RSHIFT:vk=VirtualKey::ShiftRight;break;
             }
             if (wParam>='a' && wParam<='z')
-                vk=(VirtualKey::Type)((int)(VirtualKey::a)+(wParam-'a'));
+                vk=(VirtualKey)((int)(VirtualKey::a)+(wParam-'a'));
             if (wParam>='A' && wParam<='Z')
-                vk=(VirtualKey::Type)((int)(VirtualKey::A)+(wParam-'A'));
+                vk=(VirtualKey)((int)(VirtualKey::A)+(wParam-'A'));
             if (vk!=VirtualKey::NotSet)
                 wnd->OnKeyPress(vk);
             break;
@@ -84,9 +84,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 case VK_RSHIFT:vk=VirtualKey::ShiftRight;break;
             }
             if (wParam>='a' && wParam<='z')
-                vk=(VirtualKey::Type)((int)(VirtualKey::a)+(wParam-'a'));
+                vk=(VirtualKey)((int)(VirtualKey::a)+(wParam-'a'));
             if (wParam>='A' && wParam<='Z')
-                vk=(VirtualKey::Type)((int)(VirtualKey::A)+(wParam-'A'));
+                vk=(VirtualKey)((int)(VirtualKey::A)+(wParam-'A'));
             if (vk!=VirtualKey::NotSet)
                 wnd->OnKeyRelease(vk);
             break;

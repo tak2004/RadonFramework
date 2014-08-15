@@ -7,6 +7,7 @@
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
+#include <RadonFramework/Core/Types/Float64.hpp>
 
 #include <math.h>
 // On some systems math.h defines INFINITY as macro !
@@ -297,6 +298,9 @@ void Math<T>::Init()
         FastSinArray[i] = Sin(i*steps);
     WasInitialized = true;
 }
+
+typedef Math<RF_Type::Float32> MathF;
+typedef Math<RF_Type::Float64> MathD;
 
 } }
 

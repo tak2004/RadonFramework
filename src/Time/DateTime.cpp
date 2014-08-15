@@ -17,16 +17,8 @@ DateTime DateTime::MaxValue = DateTime::CreateByTicks(3155378975999999999LL);
 DateTime DateTime::CreateByTicks(TimeValue Value, DateTimeKind::Type Kind)
 {
     DateTime result;
-    if (IsInvalid(Value))
-    {
-        result.m_Ticks = TimeSpan::CreateByTicks(Value);
-        result.m_Kind = Kind;
-    }
-    else
-    {
-        result.m_Ticks = TimeSpan::CreateByTicks(0);
-        result.m_Kind = Kind;
-    }
+    result.m_Ticks = TimeSpan::CreateByTicks(Value);
+    result.m_Kind = Kind;
     return result;
 }
 
@@ -268,9 +260,4 @@ RadonFramework::Core::Types::String RadonFramework::Time::DateTime::ToString() c
     str << " ";
     str << Hour() << ":" << Minute() << ":" << Second();
     return str;
-}
-
-bool DateTime::IsInvalid( const TimeValue& t )
-{
-    return ( t < MinValue.Ticks() ) || ( t > MaxValue.Ticks() ) ;
 }

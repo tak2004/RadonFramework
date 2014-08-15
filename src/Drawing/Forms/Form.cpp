@@ -13,8 +13,8 @@ Form::Form()
     m_Backend->OnIdle += SignalReceiver::Connector<Form>(&Form::Idle);
     m_Backend->OnResize += IObserver::Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
     m_Backend->OnReposition += IObserver::Connector<Form, const Math::Geometry::Point2D<>&>(&Form::Reposition);
-    m_Backend->OnKeyPress += IObserver::Connector<Form, const VirtualKey::Type>(&Form::KeyPressed);
-    m_Backend->OnKeyRelease += IObserver::Connector<Form, const VirtualKey::Type>(&Form::KeyReleased);
+    m_Backend->OnKeyPress += IObserver::Connector<Form, const VirtualKey>(&Form::KeyPressed);
+    m_Backend->OnKeyRelease += IObserver::Connector<Form, const VirtualKey>(&Form::KeyReleased);
     m_Backend->OnMouseButtonPressed += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonPressed);
     m_Backend->OnMouseButtonReleased += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonReleased);
     m_Backend->OnMouseMove += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseMove);
@@ -53,12 +53,12 @@ void Form::Idle()
     OnIdle();
 }
 
-void Form::KeyPressed(const VirtualKey::Type VK)
+void Form::KeyPressed(const VirtualKey VK)
 {
     OnKeyPress(VK);
 }
 
-void Form::KeyReleased(const VirtualKey::Type VK)
+void Form::KeyReleased(const VirtualKey VK)
 {
     OnKeyRelease(VK);
 }

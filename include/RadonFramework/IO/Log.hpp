@@ -74,7 +74,7 @@ inline void LogFatalError(const char* Str,...)
     }
 }
 
-inline void LogDebug(char* Str,...)
+inline void LogDebug(const char* Str,...)
 {
     if (Log::IsDebugEnabled)
     {
@@ -87,7 +87,7 @@ inline void LogDebug(char* Str,...)
     }
 }
 
-inline void LogDebugBuild(char* Str, ...)
+inline void LogDebugBuild(const char* Str, ...)
 {
 #ifdef RF_DEBUG
     RF_Mem::AutoPointer<RF_Type::String> ptr(new RF_Type::String());

@@ -275,21 +275,13 @@ public:
 
     Vector<T,3> operator*(const Vector<T,3>& Vec)
     {
-        Vector<T,3> res;
-        T a00=m_Quaternion[0]*m_Quaternion[0];
-        T a01=m_Quaternion[0]*m_Quaternion[1];
-        T a02=m_Quaternion[0]*m_Quaternion[2];
-        T a03=m_Quaternion[0]*m_Quaternion[3];
-        T a11=m_Quaternion[1]*m_Quaternion[1];
-        T a12=m_Quaternion[1]*m_Quaternion[2];
-        T a13=m_Quaternion[1]*m_Quaternion[3];
-        T a22=m_Quaternion[2]*m_Quaternion[2];
-        T a23=m_Quaternion[2]*m_Quaternion[3];
-        T a33=m_Quaternion[3]*m_Quaternion[3];
-        res[0]=Vec[0]*(a00+a11-a22-a33)+T(2)*(a12*Vec[1]+a13*Vec[2]+a02*Vec[2]-a03*Vec[1]);
-        res[1]=Vec[1]*(a00-a11+a22-a33)+T(2)*(a12*Vec[0]+a23*Vec[2]+a03*Vec[0]-a01*Vec[2]);
-        res[2]=Vec[2]*(a00-a11-a22+a33)+T(2)*(a13*Vec[0]+a23*Vec[1]-a02*Vec[0]+a01*Vec[1]);
-        return res;
+        Vector<T,3> normalizedVector(Vec);
+        normalizedVector.Normalize();
+
+        Quaternion quatFromNormVec(0,normalizedVector);
+        Quaternion conjugate(*this);
+        conjugate.Conjugate();
+        return (*this*(quatFromNormVec*conjugate)).GetAxis();
     }
 
     RF_Type::Bool operator==(const Quaternion& Other)
@@ -483,7 +475,7 @@ public:
 		return rot;
     }
 
-    Matrix<T,4,4> AsMatrix()
+    Matrix<T,4,4> AsMatrix()const
     {
 		T twoX  = (T)2*m_Quaternion[1];
 		T twoY  = (T)2*m_Quaternion[2];
@@ -535,6 +527,9 @@ protected:
 
 template<typename T>
 const Quaternion<T> Quaternion<T>::Identity;
+
+typedef Quaternion<RF_Type::Float32> QuatF;
+typedef Quaternion<RF_Type::Float64> QuatD;
 
 } } }
 

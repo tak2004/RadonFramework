@@ -35,8 +35,8 @@ public:
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
     RF_Pattern::Signal OnIdle;
-    RF_Pattern::Event<const RF_IO::VirtualKey::Type> OnKeyPress;
-    RF_Pattern::Event<const RF_IO::VirtualKey::Type> OnKeyRelease;
+    RF_Pattern::Event<const RF_IO::VirtualKey> OnKeyPress;
+    RF_Pattern::Event<const RF_IO::VirtualKey> OnKeyRelease;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonPressed;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonReleased;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseMove;

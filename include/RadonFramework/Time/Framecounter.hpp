@@ -15,8 +15,8 @@ class Framecounter:public RF_Pattern::IObserver
 public:
     Framecounter();
     float Delta();
-    unsigned int Frames();
-    unsigned int LastFPS();
+    RF_Type::Size Frames();
+    RF_Type::Size LastFPS();
     void Update();
     RF_Pattern::Event<const RF_Pattern::IObserver*> OnFPSChanged;
 protected:
@@ -24,8 +24,8 @@ protected:
     DateTime m_Now;
     DateTime m_LastTime;
     DateTime m_LastFPSChangedTime;
-    unsigned int m_Frames;
-    unsigned int m_LastFPS;
+    RF_Type::Size m_Frames;
+    RF_Type::Size m_LastFPS;
 };
 
 } }

@@ -18,12 +18,12 @@ void Framecounter::Update()
     }
 }
 
-unsigned int Framecounter::LastFPS()
+RF_Type::Size Framecounter::LastFPS()
 {
     return m_LastFPS;
 }
 
-unsigned int Framecounter::Frames()
+RF_Type::Size Framecounter::Frames()
 {
     return m_Frames;
 }
@@ -37,6 +37,7 @@ Framecounter::Framecounter()
 :m_Now(DateTime::MinValue)
 ,m_LastTime(DateTime::MinValue)
 ,m_LastFPSChangedTime(DateTime::MinValue)
+,m_Frames(0)
 {
 
 }

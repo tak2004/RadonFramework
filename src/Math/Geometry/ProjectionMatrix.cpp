@@ -43,8 +43,8 @@ ProjectionMatrix::ProjectionMatrix()
   m_Width=640;
   m_Height=480;
   m_AspectRatio=(float)m_Width/(float)m_Height;
-  m_Far=100000.0f;
-  m_Near=1.0f;
+  m_Far=100.0f;
+  m_Near=0.1f;
   m_Left=0;
   m_Top=0;
   SetDefaultProjectionMatrix();
