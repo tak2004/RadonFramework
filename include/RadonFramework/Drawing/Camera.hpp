@@ -8,29 +8,27 @@
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Math/Geometry/Quaternion.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Drawing {
+
+class Camera
 {
-    namespace Drawing
-    {
-        class Camera
-        {
-            public:
-                Camera();
-                ~Camera();
-                void MoveVertical(RF_Type::Float32 Value);
-                void MoveHorizontal(RF_Type::Float32 Value);
-                void RotateX(RF_Type::Float32 Value);
-                void RotateY(RF_Type::Float32 Value);
-                void Move(RF_Type::Float32 Value);
-                Math::Geometry::Matrix4f GetMatrix();
-            protected:
-                Math::Geometry::Quaternion<RF_Type::Float32> m_Quat;
-                Math::Geometry::Vec4f m_Position;
-                Math::Geometry::Vec3f m_Up;
-                Math::Geometry::Vec3f m_Front;
-                Math::Geometry::Vec3f m_Right;
-        };
-    }
-}
+public:
+    Camera();
+    ~Camera();
+    void MoveVertical(RF_Type::Float32 Value);
+    void MoveHorizontal(RF_Type::Float32 Value);
+    void RotateX(RF_Type::Float32 Value);
+    void RotateY(RF_Type::Float32 Value);
+    void Move(RF_Type::Float32 Value);
+    RF_Geo::Mat4f GetMatrix();
+protected:
+    RF_Geo::Quaternion<RF_Type::Float32> m_Quat;
+    RF_Geo::Vec4f m_Position;
+    RF_Geo::Vec3f m_Up;
+    RF_Geo::Vec3f m_Front;
+    RF_Geo::Vec3f m_Right;
+};
+
+} }
 
 #endif // RF_DRAWING_CAMERA_HPP

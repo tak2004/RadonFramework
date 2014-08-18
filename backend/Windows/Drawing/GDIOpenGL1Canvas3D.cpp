@@ -86,7 +86,7 @@ void GDIOpenGL1Canvas3D::UpdateRectangle(RF_Geo::Rectangle<> &Rec)
   glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
 }
 
-Matrix4f& GDIOpenGL1Canvas3D::TexturecoordMatrix()
+Mat4f& GDIOpenGL1Canvas3D::TexturecoordMatrix()
 {
   return m_TexturecoordMatrix;
 }

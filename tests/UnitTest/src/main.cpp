@@ -76,5 +76,5 @@ int main(int argc, char** argv)
     else
         LogError("Test failed.");
     RF_Pattern::Singleton<Threading::ThreadPool>::GetInstance().DisableAndWaitTillDone();
-    return res;
+    return res ? 0 : 1;
 }

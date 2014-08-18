@@ -134,7 +134,7 @@ void ProjectionMatrix::Near(const float Near)
   m_OrthoMatrix[14]=-(m_Far+m_Near)/(m_Far-m_Near);
 }
 
-const Matrix4f& ProjectionMatrix::GetMatrix(const Viewtype::Type Type)
+const Mat4f& ProjectionMatrix::GetMatrix(const Viewtype::Type Type)
 {
   switch (Type)
   {

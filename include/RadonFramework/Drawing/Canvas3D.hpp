@@ -25,7 +25,7 @@ public:
 
     void Clear();
     void SwapBuffer();
-    Math::Geometry::Matrix4f& TexturecoordMatrix();
+    RF_Geo::Mat4f& TexturecoordMatrix();
     const GraphicDriverInformation& GetGraphicDriverInformation();
     void MakeCurrent();
     System::Threading::Mutex& GetRenderLock();

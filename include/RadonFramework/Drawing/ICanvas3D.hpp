@@ -41,7 +41,7 @@ namespace RadonFramework
             virtual void MakeCurrent()=0;
             virtual System::Threading::Mutex& RenderLock() = 0;
 
-            virtual Math::Geometry::Matrix4f& TexturecoordMatrix()=0;
+            virtual RF_Geo::Mat4f& TexturecoordMatrix()=0;
             virtual const GraphicDriverInformation& GetGraphicDriverInformation()=0;
         };
     }

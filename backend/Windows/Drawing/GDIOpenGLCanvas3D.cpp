@@ -151,7 +151,7 @@ void GDIOpenGLCanvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
     glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
 }
 
-Matrix4f& GDIOpenGLCanvas3D::TexturecoordMatrix()
+Mat4f& GDIOpenGLCanvas3D::TexturecoordMatrix()
 {
     return m_TexturecoordMatrix;
 }

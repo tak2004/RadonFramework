@@ -39,7 +39,7 @@ void Canvas3D::SwapBuffer()
   m_Backend->SwapBuffer();
 }
 
-Matrix4f& Canvas3D::TexturecoordMatrix()
+Mat4f& Canvas3D::TexturecoordMatrix()
 {
   return m_Backend->TexturecoordMatrix();
 }

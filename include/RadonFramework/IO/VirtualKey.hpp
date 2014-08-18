@@ -6,7 +6,7 @@
 
 namespace RadonFramework { namespace IO {
 
-enum class VirtualKey
+enum class VirtualKey : RF_Type::UInt8
 {
 	NotSet,
 	Escape,

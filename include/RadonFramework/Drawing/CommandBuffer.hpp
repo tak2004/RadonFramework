@@ -23,7 +23,7 @@ public:
             m_ScratchPad.AddLast(newMemoryBlock);
         }
 
-        Resolve(Parameters...);
+        Resolve<PARAMETERS>(Parameters...);
         m_ScratchPad.Write<RF_Type::UInt16>(FUNC);
     }
 
@@ -58,28 +58,28 @@ private:
     RF_IO::MemoryCollectionStream m_ScratchPad;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Final;
 
-    template<typename T>
+    template<RF_Type::Size TOTALPARAM, typename T>
     void Resolve(T Value)
     {
         static_assert(GetOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
         static_assert(OpenGLMachine::RegisterCount >= 1, "There is no Move command for this amount of parameter!");
-        static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[0];
+        static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[TOTALPARAM-1];
 
         m_ScratchPad.Write<RF_Type::UInt16>(opCode);
         m_ScratchPad.Write(Value);
     }
 
-    template<typename T, typename... ARGS>
+    template<RF_Type::Size TOTALPARAM, typename T, typename... ARGS>
     void Resolve(T First, ARGS... Rest)
     {
         static_assert(GetOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
         static const RF_Type::UInt64 PARAMETERS = sizeof...(ARGS);
         static_assert(OpenGLMachine::RegisterCount > PARAMETERS, "There is no Move command for this amount of parameter!");
-        static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[PARAMETERS];
+        static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[TOTALPARAM-PARAMETERS-1];
 
-        Resolve(Rest...);
         m_ScratchPad.Write<RF_Type::UInt16>(opCode);
         m_ScratchPad.Write(First);
+        Resolve<TOTALPARAM>(Rest...);
     }
 };
 

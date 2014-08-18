@@ -21,17 +21,6 @@ namespace Viewtype
 
 class ProjectionMatrix
 {
-protected:
-    Matrix4f m_ProjectionMatrix;
-    Matrix4f m_OrthoMatrix;
-    float m_FieldOfView;
-    float m_Far;
-    float m_Near;
-    float m_AspectRatio;
-    void SetDefaultProjectionMatrix();
-    void SetDefaultOrthoMatrix();
-    unsigned int m_Width, m_Height;
-    int m_Left, m_Top;
 public:
     ProjectionMatrix();
     void SetPosition(const Point2D<> &Position);
@@ -43,7 +32,18 @@ public:
     void Far(const float Far);
     float Near();
     void Near(const float Near);
-    const Matrix4f& GetMatrix(const Viewtype::Type Type);
+    const Mat4f& GetMatrix(const Viewtype::Type Type);
+protected:
+    Mat4f m_ProjectionMatrix;
+    Mat4f m_OrthoMatrix;
+    float m_FieldOfView;
+    float m_Far;
+    float m_Near;
+    float m_AspectRatio;
+    void SetDefaultProjectionMatrix();
+    void SetDefaultOrthoMatrix();
+    unsigned int m_Width, m_Height;
+    int m_Left, m_Top;
 };
         
 } } }

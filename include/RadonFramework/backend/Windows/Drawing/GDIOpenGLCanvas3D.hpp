@@ -13,13 +13,6 @@ namespace RadonFramework { namespace Drawing {
 
 class GDIOpenGLCanvas3D : public OpenGLCanvas
 {
-protected:
-    RF_Geo::Matrix4f m_TexturecoordMatrix;
-    HWND m_WndHandle;
-    HDC m_DeviceContext;
-    PIXELFORMATDESCRIPTOR m_PixelFormat;
-    HGLRC m_Context;
-    GraphicDriverInformation* m_GraphicDriverInformation;
 public:
     GDIOpenGLCanvas3D();
     ~GDIOpenGLCanvas3D();
@@ -32,7 +25,14 @@ public:
     void UpdateRectangle(RF_Geo::Rectangle<> &Rec);
     void MakeCurrent();
 
-    RF_Geo::Matrix4f& TexturecoordMatrix();
+    RF_Geo::Mat4f& TexturecoordMatrix();
+protected:
+    RF_Geo::Mat4f m_TexturecoordMatrix;
+    HWND m_WndHandle;
+    HDC m_DeviceContext;
+    PIXELFORMATDESCRIPTOR m_PixelFormat;
+    HGLRC m_Context;
+    GraphicDriverInformation* m_GraphicDriverInformation;
 };
 
 } }
