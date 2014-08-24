@@ -362,10 +362,13 @@ Vector<T, 4> Quaternion<T>::operator*(const Vector<T, 4>& Vec)
 template<typename T>
 Vector<T, 3> Quaternion<T>::operator*(const Vector<T, 3>& Vec)
 {
-    Quaternion quatFromVec(0, Vec[0], Vec[1], Vec[2]);
+    Vec3f vecNormalized(Vec);
+    vecNormalized.Normalize();
+    Quaternion quatFromVec(0, vecNormalized[0], vecNormalized[1], vecNormalized[2]);
     Quaternion q(*this);
     q.Conjugate();
-    q = q * quatFromVec * (*this);
+    q = quatFromVec * q;
+    q = (*this) * q;
     return q.GetAxis();
 }
 

@@ -27,23 +27,23 @@ void Camera::MoveVertical(Float32 Value)
 
 void Camera::MoveHorizontal(Float32 Value)
 {
-    m_Position+=m_Quat*Vec4f(Value,0.0f,0.0f,0.0f);
+    m_Position += m_Quat * Vec4f(Value, 0.0f, 0.0f, 0.0f);
 }
 
 void Camera::Move(Float32 Value)
 {
-    m_Position+=m_Quat*Vec4f(0.0f,0.0f,-Value,0.0f);
+    m_Position += m_Quat * Vec4f(0.0f, 0.0f, -Value, 0.0f);
 }
 
 void Camera::RotateX(Float32 Value)
 {
-    Quaternion<Core::Types::Float32> q(Value*Math::Math<Core::Types::Float32>::DEG_TO_RAD,Vec3f(1.0f,0.0f,0.0f));
+    Quaternion<Core::Types::Float32> q(Value*Math::MathF::DEG_TO_RAD, Vec3f(1.0f, 0.0f, 0.0f));
     m_Quat=m_Quat*q;
 }
 
 void Camera::RotateY(Float32 Value)
 {
-    Quaternion<Core::Types::Float32> q(Value*Math::Math<Core::Types::Float32>::DEG_TO_RAD,Vec3f(0.0f,1.0f,0.0f));
+    Quaternion<Core::Types::Float32> q(Value*Math::MathF::DEG_TO_RAD,Vec3f(0.0f,1.0f,0.0f));
     m_Quat=q*m_Quat;
 }
 
@@ -51,6 +51,6 @@ Mat4f Camera::GetMatrix()
 {
     Mat4f m;
     m.SetColumn(3,m_Position);
-    m=m*m_Quat.AsMatrix();
+    m=m_Quat.AsMatrix()*m;
     return m;
 }
