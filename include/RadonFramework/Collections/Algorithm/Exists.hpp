@@ -1,5 +1,5 @@
-#ifndef RF_COLLECTIONS_ALGORITHM_FINDALL_HPP
-#define RF_COLLECTIONS_ALGORITHM_FINDALL_HPP
+#ifndef RF_COLLECTIONS_ALGORITHM_EXISTS_HPP
+#define RF_COLLECTIONS_ALGORITHM_EXISTS_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
@@ -19,9 +19,9 @@
 namespace RadonFramework { namespace Collections { namespace Algorithm {
 
 template <class C, typename FUNCTION>
-struct FindAllEnumeratorTaskData
+struct ExistsEnumeratorTaskData
 {
-    explicit FindAllEnumeratorTaskData(FUNCTION function)
+    explicit ExistsEnumeratorTaskData(FUNCTION function)
     :Function(function)
     {}
     FUNCTION Function;
@@ -29,32 +29,26 @@ struct FindAllEnumeratorTaskData
     RF_Type::UInt32 From;
     RF_Type::UInt32 Steps;
     RF_Type::AtomicInt32* OverallWork;
-    RF_Collect::Array<RF_Type::UInt8>* Results;
     RF_Type::AtomicInt32* Hits;
 };
 
 template <class C, typename FUNCTION>
-void FindAllEnumeratorTaskFunction(void* Data)
+void ExistsEnumeratorTaskFunction(void* Data)
 {
-    auto* data = reinterpret_cast<FindAllEnumeratorTaskData<C, FUNCTION>*>(Data);
+    auto* data = reinterpret_cast<ExistsEnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
-    for(RF_Type::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
+    for(RF_Type::UInt32 i = 0, end = data->Steps; i < end && (*data->Hits) == 0; ++i, ++data->Enumeable)
     {
         if (data->Function(data->Enumeable))
         {
-            data->Results->Item(i)=1;
             data->Hits->Increment();
-        }
-        else
-        {
-            data->Results->Item(i)=0;
         }
         data->OverallWork->Decrement();
     }
 }
 
 template <class C, typename FUNCTION>
-Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Function)
+RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
 {
     auto enumerator = Enumerable.GetConstEnumerator();
     
@@ -64,7 +58,6 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
     RF_Type::UInt32 jobsPerWorker = 0;    
     RF_Type::AtomicInt32 overallWork(elements);
     RF_Type::AtomicInt32 hits;
-    RF_Collect::Array<RF_Type::UInt8> results(elements);
     
     if(elements > worker)
     {
@@ -81,37 +74,26 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
     {
         if(elements <= i)
             Extra = 0;
-        auto* task = new FindAllEnumeratorTaskData<C, FUNCTION>(Function);
+        auto* task = new ExistsEnumeratorTaskData<C, FUNCTION>(Function);
         task->Enumeable = enumerator;
         task->Function = Function;
         task->From = offset;
         task->Steps = jobsPerWorker + Extra;
         task->OverallWork = &overallWork;
-        task->Results = &results;
         task->Hits = &hits;
-        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(FindAllEnumeratorTaskFunction<C, FUNCTION>, task);
+        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ExistsEnumeratorTaskFunction<C, FUNCTION>, task);
         offset += jobsPerWorker + Extra;
     }
 
     // Wait for other threads. Sleep(0) will ensure that the thread return if no
     // other process/thread will work for the rest of the time slice on this core.
     RF_Time::TimeSpan sleep = RF_Time::TimeSpan::CreateByTicks(0);
-    while(overallWork != 0)
-    {
-        
+    while(overallWork != 0 && hits == 0)
+    {        
         RadonFramework::System::Threading::Thread::Sleep(sleep);
     }
 
-    RF_Mem::AutoPointerArray<RF_Type::Size> result(new RF_Type::Size[hits], hits);
-    for (RF_Type::Size i = 0, ci = 0; i < elements; ++i)
-    {
-        if (results(i) == 1)
-        {
-            result[ci] = i;
-            ++ci;
-        }
-    }
-    return result;
+    return hits != 0;
 }
 
 } } }
@@ -121,4 +103,4 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
 namespace RF_Algo = RadonFramework::Collections::Algorithm;
 #endif
 
-#endif // RF_COLLECTIONS_ALGORITHM_FINDALL_HPP
+#endif // RF_COLLECTIONS_ALGORITHM_EXISTS_HPP

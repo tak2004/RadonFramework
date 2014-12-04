@@ -49,6 +49,7 @@ friend class Array;
 public:
     typedef T Type;
     typedef Enumerator<T, ArrayEnumeratorType> EnumeratorType;
+    typedef Enumerator<const T, ArrayEnumeratorType> ConstEnumeratorType;
                 
     // Constructor and destructor
                     
@@ -477,6 +478,11 @@ public:
     * Returns an Enumerator for the Array.
     */
     EnumeratorType GetEnumerator()const;
+
+    /**
+    * Returns an Enumerator for the Array.
+    */
+    ConstEnumeratorType GetConstEnumerator()const;
 
     /**
     * \brief Gets a system depended type that represents the
@@ -1249,6 +1255,16 @@ template<typename T, typename SP, typename MA, typename MO>
 typename Array<T, SP, MA, MO>::EnumeratorType Array<T, SP, MA, MO>::GetEnumerator()const
 {
     EnumeratorType result;
+    result.m_Start = m_Data;
+    result.m_Current = m_Data;
+    result.m_Elements = m_ElementCount;
+    return result;
+}
+
+template<typename T, typename SP, typename MA, typename MO>
+typename Array<T, SP, MA, MO>::ConstEnumeratorType Array<T, SP, MA, MO>::GetConstEnumerator()const
+{
+    ConstEnumeratorType result;
     result.m_Start = m_Data;
     result.m_Current = m_Data;
     result.m_Elements = m_ElementCount;

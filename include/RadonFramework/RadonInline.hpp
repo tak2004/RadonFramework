@@ -9,6 +9,7 @@
 #ifndef RF_NO_COLLECTIONS
 
 #include <RadonFramework/Collections/Algorithm/BinarySearch.hpp>
+#include <RadonFramework/Collections/Algorithm/Exists.hpp>
 #include <RadonFramework/Collections/Algorithm/FindAll.hpp>
 #include <RadonFramework/Collections/Algorithm/ForEach.hpp>
 #include <RadonFramework/Collections/Array.hpp>
