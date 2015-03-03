@@ -46,7 +46,6 @@
 #include <RadonFramework/Core/Common/DataManagment.hpp>
 #include <RadonFramework/Core/Common/StringCache.hpp>
 #include <RadonFramework/Core/Common/Version.hpp>
-#include <RadonFramework/Core/Idioms/NoInstance.hpp>
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Core/Pattern/Event.hpp>
@@ -152,6 +151,9 @@
 #include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilitiesType.hpp>
 #include <RadonFramework/Drawing/OpenGLMachine.hpp>
+#include <RadonFramework/Drawing/PopupMenu.hpp>
+#include <RadonFramework/Drawing/SystemTray.hpp>
+#include <RadonFramework/Drawing/TrayIcon.hpp>
 #endif
 
 #ifndef RF_NO_IO
@@ -248,6 +250,9 @@
 #include <RadonFramework/Net/HTTP/Tokenizer.hpp>
 #include <RadonFramework/Net/IPAddress.hpp>
 #include <RadonFramework/Net/IPHostEntry.hpp>
+#include <RadonFramework/Net/mDNS/NetworkService.hpp>
+#include <RadonFramework/Net/mDNS/ServiceDiscovery.hpp>
+#include <RadonFramework/Net/mDNS/ServiceResponder.hpp>
 #include <RadonFramework/Net/NetworkAdapter.hpp>
 #include <RadonFramework/Net/PacketStream.hpp>
 #include <RadonFramework/Net/PacketWithHeader.hpp>
@@ -294,4 +299,10 @@
 #include <RadonFramework/Time/Framecounter.hpp>
 #include <RadonFramework/Time/ScopeTimer.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
+#endif
+
+#ifndef RF_NO_TEXT
+
+#include <RadonFramework/Text/Regex.hpp>
+#include <RadonFramework/Util/UUID.hpp>
 #endif

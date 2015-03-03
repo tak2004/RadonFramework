@@ -74,17 +74,16 @@ Bool SelectObjectCollector::IsSet(const Size Index)const
     return FD_ISSET(m_Data->Sockets(Index),&m_Data->Lookup)!=0;
 }
 
-Error::Type SelectObjectCollector::Select(
+Error SelectObjectCollector::Select(
     const SelectMode::Type Mode, const TimeSpan* Timeout)
 {
-    Error::Type result=Error::Ok;
+    Error result=Error::Ok;
     int ret=-1;
-    AutoPointer<timeval> timeout;
+    timeval timeout;
     if (Timeout)
     {
-        timeout=AutoPointer<timeval>(new timeval);
-        timeout->tv_sec=Timeout->Seconds();
-        timeout->tv_usec=Timeout->Microseconds();
+        timeout.tv_sec=Timeout->Seconds();
+        timeout.tv_usec=Timeout->Microseconds();
     }    
 
     Bool done;
@@ -96,29 +95,29 @@ Error::Type SelectObjectCollector::Select(
         switch (Mode)
         {
             case SelectMode::Error:
-                ret=select(static_cast<int>(m_Data->FDCount), 0, 0, &m_Data->Lookup, timeout.Get());
+                ret=select(static_cast<int>(m_Data->FDCount), 0, 0, &m_Data->Lookup, &timeout);
                 break;
             case SelectMode::Read:
-                ret=select(static_cast<int>(m_Data->FDCount), &m_Data->Lookup, 0, 0, timeout.Get());
+                ret=select(static_cast<int>(m_Data->FDCount), &m_Data->Lookup, 0, 0, &timeout);
                 break;
             case SelectMode::Write:
-                ret=select(static_cast<int>(m_Data->FDCount), 0, &m_Data->Lookup, 0, timeout.Get());
+                ret=select(static_cast<int>(m_Data->FDCount), 0, &m_Data->Lookup, 0, &timeout);
                 break;
             case SelectMode::ReadWrite:
                 ret=select(static_cast<int>(m_Data->FDCount), &m_Data->Lookup,
-                        &m_Data->Lookup, 0, timeout.Get());
+                        &m_Data->Lookup, 0, &timeout);
                 break;
             case SelectMode::ReadError:
                 ret=select(static_cast<int>(m_Data->FDCount), &m_Data->Lookup, 0,
-                        &m_Data->Lookup, timeout.Get());
+                        &m_Data->Lookup, &timeout);
                 break;
             case SelectMode::WriteError:
                 ret=select(static_cast<int>(m_Data->FDCount), 0, &m_Data->Lookup,
-                        &m_Data->Lookup, timeout.Get());
+                        &m_Data->Lookup, &timeout);
                 break;
             case SelectMode::ReadWriteError:
                 ret=select(static_cast<int>(m_Data->FDCount), &m_Data->Lookup,
-                        &m_Data->Lookup, &m_Data->Lookup, timeout.Get());
+                        &m_Data->Lookup, &m_Data->Lookup, &timeout);
                 break;
         }
     

@@ -38,7 +38,7 @@ namespace CacheUseCase
     };
 }
 
-struct ALIGN(16) CacheInfo
+struct RF_ALIGN(16) CacheInfo
 {
     /// Cache size.
     RF_Type::UInt32 Size;

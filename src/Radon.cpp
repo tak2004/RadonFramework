@@ -15,6 +15,7 @@
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/System/Process.hpp"
 #include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Drawing/SystemTrayServiceLocator.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
 
 using namespace RadonFramework;
@@ -95,6 +96,10 @@ void Radon::InitSubSystem(UInt32 Flags)
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGLCanvas3DService("Newest OpenGL Version")));
             Canvas3DServiceLocator::SetDefault("Newest OpenGL Version");
             #endif
+        #endif
+        RF_SysDraw::SystemTrayServiceLocator::Initialize();
+        #if defined(RF_WINDOWS)
+        RF_SysDraw::SystemTrayServiceLocator::Register(AutoPointer<RF_SysDraw::SystemTrayService>((RF_SysDraw::SystemTrayService*)new RF_SysDraw::SystemTrayServiceWindows("Windows system tray")));
         #endif
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Drawing;
     }

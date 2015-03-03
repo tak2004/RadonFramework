@@ -17,6 +17,7 @@ public:
     Int32 FetchAndAdd(Int32 Addend);
     Int32 FetchAndExchange(Int32 Value);
     Int32 CompareAndExchange(Int32 Compare, Int32 Value);
+    Int32 Add(Int32 Value);
 
     operator Int32()const;
     bool operator !()const;

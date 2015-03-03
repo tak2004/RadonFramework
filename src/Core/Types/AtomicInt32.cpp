@@ -40,6 +40,11 @@ Int32 AtomicInt32::CompareAndExchange(Int32 Compare, Int32 Value)
     return Interlocked::InterlockedCompareExchange32(&m_Data,Compare,Value);
 }
 
+Int32 AtomicInt32::Add(Int32 Value)
+{
+    return Interlocked::InterlockedAdd32(&m_Data, Value);
+}
+
 AtomicInt32::operator Int32()const
 {
     return m_Data;

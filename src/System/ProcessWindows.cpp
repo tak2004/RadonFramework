@@ -330,6 +330,11 @@ RF_Type::Int32 ExecuteProgram(const RF_Type::String& Executable,
 	return 0;
 }
 
+RF_Type::Bool OpenWithDefaultApplication(const RF_Type::String& What)
+{
+    return ShellExecute(0, "open", What.c_str(), 0, 0, SW_SHOWNORMAL) != 0;
+}
+
 void RFPROC::Dispatch()
 {
     GetProcessList = ::GetProcessList;
@@ -341,4 +346,5 @@ void RFPROC::Dispatch()
     GetModuleInfo = ::GetModuleInfo;
     GetThreadInfo = ::GetThreadInfo;
 	ExecuteProgram = ::ExecuteProgram;
+    OpenWithDefaultApplication = ::OpenWithDefaultApplication;
 }

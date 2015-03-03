@@ -4,62 +4,57 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Net {
+
+enum class SocketOptionName
 {
-	namespace Net
-	{
-		namespace SocketOptionName
-		{
-			enum Type
-			{
-				Unset,
-				Debug,
-				AcceptConnection,
-				ReuseAddress,
-				KeepAlive,
-				DontRoute,
-				Broadcast,
-				UseLoopback,
-				Linger,
-				OutOfBandInline,
-				DontLinger,
-				ExclusiveAddressUse,
-				SendBuffer,
-				ReceiveBuffer,
-				SendLowWater,
-				ReceiveLowWater,
-				SendTimeout,
-				ReceiveTimeout,
-				Error,
-				SocketType,
-				MaxConnections,
-				IPOptions,
-				HeaderIncluded,
-				TypeOfService,
-				IPTimeToLive,
-				MulticastInterface,
-				MutlicastTimeToLive,
-				MulticastLoopback,
-				AddMembership,
-				DropMembership,
-				DontFragment,
-				AddSourceMembership,
-				DropSourceMembership,
-				BlockSource,
-				UnblockSource,
-				PacketInformation,
-				HopLimit,
-				NoDelay,
-				BsdUrgent,
-				Expedited,
-				NoChecksum,
-				ChecksumCoverage,
-				UpdateAcceptContext,
-				UpdateConnectContext,
-				MAX
-			};
-		}
-	}
-}
+    Unset,
+    Debug,
+    AcceptConnection,
+    ReuseAddress,
+    KeepAlive,
+    DontRoute,
+    Broadcast,
+    UseLoopback,
+    Linger,
+    OutOfBandInline,
+    DontLinger,
+    ExclusiveAddressUse,
+    SendBuffer,
+    ReceiveBuffer,
+    SendLowWater,
+    ReceiveLowWater,
+    SendTimeout,
+    ReceiveTimeout,
+    Error,
+    SocketType,
+    MaxConnections,
+    IPOptions,
+    HeaderIncluded,
+    TypeOfService,
+    IPTimeToLive,
+    MulticastInterface,
+    MutlicastTimeToLive,
+    MulticastLoopback,
+    AddMembership,
+    DropMembership,
+    DontFragment,
+    AddSourceMembership,
+    DropSourceMembership,
+    BlockSource,
+    UnblockSource,
+    PacketInformation,
+    HopLimit,
+    NoDelay,
+    BsdUrgent,
+    Expedited,
+    NoChecksum,
+    ChecksumCoverage,
+    UpdateAcceptContext,
+    UpdateConnectContext,
+    MAX
+};
+
+} }
 
 #endif

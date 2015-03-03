@@ -8,18 +8,18 @@
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
-#include <RadonFramework/Core/Idioms/NoInstance.hpp>
 #include <RadonFramework/Collections/AutoVector.hpp>
 #include <RadonFramework/Collections/IEnumerator.hpp>
 
 namespace RadonFramework { namespace Core { namespace Pattern {
 
 template<class T,class N>
-class Locator:public Idioms::NoInstance
+struct Locator
 {
-public:
     typedef typename RF_Collect::AutoVector<T>::Iterator Iterator;
     typedef typename RF_Collect::AutoVector<T>::ConstIterator ConstIterator;
+
+    Locator() = delete;
 
     static void Initialize()
     {
@@ -95,8 +95,6 @@ protected:
     static N m_NullService;
     static RF_Collect::AutoVector<T> m_Services;
     static RF_Type::UInt32 m_Default;
-private:
-    ~Locator();
 };
 
 template<class T, class N> 

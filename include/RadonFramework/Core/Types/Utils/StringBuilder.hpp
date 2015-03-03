@@ -54,9 +54,9 @@ protected:
 
 } } } }
 
-#ifndef RF_SHORTHAND_NAMESPACE_UTIL
-#define RF_SHORTHAND_NAMESPACE_UTIL
-namespace RF_Util = RadonFramework::Core::Types::Utils;
+#ifndef RF_SHORTHAND_NAMESPACE_COREUTIL
+#define RF_SHORTHAND_NAMESPACE_COREUTIL
+namespace RF_CoreUtil = RadonFramework::Core::Types::Utils;
 #endif
 
 #endif // RF_CORE_TYPES_UITLS_STRINGBUILDER_HPP

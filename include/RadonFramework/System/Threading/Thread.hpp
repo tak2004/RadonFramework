@@ -31,10 +31,10 @@ class Thread:public RadonFramework::Threading::IRunnable,public RF_Pattern::Sign
 public:
     Thread();
     Thread(RadonFramework::Threading::IRunnable* Target);
-    virtual ~Thread();
+    virtual ~Thread() override;
     
     /// The code in this method is executed by the thread.
-    virtual void Run();
+    virtual void Run() override;
     
     /// This method will start the thread.
     void Start();
@@ -111,7 +111,12 @@ protected:
     void* m_ImplData;
     void Finished();
 };
-        
+
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SYS_THREAD
+#define RF_SHORTHAND_NAMESPACE_SYS_THREAD
+namespace RF_SysThread = RadonFramework::System::Threading;
+#endif
 
 #endif // RF_SYSTEM_THREADING_THREAD_HPP

@@ -34,6 +34,8 @@ struct Enumerator <T, ArrayEnumeratorType>
 
     RF_Type::Size Size()const;
 
+    RF_Type::Size AtIndex()const;
+
     T* m_Start;
     RF_Type::Size m_Elements;
     T* m_Current;
@@ -107,6 +109,12 @@ Enumerator<T, ArrayEnumeratorType>& Enumerator<T, ArrayEnumeratorType>::MoveBy(c
     Assert((m_Current + Steps) <= (m_Start + m_Elements), "Out of bound");
     m_Current += Steps;
     return *this;
+}
+
+template<typename T>
+RF_Type::Size Enumerator<T, ArrayEnumeratorType>::AtIndex() const
+{
+    return static_cast<RF_Type::Size>(m_Current - m_Start);
 }
 
 template<typename T>

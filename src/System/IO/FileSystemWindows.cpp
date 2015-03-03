@@ -242,7 +242,6 @@ AutoPointer<FileStatus> Stat(const String& Path)
     return result;
 }
 
-
 Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
 {
     return false;
@@ -301,6 +300,18 @@ String WinToUri(const String& WinPath)
             result[i]='/';
     }
     return result;
+}
+
+void RealPath(const String& Path, String& ResolvedPath)
+{
+    TCHAR** lppPart = {0};
+    DWORD neededBufferSize = GetFullPathName(Path.c_str(), 0, 0, lppPart);
+    if(neededBufferSize > 0)
+    {
+        AutoPointerArray<char> buffer(new TCHAR[neededBufferSize], neededBufferSize);
+        GetFullPathName(Path.c_str(), neededBufferSize, buffer.Get(), lppPart);
+        ResolvedPath = WinToUri(String(buffer.Release().Ptr, neededBufferSize, RF_Common::DataManagment::TransfereOwnership));
+    }
 }
 
 String WorkingDirectory()
@@ -584,6 +595,7 @@ void RadonFramework::System::IO::FileSystem::Dispatch()
     PathSeperator=::PathSeperator;
     Seperator=::Seperator;
     Stat=::Stat;
+    RealPath=::RealPath;
     //ChangeMode=::ChangeMode;
     CreatePreAllocatedFile=::CreatePreAllocatedFile;
     CreateFile=::CreateFile;

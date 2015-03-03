@@ -57,7 +57,7 @@ void X11OpenGL3Canvas3D::Generate()
     glXMakeCurrent(display,static_cast<X11Window*>(m_Window)->GetHandle(),TempContext);
 
     //Typedefinition of wglCreateContextAttribsARB
-    typedef GLXContext(*GLXCREATECONTEXTATTRIBSARBPROC)(Display *dpy,GLXFBConfig config, GLXContext share_context,Bool direct,const int *attrib_list);
+    using GLXCREATECONTEXTATTRIBSARBPROC = GLXContext(*)(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list);
     //does the function exists
     GLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB=(GLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 

@@ -112,3 +112,43 @@ void Move_Std(void* Destination, const void* Source, Size Bytes)
         }
     }
 }
+
+void Swap_Std(void* P1, void* P2, Size Bytes)
+{
+    UInt8 tmp;
+    Size stmp;
+    UInt8 *p1 = reinterpret_cast<UInt8*>(P1);
+    UInt8 *p2 = reinterpret_cast<UInt8*>(P2);
+    if(p1 <= p2 || p1 >= (p2 + Bytes))
+    {
+        while(Bytes && (reinterpret_cast<MemoryRange>(P1)& (sizeof(Size) - 1) ||
+            reinterpret_cast<MemoryRange>(P2)& (sizeof(Size) - 1)))
+        {
+            tmp = *p1;
+            *(p1++) = *p2;
+            *(p2++) = tmp;
+            --Bytes;
+        }
+
+        Size* s1 = reinterpret_cast<Size*>(p1);
+        Size* s2 = reinterpret_cast<Size*>(p2);
+        // aligned and more bytes then largest variable are left
+        while((Bytes / sizeof(Size)) > 0)
+        {
+            stmp = *s1;
+            *(s1++) = *s2;
+            *(s2++) = stmp;
+            Bytes -= sizeof(Size);
+        }
+
+        p1 = reinterpret_cast<UInt8*>(s1);
+        p2 = reinterpret_cast<UInt8*>(s2);
+        // swap last unaligned bytes
+        while(Bytes--)
+        {
+            tmp = *p1;
+            *(p1++) = *p2;
+            *(p2++) = tmp;
+        }
+    }
+}

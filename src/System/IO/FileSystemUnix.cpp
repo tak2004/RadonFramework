@@ -15,6 +15,7 @@ using namespace RadonFramework::System::IO::FileSystem;
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/param.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,6 +48,15 @@ inline AutoPointer<FileStatus> Stat(const String& Path)
         result->IsHidden=false;//some linux distributions hide on '.' some on '~' no restrictive rule.
     }
     return result;
+}
+
+void RealPath(const String& Path, String& ResolvedPath)
+{
+    char* resolvedPath = realpath(Path.c_str(), 0);
+    if(resolvedPath)
+    {
+        ResolvedPath = String(resolvedPath, strlen(resolvedPath), RF_Common::DataManagment::TransfereOwnership);
+    }    
 }
 
 Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
@@ -270,6 +280,7 @@ void RFFILE::Dispatch()
     PathSeperator=::PathSeperator;
     Seperator=::Seperator;
     Stat=::Stat;
+    RealPath=::RealPath;
     ChangeMode=::ChangeMode;
     CreatePreAllocatedFile=::CreatePreAllocatedFile;
     CreateFile=::CreateFile;

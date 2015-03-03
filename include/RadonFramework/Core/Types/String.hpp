@@ -26,7 +26,7 @@ namespace RadonFramework { namespace Core { namespace Types {
 * if you want to work with them then you can specify the data as
 * UnmanagedInstance and the object don't try to clean it up.
 **/
-class ALIGN(32) String
+class RF_ALIGN(32) String
 {
 public:
     #pragma region Constructor and Destructor
@@ -332,7 +332,11 @@ String::String(char const (&CString)[N])
     {// use the pointer of the string literal instead of create a copy
         m_DataManagment = Common::DataManagment::UnmanagedInstance;
         m_DynBuffer.m_Buffer = const_cast<RF_Type::UInt8*>(reinterpret_cast<const RF_Type::UInt8*>(&CString[0]));
-        m_DynBuffer.m_Size = N;
+
+        m_DynBuffer.m_Size = 1;
+        const char* stringEnd = CString;
+        for(; *stringEnd != '\0'; ++stringEnd, ++m_DynBuffer.m_Size){
+        }
     }
 }
 

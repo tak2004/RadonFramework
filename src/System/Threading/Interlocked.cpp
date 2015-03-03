@@ -81,7 +81,7 @@ Int64 Interlocked::InterlockedDec64(Int64 volatile* Addend)
 Int16 Interlocked::InterlockedAdd16(Int16 volatile* Addend, Int16 Value)
 {
 #if defined(RF_VISUALCPP)
-    return _InterlockedIncrement16((short volatile*)Addend);
+    return _InterlockedExchangeAdd16((short volatile*)Addend, (short)Value);
 #elif defined(RF_GCC)
     return __sync_fetch_and_add(Addend,Value);
 #else
@@ -91,18 +91,18 @@ Int16 Interlocked::InterlockedAdd16(Int16 volatile* Addend, Int16 Value)
 Int32 Interlocked::InterlockedAdd32(Int32 volatile* Addend, Int32 Value)
 {
 #if defined(RF_VISUALCPP)
-    return _InterlockedIncrement((long volatile*)Addend)+Value;
+    return _InterlockedExchangeAdd((long volatile*)Addend, (long)Value);
 #elif defined(RF_GCC)
     return __sync_fetch_and_add(Addend,Value);
 #else
 #endif
 }
 
-Int64 Interlocked::InterlockedAdd64(Int64 volatile* Addend,Int32 Value)
+Int64 Interlocked::InterlockedAdd64(Int64 volatile* Addend,Int64 Value)
 {
 #if defined(RF_VISUALCPP)
     #if defined(RF_64BIT)
-        return _InterlockedIncrement64((__int64 volatile*)Addend);
+    return _InterlockedExchangeAdd64((__int64 volatile*)Addend, (long long)Value);
     #else
         RF_COMPILER_WARNING("Really bad idea to use it on 32Bit");
         return -1;

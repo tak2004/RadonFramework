@@ -96,6 +96,16 @@ RF_Type::Int32 ExecuteProgram_SystemAPIDispatcher(const RF_Type::String& Executa
 	return ExecuteProgram(Executable, Parameters);
 }
 
+RF_Type::Bool OpenWithDefaultApplication_SystemAPIDispatcher(const RF_Type::String& What)
+{
+    OpenWithDefaultApplication = 0;
+    Dispatch();
+    Assert(OpenWithDefaultApplication != OpenWithDefaultApplication_SystemAPIDispatcher &&
+           OpenWithDefaultApplication != 0,
+           "Function was called and couldn't be dispatched");
+    return OpenWithDefaultApplication(What);
+}
+
 RFPROC::GetProcessListCallback RFPROC::GetProcessList = GetProcessList_SystemAPIDispatcher;
 RFPROC::GetCurrentProcessIdCallback RFPROC::GetCurrentProcessId = GetCurrentProcessId_SystemAPIDispatcher;
 RFPROC::GetGeneralInfoCallback RFPROC::GetGeneralInfo = GetGeneralInfo_SystemAPIDispatcher;
@@ -105,6 +115,7 @@ RFPROC::GetTimingInfoCallback RFPROC::GetTimingInfo = GetTimingInfo_SystemAPIDis
 RFPROC::GetModuleInfoCallback RFPROC::GetModuleInfo = GetModuleInfo_SystemAPIDispatcher;
 RFPROC::GetThreadInfoCallback RFPROC::GetThreadInfo = GetThreadInfo_SystemAPIDispatcher;
 RFPROC::ExecuteProgramCallback RFPROC::ExecuteProgram = ExecuteProgram_SystemAPIDispatcher;
+RFPROC::OpenWithDefaultApplicationCallback RFPROC::OpenWithDefaultApplication = OpenWithDefaultApplication_SystemAPIDispatcher;
 
 RF_Type::Bool RFPROC::IsSuccessfullyDispatched()
 {
@@ -118,6 +129,7 @@ RF_Type::Bool RFPROC::IsSuccessfullyDispatched()
     result = result && GetModuleInfo != GetModuleInfo_SystemAPIDispatcher && GetModuleInfo != 0;
     result = result && GetThreadInfo != GetThreadInfo_SystemAPIDispatcher && GetThreadInfo != 0;
 	result = result && ExecuteProgram != ExecuteProgram_SystemAPIDispatcher && ExecuteProgram != 0;
+    result = result && OpenWithDefaultApplication != OpenWithDefaultApplication_SystemAPIDispatcher && OpenWithDefaultApplication != 0;
     return result;
 }
 
@@ -141,4 +153,7 @@ void RFPROC::GetNotDispatchedFunctions( RadonFramework::Collections::List<RF_Typ
         Result.AddLast(RF_Type::String("GetThreadInfo", sizeof("GetThreadInfo")));
 	if (ExecuteProgram == ExecuteProgram_SystemAPIDispatcher || ExecuteProgram == 0)
 		Result.AddLast(RF_Type::String("ExecuteProgram", sizeof("ExecuteProgram")));
+    if(OpenWithDefaultApplication == OpenWithDefaultApplication_SystemAPIDispatcher ||
+       OpenWithDefaultApplication == 0)
+        Result.AddLast(RF_Type::String("OpenWithDefaultApplication", sizeof("OpenWithDefaultApplication")));
 }

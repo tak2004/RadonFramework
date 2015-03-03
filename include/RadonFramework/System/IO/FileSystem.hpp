@@ -78,61 +78,105 @@ RF_Type::Bool IsSuccessfullyDispatched();
 void GetNotDispatchedFunctions(RadonFramework::Collections::List<RF_Type::String>& Result);
 
 // utilities
-typedef RF_Type::Bool (*AccessCallback)(const RF_Type::String& Path,
-    const RF_IO::AccessMode::Type Mode);
-typedef RF_Type::String (*PathSeperatorCallback)();
-typedef RF_Type::String (*SeperatorCallback)();
-typedef RF_Mem::AutoPointer<RF_IO::FileStatus> (*StatCallback)(
+
+using AccessCallback = RF_Type::Bool(*)(const RF_Type::String& Path,
+                                        const RF_IO::AccessMode::Type Mode);
+
+using PathSeperatorCallback = RF_Type::String(*)();
+
+using SeperatorCallback = RF_Type::String(*)();
+
+using StatCallback = RF_Mem::AutoPointer<RF_IO::FileStatus>(*)(
     const RF_Type::String& Path);
-typedef RF_Type::Bool (*ChangeModeCallback)(const RF_Type::String& Path,
-    const RF_IO::AccessMode::Type NewMode);
+
+using RealPathCallback = void(*)(const RF_Type::String& Path,
+                                 RF_Type::String& ResolvedPath);
+
+using ChangeModeCallback = RF_Type::Bool(*)(const RF_Type::String& Path,
+                                            const RF_IO::AccessMode::Type NewMode);
 // memory mapping
-typedef MemoryMappingHandle (*MapFileIntoMemoryCallback)(const FileHandle& Handle);
-typedef RF_Type::Bool (*UnmapMemoryFileCallback)(MemoryMappingHandle& Handle);
-typedef void* (*GetMemoryFileCallback)(const MemoryMappingHandle& Handle);
+
+using MapFileIntoMemoryCallback = MemoryMappingHandle(*)(const FileHandle& Handle);
+
+using UnmapMemoryFileCallback = RF_Type::Bool(*)(MemoryMappingHandle& Handle);
+
+using GetMemoryFileCallback = void* (*)(const MemoryMappingHandle& Handle);
+
 // file
-typedef FileHandle (*OpenFileCallback)(const RF_Type::String& Filepath, 
-                                        const FileAccessMode::Type AccessMode,
-                                        const FileAccessPriority::Type AccessPriority);
-typedef RF_Type::Bool (*CloseFileCallback)(FileHandle& Handle);
-typedef RF_Type::Bool (*ReadFileCallback)(const FileHandle& Handle,
-                                        RF_Type::UInt8* Buffer,
-                                        const RF_Type::UInt64 ReadBytes,
-                                        RF_Type::UInt64& BytesRead);
-typedef RF_Type::Bool (*WriteFileCallback)(const FileHandle& Handle,
-                                        const RF_Type::UInt8* Buffer,
-                                        const RF_Type::UInt64 WriteBytes,
-                                        RF_Type::UInt64& BytesWritten);
-typedef RF_Type::Bool (*FlushFileCallback)(const FileHandle& Handle);
-typedef RF_Type::UInt64 (*SeekFileCallback)(const FileHandle& Handle,
+
+using OpenFileCallback = FileHandle(*)(const RF_Type::String& Filepath,
+                                       const FileAccessMode::Type AccessMode,
+                                       const FileAccessPriority::Type AccessPriority);
+
+using CloseFileCallback = RF_Type::Bool(*)(FileHandle& Handle);
+
+using ReadFileCallback = RF_Type::Bool(*)(const FileHandle& Handle,
+                                          RF_Type::UInt8* Buffer, 
+                                          const RF_Type::UInt64 ReadBytes,
+                                          RF_Type::UInt64& BytesRead);
+
+using WriteFileCallback = RF_Type::Bool(*)(const FileHandle& Handle,
+                                           const RF_Type::UInt8* Buffer, 
+                                           const RF_Type::UInt64 WriteBytes,
+                                           RF_Type::UInt64& BytesWritten);
+
+using FlushFileCallback = RF_Type::Bool(*)(const FileHandle& Handle);
+
+using SeekFileCallback = RF_Type::UInt64(*)(const FileHandle& Handle,
                                             const RF_Type::UInt64 Offset,
                                             const RF_IO::SeekOrigin::Type Origin );
-typedef RF_Type::UInt64 (*TellFileCallback)(const FileHandle& Handle);
-typedef RF_Type::String (*GenerateTempFilenameCallback)(const RF_Type::String& Path);
-typedef RF_Type::Bool (*CreatePreAllocatedFileCallback)(
+
+using TellFileCallback = RF_Type::UInt64(*)(const FileHandle& Handle);
+
+using GenerateTempFilenameCallback = RF_Type::String(*)(const RF_Type::String& Path);
+
+using CreatePreAllocatedFileCallback = RF_Type::Bool(*)(
     const RF_Type::String& Path, const RF_Type::Size FileSize);
-typedef RF_Type::Bool (*CreateFileCallback)(const RF_Type::String& Path);
-typedef RF_Type::Bool (*CopyFileCallback)(const RF_Type::String& From,
-    const RF_Type::String& To);
-typedef RF_Type::Bool (*RenameFileCallback)(const RF_Type::String& From,
-    const RF_Type::String& To);
-typedef RF_Type::Bool (*DeleteFileCallback)(const RF_Type::String& Path);
+
+using CreateFileCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
+
+using CopyFileCallback = RF_Type::Bool(*)(const RF_Type::String& From,
+                                          const RF_Type::String& To);
+
+using RenameFileCallback = RF_Type::Bool(*)(const RF_Type::String& From,
+                                            const RF_Type::String& To);
+
+using DeleteFileCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
+
 // directory
-typedef RF_Type::String (*WorkingDirectoryCallback)();
-typedef RF_Type::String (*HomeDirectoryCallback)();
-typedef RF_Type::String (*ApplicationDirectoryCallback)();
-typedef RF_Type::String(*UserApplicationDataDirectoryCallback)();
-typedef RF_Type::String(*ApplicationDataDirectoryCallback)();
-typedef RF_Type::Bool (*ChangeDirectoryCallback)(const RF_Type::String& Destination);
-typedef RF_Type::Bool (*CreateDirectoryCallback)(const RF_Type::String& Path);
-typedef RF_Mem::AutoPointerArray<RF_Type::String> (*DirectoryContentCallback)(const RF_Type::String& Path);
+
+using WorkingDirectoryCallback = RF_Type::String(*)();
+
+using HomeDirectoryCallback = RF_Type::String(*)();
+
+using ApplicationDirectoryCallback = RF_Type::String(*)();
+
+using UserApplicationDataDirectoryCallback = RF_Type::String(*)();
+
+using ApplicationDataDirectoryCallback = RF_Type::String(*)();
+
+using ChangeDirectoryCallback = RF_Type::Bool (*)(const RF_Type::String& Destination);
+
+using CreateDirectoryCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
+
+using DirectoryContentCallback = RF_Mem::AutoPointerArray<RF_Type::String>(*)(
+    const RF_Type::String& Path);
+
 // file watcher
-typedef FileWatcherHandle (*CreateFileWatcherCallback)(const RF_Type::String& Path);
-typedef void (*DestroyFileWatcherCallback)(FileWatcherHandle& Handle);
-typedef RF_Type::Bool (*WaitForFileWatcherCallback)(const FileWatcherHandle& Handle, FileWatcherEvent& Event);
-typedef void (*StartFileWatcherCallback)(const FileWatcherHandle& Handle);
-typedef void (*StopFileWatcherCallback)(const FileWatcherHandle& Handle);
-typedef RF_Type::Bool (*GetFileWatcherEventCallback)(const FileWatcherHandle& Handle, FileWatcherEvent& Event);
+
+using CreateFileWatcherCallback = FileWatcherHandle(*)(const RF_Type::String& Path);
+
+using DestroyFileWatcherCallback = void(*)(FileWatcherHandle& Handle);
+
+using WaitForFileWatcherCallback = RF_Type::Bool(*)(const FileWatcherHandle& Handle, 
+                                                    FileWatcherEvent& Event);
+
+using StartFileWatcherCallback = void(*)(const FileWatcherHandle& Handle);
+
+using StopFileWatcherCallback = void(*)(const FileWatcherHandle& Handle);
+
+using GetFileWatcherEventCallback = RF_Type::Bool(*)(const FileWatcherHandle& Handle, 
+                                                     FileWatcherEvent& Event);
 
 extern OpenFileCallback OpenFile;
 extern CloseFileCallback CloseFile;
@@ -150,6 +194,7 @@ extern PathSeperatorCallback PathSeperator;
 extern SeperatorCallback Seperator;
 extern StatCallback Stat;
 extern ChangeModeCallback ChangeMode;
+extern RealPathCallback RealPath;
 extern CreatePreAllocatedFileCallback CreatePreAllocatedFile;
 extern CreateFileCallback CreateFile;
 extern CopyFileCallback CopyFile;

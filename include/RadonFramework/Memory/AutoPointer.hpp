@@ -174,8 +174,7 @@ typename AutoPointer<T>::ElementType* AutoPointer<T>::Release()
 template <typename T>
 void AutoPointer<T>::Reset(ElementType* NewPtr)
 {
-    if (m_Data)
-        delete m_Data;
+    delete m_Data;
     m_Data=NewPtr;
 }
 
@@ -190,6 +189,9 @@ template <typename T>
 template <typename T1>
 AutoPointer<T>::operator AutoPointer<T1>()
 {
+    static_assert(is_class<T>::value == false || 
+                  (is_class<T>::value == true && is_class<T1>::value == true &&
+                   is_base_of<T1, T>::value == true));
     return AutoPointer<T1>(this->Release());
 }
 

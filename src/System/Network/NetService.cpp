@@ -78,7 +78,7 @@ int SocketOption[SocketOptionName::MAX]=
         0//UpdateConnectContext
     };
 
-inline Error::Type InitializeImplementation()
+inline Error InitializeImplementation()
 {
     static WSADATA m_Handle;
     int err=WSAStartup(MAKEWORD(2,2),&m_Handle);
@@ -88,7 +88,7 @@ inline Error::Type InitializeImplementation()
         return OSSocketError::ConvertOSError(err);        
 }
 
-inline Error::Type FreeImplementation()
+inline Error FreeImplementation()
 {
     int err=WSACleanup();
     if (err==0)
@@ -135,8 +135,8 @@ inline Array<NetworkAdapter> GetLocalInterfacesImplementation()
         {
             String ip=String(pAdapter->IpAddressList.IpAddress.String, sizeof(IP_ADDRESS_STRING));
             String netmask=String(pAdapter->IpAddressList.IpMask.String, sizeof(IP_ADDRESS_STRING));
-            result(i).IP<<ip;
-            result(i).Netmask<<netmask;
+            IPAddress::Resolve(ip, result(i).IP);
+            IPAddress::Resolve(netmask, result(i).Netmask);
             ++i;
         }
         pAdapter=pAdapter->Next;
@@ -145,7 +145,7 @@ inline Array<NetworkAdapter> GetLocalInterfacesImplementation()
     return result;
 }
 
-inline Error::Type SetBlockingModeImplementation(
+inline Error SetBlockingModeImplementation(
     const NetService::SocketHandler Handler, const Bool NewValue)
 {
     UInt32 mode=SocketBlockingMode[NewValue];
@@ -155,7 +155,7 @@ inline Error::Type SetBlockingModeImplementation(
         return OSSocketError::ConvertOSError();
 }
 
-inline Error::Type CloseImplementation(const NetService::SocketHandler Handler)
+inline Error CloseImplementation(const NetService::SocketHandler Handler)
 {
     if (closesocket(Handler)!=SOCKET_ERROR)
         return Error::Ok;
@@ -230,12 +230,12 @@ int SocketOption[SocketOptionName::MAX]=
         0//UpdateConnectContext
     };
 
-inline Error::Type InitializeImplementation()
+inline Error InitializeImplementation()
 {    
     return Error::Ok;
 }
 
-inline Error::Type FreeImplementation()
+inline Error FreeImplementation()
 {
     return Error::Ok;
 }
@@ -272,7 +272,7 @@ inline Array<NetworkAdapter> GetLocalInterfacesImplementation()
     return result;
 }
 
-inline Error::Type SetBlockingModeImplementation(
+inline Error SetBlockingModeImplementation(
     const NetService::SocketHandler Handler, const Bool NewValue)
 {
     Int32 opts;
@@ -295,7 +295,7 @@ inline Error::Type SetBlockingModeImplementation(
     return Error::Ok;
 }
 
-inline Error::Type CloseImplementation(const NetService::SocketHandler Handler)
+inline Error CloseImplementation(const NetService::SocketHandler Handler)
 {
     if (close(Handler)!=SOCKET_ERROR)
         return Error::Ok;
@@ -332,14 +332,14 @@ int SockOptionLevel[static_cast<RF_Type::Size>(SocketOptionLevel::MAX)] =
     {
         0,//Unset
         SOL_SOCKET,//Socket
-        0,//IPv4
-        0,//IPv6
+        IPPROTO_IP,//IPv4
+        IPPROTO_IPV6,//IPv6
         IPPROTO_TCP,//TCP
-        0//UDP
+        IPPROTO_UDP//UDP
     };
 
 //This assign the OptionName to the right OptionLevel types.
-SocketOptionLevel::Type SocketOptionAviableLevel[static_cast<RF_Type::Size>(SocketOptionName::MAX)] =
+SocketOptionLevel SocketOptionAviableLevel[static_cast<RF_Type::Size>(SocketOptionName::MAX)] =
     {
         SocketOptionLevel::Unset,//Unset
         SocketOptionLevel::Socket,//Debug
@@ -366,11 +366,11 @@ SocketOptionLevel::Type SocketOptionAviableLevel[static_cast<RF_Type::Size>(Sock
         SocketOptionLevel::Unset,//HeaderIncluded
         SocketOptionLevel::Unset,//TypeOfService
         SocketOptionLevel::Unset,//IPTimeToLive
-        SocketOptionLevel::Unset,//MulticastInterface
-        SocketOptionLevel::Unset,//MutlicastTimeToLive
-        SocketOptionLevel::Unset,//MulticastLoopback
-        SocketOptionLevel::Unset,//AddMembership
-        SocketOptionLevel::Unset,//DropMembership
+        SocketOptionLevel::IPv4,//MulticastInterface
+        SocketOptionLevel::IPv4,//MutlicastTimeToLive
+        SocketOptionLevel::IPv4,//MulticastLoopback
+        SocketOptionLevel::IPv4,//AddMembership
+        SocketOptionLevel::IPv4,//DropMembership
         SocketOptionLevel::Unset,//DontFragment
         SocketOptionLevel::Unset,//AddSourceMembership
         SocketOptionLevel::Unset,//DropSourceMembership
@@ -387,13 +387,13 @@ SocketOptionLevel::Type SocketOptionAviableLevel[static_cast<RF_Type::Size>(Sock
         SocketOptionLevel::Unset//UpdateConnectContext
     };
 
-Error::Type NetService::Initialize()
+Error NetService::Initialize()
 {
     OSSocketError::InitializeLookupTable();
     return InitializeImplementation();
 }
 
-Error::Type NetService::Free()
+Error NetService::Free()
 {
     return FreeImplementation();
 }
@@ -441,7 +441,7 @@ Array<NetworkAdapter> NetService::GetLocalInterfaces()
     return GetLocalInterfacesImplementation();
 }
 
-Error::Type NetService::Accept(const NetService::SocketHandler& Listener,
+Error NetService::Accept(const NetService::SocketHandler& Listener,
     NetService::SocketHandler& NewClient, EndPoint& ClientEndPoint)
 {
     int clientSocket;
@@ -451,7 +451,7 @@ Error::Type NetService::Accept(const NetService::SocketHandler& Listener,
     clientSocket=static_cast<int>(accept(Listener, &addr, &addrsize));
     if (clientSocket!=INVALID_SOCKET)
     {
-        NewClient=clientSocket;		
+        NewClient=clientSocket;
         sockaddr_in *p=reinterpret_cast<sockaddr_in*>(&addr);
         ClientEndPoint.Address(IPAddress(p->sin_addr.s_addr));
         ClientEndPoint.Port(ntohs(p->sin_port));
@@ -461,7 +461,7 @@ Error::Type NetService::Accept(const NetService::SocketHandler& Listener,
         return OSSocketError::ConvertOSError();
 }
 
-Error::Type NetService::Create(NetService::SocketHandler& Handler,
+Error NetService::Create(NetService::SocketHandler& Handler,
     const AddressFamily Family, const SocketType Type)
 {
     int af = SocketAddressFamily[static_cast<RF_Type::Size>(Family)];
@@ -479,36 +479,43 @@ Error::Type NetService::Create(NetService::SocketHandler& Handler,
         return OSSocketError::ConvertOSError();
 }
 
-Error::Type NetService::Bind(const NetService::SocketHandler Handler, 
-    const EndPoint &LocalEP)
+Error NetService::Bind(const NetService::SocketHandler Handler, 
+    EndPoint &LocalEP)
 {
     sockaddr_in addrIn;
     int addrSize=sizeof(sockaddr_in);
     addrIn.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(LocalEP.Address().GetAddressFamily())];
     addrIn.sin_port=htons(LocalEP.Port());
-    Array<UInt8> addr=LocalEP.Address().GetAddressBytes();
+    const UInt8* addr=LocalEP.Address().AsByteArray();
 
     switch(LocalEP.Address().GetAddressFamily())
     {
         case AddressFamily::InterNetwork:
-            addrIn.sin_addr.s_addr=htonl(*reinterpret_cast<u_long*>(&addr(0)));
+            addrIn.sin_addr.s_addr=htonl(*reinterpret_cast<const u_long*>(addr));
             break;
         default:
             return Error::InternalError;
     }
 
-    if (bind(Handler,reinterpret_cast<sockaddr*>(&addrIn),addrSize)!=SOCKET_ERROR)
+    if(bind(Handler, reinterpret_cast<sockaddr*>(&addrIn), addrSize) != SOCKET_ERROR)
+    {
+        if(getsockname(Handler, reinterpret_cast<sockaddr*>(&addrIn), &addrSize) == 0)
+        {
+            IPAddress publicIP(ntohl(addrIn.sin_addr.s_addr));
+            LocalEP.Address(publicIP);
+        }
         return Error::Ok;
+    }
     else
         return OSSocketError::ConvertOSError(); 
 }
 
-Error::Type NetService::Close(const NetService::SocketHandler Handler)
+Error NetService::Close(const NetService::SocketHandler Handler)
 {
     return CloseImplementation(Handler);
 }
 
-Error::Type NetService::Connect(const NetService::SocketHandler Handler, 
+Error NetService::Connect(const NetService::SocketHandler Handler, 
     const EndPoint &RemoteEP)
 {
     sockaddr_in addrIn;
@@ -525,7 +532,7 @@ Error::Type NetService::Connect(const NetService::SocketHandler Handler,
         return OSSocketError::ConvertOSError();
 }
 
-Error::Type NetService::Listen(const NetService::SocketHandler Handler,
+Error NetService::Listen(const NetService::SocketHandler Handler,
     const UInt32 MaxWaitingClients)
 {
     if (listen(Handler,MaxWaitingClients)!=SOCKET_ERROR)
@@ -534,7 +541,7 @@ Error::Type NetService::Listen(const NetService::SocketHandler Handler,
         return OSSocketError::ConvertOSError();
 }
 
-Error::Type NetService::Receive(const NetService::SocketHandler Handler,
+Error NetService::Receive(const NetService::SocketHandler Handler,
     AutoPointerArray<UInt8>& Data)
 {
     char Buffer[2048];//totaly enough(1400-1500 is normal)
@@ -555,7 +562,7 @@ Error::Type NetService::Receive(const NetService::SocketHandler Handler,
     }
 }
 
-Error::Type NetService::ReceiveFrom(const NetService::SocketHandler Handler,
+Error NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     AutoPointerArray<UInt8> &Data, const EndPoint &RemoteEP)
 {
     char Buffer[2048];
@@ -563,12 +570,12 @@ Error::Type NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     socklen_t addrSize=sizeof(sockaddr_in);
     src.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
     src.sin_port=htons(RemoteEP.Port());
-    Array<UInt8> addr=RemoteEP.Address().GetAddressBytes();
+    const UInt8* addr = RemoteEP.Address().AsByteArray();
 
     switch(RemoteEP.Address().GetAddressFamily())
     {
     case AddressFamily::InterNetwork:
-        src.sin_addr.s_addr=htonl(*reinterpret_cast<u_long*>(&addr(0)));
+        src.sin_addr.s_addr=htonl(*reinterpret_cast<const u_long*>(addr));
         break;
     default:
         return Error::InternalError;
@@ -590,7 +597,7 @@ Error::Type NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     }	
 }
 
-Error::Type NetService::Send(const NetService::SocketHandler Handler,
+Error NetService::Send(const NetService::SocketHandler Handler,
     const UInt8* Data, const UInt32 DataSize, UInt32 *SendDataSize)
 {
     int ret=send(Handler,reinterpret_cast<const char*>(Data),DataSize,0);
@@ -604,18 +611,18 @@ Error::Type NetService::Send(const NetService::SocketHandler Handler,
         return OSSocketError::ConvertOSError();
 }
 
-Error::Type NetService::SendTo(const NetService::SocketHandler Handler,
+Error NetService::SendTo(const NetService::SocketHandler Handler,
     const AutoPointerArray<UInt8>& Data, const EndPoint &RemoteEP, UInt32 *SendDataSize)
 {
     sockaddr_in dst;
     dst.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
     dst.sin_port=htons(RemoteEP.Port());
-    Array<UInt8> addr=RemoteEP.Address().GetAddressBytes();
+    const UInt8* addr = RemoteEP.Address().AsByteArray();
 
     switch(RemoteEP.Address().GetAddressFamily())
     {
     case AddressFamily::InterNetwork:
-        dst.sin_addr.s_addr=htonl(*reinterpret_cast<u_long*>(&addr(0)));
+        dst.sin_addr.s_addr=htonl(*reinterpret_cast<const u_long*>(addr));
         break;
     default:
         return Error::InternalError;
@@ -634,7 +641,7 @@ Error::Type NetService::SendTo(const NetService::SocketHandler Handler,
         return OSSocketError::ConvertOSError();
 }
 
-Error::Type NetService::Shutdown(const NetService::SocketHandler Handler,
+Error NetService::Shutdown(const NetService::SocketHandler Handler,
     const SocketShutdown::Type What)
 {
     int what=SockShutdown[What];
@@ -644,26 +651,26 @@ Error::Type NetService::Shutdown(const NetService::SocketHandler Handler,
         return OSSocketError::ConvertOSError();
 }
 
-Error::Type NetService::SetBlockingMode(const NetService::SocketHandler Handler,
+Error NetService::SetBlockingMode(const NetService::SocketHandler Handler,
     const Bool NewValue)
 {
     return SetBlockingModeImplementation(Handler,NewValue);
 }
 
-Error::Type NetService::GetSocketOptionWrapper(const NetService::SocketHandler Handler, 
-    const SocketOptionLevel::Type OptionLevel, 
-    const SocketOptionName::Type OptionName, 
+Error NetService::GetSocketOptionWrapper(const NetService::SocketHandler Handler, 
+    const SocketOptionLevel OptionLevel, 
+    const SocketOptionName OptionName, 
     AutoPointerArray<UInt8>& Value)
 {
-    if (OptionLevel!=SocketOptionLevel::Unset && SocketOptionAviableLevel[OptionName]==OptionLevel)
+    if(OptionLevel != SocketOptionLevel::Unset && SocketOptionAviableLevel[(RF_Type::Size)OptionName] == OptionLevel)
     {
-        if (SocketOption[OptionName]>0)
+        if(SocketOption[(RF_Type::Size)OptionName]>0)
         {
             Size len=Value.Size();
             if (len>0)// memory was passed by parameter
             {
-                if (SOCKET_ERROR!=getsockopt(Handler, SockOptionLevel[OptionLevel],
-                    SocketOption[OptionName], reinterpret_cast<char*>(Value.Get()),
+                if(SOCKET_ERROR != getsockopt(Handler, SockOptionLevel[(RF_Type::Size)OptionLevel],
+                    SocketOption[(RF_Type::Size)OptionName], reinterpret_cast<char*>(Value.Get()),
                     reinterpret_cast<socklen_t*>(&len)))
                 {
                     if (len==Value.Size())
@@ -677,14 +684,14 @@ Error::Type NetService::GetSocketOptionWrapper(const NetService::SocketHandler H
             else// need to allocate memory
             {
                 len=2048;
-                Error::Type result=Error::Ok;
+                Error result=Error::Ok;
                 // BadAddress will be raised if there is not enough memory.
                 // The loop will continue and allocate a new bigger buffer.
                 do 
                 {
                     AutoPointerArray<UInt8> buf(new UInt8[len],len);
-                    if (SOCKET_ERROR!=getsockopt(Handler, SockOptionLevel[OptionLevel],
-                        SocketOption[OptionName], reinterpret_cast<char*>(buf.Get()),
+                    if(SOCKET_ERROR != getsockopt(Handler, SockOptionLevel[(RF_Type::Size)OptionLevel],
+                        SocketOption[(RF_Type::Size)OptionName], reinterpret_cast<char*>(buf.Get()),
                         reinterpret_cast<socklen_t*>(&len)))
                     {
                         Value=AutoPointerArray<UInt8>(new UInt8[len],len);
@@ -707,17 +714,17 @@ Error::Type NetService::GetSocketOptionWrapper(const NetService::SocketHandler H
         return Error::InvalidArgument;
 }
 
-Error::Type NetService::SetSocketOption(const NetService::SocketHandler Handler, 
-    const SocketOptionLevel::Type OptionLevel, 
-    const SocketOptionName::Type OptionName, 
+Error NetService::SetSocketOption(const NetService::SocketHandler Handler, 
+    const SocketOptionLevel OptionLevel, 
+    const SocketOptionName OptionName, 
     const void* const OptionValue, const UInt32 OptionLength)
 {
-    if (OptionLevel!=SocketOptionLevel::Unset && SocketOptionAviableLevel[OptionName]==OptionLevel)
+    if(OptionLevel != SocketOptionLevel::Unset && SocketOptionAviableLevel[(RF_Type::Size)OptionName] == OptionLevel)
     {
-        if (SocketOption[OptionName]>0)
+        if(SocketOption[(RF_Type::Size)OptionName]>0)
         {
-            if (setsockopt(Handler, SockOptionLevel[OptionLevel],
-                SocketOption[OptionName], reinterpret_cast<const char*>(&OptionValue), OptionLength)!=SOCKET_ERROR)
+            if(setsockopt(Handler, SockOptionLevel[(RF_Type::Size)OptionLevel],
+                SocketOption[(RF_Type::Size)OptionName], reinterpret_cast<const char*>(&OptionValue), OptionLength) != SOCKET_ERROR)
                 return Error::Ok;
             else
                 return OSSocketError::ConvertOSError();
@@ -728,3 +735,28 @@ Error::Type NetService::SetSocketOption(const NetService::SocketHandler Handler,
     else
         return Error::InvalidArgument;
 }
+
+Error NetService::AddMembership(const NetService::SocketHandler Handler, 
+                                const RF_Net::IPAddress& OptionValue)
+{
+    struct ip_mreq multicastRequest;
+    const UInt8* addr = OptionValue.AsByteArray();
+    u_long ip = htonl(*reinterpret_cast<const u_long*>(addr));
+    memcpy(&multicastRequest.imr_multiaddr, &ip, sizeof(u_long));
+    multicastRequest.imr_interface.s_addr = htonl(INADDR_ANY);
+    return SetSocketOption(Handler, SocketOptionLevel::IPv4, 
+        SocketOptionName::AddMembership, &multicastRequest, sizeof(ip_mreq));
+}
+
+Error NetService::SetMulticastInterface(const NetService::SocketHandler Handler, 
+                                        const RF_Net::IPAddress& OptionValue)
+{
+    struct ip_mreq multicastRequest;
+    const UInt8* addr = OptionValue.AsByteArray();
+    u_long ip = htonl(*reinterpret_cast<const u_long*>(addr));
+    memcpy(&multicastRequest.imr_interface, &ip, sizeof(u_long));
+    return SetSocketOption(Handler, SocketOptionLevel::IPv4, 
+        SocketOptionName::MulticastInterface, &multicastRequest.imr_interface, 
+        sizeof(multicastRequest.imr_interface));
+}
+

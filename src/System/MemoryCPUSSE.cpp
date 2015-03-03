@@ -137,3 +137,43 @@ void Copy_SSE2(void* Destination, const void* Source, Size Bytes)
         *(dst++) = *(src++);
     }
 }
+
+void Swap_SSE2(void* P1, void* P2, Size Bytes)
+{
+    UInt8 tmp;
+    UInt8 *p1 = reinterpret_cast<UInt8*>(P1);
+    UInt8 *p2 = reinterpret_cast<UInt8*>(P2);
+    if(p1 <= p2 || p1 >= (p2 + Bytes))
+    {
+        while(Bytes && (reinterpret_cast<RF_Type::MemoryRange>(P1)& (sizeof(RF_Type::Size) - 1) ||
+            reinterpret_cast<RF_Type::MemoryRange>(P2)& (sizeof(RF_Type::Size) - 1)))
+        {
+            tmp = *p1;
+            *(p1++) = *p2;
+            *(p2++) = tmp;
+            --Bytes;
+        }
+
+        // swap 16 byte wise
+        __m128i* mp1 = reinterpret_cast<__m128i*>(p1);
+        __m128i* mp2 = reinterpret_cast<__m128i*>(p2);
+        __m128i a, b;
+        while(Bytes >= 16)
+        {
+            a = _mm_load_si128(mp1);
+            b = _mm_load_si128(mp2);
+            _mm_store_si128(mp1++, b);
+            _mm_store_si128(mp2++, a);
+        }
+
+        p1 = reinterpret_cast<RF_Type::UInt8*>(mp1);
+        p2 = reinterpret_cast<RF_Type::UInt8*>(mp2);
+        // swap last unaligned bytes
+        while(Bytes--)
+        {
+            tmp = *p1;
+            *(p1++) = *p2;
+            *(p2++) = tmp;
+        }
+    }
+}

@@ -28,8 +28,10 @@ public:
     RF_Type::UInt32 ToUInt32()const;
 
     Collections::Array<RF_Type::UInt8> GetAddressBytes()const;
+    const RF_Type::UInt8* AsByteArray()const;
+    RF_Type::Size GetByteArraySize()const;
     IPAddress& operator=(const IPAddress &Copy);
-    IPAddress& operator<<(const RF_Type::String& str);
+    //IPAddress& operator<<(const RF_Type::String& str);
 
     RF_Type::Bool operator==(const IPAddress &Other);
     const AddressFamily GetAddressFamily()const;
@@ -38,9 +40,15 @@ public:
     static IPAddress GetNetworkAddress(IPAddress IP, IPAddress NetMask);
     static RF_Type::Bool IsInSameSubnet(IPAddress IP1, IPAddress IP2, IPAddress NetMask);
     static RF_Type::Bool IsPrivateNetworkAddress(IPAddress IP);
+    
     static RF_Type::Bool IsValidIP(const RF_Type::String& Text);
     static RF_Type::Bool IsValidIPv4(const RF_Type::String& Text);
     static RF_Type::Bool IsValidIPv6(const RF_Type::String& Text);
+    
+    static RF_Type::Bool Resolve(const RF_Type::String& Text, IPAddress& ResolvedAddress);
+    static RF_Type::Bool ResolveIP4(const RF_Type::String& Text, IPAddress& ResolvedAddress);
+    static RF_Type::Bool ResolveIP6(const RF_Type::String& Text, IPAddress& ResolvedAddress);
+    static RF_Type::Bool ResolveIP6Hybrid(const RF_Type::String& Text, IPAddress& ResolvedAddress);
 
     static IPAddress IPv4Any;
     static IPAddress IPv4Loopback;
@@ -57,7 +65,7 @@ protected:
         Number
     };
     AddressFamily m_AddressFamily;
-    Collections::Array<RF_Type::UInt8> m_IP;
+    RF_Type::UInt8 m_IP[16];
 };
 
 } }

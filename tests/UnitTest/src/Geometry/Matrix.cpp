@@ -228,7 +228,7 @@ public:
 
     Bool Matrix4fDefaultConstructor()
     {
-        Matrix4f m4;
+        Mat4f m4;
         return (m4.Value[0]==1.0 && m4.Value[4]==0.0 && m4.Value[8]==0.0 &&
                 m4.Value[12]==0.0 && m4.Value[1]==0.0 && m4.Value[5]==1.0 &&
                 m4.Value[9]==0.0 && m4.Value[13]==0.0 && m4.Value[2]==0.0 &&
@@ -261,12 +261,12 @@ public:
 
     Bool Matrix4fCopyConstructor()
     {
-        Matrix4f m4b;
+        Mat4f m4b;
         m4b.Value[0]=2.0; m4b.Value[4]=3.0; m4b.Value[ 8]=1.0; m4b.Value[12]=4.0;
         m4b.Value[1]=1.0; m4b.Value[5]=2.0; m4b.Value[ 9]=3.0; m4b.Value[13]=3.0;
         m4b.Value[2]=3.0; m4b.Value[6]=4.0; m4b.Value[10]=2.0; m4b.Value[14]=2.0;
         m4b.Value[3]=4.0; m4b.Value[7]=1.0; m4b.Value[11]=4.0; m4b.Value[15]=1.0;
-        Matrix4f m4(m4b);
+        Mat4f m4(m4b);
         return (m4.Value[0]==2.0 && m4.Value[4]==3.0 && m4.Value[ 8]==1.0 &&
                 m4.Value[12]==4.0 && m4.Value[1]==1.0 && m4.Value[5]==2.0 &&
                 m4.Value[ 9]==3.0 && m4.Value[13]==3.0 && m4.Value[2]==3.0 &&
@@ -299,7 +299,7 @@ public:
 
     Bool Matrix4fAssignOperator()
     {
-        Matrix4f m4,m4b;
+        Mat4f m4, m4b;
         m4b.Value[0]=2.0; m4b.Value[4]=3.0; m4b.Value[ 8]=1.0; m4b.Value[12]=4.0;
         m4b.Value[1]=1.0; m4b.Value[5]=2.0; m4b.Value[ 9]=3.0; m4b.Value[13]=3.0;
         m4b.Value[2]=3.0; m4b.Value[6]=4.0; m4b.Value[10]=2.0; m4b.Value[14]=2.0;
@@ -334,7 +334,7 @@ public:
 
     Bool Matrix4fGetRow()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.Value[11]=2.0; m4.Value[1]=2.0; m4.Value[6]=2.0; m4.Value[12]=2.0;
         return (m4.GetRow(0)[0]==1.0 && m4.GetRow(0)[1]==0.0 && m4.GetRow(0)[2]==0.0 && m4.GetRow(0)[3]==2.0) &&
                 (m4.GetRow(1)[0]==2.0 && m4.GetRow(1)[1]==1.0 && m4.GetRow(1)[2]==0.0 && m4.GetRow(1)[3]==0.0) &&
@@ -361,7 +361,7 @@ public:
 
     Bool Matrix4fGetColumn()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.Value[11]=2.0; m4.Value[1]=2.0; m4.Value[6]=2.0; m4.Value[12]=2.0;
         return (m4.GetColumn(0)[0]==1.0 && m4.GetColumn(0)[1]==2.0 && m4.GetColumn(0)[2]==0.0 && m4.GetColumn(0)[3]==0.0) &&
                 (m4.GetColumn(1)[0]==0.0 && m4.GetColumn(1)[1]==1.0 && m4.GetColumn(1)[2]==2.0 && m4.GetColumn(1)[3]==0.0) &&
@@ -391,7 +391,7 @@ public:
 
     Bool Matrix4fSetColumn()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.SetColumn(0,Vec4f(2.0,1.0,3.0,4.0));
         m4.SetColumn(1,Vec4f(3.0,2.0,4.0,1.0));
         m4.SetColumn(2,Vec4f(1.0,3.0,2.0,4.0));
@@ -435,7 +435,7 @@ public:
 
     Bool Matrix4fTranspose()
     {
-        Matrix4f m4,m4b;
+        Mat4f m4, m4b;
         m4.SetColumn(0,Vec4f(2.0,1.0,3.0,4.0));
         m4.SetColumn(1,Vec4f(3.0,2.0,4.0,1.0));
         m4.SetColumn(2,Vec4f(1.0,3.0,2.0,4.0));
@@ -475,7 +475,7 @@ public:
 
     Bool Matrix4fScale()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.Scale(Vec4f(2.0,1.0,3.0,4.0));
         return (m4.Value[0]==2.0 && m4.Value[4]==0.0 && m4.Value[ 8]==0.0 &&
                 m4.Value[12]==0.0 && m4.Value[1]==0.0 && m4.Value[5]==1.0 &&
@@ -502,7 +502,7 @@ public:
 
     Bool Matrix4fFunctionOperator()
     {
-        Matrix4f m4;
+        Mat4f m4;
         return (m4(0,0)==1.0 && m4(1,0)==0.0 && m4(2,0)==0.0 && m4(3,0)==0.0 &&
                 m4(0,1)==0.0 && m4(1,1)==1.0 && m4(2,1)==0.0 && m4(3,1)==0.0 &&
                 m4(0,2)==0.0 && m4(1,2)==0.0 && m4(2,2)==1.0 && m4(3,2)==0.0 &&
@@ -526,7 +526,7 @@ public:
 
     Bool Matrix4fArrayOperator()
     {
-        Matrix4f m4;
+        Mat4f m4;
         return (m4[0]==1.0 && m4[4]==0.0 && m4[ 8]==0.0 && m4[12]==0.0 &&
                 m4[1]==0.0 && m4[5]==1.0 && m4[ 9]==0.0 && m4[13]==0.0 &&
                 m4[2]==0.0 && m4[6]==0.0 && m4[10]==1.0 && m4[14]==0.0 &&
@@ -561,7 +561,7 @@ public:
 
     Bool Matrix4fMultiplicationOperator()
     {
-        Matrix4f m4,m4b;
+        Mat4f m4, m4b;
         m4.SetColumn(0,Vec4f(2.0,3.0,1.0,4.0));
         m4.SetColumn(1,Vec4f(1.0,2.0,3.0,3.0));
         m4.SetColumn(2,Vec4f(3.0,4.0,2.0,2.0));
@@ -600,7 +600,7 @@ public:
 
     Bool Matrix4fDivisionOperator()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.SetColumn(0,Vec4f(2.0,3.0,1.0,4.0));
         m4.SetColumn(1,Vec4f(1.0,2.0,3.0,3.0));
         m4.SetColumn(2,Vec4f(3.0,4.0,2.0,2.0));
@@ -637,7 +637,7 @@ public:
 
     Bool Matrix4fMultiplicationOperatorVector()
     {
-        Matrix4f m4;
+        Mat4f m4;
         Vec4f v;
         m4.SetColumn(0,Vec4f(2.0,3.0,1.0,4.0));
         m4.SetColumn(1,Vec4f(1.0,2.0,3.0,3.0));
@@ -674,7 +674,7 @@ public:
 
     Bool Matrix4fMultiplicationAssignOperator()
     {
-        Matrix4f m4,m4b;
+        Mat4f m4, m4b;
         m4.SetColumn(0,Vec4f(2.0,3.0,1.0,4.0));
         m4.SetColumn(1,Vec4f(1.0,2.0,3.0,3.0));
         m4.SetColumn(2,Vec4f(3.0,4.0,2.0,2.0));
@@ -713,7 +713,7 @@ public:
 
     Bool Matrix4fDivisionAssignOperator()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.SetColumn(0,Vec4f(2.0,3.0,1.0,4.0));
         m4.SetColumn(1,Vec4f(1.0,2.0,3.0,3.0));
         m4.SetColumn(2,Vec4f(3.0,4.0,2.0,2.0));
@@ -746,7 +746,7 @@ public:
 
     Bool Matrix4fDeterminants()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.SetColumn(0,Vec4f(2.0,3.0,1.0,4.0));
         m4.SetColumn(1,Vec4f(1.0,2.0,3.0,3.0));
         m4.SetColumn(2,Vec4f(3.0,4.0,2.0,2.0));
@@ -777,14 +777,14 @@ public:
 
     Bool Matrix4fInverse()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.SetColumn(0,Vec4f(2.0,3.0,1.0,4.0));
         m4.SetColumn(1,Vec4f(1.0,2.0,3.0,3.0));
         m4.SetColumn(2,Vec4f(3.0,4.0,2.0,2.0));
         m4.SetColumn(3,Vec4f(4.0,1.0,4.0,1.0));
-        Matrix4f m4inv;
+        Mat4f m4inv;
         m4inv=m4.Inverse();
-        return m4*m4inv==Matrix4f();
+        return m4*m4inv == Mat4f();
     }
 
     Bool Matrix2fLoadIdentity()
@@ -804,7 +804,7 @@ public:
 
     Bool Matrix4fLoadIdentity()
     {
-        Matrix4f m4;
+        Mat4f m4;
         return (m4.Value[0]==1.0 && m4.Value[4]==0.0 && m4.Value[8]==0.0 &&
             m4.Value[12]==0.0 && m4.Value[1]==0.0 && m4.Value[5]==1.0 &&
             m4.Value[9]==0.0 && m4.Value[13]==0.0 && m4.Value[2]==0.0 &&
@@ -832,7 +832,7 @@ public:
 
     Bool Matrix4fLoadZero()
     {
-        Matrix4f m4;
+        Mat4f m4;
         m4.LoadZero();
         return (m4.Value[0]==0.0 && m4.Value[4]==0.0 && m4.Value[8]==0.0 &&
                 m4.Value[12]==0.0 && m4.Value[1]==0.0 && m4.Value[5]==0.0 &&

@@ -37,14 +37,18 @@ void ExistsEnumeratorTaskFunction(void* Data)
 {
     auto* data = reinterpret_cast<ExistsEnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
-    for(RF_Type::UInt32 i = 0, end = data->Steps; i < end && (*data->Hits) == 0; ++i, ++data->Enumeable)
+    RF_Type::Size i, end;
+    for(i = 0, end = data->Steps; 
+        i < end && (*data->Hits) == 0;
+        ++i, ++data->Enumeable)
     {
         if (data->Function(data->Enumeable))
         {
             data->Hits->Increment();
         }
-        data->OverallWork->Decrement();
     }
+    RF_Type::Int32 negativeLoopCounter = -static_cast<RF_Type::Int32>(i);
+    data->OverallWork->Add(negativeLoopCounter);
 }
 
 template <class C, typename FUNCTION>

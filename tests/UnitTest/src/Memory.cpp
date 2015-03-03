@@ -111,9 +111,9 @@ public:
 
     Bool Copy()
     {
-        UInt8 ALIGN(16) bufA[32];
-        UInt8 ALIGN(16) bufC[11] = { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 };
-        UInt8 ALIGN(16) bufD[17] = { 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9 ,8, 7, 6, 5};
+        UInt8 RF_ALIGN(16) bufA[32];
+        UInt8 RF_ALIGN(16) bufC[11] = { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 };
+        UInt8 RF_ALIGN(16) bufD[17] = { 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9 ,8, 7, 6, 5};
         Bool result = true;
 
         // bufA not aligned but bufC

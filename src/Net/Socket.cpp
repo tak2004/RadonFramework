@@ -37,7 +37,7 @@ AutoPointer<Socket> Socket::Create(const AddressFamily Family,
     AutoPointer<Socket> result;
     // Create a socket resource.
     NetService::SocketHandler handler;
-    Error::Type error=NetService::Create(handler,Family,Type);
+    RF_Net::Error error=NetService::Create(handler,Family,Type);
     if (error==Error::Ok)
         result=Create(handler);
     Error.Code=error;
@@ -50,7 +50,7 @@ AutoPointer<Socket> Socket::Create(const AddressFamily Family,
     AutoPointer<Socket> result;
     // Create a socket resource.
     NetService::SocketHandler handler;
-    Error::Type error=NetService::Create(handler,Family,Type);
+    Error error=NetService::Create(handler,Family,Type);
     if (error==Error::Ok)
         result=Create(handler);
     return result;
@@ -74,8 +74,8 @@ Socket::~Socket()
 SocketError Socket::Bind( const EndPoint &LocalEP )
 {
     SocketError result;
-    result.Code=NetService::Bind(m_Data->Handler,LocalEP);
-    m_Data->LocalEndPoint=LocalEP;
+    m_Data->LocalEndPoint = LocalEP;
+    result.Code = NetService::Bind(m_Data->Handler, m_Data->LocalEndPoint);
     return result;
 }
 
@@ -200,21 +200,12 @@ EndPoint RadonFramework::Net::Socket::RemoteEndPoint()
     }
     return EndPoint();
 }
-
-EndPoint RadonFramework::Net::Socket::LocalEndPoint()
+*/
+EndPoint& Socket::LocalEndPoint()const
 {
-    if (m_Backend)
-        return m_Backend->LocalEndPoint();
-    else
-    {
-        SocketErrorArgument arg;
-        arg.Sender=this;
-        arg.Error=SocketError::NoBackendAvailable;
-        OnError(arg);
-    }
-    return EndPoint();
+    return m_Data->LocalEndPoint;
 }
-
+/*
 SocketError::Type RadonFramework::Net::Socket::GetSocketOption(const SocketOptionLevel::Type OptionLevel, const SocketOptionName::Type OptionName, Core::Types::Bool &Value)
 {
     SocketError::Type res=SocketError::NoError;
@@ -250,43 +241,31 @@ SocketError::Type RadonFramework::Net::Socket::GetSocketOption(const SocketOptio
     }
     return res;
 }
-
-SocketError::Type RadonFramework::Net::Socket::SetSocketOption(const SocketOptionLevel::Type OptionLevel, const SocketOptionName::Type OptionName, const Core::Types::Bool Value)
+*/
+SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel, 
+    const SocketOptionName OptionName, const Bool Value)
 {
-    SocketError::Type res=SocketError::NoError;
-    if (m_Backend)
-        res=m_Backend->SetSocketOption(OptionLevel,OptionName,Value);
-    else
-        res=SocketError::NoBackendAvailable;
-
-    if (res!=SocketError::NoError)
-    {
-        SocketErrorArgument arg;
-        arg.Sender=this;
-        arg.Error=res;
-        OnError(arg);
-    }
+    SocketError res;
+    res.Code = NetService::SetSocketOption<Bool>(m_Data->Handler, OptionLevel, OptionName, Value);
     return res;
 }
 
-SocketError::Type RadonFramework::Net::Socket::SetSocketOption(const SocketOptionLevel::Type OptionLevel, const SocketOptionName::Type OptionName, const Int32 Value)
+SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel, 
+    const SocketOptionName OptionName, const Int32 Value)
 {
-    SocketError::Type res=SocketError::NoError;
-    if (m_Backend)
-        res=m_Backend->SetSocketOption(OptionLevel,OptionName,Value);
-    else
-        res=SocketError::NoBackendAvailable;
-
-    if (res!=SocketError::NoError)
-    {
-        SocketErrorArgument arg;
-        arg.Sender=this;
-        arg.Error=res;
-        OnError(arg);
-    }
+    SocketError res;
+    res.Code = NetService::SetSocketOption<Int32>(m_Data->Handler, OptionLevel, OptionName, Value);
     return res;
 }
 
+SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel,
+    const SocketOptionName OptionName, const IPAddress& Value)
+{
+    SocketError res;
+    res.Code = NetService::SetSocketOption<IPAddress>(m_Data->Handler, OptionLevel, OptionName, Value);
+    return res;
+}
+/*
 SocketError::Type Socket::SetReceiveTimeout(RadonFramework::Core::Types::UInt32 timeout)
 {
     SocketError::Type res=SocketError::NoError;

@@ -24,6 +24,9 @@ public:
     * calling it.
     */
     static void DestroyInstance();
+
+    Singleton(const Singleton&) = delete;
+    Singleton& operator=(const Singleton&) = delete;
 protected:
     Singleton(){}
     virtual ~Singleton(){}
@@ -35,9 +38,6 @@ private:
             ~WatchDog();
     };
     friend class WatchDog;
-            
-    Singleton(const Singleton&);
-    Singleton& operator=( const Singleton& );
 };
 
 template<class T>

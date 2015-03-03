@@ -51,7 +51,7 @@ struct Interlocked
     /// Performs a atomic addition operation.
     static RF_Type::Int64 InterlockedAdd64(
         RF_Type::Int64 volatile* Addend,
-        RF_Type::Int32 Value);
+        RF_Type::Int64 Value);
 
     // Logical operations
     /// Performs an atomic AND operation on the specified Int8 values.

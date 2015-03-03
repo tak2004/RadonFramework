@@ -42,7 +42,7 @@ public:
         vec.Item(1, 2);
         vec.Item(2, 3);
         RadonFramework::Memory::AutoPointerArray<Size> results;
-        results = FindAll(vec, [](Array<UInt32>::EnumeratorType& Enum)->Bool {return *Enum == 3; });
+        results = FindAll(vec, [](Array<UInt32>::ConstEnumeratorType& Enum)->Bool {return *Enum == 3; });
         return results.Count() == 2;
     }
 };

@@ -3,8 +3,6 @@ project(RadonFramework)
 
 include("Integrate.cmake")
 
-include("${CMAKE_CURRENT_LIST_DIR}/cmake/util/git.cmake")
-
 OPTION(RADONFRAMEWORK_WITH_VISUALGDB "Generate a VisualGDB target for remote build." OFF)
 mark_as_advanced(RADONFRAMEWORK_WITH_VISUALGDB)
 
@@ -94,7 +92,6 @@ endif()
 
 link_directories(${RadonFramework_BINARY_DIR}/dist/)
 
-include("cmake/util/Macros.cmake")
 include(libRadonFramework.cmake)
 Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
 

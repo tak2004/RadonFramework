@@ -20,7 +20,7 @@ namespace RadonFramework
             return (ReflectionClassInstance*)new T;
         }
 
-        typedef ReflectionClassInstance* (*CreateInstanceFunction)();
+        using CreateInstanceFunction = ReflectionClassInstance* (*)();
 
         class ReflectionClass
         {

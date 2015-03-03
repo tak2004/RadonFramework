@@ -44,43 +44,43 @@ namespace LocaleCategory
 }
 
 /// Function declaration for SetLocale.
-typedef RF_Type::String (*SetLocaleCallback)(const LocaleCategory::Type Category,
-                                            const RF_Type::String& Locale);
+using SetLocaleCallback = RF_Type::String(*)(const LocaleCategory::Type Category,
+                                             const RF_Type::String& Locale);
 
 /// Function declaration for GetLocale.
-typedef const RF_Type::String& (*GetLocaleCallback)();
+using GetLocaleCallback = const RF_Type::String& (*)();
 
 /// Function declaration for ToUpper.
-typedef RF_Type::Bool (*ToUpperCallback)(RF_Type::String& Instance);
+using ToUpperCallback = RF_Type::Bool(*)(RF_Type::String& Instance);
 
 /// Function declaration for ToLower.
-typedef RF_Type::Bool (*ToLowerCallback)(RF_Type::String& Instance);
+using ToLowerCallback = RF_Type::Bool(*)(RF_Type::String& Instance);
 
 /// Function declaration for Size.
-typedef RF_Type::Size (*SizeCallback)(const RF_Type::UInt8* Buffer, 
-                                     const RF_Type::Size BufferSize);
+using SizeCallback = RF_Type::Size(*)(const RF_Type::UInt8* Buffer,
+                                      const RF_Type::Size BufferSize);
 
 /// Function declaration for Length.
-typedef RF_Type::Size(*LengthCallback)(const RF_Type::UInt8* Buffer,
-    const RF_Type::Size BufferSize);
+using LengthCallback = RF_Type::Size(*)(const RF_Type::UInt8* Buffer,
+                                        const RF_Type::Size BufferSize);
 
 /// Function declaration for ToInt64.
-typedef RF_Type::Bool (*ToInt64Callback)(const RF_Type::String& Instance,
-                                        RF_Type::Int32 Base, RF_Type::Int64& Out);
+using ToInt64Callback = RF_Type::Bool(*)(const RF_Type::String& Instance,
+                                         RF_Type::Int32 Base, RF_Type::Int64& Out);
 
 /// Function declaration for ToUInt64.
-typedef RF_Type::Bool (*ToUInt64Callback)(const RF_Type::String& Instance,
-                                            RF_Type::Int32 Base, RF_Type::UInt64& Out);
+using ToUInt64Callback = RF_Type::Bool(*)(const RF_Type::String& Instance,
+                                          RF_Type::Int32 Base, RF_Type::UInt64& Out);
 
 /// Function declaration for ToFloat64.
-typedef RF_Type::Bool (*ToFloat64Callback)(const RF_Type::String& Instance, 
-                                            RF_Type::Float64& Out);
+using ToFloat64Callback = RF_Type::Bool(*)(const RF_Type::String& Instance,
+                                           RF_Type::Float64& Out);
 
 /// Function declaration for Format.
-typedef RF_Type::Int32 (*FormatCallback)(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize,
-                                        const RF_Type::String& Format, va_list arg);
+using FormatCallback = RF_Type::Int32(*)(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize,
+                                         const RF_Type::String& Format, va_list arg);
 
-typedef const RF_Type::UInt8* (*FindCallback)(const RF_Type::UInt8* Buffer, 
+using FindCallback = const RF_Type::UInt8* (*)(const RF_Type::UInt8* Buffer,
     RF_Type::Size BufferSize, const RF_Type::UInt8* LookingFor, 
     RF_Type::Size LookingForSize);
 

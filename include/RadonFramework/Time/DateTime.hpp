@@ -69,6 +69,7 @@ struct DateTime
     TimeValue Ticks()const;
 
     RF_Type::String ToString()const;
+    void Format(const RF_Type::String& Format, RF_Type::String& Result)const;
 
     static RF_Type::UInt32 DaysInMonth(RF_Type::UInt32 Year, RF_Type::UInt32 Month);
     static bool IsLeapYear(RF_Type::UInt32 Year);

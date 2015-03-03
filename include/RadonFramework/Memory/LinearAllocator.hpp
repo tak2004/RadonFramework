@@ -6,7 +6,7 @@
 
 namespace RadonFramework { namespace Memory {
 
-struct ALIGN(16) LinearAllocator
+struct RF_ALIGN(16) LinearAllocator
 {
     static LinearAllocator* CreateInstance(const RF_Type::Size MemorySize);
     static void FreeInstance(LinearAllocator*& Instance);

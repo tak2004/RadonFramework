@@ -25,7 +25,7 @@ public:
     static RF_Mem::AutoPointer<SelectObjectCollector> Create(
         const Net::Socket& Handler);
 
-    Net::Error::Type Select(const Net::SelectMode::Type Mode,
+    Net::Error Select(const Net::SelectMode::Type Mode,
         const RadonFramework::Time::TimeSpan* Timeout=0);
 
     ~SelectObjectCollector();

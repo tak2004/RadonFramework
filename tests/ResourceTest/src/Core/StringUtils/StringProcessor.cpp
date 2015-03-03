@@ -78,7 +78,7 @@ public:
     StringProcessorTest()
     :TestSuite("RadonFramework::Core::Types::StringUtils")
     {
-        txt=String(LONGERTEXT, DataManagment::UnmanagedInstance);
+        txt=String(LONGERTEXT, sizeof(LONGERTEXT), DataManagment::UnmanagedInstance);
         AddTest(MakeDelegate(this,&StringProcessorTest::DoBruteforce),"StringProcessorTest::DoBruteforce", "Bruteforce search");
         AddTest(MakeDelegate(this,&StringProcessorTest::DoHorspool),"StringProcessorTest::DoHorspool", "Horspool search");
         AddTest(MakeDelegate(this,&StringProcessorTest::DoKnuthMorrisPratt), "StringProcessorTest::DoKnuthMorrisPratt", "KnuthMorrisPratt search");

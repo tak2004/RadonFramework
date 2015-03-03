@@ -428,13 +428,13 @@ AutoPointerArray<String> String::Split(const String &Delimiters)const
     const int TERMINATION = 1;
     AutoPointerArray<String> list;
     const RF_Type::UInt8* p = GetBuffer();
-    RF_Type::Size hits=1;
+    RF_Type::Size hits = 1, end = Size() - TERMINATION - 1;
 
     for (RF_Type::Size i = 0; i < Size() - TERMINATION; ++i)
     {
         for (RF_Type::Size j = 0; j < Delimiters.Size() - TERMINATION; ++j)
         {
-            if (p[i] == Delimiters[j])
+            if (p[i] == Delimiters[j] && i != 0 && i != end)
             {
                 ++hits;
                 break;

@@ -107,8 +107,8 @@ void Settings::Save()
     Directory appDataDir = GetAppDataDir();
     if (!appDataDir.Exists())
         appDataDir.CreateNewDirectory();
-    HashMap < const char*, String, hash < const char* >, eqstr, HashMapOperationEfficient<const char*, String, hash<const char*>, eqstr > >::Iterator it = m_PImpl->m_Data.Begin();
-    HashMap<const char*, String, hash<const char*>, eqstr, HashMapOperationEfficient<const char*, String, hash<const char*>, eqstr> >::Iterator end = m_PImpl->m_Data.End();
+    auto it = m_PImpl->m_Data.Begin();
+    auto end = m_PImpl->m_Data.End();
     File config;
     config.SetLocation(appDataDir.Location().OriginalString() + "/config.txt");
     config.CreateNewFile();

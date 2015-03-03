@@ -1,7 +1,6 @@
 project(SystemTest)
 cmake_minimum_required(VERSION 2.8)
 
-include("../../cmake/extern/Generate.cmake")
 Integrate(RADONFRAMEWORK "Radon framework" "RADONFRAMEWORK_HOME")
 
 AddSourceDirectoryRecursive(filelist "src" "Source")

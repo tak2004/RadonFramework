@@ -61,10 +61,24 @@ void Move_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
     Move(Destination, Source, Bytes);
 }
 
+extern void Swap_SSE2(void* P1, void* P2, Size Bytes);
+extern void Swap_Std(void* P1, void* P2, Size Bytes);
+void Swap_CPUDispatcher(void* P1, void* P2, Size Bytes)
+{
+    RFHDW::ProcessorFeatureMask features;
+    RFHDW::GetLogicalProcessorFeatures(features);
+    if(features[RFHDW::ProcessorFeatures::SSE2])
+        RF_SysMem::Swap = Swap_SSE2;
+    else
+        RF_SysMem::Swap = Swap_Std;
+    Swap(P1, P2, Bytes);
+}
+
 CompareCallback RF_SysMem::Compare=Compare_CPUDispatcher;
 SetCallback RF_SysMem::Set=Set_CPUDispatcher;
 CopyCallback RF_SysMem::Copy=Copy_CPUDispatcher;
 MoveCallback RF_SysMem::Move=Move_CPUDispatcher;
+SwapCallback RF_SysMem::Swap=Swap_CPUDispatcher;
 
 //
 // On-Demand dispatched functions which are OS API dependent and have to be implemented on each platform

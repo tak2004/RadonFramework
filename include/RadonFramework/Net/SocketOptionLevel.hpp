@@ -4,24 +4,19 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework { namespace Net {
+
+enum class SocketOptionLevel
 {
-	namespace Net
-	{
-		namespace SocketOptionLevel
-		{
-			enum Type
-			{
-				Unset,
-				Socket,
-				IPv4,
-				IPv6,
-				TCP,
-				UDP,
-				MAX
-			};
-		}
-	}
-}
+    Unset,
+    Socket,
+    IPv4,
+    IPv6,
+    TCP,
+    UDP,
+    MAX
+};
+
+} }
 
 #endif

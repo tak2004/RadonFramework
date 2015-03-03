@@ -48,6 +48,16 @@ AutoPointer<FileStatus> Stat_SystemAPIDispatcher(const Core::Types::String& Path
     return Stat(Path);
 }
 
+void RealPath_SystemAPIDispatcher(const RF_Type::String& Path, 
+                                  RF_Type::String& ResolvedPath)
+{
+    RealPath = 0;
+    Dispatch();
+    Assert(RealPath != RealPath_SystemAPIDispatcher && RealPath != 0,
+           "Funtion was called and couldn't be dispatched");
+    RealPath(Path, ResolvedPath);
+}
+
 RF_Type::Bool ChangeMode_SystemAPIDispatcher(const RF_Type::String& Path,
     const AccessMode::Type NewMode)
 {
@@ -381,6 +391,7 @@ AccessCallback RFFILE::Access = Access_SystemAPIDispatcher;
 PathSeperatorCallback RFFILE::PathSeperator = PathSeperator_SystemAPIDispatcher;
 SeperatorCallback RFFILE::Seperator = Seperator_SystemAPIDispatcher;
 StatCallback RFFILE::Stat = Stat_SystemAPIDispatcher;
+RealPathCallback RFFILE::RealPath = RealPath_SystemAPIDispatcher;
 ChangeModeCallback RFFILE::ChangeMode = ChangeMode_SystemAPIDispatcher;
 CreatePreAllocatedFileCallback RFFILE::CreatePreAllocatedFile = CreatePreAllocatedFile_SystemAPIDispatcher;
 CreateFileCallback RFFILE::CreateFile = CreateFile_SystemAPIDispatcher;
@@ -420,6 +431,7 @@ Bool RFFILE::IsSuccessfullyDispatched()
     result=result && PathSeperator != PathSeperator_SystemAPIDispatcher && PathSeperator != 0;
     result=result && Seperator != Seperator_SystemAPIDispatcher && Seperator != 0;
     result=result && Stat != Stat_SystemAPIDispatcher && Stat != 0;
+    result=result && RealPath != RealPath_SystemAPIDispatcher && RealPath != 0;
     result=result && ChangeMode != ChangeMode_SystemAPIDispatcher && ChangeMode != 0;
     result=result && CreatePreAllocatedFile != CreatePreAllocatedFile_SystemAPIDispatcher && CreatePreAllocatedFile != 0;
     result=result && CreateFile != CreateFile_SystemAPIDispatcher && CreateFile != 0;
@@ -475,6 +487,8 @@ void RFFILE::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
         Result.AddLast(RF_Type::String("Seperator", sizeof("Seperator")));
     if (Stat == Stat_SystemAPIDispatcher || Stat == 0)
         Result.AddLast(RF_Type::String("Stat", sizeof("Stat")));
+    if(RealPath == RealPath_SystemAPIDispatcher || RealPath == 0)
+        Result.AddLast(RF_Type::String("RealPath", sizeof("RealPath")));
     if (ChangeMode == ChangeMode_SystemAPIDispatcher || ChangeMode == 0)
         Result.AddLast(RF_Type::String("ChangeMode", sizeof("ChangeMode")));
     if (CreatePreAllocatedFile == CreatePreAllocatedFile_SystemAPIDispatcher || CreatePreAllocatedFile == 0)

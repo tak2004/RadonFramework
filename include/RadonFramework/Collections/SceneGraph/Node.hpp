@@ -5,7 +5,6 @@
 #endif
 
 #include <RadonFramework/Collections/SceneGraph/DataTraits.hpp>
-#include <RadonFramework/Core/Idioms/PImpl.hpp>
 
 namespace RadonFramework { namespace Collections { namespace SceneGraph {
 

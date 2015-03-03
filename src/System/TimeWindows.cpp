@@ -1,6 +1,8 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Time.hpp"
+#include "RadonFramework/Time/DateTime.hpp"
 #include <math.h>
+#include <time.h>
 
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
@@ -27,6 +29,27 @@ UInt64 GetMinutesWestOfGMT()
     {
         return 0;
     }    
+}
+
+void GetStringFormatedTime(const RF_Time::DateTime& Time,
+    const RF_Type::String& Format, RF_Type::String& FormattedString)
+{
+    RF_Mem::AutoPointerArray<char> buf(new char[256],256);
+    struct tm time;
+    time.tm_sec = Time.Second();
+    time.tm_min = Time.Minute();
+    time.tm_hour = Time.Hour();
+    time.tm_mday = Time.Day();
+    time.tm_mon = Time.Month();
+    time.tm_year = Time.Year();
+    time.tm_wday = Time.GetDayOfWeek();
+    time.tm_yday = Time.DayOfYear();
+    time.tm_isdst = -1;
+    while(strftime(buf.Get(), buf.Size(), Format.c_str(), &time) == 0)
+    {
+        buf = RF_Mem::AutoPointerArray<char>(new char[buf.Size()+256], buf.Size()+256);
+    }
+    FormattedString = String(buf.Get(), buf.Size());
 }
 
 UInt64 GetHighResolutionCounter()
@@ -93,6 +116,7 @@ void RadonFramework::System::Time::Dispatch()
     DeleteTimerQueue=::DeleteTimerQueue;
     GetNow=::GetNow;
     GetMinutesWestOfGMT=::GetMinutesWestOfGMT;
+    GetStringFormatedTime=::GetStringFormatedTime;
     GetHighResolutionCounter=::GetHighResolutionCounter;
     IsHighResolutionCounterSupported=::IsHighResolutionCounterSupported;
 }

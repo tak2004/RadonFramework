@@ -6,47 +6,40 @@
 
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Char.hpp>
+#include <RadonFramework/Net/AddressFamily.hpp>
+#include <RadonFramework/Net/SocketType.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Net {
+
+struct ServerConfig
 {
-    namespace Net
+    enum 
     {
-        struct ServerConfigData
-        {
-            static const RF_Type::UInt32 RF_NET_HTTP_MAXHOSTNAME=256;
+        MAXHOSTNAME=256
+    };
 
-            /** If the Port is set to 0 then the Server use the first 
-              * available port and change this value.
-              **/
-            RF_Type::UInt32 Port;
+    AddressFamily Family;
 
-            /** The number of maximal concurrent sessions, each new session
-              * will be denied.
-              **/
-            RF_Type::UInt32 MaxConcurrentSessions;
+    SocketType Protocol;
 
-            /** Can contain a IP, hostname or * to use the first available IP.
-              * If is set the value will be replaced by the choosen IP. 
-              **/
-            RF_Type::Char Hostname[RF_NET_HTTP_MAXHOSTNAME]; 
-        };
+    /** If the Port is set to 0 then the Server use the first 
+    * available port and change this value.
+    **/
+    RF_Type::UInt32 Port;
 
-        class ServerConfig
-        {
-            public:
-                ServerConfig();
-                ~ServerConfig();
-                ServerConfig(const ServerConfig& Copy);
-                ServerConfig& operator=(const ServerConfig& Other);
-                // Reader functionality
-                RF_Type::Bool ReadFromBinaryData(
-                    Memory::AutoPointerArray<RF_Type::UInt8> Data);
-                // Writer functionality
-                Memory::AutoPointerArray<RF_Type::UInt8> GenerateBinaryData();
-            protected:
-                Memory::AutoPointer<ServerConfigData> m_Data;
-        };
-    }
-}
+    /** The number of maximal concurrent sessions, each new session
+    * will be denied.
+    **/
+    RF_Type::UInt32 MaxConcurrentSessions;
+
+    /** Can contain a IP, hostname or * to use the first available IP.
+    * If set the value will be replaced by the chosen IP. 
+    **/
+    RF_Type::Char Hostname[MAXHOSTNAME]; 
+
+    RF_Type::Bool Blocking;
+};
+    
+} }
 
 #endif // RF_NET_SERVERCONFIG_HPP

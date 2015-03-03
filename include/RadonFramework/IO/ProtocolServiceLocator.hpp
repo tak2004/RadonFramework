@@ -9,25 +9,22 @@
 #include <RadonFramework/IO/Resource.hpp>
 #include <RadonFramework/IO/Uri.hpp>
 
-namespace RadonFramework
-{
-    namespace IO
-    {
-        class NullProtocolService:public ProtocolService
-        {
-            public:
-                NullProtocolService(const RF_Type::String &Name):ProtocolService(Name){}
-                Memory::AutoPointer<Resource> GenerateResource(const Uri&){return Memory::AutoPointer<Resource>();}
-        };
+namespace RadonFramework { namespace IO {
 
-        class ProtocolServiceLocator:public Core::Pattern::Locator<ProtocolService,NullProtocolService>
-        {
-            public:
-                static Memory::AutoPointer<Resource> GenerateResource(const Uri& URI);
-            private:
-                ~ProtocolServiceLocator();
-        };
-    }
-}
+class NullProtocolService:public ProtocolService
+{
+    public:
+        NullProtocolService(const RF_Type::String &Name):ProtocolService(Name){}
+        Memory::AutoPointer<Resource> GenerateResource(const Uri&){return Memory::AutoPointer<Resource>();}
+};
+
+struct ProtocolServiceLocator:public RF_Pattern::Locator<ProtocolService, NullProtocolService>
+{
+    ProtocolServiceLocator() = delete;
+
+    static Memory::AutoPointer<Resource> GenerateResource(const Uri& URI);
+};
+
+} }
 
 #endif // RF_PROTOCOLSERVICELOCATOR_HPP

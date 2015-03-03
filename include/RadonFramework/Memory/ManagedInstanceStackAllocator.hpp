@@ -21,7 +21,7 @@ public:
     void Pop();
     void* Peek();
 protected:
-    typedef void(*DestructorCallback)(void*);
+    using DestructorCallback = void(*)(void*);
 
     template<class T>
     static void CallDestructor(void* Object);

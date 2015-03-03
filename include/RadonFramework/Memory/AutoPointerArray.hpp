@@ -5,6 +5,8 @@
 #endif
 
 #include <type_traits>
+#include <RadonFramework/Collections/Enumerator.hpp>
+#include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 
 namespace RadonFramework { namespace Memory {
 
@@ -24,6 +26,8 @@ class AutoPointerArray
 {
 public:
     typedef T ElementType;
+    typedef Collections::Enumerator<T, Collections::ArrayEnumeratorType> EnumeratorType;
+    typedef Collections::Enumerator<const T, Collections::ArrayEnumeratorType> ConstEnumeratorType;
 
     explicit AutoPointerArray();
                 
@@ -37,6 +41,16 @@ public:
     AutoPointerArray(AutoPointerArrayReference<ElementType> Ref);
 
     ~AutoPointerArray();
+
+    /**
+    * Returns an Enumerator for the Array.
+    */
+    EnumeratorType GetEnumerator()const;
+
+    /**
+    * Returns an Enumerator for the Array.
+    */
+    ConstEnumeratorType GetConstEnumerator()const;
 
     ElementType* Get()const;
 
@@ -128,10 +142,29 @@ AutoPointerArray<T>::AutoPointerArray(AutoPointerArrayReference<ElementType> Ref
 template<typename T>
 AutoPointerArray<T>::~AutoPointerArray()
 {
-    if (m_Data)
-        delete[] m_Data;
+    delete[] m_Data;
     m_Data=0;
     m_Size=0;
+}
+
+template<typename T>
+typename AutoPointerArray<T>::EnumeratorType AutoPointerArray<T>::GetEnumerator()const
+{
+    EnumeratorType result;
+    result.m_Start = m_Data;
+    result.m_Current = m_Data;
+    result.m_Elements = m_Size;
+    return result;
+}
+
+template<typename T>
+typename AutoPointerArray<T>::ConstEnumeratorType AutoPointerArray<T>::GetConstEnumerator()const
+{
+    ConstEnumeratorType result;
+    result.m_Start = m_Data;
+    result.m_Current = m_Data;
+    result.m_Elements = m_Size;
+    return result;
 }
 
 template<typename T>

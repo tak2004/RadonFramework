@@ -5,6 +5,10 @@
 #endif
 
 #include <RadonFramework/Collections/List.hpp>
+#
+
+namespace RadonFramework { namespace Time { class DateTime; } }
+namespace RF_Time = RadonFramework::Time;
 
 namespace RadonFramework { namespace System { namespace Time {
     typedef RF_Mem::PointerID TimerHandle;
@@ -22,20 +26,34 @@ namespace RadonFramework { namespace System { namespace Time {
     /// This function is for debugging purpose and return all unassigned functions.
     void GetNotDispatchedFunctions(RadonFramework::Collections::List<RF_Type::String>& Result);
 
-    typedef TimerHandle (*CreateTimerQueueCallback)(TimerCallback Callback, void* Parameter, RF_Type::Int32 DueTime, RF_Type::Int32 Period);
-    typedef void (*DeleteTimerQueueCallback)(TimerHandle& Handle);
+    using CreateTimerQueueCallback = TimerHandle(*)(TimerCallback Callback, 
+                                                    void* Parameter, 
+                                                    RF_Type::Int32 DueTime, 
+                                                    RF_Type::Int32 Period);
+
+    using DeleteTimerQueueCallback = void(*)(TimerHandle& Handle);
+
     /// Get time in 100 nanosecond resolution(GMT).
-    typedef RF_Type::UInt64 (*GetNowCallback)();
+    using GetNowCallback = RF_Type::UInt64(*)();
+
     /// Get time offset to UTC in 10 micro second resolution.
-    typedef RF_Type::UInt64 (*GetMinutesWestOfGMTCallback)();
+    using GetMinutesWestOfGMTCallback = RF_Type::UInt64(*)();
+
+    /// Format the time in specified string format.
+    using GetStringFormatedTimeCallback = void(*)(const RF_Time::DateTime& Time,
+                                                  const RF_Type::String& Format, 
+                                                  RF_Type::String& FormattedString);
+
     /// Get time in microsecond resolution.
-    typedef RF_Type::UInt64 (*GetHighResolutionCounterCallback)();
-    typedef RF_Type::Bool (*IsHighResolutionCounterSupportedCallback)();
+    using GetHighResolutionCounterCallback = RF_Type::UInt64(*)();
+
+    using IsHighResolutionCounterSupportedCallback = RF_Type::Bool(*)();
 
     extern CreateTimerQueueCallback CreateTimerQueue;
     extern DeleteTimerQueueCallback DeleteTimerQueue;
     extern GetNowCallback GetNow;
     extern GetMinutesWestOfGMTCallback GetMinutesWestOfGMT;
+    extern GetStringFormatedTimeCallback GetStringFormatedTime;
     extern GetHighResolutionCounterCallback GetHighResolutionCounter;
     extern IsHighResolutionCounterSupportedCallback IsHighResolutionCounterSupported;
 } } }

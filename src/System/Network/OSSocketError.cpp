@@ -6,7 +6,7 @@ using namespace RadonFramework::Net;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::System::Network;
 
-Error::Type* OSSocketError::LookupTable = 0;
+Error* OSSocketError::LookupTable = 0;
 
 #if defined(RF_WINDOWS)
 /** Define WINVER and NT Version to WIN_VERSION_XP.
@@ -26,7 +26,7 @@ static const int WIN_VERSION_XP=0x501;
 #include <sys/errno.h>
 #endif
 
-Error::Type OSSocketError::ConvertOSError()
+Error OSSocketError::ConvertOSError()
 {
     #if defined(RF_WINDOWS)
         int code=WSAGetLastError();
@@ -38,7 +38,7 @@ Error::Type OSSocketError::ConvertOSError()
     return OSSocketError::LookupTable[code-OSSocketError::First];
 }
 
-Error::Type OSSocketError::ConvertOSError(const Int32 Code)
+Error OSSocketError::ConvertOSError(const Int32 Code)
 {
     Assert(Code >= OSSocketError::First && Code < OSSocketError::Last, "No valid error code!");
     return OSSocketError::LookupTable[Code-OSSocketError::First];
@@ -52,7 +52,7 @@ void CleanupOSSocketError()
 
 void OSSocketError::InitializeLookupTable()
 {
-    OSSocketError::LookupTable = new Net::Error::Type[Range];
+    OSSocketError::LookupTable = new Net::Error[Range];
     atexit(CleanupOSSocketError);
     #if defined(RF_WINDOWS)
         OSSocketError::LookupTable[WSAEINTR-OSSocketError::First]=Error::Interrupted;

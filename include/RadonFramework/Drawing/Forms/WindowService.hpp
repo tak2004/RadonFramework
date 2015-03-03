@@ -33,7 +33,7 @@ class WindowService:public RF_Pattern::Service
 {
 public:
     WindowService(const RF_Type::String &Name);
-    ~WindowService();
+    virtual ~WindowService() override;
     virtual IWindow* NewWindow()=0;
     virtual IApplication* Application()=0;
     /// Get Information of all displays.

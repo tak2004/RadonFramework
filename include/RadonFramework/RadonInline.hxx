@@ -49,3 +49,7 @@
 #ifndef RF_NO_TIME
 @INCLUDES_TIME@
 #endif
+
+#ifndef RF_NO_TEXT
+@INCLUDES_TEXT@
+#endif

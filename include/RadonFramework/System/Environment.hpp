@@ -9,6 +9,8 @@
 #include <RadonFramework/System/OperatingSystemFamily.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
+namespace RadonFramework { namespace Util { struct UUID; } }
+
 namespace RadonFramework {  namespace System { namespace Environment {
     /// This function will be called by RadonFramework_Init function.
     void Dispatch();
@@ -21,12 +23,22 @@ namespace RadonFramework {  namespace System { namespace Environment {
     /// This function is for debugging purpose and return all unassigned functions.
     void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 
-    typedef MemoryArchitecture::Type(*MemoryArchitectureOfOSCallback)();
-    typedef RF_Type::Bool(*Is32BitEmulationCallback)();
-    typedef const OperatingSystem&(*OSVersionCallback)();
-    typedef void(*GetVariableCallback)(const RF_Type::String& Name, RF_Type::String& Result);
-    typedef PlatformID::Type(*PlatformCallback)();
-    typedef OperatingSystemFamily::Type(*OSFamilyCallback)();
+    using MemoryArchitectureOfOSCallback = MemoryArchitecture::Type(*)();
+
+    using Is32BitEmulationCallback = RF_Type::Bool(*)();
+
+    using OSVersionCallback = const OperatingSystem&(*)();
+
+    using GetVariableCallback = void(*)(const RF_Type::String& Name, 
+                                        RF_Type::String& Result);
+
+    using PlatformCallback = PlatformID::Type(*)();
+
+    using OSFamilyCallback = OperatingSystemFamily::Type(*)();
+
+    using FastRandomUUIDCallback = void(*)(Util::UUID& Target);
+    using SecureRandomUUIDCallback = void(*)(Util::UUID& Target);
+    using UUIDFromStringCallback = void(*)(const RF_Type::String& Text, Util::UUID& Target);
 
     extern MemoryArchitectureOfOSCallback MemoryArchitectureOfOS;
     extern Is32BitEmulationCallback Is32BitEmulation;
@@ -34,6 +46,9 @@ namespace RadonFramework {  namespace System { namespace Environment {
     extern GetVariableCallback GetVariable;
     extern PlatformCallback Platform;
     extern OSFamilyCallback OSFamily;
+    extern FastRandomUUIDCallback FastRandomUUID;
+    extern SecureRandomUUIDCallback SecureRandomUUID;
+    extern UUIDFromStringCallback UUIDFromString;
 } } }
 
 namespace RFENV = RadonFramework::System::Environment;

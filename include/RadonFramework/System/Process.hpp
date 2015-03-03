@@ -26,15 +26,26 @@ RF_Type::Bool IsSuccessfullyDispatched();
 /// This function is for debugging purpose and return all unassigned functions.
 void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 
-typedef RF_Mem::AutoPointerArray<RF_Type::UInt32> (*GetProcessListCallback)();
-typedef RF_Type::UInt32 (*GetCurrentProcessIdCallback)();
-typedef RF_Type::Bool (*GetGeneralInfoCallback)(RF_Type::UInt32 PId, GeneralInfo& Info);
-typedef RF_Type::Bool (*GetIOInfoCallback)(RF_Type::UInt32 PId, IOInfo& Info);
-typedef RF_Type::Bool (*GetMemoryInfoCallback)(RF_Type::UInt32 PId, MemoryInfo& Info);
-typedef RF_Type::Bool (*GetTimingInfoCallback)(RF_Type::UInt32 PId, TimingInfo& Info);
-typedef RF_Type::Bool (*GetModuleInfoCallback)(RF_Type::UInt32 PId, ModuleInfo& Info);
-typedef RF_Type::Bool (*GetThreadInfoCallback)(RF_Type::UInt32 PId, ThreadInfoList& Info);
-typedef RF_Type::Int32 (*ExecuteProgramCallback)(const RF_Type::String& Executable, const RF_Type::String& Parameters);
+using GetProcessListCallback = RF_Mem::AutoPointerArray<RF_Type::UInt32>(*)();
+
+using GetCurrentProcessIdCallback = RF_Type::UInt32(*)();
+
+using GetGeneralInfoCallback = RF_Type::Bool(*)(RF_Type::UInt32 PId, GeneralInfo& Info);
+
+using GetIOInfoCallback = RF_Type::Bool(*)(RF_Type::UInt32 PId, IOInfo& Info);
+
+using GetMemoryInfoCallback = RF_Type::Bool(*)(RF_Type::UInt32 PId, MemoryInfo& Info);
+
+using GetTimingInfoCallback = RF_Type::Bool(*)(RF_Type::UInt32 PId, TimingInfo& Info);
+
+using GetModuleInfoCallback = RF_Type::Bool(*)(RF_Type::UInt32 PId, ModuleInfo& Info);
+
+using GetThreadInfoCallback = RF_Type::Bool(*)(RF_Type::UInt32 PId, ThreadInfoList& Info);
+
+using ExecuteProgramCallback = RF_Type::Int32(*)(const RF_Type::String& Executable, 
+                                                 const RF_Type::String& Parameters);
+
+using OpenWithDefaultApplicationCallback = RF_Type::Bool(*)(const RF_Type::String& What);
 
 extern GetProcessListCallback GetProcessList;
 extern GetCurrentProcessIdCallback GetCurrentProcessId;
@@ -45,6 +56,7 @@ extern GetTimingInfoCallback GetTimingInfo;
 extern GetModuleInfoCallback GetModuleInfo;
 extern GetThreadInfoCallback GetThreadInfo;
 extern ExecuteProgramCallback ExecuteProgram;
+extern OpenWithDefaultApplicationCallback OpenWithDefaultApplication;
 
 } } }
 

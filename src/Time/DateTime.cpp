@@ -253,11 +253,17 @@ bool DateTime::GreaterThan(DateTime t1, DateTime t2)
     return t1.Ticks()>t2.Ticks();
 }
 
-RadonFramework::Core::Types::String RadonFramework::Time::DateTime::ToString() const
+RF_Type::String DateTime::ToString() const
 {
     String str;
     str << Day() << "." << Month() << "." << Year();
     str << " ";
     str << Hour() << ":" << Minute() << ":" << Second();
     return str;
+}
+
+void RadonFramework::Time::DateTime::Format(const RF_Type::String& Format, 
+                                            RF_Type::String& Result) const
+{
+    RFTIME::GetStringFormatedTime(*this, Format, Result);
 }

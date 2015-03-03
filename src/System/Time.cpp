@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Time.hpp"
+#include "RadonFramework/Time/DateTime.hpp"
 
 using namespace RadonFramework::System;
 using namespace RadonFramework::Core::Types;
@@ -47,6 +48,17 @@ UInt64 GetMinutesWestOfGMT_SystemAPIDispatcher()
     return GetMinutesWestOfGMT();
 }
 
+void GetStringFormatedTime_SystemAPIDispatcher(const RF_Time::DateTime& Time,
+    const RF_Type::String& Format, RF_Type::String& FormattedString)
+{
+    GetStringFormatedTime = 0;
+    Dispatch();
+    Assert(GetStringFormatedTime != GetStringFormatedTime_SystemAPIDispatcher &&
+           GetStringFormatedTime != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetStringFormatedTime(Time, Format, FormattedString);
+}
+
 UInt64 GetHighResolutionCounter_SystemAPIDispatcher()
 {
     GetHighResolutionCounter = 0;
@@ -71,6 +83,7 @@ CreateTimerQueueCallback RFTIME::CreateTimerQueue = CreateTimerQueue_SystemAPIDi
 DeleteTimerQueueCallback RFTIME::DeleteTimerQueue = DeleteTimerQueue_SystemAPIDispatcher;
 GetNowCallback RFTIME::GetNow = GetNow_SystemAPIDispatcher;
 GetMinutesWestOfGMTCallback RFTIME::GetMinutesWestOfGMT = GetMinutesWestOfGMT_SystemAPIDispatcher;
+GetStringFormatedTimeCallback RFTIME::GetStringFormatedTime = GetStringFormatedTime_SystemAPIDispatcher;
 GetHighResolutionCounterCallback RFTIME::GetHighResolutionCounter = GetHighResolutionCounter_SystemAPIDispatcher;
 IsHighResolutionCounterSupportedCallback RFTIME::IsHighResolutionCounterSupported = IsHighResolutionCounterSupported_SystemAPIDispatcher;
 
@@ -81,6 +94,7 @@ Bool RFTIME::IsSuccessfullyDispatched()
     result=result && DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher && DeleteTimerQueue != 0;
     result=result && GetNow != GetNow_SystemAPIDispatcher && GetNow != 0;
     result=result && GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher && GetMinutesWestOfGMT != 0;
+    result=result && GetStringFormatedTime != GetStringFormatedTime_SystemAPIDispatcher && GetStringFormatedTime != 0;
     result=result && GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher && GetHighResolutionCounter != 0;
     result=result && IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher && IsHighResolutionCounterSupported != 0;
     return result;
@@ -96,6 +110,8 @@ void RFTIME::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
         Result.AddLast(RF_Type::String("GetNow", sizeof("GetNow")));
     if (GetMinutesWestOfGMT == GetMinutesWestOfGMT_SystemAPIDispatcher || GetMinutesWestOfGMT == 0) 
         Result.AddLast(RF_Type::String("GetMinutesWestOfGMT", sizeof("GetMinutesWestOfGMT")));
+    if(GetStringFormatedTime == GetStringFormatedTime_SystemAPIDispatcher || GetStringFormatedTime == 0)
+        Result.AddLast(RF_Type::String("GetStringFormatedTime", sizeof("GetStringFormatedTime")));
     if (GetHighResolutionCounter == GetHighResolutionCounter_SystemAPIDispatcher || GetHighResolutionCounter == 0) 
         Result.AddLast(RF_Type::String("GetHighResolutionCounter", sizeof("GetHighResolutionCounter")));
     if (IsHighResolutionCounterSupported == IsHighResolutionCounterSupported_SystemAPIDispatcher || IsHighResolutionCounterSupported == 0) 

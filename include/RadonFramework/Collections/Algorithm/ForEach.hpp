@@ -29,11 +29,13 @@ void ForEachEnumeratorTaskFunction(void* Data)
 {
     auto* data = reinterpret_cast<ForEachEnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
-    for(RF_Type::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
+    RF_Type::UInt32 i, end;
+    for(i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
     {
         data->Function(data->Enumeable);
-        data->OverallWork->Decrement();
     }
+    RF_Type::Int32 negativeLoopCounter = -static_cast<RF_Type::Int32>(i);
+    data->OverallWork->Add(negativeLoopCounter);
 }
 
 template <class C, typename FUNCTION>

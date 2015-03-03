@@ -38,19 +38,23 @@ void FindAllEnumeratorTaskFunction(void* Data)
 {
     auto* data = reinterpret_cast<FindAllEnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
-    for(RF_Type::UInt32 i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
+    Int32 hits = 0;
+    RF_Type::UInt32 i, end;
+    for(i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
     {
         if (data->Function(data->Enumeable))
         {
             data->Results->Item(i)=1;
-            data->Hits->Increment();
+            ++hits;
         }
         else
         {
             data->Results->Item(i)=0;
         }
-        data->OverallWork->Decrement();
     }
+    Int32 negativeLoopCounter = -static_cast<Int32>(i);
+    data->OverallWork->Add(negativeLoopCounter);
+    data->Hits->Add(hits);
 }
 
 template <class C, typename FUNCTION>
@@ -65,7 +69,8 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
     RF_Type::AtomicInt32 overallWork(elements);
     RF_Type::AtomicInt32 hits;
     RF_Collect::Array<RF_Type::UInt8> results(elements);
-    
+    RF_Type::UInt32 extra = 1;
+
     if(elements > worker)
     {
         jobsPerWorker = elements / worker;
@@ -75,22 +80,23 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
     {
         jobsPerWorker = 1;
         worker = elements;
+        extra = 0;
     }
 
-    for(RF_Type::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
+    for(RF_Type::UInt32 i = 0, offset = 0; i < worker; ++i)
     {
         if(elements <= i)
-            Extra = 0;
+            extra = 0;
         auto* task = new FindAllEnumeratorTaskData<C, FUNCTION>(Function);
         task->Enumeable = enumerator;
         task->Function = Function;
         task->From = offset;
-        task->Steps = jobsPerWorker + Extra;
+        task->Steps = jobsPerWorker + extra;
         task->OverallWork = &overallWork;
         task->Results = &results;
         task->Hits = &hits;
         RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(FindAllEnumeratorTaskFunction<C, FUNCTION>, task);
-        offset += jobsPerWorker + Extra;
+        offset += jobsPerWorker + extra;
     }
 
     // Wait for other threads. Sleep(0) will ensure that the thread return if no

@@ -27,6 +27,8 @@ class Queue
 public:
     Queue();
     ~Queue();
+    Queue(const Queue& Copy) = delete;
+    Queue& operator = (const Queue& Other) = delete;
 
     /// Removes all objects from the Queue<T>.
     void Clear();
@@ -50,9 +52,6 @@ protected:
 
     RF_Type::AtomicPointer<Node> m_Head;
     RF_Type::AtomicPointer<Node> m_Tail;
-private:
-    Queue(const Queue& Copy);
-    Queue& operator = (const Queue& Other);
 };
             
 template<typename T, typename MA, typename MO>
@@ -133,17 +132,6 @@ template<typename T, typename MA, typename MO>
 RF_Type::Bool Queue<T, MA, MO>::IsEmpty()const
 {
     return m_Head == 0;
-}
-
-template<typename T, typename MA, typename MO>
-Queue<T, MA, MO>::Queue(const Queue<T, MA, MO>& Copy)
-{
-}
-
-template<typename T, typename MA, typename MO>
-Queue<T, MA, MO>& Queue<T, MA, MO>::operator=(const Queue<T, MA, MO>& Other)
-{
-    return *this;
 }
 
 } }

@@ -14,7 +14,7 @@
     #define RF_COMPILER_WARNING(x) __pragma(message(__LOC__ x))
 
     // memory alignment
-    #define ALIGN(X) __declspec(align(X))
+    #define RF_ALIGN(X) __declspec(align(X))
 #else
     #if defined(RF_MINGW32)
         // mingw
@@ -27,16 +27,17 @@
 
             // error msg
             // really bad solution but this is allready the best on gcc
-            #define DO_PRAGMA(x) _Pragma (#x)
-            #define RF_COMPILER_WARNING(x) DO_PRAGMA(message ("warning: " x))
+            #define RF_DO_PRAGMA(x) _Pragma (#x)
+            #define RF_COMPILER_WARNING(x) RF_DO_PRAGMA(message ("warning: " x))
         #else
             static_assert(false,"There's no support, of compiler warnings, for your compiler at the moment.\
                 Please insert the warning command for your compiler here or remove this info.");                
         #endif
     #endif
+#endif
 
-    // memory alignment
-    #define ALIGN(X) __attribute__ ((aligned (X)))
+#ifndef RF_ALIGN
+    #define RF_ALIGN(X) alignas(X)
 #endif
 
 // clang: check if __has_feature is available
@@ -67,6 +68,24 @@
 
 #if !defined(RF_VISUALCPP)
     #define RF_HAVE_IS_TRIVIALLY_COPYABLE
+#endif
+
+// detect if compiler can use noexcept
+// gcc and clang
+#if __has_feature(cxx_noexcept) ||\
+    (defined(__GXX_EXPERIMENTAL_CXX0X__) && __GNUC__ * 10 + __GNUC_MINOR__ >= 46) ||\
+    defined(RF_VISUALCPP)
+    #define RF_HAVE_NOEXCEPT
+#endif
+
+#ifdef RF_HAVE_NOEXCEPT
+    #ifdef RF_VISUALCPP
+        #define RF_NOEXCEPT _NOEXCEPT
+    #else
+        #define RF_NOEXCEPT noexcept
+    #endif
+#else
+    #define RF_NOEXCEPT
 #endif
 
 #endif // RF_COMPILER_HPP

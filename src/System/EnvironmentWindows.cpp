@@ -2,6 +2,9 @@
 #include "RadonFramework/System/Environment.hpp"
 #include "RadonFramework/System/CompilerConfig.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
+#include "RadonFramework/Util/UUID.hpp"
+#include <rpc.h>
+#pragma comment(lib, "Rpcrt4.lib")
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Common;
@@ -95,6 +98,27 @@ OperatingSystemFamily::Type OSFamily()
     return OperatingSystemFamily::Windows;
 }
 
+void FastRandomUUID_Windows(RF_Util::UUID& Target)
+{
+    UUID uuid;
+    UuidCreate(&uuid);
+    RF_SysMem::Copy(Target.Bytes.m_Vector, &uuid, 16);
+}
+
+void SecureRandomUUID_Windows(RF_Util::UUID& Target)
+{
+    UUID uuid;
+    UuidCreateSequential(&uuid);
+    RF_SysMem::Copy(Target.Bytes.m_Vector, &uuid,16);
+}
+
+void UUIDFromString_Windows(const RF_Type::String& Text, RF_Util::UUID& Target)
+{
+    UUID uuid;
+    UuidFromString(reinterpret_cast<unsigned char*>(const_cast<char*>(Text.c_str())), &uuid);
+    RF_SysMem::Copy(Target.Bytes.m_Vector, &uuid, 16);
+}
+
 void RadonFramework::System::Environment::Dispatch()
 {
     MemoryArchitectureOfOS=::MemoryArchitectureOfOS;
@@ -103,4 +127,7 @@ void RadonFramework::System::Environment::Dispatch()
     GetVariable=::GetVariable;
     Platform=::Platform;
     OSFamily=::OSFamily;
+    FastRandomUUID = ::FastRandomUUID_Windows;
+    SecureRandomUUID = ::SecureRandomUUID_Windows;
+    UUIDFromString = ::UUIDFromString_Windows;
 }

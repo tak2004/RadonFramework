@@ -28,7 +28,7 @@ public:
     static RF_Type::UInt32 GetBestThreadAmountByProcessorCoreAmount(RF_Type::UInt32 Amount);
 
     typedef Delegate1<void(void*)> WaitCallback;
-    typedef void (*FreeCallback)(void* Data);
+    using FreeCallback = void(*)(void* Data);
     static void DefaultFree(void* Data);
 
     void GetMaxThreads(RF_Type::UInt32& WorkerThreads,

@@ -28,29 +28,37 @@ RF_Type::Bool IsSuccessfullyDispatched();
 /// This function is for debugging purpose and return all unassigned functions.
 void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
     
-typedef RF_Type::UInt32 (*GetPageSizeCallback)();
-typedef void (*EnableTerminationOnHeapCorruptionCallback)();
-typedef void* (*AllocateCallback)(const RF_Type::UInt32 Bytes);
-typedef void (*FreeCallback)(void* FirstPage);
+using GetPageSizeCallback = RF_Type::UInt32(*)();
 
-typedef RF_Type::Int32 (*CompareCallback)(const void* P1, const void* P2,
-                                        RF_Type::Size Bytes);
-typedef void (*CopyCallback)(void* Destination, const void* Source,
-                                RF_Type::Size Bytes);
-typedef void (*MoveCallback)(void* Destination, const void* Source,
-                                RF_Type::Size Bytes);
-typedef void (*SetCallback)(void* Pointer, RF_Type::Int32 Value,
+using EnableTerminationOnHeapCorruptionCallback = void(*)();
+
+using AllocateCallback = void* (*)(const RF_Type::UInt32 Bytes);
+
+using FreeCallback = void(*)(void* FirstPage);
+
+using CompareCallback = RF_Type::Int32(*)(const void* P1, const void* P2,
+                                          RF_Type::Size Bytes);
+
+using CopyCallback = void(*)(void* Destination, const void* Source,
+                             RF_Type::Size Bytes);
+
+using MoveCallback = void (*)(void* Destination, const void* Source,
+                              RF_Type::Size Bytes);
+
+using SetCallback = void(*)(void* Pointer, RF_Type::Int32 Value,
                             RF_Type::Size Bytes);
+
+using SwapCallback = void(*)(void* P1, void* P2, RF_Type::Size Bytes);
 
 extern GetPageSizeCallback GetPageSize;
 extern EnableTerminationOnHeapCorruptionCallback EnableTerminationOnHeapCorruption;
 extern AllocateCallback Allocate;
 extern FreeCallback Free;
-
 extern CompareCallback Compare;
 extern CopyCallback Copy;
 extern MoveCallback Move;
 extern SetCallback Set;
+extern SwapCallback Swap;
 
 } } }
 

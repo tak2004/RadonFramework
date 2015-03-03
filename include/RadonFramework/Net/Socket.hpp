@@ -68,6 +68,15 @@ public:
 
     SocketError Blocking(const RF_Type::Bool NewValue);
     RF_Type::Bool Blocking()const;
+
+    EndPoint& LocalEndPoint()const;
+
+    SocketError SetSocketOption(const SocketOptionLevel OptionLevel, 
+        const SocketOptionName OptionName, const RF_Type::Bool Value);
+    SocketError SetSocketOption(const SocketOptionLevel OptionLevel, 
+        const SocketOptionName OptionName, const RF_Type::Int32 Value);
+    SocketError SetSocketOption(const SocketOptionLevel OptionLevel,
+        const SocketOptionName OptionName, const IPAddress& Value);
 protected:
     PIMPL* m_Data;
 private:

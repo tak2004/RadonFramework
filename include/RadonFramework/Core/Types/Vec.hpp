@@ -7,7 +7,7 @@
 namespace RadonFramework { namespace Core { namespace Types { 
 
 template <typename T, int C>
-struct ALIGN(16) Vec
+struct RF_ALIGN(16) Vec
 {
     T m_Vector[C];
 
