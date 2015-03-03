@@ -1,3 +1,0 @@
-[submodule "cmake"]
-	path = cmake
-	url = https://github.com/tak2004/RadonCMakeFramework.git
