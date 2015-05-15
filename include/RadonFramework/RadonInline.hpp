@@ -151,6 +151,7 @@
 #include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilitiesType.hpp>
 #include <RadonFramework/Drawing/OpenGLMachine.hpp>
+#include <RadonFramework/Drawing/PixelFormat.hpp>
 #include <RadonFramework/Drawing/PopupMenu.hpp>
 #include <RadonFramework/Drawing/SystemTray.hpp>
 #include <RadonFramework/Drawing/TrayIcon.hpp>
@@ -161,6 +162,7 @@
 #include <RadonFramework/IO/AccessMode.hpp>
 #include <RadonFramework/IO/ConsoleColor.hpp>
 #include <RadonFramework/IO/Decoder.hpp>
+#include <RadonFramework/IO/Decoders/ImageDecoder.hpp>
 #include <RadonFramework/IO/Decoders/Interface.hpp>
 #include <RadonFramework/IO/DecoderService.hpp>
 #include <RadonFramework/IO/DecoderServiceLocator.hpp>
@@ -172,7 +174,6 @@
 #include <RadonFramework/IO/FileStream.hpp>
 #include <RadonFramework/IO/FileWatcher.hpp>
 #include <RadonFramework/IO/IConfig.hpp>
-#include <RadonFramework/IO/ImageDecoder.hpp>
 #include <RadonFramework/IO/IReadableConfig.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/IO/LogConfig.hpp>

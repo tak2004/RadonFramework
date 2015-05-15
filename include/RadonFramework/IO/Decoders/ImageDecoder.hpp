@@ -13,6 +13,7 @@ namespace RadonFramework { namespace IO { namespace Decoders {
 class ImageDecoder:public Decoder
 {
 public:
+    ImageDecoder();
     const RF_Draw::PixelFormat& PixelFormat()const;
     const RF_Type::UInt32 Width()const;
     const RF_Type::UInt32 Height()const;

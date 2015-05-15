@@ -1,6 +1,8 @@
 #ifndef RF_DRAWING_PIXELFORMAT_HPP
 #define RF_DRAWING_PIXELFORMAT_HPP
 
+#include <RadonFramework/Collections/Array.hpp>
+
 namespace RadonFramework { namespace Drawing {
 
 enum class ChannelType:RF_Type::UInt8
@@ -24,7 +26,7 @@ class PixelFormat
 {
 public:
     RF_Type::UInt32 BitPerPixel;
-    RF_Collect::Array<ChannelType> Channels;
+    RF_Collect::Array<ChannelFormat> Channels;
 };
 
 } }

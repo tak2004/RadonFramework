@@ -90,7 +90,7 @@ AutoPointer<T>::AutoPointer(AutoPointer& Copy)
 template <typename T>
 template <typename T1>
 AutoPointer<T>::AutoPointer(AutoPointer<T1>& Ref)
-:m_Data(Ref.Release())
+:m_Data(reinterpret_cast<T*>(Ref.Release()))
 {
 }
 

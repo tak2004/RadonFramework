@@ -14,7 +14,11 @@ class NullDecoderService:public DecoderService
 public:
     NullDecoderService(const RF_Type::String &Name):DecoderService(Name){}
     
-    virtual RF_Mem::AutoPointer<Decoder> CreateDecoder() { return RF_Mem::AutoPointer<Decoder>(); }
+    virtual RF_Mem::AutoPointer<Decoder> CreateDecoder(const RF_Type::UInt32 FourCC,
+                                                       RF_Decoders::Interface Target)
+    {
+        return RF_Mem::AutoPointer<Decoder>();
+    }
 };
 
 struct DecoderServiceLocator:public RF_Pattern::Locator<DecoderService, NullDecoderService>

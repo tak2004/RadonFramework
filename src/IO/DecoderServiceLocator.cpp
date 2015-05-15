@@ -25,7 +25,7 @@ DecoderServiceLocator::Iterator DecoderServiceLocator::FindByNameOrFourCC(
     for(DecoderServiceLocator::Iterator it = DecoderServiceLocator::m_Services.Begin();
         it != DecoderServiceLocator::m_Services.End(); ++it)
     {
-        if((*it)->Name(Name) || (*it)->IsFourCCSupported(FCC))
+        if((*it)->Name() == Name || (*it)->IsFourCCSupported(FCC))
             return it;
     }
     return DecoderServiceLocator::m_Services.End();
