@@ -8,4 +8,5 @@ CreatePrecompiledHeader(RADONFRAMEWORK_SYSTEMTEST "precompiled.hpp" "src/precomp
 set(RADONFRAMEWORK_SYSTEMTEST_FILES ${filelist})
 Generate(EXECUTABLE RADONFRAMEWORK_SYSTEMTEST SystemTest "Framework")
 target_include_directories(SystemTest PRIVATE src/)
+AddDependency(RADONFRAMEWORK_SYSTEMTEST RadonFramework)
 Finalize(RADONFRAMEWORK_SYSTEMTEST)

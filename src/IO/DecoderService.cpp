@@ -2,27 +2,29 @@
 #include <RadonFramework/IO/DecoderService.hpp>
 #include <RadonFramework/IO/DecoderServiceLocator.hpp>
 
-using namespace RadonFramework::IO;
+namespace RadonFramework { namespace IO {
 
-DecoderService::DecoderService(const RadonFramework::Core::Types::String &Name)
+DecoderService::DecoderService(const RF_Type::String &Name)
 :Service(Name),
- m_IsAvailable(false)
+m_IsAvailable(false)
 {
 
 }
 
-DecoderService::DecoderService(const RadonFramework::Core::Types::String &Name,const unsigned int FourCC)
-:Service(Name),
- m_FourCC(FourCC)
-{
-}
-
-const unsigned int DecoderService::FourCC()
-{
-  return m_FourCC;
-}
-
-bool DecoderService::IsAvailable()
+RF_Type::Bool DecoderService::IsAvailable()const
 {
     return m_IsAvailable;
 }
+
+RF_Type::Bool DecoderService::IsFourCCSupported(const RF_Type::UInt32 FourCC) const
+{
+    return false;
+}
+
+RF_Type::Bool DecoderService::IsDecoderInterface(const RF_Type::UInt32 FourCC, 
+                                                 RF_Decoders::Interface Target) const
+{
+    return false;
+}
+
+} }

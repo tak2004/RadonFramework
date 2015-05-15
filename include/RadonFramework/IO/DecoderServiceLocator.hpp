@@ -13,18 +13,26 @@ class NullDecoderService:public DecoderService
 {
 public:
     NullDecoderService(const RF_Type::String &Name):DecoderService(Name){}
-    IDecoder* CreateDecoder(std::istream* , bool ){return 0;}
-    void Refresh(){}
+    
+    virtual RF_Mem::AutoPointer<Decoder> CreateDecoder() { return RF_Mem::AutoPointer<Decoder>(); }
 };
 
 struct DecoderServiceLocator:public RF_Pattern::Locator<DecoderService, NullDecoderService>
 {
     DecoderServiceLocator() = delete;
 
-    static DecoderServiceLocator::Iterator FindNameOrFourCC(
+    static DecoderServiceLocator::Iterator FindCodec(
+        const RF_Type::UInt32 FCC, RF_Decoders::Interface Target);
+
+    static DecoderServiceLocator::Iterator FindByNameOrFourCC(
         const RF_Type::String& Name, const RF_Type::UInt32 FCC);
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
+namespace RF_IO = RadonFramework::IO;
+#endif
 
 #endif
