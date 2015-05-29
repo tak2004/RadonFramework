@@ -43,19 +43,25 @@ public:
     ~AutoPointerArray();
 
     /**
-    * Returns an Enumerator for the Array.
-    */
+     * Returns an Enumerator for the Array.
+     */
     EnumeratorType GetEnumerator()const;
 
     /**
-    * Returns an Enumerator for the Array.
-    */
+     * Returns an Enumerator for the Array.
+     */
     ConstEnumeratorType GetConstEnumerator()const;
 
     ElementType* Get()const;
 
+    /**
+     * \brief Returns the element count.
+     */
     RF_Type::Size Count()const;
 
+    /**
+     * \brief Returns the size in bytes.
+     */
     RF_Type::Size Size()const;
 
     AutoPointerArray& operator=(const AutoPointerArray& Copy);

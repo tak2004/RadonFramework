@@ -524,20 +524,24 @@ String String::TrimStart(const String& TrimChars)const
 String String::TrimEnd(const String& TrimChars)const
 {
     Bool foundone;
-    UInt32 i = Size() - 2;
-    for (; i >= 0; --i)
+    UInt32 i = 0;
+    if(Size() > 2)
     {
-        foundone = false;
-        for (UInt32 j = 0; j < TrimChars.m_Length; ++j)
+        i = Size() - 2;
+        for(; i >= 0; --i)
         {
-            if (GetBuffer()[i] == TrimChars[j])
+            foundone = false;
+            for(UInt32 j = 0; j < TrimChars.m_Length; ++j)
             {
-                foundone = true;
+                if(GetBuffer()[i] == TrimChars[j])
+                {
+                    foundone = true;
+                }
             }
-        }
 
-        if (!foundone)
-            break;
+            if(!foundone)
+                break;
+        }
     }
     String str(reinterpret_cast<const char*>(GetBuffer()), i + 1);
     return str;
@@ -720,24 +724,30 @@ String String::FormatStrict(const String& Str, va_list ArgumentList)
     return String(out.Release().Ptr, byteLen, DataManagment::TransfereOwnership);
 }
 
-void String::ToUpper()
+RF_Type::String& String::ToUpper()
 {
     RF_SysStr::ToUpper(*this);
+    return *this;
 }
 
-void String::ToLower()
+RF_Type::String& String::ToLower()
 {
     RF_SysStr::ToLower(*this);
+    return *this;
 }
 
 RF_Type::Bool String::IsNumber()const 
 {
     for (UInt32 i=0;i<m_Length;++i)
-        if (GetBuffer()[i]>=48 && GetBuffer()[i]<=57)
+    {
+        if(GetBuffer()[i] >= 48 && GetBuffer()[i] <= 57)
         {
         }
         else
+        {
             return false;
+        }
+    }
     return true;
 }
 

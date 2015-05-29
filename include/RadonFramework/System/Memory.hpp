@@ -50,6 +50,9 @@ using SetCallback = void(*)(void* Pointer, RF_Type::Int32 Value,
 
 using SwapCallback = void(*)(void* P1, void* P2, RF_Type::Size Bytes);
 
+using FillCallback = RF_Type::Size(*)(void* Pointer, void* PatternData,
+                                      RF_Type::Size PatternSize, RF_Type::Size BufferSize);
+
 extern GetPageSizeCallback GetPageSize;
 extern EnableTerminationOnHeapCorruptionCallback EnableTerminationOnHeapCorruption;
 extern AllocateCallback Allocate;
@@ -59,6 +62,7 @@ extern CopyCallback Copy;
 extern MoveCallback Move;
 extern SetCallback Set;
 extern SwapCallback Swap;
+extern FillCallback Fill;
 
 } } }
 

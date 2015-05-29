@@ -167,6 +167,11 @@
 #include <RadonFramework/IO/DecoderService.hpp>
 #include <RadonFramework/IO/DecoderServiceLocator.hpp>
 #include <RadonFramework/IO/Directory.hpp>
+#include <RadonFramework/IO/Encoder.hpp>
+#include <RadonFramework/IO/Encoders/ImageEncoder.hpp>
+#include <RadonFramework/IO/Encoders/Interface.hpp>
+#include <RadonFramework/IO/EncoderService.hpp>
+#include <RadonFramework/IO/EncoderServiceLocator.hpp>
 #include <RadonFramework/IO/File.hpp>
 #include <RadonFramework/IO/FileMode.hpp>
 #include <RadonFramework/IO/FileProtocolService.hpp>

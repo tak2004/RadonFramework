@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Collections/Array.hpp>
+
 namespace RadonFramework { namespace Text {
 
 class Regex
@@ -30,6 +32,8 @@ public:
     RF_Type::Bool Replace(Matcher Instance, const RF_Type::String& ByText, 
                           RF_Type::String& Out);
     RF_Type::Bool Search(Matcher Instance);
+
+    RF_Type::Bool GetMatches(Matcher Instance, RF_Collect::Array<RF_Type::String>& Out);
 private:
     RF_Idiom::PImpl<Regex> m_PImpl;
 };

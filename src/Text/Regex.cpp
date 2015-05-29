@@ -23,7 +23,7 @@ namespace RadonFramework { namespace Text {
 
 Regex::Regex(const RF_Type::String& Pattern)
 {
-    std::regex pattern(Pattern.c_str());
+    std::regex pattern(Pattern.c_str(), std::regex::optimize | std::regex::ECMAScript);
     m_PImpl->m_Pattern.swap(pattern);
 }
 
@@ -99,8 +99,28 @@ RF_Type::Bool Regex::Search(Matcher Instance)
     if(m_PImpl->m_MatcherLookup.ContainsKey(Instance.ID()))
     {
         auto* matcher = m_PImpl->m_MatcherLookup[Instance.ID()];
+        if(!matcher->m_Matches.empty())
+            matcher->m_Text = matcher->m_Matches.suffix().str();
         result = std::regex_search(matcher->m_Text, matcher->m_Matches, m_PImpl->m_Pattern);
-        matcher->m_Text = matcher->m_Matches.suffix().str();
+        if(!result)
+            matcher->m_Matches = std::smatch();
+    }
+    return result;
+}
+
+RF_Type::Bool Regex::GetMatches(Matcher Instance, RF_Collect::Array<RF_Type::String>& Out)
+{
+    RF_Type::Bool result = false;
+    if(m_PImpl->m_MatcherLookup.ContainsKey(Instance.ID()))
+    {
+        auto* matcher = m_PImpl->m_MatcherLookup[Instance.ID()];
+        Out.Resize(matcher->m_Matches.size());
+        for(RF_Type::Size i = 0; i < matcher->m_Matches.size(); ++i)
+        {
+            std::string str = matcher->m_Matches[i].str();
+            Out(i) = RF_Type::String(str.c_str(), str.size());
+        }
+        result = true;
     }
     return result;
 }

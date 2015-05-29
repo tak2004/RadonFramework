@@ -21,7 +21,7 @@ RF_Type::Int32 Compare_CPUDispatcher(const void* P1, const void* P2, RF_Type::Si
 {
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
-    if (features[RFHDW::ProcessorFeatures::SSE4_2])
+    if(features[RFHDW::ProcessorFeatures::SSE4_2])
         RF_SysMem::Compare = Compare_SSE4;
     else
         RF_SysMem::Compare = Compare_Std;
@@ -34,7 +34,7 @@ void Set_CPUDispatcher(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes)
 {
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
-    if (features[RFHDW::ProcessorFeatures::SSE2])
+    if(features[RFHDW::ProcessorFeatures::SSE2])
         RF_SysMem::Set = Set_SSE2;
     else
         RF_SysMem::Set = Set_Std;
@@ -47,7 +47,7 @@ void Copy_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
 {
     RFHDW::ProcessorFeatureMask features;
     RFHDW::GetLogicalProcessorFeatures(features);
-    if (features[RFHDW::ProcessorFeatures::SSE2])
+    if(features[RFHDW::ProcessorFeatures::SSE2])
         RF_SysMem::Copy = Copy_SSE2;
     else
         RF_SysMem::Copy = Copy_Std;
@@ -74,11 +74,24 @@ void Swap_CPUDispatcher(void* P1, void* P2, Size Bytes)
     Swap(P1, P2, Bytes);
 }
 
-CompareCallback RF_SysMem::Compare=Compare_CPUDispatcher;
-SetCallback RF_SysMem::Set=Set_CPUDispatcher;
-CopyCallback RF_SysMem::Copy=Copy_CPUDispatcher;
-MoveCallback RF_SysMem::Move=Move_CPUDispatcher;
-SwapCallback RF_SysMem::Swap=Swap_CPUDispatcher;
+extern RF_Type::Size Fill_Std(void* Pointer, void* PatternData,
+                              RF_Type::Size PatternSize, RF_Type::Size BufferSize);
+// Theres no SIMD implementation yet.
+RF_Type::Size Fill_CPUDispatcher(void* Pointer, void* PatternData,
+                                 RF_Type::Size PatternSize, RF_Type::Size BufferSize)
+{
+    RF_SysMem::Fill = Fill_Std;
+    return Fill(Pointer, PatternData, PatternSize, BufferSize);
+}
+
+CompareCallback RF_SysMem::Compare = Compare_CPUDispatcher;
+/// Set the specified memory block byte-wise.
+SetCallback RF_SysMem::Set = Set_CPUDispatcher;
+CopyCallback RF_SysMem::Copy = Copy_CPUDispatcher;
+MoveCallback RF_SysMem::Move = Move_CPUDispatcher;
+SwapCallback RF_SysMem::Swap = Swap_CPUDispatcher;
+/// Fill the specified memory block with the given pattern.
+FillCallback RF_SysMem::Fill = Fill_CPUDispatcher;
 
 //
 // On-Demand dispatched functions which are OS API dependent and have to be implemented on each platform
@@ -124,31 +137,31 @@ void Free_SystemAPIDispatcher(void* FirstPage)
     Free(FirstPage);
 }
 
-GetPageSizeCallback RF_SysMem::GetPageSize= GetPageSize_SystemAPIDispatcher;
-EnableTerminationOnHeapCorruptionCallback RF_SysMem::EnableTerminationOnHeapCorruption=EnableTerminationOnHeapCorruption_SystemAPIDispatcher;
-AllocateCallback RF_SysMem::Allocate=Allocate_SystemAPIDispatcher;
-FreeCallback RF_SysMem::Free=Free_SystemAPIDispatcher;
+GetPageSizeCallback RF_SysMem::GetPageSize = GetPageSize_SystemAPIDispatcher;
+EnableTerminationOnHeapCorruptionCallback RF_SysMem::EnableTerminationOnHeapCorruption = EnableTerminationOnHeapCorruption_SystemAPIDispatcher;
+AllocateCallback RF_SysMem::Allocate = Allocate_SystemAPIDispatcher;
+FreeCallback RF_SysMem::Free = Free_SystemAPIDispatcher;
 
 Bool RF_SysMem::IsSuccessfullyDispatched()
 {
-    Bool result=true;
-    result=result && GetPageSize != GetPageSize_SystemAPIDispatcher && GetPageSize != 0;
-    result=result && EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher 
-           && EnableTerminationOnHeapCorruption != 0;
-    result=result && Allocate != Allocate_SystemAPIDispatcher && Allocate != 0;
-    result=result && Free != Free_SystemAPIDispatcher && Free != 0;
+    Bool result = true;
+    result = result && GetPageSize != GetPageSize_SystemAPIDispatcher && GetPageSize != 0;
+    result = result && EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher
+        && EnableTerminationOnHeapCorruption != 0;
+    result = result && Allocate != Allocate_SystemAPIDispatcher && Allocate != 0;
+    result = result && Free != Free_SystemAPIDispatcher && Free != 0;
     return result;
 }
 
 void RF_SysMem::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
-    if (GetPageSize == GetPageSize_SystemAPIDispatcher || GetPageSize == 0) 
+    if(GetPageSize == GetPageSize_SystemAPIDispatcher || GetPageSize == 0)
         Result.AddLast(RF_Type::String("GetPageSize", sizeof("GetPageSize")));
-    if (EnableTerminationOnHeapCorruption == EnableTerminationOnHeapCorruption_SystemAPIDispatcher
-        || EnableTerminationOnHeapCorruption == 0) 
-        Result.AddLast(RF_Type::String("EnableTerminationOnHeapCorruption", sizeof("EnableTerminationOnHeapCorruption")));
-    if (Allocate == Allocate_SystemAPIDispatcher || Allocate == 0)
+    if(EnableTerminationOnHeapCorruption == EnableTerminationOnHeapCorruption_SystemAPIDispatcher
+       || EnableTerminationOnHeapCorruption == 0)
+       Result.AddLast(RF_Type::String("EnableTerminationOnHeapCorruption", sizeof("EnableTerminationOnHeapCorruption")));
+    if(Allocate == Allocate_SystemAPIDispatcher || Allocate == 0)
         Result.AddLast(RF_Type::String("Allocate", sizeof("Allocate")));
-    if (Free == Free_SystemAPIDispatcher || Free == 0)
+    if(Free == Free_SystemAPIDispatcher || Free == 0)
         Result.AddLast(RF_Type::String("Free", sizeof("Free")));
 }

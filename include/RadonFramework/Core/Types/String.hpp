@@ -278,10 +278,10 @@ public:
     static String FormatStrict(const String &Str, va_list ArgumentList);
 
     /// Convert all lower case to upper case chars.
-    void ToUpper();
+    RF_Type::String& ToUpper();
 
     /// Convert all upper case to lower case chars.
-    void ToLower();
+    RF_Type::String& ToLower();
 
     /// Check if the String instance contain a number.
     Bool IsNumber()const;
