@@ -78,6 +78,8 @@ public:
     static T Min(const T A, const T B);
     static T Max(const T A, const T B);
 
+    static T Clamp(const T Value, const T Min, const T Max);
+
     static RF_Type::Bool IsAlmostEqual(const T a, const T b);
     static RF_Type::Bool IsAlmostEqual(const T* a, const T* b,
         RF_Type::UInt32 ElementCount);
@@ -244,6 +246,13 @@ template<class T> T Math<T>::Min(const T A, const T B)
 template<class T> T Math<T>::Max(const T A, const T B)
 {
     return A>B ? A : B;
+}
+
+template<class T> T Math<T>::Clamp(const T Value, const T Min, const T Max)
+{
+    if(Value < Min) return Min;
+    if(Value > Max) return Max;
+    return Value;
 }
 
 template<class T>

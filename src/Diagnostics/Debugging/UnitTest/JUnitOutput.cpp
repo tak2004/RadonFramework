@@ -28,7 +28,7 @@ void JUnitOutput::WriteToFile(const Uri& URI,
         //start suites
         String tag("<testsuites>\n", sizeof("<testsuites>\n"));
         out.Write(reinterpret_cast<const UInt8*>(tag.c_str()), 0, tag.Length());
-        for (UInt32 i=0;i<Results.TestResults().Size();++i)
+        for(UInt32 i = 0; i<Results.TestResults().Count(); ++i)
         {
             //start a suite
             tag=String::Format(String("<testsuite error=\"%u\" failures=\"%u\" hostname=\"RadonFramework-TestEnvoirement\" name=\"%s\" tests=\"%u\" time=\"%.3f\" timestamp=\"%s\" id=\"%u\" package=\"%u\">\n",sizeof(
@@ -36,13 +36,13 @@ void JUnitOutput::WriteToFile(const Uri& URI,
                                 Results.TestResults()[i].TestsWithError,
                                 Results.TestResults()[i].TestsWithFailure,
                                 Results.TestResults()[i].SuiteName.c_str(),
-                                Results.TestResults()[i].TestResults.Size(),
+                                Results.TestResults()[i].TestResults.Count(),
                                 Results.TestResults()[i].TotalTime,
                                 "2007-11-02T23:13:49",
                                 0,
                                 0);
             out.Write(reinterpret_cast<const UInt8*>(tag.c_str()), 0 ,tag.Length());
-            for (UInt32 j=0;j<Results.TestResults()[i].TestResults.Size();++j)
+            for(UInt32 j = 0; j<Results.TestResults()[i].TestResults.Count(); ++j)
             {
                 //start testcase
                 tag=String::Format(String("<testcase classname=\"%s\" name=\"%s\" time=\"%d\">\n", sizeof(

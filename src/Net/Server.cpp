@@ -181,7 +181,7 @@ RF_Type::Bool Server::ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::UInt8>& In
 Socket* Server::GetSocket() const
 {
     Socket* result = 0;
-    if(m_PImpl->m_Sockets.Size())
+    if(m_PImpl->m_Sockets.Count())
     {
         result = m_PImpl->m_Sockets[0].Get();
     }

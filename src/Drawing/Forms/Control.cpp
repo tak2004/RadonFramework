@@ -18,7 +18,7 @@ void ControlCollection::Add(Control *Obj)
 
 Control* ControlCollection::Get(const Size Index)
 {
-    Assert(Index < m_List.Size(), "Index out of bounds.");
+    Assert(Index < m_List.Count(), "Index out of bounds.");
 
     List<Control*>::Iterator it=m_List.Begin();
     for (Size i=0; i<Index; i++)
@@ -29,7 +29,7 @@ Control* ControlCollection::Get(const Size Index)
 
 Size ControlCollection::Count()
 {
-  return m_List.Size();
+    return m_List.Count();
 }
 
 List<Control*>::Iterator ControlCollection::Begin()

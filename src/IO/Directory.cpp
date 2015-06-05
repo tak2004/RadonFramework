@@ -202,8 +202,8 @@ AutoPointerArray<String> Directory::Files()const
     for (UInt32 i=0; i<content.Count(); ++i)
         if (!FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path)+Uri::PathSeperator+content[i])->IsDirectory)
             tmp.AddLast(content[i]);
-    result=AutoPointerArray<String>(new String[tmp.Size()],tmp.Size());
-    for (UInt32 i=0;i<tmp.Size();++i)
+    result = AutoPointerArray<String>(new String[tmp.Count()], tmp.Count());
+    for(UInt32 i = 0; i<tmp.Count(); ++i)
         result[i].Swap(tmp[i]);
     return result;
 }
@@ -224,8 +224,8 @@ AutoPointerArray<String> Directory::FilesIncludingSubdirectories()const
         }
         else
             tmp.AddLast(content[i]);
-    result=AutoPointerArray<String>(new String[tmp.Size()],tmp.Size());
-    for (UInt32 i=0;i<tmp.Size();++i)
+    result = AutoPointerArray<String>(new String[tmp.Count()], tmp.Count());
+    for(UInt32 i = 0; i<tmp.Count(); ++i)
         result[i].Swap(tmp[i]);
     return result;
 }
@@ -242,8 +242,8 @@ AutoPointerArray<Directory> Directory::Directories()const
             dir.SetLocation(m_Uri.GetComponents(UriComponents::Path)+Uri::PathSeperator+content[i]);
             tmp.AddLast(dir);
         }
-    result=AutoPointerArray<Directory>(new Directory[tmp.Size()],tmp.Size());
-    for (UInt32 i=0; i<tmp.Size(); ++i)
+    result = AutoPointerArray<Directory>(new Directory[tmp.Count()], tmp.Count());
+    for(UInt32 i = 0; i<tmp.Count(); ++i)
         result[i]=tmp[i];
     return result;
 }

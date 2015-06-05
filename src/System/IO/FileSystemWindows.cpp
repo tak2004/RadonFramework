@@ -396,7 +396,7 @@ AutoPointerArray<String> DirectoryContent(const String& Path)
                 list.AddLast(String(findFileData.cFileName, MAX_PATH));
         }while(FindNextFile(hFind,&findFileData)!=0);
         FindClose(hFind);
-        result=AutoPointerArray<String>(new String[list.Size()],list.Size());
+        result = AutoPointerArray<String>(new String[list.Count()], list.Count());
         for (UInt32 i=0;i<result.Count();++i)
             result[i].Swap(list[i]);
     }    
