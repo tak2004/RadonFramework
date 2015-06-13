@@ -80,6 +80,8 @@ public:
 
     static T Clamp(const T Value, const T Min, const T Max);
 
+    static T Round(const T Value);
+
     static RF_Type::Bool IsAlmostEqual(const T a, const T b);
     static RF_Type::Bool IsAlmostEqual(const T* a, const T* b,
         RF_Type::UInt32 ElementCount);
@@ -253,6 +255,11 @@ template<class T> T Math<T>::Clamp(const T Value, const T Min, const T Max)
     if(Value < Min) return Min;
     if(Value > Max) return Max;
     return Value;
+}
+
+template<class T> T Math<T>::Round(const T Value)
+{
+    return nearbyint(Value);
 }
 
 template<class T>

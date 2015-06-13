@@ -212,7 +212,7 @@ AutoPointer<FileStatus> Stat(const String& Path)
 {
     AutoPointer<FileStatus> result;
     BY_HANDLE_FILE_INFORMATION info;
-    HANDLE fHndl = CreateFileA(Path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE fHndl = CreateFileA(Path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
     if (0 != fHndl)
     {
         if (0 != GetFileInformationByHandle(fHndl, &info))

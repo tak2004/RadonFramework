@@ -236,10 +236,10 @@ AutoPointerArray<Directory> Directory::Directories()const
     AutoPointerArray<Directory> result;
     List<Directory> tmp;
     for (UInt32 i=0; i<content.Count(); ++i)
-        if (FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path)+Uri::PathSeperator+content[i])->IsDirectory)
+        if(FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path) + Uri::PathSeperator + content[i])->IsDirectory)
         {
             Directory dir;
-            dir.SetLocation(m_Uri.GetComponents(UriComponents::Path)+Uri::PathSeperator+content[i]);
+            dir.SetLocation(m_Uri.OriginalString()+Uri::PathSeperator+content[i]);
             tmp.AddLast(dir);
         }
     result = AutoPointerArray<Directory>(new Directory[tmp.Count()], tmp.Count());
