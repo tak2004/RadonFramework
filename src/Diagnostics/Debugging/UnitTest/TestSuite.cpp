@@ -34,7 +34,7 @@ AutoPointer<UnitTestResult> TestSuite::ProcessTest( const UInt32 Number )
 {
     register RF_Type::Bool passed;
     AutoPointer<UnitTestResult> result;
-    Assert(Number<m_TestMethods.Size(),"Out of bound.");
+    Assert(Number<m_TestMethods.Count(), "Out of bound.");
     result = AutoPointer<UnitTestResult>(new UnitTestResult(m_TestMethods[Number].Name));
     {
         ScopeTimer scopetime(result->TimeRequired());
@@ -67,7 +67,7 @@ List<AutoPointer<UnitTestResult> >& TestSuite::GetResults()
 void TestSuite::Run()
 {
     m_TestResults.Clear();
-    for(UInt32 i = 0; i < m_TestMethods.Size(); ++i)
+    for(UInt32 i = 0; i < m_TestMethods.Count(); ++i)
     {
         if (!m_IgnoreTest.Find(m_TestMethods[i].Name))
         {

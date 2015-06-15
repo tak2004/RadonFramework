@@ -165,13 +165,13 @@ void AutoVector<T>::Swap(AutoVector<T> &Other)
 template<class T>
 RF_Type::UInt32  AutoVector<T>::Size()const
 {
-    return m_Pointer.Size();
+    return m_Pointer.Count();
 }
 
 template<class T>
 void  AutoVector<T>::Erase(RF_Type::UInt32 Index)
 {
-    Assert(Index < m_Pointer.Size(),"Out of bound.");
+    Assert(Index < m_Pointer.Count(), "Out of bound.");
     if (m_Pointer[Index].m_IsArray)
         delete[] m_Pointer[Index].m_Ptr;
     else
@@ -252,7 +252,7 @@ void AutoVector<T>::PushBack (Memory::AutoPointerArray<T> Pointer)
 template <class T>
 inline RF_Type::Bool AutoVector<T>::PopBack (Memory::AutoPointer<T> *SaveToPointer)
 {
-    if (m_Pointer.Size()==0)
+    if(m_Pointer.Count() == 0)
         return false;
 
     T* p=m_Pointer.Last()->m_Ptr;
@@ -266,7 +266,7 @@ inline RF_Type::Bool AutoVector<T>::PopBack (Memory::AutoPointer<T> *SaveToPoint
 template <class T>
 inline RF_Type::Bool AutoVector<T>::PopBack (Memory::AutoPointerArray<T> *SaveToPointer)
 {
-    if (m_Pointer.Size()==0)
+    if(m_Pointer.Count() == 0)
         return false;
 
     PtrInfo p=m_Pointer.Last()->m_Ptr;

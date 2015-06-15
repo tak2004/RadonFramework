@@ -212,7 +212,7 @@ AutoPointer<FileStatus> Stat(const String& Path)
 {
     AutoPointer<FileStatus> result;
     BY_HANDLE_FILE_INFORMATION info;
-    HANDLE fHndl = CreateFileA(Path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE fHndl = CreateFileA(Path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
     if (0 != fHndl)
     {
         if (0 != GetFileInformationByHandle(fHndl, &info))
@@ -396,7 +396,7 @@ AutoPointerArray<String> DirectoryContent(const String& Path)
                 list.AddLast(String(findFileData.cFileName, MAX_PATH));
         }while(FindNextFile(hFind,&findFileData)!=0);
         FindClose(hFind);
-        result=AutoPointerArray<String>(new String[list.Size()],list.Size());
+        result = AutoPointerArray<String>(new String[list.Count()], list.Count());
         for (UInt32 i=0;i<result.Count();++i)
             result[i].Swap(list[i]);
     }    

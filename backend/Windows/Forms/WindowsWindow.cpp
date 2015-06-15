@@ -174,7 +174,7 @@ WindowsWindow::WindowsWindow(WindowService *Service)
 
 WindowsWindow::~WindowsWindow()
 {
-    for (RF_Type::Size i=0;i<m_Objects.Size();i++)
+    for(RF_Type::Size i = 0; i<m_Objects.Count(); i++)
     if (m_Objects[i]->m_Handle==m_Handle)
     {
         WindowsWindow::m_Objects.RemoveAt(i);
@@ -280,7 +280,7 @@ void WindowsWindow::CursorVisible(const Bool Value)
 
 WindowsWindow* WindowsWindow::GetObjectByHandle(const HWND Handle)
 {
-    for (RF_Type::Size i=0;i<m_Objects.Size();i++)
+    for(RF_Type::Size i = 0; i<m_Objects.Count(); i++)
         if (m_Objects[i]->m_Handle==Handle)
             return m_Objects[i];
     return 0;
@@ -288,7 +288,7 @@ WindowsWindow* WindowsWindow::GetObjectByHandle(const HWND Handle)
 
 UInt32 WindowsWindow::GetObjectCount()
 {
-    return static_cast<UInt32>(m_Objects.Size());
+    return static_cast<UInt32>(m_Objects.Count());
 }
 
 WindowsWindow* WindowsWindow::GetObjectByIndex(const UInt32 Index)

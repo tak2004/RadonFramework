@@ -1,6 +1,9 @@
 ﻿#include "RadonFramework/precompiled.hpp"
+#include <RadonFramework/backend/GL/WindowsOpenGLConstants.hpp>
+#include <RadonFramework/backend/GL/OpenGLConstants.hpp>
 #include <RadonFramework/backend/GL/glew.h>
 #include <RadonFramework/backend/GL/wglew.h>
+#include <windows.h>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
@@ -13,6 +16,7 @@ using namespace RadonFramework::Math::Geometry;
 using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
+using namespace RadonFramework::GL;
 
 GDIOpenGLCanvas3D::GDIOpenGLCanvas3D()
 {
@@ -67,13 +71,6 @@ void GDIOpenGLCanvas3D::Generate()
     }
     wglMakeCurrent(m_DeviceContext,TempContext);
 
-    GLenum err=glewInit();
-    if (GLEW_OK!=err)
-    {
-        LogError("Couldn't init OpenGL extension wrangler.");
-        return;
-    }
-
     unsigned int numFormats;
     const int attribList [] = {
         WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
@@ -90,6 +87,10 @@ void GDIOpenGLCanvas3D::Generate()
         WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
         0, 0
     };
+
+    // ask with the current context for gl 3.0 and higher functions
+    //wglChoosePixelFormatARB = ()wglGetProcAddress("wglChoosePixelFormatARB");
+    //wglCreateContextAttribsARB = ()wglGetProcAddress("wglCreateContextAttribsARB");
 
     if (wglChoosePixelFormatARB != NULL)
     {
@@ -128,6 +129,13 @@ void GDIOpenGLCanvas3D::Generate()
     // switch to the newest context and destroy the old one
     wglMakeCurrent(m_DeviceContext, m_Context);
     wglDeleteContext(TempContext);
+
+//     GLenum err = glewInit();
+//     if(GLEW_OK != err)
+//     {
+//         LogError("Couldn't init OpenGL extension wrangler.");
+//         return;
+//     }
 }
 
 void GDIOpenGLCanvas3D::SetWindowInfos(IWindow* Window)

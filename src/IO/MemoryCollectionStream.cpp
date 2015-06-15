@@ -254,5 +254,5 @@ AutoPointerArray<UInt8> MemoryCollectionStream::RemoveAt( UInt32 Index )
 
 UInt64 MemoryCollectionStream::Count()
 {
-    return m_Collection.Size();
+    return m_Collection.Count();
 }

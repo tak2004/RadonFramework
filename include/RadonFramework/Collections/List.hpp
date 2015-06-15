@@ -118,11 +118,11 @@ public:
     ConstIterator ConstBegin()const;
     ConstIterator ConstEnd()const;
 
-    RF_Type::UInt32 Size()const;
+    RF_Type::UInt32 Count()const;
 private:
     Node *m_First;
     Node *m_Last;
-    RF_Type::UInt32 m_Size;
+    RF_Type::UInt32 m_Count;
 };
 
 template<typename T>
@@ -340,7 +340,7 @@ template<typename T>
 List<T>::List()
 :m_First(0),
     m_Last(0),
-    m_Size(0)
+    m_Count(0)
 {
 }
 
@@ -348,7 +348,7 @@ template<typename T>
 List<T>::List(const List<T>& Copy)
 :m_First(0),
     m_Last(0),
-    m_Size(0)
+    m_Count(0)
 {
     AddList(Copy);
 }
@@ -378,13 +378,13 @@ void List<T>::Swap(List<T>&rhs)
 {
     Node* first=m_First;
     Node* last=m_Last;
-    RF_Type::UInt32 size=m_Size;
+    RF_Type::UInt32 size=m_Count;
     m_First=rhs.m_First;
     m_Last=rhs.m_Last;
-    m_Size=rhs.m_Size;
+    m_Count=rhs.m_Count;
     rhs.m_First=first;
     rhs.m_Last=last;
-    rhs.m_Size=size;
+    rhs.m_Count=size;
 }
 
 template<typename T>
@@ -395,7 +395,7 @@ RF_Type::Bool List<T>::AddBefore(const Iterator& It, T &Item)
         Node* n=new Node(Item);
         m_First=n;
         m_Last=n;
-        m_Size+=1;
+        m_Count+=1;
         return true;
     }
     else
@@ -411,7 +411,7 @@ RF_Type::Bool List<T>::AddBefore(const Iterator& It, T &Item)
     n->SetPrev(It.GetNode()->GetPrev());
     It.GetNode()->SetPrev(n);
     n->SetNext(It.GetNode());
-    m_Size+=1;
+    m_Count+=1;
     return true;
 }
 
@@ -430,7 +430,7 @@ RF_Type::Bool List<T>::AddAfter(const Iterator& It,T &Item)
         Node* n=new Node(Item);
         m_First=n;
         m_Last=n;
-        m_Size+=1;
+        m_Count+=1;
         return true;
     }
     else
@@ -446,7 +446,7 @@ RF_Type::Bool List<T>::AddAfter(const Iterator& It,T &Item)
     n->SetNext(It.GetNode()->GetNext());
     It.GetNode()->SetNext(n);
     n->SetPrev(It.GetNode());
-    m_Size+=1;
+    m_Count+=1;
     return true;
 }
 
@@ -492,8 +492,8 @@ void List<T>::AddList(const List<T> &L)
 template<typename T>
 void List<T>::Insert(RF_Type::UInt32 Index, T &Item)
 {
-    Assert(m_Size>=Index,"Out of bound.");
-    if (m_Size==Index)
+    Assert(m_Count>=Index,"Out of bound.");
+    if (m_Count==Index)
         AddLast(Item);
     else
     {
@@ -525,7 +525,7 @@ T& List<T>::CreateElementAtEnd()
     if (m_Last)
         m_Last->SetNext(n);
     m_Last=n;
-    m_Size+=1;
+    m_Count+=1;
     if (m_First==0)
         m_First=m_Last;
     return m_Last->Value();
@@ -539,7 +539,7 @@ T& List<T>::CreateElementAtBegin()
     if (m_First)
         m_First->SetPrev(n);
     m_First=n;
-    m_Size+=1;
+    m_Count+=1;
     if (m_Last==0)
         m_Last=m_First;
     return m_First->Value();
@@ -548,8 +548,8 @@ T& List<T>::CreateElementAtBegin()
 template<typename T>
 T& List<T>::CreateElementAt(const RF_Type::UInt32 Position)
 {
-    Assert(m_Size>Position,"Out of bound.");
-    if (m_Size==Position)
+    Assert(m_Count>Position,"Out of bound.");
+    if (m_Count==Position)
         return CreateElementAtEnd();
     if (Position==0)
         return CreateElementAtBegin();
@@ -590,7 +590,7 @@ RF_Type::Bool List<T>::Remove(Iterator& It)
     n->SetNext(0);
     n->SetPrev(0);
     delete n;
-    m_Size-=1;
+    m_Count-=1;
     return true;
 }
 
@@ -617,7 +617,7 @@ void List<T>::RemoveLast()
 template<typename T>
 void List<T>::RemoveAt(RF_Type::UInt32 Index)
 {
-    Assert(Index<m_Size,"Out of bound.");
+    Assert(Index<m_Count,"Out of bound.");
 
     RF_Type::UInt32 i=0;
     for (Iterator it=Begin(); it!=End(); ++it)
@@ -634,7 +634,7 @@ void List<T>::RemoveAt(RF_Type::UInt32 Index)
 template<typename T>
 T& List<T>::Item(const RF_Type::UInt32 Index)
 {
-    Assert(Index<m_Size,"Out of bound.");
+    Assert(Index<m_Count,"Out of bound.");
 
     RF_Type::UInt32 i=0;
     Iterator it=Begin();
@@ -650,7 +650,7 @@ T& List<T>::Item(const RF_Type::UInt32 Index)
 template<typename T>
 const T& List<T>::Item(const RF_Type::UInt32 Index)const
 {
-    Assert(Index<m_Size, "Out of bound");
+    Assert(Index<m_Count, "Out of bound");
 
     RF_Type::UInt32 i=0;
     Iterator it=Begin();
@@ -696,7 +696,7 @@ RF_Type::Bool List<T>::Find(const T& Item)const
 template<typename T>
 T* List<T>::First()const
 {
-    if (m_Size)
+    if (m_Count)
         return &m_First->Value();
     return 0;
 }
@@ -704,7 +704,7 @@ T* List<T>::First()const
 template<typename T>
 T* List<T>::Last()const
 {
-    if (m_Size)
+    if (m_Count)
         return &m_Last->Value();
     return 0;
 }
@@ -734,9 +734,9 @@ typename List<T>::ConstIterator List<T>::ConstBegin()const
 }
 
 template<typename T>
-RF_Type::UInt32 List<T>::Size()const
+RF_Type::UInt32 List<T>::Count()const
 {
-    return m_Size;
+    return m_Count;
 }
     
 } }
