@@ -15,6 +15,7 @@
 #include <RadonFramework/Net/SocketShutdown.hpp>
 #include <RadonFramework/Net/SocketOptionLevel.hpp>
 #include <RadonFramework/Net/SocketOptionName.hpp>
+#include <RadonFramework/Net/MulticastRequest.hpp>
 
 namespace RadonFramework { namespace System { namespace Network {
 
@@ -135,6 +136,12 @@ public:
         const RF_Net::SocketOptionName OptionName,
         const RF_Net::IPAddress& OptionValue);
 
+    template <>
+    static RF_Net::Error SetSocketOption(const SocketHandler Handler,
+        const RF_Net::SocketOptionLevel OptionLevel,
+        const RF_Net::SocketOptionName OptionName,
+        const RF_Net::MulticastRequest& OptionValue);
+
     // This method set a socket to blocking or non blocking mode.
     static RF_Net::Error SetBlockingMode(const SocketHandler Handler,
         const RF_Type::Bool NewValue);
@@ -165,7 +172,9 @@ private:
         const void* const OptionValue, const RF_Type::UInt32 OptionLength);
 
     static RF_Net::Error AddMembership(const NetService::SocketHandler Handler, 
-                                       const RF_Net::IPAddress& OptionValue);
+                                       const RF_Net::MulticastRequest& OptionValue);
+    static RF_Net::Error DropMembership(const NetService::SocketHandler Handler,
+                                        const RF_Net::MulticastRequest& OptionValue);
     static RF_Net::Error SetMulticastInterface(const NetService::SocketHandler Handler, const RF_Net::IPAddress& OptionValue);
 };
 
@@ -217,15 +226,33 @@ RF_Net::Error NetService::SetSocketOption(
     const RF_Net::SocketOptionName OptionName,
     const RF_Net::IPAddress& OptionValue)
 {
-    if(OptionName == RF_Net::SocketOptionName::AddMembership &&
-        OptionLevel == RF_Net::SocketOptionLevel::IPv4)
-    {
-        return AddMembership(Handler, OptionValue);        
-    }
-    else if(OptionName == RF_Net::SocketOptionName::MulticastInterface &&
+    if(OptionName == RF_Net::SocketOptionName::MulticastInterface &&
             OptionLevel == RF_Net::SocketOptionLevel::IPv4)
     {
         return SetMulticastInterface(Handler, OptionValue);
+    }
+    else
+    {
+        return RF_Net::Error::InvalidArgument;
+    }
+}
+
+template<>
+RF_Net::Error NetService::SetSocketOption(
+    const NetService::SocketHandler Handler,
+    const RF_Net::SocketOptionLevel OptionLevel,
+    const RF_Net::SocketOptionName OptionName,
+    const RF_Net::MulticastRequest& OptionValue)
+{
+    if(OptionName == RF_Net::SocketOptionName::AddMembership &&
+       OptionLevel == RF_Net::SocketOptionLevel::IPv4)
+    {
+        return AddMembership(Handler, OptionValue);
+    }
+    else if(OptionName == RF_Net::SocketOptionName::DropMembership &&
+            OptionLevel == RF_Net::SocketOptionLevel::IPv4)
+    {
+        return DropMembership(Handler, OptionValue);
     }
     else
     {

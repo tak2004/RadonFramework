@@ -30,53 +30,54 @@ static const int WIN_VERSION_XP=0x501;
 
 int SockShutdown[SocketShutdown::MAX]={SD_BOTH, SD_RECEIVE, SD_SEND};
 
-int SocketOption[SocketOptionName::MAX]=
-    {
-        0,//Unset
-        SO_DEBUG,//Debug
-        SO_ACCEPTCONN,//AcceptConnection
-        SO_REUSEADDR,//ReuseAddress
-        SO_KEEPALIVE,//KeepAlive
-        SO_DONTROUTE,//DontRoute
-        SO_BROADCAST,//Broadcast
-        SO_USELOOPBACK,//UseLoopback
-        SO_LINGER,//Linger
-        SO_OOBINLINE,//OutOfBandInline
-        SO_DONTLINGER,//DontLinger
-        SO_EXCLUSIVEADDRUSE,//ExclusiveAddressUse
-        SO_SNDBUF,//SendBuffer
-        SO_RCVBUF,//ReceiveBuffer
-        SO_SNDLOWAT,//SendLowWater
-        SO_RCVLOWAT,//ReceiveLowWater
-        SO_SNDTIMEO,//SendTimeout
-        SO_RCVTIMEO,//ReceiveTimeout
-        0,//Error
-        SO_TYPE,//SocketType
-        0,//MaxConnections
-        IP_OPTIONS,//IPOptions
-        IP_HDRINCL,//HeaderIncluded
-        IP_TOS,//TypeOfService
-        IP_TTL,//IPTimeToLive
-        IP_MULTICAST_IF,//MulticastInterface
-        IP_MULTICAST_TTL,//MutlicastTimeToLive
-        IP_MULTICAST_LOOP,//MulticastLoopback
-        IP_ADD_MEMBERSHIP,//AddMembership
-        IP_DROP_MEMBERSHIP,//DropMembership
-        IP_DONTFRAGMENT,//DontFragment
-        IP_ADD_SOURCE_MEMBERSHIP,//AddSourceMembership
-        IP_DROP_SOURCE_MEMBERSHIP,//DropSourceMembership
-        IP_BLOCK_SOURCE,//BlockSource
-        IP_UNBLOCK_SOURCE,//UnblockSource
-        IP_PKTINFO,//PacketInformation
-        0,//HopLimit
-        TCP_NODELAY,//NoDelay
-        0,//BsdUrgent
-        TCP_EXPEDITED_1122,//Expedited
-        UDP_NOCHECKSUM,//NoChecksum
-        0,//ChecksumCoverage
-        0,//UpdateAcceptContext
-        0//UpdateConnectContext
-    };
+int SocketOption[static_cast<RF_Type::Size>(SocketOptionName::MAX)] =
+{
+    0,//Unset
+    SO_DEBUG,//Debug
+    SO_ACCEPTCONN,//AcceptConnection
+    SO_REUSEADDR,//ReuseAddress
+    SO_KEEPALIVE,//KeepAlive
+    SO_DONTROUTE,//DontRoute
+    SO_BROADCAST,//Broadcast
+    SO_USELOOPBACK,//UseLoopback
+    SO_LINGER,//Linger
+    SO_OOBINLINE,//OutOfBandInline
+    SO_DONTLINGER,//DontLinger
+    SO_EXCLUSIVEADDRUSE,//ExclusiveAddressUse
+    SO_SNDBUF,//SendBuffer
+    SO_RCVBUF,//ReceiveBuffer
+    SO_SNDLOWAT,//SendLowWater
+    SO_RCVLOWAT,//ReceiveLowWater
+    SO_SNDTIMEO,//SendTimeout
+    SO_RCVTIMEO,//ReceiveTimeout
+    0,//Error
+    SO_TYPE,//SocketType
+    0,//MaxConnections
+    IP_OPTIONS,//IPOptions
+    IP_HDRINCL,//HeaderIncluded
+    IP_TOS,//TypeOfService
+    IP_TTL,//IPTimeToLive
+    IP_MULTICAST_IF,//MulticastInterface
+    IP_MULTICAST_TTL,//MutlicastTimeToLive
+    IP_MULTICAST_LOOP,//MulticastLoopback
+    IP_ADD_MEMBERSHIP,//AddMembership
+    IP_DROP_MEMBERSHIP,//DropMembership
+    IP_DONTFRAGMENT,//DontFragment
+    IP_ADD_SOURCE_MEMBERSHIP,//AddSourceMembership
+    IP_DROP_SOURCE_MEMBERSHIP,//DropSourceMembership
+    IP_BLOCK_SOURCE,//BlockSource
+    IP_UNBLOCK_SOURCE,//UnblockSource
+    IP_PKTINFO,//PacketInformation
+    0,//HopLimit
+    TCP_NODELAY,//NoDelay
+    0,//BsdUrgent
+    TCP_EXPEDITED_1122,//Expedited
+    UDP_NOCHECKSUM,//NoChecksum
+    0,//ChecksumCoverage
+    0,//UpdateAcceptContext
+    0,//UpdateConnectContext
+    SO_REUSEADDR//ReusePort
+};
 
 inline Error InitializeImplementation()
 {
@@ -227,7 +228,8 @@ int SocketOption[SocketOptionName::MAX]=
         0,//NoChecksum
         0,//ChecksumCoverage
         0,//UpdateAcceptContext
-        0//UpdateConnectContext
+        0,//UpdateConnectContext
+        SO_REUSEPORT//ReusePort
     };
 
 inline Error InitializeImplementation()
@@ -340,52 +342,53 @@ int SockOptionLevel[static_cast<RF_Type::Size>(SocketOptionLevel::MAX)] =
 
 //This assign the OptionName to the right OptionLevel types.
 SocketOptionLevel SocketOptionAviableLevel[static_cast<RF_Type::Size>(SocketOptionName::MAX)] =
-    {
-        SocketOptionLevel::Unset,//Unset
-        SocketOptionLevel::Socket,//Debug
-        SocketOptionLevel::Unset,//AcceptConnection
-        SocketOptionLevel::Socket,//ReuseAddress
-        SocketOptionLevel::Socket,//KeepAlive
-        SocketOptionLevel::Socket,//DontRoute
-        SocketOptionLevel::Socket,//Broadcast
-        SocketOptionLevel::Unset,//UseLoopback
-        SocketOptionLevel::Socket,//Linger
-        SocketOptionLevel::Socket,//OutOfBandInline
-        SocketOptionLevel::Socket,//DontLinger
-        SocketOptionLevel::Socket,//ExclusiveAddressUse
-        SocketOptionLevel::Socket,//SendBuffer
-        SocketOptionLevel::Socket,//ReceiveBuffer
-        SocketOptionLevel::Unset,//SendLowWater
-        SocketOptionLevel::Unset,//ReceiveLowWater
-        SocketOptionLevel::Socket,//SendTimeout
-        SocketOptionLevel::Socket,//ReceiveTimeout
-        SocketOptionLevel::Unset,//Error
-        SocketOptionLevel::Unset,//SocketType
-        SocketOptionLevel::Unset,//MaxConnections
-        SocketOptionLevel::Unset,//IPOptions
-        SocketOptionLevel::Unset,//HeaderIncluded
-        SocketOptionLevel::Unset,//TypeOfService
-        SocketOptionLevel::Unset,//IPTimeToLive
-        SocketOptionLevel::IPv4,//MulticastInterface
-        SocketOptionLevel::IPv4,//MutlicastTimeToLive
-        SocketOptionLevel::IPv4,//MulticastLoopback
-        SocketOptionLevel::IPv4,//AddMembership
-        SocketOptionLevel::IPv4,//DropMembership
-        SocketOptionLevel::Unset,//DontFragment
-        SocketOptionLevel::Unset,//AddSourceMembership
-        SocketOptionLevel::Unset,//DropSourceMembership
-        SocketOptionLevel::Unset,//BlockSource
-        SocketOptionLevel::Unset,//UnblockSource
-        SocketOptionLevel::Unset,//PacketInformation
-        SocketOptionLevel::Unset,//HopLimit
-        SocketOptionLevel::TCP,//NoDelay
-        SocketOptionLevel::Unset,//BsdUrgent
-        SocketOptionLevel::Unset,//Expedited
-        SocketOptionLevel::Unset,//NoChecksum
-        SocketOptionLevel::Unset,//ChecksumCoverage
-        SocketOptionLevel::Socket,//UpdateAcceptContext
-        SocketOptionLevel::Unset//UpdateConnectContext
-    };
+{
+    SocketOptionLevel::Unset,//Unset
+    SocketOptionLevel::Socket,//Debug
+    SocketOptionLevel::Unset,//AcceptConnection
+    SocketOptionLevel::Socket,//ReuseAddress
+    SocketOptionLevel::Socket,//KeepAlive
+    SocketOptionLevel::Socket,//DontRoute
+    SocketOptionLevel::Socket,//Broadcast
+    SocketOptionLevel::Unset,//UseLoopback
+    SocketOptionLevel::Socket,//Linger
+    SocketOptionLevel::Socket,//OutOfBandInline
+    SocketOptionLevel::Socket,//DontLinger
+    SocketOptionLevel::Socket,//ExclusiveAddressUse
+    SocketOptionLevel::Socket,//SendBuffer
+    SocketOptionLevel::Socket,//ReceiveBuffer
+    SocketOptionLevel::Unset,//SendLowWater
+    SocketOptionLevel::Unset,//ReceiveLowWater
+    SocketOptionLevel::Socket,//SendTimeout
+    SocketOptionLevel::Socket,//ReceiveTimeout
+    SocketOptionLevel::Unset,//Error
+    SocketOptionLevel::Unset,//SocketType
+    SocketOptionLevel::Unset,//MaxConnections
+    SocketOptionLevel::Unset,//IPOptions
+    SocketOptionLevel::Unset,//HeaderIncluded
+    SocketOptionLevel::Unset,//TypeOfService
+    SocketOptionLevel::Unset,//IPTimeToLive
+    SocketOptionLevel::IPv4,//MulticastInterface
+    SocketOptionLevel::IPv4,//MutlicastTimeToLive
+    SocketOptionLevel::IPv4,//MulticastLoopback
+    SocketOptionLevel::IPv4,//AddMembership
+    SocketOptionLevel::IPv4,//DropMembership
+    SocketOptionLevel::Unset,//DontFragment
+    SocketOptionLevel::Unset,//AddSourceMembership
+    SocketOptionLevel::Unset,//DropSourceMembership
+    SocketOptionLevel::Unset,//BlockSource
+    SocketOptionLevel::Unset,//UnblockSource
+    SocketOptionLevel::Unset,//PacketInformation
+    SocketOptionLevel::Unset,//HopLimit
+    SocketOptionLevel::TCP,//NoDelay
+    SocketOptionLevel::Unset,//BsdUrgent
+    SocketOptionLevel::Unset,//Expedited
+    SocketOptionLevel::Unset,//NoChecksum
+    SocketOptionLevel::Unset,//ChecksumCoverage
+    SocketOptionLevel::Socket,//UpdateAcceptContext
+    SocketOptionLevel::Unset,//UpdateConnectContext
+    SocketOptionLevel::Socket//ReusePort
+};
 
 Error NetService::Initialize()
 {
@@ -724,7 +727,7 @@ Error NetService::SetSocketOption(const NetService::SocketHandler Handler,
         if(SocketOption[(RF_Type::Size)OptionName]>0)
         {
             if(setsockopt(Handler, SockOptionLevel[(RF_Type::Size)OptionLevel],
-                SocketOption[(RF_Type::Size)OptionName], reinterpret_cast<const char*>(&OptionValue), OptionLength) != SOCKET_ERROR)
+                SocketOption[(RF_Type::Size)OptionName], reinterpret_cast<const char*>(OptionValue), OptionLength) != SOCKET_ERROR)
                 return Error::Ok;
             else
                 return OSSocketError::ConvertOSError();
@@ -737,26 +740,34 @@ Error NetService::SetSocketOption(const NetService::SocketHandler Handler,
 }
 
 Error NetService::AddMembership(const NetService::SocketHandler Handler, 
-                                const RF_Net::IPAddress& OptionValue)
+                                const RF_Net::MulticastRequest& OptionValue)
 {
     struct ip_mreq multicastRequest;
-    const UInt8* addr = OptionValue.AsByteArray();
-    u_long ip = htonl(*reinterpret_cast<const u_long*>(addr));
-    memcpy(&multicastRequest.imr_multiaddr, &ip, sizeof(u_long));
-    multicastRequest.imr_interface.s_addr = htonl(INADDR_ANY);
+    u_long address = OptionValue.MulticastAddress.ToUInt32();
+    u_long interface = OptionValue.Interface.ToUInt32();
+    memcpy(&multicastRequest.imr_multiaddr, &address, sizeof(u_long));
+    memcpy(&multicastRequest.imr_interface, &interface, sizeof(u_long));    
     return SetSocketOption(Handler, SocketOptionLevel::IPv4, 
         SocketOptionName::AddMembership, &multicastRequest, sizeof(ip_mreq));
+}
+
+Error NetService::DropMembership(const NetService::SocketHandler Handler,
+                                const RF_Net::MulticastRequest& OptionValue)
+{
+    struct ip_mreq multicastRequest;
+    u_long address = OptionValue.MulticastAddress.ToUInt32();
+    u_long interface = OptionValue.Interface.ToUInt32();
+    memcpy(&multicastRequest.imr_multiaddr, &address, sizeof(u_long));
+    memcpy(&multicastRequest.imr_interface, &interface, sizeof(u_long));
+    return SetSocketOption(Handler, SocketOptionLevel::IPv4,
+        SocketOptionName::DropMembership, &multicastRequest, sizeof(ip_mreq));
 }
 
 Error NetService::SetMulticastInterface(const NetService::SocketHandler Handler, 
                                         const RF_Net::IPAddress& OptionValue)
 {
-    struct ip_mreq multicastRequest;
-    const UInt8* addr = OptionValue.AsByteArray();
-    u_long ip = htonl(*reinterpret_cast<const u_long*>(addr));
-    memcpy(&multicastRequest.imr_interface, &ip, sizeof(u_long));
+    RF_Type::UInt32 ip = OptionValue.ToUInt32();
     return SetSocketOption(Handler, SocketOptionLevel::IPv4, 
-        SocketOptionName::MulticastInterface, &multicastRequest.imr_interface, 
-        sizeof(multicastRequest.imr_interface));
+        SocketOptionName::MulticastInterface, &ip, sizeof(RF_Type::UInt32));
 }
 

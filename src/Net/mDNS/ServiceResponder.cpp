@@ -52,19 +52,17 @@ RF_Type::Bool ServiceResponder::Start()
         // don't send data to loopback adapter
         error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastLoopback, false);
         // data should pass the local network
-//        setsockopt(sock,
-//            IPPROTO_IP,
-//            IP_MULTICAST_TTL,
-//            (char*)&multicastTTL, sizeof(multicastTTL)) != 0 )
-        //error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MutlicastTimeToLive, 255);
+        error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MutlicastTimeToLive, RF_Type::UInt8(255));
         // join the multicast group which tells the OS to stop dropping the packets with this destination
         IPAddress ip;
         IPAddress::Resolve("224.0.0.251", ip);
-        error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::AddMembership, ip);
+
+        MulticastRequest multicastRequest;
+        multicastRequest.MulticastAddress = ip;
+        multicastRequest.Interface = IPAddress::IPv4Any;
+        error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::AddMembership, multicastRequest);
         // specify the network adapter we want to work with
-        //IPAddress interfaceIp;
-        //IPAddress::Resolve("192.168.0.10", interfaceIp);
-        //error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastInterface, interfaceIp);
+        error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastInterface, IPAddress::IPv4Any);
     }
     else
     {

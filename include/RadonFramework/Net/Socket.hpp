@@ -19,6 +19,7 @@ class SelectObjectCollector;
 namespace RadonFramework { namespace Net {
         
 class PIMPL;
+struct MulticastRequest;
         
 class Socket
 {
@@ -73,10 +74,15 @@ public:
 
     SocketError SetSocketOption(const SocketOptionLevel OptionLevel, 
         const SocketOptionName OptionName, const RF_Type::Bool Value);
+    SocketError SetSocketOption(const SocketOptionLevel OptionLevel,
+        const SocketOptionName OptionName, const RF_Type::UInt8 Value);
     SocketError SetSocketOption(const SocketOptionLevel OptionLevel, 
         const SocketOptionName OptionName, const RF_Type::Int32 Value);
     SocketError SetSocketOption(const SocketOptionLevel OptionLevel,
         const SocketOptionName OptionName, const IPAddress& Value);
+    SocketError SetSocketOption(const SocketOptionLevel OptionLevel,
+                                const SocketOptionName OptionName, 
+                                const MulticastRequest& Value);
 protected:
     PIMPL* m_Data;
 private:

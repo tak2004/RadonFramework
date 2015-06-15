@@ -2,6 +2,7 @@
 #include "RadonFramework/Net/Socket.hpp"
 #include "RadonFramework/System/Network/NetService.hpp"
 #include "RadonFramework/System/Network/SelectObjectCollector.hpp"
+#include "RadonFramework/Net/MulticastRequest.hpp"
 
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
@@ -250,6 +251,14 @@ SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel,
     return res;
 }
 
+SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel,
+    const SocketOptionName OptionName, const UInt8 Value)
+{
+    SocketError res;
+    res.Code = NetService::SetSocketOption<UInt8>(m_Data->Handler, OptionLevel, OptionName, Value);
+    return res;
+}
+
 SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel, 
     const SocketOptionName OptionName, const Int32 Value)
 {
@@ -265,6 +274,15 @@ SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel,
     res.Code = NetService::SetSocketOption<IPAddress>(m_Data->Handler, OptionLevel, OptionName, Value);
     return res;
 }
+
+RadonFramework::Net::SocketError Socket::SetSocketOption(const SocketOptionLevel OptionLevel, 
+    const SocketOptionName OptionName, const MulticastRequest& Value)
+{
+    SocketError res;
+    res.Code = NetService::SetSocketOption<MulticastRequest>(m_Data->Handler, OptionLevel, OptionName, Value);
+    return res;
+}
+
 /*
 SocketError::Type Socket::SetReceiveTimeout(RadonFramework::Core::Types::UInt32 timeout)
 {

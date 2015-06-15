@@ -26,6 +26,10 @@ public:
     const Collections::AutoVector<NetworkService>& KnownServices()const;
     RF_Type::Bool IsKnown(const RF_Type::String& Servicename)const;
     NetworkService* FindService(const RF_Type::String& Servicename)const;
+    virtual RF_Type::Bool Shutdown(const Time::TimeSpan& ReturnAfter)override;
+protected:
+    virtual void ConfigureSocket(Socket& Socket, IPAddress& Interface) override;
+    virtual RF_Type::Bool ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::UInt8>& In) override;
 private:
     RF_Idiom::PImpl<ServiceDiscovery> m_PImpl;
 };

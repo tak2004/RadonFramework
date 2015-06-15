@@ -1,5 +1,5 @@
-#ifndef RF_NETWORKADAPTER_HPP
-#define RF_NETWORKADAPTER_HPP
+#ifndef RF_MULTICASTREQUEST_HPP
+#define RF_MULTICASTREQUEST_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
@@ -8,10 +8,10 @@
 
 namespace RadonFramework { namespace Net { 
 
-struct NetworkAdapter
+struct MulticastRequest
 {
-    IPAddress IP;
-    IPAddress Netmask;
+    IPAddress MulticastAddress;
+    IPAddress Interface;
 };
 
 } }
@@ -21,4 +21,4 @@ struct NetworkAdapter
 namespace RF_Net = RadonFramework::Net;
 #endif
 
-#endif // RF_NETWORKADAPTER_HPP
+#endif // RF_MULTICASTREQUEST_HPP

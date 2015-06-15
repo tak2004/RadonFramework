@@ -260,6 +260,7 @@
 #include <RadonFramework/Net/mDNS/NetworkService.hpp>
 #include <RadonFramework/Net/mDNS/ServiceDiscovery.hpp>
 #include <RadonFramework/Net/mDNS/ServiceResponder.hpp>
+#include <RadonFramework/Net/MulticastRequest.hpp>
 #include <RadonFramework/Net/NetworkAdapter.hpp>
 #include <RadonFramework/Net/PacketStream.hpp>
 #include <RadonFramework/Net/PacketWithHeader.hpp>

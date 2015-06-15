@@ -52,6 +52,7 @@ enum class SocketOptionName
     ChecksumCoverage,
     UpdateAcceptContext,
     UpdateConnectContext,
+    ReusePort,
     MAX
 };
 

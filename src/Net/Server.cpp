@@ -45,9 +45,6 @@ RF_Type::Bool Server::Start()
     RF_Mem::AutoPointer<Socket> serverSocket = Socket::Create(m_PImpl->m_Config.Family, m_PImpl->m_Config.Protocol);
     if(serverSocket)
     {
-        serverSocket->Blocking(m_PImpl->m_Config.Blocking);
-        serverSocket->SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReuseAddress, true);
-
         RF_Type::String hostname(m_PImpl->m_Config.Hostname);
         IPAddress ip;
         if(hostname == "*")
@@ -92,6 +89,8 @@ RF_Type::Bool Server::Start()
                     m_PImpl->m_RemoteEndpoint = RF_Net::EndPoint(ip, m_PImpl->m_Config.Port);
                 }
             }
+
+            ConfigureSocket(*serverSocket, ip);
         }
 
         if(result)
@@ -105,6 +104,7 @@ RF_Type::Bool Server::Start()
 
 void Server::Stop()
 {
+    Shutdown(Time::TimeSpan());
     m_PImpl->m_Pool.Reset();
     m_PImpl->m_Sockets.Clear();
     m_PImpl->m_IP = IPAddress::IPv4None;
@@ -186,6 +186,14 @@ Socket* Server::GetSocket() const
         result = m_PImpl->m_Sockets[0].Get();
     }
     return result;
+}
+
+void Server::ConfigureSocket(Socket& Socket, IPAddress& Interface)
+{
+    SocketError error;
+    error.Code = Error::Ok;
+    error = Socket.Blocking(m_PImpl->m_Config.Blocking);
+    error = Socket.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReuseAddress, true);
 }
 
 } }
