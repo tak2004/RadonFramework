@@ -183,6 +183,7 @@
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/IO/LogConfig.hpp>
 #include <RadonFramework/IO/LogConsole.hpp>
+#include <RadonFramework/IO/LogDebuggerOutput.hpp>
 #include <RadonFramework/IO/MemoryCollectionStream.hpp>
 #include <RadonFramework/IO/MouseEvent.hpp>
 #include <RadonFramework/IO/OptionRule.hpp>

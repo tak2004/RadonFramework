@@ -46,6 +46,7 @@ public:
     ,MinWorkerThreads(0)
     ,MinCompletionPortThreads(0)
     ,Latency(10000)
+    ,IsQueingAllowed(true)
     ,Running(true)
     {
         UInt32 lps = Hardware::GetAvailableLogicalProcessorCount();
@@ -67,7 +68,8 @@ public:
 
     ~Data()
     {
-        Running=false;
+        IsQueingAllowed=false;
+        Running = false;
         MaxWorkerThreads = 0;
         MaxCompletionPortThreads = 0;
         MinWorkerThreads = 0;
@@ -165,6 +167,8 @@ public:
     UInt32 MinWorkerThreads;
     UInt32 MinCompletionPortThreads;
     RF_Time::TimeValue Latency;
+    AtomicInt32 WorkingThreads;
+    Bool IsQueingAllowed;
     Bool Running;
 };
 
@@ -235,7 +239,7 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, TaskStrategy::Type Str
 Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
     TaskStrategy::Type Strategy, FreeCallback FreeData)
 {
-    if (m_PImpl->Running)
+    if (m_PImpl->IsQueingAllowed)
     {
         PoolTask task(Callback, State, FreeData);
         if (Strategy==TaskStrategy::Concurrent)
@@ -254,36 +258,52 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
 
 void ThreadPool::DisableAndWaitTillDone()
 {
+    m_PImpl->IsQueingAllowed = false;
+    WaitTillQueueIsEmpty();
     m_PImpl->Running = false;
-    WaitTillDone();
+
+    while(m_PImpl->WorkingThreads > 0)
+    {
+        Thread::Sleep(Time::TimeSpan::CreateByTicks(Time::TimeSpan::TicksPerMillisecond));
+    }
+
+    m_PImpl->Running = true;
 }
 
-void ThreadPool::Disable()
+void ThreadPool::DisableQueing()
+{
+    m_PImpl->IsQueingAllowed = false;
+}
+
+void ThreadPool::EnableQueing()
+{
+    m_PImpl->IsQueingAllowed = true;
+}
+
+void ThreadPool::DisableProcessing()
 {
     m_PImpl->Running = false;
 }
 
-void ThreadPool::Enable()
+void ThreadPool::EnableProcessing()
 {
     m_PImpl->Running = true;
 }
 
-void ThreadPool::WaitTillDone()
+void ThreadPool::WaitTillQueueIsEmpty()
 {
-        Time::TimeSpan delta = Time::TimeSpan::CreateByTime(0,0,1);
-        Bool idle;
-        do
-        {
-            idle = true;
-            {
-                for(Size i = 0, end = m_PImpl->SerialTaskLists.Count(); i < end; ++i)
-                    idle = idle && m_PImpl->SerialTaskLists[static_cast<UInt32>(i)].IsEmpty();
-                idle = idle && m_PImpl->ConcurrentTaskList.IsEmpty();
-            }
+    Time::TimeSpan delta = Time::TimeSpan::CreateByTime(0, 0, 1);
+    Bool idle;
+    do
+    {
+        idle = true;
+        for(Size i = 0, end = m_PImpl->SerialTaskLists.Count(); i < end; ++i)
+            idle = idle && m_PImpl->SerialTaskLists[static_cast<UInt32>(i)].IsEmpty();
+        idle = idle && m_PImpl->ConcurrentTaskList.IsEmpty();
 
-            if(!idle)
-                Thread::Sleep(Time::TimeSpan::CreateByTicks(Time::TimeSpan::TicksPerMillisecond));
-        } while(!idle);
+        if(!idle)
+            Thread::Sleep(Time::TimeSpan::CreateByTicks(Time::TimeSpan::TicksPerMillisecond));
+    } while(!idle);
 }
 
 void ThreadPool::GetThreadCount(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
@@ -312,6 +332,11 @@ bool ThreadPool::IsLowLatencyPool()
     return m_PImpl->Latency == 0;
 }
 
+void RadonFramework::Threading::ThreadPool::WaitTillDoneWithInactiveQueue()
+{
+    DisableAndWaitTillDone();
+    EnableQueing();
+}
 
 void PoolThread::Run()
 {
@@ -320,13 +345,18 @@ void PoolThread::Run()
     Int64 serialGrp = Thread::CurrentPid() % Pool->WorkerThreads.Count();
     while(!shutdown)
     {
+        Pool->WorkingThreads.Increment();
         result = Pool->SerialTaskLists[static_cast<UInt32>(serialGrp)].Dequeue(task);
         if (false == result)
         {
             result = Pool->ConcurrentTaskList.Dequeue(task);
-
+            
             if(result == false)
+            {// task pool is empty
+                Pool->WorkingThreads.Decrement();
                 Thread::Sleep(Time::TimeSpan::CreateByTicks(Pool->Latency));
+                Pool->WorkingThreads.Increment();
+            }
         }
 
         if (result)
@@ -338,6 +368,12 @@ void PoolThread::Run()
                 task.FreeData(task.Data);
                 task.Data=0;
             }
+        }
+        Pool->WorkingThreads.Decrement();
+
+        while(!Pool->Running && !shutdown)
+        {
+            Thread::Sleep(Time::TimeSpan::CreateByTicks(Pool->Latency));
         }
     }
 }

@@ -3,6 +3,7 @@
 #include "RadonFramework/Diagnostics/Debugging/UnitTest/UnitTestResult.hpp"
 #include "RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp"
 #include "RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp"
+#include "RadonFramework/Threading/ThreadPool.hpp"
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
@@ -53,7 +54,9 @@ void UnitTest::RunSuiteAt( RF_Type::Size Index )
     m_TestSuites[Index]->SetUp();
     for(Size i = 0; i < m_Collector.Count(); ++i)
         m_Collector[i]->CreateSuite(m_TestSuites[Index]->Name());
-
+    // Wait till all Appender wrote the initial headline.
+    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().WaitTillDoneWithInactiveQueue();
+    // Start multi threaded test.
     m_TestSuites[Index]->SetTestProbes(m_TestProbes);
     m_TestSuites[Index]->Run();
 
@@ -65,6 +68,8 @@ void UnitTest::RunSuiteAt( RF_Type::Size Index )
             m_Collector[l]->ProcessResult(*results[i]);
         }
     }
+    // Wait till all logging stuff of the tests are done.
+    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().WaitTillDoneWithInactiveQueue();
 }
 
 void UnitTest::SetSequentialTestExecution(RF_Type::Size Probes)

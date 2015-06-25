@@ -63,13 +63,22 @@ public:
     void DisableAndWaitTillDone();
 
     /// Disable the queing of new work items.
-    void Disable();
+    void DisableQueing();
 
     /// Enable the queing of new work items.
-    void Enable();
+    void EnableQueing();
 
-    /// Wait till all queued work items are processed and freed.
-    void WaitTillDone();
+    /// Disable the processing of work items.
+    void DisableProcessing();
+
+    /// Enable the processing of work items.
+    void EnableProcessing();
+
+    /// Wait till all queued work items are processed or in processing state.
+    void WaitTillQueueIsEmpty();
+
+    /// Same as DisableAndWaitTillDone followed by EnableQueing.
+    void WaitTillDoneWithInactiveQueue();
 
     /// The task scheduler lower the latency but rise the cpu power
     /// consumption if there are not enough tasks.
@@ -85,5 +94,10 @@ private:
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_THREAD
+#define RF_SHORTHAND_NAMESPACE_THREAD
+namespace RF_Thread = RadonFramework::Threading;
+#endif
 
 #endif // RF_THREADING_THREADPOOL_HPP
