@@ -3,6 +3,7 @@
 #include "RadonFramework/Plugins.hpp"
 #include "RadonFramework/Drawing/Forms/WindowServiceLocator.hpp"
 #include "RadonFramework/Drawing/Canvas3DServiceLocator.hpp"
+#include "RadonFramework/Drawing/FontServiceLocator.hpp"
 #include "RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp"
 #include "RadonFramework/IO/DecoderServiceLocator.hpp"
 #include "RadonFramework/IO/ProtocolServiceLocator.hpp"
@@ -16,6 +17,7 @@
 #include "RadonFramework/System/Process.hpp"
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Drawing/SystemTrayServiceLocator.hpp"
+#include "RadonFramework/System/Drawing/OSFontService.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
 
 using namespace RadonFramework;
@@ -100,6 +102,11 @@ void Radon::InitSubSystem(UInt32 Flags)
         RF_SysDraw::SystemTrayServiceLocator::Initialize();
         #if defined(RF_WINDOWS)
         RF_SysDraw::SystemTrayServiceLocator::Register(AutoPointer<RF_SysDraw::SystemTrayService>((RF_SysDraw::SystemTrayService*)new RF_SysDraw::SystemTrayServiceWindows("Windows system tray")));
+        #endif
+        
+        FontServiceLocator::Initialize();
+        #if defined(RF_WINDOWS)        
+            FontServiceLocator::Register(AutoPointer<FontService>((FontService*)new RF_SysDraw::OSFontService("OS Fonts")));
         #endif
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Drawing;
     }

@@ -136,6 +136,8 @@
 #include <RadonFramework/Drawing/Canvas3DServiceConfig.hpp>
 #include <RadonFramework/Drawing/Canvas3DServiceLocator.hpp>
 #include <RadonFramework/Drawing/CommandBuffer.hpp>
+#include <RadonFramework/Drawing/FontService.hpp>
+#include <RadonFramework/Drawing/FontServiceLocator.hpp>
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 #include <RadonFramework/Drawing/Forms/DisplayInformation.hpp>
 #include <RadonFramework/Drawing/Forms/Form.hpp>
