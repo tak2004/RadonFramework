@@ -159,7 +159,7 @@ void Radon::InitSubSystem(UInt32 Flags)
     if (Flags & RadonFramework::Init::Core)
     {
         RF_SysStr::Dispatch();
-        RFENV::Dispatch();
+        RF_SysEnv::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Core;
     }
 

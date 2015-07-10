@@ -84,7 +84,9 @@ using FindCallback = const RF_Type::UInt8* (*)(const RF_Type::UInt8* Buffer,
     RF_Type::Size BufferSize, const RF_Type::UInt8* LookingFor, 
     RF_Type::Size LookingForSize);
 
+/// Set the language and its location for THIS APPLICATION.
 extern SetLocaleCallback SetLocale;
+/// Returns the language and location set for THIS APPLICATION.
 extern GetLocaleCallback GetLocale;
 extern ToLowerCallback ToUpper;
 extern ToLowerCallback ToLower;

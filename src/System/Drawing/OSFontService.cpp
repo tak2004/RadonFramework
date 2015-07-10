@@ -8,9 +8,14 @@
 int CALLBACK EnumerateFontFamily(const LOGFONT *lpelfe, const TEXTMETRIC *lpntme,
     DWORD FontType, LPARAM lParam)
 {
-    auto* fontList = reinterpret_cast<RF_Collect::List<RF_Draw::FontDescription>*>(lParam);
-    auto& fontDescription = fontList->CreateElementAtEnd();
-    fontDescription.Name = RF_Type::String(lpelfe->lfFaceName, 32);
+    if(FontType & TRUETYPE_FONTTYPE)
+    {
+        const DWORD* u32_Flags128 = reinterpret_cast<const NEWTEXTMETRICEX*>(lpntme)->ntmFontSig.fsUsb;
+
+        auto* fontList = reinterpret_cast<RF_Collect::List<RF_Draw::FontDescription>*>(lParam);
+        auto& fontDescription = fontList->CreateElementAtEnd();
+        fontDescription.Name = RF_Type::String(lpelfe->lfFaceName, 32);
+    }
     return 1;
 }
 

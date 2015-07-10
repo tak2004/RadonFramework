@@ -16,16 +16,14 @@ String SetLocale(const LocaleCategory::Type Category, const String& Locale)
 {
     const int LOCALECATEGORYMAPPER[LocaleCategory::MAX] = {LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME};
     return String::UnsafeStringCreation(
-            setlocale(LOCALECATEGORYMAPPER[Category], Locale.c_str()),
-            RF_Common::DataManagment::TransfereOwnership);
+            setlocale(LOCALECATEGORYMAPPER[Category], Locale.c_str()));
 }
 
 const String& GetLocale()
 {
     static String globalLocale;
     if (globalLocale.Size() == 0)
-        globalLocale = String::UnsafeStringCreation(
-            setlocale(LC_ALL, 0), RF_Common::DataManagment::TransfereOwnership);
+        globalLocale = String::UnsafeStringCreation(setlocale(LC_ALL, 0));
     return globalLocale;
 }
 

@@ -17,7 +17,7 @@ UUID UUID::FastRandomUUID()
     static_assert(sizeof(UUID) == 16, "UUID have to be 16 byte large!");
 
     UUID result=NIL;
-    RFENV::FastRandomUUID(result);
+    RF_SysEnv::FastRandomUUID(result);
     return result;
 }
 
@@ -25,14 +25,14 @@ UUID UUID::FastRandomUUID()
 UUID UUID::SecureRandomUUID()
 {
     UUID result = NIL;
-    RFENV::SecureRandomUUID(result);
+    RF_SysEnv::SecureRandomUUID(result);
     return result;
 }
 
 UUID UUID::UUIDFromString(const RF_Type::String& Text)
 {
     UUID result = NIL;
-    RFENV::UUIDFromString(Text, result);
+    RF_SysEnv::UUIDFromString(Text, result);
     return result;
 }
 

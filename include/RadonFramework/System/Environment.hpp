@@ -40,6 +40,9 @@ namespace RadonFramework {  namespace System { namespace Environment {
     using SecureRandomUUIDCallback = void(*)(Util::UUID& Target);
     using UUIDFromStringCallback = void(*)(const RF_Type::String& Text, Util::UUID& Target);
 
+    // ISO 639([]_[ISO 3166/Location])
+    using SystemLanguageCallback = RF_Type::String (*)();
+
     extern MemoryArchitectureOfOSCallback MemoryArchitectureOfOS;
     extern Is32BitEmulationCallback Is32BitEmulation;
     extern OSVersionCallback OSVersion;
@@ -49,8 +52,16 @@ namespace RadonFramework {  namespace System { namespace Environment {
     extern FastRandomUUIDCallback FastRandomUUID;
     extern SecureRandomUUIDCallback SecureRandomUUID;
     extern UUIDFromStringCallback UUIDFromString;
+    extern SystemLanguageCallback ActiveLanguage;
+    extern SystemLanguageCallback ActiveLanguageName;
+    extern SystemLanguageCallback ActiveNativeLanguageName;
+    extern SystemLanguageCallback ActiveLanguageLocation;
+    extern SystemLanguageCallback ActiveNativeLanguageLocation;
 } } }
 
-namespace RFENV = RadonFramework::System::Environment;
+#ifndef RF_SHORTHAND_NAMESPACE_SYSENV
+#define RF_SHORTHAND_NAMESPACE_SYSENV
+namespace RF_SysEnv = RadonFramework::System::Environment;
+#endif
 
 #endif // RF_SYSTEM_ENVIRONMENT_HPP
