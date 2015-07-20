@@ -19,6 +19,11 @@ public:
     virtual void Update() override
     {
     }
+    virtual void GetUnicodeCharRanges(const RF_Type::String& Text, 
+        RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out) override
+    {
+
+    }
 };
 
 typedef Core::Pattern::Locator<FontService, NullFontService> FontServiceLocator;

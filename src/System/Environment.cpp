@@ -147,11 +147,11 @@ RF_Type::String ActiveNativeLanguageLocation_SystemAPIDispatcher()
 }
 
 MemoryArchitectureOfOSCallback RF_SysEnv::MemoryArchitectureOfOS = MemoryArchitectureOfOS_SystemAPIDispatcher;
-Is32BitEmulationCallback RF_SysEnv::Is32BitEmulation=Is32BitEmulation_SystemAPIDispatcher;
-OSVersionCallback RF_SysEnv::OSVersion=OSVersion_SystemAPIDispatcher;
-GetVariableCallback RF_SysEnv::GetVariable=GetVariable_SystemAPIDispatcher;
-PlatformCallback RF_SysEnv::Platform=Platform_SystemAPIDispatcher;
-OSFamilyCallback RF_SysEnv::OSFamily=OSFamily_SystemAPIDispatcher;
+Is32BitEmulationCallback RF_SysEnv::Is32BitEmulation = Is32BitEmulation_SystemAPIDispatcher;
+OSVersionCallback RF_SysEnv::OSVersion = OSVersion_SystemAPIDispatcher;
+GetVariableCallback RF_SysEnv::GetVariable = GetVariable_SystemAPIDispatcher;
+PlatformCallback RF_SysEnv::Platform = Platform_SystemAPIDispatcher;
+OSFamilyCallback RF_SysEnv::OSFamily = OSFamily_SystemAPIDispatcher;
 FastRandomUUIDCallback RF_SysEnv::FastRandomUUID = FastRandomUUID_SystemAPIDispatcher;
 SecureRandomUUIDCallback RF_SysEnv::SecureRandomUUID = SecureRandomUUID_SystemAPIDispatcher;
 UUIDFromStringCallback RF_SysEnv::UUIDFromString = UUIDFromString_SystemAPIDispatcher;
@@ -163,13 +163,13 @@ SystemLanguageCallback RF_SysEnv::ActiveNativeLanguageLocation = ActiveNativeLan
 
 RF_Type::Bool RF_SysEnv::IsSuccessfullyDispatched()
 {
-    RF_Type::Bool result=true;
-    result=result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher && MemoryArchitectureOfOS != 0;
-    result=result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher && Is32BitEmulation != 0;
-    result=result && OSVersion != OSVersion_SystemAPIDispatcher && OSVersion != 0;
-    result=result && GetVariable != GetVariable_SystemAPIDispatcher && GetVariable != 0;
-    result=result && Platform != Platform_SystemAPIDispatcher && Platform != 0;
-    result=result && OSFamily != OSFamily_SystemAPIDispatcher && OSFamily != 0;
+    RF_Type::Bool result = true;
+    result = result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher && MemoryArchitectureOfOS != 0;
+    result = result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher && Is32BitEmulation != 0;
+    result = result && OSVersion != OSVersion_SystemAPIDispatcher && OSVersion != 0;
+    result = result && GetVariable != GetVariable_SystemAPIDispatcher && GetVariable != 0;
+    result = result && Platform != Platform_SystemAPIDispatcher && Platform != 0;
+    result = result && OSFamily != OSFamily_SystemAPIDispatcher && OSFamily != 0;
     result = result && FastRandomUUID != FastRandomUUID_SystemAPIDispatcher && FastRandomUUID != 0;
     result = result && SecureRandomUUID != SecureRandomUUID_SystemAPIDispatcher && SecureRandomUUID != 0;
     result = result && UUIDFromString != UUIDFromString_SystemAPIDispatcher && UUIDFromString != 0;
@@ -183,17 +183,17 @@ RF_Type::Bool RF_SysEnv::IsSuccessfullyDispatched()
 
 void RF_SysEnv::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
-    if (MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher || MemoryArchitectureOfOS == 0) 
+    if(MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher || MemoryArchitectureOfOS == 0)
         Result.AddLast(RF_Type::String("MemoryArchitectureOfOS", sizeof("MemoryArchitectureOfOS")));
-    if (Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher || Is32BitEmulation == 0) 
+    if(Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher || Is32BitEmulation == 0)
         Result.AddLast(RF_Type::String("Is32BitEmulation", sizeof("Is32BitEmulation")));
-    if (OSVersion == OSVersion_SystemAPIDispatcher || OSVersion == 0) 
+    if(OSVersion == OSVersion_SystemAPIDispatcher || OSVersion == 0)
         Result.AddLast(RF_Type::String("OSVersion", sizeof("OSVersion")));
-    if (GetVariable == GetVariable_SystemAPIDispatcher || GetVariable == 0) 
+    if(GetVariable == GetVariable_SystemAPIDispatcher || GetVariable == 0)
         Result.AddLast(RF_Type::String("GetVariable", sizeof("GetVariable")));
-    if (Platform == Platform_SystemAPIDispatcher || Platform == 0) 
+    if(Platform == Platform_SystemAPIDispatcher || Platform == 0)
         Result.AddLast(RF_Type::String("Platform", sizeof("Platform")));
-    if (OSFamily == OSFamily_SystemAPIDispatcher || OSFamily == 0) 
+    if(OSFamily == OSFamily_SystemAPIDispatcher || OSFamily == 0)
         Result.AddLast(RF_Type::String("OSFamily", sizeof("OSFamily")));
     if(FastRandomUUID == FastRandomUUID_SystemAPIDispatcher || FastRandomUUID == 0)
         Result.AddLast(RF_Type::String("FastRandomUUID", sizeof("FastRandomUUID")));

@@ -14,6 +14,9 @@ public:
     OSFontService(const RF_Type::String &Name);
     virtual ~OSFontService() override;
     virtual void Update() override;
+    virtual void GetUnicodeCharRanges(const RF_Type::String& Text, 
+        RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out) override;
+
 };
 
 } } }

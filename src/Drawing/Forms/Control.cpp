@@ -146,7 +146,7 @@ Bool Control::Visible()
     return m_Visible;
 }
 
-void Control::Vibisle(const Bool &Value)
+void Control::Visible(const Bool &Value)
 {
     m_Visible=Value;
 }

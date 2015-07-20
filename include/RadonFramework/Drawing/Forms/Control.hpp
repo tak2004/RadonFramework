@@ -53,7 +53,7 @@ public:
     virtual void Reposition(const RF_Geo::Point2D<>& Value);
 
     virtual RF_Type::Bool Visible();
-    virtual void Vibisle(const RF_Type::Bool &Value);
+    virtual void Visible(const RF_Type::Bool &Value);
 
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
