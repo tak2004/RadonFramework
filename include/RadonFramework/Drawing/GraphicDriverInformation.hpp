@@ -8,36 +8,39 @@
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Drawing {
+        
+struct GraphicDriverCapabilities
 {
-    namespace Drawing
-    {
-        struct GraphicDriverCapabilities
-        {
-            RF_Type::Bool DoubleBuffer;//a single boolean value indicating whether double buffering is supported
-            RF_Type::Bool Stereo;//indicating whether stereo buffers(left and right) are supported
-            RF_Type::Int32 MajorVersion;
-            RF_Type::Int32 MinorVersion;
-            RF_Type::String Renderer;
-            RF_Type::Int32 ShaderModel;
-            RF_Type::String Vendor;
-            RF_Type::String Version;
-        };
+    RF_Type::Bool DoubleBuffer;//a single boolean value indicating whether double buffering is supported
+    RF_Type::Bool Stereo;//indicating whether stereo buffers(left and right) are supported
+    RF_Type::Int32 MajorVersion;
+    RF_Type::Int32 MinorVersion;
+    RF_Type::String Renderer;
+    RF_Type::Int32 ShaderModel;
+    RF_Type::String Vendor;
+    RF_Type::String Version;
+};
 
-        class GraphicDriverInformation
-        {
-            public:
-                GraphicDriverInformation(GraphicDriverCapabilities& Capabilities);
-                const GraphicDriverCapabilities& Capabilities()const;
-            protected:
-                GraphicDriverCapabilities m_Capabilities;
-        };
+class GraphicDriverInformation
+{
+    public:
+        GraphicDriverInformation(GraphicDriverCapabilities& Capabilities);
+        const GraphicDriverCapabilities& Capabilities()const;
+    protected:
+        GraphicDriverCapabilities m_Capabilities;
+};
 
-        inline const GraphicDriverCapabilities& GraphicDriverInformation::Capabilities()const
-        {
-            return m_Capabilities;
-        }
-    }
+inline const GraphicDriverCapabilities& GraphicDriverInformation::Capabilities()const
+{
+    return m_Capabilities;
 }
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_DRAW
+#define RF_SHORTHAND_NAMESPACE_DRAW
+namespace RF_Draw = RadonFramework::Drawing;
+#endif
 
 #endif // RF_GRAPHICDRIVERINFORMATION_HPP

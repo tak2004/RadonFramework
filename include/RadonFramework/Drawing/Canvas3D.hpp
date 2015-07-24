@@ -30,10 +30,18 @@ public:
     void MakeCurrent();
     System::Threading::Mutex& GetRenderLock();
     ICanvas3D const* Backend()const;
+
+    Draw2D& Draw2D();
 protected:
     ICanvas3D* m_Backend;
+    Draw2D m_Draw2D;
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_DRAW
+#define RF_SHORTHAND_NAMESPACE_DRAW
+namespace RF_Draw = RadonFramework::Drawing;
+#endif
 
 #endif // RF_DRAWING_CANVAS3D_HPP
