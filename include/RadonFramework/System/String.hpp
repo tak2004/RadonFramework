@@ -88,14 +88,23 @@ using FindCallback = const RF_Type::UInt8* (*)(const RF_Type::UInt8* Buffer,
 extern SetLocaleCallback SetLocale;
 /// Returns the language and location set for THIS APPLICATION.
 extern GetLocaleCallback GetLocale;
+///
 extern ToLowerCallback ToUpper;
+///
 extern ToLowerCallback ToLower;
+/// Returns the amount of bytes(including termination) of the specified string.
 extern SizeCallback CStringSizeOf;
+///
 extern LengthCallback Length;
+///
 extern ToInt64Callback ToInt64;
+///
 extern ToUInt64Callback ToUInt64;
+///
 extern ToFloat64Callback ToFloat64;
+///
 extern FormatCallback Format;
+///
 extern FindCallback Find;
 
 } } }

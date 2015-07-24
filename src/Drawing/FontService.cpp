@@ -18,4 +18,12 @@ const RF_Collect::Array<FontDescription>& FontService::Fonts() const
     return m_Fonts;
 }
 
+void FontService::SetFilter(const FontStyle StyleFilter, const RF_Type::Bool OrientationFilter, 
+    const RF_Type::Bool HorizontalOrientation)
+{
+    m_StyleFilter = StyleFilter;
+    m_OrientationFilter = OrientationFilter;
+    m_HorizontalOrientation = HorizontalOrientation;
+}
+
 } }
