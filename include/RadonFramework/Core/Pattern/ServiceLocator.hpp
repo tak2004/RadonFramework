@@ -34,7 +34,7 @@ struct Locator
 
     static T& Default()
     {
-        if (Locator::m_Services.Size())
+        if (Locator::m_Services.Count())
             return *Locator::m_Services[Locator::m_Default];
         else
             return Locator::m_NullService;
@@ -49,7 +49,7 @@ struct Locator
                 break;
             i++;
         }
-        if (i<Locator::m_Services.Size())
+        if(i<Locator::m_Services.Count())
             m_Default=i;
     }
 
@@ -69,7 +69,7 @@ struct Locator
 
     static void Remove(const RF_Type::String& Name)
     {
-        if (Locator::m_Services.Size()==0)
+        if(Locator::m_Services.Count() == 0)
             return;
 
         for (Iterator it=Locator::m_Services.begin();it!=Locator::m_Services.end();++it)

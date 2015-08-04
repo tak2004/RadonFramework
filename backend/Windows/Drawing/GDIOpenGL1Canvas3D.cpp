@@ -20,6 +20,7 @@ GDIOpenGL1Canvas3D::GDIOpenGL1Canvas3D()
 
 GDIOpenGL1Canvas3D::~GDIOpenGL1Canvas3D()
 {
+    ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
 void GDIOpenGL1Canvas3D::Generate()
@@ -68,6 +69,7 @@ void GDIOpenGL1Canvas3D::Generate()
 void GDIOpenGL1Canvas3D::SetWindowInfos(IWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
+    m_WndHandle = wnd->GetHandle();
     m_DeviceContext=GetDC(wnd->GetHandle());
 }
 

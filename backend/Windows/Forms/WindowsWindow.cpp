@@ -24,6 +24,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     VirtualKey vk=VirtualKey::NotSet;
     switch (uMsg)
     {
+        case WM_ERASEBKGND:
+            return 1;// avoid GDI to clean the background
         case WM_PAINT:
         {
             wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
@@ -167,7 +169,7 @@ WindowsWindow::WindowsWindow(WindowService *Service)
 ,m_Created(false)
 ,m_Handle(0)
 ,m_CloseButton(true)
-,m_WindowFlags(WS_OVERLAPPEDWINDOW)
+, m_WindowFlags(WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN)
 {
     WindowsWindow::m_Objects.AddLast(this);
 }
@@ -260,13 +262,15 @@ void WindowsWindow::Border(const Bool Value)
         m_Border=Value;
         if (m_Border)
         {
-            m_WindowFlags=WS_OVERLAPPEDWINDOW;
+            m_WindowFlags &= ~WS_POPUP;
+            m_WindowFlags |= WS_OVERLAPPEDWINDOW;
             SetWindowLongPtr( m_Handle, GWL_STYLE, m_WindowFlags );
             SetWindowPos( m_Handle, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE );
         }
         else
         {
-            m_WindowFlags=WS_POPUP;
+            m_WindowFlags &= ~WS_OVERLAPPEDWINDOW;
+            m_WindowFlags |= WS_POPUP;
             SetWindowLongPtr( m_Handle, GWL_STYLE, m_WindowFlags );
             SetWindowPos( m_Handle, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE );
         }

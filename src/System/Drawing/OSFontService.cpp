@@ -224,6 +224,11 @@ void ObtainUnicodeRangeIdentifierFromUsb(const DWORD USB[4],
                     {
                         Out(Out.Count() - matches) = IDS[IDOFFSET[index] + k];
                         --matches;
+
+                        if(matches == 0)
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -318,7 +323,7 @@ void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>&
     logfont.lfCharSet = DEFAULT_CHARSET;
     logfont.lfFaceName[0] = '\0';
     logfont.lfPitchAndFamily = 0;
-    EnumFontFamiliesEx(dc, &logfont, (FONTENUMPROC)EnumerateFontFamily, reinterpret_cast<DWORD>(&fonts), 0);
+    EnumFontFamiliesEx(dc, &logfont, (FONTENUMPROC)EnumerateFontFamily, reinterpret_cast<LPARAM>(&fonts), 0);
     ReleaseDC(0, dc);
 
     // get list of all fonts which are hidden by user or system

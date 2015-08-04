@@ -4,6 +4,8 @@
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/IO/Log.hpp>
+#include <SetupApi.h>
+#pragma comment(lib, "setupapi.lib")
 
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::Math::Geometry;
@@ -37,60 +39,156 @@ IApplication* WindowsWindowService::Application()
   return m_Application;
 }
 
+BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, 
+    LPRECT lprcMonitor, LPARAM dwData)
+{
+    AutoVector<DisplayInformation>* list = reinterpret_cast<AutoVector<DisplayInformation>*>(dwData);
+    MONITORINFOEX mi;
+    mi.cbSize = sizeof(mi);
+    GetMonitorInfo(hMonitor, &mi);
+    String displayName(mi.szDevice, 32);
+    for (RF_Type::Size i = 0; i < list->Count(); ++i)
+    {
+        if((*list)[i]->DisplayName == displayName)
+        {
+            (*list)[i]->Left = mi.rcWork.left;
+            (*list)[i]->Top = mi.rcWork.top;
+            break;
+        }
+    }
+    return true;
+}
+
+const GUID GUID_CLASS_MONITOR = {0x4d36e96e, 0xe325, 0x11ce, 0xbf, 0xc1, 0x08, 0x00, 0x2b, 0xe1, 0x03, 0x18};
+
+// Credits for following routine goes to KindDragon and Earlz from http://stackoverflow.com/a/579448 .
+void GetMonitorSizeFromEDID(const RF_Type::String& AdapterName, DisplayInformation& Display)
+{
+    RF_Type::String adapterName(AdapterName);
+    auto adapterChain = adapterName.Split("\\");
+    RF_Type::String model = adapterChain[1];
+
+    Display.HorizontalLengthInMilimeter = 0;
+    Display.VerticalLengthInMilimeter = 0;
+
+    HDEVINFO devInfo = SetupDiGetClassDevsEx(
+        &GUID_CLASS_MONITOR, //class GUID
+        NULL, //enumerator
+        NULL, //HWND
+        DIGCF_PRESENT, // Flags //DIGCF_ALLCLASSES|
+        NULL, // device info, create a new one.
+        NULL, // machine name, local machine
+        NULL);// reserved
+
+    if(NULL != devInfo)
+    {
+        for(ULONG i = 0; ERROR_NO_MORE_ITEMS != GetLastError(); ++i)
+        {
+            SP_DEVINFO_DATA devInfoData;
+            memset(&devInfoData, 0, sizeof(devInfoData));
+            devInfoData.cbSize = sizeof(devInfoData);
+
+            if(SetupDiEnumDeviceInfo(devInfo, i, &devInfoData))
+            {
+                char Instance[128];
+                SetupDiGetDeviceInstanceId(devInfo, &devInfoData, Instance, MAX_PATH, NULL);
+
+                if(-1 == RF_Type::String(Instance, 128).Contains(model))
+                    continue;
+
+                HKEY hDevRegKey = SetupDiOpenDevRegKey(devInfo, &devInfoData,
+                                                       DICS_FLAG_GLOBAL, 0, DIREG_DEV, KEY_READ);
+
+                if(!hDevRegKey || (hDevRegKey == INVALID_HANDLE_VALUE))
+                    continue;
+
+                DWORD dwType, AcutalValueNameLength = 128;
+                char valueName[128];
+
+                BYTE EDIDdata[1024];
+                DWORD edidsize = sizeof(EDIDdata);
+
+                RF_Type::String edid("EDID");
+                for(LONG i = 0, retValue = ERROR_SUCCESS; retValue != ERROR_NO_MORE_ITEMS; ++i)
+                {
+                    retValue = RegEnumValue(hDevRegKey, i, &valueName[0],
+                                            &AcutalValueNameLength, NULL, &dwType,
+                                            EDIDdata, // buffer
+                                            &edidsize); // buffer size
+
+                    if(retValue != ERROR_SUCCESS || RF_Type::String(valueName, 128) != edid)
+                        continue;
+
+                    Display.HorizontalLengthInMilimeter = ((EDIDdata[68] & 0xF0) << 4) + EDIDdata[66];
+                    Display.VerticalLengthInMilimeter = ((EDIDdata[68] & 0x0F) << 8) + EDIDdata[67];
+                }
+                RegCloseKey(hDevRegKey);
+            }
+        }
+        SetupDiDestroyDeviceInfoList(devInfo);
+    }
+}
+
 AutoVector<DisplayInformation> WindowsWindowService::GetAllDisplays()
 {
     AutoVector<DisplayInformation> list;
     DISPLAY_DEVICE dd;
     dd.cb = sizeof(dd); 
     DWORD dev = 0; 
-    //go through all desktops
+
+    //go through all graphics adapter
     while (EnumDisplayDevices(0, dev++, &dd,0))
     {
-        //DISPLAY_DEVICE ddMon;
-        //ZeroMemory(&ddMon, sizeof(ddMon));
-        //ddMon.cb = sizeof(ddMon);
-        //DWORD devMon = 0;
-        //all monitors of this desktop
-        //while (EnumDisplayDevices(dd.DeviceName, devMon++, &ddMon, 0))
+        if (dd.StateFlags & DISPLAY_DEVICE_ACTIVE)
         {
-            if (dd.StateFlags & DISPLAY_DEVICE_ACTIVE)
-            {
-                AutoPointer<DisplayInformation> display(new DisplayInformation);
-                display->DisplayName=String(dd.DeviceName,32);
-                display->Description=String(dd.DeviceString,128);
-                display->IsAttachedToDesktop=dd.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP;
-                display->IsPrimary=(dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE)!=0;
-                display->IsMirroring=(dd.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER)!=0;
+            AutoPointer<DisplayInformation> display(new DisplayInformation);
+            display->DisplayName=String(dd.DeviceName,32);
+            display->Description=String(dd.DeviceString,128);
+            display->IsAttachedToDesktop=dd.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP;
+            display->IsPrimary=(dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE)!=0;
+            display->IsMirroring=(dd.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER)!=0;
                 
-                int index = 0;
-                DEVMODE dm;
+            int index = 0;
+            DEVMODE dm;
+            // initialize the DEVMODE structure
+            ZeroMemory(&dm, sizeof(dm));
+            dm.dmSize = sizeof(dm);
+            AutoVector<Resolution> reslist;
+            while (0 != EnumDisplaySettings(dd.DeviceName,index++, &dm))
+            {
+                AutoPointer<Resolution> res(new Resolution);
+                res->Width=dm.dmPelsWidth;
+                res->Height=dm.dmPelsHeight;
+                res->BitsPerPixel=dm.dmBitsPerPel;
+                res->Frequency=dm.dmDisplayFrequency;
+                reslist.PushBack(res);
                 // initialize the DEVMODE structure
                 ZeroMemory(&dm, sizeof(dm));
                 dm.dmSize = sizeof(dm);
-                AutoVector<Resolution> reslist;
-                while (0 != EnumDisplaySettings(dd.DeviceName,index++, &dm))
-                {
-                    AutoPointer<Resolution> res(new Resolution);
-                    res->Width=dm.dmPelsWidth;
-                    res->Height=dm.dmPelsHeight;
-                    res->BitsPerPixel=dm.dmBitsPerPel;
-                    res->Frequency=dm.dmDisplayFrequency;
-                    reslist.PushBack(res);
-                    // initialize the DEVMODE structure
-                    ZeroMemory(&dm, sizeof(dm));
-                    dm.dmSize = sizeof(dm);
-                }
-                display->AvaiableResolution=Array<Resolution>(reslist.Size());
-                for (UInt32 i=0;i<reslist.Size();++i)
-                    RF_SysMem::Copy(&display->AvaiableResolution(i), reslist[i], sizeof(Resolution));
-                list.PushBack(display);
             }
-//            ZeroMemory(&ddMon, sizeof(ddMon));
-//            ddMon.cb = sizeof(ddMon);
+
+            DWORD mon = 0;
+            DISPLAY_DEVICE mondd;
+            mondd.cb = sizeof(mondd);
+            // find the display device
+            if(EnumDisplayDevices(dd.DeviceName, 0, &mondd,0))
+            {
+                RF_Type::String adapterName(mondd.DeviceID, 128);
+                GetMonitorSizeFromEDID(mondd.DeviceID, *display);
+            }
+
+            display->AvaiableResolution = Array<Resolution>(reslist.Count());
+            for(UInt32 i = 0; i<reslist.Count(); ++i)
+                RF_SysMem::Copy(&display->AvaiableResolution(i), reslist[i], sizeof(Resolution));
+            list.PushBack(display);
         }
+
         ZeroMemory(&dd, sizeof(dd));
         dd.cb = sizeof(dd);
     }
+
+    // Go through all monitors attached to the active virtual desktop(subset of devices).
+    EnumDisplayMonitors(0, 0, &MonitorEnumProc, (LPARAM)&list);
     return list;
 }
 

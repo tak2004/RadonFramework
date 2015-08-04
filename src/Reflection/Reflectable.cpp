@@ -11,25 +11,25 @@ const String& Reflectable::GetName()const
 
 UInt32 Reflectable::PropertiesCount()
 {
-    return GetReflectionClass().Properties.Size();
+    return GetReflectionClass().Properties.Count();
 }
 
 UInt32 Reflectable::MethodeCount()
 {
-    return GetReflectionClass().Methodes.Size();
+    return GetReflectionClass().Methodes.Count();
 }
 
 ReflectionProperty* Reflectable::Property(UInt32 Index)
 {
     //To check if the index is in bound is much faster then throw an OutOfBoundException and this function will called very often.
-    if (Index<GetReflectionClass().Properties.Size())
+    if (Index<GetReflectionClass().Properties.Count())
         return GetReflectionClass().Properties[Index];
     return 0;
 }
 
 ReflectionMethode* Reflectable::Methode(UInt32 Index)
 {
-    if (Index<GetReflectionClass().Methodes.Size())
+    if (Index<GetReflectionClass().Methodes.Count())
         return GetReflectionClass().Methodes[Index];
     return 0;
 }

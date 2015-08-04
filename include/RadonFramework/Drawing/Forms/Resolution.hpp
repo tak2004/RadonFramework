@@ -10,14 +10,10 @@ namespace RadonFramework { namespace Forms {
 
 struct Resolution
 {
-    RF_Type::UInt32 Left;
-    RF_Type::UInt32 Top;
     RF_Type::UInt32 Width;
     RF_Type::UInt32 Height;
     RF_Type::UInt32 BitsPerPixel;
     RF_Type::UInt32 Frequency;
-    RF_Type::UInt32 DPIX;
-    RF_Type::UInt32 DPIY;
 };
 
 } }

@@ -96,24 +96,14 @@ inline RF_Type::UInt32 Screen::Height()const
     return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Height;
 }
 
-inline RF_Type::UInt32 Screen::DPIX()const
-{
-    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).DPIX;
-}
-
-inline RF_Type::UInt32 Screen::DPIY()const
-{
-    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).DPIY;
-}
-
 inline RF_Type::UInt32 Screen::Left()const
 {
-    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Left;
+    return m_DisplayInfos->Left;
 }
 
 inline RF_Type::UInt32 Screen::Top()const
 {
-    return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Top;
+    return m_DisplayInfos->Top;
 }
 
 inline RF_Geo::Point2D<> Screen::Position()const

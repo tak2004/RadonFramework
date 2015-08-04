@@ -1,7 +1,10 @@
-#include "RadonFramework/precompiled.hpp"
+ï»¿#include "RadonFramework/precompiled.hpp"
+#include <RadonFramework/backend/GL/WindowsOpenGLConstants.hpp>
+#include <RadonFramework/backend/GL/OpenGLConstants.hpp>
 #include <RadonFramework/backend/GL/glew.h>
 #include <RadonFramework/backend/GL/wglew.h>
-#include <RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3D.hpp>
+#include <windows.h>
+#include <RadonFramework/backend/Windows/Drawing/DWMOpenGLCanvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
@@ -13,19 +16,20 @@ using namespace RadonFramework::Math::Geometry;
 using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
+using namespace RadonFramework::GL;
 
-GDIOpenGL3Canvas3D::GDIOpenGL3Canvas3D()
+DWMOpenGLCanvas3D::DWMOpenGLCanvas3D()
 {
-  m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
-  m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
+    m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
+    m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
 }
 
-GDIOpenGL3Canvas3D::~GDIOpenGL3Canvas3D()
+DWMOpenGLCanvas3D::~DWMOpenGLCanvas3D()
 {
     ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
-void GDIOpenGL3Canvas3D::Generate()
+void DWMOpenGLCanvas3D::Generate()
 {
     int iFormat=0;
 
@@ -33,6 +37,7 @@ void GDIOpenGL3Canvas3D::Generate()
     {
         sizeof(PIXELFORMATDESCRIPTOR),
         1,
+        PFD_SUPPORT_COMPOSITION |
         PFD_DRAW_TO_WINDOW |
         PFD_SUPPORT_OPENGL |
         PFD_DOUBLEBUFFER,
@@ -59,20 +64,14 @@ void GDIOpenGL3Canvas3D::Generate()
     if (!SetPixelFormat(m_DeviceContext, iFormat, &m_PixelFormat))
         LogError("Can't set pixelformat");
 
-    HGLRC TempContext=wglCreateContext(m_DeviceContext);//erstellt ein alten OpenGL Context
+    //get an old context first and try to get a new one later on
+    HGLRC TempContext=wglCreateContext(m_DeviceContext);
     if (TempContext==NULL)
     {
         LogError("Could not create an OpenGL rendering context");
-        return;//beenden
-    }
-    wglMakeCurrent(m_DeviceContext,TempContext);//setzt den erstellten GC als aktuellen GC
-
-    GLenum err=glewInit();
-    if (GLEW_OK!=err)
-    {
-        LogError("Couldn't init OpenGL extension wrangler.");
         return;
     }
+    wglMakeCurrent(m_DeviceContext,TempContext);
 
     unsigned int numFormats;
     const int attribList [] = {
@@ -88,8 +87,12 @@ void GDIOpenGL3Canvas3D::Generate()
         WGL_STENCIL_BITS_ARB, 0,
         WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
         WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-        0, 0       //End
+        0, 0
     };
+
+    // ask with the current context for gl 3.0 and higher functions
+    //wglChoosePixelFormatARB = ()wglGetProcAddress("wglChoosePixelFormatARB");
+    //wglCreateContextAttribsARB = ()wglGetProcAddress("wglCreateContextAttribsARB");
 
     if (wglChoosePixelFormatARB != NULL)
     {
@@ -97,74 +100,74 @@ void GDIOpenGL3Canvas3D::Generate()
             SetPixelFormat(m_DeviceContext, iFormat, &m_PixelFormat);
     }
 
-    if(wglCreateContextAttribsARB == NULL)//wenn es diese Funktion nicht gibt, dann hat der -->Treiber<-- keinen OpenGL3 support
+    // context version is something between 1.1 and 2.0 yet
+    if(wglCreateContextAttribsARB == NULL)
     {
-        wglDeleteContext(TempContext);
-        LogError("There is no OpenGL3 context support.");
+        // wglCreateContextAttribsARB is part of context creation for 3.0 and higher 
+        m_Context = TempContext;
         return;
     }
 
+    // since 3.0 it's possible to ask for the version
+    GLint major, minor;
+    glGetIntegerv(GL_MAJOR_VERSION, &major);
+    glGetIntegerv(GL_MINOR_VERSION, &minor);
+
     const int attribs[] = {
-        WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-        WGL_CONTEXT_MINOR_VERSION_ARB, 2,
+        WGL_CONTEXT_MAJOR_VERSION_ARB, major,
+        WGL_CONTEXT_MINOR_VERSION_ARB, minor,
         WGL_CONTEXT_FLAGS_ARB,
         WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         0
     };
 
-    if ((m_Context=wglCreateContextAttribsARB(m_DeviceContext,0, attribs))==0)//versuche ein OpenGL3.2 fähigen Context zu erstellen
+    // request for a opengl 3.0 or higher context
+    if ((m_Context=wglCreateContextAttribsARB(m_DeviceContext,0, attribs))==0)
     {
-        //Entweder hat der Treiber noch keinen OpenGL3.2 support oder die Grafikkarte beherrscht kein OpenGL3.2.
-        LogError("Couldn't create OpenGL3.2 context. Try now OpenGL3.0 context");
-
-        const int olderVersionAttribs [] = {
-            WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-            WGL_CONTEXT_MINOR_VERSION_ARB, 0,
-            WGL_CONTEXT_FLAGS_ARB,
-            WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-            0
-        };
-
-        if ((m_Context = wglCreateContextAttribsARB(m_DeviceContext, 0, olderVersionAttribs)) == 0)
-        {
-          //Die -->Grafikkarte<-- beherrscht kein OpenGL3.
-          wglDeleteContext(TempContext);//aufräumen und beenden
-          LogError("Couldn't create OpenGL3 context.");
-          return;
-        }
+        m_Context = TempContext;
+        return;
     }
-    wglMakeCurrent(m_DeviceContext,m_Context);//wechsel auf den OpenGL3.x context
-    wglDeleteContext(TempContext);//Zerstöre den temporären Context, denn er wird nicht länger benötigt.
+
+    // switch to the newest context and destroy the old one
+    wglMakeCurrent(m_DeviceContext, m_Context);
+    wglDeleteContext(TempContext);
+
+//     GLenum err = glewInit();
+//     if(GLEW_OK != err)
+//     {
+//         LogError("Couldn't init OpenGL extension wrangler.");
+//         return;
+//     }
 }
 
-void GDIOpenGL3Canvas3D::SetWindowInfos(IWindow* Window)
+void GDIOpenGLCanvas3D::SetWindowInfos(IWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
     m_WndHandle = wnd->GetHandle();
     m_DeviceContext=GetDC(wnd->GetHandle());
 }
 
-void GDIOpenGL3Canvas3D::Clear()
+void GDIOpenGLCanvas3D::Clear()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 }
 
-void GDIOpenGL3Canvas3D::SwapBuffer()
+void GDIOpenGLCanvas3D::SwapBuffer()
 {
     SwapBuffers(m_DeviceContext);
 }
 
-void GDIOpenGL3Canvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
+void GDIOpenGLCanvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
 {
     glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
 }
 
-Mat4f& GDIOpenGL3Canvas3D::TexturecoordMatrix()
+Mat4f& GDIOpenGLCanvas3D::TexturecoordMatrix()
 {
     return m_TexturecoordMatrix;
 }
 
-void GDIOpenGL3Canvas3D::MakeCurrent()
+void GDIOpenGLCanvas3D::MakeCurrent()
 {
     wglMakeCurrent(m_DeviceContext, m_Context);
 }

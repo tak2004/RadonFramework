@@ -18,14 +18,23 @@ struct DisplayInformation
     RF_Type::Bool IsPrimary;
     RF_Type::Bool IsAttachedToDesktop;
     RF_Type::Bool IsMirroring;
+    RF_Type::UInt32 HorizontalLengthInMilimeter;
+    RF_Type::UInt32 VerticalLengthInMilimeter;
+    RF_Type::UInt32 Left;
+    RF_Type::UInt32 Top;
     RF_Collect::Array<Resolution> AvaiableResolution;
-    DisplayInformation& operator=(const DisplayInformation& Other){
-        DisplayName=Other.DisplayName;
-        Description=Other.Description;
-        IsPrimary=Other.IsPrimary;
-        IsAttachedToDesktop=Other.IsAttachedToDesktop;
-        IsMirroring=Other.IsMirroring;
-        AvaiableResolution=Other.AvaiableResolution;
+    DisplayInformation& operator=(const DisplayInformation& Other)
+    {
+        DisplayName = Other.DisplayName;
+        Description = Other.Description;
+        IsPrimary = Other.IsPrimary;
+        IsAttachedToDesktop = Other.IsAttachedToDesktop;
+        IsMirroring = Other.IsMirroring;
+        AvaiableResolution = Other.AvaiableResolution;
+        Left = Other.Left;
+        Top = Other.Top;
+        HorizontalLengthInMilimeter = Other.HorizontalLengthInMilimeter;
+        VerticalLengthInMilimeter = Other.VerticalLengthInMilimeter;
         return *this;
     }
 };
