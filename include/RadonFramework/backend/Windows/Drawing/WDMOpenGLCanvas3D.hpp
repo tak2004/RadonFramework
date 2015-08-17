@@ -3,6 +3,7 @@
 
 #include <RadonFramework/backend/OpenGL/OpenGLCanvas.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
+#include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 #include <windows.h>
 
 namespace RadonFramework { namespace Forms {
@@ -11,11 +12,11 @@ class IWindow;
 
 namespace RadonFramework { namespace Drawing {
 
-class GDIOpenGLCanvas3D : public OpenGLCanvas
+class WDMOpenGLCanvas3D : public OpenGLCanvas
 {
 public:
-    GDIOpenGLCanvas3D();
-    ~GDIOpenGLCanvas3D();
+    WDMOpenGLCanvas3D();
+    ~WDMOpenGLCanvas3D();
 
     //ICanvas3D
     void Generate();
@@ -26,6 +27,8 @@ public:
     void MakeCurrent();
 
     RF_Geo::Mat4f& TexturecoordMatrix();
+
+    virtual MeshGenerator2D& GetMeshGenerator2D()override;
 protected:
     RF_Geo::Mat4f m_TexturecoordMatrix;
     HWND m_WndHandle;
@@ -33,6 +36,7 @@ protected:
     PIXELFORMATDESCRIPTOR m_PixelFormat;
     HGLRC m_Context;
     GraphicDriverInformation* m_GraphicDriverInformation;
+    MeshGenerator2D m_MeshGenerator;
 };
 
 } }

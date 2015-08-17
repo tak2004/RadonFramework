@@ -88,6 +88,11 @@ void GDIOpenGL1Canvas3D::UpdateRectangle(RF_Geo::Rectangle<> &Rec)
   glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
 }
 
+MeshGenerator2D& GDIOpenGL1Canvas3D::GetMeshGenerator2D()
+{
+    return m_MeshGenerator;
+}
+
 Mat4f& GDIOpenGL1Canvas3D::TexturecoordMatrix()
 {
   return m_TexturecoordMatrix;

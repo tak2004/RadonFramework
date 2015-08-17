@@ -3,14 +3,9 @@
 
 namespace RadonFramework { namespace Drawing {
 
-enum class Path2D::Command:RF_Type::UInt8
+enum
 {
-    MoveTo,
-    LineTo,
-    BezierTo,
-    QuadraticBezierTo,
-    ArcTo,
-    Close
+    CHUNKSIZE = 4096
 };
 
 Path2D::Path2D()
@@ -25,71 +20,123 @@ Path2D::~Path2D()
 
 void Path2D::Clear()
 {
-    m_CommandBuffer.Clear();
-    m_ValueBuffer.Clear();
+    m_Final.Reset();
+    m_ScratchPad.Clear();
 }
 
 void Path2D::MoveTo(const RF_Geo::Point2Df& Position)
 {
-    m_CommandBuffer.AddLast(Command::MoveTo);
+    RF_Type::Size neededByteCount = sizeof(RF_Geo::Point2Df) + sizeof(Command::Type);
+    if(m_ScratchPad.Length() - m_ScratchPad.Position() >= neededByteCount)
+    {
+        m_ScratchPad.Write<Command::Type>(Command::MoveTo);
+        m_ScratchPad.Write<RF_Geo::Point2Df>(Position);
+    }
+    else
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+        m_ScratchPad.AddLast(newMemoryBlock);
+    }
 }
 
 void Path2D::LineTo(const RF_Geo::Point2Df& Position)
 {
-    m_CommandBuffer.AddLast(Command::LineTo);
+    RF_Type::Size neededByteCount = sizeof(RF_Geo::Point2Df) + sizeof(Command::Type);
+    if(m_ScratchPad.Length() - m_ScratchPad.Position() >= neededByteCount)
+    {
+        m_ScratchPad.Write<Command::Type>(Command::LineTo);
+        m_ScratchPad.Write<RF_Geo::Point2Df>(Position);
+    }
+    else
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+        m_ScratchPad.AddLast(newMemoryBlock);
+    }
 }
 
 void Path2D::BezierTo(const RF_Geo::Point2Df& ControlPoint1, const RF_Geo::Point2Df& ControlPoint2, const RF_Geo::Point2Df& Position)
 {
-    m_CommandBuffer.AddLast(Command::BezierTo);
+/*    m_CommandBuffer.AddLast(Command::BezierTo);*/
 }
 
 void Path2D::QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint, const RF_Geo::Point2Df& Position)
 {
-    m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+/*    m_CommandBuffer.AddLast(Command::QuadraticBezierTo);*/
 }
 
 void Path2D::ArcTo(const RF_Geo::Point2Df& Position1, const RF_Geo::Point2Df& Position2, RF_Type::Float32 Radius)
 {
-    m_CommandBuffer.AddLast(Command::ArcTo);
+//     m_CommandBuffer.AddLast(Command::LineTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
 }
 
 void Path2D::Close()
 {
-    m_CommandBuffer.AddLast(Command::Close);
+    if(m_ScratchPad.Length() - m_ScratchPad.Position() >= sizeof(Command))
+    {
+        m_ScratchPad.Write<Command>(Command::Close);
+    }
+    else
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+        m_ScratchPad.AddLast(newMemoryBlock);
+    }
 }
 
 void Path2D::AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius, RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop)
 {
-    m_CommandBuffer.AddLast(Command::MoveTo);
-    m_CommandBuffer.AddLast(Command::ArcTo);
-    m_CommandBuffer.AddLast(Command::Close);
+//     m_CommandBuffer.AddLast(Command::MoveTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     if(Radius> 90.0f)
+//         m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     if(Radius> 180.0f)
+//         m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     if(Radius> 270.0f)
+//         m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::Close);
 }
 
 void Path2D::AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension)
 {
-    m_CommandBuffer.AddLast(Command::MoveTo);
-    m_CommandBuffer.AddLast(Command::LineTo);
-    m_CommandBuffer.AddLast(Command::LineTo);
-    m_CommandBuffer.AddLast(Command::LineTo);
-    m_CommandBuffer.AddLast(Command::Close);
+    RF_Geo::Point2Df position;
+    MoveTo(Position);
+    position = Position;
+    position.X += Dimension.Width;
+    LineTo(position);
+    position.Y += Dimension.Height;
+    LineTo(position);
+    position.X = Position.X;
+    LineTo(position);
+    Close();
 }
 
 void Path2D::AddRoundRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Radius)
 {
-    m_CommandBuffer.AddLast(Command::MoveTo);
-    m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-
+//     m_CommandBuffer.AddLast(Command::MoveTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::LineTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::LineTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::LineTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::Close);
 }
 
 void Path2D::AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)
 {
-
+//     m_CommandBuffer.AddLast(Command::MoveTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::Close);
 }
 
 void Path2D::AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius)
 {
-
+//     m_CommandBuffer.AddLast(Command::MoveTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+//     m_CommandBuffer.AddLast(Command::Close);
 }
 
 Stroke& Path2D::StrokeProperties()
@@ -100,6 +147,19 @@ Stroke& Path2D::StrokeProperties()
 Fill& Path2D::FillProperties()
 {
     return m_FillProperties;
+}
+
+void Path2D::Finalize()
+{
+    m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(new RF_Type::UInt8[m_ScratchPad.Position()], m_ScratchPad.Position());
+    m_ScratchPad.Seek(0, RF_IO::SeekOrigin::Begin);
+    m_ScratchPad.Read(m_Final.Get(), 0, m_Final.Size());
+    m_ScratchPad.Clear();
+}
+
+const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Path2D::Data() const
+{
+    return m_Final;
 }
 
 Fill::Fill()

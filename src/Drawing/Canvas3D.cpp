@@ -21,6 +21,7 @@ Canvas3D::Canvas3D(Control* Parent)
   IWindow* window=static_cast<Form*>(Root())->Backend();
   m_Backend->SetWindowInfos(window);
   m_Backend->Generate();
+  Draw2D.SetMeshGenerator(m_Backend->GetMeshGenerator2D());
 }
 
 void Canvas3D::Resize(const RF_Geo::Size2D<>& Value)

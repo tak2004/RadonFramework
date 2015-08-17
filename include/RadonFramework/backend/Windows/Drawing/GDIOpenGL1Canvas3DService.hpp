@@ -3,18 +3,16 @@
 
 #include <RadonFramework/Drawing/Canvas3DService.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Drawing {
+
+class GDIOpenGL1Canvas3DService:public Canvas3DService
 {
-    namespace Drawing
-    {
-        class GDIOpenGL1Canvas3DService:public Canvas3DService
-        {
-            public:
-            GDIOpenGL1Canvas3DService(const RadonFramework::Core::Types::String &Name);
-            ~GDIOpenGL1Canvas3DService();
-            ICanvas3D* CreateCanvas3D();
-        };
-    }
-}
+    public:
+    GDIOpenGL1Canvas3DService(const RadonFramework::Core::Types::String &Name);
+    ~GDIOpenGL1Canvas3DService();
+    ICanvas3D* CreateCanvas3D();
+};
+
+} }
 
 #endif

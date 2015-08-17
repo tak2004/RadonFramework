@@ -4,7 +4,7 @@
 #include <RadonFramework/backend/GL/glew.h>
 #include <RadonFramework/backend/GL/wglew.h>
 #include <windows.h>
-#include <RadonFramework/backend/Windows/Drawing/DWMOpenGLCanvas3D.hpp>
+#include <RadonFramework/backend/Windows/Drawing/WDMOpenGLCanvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
@@ -18,18 +18,18 @@ using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::GL;
 
-DWMOpenGLCanvas3D::DWMOpenGLCanvas3D()
+WDMOpenGLCanvas3D::WDMOpenGLCanvas3D()
 {
     m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
     m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
 }
 
-DWMOpenGLCanvas3D::~DWMOpenGLCanvas3D()
+WDMOpenGLCanvas3D::~WDMOpenGLCanvas3D()
 {
     ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
-void DWMOpenGLCanvas3D::Generate()
+void WDMOpenGLCanvas3D::Generate()
 {
     int iFormat=0;
 
@@ -140,34 +140,39 @@ void DWMOpenGLCanvas3D::Generate()
 //     }
 }
 
-void GDIOpenGLCanvas3D::SetWindowInfos(IWindow* Window)
+void WDMOpenGLCanvas3D::SetWindowInfos(IWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
     m_WndHandle = wnd->GetHandle();
     m_DeviceContext=GetDC(wnd->GetHandle());
 }
 
-void GDIOpenGLCanvas3D::Clear()
+void WDMOpenGLCanvas3D::Clear()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 }
 
-void GDIOpenGLCanvas3D::SwapBuffer()
+void WDMOpenGLCanvas3D::SwapBuffer()
 {
     SwapBuffers(m_DeviceContext);
 }
 
-void GDIOpenGLCanvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
+void WDMOpenGLCanvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
 {
     glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
 }
 
-Mat4f& GDIOpenGLCanvas3D::TexturecoordMatrix()
+Mat4f& WDMOpenGLCanvas3D::TexturecoordMatrix()
 {
     return m_TexturecoordMatrix;
 }
 
-void GDIOpenGLCanvas3D::MakeCurrent()
+void WDMOpenGLCanvas3D::MakeCurrent()
 {
     wglMakeCurrent(m_DeviceContext, m_Context);
+}
+
+MeshGenerator2D& WDMOpenGLCanvas3D::GetMeshGenerator2D()
+{
+    return m_MeshGenerator;
 }

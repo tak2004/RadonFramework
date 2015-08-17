@@ -90,13 +90,18 @@ void Radon::InitSubSystem(UInt32 Flags)
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL1Canvas3DService("OpenGL1.x")));
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL2Canvas3DService("OpenGL2.x")));
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL3Canvas3DService("OpenGL3.x")));
+            Canvas3DServiceLocator::SetDefault("OpenGL3.x");
             #endif
             #ifdef RF_USE_GDI
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL1Canvas3DService("OpenGL1.x")));
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL2Canvas3DService("OpenGL2.x")));
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL3Canvas3DService("OpenGL3.x")));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGLCanvas3DService("Newest OpenGL Version")));
-            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version");
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGLCanvas3DService("Newest OpenGL Version with GDI")));
+            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version with GDI");
+            #endif
+            #ifdef RF_USE_WDM
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new WDMOpenGLCanvas3DService("Newest OpenGL Version without GDI")));
+            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version without GDI");
             #endif
         #endif
         RF_SysDraw::SystemTrayServiceLocator::Initialize();

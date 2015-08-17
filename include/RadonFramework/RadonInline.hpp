@@ -152,6 +152,7 @@
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/Drawing/GraphicDriverInformation.hpp>
 #include <RadonFramework/Drawing/ICanvas3D.hpp>
+#include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 #include <RadonFramework/Drawing/NativeShape.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilitiesType.hpp>

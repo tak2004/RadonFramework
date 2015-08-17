@@ -10,6 +10,7 @@
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL2Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3DService.hpp>
     #include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3DService.hpp>
+    #include <RadonFramework/backend/Windows/Drawing/WDMOpenGLCanvas3DService.hpp>
     #include <RadonFramework/System/Drawing/SystemTrayServiceWindows.hpp>
 #endif
 

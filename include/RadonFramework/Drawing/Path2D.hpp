@@ -5,6 +5,7 @@
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/IO/MemoryCollectionStream.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
@@ -27,6 +28,19 @@ public:
 class Path2D
 {
 public:
+    struct Command {
+        enum Type:RF_Type::UInt8
+        {
+            MoveTo,
+            LineTo,
+            BezierTo,
+            QuadraticBezierTo,
+            Close,
+            SetStroke,
+            SetFill
+        };
+    };
+
     Path2D();
     ~Path2D();
 
@@ -54,14 +68,16 @@ public:
     void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius);
     Stroke& StrokeProperties();
     Fill& FillProperties();
-protected:
-    enum class Command:RF_Type::UInt8;
 
+    void Finalize();
+    const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data()const;
+protected:
     RF_Geo::Point2Df m_CurrentPosition;
     Stroke m_StrokeProperties;
     Fill m_FillProperties;
-    RF_Collect::List<Command> m_CommandBuffer;
-    RF_Collect::List<RF_Type::Float32> m_ValueBuffer;
+    
+    RF_IO::MemoryCollectionStream m_ScratchPad;
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Final;
 };
 
 } }

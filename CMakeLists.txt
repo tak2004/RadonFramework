@@ -70,9 +70,11 @@ OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL" ON)
 		endif(UNIX)
 		
 		if(WIN32)
-            set(USEGDI "#ifndef RF_USE_GDI\n#define RF_USE_GDI\n#endif")
-			set(OSLIBS ${OSLIBS} OpenGL32)
+            set(USEGDI "#ifndef RF_USE_GDI\n#define RF_USE_GDI\n#endif")            
 			message(STATUS "GDI support: Yes")
+            set(USEWDM "#ifndef RF_USE_WDM\n#define RF_USE_WDM\n#endif")
+            message(STATUS "WDM support: Yes")
+			set(OSLIBS ${OSLIBS} OpenGL32)            
 		endif(WIN32)
 		
 		include_directories(${OPENGL_INCLUDE_DIR})

@@ -1,11 +1,18 @@
 #ifndef RF_DRAWING_DRAW2D_HPP
 #define RF_DRAWING_DRAW2D_HPP
 
-#include <RadonFramework/Drawing/Text2D.hpp>
-#include <RadonFramework/Drawing/Path2D.hpp>
-#include <RadonFramework/Drawing/FontService.hpp>
+namespace RadonFramework { namespace Math { namespace Geometry { 
+template<typename T>
+class Point2D;
+} } }
 
 namespace RadonFramework { namespace Drawing {
+
+class MeshGenerator2D;
+class Path2D;
+class Text2D;
+class NativeShape;
+class FontDescription;
 
 class Draw2D
 {
@@ -13,22 +20,22 @@ public:
     Draw2D();
     ~Draw2D();
 
-    void Clear();
+    RF_Mem::AutoPointer<Path2D> BeginPath()const;
+    RF_Mem::AutoPointer<NativeShape> EndPath(Path2D& Path)const;
 
-    Path2D& BeginPath();
-    void EndPath(const Path2D& Path);
+    RF_Mem::AutoPointer<Text2D> BeginText(const FontDescription& WhichFont, 
+                                          const RF_Type::String& Text)const;
+    RF_Mem::AutoPointer<NativeShape> EndText(Text2D& Text)const;
 
-    Text2D& Text(const FontDescription& WhichFont, const RF_Type::String& Text);
-
-    void DrawPath(const Path2D& Instance, const RF_Geo::Point2Df& Position, 
+    void DrawPath(const NativeShape& Instance, const Math::Geometry::Point2D<RF_Type::Float32>& Position,
                   RF_Type::Float32 Angle=0.0f);
-    void DrawText(const Text2D& Instance, const RF_Geo::Point2Df& Position, 
+    void DrawText(const NativeShape& Instance, const Math::Geometry::Point2D<RF_Type::Float32>& Position,
                   RF_Type::Float32 Angle = 0.0f);
+
+    void SetMeshGenerator(const MeshGenerator2D& Instance);
+    const MeshGenerator2D* GetMeshGenerator()const;
 protected:
-    RF_Collect::Array<Path2D> m_PathList;
-    RF_Collect::Array<Text2D> m_TextList;
-    RF_Type::Size m_PathListUsed;
-    RF_Type::Size m_TextListUsed;
+    const MeshGenerator2D* m_MeshGenerator;
 };
 
 } }

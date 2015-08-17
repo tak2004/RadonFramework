@@ -168,3 +168,8 @@ void GDIOpenGL3Canvas3D::MakeCurrent()
 {
     wglMakeCurrent(m_DeviceContext, m_Context);
 }
+
+MeshGenerator2D& RadonFramework::Drawing::GDIOpenGL3Canvas3D::GetMeshGenerator2D()
+{
+    return m_MeshGenerator;
+}
