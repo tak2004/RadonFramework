@@ -8,21 +8,28 @@
 
 namespace RadonFramework { namespace Drawing {
 
+/* This class 
+ *
+ **/
 class NativeShape
 {
 public:
-    /// A handle represent a faster access token to a related Entry ID.
+    /// A handle represent a faster access token to a related State ID.
     typedef RF_Type::UInt32 Handle;
-    enum PredefinedHandles{
-        INVALID_HANDLE=65535
+    enum class PredefinedHandles:Handle
+    {
+        Invalid=65535
     };
     /// A ID will be used to identify a byte code block.
     typedef RF_Type::UInt16 ID;
-    enum PredefinedIDs{
-        INVALID_ID=65535
+    enum class PredefinedIDs:ID
+    {
+        Startup = 0,
+        Shutdown = 1,
+        Invalid = 65535
     };
-    /// Each byte code segment is related to a Entry and can be identified and located by it.
-    struct Entry
+    /// Each byte code segment is related to an State and can be identified and located by it.
+    struct State
     {
         /// Byte code entry identifier.
         ID Identifier;
@@ -35,8 +42,7 @@ public:
     NativeShape& operator=(const NativeShape& Other);
     ~NativeShape();
 
-    void AssignByteCode(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data,
-        const ID StartupID=INVALID_ID, const ID ShutdownID=INVALID_ID);
+    void AssignByteCode(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
 
     Handle GetCodeHandle(const ID ByID);
 
@@ -49,7 +55,7 @@ public:
 protected:
     RF_Type::UInt16* m_EntryTableSize;
     Entry* m_EntryTable;
-    RF_Type::UInt8* m_ByteCodeBlock;                
+    RF_Type::UInt8* m_ByteCodeBlock;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Data;
     typedef RF_Collect::Array<RF_Collect::Pair<Entry*,RF_Type::UInt32> > HandleDataList;
     HandleDataList m_HandleDataList;

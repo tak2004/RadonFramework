@@ -25,13 +25,13 @@ NativeShape::~NativeShape()
 {
 }
 
-void NativeShape::AssignByteCode(AutoPointerArray<UInt8>& Data,
-                                 const ID StartupID, const ID ShutdownID)
+void NativeShape::AssignByteCode(AutoPointerArray<UInt8>& Data)
 {
     m_Data=Data;
     m_EntryTableSize=reinterpret_cast<UInt16*>(m_Data.Get());
     m_EntryTable=reinterpret_cast<Entry*>(m_EntryTableSize+1);
-    m_ByteCodeBlock=m_Data.Get()+2+((*m_EntryTableSize)*sizeof(Entry));
+    //m_ByteCodeBlock=m_Data.Get()+2+((*m_EntryTableSize)*sizeof(Entry));
+    m_ByteCodeBlock = reinterpret_cast<RF_Type::UInt8*>(m_EntryTable + m_EntryTableSize);
     m_HandleDataList.Resize(*m_EntryTableSize);
     UInt32 offset=0;
     for (UInt16 i=0;i<m_HandleDataList.Count();++i)
@@ -44,11 +44,11 @@ void NativeShape::AssignByteCode(AutoPointerArray<UInt8>& Data,
 
 NativeShape::Handle NativeShape::GetCodeHandle(const ID ByID)
 {
-    if (ByID!=INVALID_ID)
+    if(ByID != static_cast<ID>(PredefinedIDs::Invalid))
         for (UInt16 i=0;i<*m_EntryTableSize;++i)
             if (m_EntryTable[i].Identifier==ByID)
                 return i;
-    return INVALID_HANDLE;
+    return PredefinedHandles::Invalid;
 }
 
 void NativeShape::Execute(const NativeShape::Handle AHandle)

@@ -10,6 +10,8 @@ class MeshGenerator2D
 {
 public:
     RF_Mem::AutoPointer<NativeShape> Generate(const Path2D& Path)const;
+protected:
+    void Tesselate();
 };
 
 } }
