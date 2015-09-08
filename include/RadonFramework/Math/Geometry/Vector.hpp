@@ -71,6 +71,8 @@ public:
             Value[i]=0;
     }
 
+    typedef T Type;
+    static const RF_Type::Size Count = SIZE;
     T Value[SIZE];
 
     Vector& operator =(const Vector& op)

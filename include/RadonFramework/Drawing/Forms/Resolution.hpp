@@ -6,18 +6,21 @@
 
 #include <RadonFramework/Core/Types/UInt32.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Forms {
+
+struct Resolution
 {
-    namespace Forms
-    {
-        struct Resolution
-        {
-            RF_Type::UInt32 Width;
-            RF_Type::UInt32 Height;
-            RF_Type::UInt32 BitsPerPixel;
-            RF_Type::UInt32 Frequency;
-        };
-    }
-}
+    RF_Type::UInt32 Width;
+    RF_Type::UInt32 Height;
+    RF_Type::UInt32 BitsPerPixel;
+    RF_Type::UInt32 Frequency;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_FORM
+#define RF_SHORTHAND_NAMESPACE_FORM
+namespace RF_Form = RadonFramework::Forms;
+#endif // !RF_SHORTHAND_NAMESPACE_FORM
 
 #endif // RF_RESOLUTION_HPP

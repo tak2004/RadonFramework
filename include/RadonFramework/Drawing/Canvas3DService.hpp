@@ -7,18 +7,21 @@
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/Drawing/ICanvas3D.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Drawing {
+
+class Canvas3DService:public Core::Pattern::Service
 {
-  namespace Drawing
-  {
-    class Canvas3DService:public Core::Pattern::Service
-    {
-      public:
-        Canvas3DService(const RF_Type::String &Name);
-        ~Canvas3DService();
-        virtual ICanvas3D* CreateCanvas3D()=0;
-    };
-  }
-}
+public:
+    Canvas3DService(const RF_Type::String &Name);
+    ~Canvas3DService();
+    virtual ICanvas3D* CreateCanvas3D() = 0;
+};
+  
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_DRAW
+#define RF_SHORTHAND_NAMESPACE_DRAW
+namespace RF_Draw = RadonFramework::Drawing;
+#endif
 
 #endif

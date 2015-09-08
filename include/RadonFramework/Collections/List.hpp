@@ -77,6 +77,7 @@ private:
 public:
     typedef ListIterator<T,Node> Iterator;
     typedef ListIterator<T,Node,const T*, const T&> ConstIterator;
+    typedef T Type;
 
     List();
     List(const List& Copy);

@@ -20,6 +20,7 @@ GDIOpenGL1Canvas3D::GDIOpenGL1Canvas3D()
 
 GDIOpenGL1Canvas3D::~GDIOpenGL1Canvas3D()
 {
+    ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
 void GDIOpenGL1Canvas3D::Generate()
@@ -68,6 +69,7 @@ void GDIOpenGL1Canvas3D::Generate()
 void GDIOpenGL1Canvas3D::SetWindowInfos(IWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
+    m_WndHandle = wnd->GetHandle();
     m_DeviceContext=GetDC(wnd->GetHandle());
 }
 
@@ -84,6 +86,11 @@ void GDIOpenGL1Canvas3D::SwapBuffer()
 void GDIOpenGL1Canvas3D::UpdateRectangle(RF_Geo::Rectangle<> &Rec)
 {
   glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
+}
+
+MeshGenerator2D& GDIOpenGL1Canvas3D::GetMeshGenerator2D()
+{
+    return m_MeshGenerator;
 }
 
 Mat4f& GDIOpenGL1Canvas3D::TexturecoordMatrix()

@@ -23,9 +23,16 @@ public:
     RF_Type::Bool IsPrimary;
     RF_Type::Bool IsAttachedToDesktop;
     RF_Type::Bool IsMirroring;
+    RF_Type::UInt32 HorizontalLengthInMilimeter;
+    RF_Type::UInt32 VerticalLengthInMilimeter;
+    RF_Type::UInt32 Left;
+    RF_Type::UInt32 Top;
     RF_Collect::Array<Resolution> AvaiableResolution;
 
-    DisplayInformation& operator=(const DisplayInformation& Other);
+        Left = Other.Left;
+        Top = Other.Top;
+        HorizontalLengthInMilimeter = Other.HorizontalLengthInMilimeter;
+        VerticalLengthInMilimeter = Other.VerticalLengthInMilimeter;
 };
 
 } }

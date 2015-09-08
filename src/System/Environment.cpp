@@ -96,44 +96,104 @@ void UUIDFromString_SystemAPIDispatcher(const RF_Type::String& Text, RF_Util::UU
     UUIDFromString(Text, Target);
 }
 
-MemoryArchitectureOfOSCallback RFENV::MemoryArchitectureOfOS=MemoryArchitectureOfOS_SystemAPIDispatcher;
-Is32BitEmulationCallback RFENV::Is32BitEmulation=Is32BitEmulation_SystemAPIDispatcher;
-OSVersionCallback RFENV::OSVersion=OSVersion_SystemAPIDispatcher;
-GetVariableCallback RFENV::GetVariable=GetVariable_SystemAPIDispatcher;
-PlatformCallback RFENV::Platform=Platform_SystemAPIDispatcher;
-OSFamilyCallback RFENV::OSFamily=OSFamily_SystemAPIDispatcher;
-FastRandomUUIDCallback RFENV::FastRandomUUID = FastRandomUUID_SystemAPIDispatcher;
-SecureRandomUUIDCallback RFENV::SecureRandomUUID = SecureRandomUUID_SystemAPIDispatcher;
-UUIDFromStringCallback RFENV::UUIDFromString = UUIDFromString_SystemAPIDispatcher;
-
-RF_Type::Bool RFENV::IsSuccessfullyDispatched()
+RF_Type::String ActiveLanguage_SystemAPIDispatcher()
 {
-    RF_Type::Bool result=true;
-    result=result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher && MemoryArchitectureOfOS != 0;
-    result=result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher && Is32BitEmulation != 0;
-    result=result && OSVersion != OSVersion_SystemAPIDispatcher && OSVersion != 0;
-    result=result && GetVariable != GetVariable_SystemAPIDispatcher && GetVariable != 0;
-    result=result && Platform != Platform_SystemAPIDispatcher && Platform != 0;
-    result=result && OSFamily != OSFamily_SystemAPIDispatcher && OSFamily != 0;
+    ActiveLanguage = 0;
+    Dispatch();
+    Assert(ActiveLanguage != ActiveLanguage_SystemAPIDispatcher &&
+           ActiveLanguage != 0,
+           "Funtion was called and couldn't be dispatched");
+    return ActiveLanguage();
+}
+
+RF_Type::String ActiveLanguageName_SystemAPIDispatcher()
+{
+    ActiveLanguageName = 0;
+    Dispatch();
+    Assert(ActiveLanguageName != ActiveLanguageName_SystemAPIDispatcher &&
+           ActiveLanguageName != 0,
+           "Funtion was called and couldn't be dispatched");
+    return ActiveLanguageName();
+}
+
+RF_Type::String ActiveNativeLanguageName_SystemAPIDispatcher()
+{
+    ActiveNativeLanguageName = 0;
+    Dispatch();
+    Assert(ActiveNativeLanguageName != ActiveNativeLanguageName_SystemAPIDispatcher &&
+           ActiveNativeLanguageName != 0,
+           "Funtion was called and couldn't be dispatched");
+    return ActiveNativeLanguageName();
+}
+
+RF_Type::String ActiveLanguageLocation_SystemAPIDispatcher()
+{
+    ActiveLanguageLocation = 0;
+    Dispatch();
+    Assert(ActiveLanguageLocation != ActiveLanguageLocation_SystemAPIDispatcher &&
+           ActiveLanguageLocation != 0,
+           "Funtion was called and couldn't be dispatched");
+    return ActiveLanguageLocation();
+}
+
+RF_Type::String ActiveNativeLanguageLocation_SystemAPIDispatcher()
+{
+    ActiveNativeLanguageLocation = 0;
+    Dispatch();
+    Assert(ActiveNativeLanguageLocation != ActiveNativeLanguageLocation_SystemAPIDispatcher &&
+           ActiveNativeLanguageLocation != 0,
+           "Funtion was called and couldn't be dispatched");
+    return ActiveNativeLanguageLocation();
+}
+
+MemoryArchitectureOfOSCallback RF_SysEnv::MemoryArchitectureOfOS = MemoryArchitectureOfOS_SystemAPIDispatcher;
+Is32BitEmulationCallback RF_SysEnv::Is32BitEmulation = Is32BitEmulation_SystemAPIDispatcher;
+OSVersionCallback RF_SysEnv::OSVersion = OSVersion_SystemAPIDispatcher;
+GetVariableCallback RF_SysEnv::GetVariable = GetVariable_SystemAPIDispatcher;
+PlatformCallback RF_SysEnv::Platform = Platform_SystemAPIDispatcher;
+OSFamilyCallback RF_SysEnv::OSFamily = OSFamily_SystemAPIDispatcher;
+FastRandomUUIDCallback RF_SysEnv::FastRandomUUID = FastRandomUUID_SystemAPIDispatcher;
+SecureRandomUUIDCallback RF_SysEnv::SecureRandomUUID = SecureRandomUUID_SystemAPIDispatcher;
+UUIDFromStringCallback RF_SysEnv::UUIDFromString = UUIDFromString_SystemAPIDispatcher;
+SystemLanguageCallback RF_SysEnv::ActiveLanguage = ActiveLanguage_SystemAPIDispatcher;
+SystemLanguageCallback RF_SysEnv::ActiveLanguageName = ActiveLanguageName_SystemAPIDispatcher;
+SystemLanguageCallback RF_SysEnv::ActiveNativeLanguageName = ActiveNativeLanguageName_SystemAPIDispatcher;
+SystemLanguageCallback RF_SysEnv::ActiveLanguageLocation = ActiveLanguageLocation_SystemAPIDispatcher;
+SystemLanguageCallback RF_SysEnv::ActiveNativeLanguageLocation = ActiveNativeLanguageLocation_SystemAPIDispatcher;
+
+RF_Type::Bool RF_SysEnv::IsSuccessfullyDispatched()
+{
+    RF_Type::Bool result = true;
+    result = result && MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher && MemoryArchitectureOfOS != 0;
+    result = result && Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher && Is32BitEmulation != 0;
+    result = result && OSVersion != OSVersion_SystemAPIDispatcher && OSVersion != 0;
+    result = result && GetVariable != GetVariable_SystemAPIDispatcher && GetVariable != 0;
+    result = result && Platform != Platform_SystemAPIDispatcher && Platform != 0;
+    result = result && OSFamily != OSFamily_SystemAPIDispatcher && OSFamily != 0;
     result = result && FastRandomUUID != FastRandomUUID_SystemAPIDispatcher && FastRandomUUID != 0;
     result = result && SecureRandomUUID != SecureRandomUUID_SystemAPIDispatcher && SecureRandomUUID != 0;
     result = result && UUIDFromString != UUIDFromString_SystemAPIDispatcher && UUIDFromString != 0;
+    result = result && ActiveLanguage != ActiveLanguage_SystemAPIDispatcher && ActiveLanguage != 0;
+    result = result && ActiveLanguageName != ActiveLanguageName_SystemAPIDispatcher && ActiveLanguageName != 0;
+    result = result && ActiveNativeLanguageName != ActiveNativeLanguageName_SystemAPIDispatcher && ActiveNativeLanguageName != 0;
+    result = result && ActiveLanguageLocation != ActiveLanguageLocation_SystemAPIDispatcher && ActiveLanguageLocation != 0;
+    result = result && ActiveNativeLanguageLocation != ActiveNativeLanguageLocation_SystemAPIDispatcher && ActiveNativeLanguageLocation != 0;
     return result;
 }
 
-void RFENV::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
+void RF_SysEnv::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
-    if (MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher || MemoryArchitectureOfOS == 0) 
+    if(MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher || MemoryArchitectureOfOS == 0)
         Result.AddLast(RF_Type::String("MemoryArchitectureOfOS", sizeof("MemoryArchitectureOfOS")));
-    if (Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher || Is32BitEmulation == 0) 
+    if(Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher || Is32BitEmulation == 0)
         Result.AddLast(RF_Type::String("Is32BitEmulation", sizeof("Is32BitEmulation")));
-    if (OSVersion == OSVersion_SystemAPIDispatcher || OSVersion == 0) 
+    if(OSVersion == OSVersion_SystemAPIDispatcher || OSVersion == 0)
         Result.AddLast(RF_Type::String("OSVersion", sizeof("OSVersion")));
-    if (GetVariable == GetVariable_SystemAPIDispatcher || GetVariable == 0) 
+    if(GetVariable == GetVariable_SystemAPIDispatcher || GetVariable == 0)
         Result.AddLast(RF_Type::String("GetVariable", sizeof("GetVariable")));
-    if (Platform == Platform_SystemAPIDispatcher || Platform == 0) 
+    if(Platform == Platform_SystemAPIDispatcher || Platform == 0)
         Result.AddLast(RF_Type::String("Platform", sizeof("Platform")));
-    if (OSFamily == OSFamily_SystemAPIDispatcher || OSFamily == 0) 
+    if(OSFamily == OSFamily_SystemAPIDispatcher || OSFamily == 0)
         Result.AddLast(RF_Type::String("OSFamily", sizeof("OSFamily")));
     if(FastRandomUUID == FastRandomUUID_SystemAPIDispatcher || FastRandomUUID == 0)
         Result.AddLast(RF_Type::String("FastRandomUUID", sizeof("FastRandomUUID")));
@@ -141,4 +201,14 @@ void RFENV::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
         Result.AddLast(RF_Type::String("SecureRandomUUID", sizeof("SecureRandomUUID")));
     if(UUIDFromString == UUIDFromString_SystemAPIDispatcher || UUIDFromString == 0)
         Result.AddLast(RF_Type::String("UUIDFromString", sizeof("UUIDFromString")));
+    if(ActiveLanguage == ActiveLanguage_SystemAPIDispatcher || ActiveLanguage == 0)
+        Result.AddLast(RF_Type::String("ActiveLanguage", sizeof("ActiveLanguage")));
+    if(ActiveLanguageName == ActiveLanguageName_SystemAPIDispatcher || ActiveLanguageName == 0)
+        Result.AddLast(RF_Type::String("ActiveLanguageName", sizeof("ActiveLanguageName")));
+    if(ActiveNativeLanguageName == ActiveNativeLanguageName_SystemAPIDispatcher || ActiveNativeLanguageName == 0)
+        Result.AddLast(RF_Type::String("ActiveNativeLanguageName", sizeof("ActiveNativeLanguageName")));
+    if(ActiveLanguageLocation == ActiveLanguageLocation_SystemAPIDispatcher || ActiveLanguageLocation == 0)
+        Result.AddLast(RF_Type::String("ActiveLanguageLocation", sizeof("ActiveLanguageLocation")));
+    if(ActiveNativeLanguageLocation == ActiveNativeLanguageLocation_SystemAPIDispatcher || ActiveNativeLanguageLocation == 0)
+        Result.AddLast(RF_Type::String("ActiveNativeLanguageLocation", sizeof("ActiveNativeLanguageLocation")));
 }

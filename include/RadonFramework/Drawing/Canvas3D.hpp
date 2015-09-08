@@ -7,6 +7,7 @@
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
+#include <RadonFramework/Drawing/Draw2D.hpp>
 
 namespace RadonFramework { namespace System { namespace Threading {
 class Mutex;
@@ -30,10 +31,17 @@ public:
     void MakeCurrent();
     System::Threading::Mutex& GetRenderLock();
     ICanvas3D const* Backend()const;
+
+    RF_Draw::Draw2D Draw2D;
 protected:
     ICanvas3D* m_Backend;
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_DRAW
+#define RF_SHORTHAND_NAMESPACE_DRAW
+namespace RF_Draw = RadonFramework::Drawing;
+#endif
 
 #endif // RF_DRAWING_CANVAS3D_HPP

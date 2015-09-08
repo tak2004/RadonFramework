@@ -10,6 +10,8 @@ class CommandBuffer
 {
 public:
     enum { CHUNKSIZE = 4096 };
+    typedef void* HandleList;
+    typedef void* DataStream;
 
     template<GLFunctions::Type FUNC, typename... ARGS>
     void Call(ARGS... Parameters)
@@ -19,7 +21,7 @@ public:
 
         if(m_ScratchPad.Length() - m_ScratchPad.Position() < (sizeof(RF_Type::UInt64) + sizeof(RF_Type::UInt16)) * (PARAMETERS + 1))
         {
-            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
+            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
             m_ScratchPad.AddLast(newMemoryBlock);
         }
 
@@ -34,26 +36,21 @@ public:
 
         if(m_ScratchPad.Length() - m_ScratchPad.Position() < sizeof(RF_Type::UInt16))
         {
-            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
+            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
             m_ScratchPad.AddLast(newMemoryBlock);
         }
 
         m_ScratchPad.Write<RF_Type::UInt16>(FUNC);
     }
 
-    RF_Type::Bool Finalize()
-    {
-        RF_Type::Bool result = false;
-        m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(m_ScratchPad.Position());
-        m_ScratchPad.Seek(0, RF_IO::SeekOrigin::Begin);
-        m_ScratchPad.Read(m_Final.Get(), 0, m_Final.Size());
-        return result;
-    }
+    RF_Type::Bool Finalize();
 
-    const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data()const
-    {
-        return m_Final;
-    }
+    const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data()const;
+
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> ReleaseData();
+
+    HandleList& ReserveHandleList();
+    DataStream& ReserveDataStream();
 private:
     RF_IO::MemoryCollectionStream m_ScratchPad;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Final;

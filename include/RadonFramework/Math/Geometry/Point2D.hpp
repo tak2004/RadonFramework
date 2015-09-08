@@ -86,7 +86,10 @@ RF_Type::Float32 Point2D<T>::SquareDistance(const Point2D<T> &Other)const
 {
     return static_cast<RF_Type::Float32>(((X - Other.X) ^ 2) + ((Y - Other.Y) ^ 2));
 }
-        
+     
+typedef Point2D<RF_Type::Float32> Point2Df;
+typedef Point2D<RF_Type::Float64> Point2Dd;
+
 } } }
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO

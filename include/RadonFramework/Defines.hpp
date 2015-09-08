@@ -82,6 +82,9 @@
 #ifndef RF_USE_GDI
 #define RF_USE_GDI
 #endif
+#ifndef RF_USE_WDM
+#define RF_USE_WDM
+#endif
 
 #ifndef RF_PRECOMPILED_PIMPL
     #define RF_PRECOMPILED_PIMPL 1

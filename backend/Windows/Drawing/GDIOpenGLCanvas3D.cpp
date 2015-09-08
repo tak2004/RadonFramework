@@ -26,6 +26,7 @@ GDIOpenGLCanvas3D::GDIOpenGLCanvas3D()
 
 GDIOpenGLCanvas3D::~GDIOpenGLCanvas3D()
 {
+    ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
 void GDIOpenGLCanvas3D::Generate()
@@ -141,6 +142,7 @@ void GDIOpenGLCanvas3D::Generate()
 void GDIOpenGLCanvas3D::SetWindowInfos(IWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
+    m_WndHandle = wnd->GetHandle();
     m_DeviceContext=GetDC(wnd->GetHandle());
 }
 
@@ -167,4 +169,9 @@ Mat4f& GDIOpenGLCanvas3D::TexturecoordMatrix()
 void GDIOpenGLCanvas3D::MakeCurrent()
 {
     wglMakeCurrent(m_DeviceContext, m_Context);
+}
+
+MeshGenerator2D& GDIOpenGLCanvas3D::GetMeshGenerator2D()
+{
+    return m_MeshGenerator;
 }

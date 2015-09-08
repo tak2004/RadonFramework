@@ -4,6 +4,7 @@
 #include "RadonFramework/Core/Common/DataManagment.hpp"
 #include "RadonFramework/Util/UUID.hpp"
 #include <rpc.h>
+#include <VersionHelpers.h>
 #pragma comment(lib, "Rpcrt4.lib")
 
 using namespace RadonFramework::Core::Types;
@@ -119,6 +120,71 @@ void UUIDFromString_Windows(const RF_Type::String& Text, RF_Util::UUID& Target)
     RF_SysMem::Copy(Target.Bytes.m_Vector, &uuid, 16);
 }
 
+RF_Type::String ActiveLanguage_Windows()
+{
+    WCHAR languageUtf16[LOCALE_NAME_MAX_LENGTH];
+    char languageUtf8[LOCALE_NAME_MAX_LENGTH];
+    RF_Type::String result;
+    int writtenBytes = GetUserDefaultLocaleName(languageUtf16, LOCALE_USER_DEFAULT);
+    if(writtenBytes > 0)
+        writtenBytes = wcstombs(languageUtf8, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        result = RF_Type::String(languageUtf8, writtenBytes + 1);
+    return result;
+}
+
+RF_Type::String ActiveLanguageName_Windows()
+{
+    WCHAR languageUtf16[LOCALE_NAME_MAX_LENGTH];
+    char languageUtf8[LOCALE_NAME_MAX_LENGTH];
+    RF_Type::String result;
+    int writtenBytes = GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SISO639LANGNAME, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        writtenBytes = wcstombs(languageUtf8, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        result = RF_Type::String(languageUtf8, writtenBytes + 1);
+    return result;
+}
+
+RF_Type::String ActiveNativeLanguageName_Windows()
+{
+    WCHAR languageUtf16[LOCALE_NAME_MAX_LENGTH];
+    char languageUtf8[LOCALE_NAME_MAX_LENGTH];
+    RF_Type::String result;
+    int writtenBytes = GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNATIVELANGUAGENAME, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        writtenBytes = wcstombs(languageUtf8, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        result = RF_Type::String(languageUtf8, writtenBytes + 1);
+    return result;
+}
+
+RF_Type::String ActiveLanguageLocation_Windows()
+{
+    WCHAR languageUtf16[LOCALE_NAME_MAX_LENGTH];
+    char languageUtf8[LOCALE_NAME_MAX_LENGTH];
+    RF_Type::String result;
+    int writtenBytes = GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SISO3166CTRYNAME, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        writtenBytes = wcstombs(languageUtf8, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        result = RF_Type::String(languageUtf8, writtenBytes + 1);
+    return result;
+}
+
+RF_Type::String ActiveNativeLanguageLocation_Windows()
+{
+    WCHAR languageUtf16[LOCALE_NAME_MAX_LENGTH];
+    char languageUtf8[LOCALE_NAME_MAX_LENGTH];
+    RF_Type::String result;
+    int writtenBytes = GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNATIVECOUNTRYNAME, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        writtenBytes = wcstombs(languageUtf8, languageUtf16, LOCALE_NAME_MAX_LENGTH);
+    if(writtenBytes > 0)
+        result = RF_Type::String(languageUtf8, writtenBytes + 1);
+    return result;
+}
+
 void RadonFramework::System::Environment::Dispatch()
 {
     MemoryArchitectureOfOS=::MemoryArchitectureOfOS;
@@ -127,7 +193,16 @@ void RadonFramework::System::Environment::Dispatch()
     GetVariable=::GetVariable;
     Platform=::Platform;
     OSFamily=::OSFamily;
-    FastRandomUUID = ::FastRandomUUID_Windows;
-    SecureRandomUUID = ::SecureRandomUUID_Windows;
-    UUIDFromString = ::UUIDFromString_Windows;
+
+    if(IsWindowsVistaOrGreater())
+    {
+        FastRandomUUID = ::FastRandomUUID_Windows;
+        SecureRandomUUID = ::SecureRandomUUID_Windows;
+        UUIDFromString = ::UUIDFromString_Windows;
+        ActiveLanguage = ::ActiveLanguage_Windows;
+        ActiveLanguageName = ::ActiveLanguageName_Windows;
+        ActiveNativeLanguageName = ::ActiveNativeLanguageName_Windows;
+        ActiveLanguageLocation = ::ActiveLanguageLocation_Windows;
+        ActiveNativeLanguageLocation = ::ActiveNativeLanguageLocation_Windows;
+    }
 }

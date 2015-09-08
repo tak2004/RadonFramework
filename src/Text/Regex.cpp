@@ -64,7 +64,7 @@ RF_Type::Bool Regex::ReleaseMatcher(Matcher Instance)
     if(m_PImpl->m_MatcherLookup.ContainsKey(Instance.ID()))
     {
         auto* matcher = m_PImpl->m_MatcherLookup[Instance.ID()];
-        for (RF_Type::Size i = 0; i < m_PImpl->m_Matcher.Size(); ++i)
+        for(RF_Type::Size i = 0; i < m_PImpl->m_Matcher.Count(); ++i)
         {
             if(m_PImpl->m_Matcher[i] == matcher)
             {

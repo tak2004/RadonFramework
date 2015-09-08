@@ -10,6 +10,7 @@
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Drawing/Forms/DisplayInformation.hpp>
+#include <RadonFramework/Math/Geometry/Point2D.hpp>
 
 namespace RadonFramework { namespace Forms {
 
@@ -34,6 +35,16 @@ public:
     RF_Type::UInt32 Width()const;
     /// Return the height of the current resolution.
     RF_Type::UInt32 Height()const;
+    /// Return the dots per inch on x-axis.
+    RF_Type::UInt32 DPIX()const;
+    /// return the dots per inch on y-axis.
+    RF_Type::UInt32 DPIY()const;
+    /// Return the left start position of the screen on the whole desktop.
+    RF_Type::UInt32 Left()const;
+    /// Return the top start position of the screen on the whole desktop.
+    RF_Type::UInt32 Top()const;
+    /// Return the start position of the screen on the whole desktop.
+    RF_Geo::Point2D<> Position()const;
     /// Return the bits per pixel of the current resolution.
     RF_Type::UInt32 BitsPerPixel()const;
     /// Return the device name of this screen.
@@ -83,6 +94,21 @@ inline RF_Type::UInt32 Screen::Width()const
 inline RF_Type::UInt32 Screen::Height()const
 {
     return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Height;
+}
+
+inline RF_Type::UInt32 Screen::Left()const
+{
+    return m_DisplayInfos->Left;
+}
+
+inline RF_Type::UInt32 Screen::Top()const
+{
+    return m_DisplayInfos->Top;
+}
+
+inline RF_Geo::Point2D<> Screen::Position()const
+{
+    return RF_Geo::Point2D<>(Left(), Top());
 }
 
 inline RF_Type::UInt32 Screen::BitsPerPixel()const

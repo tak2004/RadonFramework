@@ -11,8 +11,8 @@
 void RadonFramework::Diagnostics::Debugging::FrameworkDiagnostics::GetAllMissingSystemFunctions(
     RadonFramework::Collections::List<RadonFramework::Core::Types::String>& Result)
 {
-    if (!RFENV::IsSuccessfullyDispatched()) 
-        RFENV::GetNotDispatchedFunctions(Result);
+    if (!RF_SysEnv::IsSuccessfullyDispatched()) 
+        RF_SysEnv::GetNotDispatchedFunctions(Result);
     if (!RF_SysMem::IsSuccessfullyDispatched()) 
         RF_SysMem::GetNotDispatchedFunctions(Result);
     if (!RFFILE::IsSuccessfullyDispatched()) 

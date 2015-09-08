@@ -88,7 +88,7 @@ SystemTray::~SystemTray()
 void SystemTray::OnAction(RF_Type::UInt32 ActionId)
 {
     SystemTray& instance = SystemTray::GetInstance();
-    for(RF_Type::Size i = 0; i < instance.m_PImpl->m_Icons.Size(); ++i)
+    for(RF_Type::Size i = 0; i < instance.m_PImpl->m_Icons.Count(); ++i)
     {
         instance.m_PImpl->m_Icons[i]->OnAction(ActionId);
     }

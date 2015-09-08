@@ -88,7 +88,7 @@ public:
     AutoVector<T>& operator=(AutoVectorReference From);
     void Swap(AutoVector<T> &Other);
 
-    RF_Type::UInt32 Size()const;
+    RF_Type::UInt32 Count()const;
     void Erase(RF_Type::UInt32 Index);
     void Erase(Iterator It);
     void Erase(ConstIterator It);
@@ -163,7 +163,7 @@ void AutoVector<T>::Swap(AutoVector<T> &Other)
 }
 
 template<class T>
-RF_Type::UInt32  AutoVector<T>::Size()const
+RF_Type::UInt32  AutoVector<T>::Count()const
 {
     return m_Pointer.Count();
 }

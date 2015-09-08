@@ -45,6 +45,9 @@ RF_Type::Float32 Size2D<T>::Ratio()
         static_cast<RF_Type::Float32>(Width) / static_cast<RF_Type::Float32>(Height);
 }
 
+typedef Size2D<RF_Type::Float32> Size2Df;
+typedef Size2D<RF_Type::Float64> Size2Dd;
+
 } } }
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
