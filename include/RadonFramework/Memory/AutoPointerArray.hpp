@@ -30,6 +30,8 @@ public:
     typedef Collections::Enumerator<const T, Collections::ArrayEnumeratorType> ConstEnumeratorType;
 
     explicit AutoPointerArray();
+
+    AutoPointerArray(RF_Type::Size Count);
                 
     AutoPointerArray(ElementType* Ptr, RF_Type::Size Count);
 
@@ -99,6 +101,13 @@ private:
     mutable T* m_Data;
     mutable RF_Type::Size m_Size;
 };
+
+template <typename T>
+RadonFramework::Memory::AutoPointerArray<T>::AutoPointerArray(RF_Type::Size Count)
+{
+    m_Data = new T[Count];
+    m_Size = Count;
+}
 
 template<typename T>
 AutoPointerArrayReference<T>::AutoPointerArrayReference(AutoPointerArrayData<T> Ptr)

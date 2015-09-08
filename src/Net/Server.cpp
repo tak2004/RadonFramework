@@ -68,6 +68,8 @@ RF_Type::Bool Server::Start()
 
         if(result)
         {
+            PreBindConfigureSocket(*serverSocket, ip);
+
             if(m_PImpl->m_Config.Protocol == RF_Net::SocketType::Stream)
             {
                 RF_Net::EndPoint endPoint(ip, m_PImpl->m_Config.Port);
@@ -90,7 +92,7 @@ RF_Type::Bool Server::Start()
                 }
             }
 
-            ConfigureSocket(*serverSocket, ip);
+            PostBindConfigureSocket(*serverSocket, ip);
         }
 
         if(result)
@@ -188,7 +190,11 @@ Socket* Server::GetSocket() const
     return result;
 }
 
-void Server::ConfigureSocket(Socket& Socket, IPAddress& Interface)
+void Server::PostBindConfigureSocket(Socket& Socket, IPAddress& Interface)
+{
+}
+
+void Server::PreBindConfigureSocket(Socket& Socket, IPAddress& Interface)
 {
     SocketError error;
     error.Code = Error::Ok;

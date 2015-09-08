@@ -72,7 +72,7 @@ void Settings::Load()
         FileStream fs;
         if (config.Exists())
         {
-            AutoPointerArray<UInt8> buf(new UInt8[config.Size()], config.Size());
+            AutoPointerArray<UInt8> buf(config.Size());
             if (fs.Open(config.Location(), FileAccessMode::Read, FileAccessPriority::ReadThroughput))
             {
                 fs.Read(buf.Get(), 0, buf.Size());

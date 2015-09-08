@@ -173,22 +173,7 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
 
 Uri::Uri(const Uri& Copy)
 {
-    m_OriginalString = Copy.m_OriginalString;
-    m_Path = Copy.m_Path;
-    m_Authority = Copy.m_Authority;
-    m_Fragment = Copy.m_Fragment;
-    m_Query = Copy.m_Query;
-    m_Scheme = Copy.m_Scheme;
-    m_SchemeSpecificPart = Copy.m_SchemeSpecificPart;
-    m_Host = Copy.m_Host;
-    m_UserInfo = Copy.m_UserInfo;
-    m_HostNameType = Copy.m_HostNameType;
-    m_Port = Copy.m_Port;
-    m_IsAbsolute = Copy.m_IsAbsolute;
-    m_IsDefaultPort = Copy.m_IsDefaultPort;
-    m_IsDefaultUser = Copy.m_IsDefaultUser;
-    m_UserEscaped = Copy.m_UserEscaped;
-    m_IsOpaque = Copy.m_IsOpaque;
+    *this = Copy;
 }
 
 Uri::~Uri()
@@ -510,6 +495,27 @@ String Uri::UserInfo()const
 bool Uri::operator ==(const Uri& Other)
 {
     return m_OriginalString == Other.m_OriginalString;
+}
+
+Uri& RadonFramework::IO::Uri::operator=(const Uri& Other)
+{
+    m_OriginalString = Other.m_OriginalString;
+    m_Path = Other.m_Path;
+    m_Authority = Other.m_Authority;
+    m_Fragment = Other.m_Fragment;
+    m_Query = Other.m_Query;
+    m_Scheme = Other.m_Scheme;
+    m_SchemeSpecificPart = Other.m_SchemeSpecificPart;
+    m_Host = Other.m_Host;
+    m_UserInfo = Other.m_UserInfo;
+    m_HostNameType = Other.m_HostNameType;
+    m_Port = Other.m_Port;
+    m_IsAbsolute = Other.m_IsAbsolute;
+    m_IsDefaultPort = Other.m_IsDefaultPort;
+    m_IsDefaultUser = Other.m_IsDefaultUser;
+    m_UserEscaped = Other.m_UserEscaped;
+    m_IsOpaque = Other.m_IsOpaque;
+    return *this;
 }
 
 bool Uri::operator !=(const Uri& Other)

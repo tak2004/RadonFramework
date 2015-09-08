@@ -84,6 +84,11 @@
 #include <RadonFramework/Core/Types/Convert.hpp>
 #include <RadonFramework/Core/Types/Utils/StringOperators.hpp>
 
+// floating point math
+#include <RadonFramework/Math/Math.hpp>
+// integer math
+#include <RadonFramework/Math/Integer.hpp>
+
 // Each compiler can implement it on it's own way.
 #include <stdarg.h>
 

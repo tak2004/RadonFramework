@@ -50,7 +50,7 @@ public:
     {
         UInt32 lps = Hardware::GetAvailableLogicalProcessorCount();
         MaxWorkerThreads = lps;//ThreadPool::GetBestThreadAmountByProcessorCoreAmount(lps);
-        SerialTaskLists = AutoPointerArray<Queue<PoolTask> >(new Queue<PoolTask>[MaxWorkerThreads], MaxWorkerThreads);
+        SerialTaskLists = AutoPointerArray<Queue<PoolTask> >(MaxWorkerThreads);
         WorkerThreads.Resize(MaxWorkerThreads);
         BitArray<> mask(lps);
         for (UInt32 i=0; i < WorkerThreads.Count(); ++i)

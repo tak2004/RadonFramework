@@ -33,6 +33,7 @@ public:
                 const RF_Type::UInt32 ElementSize);
     VertexData(const VertexData& Copy);
     ~VertexData();
+    VertexData& operator =(const VertexData& Other);
 
     RF_Type::String Name;
     const RF_Type::Float32* Data;

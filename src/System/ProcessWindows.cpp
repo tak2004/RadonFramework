@@ -28,12 +28,12 @@ AutoPointerArray<RF_Type::UInt32> GetProcessList()
     do
     {
         processcount += 1024;
-        processes = AutoPointerArray<RF_Type::UInt32>(new RF_Type::UInt32[processcount], processcount);
+        processes = AutoPointerArray<RF_Type::UInt32>(processcount);
         EnumProcesses((DWORD*)processes.Get(), processcount*sizeof(RF_Type::UInt32),
                       (LPDWORD)&UsedMemory);
     } while (processcount * sizeof(RF_Type::UInt32) == UsedMemory);
     processcount = UsedMemory / sizeof(RF_Type::UInt32);
-    result = AutoPointerArray<RF_Type::UInt32>(new RF_Type::UInt32[processcount], processcount);
+    result = AutoPointerArray<RF_Type::UInt32>(processcount);
     RF_SysMem::Copy(result.Get(), processes.Get(), UsedMemory);
 
     return result;

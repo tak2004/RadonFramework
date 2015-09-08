@@ -79,7 +79,7 @@ RF_Type::Bool CubicBezier<TIN, TOUT>::IsClockwise(const Point2D<TIN>& A, const P
     edge1[0] = C.X - B.X;
     edge1[1] = C.Y - B.Y;
 
-    return !(edge0[0] * edge1[1] - edge0[1] * edge1[0]) > 0.0f;
+    return !((edge0[0] * edge1[1] - edge0[1] * edge1[0]) > 0.0f);
 }
 
 template<class TIN, class TOUT>
@@ -97,7 +97,7 @@ RF_Type::Bool CubicBezier<TIN, TOUT>::IsInsideCircle(const Point2D<TIN>& A, cons
     if(IsClockwise(A, B, C))
         return r>0.0f;
     else
-        return !r>0.0f;
+        return !(r>0.0f);
 }
 
 template<class TIN, class TOUT>

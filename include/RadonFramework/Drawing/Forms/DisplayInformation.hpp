@@ -11,23 +11,21 @@
 
 namespace RadonFramework { namespace Forms {
 
-struct DisplayInformation
+class DisplayInformation
 {
+public:
+    DisplayInformation();
+
+    DisplayInformation(const DisplayInformation& Copy);
+
     RF_Type::String DisplayName;
     RF_Type::String Description;
     RF_Type::Bool IsPrimary;
     RF_Type::Bool IsAttachedToDesktop;
     RF_Type::Bool IsMirroring;
     RF_Collect::Array<Resolution> AvaiableResolution;
-    DisplayInformation& operator=(const DisplayInformation& Other){
-        DisplayName=Other.DisplayName;
-        Description=Other.Description;
-        IsPrimary=Other.IsPrimary;
-        IsAttachedToDesktop=Other.IsAttachedToDesktop;
-        IsMirroring=Other.IsMirroring;
-        AvaiableResolution=Other.AvaiableResolution;
-        return *this;
-    }
+
+    DisplayInformation& operator=(const DisplayInformation& Other);
 };
 
 } }

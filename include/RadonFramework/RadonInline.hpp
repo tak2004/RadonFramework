@@ -184,6 +184,7 @@
 #include <RadonFramework/IO/LogConfig.hpp>
 #include <RadonFramework/IO/LogConsole.hpp>
 #include <RadonFramework/IO/MemoryCollectionStream.hpp>
+#include <RadonFramework/IO/MemoryStream.hpp>
 #include <RadonFramework/IO/MouseEvent.hpp>
 #include <RadonFramework/IO/OptionRule.hpp>
 #include <RadonFramework/IO/OptionValue.hpp>
@@ -257,6 +258,7 @@
 #include <RadonFramework/Net/HTTP/Tokenizer.hpp>
 #include <RadonFramework/Net/IPAddress.hpp>
 #include <RadonFramework/Net/IPHostEntry.hpp>
+#include <RadonFramework/Net/mDNS/MessageWriter.hpp>
 #include <RadonFramework/Net/mDNS/NetworkService.hpp>
 #include <RadonFramework/Net/mDNS/ServiceDiscovery.hpp>
 #include <RadonFramework/Net/mDNS/ServiceResponder.hpp>

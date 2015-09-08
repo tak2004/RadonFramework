@@ -30,7 +30,7 @@ ScreenError::Type Screen::ChangeResolution( const Resolution& NewResolution )con
 const AutoPointerArray<Screen>& Screen::AllScreens()
 {
     AutoVector<DisplayInformation> displaylist=WindowServiceLocator::Default().GetAllDisplays();
-    m_Screens=AutoPointerArray<Screen>(new Screen[displaylist.Size()],displaylist.Size());
+    m_Screens=AutoPointerArray<Screen>(displaylist.Size());
     UInt32 resindex=0;
     for (UInt32 i=0;i<m_Screens.Count();++i)
     {

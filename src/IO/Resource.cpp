@@ -51,7 +51,7 @@ AutoPointerArray<UInt8> Resource::Read()
     if (size>0)
     {
         Stream* stream=Reader();
-        AutoPointerArray<UInt8> data(new UInt8[size], size);
+        AutoPointerArray<UInt8> data(size);
         stream->Read(data.Get(), 0, size);
         result=data;
     }

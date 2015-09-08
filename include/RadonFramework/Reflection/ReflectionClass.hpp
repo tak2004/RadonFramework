@@ -17,7 +17,7 @@ namespace RadonFramework
         template<typename T>
         ReflectionClassInstance* CreateInstance()
         {
-            return (ReflectionClassInstance*)new T;
+            return reinterpret_cast<ReflectionClassInstance*>(new T);
         }
 
         using CreateInstanceFunction = ReflectionClassInstance* (*)();

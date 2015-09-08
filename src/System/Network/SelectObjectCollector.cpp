@@ -9,9 +9,10 @@
 using namespace RadonFramework::Time;
 using namespace RadonFramework::Net;
 using namespace RadonFramework::Memory;
-using namespace RadonFramework::System::Network;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
+
+namespace RadonFramework { namespace System { namespace Network {
 
 #if defined(RF_WINDOWS)
     /** Define WINVER and NT Version to WIN_VERSION_XP.
@@ -174,3 +175,10 @@ void SelectObjectCollector::Remove(const Size Index)
         m_Data->Sockets=tmp;
     }    
 }
+
+SelectObjectCollector& SelectObjectCollector::operator=(const SelectObjectCollector& Other)
+{
+    return *this;
+}
+
+ } } }

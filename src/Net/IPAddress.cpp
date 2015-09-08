@@ -262,7 +262,7 @@ RF_Type::Bool IPAddress::ResolveIP4(const RF_Type::String& Text,
 
     if(result)
     {
-        AutoPointerArray<UInt8> bytes(new UInt8[4], 4);
+        AutoPointerArray<UInt8> bytes(4);
         UInt8* fragments = bytes.Get();
         AutoPointerArray<String> tokens = Text.Split(".");
         result = tokens.Count() == 4 && 

@@ -102,14 +102,14 @@ inline Array<NetworkAdapter> GetLocalInterfacesImplementation()
 {
     Array<NetworkAdapter> result;
     UInt32 buflen=sizeof(IP_ADAPTER_INFO)*10;// reserve memory for 10 adapter
-    AutoPointerArray<UInt8> adapterInfo(new UInt8[buflen],buflen);
+    AutoPointerArray<UInt8> adapterInfo(buflen);
 
     // try to get the adapter
     if(GetAdaptersInfo(reinterpret_cast<PIP_ADAPTER_INFO>(adapterInfo.Get()),
         reinterpret_cast<long unsigned int*>(&buflen))==ERROR_BUFFER_OVERFLOW)
     {
         // there are more adapters as the buffer can take, generate a new buffer
-        adapterInfo=AutoPointerArray<UInt8>(new UInt8[buflen],buflen);
+        adapterInfo=AutoPointerArray<UInt8>(buflen);
 
         // get all adapters
         if (GetAdaptersInfo(reinterpret_cast<PIP_ADAPTER_INFO>(adapterInfo.Get()),
@@ -552,7 +552,7 @@ Error NetService::Receive(const NetService::SocketHandler Handler,
     int ret=recv(Handler,Buffer,2048,0);
     if (ret>0)
     {
-        Data=AutoPointerArray<UInt8>(new UInt8[ret],ret);
+        Data=AutoPointerArray<UInt8>(ret);
         RF_SysMem::Copy(Data.Get(),Buffer,ret);
         return Error::Ok;
     }
@@ -587,7 +587,7 @@ Error NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     int ret=recvfrom(Handler,Buffer,2048,0,(sockaddr*)&src,&addrSize);
     if (ret>0)
     {
-        Data=AutoPointerArray<UInt8>(new UInt8[ret],ret);
+        Data=AutoPointerArray<UInt8>(ret);
         RF_SysMem::Copy(Data.Get(),Buffer,ret);
         return Error::Ok;
     }
@@ -692,12 +692,12 @@ Error NetService::GetSocketOptionWrapper(const NetService::SocketHandler Handler
                 // The loop will continue and allocate a new bigger buffer.
                 do 
                 {
-                    AutoPointerArray<UInt8> buf(new UInt8[len],len);
+                    AutoPointerArray<UInt8> buf(len);
                     if(SOCKET_ERROR != getsockopt(Handler, SockOptionLevel[(RF_Type::Size)OptionLevel],
                         SocketOption[(RF_Type::Size)OptionName], reinterpret_cast<char*>(buf.Get()),
                         reinterpret_cast<socklen_t*>(&len)))
                     {
-                        Value=AutoPointerArray<UInt8>(new UInt8[len],len);
+                        Value=AutoPointerArray<UInt8>(len);
                         CMemoryOperation::Copy<UInt8>(Value.Get(),buf.Get(),len);
                     }
                     else

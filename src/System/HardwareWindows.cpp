@@ -53,7 +53,7 @@ void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RF_Type:
         }
     }
 
-    CacheDataList = AutoPointerArray<RFHDW::CacheInfo>(new RFHDW::CacheInfo[CacheCount], CacheCount);
+    CacheDataList = AutoPointerArray<RFHDW::CacheInfo>(CacheCount);
     for (RF_Type::Size i = 0, j = 0; i < count; ++i)
     {
         if (buffer[i].Relationship == RelationCache && (buffer[i].ProcessorMask & PId) == PId)
@@ -146,7 +146,7 @@ RF_Type::Bool GetCacheInfo(RFHDW::CacheInfo& Info, RF_Type::UInt32 Index)
     {
         RF_Type::UInt32 count = ::GetAvailableLogicalProcessorCount();
         AutoPointerArray<AutoPointerArray<RFHDW::CacheInfo> >& infos = GlobalCacheData::GetInstance();
-        infos = AutoPointerArray<AutoPointerArray<RFHDW::CacheInfo> >(new AutoPointerArray<RFHDW::CacheInfo>[count], count);
+        infos = AutoPointerArray<AutoPointerArray<RFHDW::CacheInfo> >(count);
         CacheData = infos.Get();
 
         DetectCacheInfo(CacheData[pid], pid);
@@ -201,7 +201,7 @@ RF_Type::Int32 GetCacheCount()
         RF_Type::UInt32 LPCount = ::GetAvailableLogicalProcessorCount();
         typedef RF_Pattern::Singleton<AutoPointerArray<RF_Type::Int32> > GlobalCacheCount;
         AutoPointerArray<RF_Type::Int32>& cacheCountList = GlobalCacheCount::GetInstance();
-        cacheCountList = AutoPointerArray<RF_Type::Int32>(new RF_Type::Int32[LPCount], LPCount);
+        cacheCountList = AutoPointerArray<RF_Type::Int32>(LPCount);
 
         for (RF_Type::Size i = 0; i < LPCount; ++i)
         {

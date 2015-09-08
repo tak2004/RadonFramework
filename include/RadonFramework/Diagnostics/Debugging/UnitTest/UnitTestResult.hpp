@@ -17,6 +17,7 @@ public:
     UnitTestResult();
     UnitTestResult(const UnitTestResult& Copy);
     ~UnitTestResult();
+    UnitTestResult& operator=(const UnitTestResult& Other);
     RF_Type::Bool Passed() const;
     void Passed(RF_Type::Bool val);
     RF_Time::TimeSpan TimeRequired() const;

@@ -21,7 +21,7 @@ DoubleSideStackAllocator::DoubleSideStackAllocator(Size ReservedMemorySize)
 ,m_FillZeroIfFreed(false)
 ,m_FillZeroIfPoped(false)
 {
-    m_ReservedMemory = AutoPointerArray<UInt8>(new UInt8[ReservedMemorySize], ReservedMemorySize);
+    m_ReservedMemory = AutoPointerArray<UInt8>(ReservedMemorySize);
     m_PersistentStack = m_ReservedMemory.Get();
     m_TemporaryStack = m_ReservedMemory.Get() + ReservedMemorySize;
     m_CurrentPersistentLocation = m_PersistentStack;

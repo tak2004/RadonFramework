@@ -12,6 +12,8 @@ TimeValue TimeSpan::TicksPerSecond=10000000;
 TimeValue TimeSpan::TicksPerMillisecond=10000;
 TimeValue TimeSpan::TicksPerMicrosecond=10;
 
+TimeSpan TimeSpan::Zero = TimeSpan::CreateByTicks(0);
+
 TimeSpan TimeSpan::CreateByTicks(TimeValue Value)
 {
     TimeSpan result;

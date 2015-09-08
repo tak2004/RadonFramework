@@ -11,7 +11,7 @@ Bool Parameter::SafeParsingWithErrorOutput(const AutoPointerArray<String>& Param
     const AutoPointerArray<OptionRule>& Rules, String& ErrorMessage)
 {
     // reserve memory for values
-    AutoPointerArray<OptionValue> results(new OptionValue[Rules.Count()], Rules.Count());
+    AutoPointerArray<OptionValue> results(Rules.Count());
 
     Bool matchingValue, matchingParameter;
     UInt32 parameterIndex = 0, parameterOffset = 0;
@@ -124,7 +124,7 @@ const AutoPointerArray<OptionValue>& Parameter::Values()
 RF_Type::Bool Parameter::ParsingWithLogging(const char* argv[], int argc,
     const AutoPointerArray<OptionRule>& Rules)
 {
-    AutoPointerArray<String> param(new String[argc], argc);
+    AutoPointerArray<String> param(argc);
     for(UInt32 i = 0; i < argc; ++i)
     {
         param[i] = String::UnsafeStringCreation(argv[i], Core::Common::DataManagment::UnmanagedInstance);
@@ -137,7 +137,7 @@ RF_Type::Bool Parameter::ParsingWithErrorOutput(const char* argv[], int argc,
     const AutoPointerArray<OptionRule>& Rules,
     RF_Type::String& ErrorMessage)
 {
-    AutoPointerArray<String> param(new String[argc], argc);
+    AutoPointerArray<String> param(argc);
     for(UInt32 i = 0; i < argc; ++i)
     {
         param[i] = String::UnsafeStringCreation(argv[i], Core::Common::DataManagment::UnmanagedInstance);

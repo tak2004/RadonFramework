@@ -9,6 +9,8 @@
 
 namespace RadonFramework { namespace IO {
 
+
+/// This class allow to work like MemoryStream but on multiple memory chunks.
 class MemoryCollectionStream:public Stream
 {
 public:
@@ -20,7 +22,7 @@ public:
 
     MemoryCollectionStream();
     MemoryCollectionStream(const MemoryCollectionStream& Copy);
-    ~MemoryCollectionStream();
+    virtual ~MemoryCollectionStream() override;
     MemoryCollectionStream& operator =(const MemoryCollectionStream& Other);
 
     RF_Type::Bool AddAfter(const Iterator& It,
@@ -38,7 +40,7 @@ public:
 
     void Clear();
 
-    void Close();
+    virtual void Close() override;
 
     Memory::AutoPointerArray<RF_Type::UInt8> Remove(Iterator& It);
 
@@ -50,24 +52,16 @@ public:
 
     RF_Type::UInt64 Count();
 
-    void Flush();
+    virtual void Flush() override;
 
-    RF_Type::UInt64 Read(RF_Type::UInt8* Buffer,
-                                const RF_Type::UInt64 Index,
-                                const RF_Type::UInt64 Count);
+    virtual RF_Type::UInt64 Read(RF_Type::UInt8* Buffer,
+        const RF_Type::UInt64 Index, const RF_Type::UInt64 Count) override;
 
-    RF_Type::UInt64 Seek(const RF_Type::UInt64 Offset,
-                                const SeekOrigin::Type Origin);
+    virtual RF_Type::UInt64 Seek(const RF_Type::UInt64 Offset,
+        const SeekOrigin::Type Origin) override;
 
-    RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer,
-                                const RF_Type::UInt64 Offset,
-                                const RF_Type::UInt64 Count);
-
-    template<class T>
-    RF_Type::UInt64 Write(const T& Buffer)
-    {
-        return Write(reinterpret_cast<const RF_Type::UInt8*>(&Buffer), 0, sizeof(T));
-    }
+    virtual RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer,
+        const RF_Type::UInt64 Offset, const RF_Type::UInt64 Count) override;
 
     /// Return pointer to T if enough space left in current pointer.
     template<class T>
@@ -75,14 +69,14 @@ public:
 
     void SetLength(const RF_Type::UInt64 Value);
 
-    RF_Type::Bool CanRead()const;
-    RF_Type::Bool CanSeek()const;
-    RF_Type::Bool CanWrite()const;
-    RF_Type::Bool CanTimeout()const;
-    RF_Type::UInt64 Length()const;
-    RF_Type::UInt64 Position()const;
-    Time::TimeSpan ReadTimeout()const;
-    Time::TimeSpan WriteTimeout()const;
+    virtual RF_Type::Bool CanRead()const override;
+    virtual RF_Type::Bool CanSeek()const override;
+    virtual RF_Type::Bool CanWrite()const override;
+    virtual RF_Type::Bool CanTimeout()const override;
+    virtual RF_Type::UInt64 Length()const override;
+    virtual RF_Type::UInt64 Position()const override;
+    virtual Time::TimeSpan ReadTimeout()const override;
+    virtual Time::TimeSpan WriteTimeout()const override;
 protected:
     Time::TimeSpan m_ReadTimeout;
     Time::TimeSpan m_WriteTimeout;

@@ -30,6 +30,8 @@ public:
     void ProcessBuffer();
     void Stop();
 
+    FileWatcher& operator=(const FileWatcher& Other);
+
     RF_Pattern::Event<const RF_Type::String&> OnCreated;
     RF_Pattern::Event<const RF_Type::String&> OnChanged;
     RF_Pattern::Event<const RF_Type::String&> OnDeleted;

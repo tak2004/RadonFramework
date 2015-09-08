@@ -18,12 +18,8 @@ UnitTestResult::UnitTestResult()
 }
 
 UnitTestResult::UnitTestResult( const UnitTestResult& Copy )
-:m_Passed(Copy.m_Passed),
- m_Error(Copy.m_Error),
- m_TimeRequired(Copy.m_TimeRequired),
- m_Name(Copy.m_Name)
 {
-
+    *this = Copy;
 }
 
 void UnitTestResult::Error(RF_Type::Bool val)
@@ -75,4 +71,13 @@ const RF_Type::String& UnitTestResult::Name() const
 void UnitTestResult::Name(const RF_Type::String& val)
 {
 	m_Name = val;
+}
+
+UnitTestResult& UnitTestResult::operator=(const UnitTestResult& Other)
+{
+    m_Passed = Other.m_Passed;
+    m_Error = Other.m_Error;
+    m_TimeRequired = Other.m_TimeRequired;
+    m_Name = Other.m_Name;
+    return *this;
 }

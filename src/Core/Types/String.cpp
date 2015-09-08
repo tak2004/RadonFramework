@@ -404,7 +404,7 @@ String String::Replace(const String& OldValue, const String& NewValue)const
         }
         else
         {
-            RF_Mem::AutoPointerArray<char> p(new char[str.m_Length-diff+1],str.m_Length-diff+1);
+            RF_Mem::AutoPointerArray<char> p(str.m_Length-diff+1);
             p.Get()[str.m_Length-diff]=0;
 
             if (ind!=0)
@@ -442,7 +442,7 @@ AutoPointerArray<String> String::Split(const String &Delimiters)const
         }
     }
 
-    list = AutoPointerArray<String>(new String[hits], hits);
+    list = AutoPointerArray<String>(hits);
     hits=0;
     RF_Type::Size lasthit=0;
 
@@ -714,10 +714,10 @@ String String::FormatStrict(const String& Str, va_list ArgumentList)
     while(byteLen==buflen || byteLen==-1)
     {
         buflen+=256;
-        dynBuf=RF_Mem::AutoPointerArray<char>(new char[buflen],buflen);
+        dynBuf=RF_Mem::AutoPointerArray<char>(buflen);
         byteLen = RF_SysStr::Format(reinterpret_cast<UInt8*>(dynBuf.Get()), buflen-1, Str, ArgumentList);
     }
-    out=RF_Mem::AutoPointerArray<char>(new char[byteLen+1],byteLen+1);
+    out=RF_Mem::AutoPointerArray<char>(byteLen+1);
     RF_SysMem::Copy(out.Get(),dynBuf.Get(),byteLen);
     out.Get()[byteLen]=0;
 

@@ -600,7 +600,7 @@ Int64 Thread::Pid()const
 void* Thread::MemAlloc(const UInt64 Bytes)
 {
     RFT::Scopelock lock(m_ThreadBarrier);
-    AutoPointerArray<UInt8> m(new UInt8[Bytes],static_cast<UInt32>(Bytes));
+    AutoPointerArray<UInt8> m(static_cast<UInt32>(Bytes));
     UInt8* p=m.Get();
     m_ThreadAllocatedMemory.PushBack(m);
     return p;

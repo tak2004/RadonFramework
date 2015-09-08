@@ -152,6 +152,8 @@ public:
 
     bool operator ==(const Uri& Other);
     bool operator !=(const Uri& Other);
+
+    Uri& operator =(const Uri& Other);
 protected:
     // Uri
     RF_Type::String m_OriginalString;

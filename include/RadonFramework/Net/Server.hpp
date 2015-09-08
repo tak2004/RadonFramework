@@ -48,7 +48,8 @@ public:
 protected:
     virtual RF_Type::Bool ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::UInt8>& In);
     Socket* GetSocket()const;
-    virtual void ConfigureSocket(Socket& Socket, IPAddress& Interface);
+    virtual void PostBindConfigureSocket(Socket& Socket, IPAddress& Interface);
+    virtual void PreBindConfigureSocket(Socket& Socket, IPAddress& Interface);
 private:
     RF_Idiom::PImpl<Server> m_PImpl;
 };

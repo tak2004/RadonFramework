@@ -8,6 +8,7 @@ namespace RadonFramework { namespace Net { namespace mDNS {
 ServiceResponder::ServiceResponder()
 :Server()
 {
+    m_LastPush = RF_Time::DateTime::UtcNow();
 }
 
 ServiceResponder::~ServiceResponder()
@@ -39,6 +40,22 @@ void ServiceResponder::Setup(const NetworkService& NewConfiguration,
 void ServiceResponder::Setup(const ServerConfig& NewConfiguration)
 {
     Server::Setup(NewConfiguration);
+}
+
+void ServiceResponder::SendServiceInfo()
+{
+    
+}
+
+void ServiceResponder::Update()
+{
+    Server::Update();
+    RF_Time::DateTime now = RF_Time::DateTime::UtcNow();
+    if(RF_Time::DateTime::GreaterThan(now, m_LastPush))
+    {
+        m_LastPush = RF_Time::DateTime::CreateByTicks(now.Ticks() + RF_Time::TimeSpan::TicksPerMinute);
+        SendServiceInfo();
+    }
 }
 
 RF_Type::Bool ServiceResponder::Start()

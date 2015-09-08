@@ -129,7 +129,7 @@ void NativeShape::StripeOutUnchangedRegisterMoves()
     }
     UInt64 byteCodeSize=pipe.Position();
 
-    AutoPointerArray<UInt8> data(new UInt8[byteCodeSize],static_cast<UInt32>(byteCodeSize));
+    AutoPointerArray<UInt8> data(byteCodeSize);
     pipe.Seek(0,SeekOrigin::Begin);
     pipe.Read(data.Get(),0,byteCodeSize);
     AssignByteCode(data);

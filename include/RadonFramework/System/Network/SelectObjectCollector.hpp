@@ -39,6 +39,7 @@ protected:
 private:
     SelectObjectCollector();
     SelectObjectCollector(const SelectObjectCollector& Copy);
+    SelectObjectCollector& operator=(const SelectObjectCollector& Other);
 };
 
 } } }

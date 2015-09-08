@@ -152,8 +152,8 @@ public:
     RF_Type::Bool IsAny()const;
     RF_Type::Bool IsNone()const;
 
-    Memory::AutoPointerArray<RF_Type::Size> GetSetIndices()const;
-    Memory::AutoPointerArray<RF_Type::Size> GetUnsetIndices()const;
+    RF_Mem::AutoPointerArray<RF_Type::Size> GetSetIndices()const;
+    RF_Mem::AutoPointerArray<RF_Type::Size> GetUnsetIndices()const;
 
     BitArray& operator=(const BitArray& Other);
     BitArray& operator&=(const BitArray& Other);
@@ -374,15 +374,17 @@ BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Reset()
 }
 
 template<typename RB, typename MA, typename MO>
-Memory::AutoPointerArray<RF_Type::Size> BitArray<RB, MA, MO>::GetSetIndices() const
+RF_Mem::AutoPointerArray<RF_Type::Size> BitArray<RB, MA, MO>::GetSetIndices() const
 {
-
+    RF_Mem::AutoPointerArray<RF_Type::Size> result;
+    return result;
 }
 
 template<typename RB, typename MA, typename MO>
-Memory::AutoPointerArray<RF_Type::Size> BitArray<RB, MA, MO>::GetUnsetIndices() const
+RF_Mem::AutoPointerArray<RF_Type::Size> BitArray<RB, MA, MO>::GetUnsetIndices() const
 {
-
+    RF_Mem::AutoPointerArray<RF_Type::Size> result;
+    return result;
 }
 
 template<typename RB, typename MA, typename MO>

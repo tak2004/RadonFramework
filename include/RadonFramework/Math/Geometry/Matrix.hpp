@@ -208,7 +208,7 @@ inline T& Matrix<T, N, M>::operator()(RF_Type::Size Col, RF_Type::Size Row)const
 template <typename T, RF_Type::Size N, RF_Type::Size M>
 inline T& Matrix<T, N, M>::operator[](const RF_Type::Size Index)const
 {
-    Assert(Index >= 0 && Index < N*M, "Index out of bound.");
+    Assert(Index < N*M, "Index out of bound.");
     return Value[Index];
 }
 
@@ -364,28 +364,28 @@ Matrix<T, 2, 2>& Matrix<T, 2, 2>::operator =(const Matrix<T, 2, 2>& Other)
 template <typename T>
 inline T& Matrix<T, 2, 2>::operator()(RF_Type::Size Col, RF_Type::Size Row)
 {
-    Assert(Col * 2 + Row >= 0 && Col * 2 + Row < 4, "Index out of bound.");
+    Assert(Col * 2 + Row < 4, "Index out of bound.");
     return Value[Col * 2 + Row];
 }
 
 template <typename T>
 inline T Matrix<T, 2, 2>::operator()(RF_Type::Size Col, RF_Type::Size Row)const
 {
-    Assert(Col * 2 + Row >= 0 && Col * 2 + Row < 4, "Index out of bound.");
+    Assert(Col * 2 + Row < 4, "Index out of bound.");
     return Value[Col * 2 + Row];
 }
 
 template <typename T>
 inline T& Matrix<T, 2, 2>::operator[](const RF_Type::Size Index)
 {
-    Assert(Index >= 0 && Index < 4, "Index out of bound.");
+    Assert(Index < 4, "Index out of bound.");
     return Value[Index];
 }
 
 template <typename T>
 inline T Matrix<T, 2, 2>::operator[](const RF_Type::Size Index)const
 {
-    Assert(Index >= 0 && Index < 4, "Index out of bound.");
+    Assert(Index < 4, "Index out of bound.");
     return Value[Index];
 }
 
@@ -572,28 +572,28 @@ Matrix<T, 3, 3>& Matrix<T, 3, 3>::operator =(const Matrix& Other)
 template<typename T>
 inline T& Matrix<T,3,3>::operator()(RF_Type::Size Col, RF_Type::Size Row)
 {
-    Assert(Col * 3 + Row >= 0 && Col * 3 + Row < 9, "Index out of bound.");
+    Assert(Col * 3 + Row < 9, "Index out of bound.");
     return Value[Col * 3 + Row];
 }
 
 template<typename T>
 inline T Matrix<T,3,3>::operator()(RF_Type::Size Col, RF_Type::Size Row)const
 {
-    Assert(Col * 3 + Row >= 0 && Col * 3 + Row < 9, "Index out of bound.");
+    Assert(Col * 3 + Row < 9, "Index out of bound.");
     return Value[Col * 3 + Row];
 }
 
 template<typename T>
 inline T& Matrix<T,3,3>::operator[](const RF_Type::Size Index)
 {
-    Assert(Index >= 0 && Index < 9, "Index out of bound.");
+    Assert(Index < 9, "Index out of bound.");
     return Value[Index];
 }
 
 template<typename T>
 inline T Matrix<T, 3, 3>::operator[](const RF_Type::Size Index)const
 {
-    Assert(Index >= 0 && Index < 9, "Index out of bound.");
+    Assert(Index < 9, "Index out of bound.");
     return Value[Index];
 }
 

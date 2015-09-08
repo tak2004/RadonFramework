@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Geometry/Mesh.hpp"
 
-using namespace RadonFramework::Math::Geometry;
+namespace RadonFramework { namespace Math { namespace Geometry {
 
 VertexData::VertexData()
 :Data(0)
@@ -11,9 +11,9 @@ VertexData::VertexData()
 }
 
 VertexData::VertexData(const RadonFramework::Core::Types::String& BufferName,
-                       const RadonFramework::Core::Types::Float32* BufferData,
-                       const RadonFramework::Core::Types::UInt32 ElementCount,
-                       const RadonFramework::Core::Types::UInt32 ElementSize)
+    const RadonFramework::Core::Types::Float32* BufferData,
+    const RadonFramework::Core::Types::UInt32 ElementCount,
+    const RadonFramework::Core::Types::UInt32 ElementSize)
 :Name(BufferName)
 ,Data(BufferData)
 ,Count(ElementCount)
@@ -23,61 +23,69 @@ VertexData::VertexData(const RadonFramework::Core::Types::String& BufferName,
 
 VertexData::VertexData(const VertexData& Copy)
 {
-    Name=Copy.Name;
-    Data=Copy.Data;
-    Count=Copy.Count;
-    Size=Copy.Size;
+    *this = Copy;
 }
 
 VertexData::~VertexData()
 {
 }
 
-void Mesh::AddVertexAttribute(const RadonFramework::Core::Types::String& Name,
-                              const RadonFramework::Core::Types::Float32* Data,
-                              const RadonFramework::Core::Types::UInt32 ElementCount,
-                              const RadonFramework::Core::Types::UInt32 ElementSize)
+VertexData& RadonFramework::Math::Geometry::VertexData::operator=(const VertexData& Other)
 {
-  VertexData data(Name,Data,ElementCount,ElementSize);
-  m_VertexAttributes.push_back(data);
+    Name = Other.Name;
+    Data = Other.Data;
+    Count = Other.Count;
+    Size = Other.Size;
+    return *this;
 }
 
-void Mesh::AddFace(const FaceGeometry::Type GeometryType, 
-                   const RadonFramework::Core::Types::UInt32 Start,
-                   const RadonFramework::Core::Types::UInt32 Count)
+void Mesh::AddVertexAttribute(const RadonFramework::Core::Types::String& Name,
+    const RadonFramework::Core::Types::Float32* Data,
+    const RadonFramework::Core::Types::UInt32 ElementCount,
+    const RadonFramework::Core::Types::UInt32 ElementSize)
 {
-    FaceData data={GeometryType,Start,Count};
+    VertexData data(Name, Data, ElementCount, ElementSize);
+    m_VertexAttributes.push_back(data);
+}
+
+void Mesh::AddFace(const FaceGeometry::Type GeometryType,
+    const RadonFramework::Core::Types::UInt32 Start,
+    const RadonFramework::Core::Types::UInt32 Count)
+{
+    FaceData data = {GeometryType, Start, Count};
     m_Faces.push_back(data);
 }
 
 void Mesh::SetElementList(const RadonFramework::Core::Types::UInt32* Data,
-                          const RadonFramework::Core::Types::UInt32 Count)
+    const RadonFramework::Core::Types::UInt32 Count)
 {
-	m_ElementList.Data=Data;
-	m_ElementList.Count=Count;
+    m_ElementList.Data = Data;
+    m_ElementList.Count = Count;
 }
 
 RadonFramework::Core::Types::UInt32 Mesh::AttributeCount()const
 {
-  return static_cast<RadonFramework::Core::Types::UInt32>(m_VertexAttributes.size());
+    return static_cast<RadonFramework::Core::Types::UInt32>(m_VertexAttributes.size());
 }
 
 const std::vector<VertexData>& Mesh::Attributes()const
 {
-  return m_VertexAttributes;
+    return m_VertexAttributes;
 }
 
 RadonFramework::Core::Types::UInt32 Mesh::FaceCount()const
 {
-  return static_cast<RadonFramework::Core::Types::UInt32>(m_Faces.size());
+    return static_cast<RadonFramework::Core::Types::UInt32>(m_Faces.size());
 }
 
 const std::vector<FaceData>& Mesh::Faces()const
 {
-  return m_Faces;
+    return m_Faces;
 }
 
 const ElementData& Mesh::ElementList()const
 {
-  return m_ElementList;
+    return m_ElementList;
 }
+
+} } }

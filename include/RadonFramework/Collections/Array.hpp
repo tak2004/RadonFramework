@@ -1126,7 +1126,7 @@ template<typename T, typename SP, typename MA, typename MO>
 T* Array<T,SP,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(T)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
-    for (RF_Type::Size i=end;i>=0 && i <= end;--i)
+    for (RF_Type::Size i=end; i <= end;--i)
         if (Match(m_Data[i]))
             return &m_Data[i];
     return 0;

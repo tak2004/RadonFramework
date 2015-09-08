@@ -2,8 +2,9 @@
 #include <RadonFramework/Threading/Scopelock.hpp>
 #include <RadonFramework/System/Threading/Mutex.hpp>
 
-using namespace RadonFramework::Threading;
 using namespace RadonFramework::System::Threading;
+
+namespace RadonFramework { namespace Threading {
 
 Scopelock::Scopelock(){}
 
@@ -19,3 +20,10 @@ Scopelock::~Scopelock()
 {
   m_Mutex->Unlock();
 }
+
+Scopelock& Scopelock::operator=(const Scopelock& Other)
+{
+    return *this;
+}
+
+} }

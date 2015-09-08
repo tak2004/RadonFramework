@@ -19,7 +19,7 @@ public:
 
         if(m_ScratchPad.Length() - m_ScratchPad.Position() < (sizeof(RF_Type::UInt64) + sizeof(RF_Type::UInt16)) * (PARAMETERS + 1))
         {
-            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
             m_ScratchPad.AddLast(newMemoryBlock);
         }
 
@@ -34,7 +34,7 @@ public:
 
         if(m_ScratchPad.Length() - m_ScratchPad.Position() < sizeof(RF_Type::UInt16))
         {
-            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
             m_ScratchPad.AddLast(newMemoryBlock);
         }
 
@@ -44,7 +44,7 @@ public:
     RF_Type::Bool Finalize()
     {
         RF_Type::Bool result = false;
-        m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(new RF_Type::UInt8[m_ScratchPad.Position()], m_ScratchPad.Position());
+        m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(m_ScratchPad.Position());
         m_ScratchPad.Seek(0, RF_IO::SeekOrigin::Begin);
         m_ScratchPad.Read(m_Final.Get(), 0, m_Final.Size());
         return result;

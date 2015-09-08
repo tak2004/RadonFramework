@@ -313,7 +313,7 @@ RF_Type::Int32 GetCacheCount();
 inline void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheData)
 {
     RF_Type::Int32 count = ::GetCacheCount();
-    CacheData = AutoPointerArray<RFHDW::CacheInfo>(new RFHDW::CacheInfo[count], count);
+    CacheData = AutoPointerArray<RFHDW::CacheInfo>(count);
 
     RF_Type::UInt32 reg[4]={0,0,0,0};
 

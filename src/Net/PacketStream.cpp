@@ -27,7 +27,7 @@ void ProcessStreamTask(void* Data)
         {
             UInt32 bytes=static_cast<UInt32>(data->MemoryStream.Position())-1;
             data->MemoryStream.Seek(0,SeekOrigin::Begin);
-            AutoPointerArray<UInt8> buf(new UInt8[bytes],bytes);
+            AutoPointerArray<UInt8> buf(bytes);
             data->MemoryStream.Read(buf.Get(),0,bytes);
             if (!data->PacketDispatcherFunction(buf))
                 LogError("Dispatch packet failed");

@@ -47,7 +47,7 @@ ReadBuffer& RF_Mem::ReadBuffer::operator=( ReadBuffer& OldOwner )
 
 RF_Mem::ReadBuffer RF_Mem::ReadBuffer::Clone() const
 {
-	AutoPointerArray<Core::Types::UInt8> data(new Core::Types::UInt8[m_Size],m_Size);
+	AutoPointerArray<Core::Types::UInt8> data(m_Size);
 	RF_SysMem::Copy(data.Get(),m_Data.Get(),m_Size);
 	ReadBuffer buf(data,m_Size,m_IsLittleEndian);
 	buf.m_CursorPosition=m_CursorPosition;
@@ -179,7 +179,7 @@ Core::Types::UInt8 const* RF_Mem::ReadBuffer::GetCursorData() const
 AutoPointerArray<Core::Types::UInt8> RF_Mem::ReadBuffer::ReadBytes( const Core::Types::UInt32 Bytes )
 {
 	Core::Types::UInt32 diff=(m_Size-m_CursorPosition)>Bytes?Bytes:m_Size-m_CursorPosition;
-	AutoPointerArray<Core::Types::UInt8> data(new Core::Types::UInt8[diff],diff);
+	AutoPointerArray<Core::Types::UInt8> data(diff);
 	RF_SysMem::Copy(data.Get(),GetCursorData(),diff);
 	m_CursorPosition+=diff;
 	return data;

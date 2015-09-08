@@ -34,7 +34,7 @@ UInt64 GetMinutesWestOfGMT()
 void GetStringFormatedTime(const RF_Time::DateTime& Time,
     const RF_Type::String& Format, RF_Type::String& FormattedString)
 {
-    RF_Mem::AutoPointerArray<char> buf(new char[256],256);
+    RF_Mem::AutoPointerArray<char> buf(256);
     struct tm time;
     time.tm_sec = Time.Second();
     time.tm_min = Time.Minute();
@@ -47,7 +47,7 @@ void GetStringFormatedTime(const RF_Time::DateTime& Time,
     time.tm_isdst = -1;
     while(strftime(buf.Get(), buf.Size(), Format.c_str(), &time) == 0)
     {
-        buf = RF_Mem::AutoPointerArray<char>(new char[buf.Size()+256], buf.Size()+256);
+        buf = RF_Mem::AutoPointerArray<char>(buf.Size()+256);
     }
     FormattedString = String(buf.Get(), buf.Size());
 }

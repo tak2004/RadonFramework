@@ -83,7 +83,7 @@ protected:
                     
     inline static RF_Type::Bool IsSeperator(const RF_Type::UInt8 Byte)
     {
-        return Byte=='(' || Byte==')' || Byte=='>' || Byte=='>' || 
+        return Byte=='(' || Byte==')' || Byte=='>' || Byte=='<' || 
             Byte=='@' || Byte==',' || Byte==';' || Byte==':' || Byte=='\\' ||
             Byte=='"' || Byte=='/' || Byte=='[' || Byte==']' || Byte=='?' ||
             Byte=='=' || Byte=='{' || Byte=='}' || Byte==' ' || Byte==9;

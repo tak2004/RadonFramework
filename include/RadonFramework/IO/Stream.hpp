@@ -23,15 +23,13 @@ public:
     virtual void Flush()=0;
                 
     virtual RF_Type::UInt64 Read(RF_Type::UInt8* Buffer,
-                                const RF_Type::UInt64 Index,
-                                const RF_Type::UInt64 Count)=0;
+        const RF_Type::UInt64 Index, const RF_Type::UInt64 Count)=0;
 
     virtual RF_Type::UInt64 Seek(const RF_Type::UInt64 Offset,
-                                const SeekOrigin::Type Origin)=0;
+        const SeekOrigin::Type Origin)=0;
                 
     virtual RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer,
-                                const RF_Type::UInt64 Offset,
-                                const RF_Type::UInt64 Count)=0;
+        const RF_Type::UInt64 Offset, const RF_Type::UInt64 Count)=0;
 
     template<class T>
     RF_Type::UInt64 WriteType(const T& ByValue);

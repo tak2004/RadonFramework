@@ -308,7 +308,7 @@ void RealPath(const String& Path, String& ResolvedPath)
     DWORD neededBufferSize = GetFullPathName(Path.c_str(), 0, 0, lppPart);
     if(neededBufferSize > 0)
     {
-        AutoPointerArray<char> buffer(new TCHAR[neededBufferSize], neededBufferSize);
+        AutoPointerArray<char> buffer(neededBufferSize);
         GetFullPathName(Path.c_str(), neededBufferSize, buffer.Get(), lppPart);
         ResolvedPath = WinToUri(String(buffer.Release().Ptr, neededBufferSize, RF_Common::DataManagment::TransfereOwnership));
     }
@@ -396,7 +396,7 @@ AutoPointerArray<String> DirectoryContent(const String& Path)
                 list.AddLast(String(findFileData.cFileName, MAX_PATH));
         }while(FindNextFile(hFind,&findFileData)!=0);
         FindClose(hFind);
-        result = AutoPointerArray<String>(new String[list.Count()], list.Count());
+        result = AutoPointerArray<String>(list.Count());
         for (UInt32 i=0;i<result.Count();++i)
             result[i].Swap(list[i]);
     }    

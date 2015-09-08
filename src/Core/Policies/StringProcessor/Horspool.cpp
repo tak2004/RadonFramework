@@ -104,11 +104,11 @@ Size Horspool::DoAll(AutoPointerArray<Size>& Indices, String& Text, StorageType*
                 AutoPointerArray<Size> tmp;
                 if (Indices.Count()>0)
                 {// resize
-                    tmp=AutoPointerArray<Size>(new Size[Indices.Count()<<1],Indices.Count()<<1);
+                    tmp=AutoPointerArray<Size>(Indices.Count()<<1);
                     CMemoryOperation::Copy(tmp.Get(), Indices.Get(), Indices.Count());
                 }
                 else// initialize
-                    tmp=AutoPointerArray<Size>(new Size[2], 2);
+                    tmp=AutoPointerArray<Size>(2);
                 Indices.Swap(tmp);
                 Indices[hit-1]=Storage->Position;
             }   

@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Net/mDNS/ServiceDiscovery.hpp"
 #include "RadonFramework/Net/mDNS/NetworkService.hpp"
+#include "RadonFramework/Net/mDNS/MessageWriter.hpp"
 #include "RadonFramework/Collections/AutoVector.hpp"
 #include "RadonFramework/Collections/HashMap.hpp"
 #include "RadonFramework/Net/Socket.hpp"
@@ -9,9 +10,9 @@
 template<>
 struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
 {
-    Data()
+    Data()        
     {
-
+        m_UpdatePeriod = RF_Time::TimeSpan::CreateByTime(0, 0, 2);
     }
 
     ~Data()
@@ -21,6 +22,8 @@ struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
 
     RF_Collect::AutoVector<RF_mDNS::NetworkService> m_KnownServices;
     RF_Collect::HashMap<const char*, RF_mDNS::NetworkService*> m_KnownServicesDictionary;
+    RF_Time::DateTime m_NextQuery;
+    RF_Time::TimeSpan m_UpdatePeriod;
 };
 
 namespace RadonFramework { namespace Net { namespace mDNS {
@@ -28,7 +31,7 @@ namespace RadonFramework { namespace Net { namespace mDNS {
 ServiceDiscovery::ServiceDiscovery()
 :Server()
 {
-
+    m_PImpl->m_NextQuery = RF_Time::DateTime::CreateByTicks(0, RF_Time::DateTimeKind::UTC);
 }
 
 ServiceDiscovery::~ServiceDiscovery()
@@ -51,9 +54,19 @@ NetworkService* ServiceDiscovery::FindService(const RF_Type::String& Servicename
     return 0;
 }
 
-void ServiceDiscovery::ConfigureSocket(Socket& Socket, IPAddress& Interface)
+void ServiceDiscovery::PreBindConfigureSocket(Socket& Socket, IPAddress& Interface)
 {
-    Server::ConfigureSocket(Socket, Interface);
+    Server::PreBindConfigureSocket(Socket, Interface);
+
+    SocketError error;
+    error.Code = Error::Ok;
+    error = Socket.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReusePort, true);
+    error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastInterface, Interface);
+}
+
+void ServiceDiscovery::PostBindConfigureSocket(Socket& Socket, IPAddress& Interface)
+{
+    Server::PostBindConfigureSocket(Socket, Interface);
 
     SocketError error;
     error.Code = Error::Ok;
@@ -63,10 +76,8 @@ void ServiceDiscovery::ConfigureSocket(Socket& Socket, IPAddress& Interface)
     multicastRequest.MulticastAddress = ip;
     multicastRequest.Interface = Interface;
 
-    error = Socket.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReusePort, true);
     error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MutlicastTimeToLive, RF_Type::UInt8(255));
-    error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastLoopback, true);
-    error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastInterface, Interface);
+    //error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastLoopback, true);
     error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::AddMembership, multicastRequest);
 }
 
@@ -90,6 +101,24 @@ RF_Type::Bool ServiceDiscovery::Shutdown(const Time::TimeSpan& ReturnAfter)
         GetSocket()->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::DropMembership, multicastRequest);
     }
     return result;
+}
+
+void ServiceDiscovery::Update()
+{
+    Server::Update();
+
+    RF_Time::DateTime now = RF_Time::DateTime::UtcNow();
+    if(RF_Time::DateTime::LessThan(m_PImpl->m_NextQuery, now))
+    {        
+        m_PImpl->m_NextQuery = RF_Time::DateTime::CreateByTicks(now.Ticks() + m_PImpl->m_UpdatePeriod.Ticks());
+
+        MessageWriter writer;
+        writer.WriteQueryHeader(0);
+        writer.WriteQuestion("_pbms._tcp", RecordType::PTR);
+        RF_Type::UInt32 sendBytes = 0;
+        writer.Finalize();
+        GetSocket()->Send(writer.Data(), writer.DataSize(), sendBytes);
+    }
 }
 
 } } }

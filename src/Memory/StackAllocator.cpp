@@ -9,7 +9,7 @@ StackAllocator::StackAllocator(Size ReservedMemorySize)
 ,m_ZeroFreedMemory(false)
 ,m_ZeroPopedMemory(false)
 {
-    m_ReservedMemory=AutoPointerArray<UInt8>(new UInt8[ReservedMemorySize], ReservedMemorySize);
+    m_ReservedMemory=AutoPointerArray<UInt8>(ReservedMemorySize);
 }
 
 void StackAllocator::Clear()

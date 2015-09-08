@@ -20,10 +20,13 @@ public:
     const NetworkService& Info()const;
 
     virtual RF_Type::Bool Start() override;
+
+    virtual void Update() override;
 protected:
     NetworkService m_Service;
-
+    RF_Time::DateTime m_LastPush;
     virtual void Setup(const ServerConfig& NewConfiguration) override;
+    void SendServiceInfo();
 };
 
 } } }

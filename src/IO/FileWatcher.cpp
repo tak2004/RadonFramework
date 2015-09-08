@@ -1,9 +1,10 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/FileWatcher.hpp"
 
-using namespace RadonFramework::IO;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::System::IO::FileSystem;
+
+namespace RadonFramework { namespace IO {
 
 FileWatcher::FileWatcher()
 {
@@ -69,3 +70,10 @@ void FileWatcher::Stop()
 {
     StopFileWatcher(m_Handle);
 }
+
+FileWatcher& FileWatcher::operator=(const FileWatcher& Other)
+{
+    return *this;
+}
+
+} }

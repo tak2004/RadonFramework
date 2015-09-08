@@ -185,7 +185,7 @@ const Uri& File::Location()const
 AutoPointerArray<UInt8> File::Read()
 {
     UInt64 size=Size();
-    AutoPointerArray<UInt8> result(new UInt8[size],size);
+    AutoPointerArray<UInt8> result(size);
     FileStream stream;
     stream.Open(m_Location, FileSystem::FileAccessMode::Read, FileSystem::FileAccessPriority::ReadThroughput);
     stream.Read(result.Get(), 0, result.Size());

@@ -27,7 +27,7 @@ AutoPointer<ProcessInformation> ProcessInformation::GetCurrentProcessInformation
 AutoPointerArray<ProcessInformation> ProcessInformation::GetProcessList()
 {
     AutoPointerArray<UInt32> pidList = RFPROC::GetProcessList();
-    AutoPointerArray<ProcessInformation> result(new ProcessInformation[pidList.Count()], pidList.Count());
+    AutoPointerArray<ProcessInformation> result(pidList.Count());
     for (Size i = 0; i < pidList.Count(); ++i)
     {
         RFPROC::GetGeneralInfo(pidList[i], result[i].m_GeneralInfo);

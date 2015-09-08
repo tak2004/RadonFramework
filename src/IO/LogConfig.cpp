@@ -31,7 +31,7 @@ LogConfig::~LogConfig()
 LogConfig& LogConfig::operator=(const LogConfig& Other)
 {
     UInt32 size=Other.AppenderCount()*sizeof(UInt32)+sizeof(LogConfigData);
-    AutoPointerArray<UInt8> binary(new UInt8[size],size);
+    AutoPointerArray<UInt8> binary(size);
     RF_SysMem::Copy(binary.Get(),Other.m_Data.Get(),size);
 
     m_Data.Reset(reinterpret_cast<LogConfigData*>(binary.Release().Ptr));
@@ -148,7 +148,7 @@ void LogConfig::SetDebugEnabled(Bool NewValue)
 void LogConfig::SetAppenders(const Array<UInt32>& AppenderIDs)
 {
     Size size=AppenderIDs.Count()*sizeof(UInt32)+sizeof(LogConfigData);
-    AutoPointerArray<UInt8> data(new UInt8[size], size);
+    AutoPointerArray<UInt8> data(size);
 
     RF_SysMem::Copy(data.Get(),m_Data.Get(),sizeof(LogConfigData));
     m_Data.Reset(reinterpret_cast<LogConfigData*>(data.Release().Ptr));
@@ -166,7 +166,7 @@ void LogConfig::SetAppenders(const Array<UInt32>& AppenderIDs)
 AutoPointerArray<UInt8> LogConfig::GenerateBinaryData()
 {
     Size size=m_Data->AppenderCount*sizeof(UInt32)+sizeof(LogConfigData);
-    AutoPointerArray<UInt8> result(new UInt8[size], size);
+    AutoPointerArray<UInt8> result(size);
     RF_SysMem::Copy(result.Get(),m_Data.Get(),size);
     return result;
 }

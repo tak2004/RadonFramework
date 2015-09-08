@@ -71,7 +71,7 @@ Bool CreatePreAllocatedFileImplementation(const String& Path, const Size FileSiz
 String WorkingDirectoryImplementation()
 {
     long size = pathconf(".", _PC_PATH_MAX);
-    AutoPointerArray<char> buffer(new char[size],size);
+    AutoPointerArray<char> buffer(size);
     String result;
     if (getcwd(buffer.Get(),size))
         result=String(buffer.Release().Ptr, DataManagment::TransfereOwnership);
@@ -112,7 +112,7 @@ AutoPointerArray<String> DirectoryContentImplementation(const String& Path)
         while ((direntry=readdir(dir))!=0)
             list.AddLast(String(direntry->d_name));
         closedir(dir);
-        result=AutoPointerArray<String>(new String[list.Size()],list.Size());
+        result=AutoPointerArray<String>(list.Size());
         for (UInt32 i=0;i<result.Count();++i)
             result[i].Swap(list[i]);
     }    

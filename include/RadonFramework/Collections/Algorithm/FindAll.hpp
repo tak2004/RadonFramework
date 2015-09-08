@@ -108,7 +108,7 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
         RadonFramework::System::Threading::Thread::Sleep(sleep);
     }
 
-    RF_Mem::AutoPointerArray<RF_Type::Size> result(new RF_Type::Size[hits], hits);
+    RF_Mem::AutoPointerArray<RF_Type::Size> result(hits);
     for (RF_Type::Size i = 0, ci = 0; i < elements; ++i)
     {
         if (results(i) == 1)
