@@ -44,6 +44,8 @@ public:
 
     void AssignByteCode(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
 
+    void AddState(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
+
     Handle GetCodeHandle(const ID ByID);
 
     void Execute(const Handle AHandle);
@@ -54,10 +56,10 @@ public:
     void StripeOutUnchangedRegisterMoves();
 protected:
     RF_Type::UInt16* m_EntryTableSize;
-    Entry* m_EntryTable;
+    State* m_EntryTable;
     RF_Type::UInt8* m_ByteCodeBlock;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Data;
-    typedef RF_Collect::Array<RF_Collect::Pair<Entry*,RF_Type::UInt32> > HandleDataList;
+    typedef RF_Collect::Array<RF_Collect::Pair<State*, RF_Type::UInt32> > HandleDataList;
     HandleDataList m_HandleDataList;
 };
 

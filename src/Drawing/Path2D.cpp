@@ -29,12 +29,12 @@ void Path2D::MoveTo(const RF_Geo::Point2Df& Position)
     RF_Type::Size neededByteCount = sizeof(RF_Geo::Point2Df) + sizeof(Command::Type);
     if(m_ScratchPad.Length() - m_ScratchPad.Position() < neededByteCount)
     {
-        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
         m_ScratchPad.AddLast(newMemoryBlock);
     }
 
-    m_ScratchPad.Write<Command::Type>(Command::MoveTo);
-    m_ScratchPad.Write<RF_Geo::Point2Df>(Position);
+    m_ScratchPad.WriteType(Command::MoveTo);
+    m_ScratchPad.WriteType(Position);
 }
 
 void Path2D::LineTo(const RF_Geo::Point2Df& Position)
@@ -42,11 +42,11 @@ void Path2D::LineTo(const RF_Geo::Point2Df& Position)
     RF_Type::Size neededByteCount = sizeof(RF_Geo::Point2Df) + sizeof(Command::Type);
     if(m_ScratchPad.Length() - m_ScratchPad.Position() < neededByteCount)
     {
-        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
         m_ScratchPad.AddLast(newMemoryBlock);
     }
-    m_ScratchPad.Write<Command::Type>(Command::LineTo);
-    m_ScratchPad.Write<RF_Geo::Point2Df>(Position);
+    m_ScratchPad.WriteType(Command::LineTo);
+    m_ScratchPad.WriteType(Position);
 }
 
 void Path2D::BezierTo(const RF_Geo::Point2Df& ControlPoint1, const RF_Geo::Point2Df& ControlPoint2, const RF_Geo::Point2Df& Position)
@@ -69,10 +69,10 @@ void Path2D::Close()
 {
     if(m_ScratchPad.Length() - m_ScratchPad.Position() < sizeof(Command))
     {
-        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(new RF_Type::UInt8[CHUNKSIZE], CHUNKSIZE);
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
         m_ScratchPad.AddLast(newMemoryBlock);
     }
-    m_ScratchPad.Write<Command::Type>(Command::Close);
+    m_ScratchPad.WriteType(Command::Close);
 }
 
 void Path2D::AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius, RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop)
@@ -143,7 +143,7 @@ Fill& Path2D::FillProperties()
 
 void Path2D::Finalize()
 {
-    m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(new RF_Type::UInt8[m_ScratchPad.Position()], m_ScratchPad.Position());
+    m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(m_ScratchPad.Position());
     m_ScratchPad.Seek(0, RF_IO::SeekOrigin::Begin);
     m_ScratchPad.Read(m_Final.Get(), 0, m_Final.Size());
     m_ScratchPad.Clear();

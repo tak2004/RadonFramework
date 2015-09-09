@@ -8,6 +8,8 @@ using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 
+namespace RadonFramework { namespace Drawing {
+
 NativeShape::NativeShape()
 {
 }
@@ -29,9 +31,9 @@ void NativeShape::AssignByteCode(AutoPointerArray<UInt8>& Data)
 {
     m_Data=Data;
     m_EntryTableSize=reinterpret_cast<UInt16*>(m_Data.Get());
-    m_EntryTable=reinterpret_cast<Entry*>(m_EntryTableSize+1);
-    //m_ByteCodeBlock=m_Data.Get()+2+((*m_EntryTableSize)*sizeof(Entry));
-    m_ByteCodeBlock = reinterpret_cast<RF_Type::UInt8*>(m_EntryTable + m_EntryTableSize);
+    m_EntryTable=reinterpret_cast<State*>(m_EntryTableSize+1);
+    //m_ByteCodeBlock=m_Data.Get()+2+((*m_EntryTableSize)*sizeof(State));
+    m_ByteCodeBlock = reinterpret_cast<RF_Type::UInt8*>(m_EntryTable + *m_EntryTableSize);
     m_HandleDataList.Resize(*m_EntryTableSize);
     UInt32 offset=0;
     for (UInt16 i=0;i<m_HandleDataList.Count();++i)
@@ -48,12 +50,12 @@ NativeShape::Handle NativeShape::GetCodeHandle(const ID ByID)
         for (UInt16 i=0;i<*m_EntryTableSize;++i)
             if (m_EntryTable[i].Identifier==ByID)
                 return i;
-    return PredefinedHandles::Invalid;
+    return static_cast<Handle>(PredefinedHandles::Invalid);
 }
 
 void NativeShape::Execute(const NativeShape::Handle AHandle)
 {
-    Collections::Pair<Entry*,Core::Types::UInt32>& h=m_HandleDataList(AHandle);
+    Collections::Pair<State*, Core::Types::UInt32>& h = m_HandleDataList(AHandle);
     UInt8* p=m_ByteCodeBlock+h.Second;
     UInt8* end=p+h.First->ByteCodeSize;
     GLFunctions::Type id;
@@ -95,7 +97,7 @@ void NativeShape::StripeOutUnchangedRegisterMoves()
     {   
         for (UInt32 j=0;j<OpenGLMachine::RegisterCount;++j)
             lastOpCall[j]=GLOpCode::MAX;
-        Collections::Pair<Entry*,Core::Types::UInt32>& h=m_HandleDataList(i);
+        Collections::Pair<State*,Core::Types::UInt32>& h=m_HandleDataList(i);
         p=m_ByteCodeBlock+h.Second;
         end=p+h.First->ByteCodeSize;
 
@@ -134,3 +136,10 @@ void NativeShape::StripeOutUnchangedRegisterMoves()
     pipe.Read(data.Get(),0,byteCodeSize);
     AssignByteCode(data);
 }
+
+void RadonFramework::Drawing::NativeShape::AddState(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data)
+{
+
+}
+
+} }

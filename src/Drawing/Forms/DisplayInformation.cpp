@@ -22,6 +22,10 @@ DisplayInformation& DisplayInformation::operator=(const DisplayInformation& Othe
     IsPrimary = Other.IsPrimary;
     IsAttachedToDesktop = Other.IsAttachedToDesktop;
     IsMirroring = Other.IsMirroring;
+    Left = Other.Left;
+    Top = Other.Top;
+    HorizontalLengthInMilimeter = Other.HorizontalLengthInMilimeter;
+    VerticalLengthInMilimeter = Other.VerticalLengthInMilimeter;
     AvaiableResolution = Other.AvaiableResolution;
     return *this;
 }

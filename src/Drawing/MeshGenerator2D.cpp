@@ -98,12 +98,12 @@ RF_Mem::AutoPointer<NativeShape> MeshGenerator2D::Generate(const Path2D& Path) c
         } while(cursor != lastByte);
 
         CommandBuffer cmdBuffer;
-        CommandBuffer::HandleList& buffer = cmdBuffer.ReserveHandleList();
-        CommandBuffer::DataStream& dataStream = cmdBuffer.ReserveDataStream();
+        CommandBuffer::HandleList buffer = cmdBuffer.ReserveHandleList();
+        CommandBuffer::DataStream dataStream = cmdBuffer.ReserveDataStream();
         cmdBuffer.Call<GLFunctions::CreateBuffers>(1, buffer);
-        cmdBuffer.Call<GLFunctions::BufferData>(RF_GL::GL_ARRAY_BUFFER, 
+        cmdBuffer.Call<GLFunctions::BufferData>(static_cast<RF_Type::UInt32>(RF_GL::GL_ARRAY_BUFFER),
             triangles.Count() * sizeof(RF_Geo::Vec3f), dataStream,
-            RF_GL::GL_STATIC_DRAW);
+            static_cast<RF_Type::UInt32>(RF_GL::GL_STATIC_DRAW));
 
         cmdBuffer.Finalize();
 

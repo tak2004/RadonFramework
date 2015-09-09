@@ -20,10 +20,10 @@ int main()
 
     RF_Collect::List<String> missingFunctions;
     RF_Debug::FrameworkDiagnostics::GetAllMissingSystemFunctions(missingFunctions);
-    for (Size i = 0; i < missingFunctions.Size(); ++i)
+    for (Size i = 0; i < missingFunctions.Count(); ++i)
     {
         LogError("Missing system function: %s", missingFunctions[i].c_str());
     }
     RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().DisableAndWaitTillDone();
-    return missingFunctions.Size();
+    return missingFunctions.Count();
 }

@@ -38,14 +38,14 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
                 "CollectionsListTest::RemoveIterator", "RemoveIterator");
             AddTest(MakeDelegate(this,&CollectionsListTest::RemoveAt),
                 "CollectionsListTest::RemoveAt", "RemoveAt");
-            AddTest(MakeDelegate(this,&CollectionsListTest::CheckListSize),
-                "CollectionsListTest::CheckListSize", "CheckListSize");
+            AddTest(MakeDelegate(this,&CollectionsListTest::CheckListCount),
+                "CollectionsListTest::CheckListCount", "CheckListCount");
         }
 
         RadonFramework::Core::Types::Bool Constructor()
         {
             List<UInt32> m_List;
-            return m_List.First()==0 && m_List.Last()==0 && (m_List.Begin()==m_List.End() && m_List.Size()==0);
+            return m_List.First()==0 && m_List.Last()==0 && (m_List.Begin()==m_List.End() && m_List.Count()==0);
         }
 
         RadonFramework::Core::Types::Bool FindFail()
@@ -58,14 +58,14 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
         {
             List<UInt32> m_List;
             UInt32 i=5;
-            return m_List.AddAfter(m_List.Begin(),i) && m_List.Size()==1;
+            return m_List.AddAfter(m_List.Begin(),i) && m_List.Count()==1;
         }
 
         RadonFramework::Core::Types::Bool AddBefore()
         {
             List<UInt32> m_List;
             UInt32 i=5;
-            return (m_List.AddBefore(m_List.Begin(),i)) && (m_List.Size()==1);
+            return (m_List.AddBefore(m_List.Begin(),i)) && (m_List.Count()==1);
         }
 
         RadonFramework::Core::Types::Bool AddLast()
@@ -73,7 +73,7 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
             List<UInt32> m_List;
             UInt32 i=5;
             m_List.AddLast(i);
-            return (m_List.Size()==1);
+            return (m_List.Count()==1);
         }
 
         RadonFramework::Core::Types::Bool AddFirst()
@@ -81,7 +81,7 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
             List<UInt32> m_List;
             UInt32 i=5;
             m_List.AddFirst(i);
-            return (m_List.Size()==1);
+            return (m_List.Count()==1);
         }
 
         RadonFramework::Core::Types::Bool AddList()
@@ -92,7 +92,7 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
             l.AddLast(i);
             l.AddLast(i);
             m_List.AddList(l);
-            return (m_List.Size()==2);
+            return (m_List.Count()==2);
         }
 
         RadonFramework::Core::Types::Bool Item()
@@ -112,7 +112,7 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
             m_List.Insert(1,i);
             i=6;
             m_List.Insert(1,i);
-            return (m_List.Size()==3) && (m_List.Item(0)==5) && 
+            return (m_List.Count()==3) && (m_List.Item(0)==5) && 
                    (m_List.Item(1)==6) &&  (m_List.Item(2)==3);
         }
 
@@ -129,14 +129,14 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
             List<UInt32> m_List;
             //empty list
             m_List.Clear();
-            RadonFramework::Core::Types::Bool res=(m_List.Size()==0);
+            RadonFramework::Core::Types::Bool res=(m_List.Count()==0);
 
             //filled list
             UInt32 i=5;
             m_List.AddLast(i);
-            res=res && (m_List.Size()==1);
+            res=res && (m_List.Count()==1);
             m_List.Clear();
-            return res && (m_List.Size()==0);
+            return res && (m_List.Count()==0);
         }
 
         RadonFramework::Core::Types::Bool RemoveIterator()
@@ -154,16 +154,16 @@ class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTes
             UInt32 i=5;
             m_List.AddLast(i);
             m_List.RemoveAt(0);
-            return (m_List.Size()==0);
+            return (m_List.Count()==0);
         }
 
-        RadonFramework::Core::Types::Bool CheckListSize()
+        RadonFramework::Core::Types::Bool CheckListCount()
         {
             List<UInt32> m_List;
-            RadonFramework::Core::Types::Bool res=(m_List.Size()==0);
+            RadonFramework::Core::Types::Bool res=(m_List.Count()==0);
             UInt32 i=5;
             m_List.AddLast(i);
-            return (m_List.Size()==1) && res;
+            return (m_List.Count()==1) && res;
         }
 };
 

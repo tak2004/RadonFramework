@@ -29,10 +29,7 @@ public:
     RF_Type::UInt32 Top;
     RF_Collect::Array<Resolution> AvaiableResolution;
 
-        Left = Other.Left;
-        Top = Other.Top;
-        HorizontalLengthInMilimeter = Other.HorizontalLengthInMilimeter;
-        VerticalLengthInMilimeter = Other.VerticalLengthInMilimeter;
+    DisplayInformation& operator=(const DisplayInformation& Other);
 };
 
 } }

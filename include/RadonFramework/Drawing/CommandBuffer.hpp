@@ -26,7 +26,7 @@ public:
         }
 
         Resolve<PARAMETERS>(Parameters...);
-        m_ScratchPad.Write<RF_Type::UInt16>(FUNC);
+        m_ScratchPad.WriteType<RF_Type::UInt16>(FUNC);
     }
 
     template<GLFunctions::Type FUNC>
@@ -40,7 +40,7 @@ public:
             m_ScratchPad.AddLast(newMemoryBlock);
         }
 
-        m_ScratchPad.Write<RF_Type::UInt16>(FUNC);
+        m_ScratchPad.WriteType<RF_Type::UInt16>(FUNC);
     }
 
     RF_Type::Bool Finalize();
@@ -49,8 +49,8 @@ public:
 
     RF_Mem::AutoPointerArray<RF_Type::UInt8> ReleaseData();
 
-    HandleList& ReserveHandleList();
-    DataStream& ReserveDataStream();
+    HandleList ReserveHandleList();
+    DataStream ReserveDataStream();
 private:
     RF_IO::MemoryCollectionStream m_ScratchPad;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Final;
@@ -62,9 +62,21 @@ private:
         static_assert(OpenGLMachine::RegisterCount >= 1, "There is no Move command for this amount of parameter!");
         static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[TOTALPARAM-1];
 
-        m_ScratchPad.Write<RF_Type::UInt16>(opCode);
-        m_ScratchPad.Write(Value);
+        m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
+        m_ScratchPad.WriteType(Value);
     }
+
+    // HandleList and DataStream specialization
+//     template<RF_Type::Size TOTALPARAM, typename T>
+//     void Resolve(T Value)
+//     {
+//         static_assert(GetOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
+//         static_assert(OpenGLMachine::RegisterCount >= 1, "There is no Move command for this amount of parameter!");
+//         static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[TOTALPARAM - 1];
+// 
+//         m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
+//         m_ScratchPad.WriteType(Value);
+//     }
 
     template<RF_Type::Size TOTALPARAM, typename T, typename... ARGS>
     void Resolve(T First, ARGS... Rest)
@@ -74,8 +86,8 @@ private:
         static_assert(OpenGLMachine::RegisterCount > PARAMETERS, "There is no Move command for this amount of parameter!");
         static const GLOpCode::Type opCode = GetOpCode<T>::COMMAND[TOTALPARAM-PARAMETERS-1];
 
-        m_ScratchPad.Write<RF_Type::UInt16>(opCode);
-        m_ScratchPad.Write(First);
+        m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
+        m_ScratchPad.WriteType(First);
         Resolve<TOTALPARAM>(Rest...);
     }
 };

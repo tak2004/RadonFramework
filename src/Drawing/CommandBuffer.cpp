@@ -23,15 +23,14 @@ RF_Mem::AutoPointerArray<RF_Type::UInt8> CommandBuffer::ReleaseData()
     return result;
 }
 
-CommandBuffer::HandleList& CommandBuffer::ReserveHandleList()
+CommandBuffer::HandleList CommandBuffer::ReserveHandleList()
 {
-    
+    return 0;
 }
 
-CommandBuffer::DataStream& CommandBuffer::ReserveDataStream()
+CommandBuffer::DataStream CommandBuffer::ReserveDataStream()
 {
-
+    return 0;
 }
 
-}
-}
+} }
