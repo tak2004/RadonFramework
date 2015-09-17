@@ -840,6 +840,156 @@ namespace GLOpCode
 		MoveUInt32Reg14,
 		MoveUInt64Reg14,
 		MovePtrReg14,
+		CopyFloat32Reg0,
+		CopyFloat64Reg0,
+		CopyInt16Reg0,
+		CopyInt32Reg0,
+		CopyInt64Reg0,
+		CopyUInt16Reg0,
+		CopyUInt32Reg0,
+		CopyUInt64Reg0,
+		CopyPtrReg0,
+		CopyFloat32Reg1,
+		CopyFloat64Reg1,
+		CopyInt16Reg1,
+		CopyInt32Reg1,
+		CopyInt64Reg1,
+		CopyUInt16Reg1,
+		CopyUInt32Reg1,
+		CopyUInt64Reg1,
+		CopyPtrReg1,
+		CopyFloat32Reg2,
+		CopyFloat64Reg2,
+		CopyInt16Reg2,
+		CopyInt32Reg2,
+		CopyInt64Reg2,
+		CopyUInt16Reg2,
+		CopyUInt32Reg2,
+		CopyUInt64Reg2,
+		CopyPtrReg2,
+		CopyFloat32Reg3,
+		CopyFloat64Reg3,
+		CopyInt16Reg3,
+		CopyInt32Reg3,
+		CopyInt64Reg3,
+		CopyUInt16Reg3,
+		CopyUInt32Reg3,
+		CopyUInt64Reg3,
+		CopyPtrReg3,
+		CopyFloat32Reg4,
+		CopyFloat64Reg4,
+		CopyInt16Reg4,
+		CopyInt32Reg4,
+		CopyInt64Reg4,
+		CopyUInt16Reg4,
+		CopyUInt32Reg4,
+		CopyUInt64Reg4,
+		CopyPtrReg4,
+		CopyFloat32Reg5,
+		CopyFloat64Reg5,
+		CopyInt16Reg5,
+		CopyInt32Reg5,
+		CopyInt64Reg5,
+		CopyUInt16Reg5,
+		CopyUInt32Reg5,
+		CopyUInt64Reg5,
+		CopyPtrReg5,
+		CopyFloat32Reg6,
+		CopyFloat64Reg6,
+		CopyInt16Reg6,
+		CopyInt32Reg6,
+		CopyInt64Reg6,
+		CopyUInt16Reg6,
+		CopyUInt32Reg6,
+		CopyUInt64Reg6,
+		CopyPtrReg6,
+		CopyFloat32Reg7,
+		CopyFloat64Reg7,
+		CopyInt16Reg7,
+		CopyInt32Reg7,
+		CopyInt64Reg7,
+		CopyUInt16Reg7,
+		CopyUInt32Reg7,
+		CopyUInt64Reg7,
+		CopyPtrReg7,
+		CopyFloat32Reg8,
+		CopyFloat64Reg8,
+		CopyInt16Reg8,
+		CopyInt32Reg8,
+		CopyInt64Reg8,
+		CopyUInt16Reg8,
+		CopyUInt32Reg8,
+		CopyUInt64Reg8,
+		CopyPtrReg8,
+		CopyFloat32Reg9,
+		CopyFloat64Reg9,
+		CopyInt16Reg9,
+		CopyInt32Reg9,
+		CopyInt64Reg9,
+		CopyUInt16Reg9,
+		CopyUInt32Reg9,
+		CopyUInt64Reg9,
+		CopyPtrReg9,
+		CopyFloat32Reg10,
+		CopyFloat64Reg10,
+		CopyInt16Reg10,
+		CopyInt32Reg10,
+		CopyInt64Reg10,
+		CopyUInt16Reg10,
+		CopyUInt32Reg10,
+		CopyUInt64Reg10,
+		CopyPtrReg10,
+		CopyFloat32Reg11,
+		CopyFloat64Reg11,
+		CopyInt16Reg11,
+		CopyInt32Reg11,
+		CopyInt64Reg11,
+		CopyUInt16Reg11,
+		CopyUInt32Reg11,
+		CopyUInt64Reg11,
+		CopyPtrReg11,
+		CopyFloat32Reg12,
+		CopyFloat64Reg12,
+		CopyInt16Reg12,
+		CopyInt32Reg12,
+		CopyInt64Reg12,
+		CopyUInt16Reg12,
+		CopyUInt32Reg12,
+		CopyUInt64Reg12,
+		CopyPtrReg12,
+		CopyFloat32Reg13,
+		CopyFloat64Reg13,
+		CopyInt16Reg13,
+		CopyInt32Reg13,
+		CopyInt64Reg13,
+		CopyUInt16Reg13,
+		CopyUInt32Reg13,
+		CopyUInt64Reg13,
+		CopyPtrReg13,
+		CopyFloat32Reg14,
+		CopyFloat64Reg14,
+		CopyInt16Reg14,
+		CopyInt32Reg14,
+		CopyInt64Reg14,
+		CopyUInt16Reg14,
+		CopyUInt32Reg14,
+		CopyUInt64Reg14,
+		CopyPtrReg14,
+		AddrPtrReg0,
+		AddrPtrReg1,
+		AddrPtrReg2,
+		AddrPtrReg3,
+		AddrPtrReg4,
+		AddrPtrReg5,
+		AddrPtrReg6,
+		AddrPtrReg7,
+		AddrPtrReg8,
+		AddrPtrReg9,
+		AddrPtrReg10,
+		AddrPtrReg11,
+		AddrPtrReg12,
+		AddrPtrReg13,
+		AddrPtrReg14,
 		MAX
 	};
 }
@@ -856,13 +1006,13 @@ public:
 };
 
 template<typename T>
-struct GetOpCode
+struct GetMoveOpCode
 {
 	static const GLOpCode::Type COMMAND[OpenGLMachine::RegisterCount];
 };
 
 template<typename T>
-const GLOpCode::Type GetOpCode<T>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<T>::COMMAND[] = {
 	GLOpCode::MAX, 
 	GLOpCode::MAX, 
 	GLOpCode::MAX, 
@@ -881,7 +1031,7 @@ const GLOpCode::Type GetOpCode<T>::COMMAND[] = {
 };
 
 template<typename T>
-struct GetOpCodeTrait
+struct GetMoveOpCodeTrait
 {
 	enum
 	{
@@ -890,7 +1040,7 @@ struct GetOpCodeTrait
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::Float32>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::Float32>::COMMAND[] = {
 	GLOpCode::MoveFloat32Reg0, 
 	GLOpCode::MoveFloat32Reg1, 
 	GLOpCode::MoveFloat32Reg2, 
@@ -909,7 +1059,7 @@ const GLOpCode::Type GetOpCode<RF_Type::Float32>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::Float32>
+struct GetMoveOpCodeTrait<RF_Type::Float32>
 {
 	enum
 	{
@@ -918,7 +1068,7 @@ struct GetOpCodeTrait<RF_Type::Float32>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::Float64>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::Float64>::COMMAND[] = {
 	GLOpCode::MoveFloat64Reg0, 
 	GLOpCode::MoveFloat64Reg1, 
 	GLOpCode::MoveFloat64Reg2, 
@@ -937,7 +1087,7 @@ const GLOpCode::Type GetOpCode<RF_Type::Float64>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::Float64>
+struct GetMoveOpCodeTrait<RF_Type::Float64>
 {
 	enum
 	{
@@ -946,7 +1096,7 @@ struct GetOpCodeTrait<RF_Type::Float64>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::Int16>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::Int16>::COMMAND[] = {
 	GLOpCode::MoveInt16Reg0, 
 	GLOpCode::MoveInt16Reg1, 
 	GLOpCode::MoveInt16Reg2, 
@@ -965,7 +1115,7 @@ const GLOpCode::Type GetOpCode<RF_Type::Int16>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::Int16>
+struct GetMoveOpCodeTrait<RF_Type::Int16>
 {
 	enum
 	{
@@ -974,7 +1124,7 @@ struct GetOpCodeTrait<RF_Type::Int16>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::Int32>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::Int32>::COMMAND[] = {
 	GLOpCode::MoveInt32Reg0, 
 	GLOpCode::MoveInt32Reg1, 
 	GLOpCode::MoveInt32Reg2, 
@@ -993,7 +1143,7 @@ const GLOpCode::Type GetOpCode<RF_Type::Int32>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::Int32>
+struct GetMoveOpCodeTrait<RF_Type::Int32>
 {
 	enum
 	{
@@ -1002,7 +1152,7 @@ struct GetOpCodeTrait<RF_Type::Int32>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::Int64>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::Int64>::COMMAND[] = {
 	GLOpCode::MoveInt64Reg0, 
 	GLOpCode::MoveInt64Reg1, 
 	GLOpCode::MoveInt64Reg2, 
@@ -1021,7 +1171,7 @@ const GLOpCode::Type GetOpCode<RF_Type::Int64>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::Int64>
+struct GetMoveOpCodeTrait<RF_Type::Int64>
 {
 	enum
 	{
@@ -1030,7 +1180,7 @@ struct GetOpCodeTrait<RF_Type::Int64>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::UInt16>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::UInt16>::COMMAND[] = {
 	GLOpCode::MoveUInt16Reg0, 
 	GLOpCode::MoveUInt16Reg1, 
 	GLOpCode::MoveUInt16Reg2, 
@@ -1049,7 +1199,7 @@ const GLOpCode::Type GetOpCode<RF_Type::UInt16>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::UInt16>
+struct GetMoveOpCodeTrait<RF_Type::UInt16>
 {
 	enum
 	{
@@ -1058,7 +1208,7 @@ struct GetOpCodeTrait<RF_Type::UInt16>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::UInt32>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::UInt32>::COMMAND[] = {
 	GLOpCode::MoveUInt32Reg0, 
 	GLOpCode::MoveUInt32Reg1, 
 	GLOpCode::MoveUInt32Reg2, 
@@ -1077,7 +1227,7 @@ const GLOpCode::Type GetOpCode<RF_Type::UInt32>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::UInt32>
+struct GetMoveOpCodeTrait<RF_Type::UInt32>
 {
 	enum
 	{
@@ -1086,7 +1236,7 @@ struct GetOpCodeTrait<RF_Type::UInt32>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<RF_Type::UInt64>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<RF_Type::UInt64>::COMMAND[] = {
 	GLOpCode::MoveUInt64Reg0, 
 	GLOpCode::MoveUInt64Reg1, 
 	GLOpCode::MoveUInt64Reg2, 
@@ -1105,7 +1255,7 @@ const GLOpCode::Type GetOpCode<RF_Type::UInt64>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<RF_Type::UInt64>
+struct GetMoveOpCodeTrait<RF_Type::UInt64>
 {
 	enum
 	{
@@ -1114,7 +1264,7 @@ struct GetOpCodeTrait<RF_Type::UInt64>
 };
 
 template<>
-const GLOpCode::Type GetOpCode<void*>::COMMAND[] = {
+const GLOpCode::Type GetMoveOpCode<void*>::COMMAND[] = {
 	GLOpCode::MovePtrReg0, 
 	GLOpCode::MovePtrReg1, 
 	GLOpCode::MovePtrReg2, 
@@ -1133,7 +1283,355 @@ const GLOpCode::Type GetOpCode<void*>::COMMAND[] = {
 };
 
 template<>
-struct GetOpCodeTrait<void*>
+struct GetMoveOpCodeTrait<void*>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<typename T>
+struct GetCopyOpCode
+{
+	static const GLOpCode::Type COMMAND[OpenGLMachine::RegisterCount];
+};
+
+template<typename T>
+const GLOpCode::Type GetCopyOpCode<T>::COMMAND[] = {
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX
+};
+
+template<typename T>
+struct GetCopyOpCodeTrait
+{
+	enum
+	{
+		SUPPORTED = false
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::Float32>::COMMAND[] = {
+	GLOpCode::CopyFloat32Reg0, 
+	GLOpCode::CopyFloat32Reg1, 
+	GLOpCode::CopyFloat32Reg2, 
+	GLOpCode::CopyFloat32Reg3, 
+	GLOpCode::CopyFloat32Reg4, 
+	GLOpCode::CopyFloat32Reg5, 
+	GLOpCode::CopyFloat32Reg6, 
+	GLOpCode::CopyFloat32Reg7, 
+	GLOpCode::CopyFloat32Reg8, 
+	GLOpCode::CopyFloat32Reg9, 
+	GLOpCode::CopyFloat32Reg10, 
+	GLOpCode::CopyFloat32Reg11, 
+	GLOpCode::CopyFloat32Reg12, 
+	GLOpCode::CopyFloat32Reg13, 
+	GLOpCode::CopyFloat32Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::Float32>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::Float64>::COMMAND[] = {
+	GLOpCode::CopyFloat64Reg0, 
+	GLOpCode::CopyFloat64Reg1, 
+	GLOpCode::CopyFloat64Reg2, 
+	GLOpCode::CopyFloat64Reg3, 
+	GLOpCode::CopyFloat64Reg4, 
+	GLOpCode::CopyFloat64Reg5, 
+	GLOpCode::CopyFloat64Reg6, 
+	GLOpCode::CopyFloat64Reg7, 
+	GLOpCode::CopyFloat64Reg8, 
+	GLOpCode::CopyFloat64Reg9, 
+	GLOpCode::CopyFloat64Reg10, 
+	GLOpCode::CopyFloat64Reg11, 
+	GLOpCode::CopyFloat64Reg12, 
+	GLOpCode::CopyFloat64Reg13, 
+	GLOpCode::CopyFloat64Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::Float64>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::Int16>::COMMAND[] = {
+	GLOpCode::CopyInt16Reg0, 
+	GLOpCode::CopyInt16Reg1, 
+	GLOpCode::CopyInt16Reg2, 
+	GLOpCode::CopyInt16Reg3, 
+	GLOpCode::CopyInt16Reg4, 
+	GLOpCode::CopyInt16Reg5, 
+	GLOpCode::CopyInt16Reg6, 
+	GLOpCode::CopyInt16Reg7, 
+	GLOpCode::CopyInt16Reg8, 
+	GLOpCode::CopyInt16Reg9, 
+	GLOpCode::CopyInt16Reg10, 
+	GLOpCode::CopyInt16Reg11, 
+	GLOpCode::CopyInt16Reg12, 
+	GLOpCode::CopyInt16Reg13, 
+	GLOpCode::CopyInt16Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::Int16>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::Int32>::COMMAND[] = {
+	GLOpCode::CopyInt32Reg0, 
+	GLOpCode::CopyInt32Reg1, 
+	GLOpCode::CopyInt32Reg2, 
+	GLOpCode::CopyInt32Reg3, 
+	GLOpCode::CopyInt32Reg4, 
+	GLOpCode::CopyInt32Reg5, 
+	GLOpCode::CopyInt32Reg6, 
+	GLOpCode::CopyInt32Reg7, 
+	GLOpCode::CopyInt32Reg8, 
+	GLOpCode::CopyInt32Reg9, 
+	GLOpCode::CopyInt32Reg10, 
+	GLOpCode::CopyInt32Reg11, 
+	GLOpCode::CopyInt32Reg12, 
+	GLOpCode::CopyInt32Reg13, 
+	GLOpCode::CopyInt32Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::Int32>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::Int64>::COMMAND[] = {
+	GLOpCode::CopyInt64Reg0, 
+	GLOpCode::CopyInt64Reg1, 
+	GLOpCode::CopyInt64Reg2, 
+	GLOpCode::CopyInt64Reg3, 
+	GLOpCode::CopyInt64Reg4, 
+	GLOpCode::CopyInt64Reg5, 
+	GLOpCode::CopyInt64Reg6, 
+	GLOpCode::CopyInt64Reg7, 
+	GLOpCode::CopyInt64Reg8, 
+	GLOpCode::CopyInt64Reg9, 
+	GLOpCode::CopyInt64Reg10, 
+	GLOpCode::CopyInt64Reg11, 
+	GLOpCode::CopyInt64Reg12, 
+	GLOpCode::CopyInt64Reg13, 
+	GLOpCode::CopyInt64Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::Int64>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::UInt16>::COMMAND[] = {
+	GLOpCode::CopyUInt16Reg0, 
+	GLOpCode::CopyUInt16Reg1, 
+	GLOpCode::CopyUInt16Reg2, 
+	GLOpCode::CopyUInt16Reg3, 
+	GLOpCode::CopyUInt16Reg4, 
+	GLOpCode::CopyUInt16Reg5, 
+	GLOpCode::CopyUInt16Reg6, 
+	GLOpCode::CopyUInt16Reg7, 
+	GLOpCode::CopyUInt16Reg8, 
+	GLOpCode::CopyUInt16Reg9, 
+	GLOpCode::CopyUInt16Reg10, 
+	GLOpCode::CopyUInt16Reg11, 
+	GLOpCode::CopyUInt16Reg12, 
+	GLOpCode::CopyUInt16Reg13, 
+	GLOpCode::CopyUInt16Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::UInt16>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::UInt32>::COMMAND[] = {
+	GLOpCode::CopyUInt32Reg0, 
+	GLOpCode::CopyUInt32Reg1, 
+	GLOpCode::CopyUInt32Reg2, 
+	GLOpCode::CopyUInt32Reg3, 
+	GLOpCode::CopyUInt32Reg4, 
+	GLOpCode::CopyUInt32Reg5, 
+	GLOpCode::CopyUInt32Reg6, 
+	GLOpCode::CopyUInt32Reg7, 
+	GLOpCode::CopyUInt32Reg8, 
+	GLOpCode::CopyUInt32Reg9, 
+	GLOpCode::CopyUInt32Reg10, 
+	GLOpCode::CopyUInt32Reg11, 
+	GLOpCode::CopyUInt32Reg12, 
+	GLOpCode::CopyUInt32Reg13, 
+	GLOpCode::CopyUInt32Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::UInt32>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<RF_Type::UInt64>::COMMAND[] = {
+	GLOpCode::CopyUInt64Reg0, 
+	GLOpCode::CopyUInt64Reg1, 
+	GLOpCode::CopyUInt64Reg2, 
+	GLOpCode::CopyUInt64Reg3, 
+	GLOpCode::CopyUInt64Reg4, 
+	GLOpCode::CopyUInt64Reg5, 
+	GLOpCode::CopyUInt64Reg6, 
+	GLOpCode::CopyUInt64Reg7, 
+	GLOpCode::CopyUInt64Reg8, 
+	GLOpCode::CopyUInt64Reg9, 
+	GLOpCode::CopyUInt64Reg10, 
+	GLOpCode::CopyUInt64Reg11, 
+	GLOpCode::CopyUInt64Reg12, 
+	GLOpCode::CopyUInt64Reg13, 
+	GLOpCode::CopyUInt64Reg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<RF_Type::UInt64>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetCopyOpCode<void*>::COMMAND[] = {
+	GLOpCode::CopyPtrReg0, 
+	GLOpCode::CopyPtrReg1, 
+	GLOpCode::CopyPtrReg2, 
+	GLOpCode::CopyPtrReg3, 
+	GLOpCode::CopyPtrReg4, 
+	GLOpCode::CopyPtrReg5, 
+	GLOpCode::CopyPtrReg6, 
+	GLOpCode::CopyPtrReg7, 
+	GLOpCode::CopyPtrReg8, 
+	GLOpCode::CopyPtrReg9, 
+	GLOpCode::CopyPtrReg10, 
+	GLOpCode::CopyPtrReg11, 
+	GLOpCode::CopyPtrReg12, 
+	GLOpCode::CopyPtrReg13, 
+	GLOpCode::CopyPtrReg14
+};
+
+template<>
+struct GetCopyOpCodeTrait<void*>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<typename T>
+struct GetAddrOpCode
+{
+	static const GLOpCode::Type COMMAND[OpenGLMachine::RegisterCount];
+};
+
+template<typename T>
+const GLOpCode::Type GetAddrOpCode<T>::COMMAND[] = {
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX, 
+	GLOpCode::MAX
+};
+
+template<typename T>
+struct GetAddrOpCodeTrait
+{
+	enum
+	{
+		SUPPORTED = false
+	};
+};
+
+template<>
+const GLOpCode::Type GetAddrOpCode<void*>::COMMAND[] = {
+	GLOpCode::AddrPtrReg0, 
+	GLOpCode::AddrPtrReg1, 
+	GLOpCode::AddrPtrReg2, 
+	GLOpCode::AddrPtrReg3, 
+	GLOpCode::AddrPtrReg4, 
+	GLOpCode::AddrPtrReg5, 
+	GLOpCode::AddrPtrReg6, 
+	GLOpCode::AddrPtrReg7, 
+	GLOpCode::AddrPtrReg8, 
+	GLOpCode::AddrPtrReg9, 
+	GLOpCode::AddrPtrReg10, 
+	GLOpCode::AddrPtrReg11, 
+	GLOpCode::AddrPtrReg12, 
+	GLOpCode::AddrPtrReg13, 
+	GLOpCode::AddrPtrReg14
+};
+
+template<>
+struct GetAddrOpCodeTrait<void*>
 {
 	enum
 	{

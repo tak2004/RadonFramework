@@ -28,6 +28,7 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     RF_Mem::AutoPointer<NativeShape> result;
     Path.Finalize();
     result = m_MeshGenerator->Generate(Path);
+    result->MapVariable("shader", m_UIShader);
     return result;
 }
 
