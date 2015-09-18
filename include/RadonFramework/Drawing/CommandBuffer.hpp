@@ -78,6 +78,14 @@ public:
     void State(const RF_Type::String& Name);
 
     template<typename T>
+    void CopyResult(Variable<T>& To)
+    {
+        static_assert(GetReadOpCodeTrait<T>::SUPPORTED, "There is no Read command for this type!");
+        static const GLOpCode::Type opCode = GetReadOpCode<T>::COMMAND[RESULT];
+        m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
+    }
+
+    template<typename T>
     Variable<T> AddVariable(RF_Type::Size HowMany, RF_Type::Bool Extern = false, 
                              const RF_Type::String& Name = "")
     {

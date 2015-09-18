@@ -2,9 +2,7 @@
 #include "RadonFramework/Drawing/MeshGenerator2D.hpp"
 #include "RadonFramework/Drawing/NativeShape.hpp"
 #include "RadonFramework/Drawing/Path2D.hpp"
-#include "RadonFramework/Drawing/CommandBuffer.hpp"
 #include "RadonFramework/Math/Geometry/Vector.hpp"
-#include "RadonFramework/backend/GL/OpenGLConstants.hpp"
 
 namespace RadonFramework { namespace Drawing {
 
@@ -102,49 +100,12 @@ RF_Mem::AutoPointer<NativeShape> MeshGenerator2D::Generate(const Path2D& Path) c
         RF_Mem::AutoPointerArray<RF_Type::UInt8> vertexStream(triangles.Count()*sizeof(RF_Geo::Vec3f));
         RF_Mem::AutoPointerArray<RF_Type::UInt8> indicesStream(triangles.Count()*sizeof(RF_Type::UInt16));
 
-
-        CommandBuffer cmdBuffer;
-        auto buffers = cmdBuffer.AddVariable<RF_Type::UInt32>(2);
-        auto vao = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
-        auto shader = cmdBuffer.AddVariable<RF_Type::UInt32>(1, true, "shader");
-        auto vertexDataSize = cmdBuffer.AddVariable<RF_Type::Size>(1, true, "vertexdatasize");
-        auto indexDataSize = cmdBuffer.AddVariable<RF_Type::Size>(1, true, "indexdatasize");
-        auto vertexStream = cmdBuffer.AddVariable<void*>(1, true, "vertexdata");
-        auto indexStream = cmdBuffer.AddVariable<void*>(1, true, "indexdata");
-
-        // startup
-        cmdBuffer.State("startup");
-        cmdBuffer.Call<GLFunctions::CreateBuffers>(2, buffers.Ptr());
-        cmdBuffer.Call<GLFunctions::NamedBufferData>(buffers, vertexDataSize,
-            vertexStream, static_cast<RF_Type::UInt32>(RF_GL::GL_STATIC_DRAW));
-        cmdBuffer.Call<GLFunctions::NamedBufferData>(buffers[1], indexDataSize,
-            indexStream, static_cast<RF_Type::UInt32>(RF_GL::GL_STATIC_DRAW));
-        cmdBuffer.Call<GLFunctions::CreateVertexArrays>(1, vao.Ptr());
-        cmdBuffer.Call<GLFunctions::VertexArrayElementBuffer>(vao, buffers[1]);
-        cmdBuffer.Call<GLFunctions::EnableVertexArrayAttrib>(vao, 0);
-        cmdBuffer.Call<GLFunctions::VertexArrayAttribFormat>(vao, 0, 3, static_cast<RF_Type::UInt32>(RF_GL::GL_FLOAT), static_cast<RF_Type::UInt32>(RF_GL::GL_FALSE), 0);
-        cmdBuffer.Call<GLFunctions::VertexArrayVertexBuffer>(vao, 0, buffers,0 ,0);
-        cmdBuffer.Call<GLFunctions::VertexArrayAttribBinding>(vao, 0, 0);
-        
-        // shutdown
-        cmdBuffer.State("shutdown");
-        cmdBuffer.Call<GLFunctions::DeleteVertexArrays>(vao.Ptr());
-        cmdBuffer.Call<GLFunctions::DeleteBuffers>(buffers.Ptr());
-        
-        // z-pass
-        cmdBuffer.State("zpass");
-        cmdBuffer.Call<RF_Draw::GLFunctions::UseProgram>(shader);
-        cmdBuffer.Call<RF_Draw::GLFunctions::BindVertexArray>(vao);
-        cmdBuffer.Call<RF_Draw::GLFunctions::DrawArrays>(static_cast<RF_Type::UInt32>(RF_GL::GL_TRIANGLES), 0, 3);
-        
-        cmdBuffer.Finalize();
-        result->AssignByteCode(cmdBuffer.ReleaseData());
         result->MapVariable("vertexdatasize", vertexStream.Count());
-        result->MapVariable("indexdatasize", indexStream.Count());
+        result->MapVariable("indexdatasize", indicesStream.Count());
         result->MapVariable("vertexdata", vertexStream.Get());
-        result->MapVariable("indexdata", indexStream.Get());
+        result->MapVariable("indexdata", indicesStream.Get());
         result->AssignDataStream(vertexStream);
-        result->AssignDataStream(indexStream);
+        result->AssignDataStream(indicesStream);
     }
     return result;
 }

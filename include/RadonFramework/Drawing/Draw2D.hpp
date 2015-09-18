@@ -36,6 +36,7 @@ public:
     const MeshGenerator2D* GetMeshGenerator()const;
 protected:
     const MeshGenerator2D* m_MeshGenerator;
+    RF_Type::UInt32 m_UIShader;
 };
 
 } }
