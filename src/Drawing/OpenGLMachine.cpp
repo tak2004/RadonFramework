@@ -3442,5 +3442,7 @@ void OpenGLMachine::CallOpCode(GLOpCode::Type ID, UInt8*& Data)
 	case GLOpCode::AddrPtrReg12: *reinterpret_cast<void**>(Registers+96)=reinterpret_cast<void*>(Data-(*reinterpret_cast<Int32*>(Data))); Data+=4; break;
 	case GLOpCode::AddrPtrReg13: *reinterpret_cast<void**>(Registers+104)=reinterpret_cast<void*>(Data-(*reinterpret_cast<Int32*>(Data))); Data+=4; break;
 	case GLOpCode::AddrPtrReg14: *reinterpret_cast<void**>(Registers+112)=reinterpret_cast<void*>(Data-(*reinterpret_cast<Int32*>(Data))); Data+=4; break;
+	case GLOpCode::Read4Byte: *reinterpret_cast<RF_Type::UInt32*>(Data-(*reinterpret_cast<Int32*>(Data)))=*reinterpret_cast<RF_Type::UInt32*>(Registers+120); Data+=4; break;
+	case GLOpCode::Read8Byte: *reinterpret_cast<RF_Type::UInt64*>(Data-(*reinterpret_cast<Int32*>(Data)))=*reinterpret_cast<RF_Type::UInt64*>(Registers+120); Data+=4; break;
 	}
 }

@@ -990,6 +990,8 @@ namespace GLOpCode
 		AddrPtrReg12,
 		AddrPtrReg13,
 		AddrPtrReg14,
+		Read4Byte,
+		Read8Byte,
 		MAX
 	};
 }
@@ -1000,7 +1002,7 @@ public:
 	static void CallFunction(GLFunctions::Type);
 	static void CallOpCode(GLOpCode::Type, RF_Type::UInt8*&);
 	static const RF_Type::UInt32 RegisterSize=8;
-	static const RF_Type::UInt32 RegisterCount=15;
+	static const RF_Type::UInt32 RegisterCount=16;
 	static RF_Type::UInt8 Registers[RegisterCount*RegisterSize];
 	static const RF_Type::UInt8 FunctionParameterCount[GLFunctions::MAX];
 };
@@ -1632,6 +1634,48 @@ const GLOpCode::Type GetAddrOpCode<void*>::COMMAND[] = {
 
 template<>
 struct GetAddrOpCodeTrait<void*>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<RF_Type::Size N>
+struct GetReadOpCode
+{
+	static const GLOpCode::Type COMMAND;
+};
+
+template<RF_Type::Size N>
+const GLOpCode::Type GetReadOpCode<N>::COMMAND = GLOpCode::MAX;
+
+template<RF_Type::Size N>
+struct GetReadOpCodeTrait
+{
+	enum
+	{
+		SUPPORTED = false
+	};
+};
+
+template<>
+const GLOpCode::Type GetReadOpCode<4>::COMMAND = GLOpCode::Read4Byte;
+
+template<>
+struct GetReadOpCodeTrait<4>
+{
+	enum
+	{
+		SUPPORTED = true
+	};
+};
+
+template<>
+const GLOpCode::Type GetReadOpCode<8>::COMMAND = GLOpCode::Read8Byte;
+
+template<>
+struct GetReadOpCodeTrait<8>
 {
 	enum
 	{

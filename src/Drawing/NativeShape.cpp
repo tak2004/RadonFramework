@@ -53,6 +53,11 @@ NativeShape::Handle NativeShape::GetCodeHandle(const ID ByID)
     return static_cast<Handle>(PredefinedHandles::Invalid);
 }
 
+void NativeShape::AssignDataStream(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Stream)
+{
+
+}
+
 void NativeShape::Execute(const NativeShape::Handle AHandle)
 {
     Collections::Pair<State*, Core::Types::UInt32>& h = m_HandleDataList(AHandle);

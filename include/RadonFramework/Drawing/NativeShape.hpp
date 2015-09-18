@@ -48,6 +48,11 @@ public:
 
     Handle GetCodeHandle(const ID ByID);
 
+    template<typename T>
+    void MapVariable(RF_Type::UInt64 Hash, T Value);
+
+    void AssignDataStream(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Stream);
+
     void Execute(const Handle AHandle);
 
     // Step through all optimizations.
@@ -62,6 +67,12 @@ protected:
     typedef RF_Collect::Array<RF_Collect::Pair<State*, RF_Type::UInt32> > HandleDataList;
     HandleDataList m_HandleDataList;
 };
+
+template<typename T>
+void NativeShape::MapVariable(RF_Type::UInt64 Hash, T Value)
+{
+
+}
 
 } }
 

@@ -80,8 +80,8 @@ public:
     template<typename T>
     void CopyResult(Variable<T>& To)
     {
-        static_assert(GetReadOpCodeTrait<T>::SUPPORTED, "There is no Read command for this type!");
-        static const GLOpCode::Type opCode = GetReadOpCode<T>::COMMAND[RESULT];
+        static_assert(GetReadOpCodeTrait<sizeof(T)>::SUPPORTED, "There is no Read command for this type!");
+        static const GLOpCode::Type opCode = GetReadOpCode<sizeof(T)>::COMMAND;
         m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
     }
 

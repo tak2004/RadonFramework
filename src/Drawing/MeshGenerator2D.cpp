@@ -100,10 +100,10 @@ RF_Mem::AutoPointer<NativeShape> MeshGenerator2D::Generate(const Path2D& Path) c
         RF_Mem::AutoPointerArray<RF_Type::UInt8> vertexStream(triangles.Count()*sizeof(RF_Geo::Vec3f));
         RF_Mem::AutoPointerArray<RF_Type::UInt8> indicesStream(triangles.Count()*sizeof(RF_Type::UInt16));
 
-        result->MapVariable("vertexdatasize", vertexStream.Count());
-        result->MapVariable("indexdatasize", indicesStream.Count());
-        result->MapVariable("vertexdata", vertexStream.Get());
-        result->MapVariable("indexdata", indicesStream.Get());
+        result->MapVariable(RF_HASH("vertexdatasize"), vertexStream.Count());
+        result->MapVariable(RF_HASH("indexdatasize"), indicesStream.Count());
+        result->MapVariable(RF_HASH("vertexdata"), vertexStream.Get());
+        result->MapVariable(RF_HASH("indexdata"), indicesStream.Get());
         result->AssignDataStream(vertexStream);
         result->AssignDataStream(indicesStream);
     }
