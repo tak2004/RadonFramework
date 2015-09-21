@@ -8,8 +8,19 @@
 
 namespace RadonFramework { namespace Net { namespace mDNS {
 
-enum class RecordType { PTR };
-enum class RecordClass { Internet };
+enum class RecordType { 
+    A=1,
+    NS=2,
+    CNAME=5,
+    SOA=6,
+    WKS=11,
+    PTR=12,
+    MX = 15,
+    SRV=33,
+    A6=38,
+    ANY=255
+};
+enum class RecordClass { Internet=1 };
 
 class MessageWriter
 {
