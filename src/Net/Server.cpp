@@ -84,7 +84,7 @@ RF_Type::Bool Server::Start()
             }
             else
             {
-                RF_Net::EndPoint endPoint(IPAddress::IPv4Any);
+                RF_Net::EndPoint endPoint(IPAddress::IPv4Any, m_PImpl->m_Config.Port);
                 if(serverSocket->Bind(endPoint))
                 {
                     result = true;

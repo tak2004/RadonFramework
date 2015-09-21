@@ -12,7 +12,8 @@ struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
 {
     Data()        
     {
-        m_UpdatePeriod = RF_Time::TimeSpan::CreateByTime(0, 0, 2);
+        m_UpdatePeriod = RF_Time::TimeSpan::CreateByTime(0, 0, 5);
+        m_NextQuery = RF_Time::DateTime::CreateByTicks(0, RF_Time::DateTimeKind::UTC);
     }
 
     ~Data()
@@ -24,6 +25,7 @@ struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
     RF_Collect::HashMap<const char*, RF_mDNS::NetworkService*> m_KnownServicesDictionary;
     RF_Time::DateTime m_NextQuery;
     RF_Time::TimeSpan m_UpdatePeriod;
+    RF_Net::EndPoint m_Endpoint;
 };
 
 namespace RadonFramework { namespace Net { namespace mDNS {
@@ -31,7 +33,6 @@ namespace RadonFramework { namespace Net { namespace mDNS {
 ServiceDiscovery::ServiceDiscovery()
 :Server()
 {
-    m_PImpl->m_NextQuery = RF_Time::DateTime::CreateByTicks(0, RF_Time::DateTimeKind::UTC);
 }
 
 ServiceDiscovery::~ServiceDiscovery()
@@ -66,12 +67,16 @@ void ServiceDiscovery::PreBindConfigureSocket(Socket& Socket, IPAddress& Interfa
 
 void ServiceDiscovery::PostBindConfigureSocket(Socket& Socket, IPAddress& Interface)
 {
-    Server::PostBindConfigureSocket(Socket, Interface);
+    IPAddress ip;
+    IPAddress::Resolve("224.0.0.251", ip);
+    m_PImpl->m_Endpoint.Address(ip);
+    m_PImpl->m_Endpoint.Port(5353);
+
+    Server::PostBindConfigureSocket(Socket, ip);
 
     SocketError error;
     error.Code = Error::Ok;
-    IPAddress ip;
-    IPAddress::Resolve("224.0.0.251", ip);
+
     MulticastRequest multicastRequest;
     multicastRequest.MulticastAddress = ip;
     multicastRequest.Interface = Interface;
@@ -114,10 +119,10 @@ void ServiceDiscovery::Update()
 
         MessageWriter writer;
         writer.WriteQueryHeader(0);
-        writer.WriteQuestion("_pbms._tcp", RecordType::PTR);
+        writer.WriteQuestion("_pbms._tcp.local", RecordType::PTR);
         RF_Type::UInt32 sendBytes = 0;
         writer.Finalize();
-        GetSocket()->Send(writer.Data(), writer.DataSize(), sendBytes);
+        GetSocket()->SendTo(writer.Data(), writer.DataSize(),m_PImpl->m_Endpoint, sendBytes);
     }
 }
 

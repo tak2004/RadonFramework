@@ -6,12 +6,12 @@ namespace RadonFramework { namespace Net { namespace mDNS {
 static const RF_Type::Size MAXMULTICASTDNSPACKETSIZE = 9000;
 
 MessageWriter::MessageWriter()
-:m_Data(MAXMULTICASTDNSPACKETSIZE)
-,m_AdditionalCount(0)
+:m_AdditionalCount(0)
 ,m_AnswerCount(0)
 ,m_AuthorityCount(0)
 ,m_QuestionCount(0)
 {
+    m_Data.Reserve(MAXMULTICASTDNSPACKETSIZE);
 }
 
 void MessageWriter::Reset()
@@ -51,7 +51,7 @@ void MessageWriter::WriteQuestion(const RF_Type::String& Name, RecordType Type,
     for(RF_Type::Size i = 0; i < names.Count(); ++i)
     {
         m_Data.WriteType<RF_Type::UInt8>(names[i].Length());
-        m_Data.Write(reinterpret_cast<const RF_Type::UInt8*>(names[i].c_str()), 0, Name.Length());
+        m_Data.Write(reinterpret_cast<const RF_Type::UInt8*>(names[i].c_str()), 0, names[i].Length());
     }
     m_Data.WriteType<RF_Type::UInt8>(0);
     m_Data.WriteType(static_cast<RF_Type::UInt16>(Type));

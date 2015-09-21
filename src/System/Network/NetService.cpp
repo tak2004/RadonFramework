@@ -489,12 +489,12 @@ Error NetService::Bind(const NetService::SocketHandler Handler,
     int addrSize=sizeof(sockaddr_in);
     addrIn.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(LocalEP.Address().GetAddressFamily())];
     addrIn.sin_port=htons(LocalEP.Port());
-    const UInt8* addr=LocalEP.Address().AsByteArray();
+    const UInt8* addr=LocalEP.Address().AsByteArray();// always most significant byte first
 
     switch(LocalEP.Address().GetAddressFamily())
     {
         case AddressFamily::InterNetwork:
-            addrIn.sin_addr.s_addr=htonl(*reinterpret_cast<const u_long*>(addr));
+            addrIn.sin_addr.s_addr=*reinterpret_cast<const u_long*>(addr);
             break;
         default:
             return Error::InternalError;
@@ -573,12 +573,12 @@ Error NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     socklen_t addrSize=sizeof(sockaddr_in);
     src.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
     src.sin_port=htons(RemoteEP.Port());
-    const UInt8* addr = RemoteEP.Address().AsByteArray();
+    const UInt8* addr = RemoteEP.Address().AsByteArray();// always most significant byte first
 
     switch(RemoteEP.Address().GetAddressFamily())
     {
     case AddressFamily::InterNetwork:
-        src.sin_addr.s_addr=htonl(*reinterpret_cast<const u_long*>(addr));
+        src.sin_addr.s_addr=*reinterpret_cast<const u_long*>(addr);
         break;
     default:
         return Error::InternalError;
@@ -615,24 +615,25 @@ Error NetService::Send(const NetService::SocketHandler Handler,
 }
 
 Error NetService::SendTo(const NetService::SocketHandler Handler,
-    const AutoPointerArray<UInt8>& Data, const EndPoint &RemoteEP, UInt32 *SendDataSize)
+    const UInt8* Data, const UInt32 DataSize, const EndPoint &RemoteEP, 
+    UInt32 *SendDataSize)
 {
     sockaddr_in dst;
     dst.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
-    dst.sin_port=htons(RemoteEP.Port());
-    const UInt8* addr = RemoteEP.Address().AsByteArray();
+    dst.sin_port=htons(static_cast<RF_Type::UInt16>(RemoteEP.Port()));
+    const UInt8* addr = RemoteEP.Address().AsByteArray();// always most significant byte first
 
     switch(RemoteEP.Address().GetAddressFamily())
     {
     case AddressFamily::InterNetwork:
-        dst.sin_addr.s_addr=htonl(*reinterpret_cast<const u_long*>(addr));
+        dst.sin_addr.s_addr=*reinterpret_cast<const u_long*>(addr);
         break;
     default:
         return Error::InternalError;
     }
 
-    int ret=sendto(Handler, reinterpret_cast<const char*>(Data.Get()),
-        static_cast<int>(Data.Size()), 0, reinterpret_cast<sockaddr*>(&dst),
+    int ret=sendto(Handler, reinterpret_cast<const char*>(Data),
+                   DataSize, 0, reinterpret_cast<sockaddr*>(&dst),
         sizeof(sockaddr_in));
     if (ret!=SOCKET_ERROR)
     {

@@ -41,14 +41,9 @@ MemoryStream::MemoryStream(RF_Mem::AutoPointerArray<RF_Type::UInt8>& ConsumeBuff
     m_UseFence = true;
 }
 
-MemoryStream::MemoryStream(RF_Type::Size Reserve)
+MemoryStream::MemoryStream(RF_Type::Size ReserveBytes)
 {
-    m_Data = RF_Mem::AutoPointerArray<RF_Type::UInt8>(Reserve);
-    m_FenceStart = 0;
-    m_FenceEnd = 0;
-    m_Position = 0;
-    m_CanWrite = true;
-    m_UseFence = false;
+    Reserve(ReserveBytes);
 }
 
 MemoryStream& MemoryStream::operator=(const MemoryStream& Other)
@@ -60,6 +55,16 @@ MemoryStream& MemoryStream::operator=(const MemoryStream& Other)
     m_CanWrite = Other.m_CanWrite;
     m_UseFence = Other.m_UseFence;
     return *this;
+}
+
+void MemoryStream::Reserve(RF_Type::Size ReserveBytes)
+{
+    m_Data = RF_Mem::AutoPointerArray<RF_Type::UInt8>(ReserveBytes);
+    m_FenceStart = 0;
+    m_FenceEnd = 0;
+    m_Position = 0;
+    m_CanWrite = true;
+    m_UseFence = false;
 }
 
 void MemoryStream::Close()

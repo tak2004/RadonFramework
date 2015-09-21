@@ -5,10 +5,11 @@
 #endif
 
 #include <RadonFramework/IO/MemoryStream.hpp>
+#include <RadonFramework/Net/NetworkStream.hpp>
 
 namespace RadonFramework { namespace Net { namespace mDNS {
 
-enum class RecordType { 
+enum class RecordType : RF_Type::UInt16 { 
     A=1,
     NS=2,
     CNAME=5,
@@ -20,7 +21,11 @@ enum class RecordType {
     A6=38,
     ANY=255
 };
-enum class RecordClass { Internet=1 };
+
+enum class RecordClass: RF_Type::UInt16
+{
+    Internet = 1
+};
 
 class MessageWriter
 {
@@ -39,7 +44,7 @@ public:
 
     const RF_Type::UInt8* Data()const;
 protected:
-    RF_IO::MemoryStream m_Data;
+    RF_Net::NetworkStream<RF_IO::MemoryStream> m_Data;
     RF_Type::UInt16 m_AdditionalCount;
     RF_Type::UInt16 m_AnswerCount;
     RF_Type::UInt16 m_AuthorityCount;

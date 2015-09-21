@@ -138,25 +138,16 @@ SocketError Socket::Send(const UInt8* Data, const UInt32 DataSize,
     res.Code=NetService::Send(m_Data->Handler,Data,DataSize,&SendDataSize);
     return res;
 }
-/*
-SocketError RadonFramework::Net::Socket::SendTo( const char *Data, const UInt32 DataSize, const EndPoint &RemoteEP, RadonFramework::Core::Types::UInt32 *SendDataSize )
-{
-    SocketError::Type res=SocketError::NoError;
-    if (m_Backend)
-        res=m_Backend->Send(Data,DataSize,RemoteEP,SendDataSize);
-    else
-        res=SocketError::NoBackendAvailable;
 
-    if (res!=SocketError::NoError)
-    {
-        SocketErrorArgument arg;
-        arg.Sender=this;
-        arg.Error=res;
-        OnError(arg);
-    }
+SocketError Socket::SendTo( const UInt8* Data, const UInt32 DataSize, 
+    const EndPoint &RemoteEP, RF_Type::UInt32& SendDataSize )
+{
+    SocketError res;
+
+    res.Code = NetService::SendTo(m_Data->Handler, Data, DataSize, RemoteEP, &SendDataSize);
     return res;
 }
-*/
+
 SocketError Socket::Disconnect()
 {
     SocketError res;

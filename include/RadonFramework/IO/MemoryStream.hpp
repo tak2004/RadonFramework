@@ -15,10 +15,12 @@ public:
     MemoryStream(RF_Mem::AutoPointerArray<RF_Type::UInt8>& ConsumeBuffer,
         RF_Type::Size FenceStart, RF_Type::Size FenceByteSize,
         RF_Type::Bool Writeable = true);
-    MemoryStream(RF_Type::Size Reserve);
+    MemoryStream(RF_Type::Size ReserveBytes);
 
     /// Clone the MemoryStream and the internal memory.
     MemoryStream& operator =(const MemoryStream& Other);
+
+    void Reserve(RF_Type::Size ReserveBytes);
 
     virtual void Close() override;
 

@@ -108,7 +108,8 @@ public:
 
     // This method sends data to a specific destination.
     static RF_Net::Error SendTo(const SocketHandler Handler,
-        const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data, 
+        const RF_Type::UInt8* Data, 
+        const RF_Type::UInt32 DataSize,
         const RF_Net::EndPoint &RemoteEP,
         RF_Type::UInt32 *SendDataSize=0);
                     

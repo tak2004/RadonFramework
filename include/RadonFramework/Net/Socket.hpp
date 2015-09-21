@@ -56,14 +56,14 @@ public:
     SocketError Send(const RF_Type::UInt8* Data, 
                         const RF_Type::UInt32 DataSize,
                         RF_Type::UInt32& SendDataSize);
-    /*
-    SocketError::Type SendTo(const RF_Mem::AutoPointerArray<RF_Type::UInt8> Data,
-                                const RF_Type::UInt32 DataSize, 
-                                const EndPoint &RemoteEP, 
-                                RF_Mem::AutoPointer<RF_Type::UInt32>& SendDataSize);
+    
+    SocketError SendTo(const RF_Type::UInt8* Data,
+                       const RF_Type::UInt32 DataSize, 
+                       const EndPoint &RemoteEP, 
+                       RF_Type::UInt32& SendDataSize);
 
-    SocketError::Type Shutdown(const SocketShutdown::Type How);              
-    */
+    //SocketError::Type Shutdown(const SocketShutdown::Type How);              
+
     void AssignSelectObjectCollector(
         System::Network::SelectObjectCollector& Collector)const;
 
