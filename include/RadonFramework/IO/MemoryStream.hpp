@@ -22,6 +22,8 @@ public:
 
     void Reserve(RF_Type::Size ReserveBytes);
 
+    void Replace(RF_Mem::AutoPointerArray<RF_Type::UInt8>& ConsumeBuffer);
+
     virtual void Close() override;
 
     virtual void Flush() override;
@@ -29,11 +31,14 @@ public:
     virtual RF_Type::UInt64 Read(RF_Type::UInt8* Buffer, const RF_Type::UInt64 Index, 
         const RF_Type::UInt64 Count) override;
 
-    virtual RF_Type::UInt64 Seek(const RF_Type::UInt64 Offset, 
+    virtual RF_Type::UInt64 Seek(const RF_Type::Int64 Offset, 
         const SeekOrigin::Type Origin) override;
 
     virtual RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer, 
         const RF_Type::UInt64 Offset, const RF_Type::UInt64 Count) override;
+
+    virtual RF_Type::UInt64 Peek(RF_Type::UInt8* Buffer, const RF_Type::UInt64 Index,
+        const RF_Type::UInt64 Count) override;
 
     virtual RF_Type::Bool CanRead() const override;
 
@@ -42,6 +47,8 @@ public:
     virtual RF_Type::Bool CanWrite() const override;
 
     virtual RF_Type::Bool CanTimeout() const override;
+
+    virtual RF_Type::Bool CanPeek() const override;
 
     virtual RF_Type::UInt64 Length() const override;
 
@@ -67,6 +74,7 @@ protected:
     RF_Type::Size m_FenceEnd;
     RF_Type::Size m_Position;
     RF_Type::Bool m_CanWrite;
+    RF_Type::Bool m_CanPeek;
     RF_Type::Bool m_UseFence;
 };
 

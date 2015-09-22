@@ -6,26 +6,9 @@
 
 #include <RadonFramework/IO/MemoryStream.hpp>
 #include <RadonFramework/Net/NetworkStream.hpp>
+#include <RadonFramework/Net/mDNS/Message.hpp>
 
 namespace RadonFramework { namespace Net { namespace mDNS {
-
-enum class RecordType : RF_Type::UInt16 { 
-    A=1,
-    NS=2,
-    CNAME=5,
-    SOA=6,
-    WKS=11,
-    PTR=12,
-    MX = 15,
-    SRV=33,
-    A6=38,
-    ANY=255
-};
-
-enum class RecordClass: RF_Type::UInt16
-{
-    Internet = 1
-};
 
 class MessageWriter
 {
@@ -45,10 +28,7 @@ public:
     const RF_Type::UInt8* Data()const;
 protected:
     RF_Net::NetworkStream<RF_IO::MemoryStream> m_Data;
-    RF_Type::UInt16 m_AdditionalCount;
-    RF_Type::UInt16 m_AnswerCount;
-    RF_Type::UInt16 m_AuthorityCount;
-    RF_Type::UInt16 m_QuestionCount;
+    Header m_Header;
 };
 
 } } }

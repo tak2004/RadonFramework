@@ -1,7 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/File.hpp"
 #include "RadonFramework/IO/FileStream.hpp"
-#include "RadonFramework/Compiler.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include <stdio.h>
 

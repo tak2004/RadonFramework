@@ -6,20 +6,14 @@ namespace RadonFramework { namespace Net { namespace mDNS {
 static const RF_Type::Size MAXMULTICASTDNSPACKETSIZE = 9000;
 
 MessageWriter::MessageWriter()
-:m_AdditionalCount(0)
-,m_AnswerCount(0)
-,m_AuthorityCount(0)
-,m_QuestionCount(0)
+:m_Header({0})
 {
     m_Data.Reserve(MAXMULTICASTDNSPACKETSIZE);
 }
 
 void MessageWriter::Reset()
 {
-    m_AdditionalCount = 0;
-    m_AnswerCount = 0;
-    m_AuthorityCount = 0;
-    m_QuestionCount = 0;
+    RF_SysMem::Set(&m_Header, 0, sizeof(m_Header));
     m_Data.Seek(0, RF_IO::SeekOrigin::Begin);
 }
 
@@ -27,10 +21,10 @@ void MessageWriter::Finalize()
 {
     RF_Type::Size currentPosition = m_Data.Position();
     m_Data.Seek(4, RF_IO::SeekOrigin::Begin);
-    m_Data.WriteType(m_QuestionCount);
-    m_Data.WriteType(m_AnswerCount);
-    m_Data.WriteType(m_AuthorityCount);
-    m_Data.WriteType(m_AdditionalCount);
+    m_Data.WriteType(m_Header.QuestionCount);
+    m_Data.WriteType(m_Header.AnswerCount);
+    m_Data.WriteType(m_Header.AuthorityCount);
+    m_Data.WriteType(m_Header.AdditionalCount);
     m_Data.Seek(currentPosition, RF_IO::SeekOrigin::Begin);
 }
 
@@ -38,10 +32,10 @@ void MessageWriter::WriteQueryHeader(RF_Type::UInt16 TransactionId)
 {
     m_Data.WriteType(TransactionId);
     m_Data.WriteType<RF_Type::UInt16>(0);
-    m_Data.WriteType(m_QuestionCount);
-    m_Data.WriteType(m_AnswerCount);
-    m_Data.WriteType(m_AuthorityCount);
-    m_Data.WriteType(m_AdditionalCount);
+    m_Data.WriteType(m_Header.QuestionCount);
+    m_Data.WriteType(m_Header.AnswerCount);
+    m_Data.WriteType(m_Header.AuthorityCount);
+    m_Data.WriteType(m_Header.AdditionalCount);
 }
 
 void MessageWriter::WriteQuestion(const RF_Type::String& Name, RecordType Type, 
@@ -56,7 +50,7 @@ void MessageWriter::WriteQuestion(const RF_Type::String& Name, RecordType Type,
     m_Data.WriteType<RF_Type::UInt8>(0);
     m_Data.WriteType(static_cast<RF_Type::UInt16>(Type));
     m_Data.WriteType(static_cast<RF_Type::UInt16>(Class));
-    ++m_QuestionCount;
+    ++m_Header.QuestionCount;
 }
 
 RF_Type::Size MessageWriter::DataSize() const

@@ -6,12 +6,11 @@
 #endif // _MSC_VER > 1000
 
 #include <RadonFramework/Defines.hpp>
-#include <RadonFramework/Compiler.hpp>
+#include <RadonFramework/System/CompilerConfig.hpp>
 
 // allow to raise compile time assertion
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
-#include <RadonFramework/Core/Types/CompilerConfig.hpp>
 // Basic types
 #include <stdint.h>
 // 1 byte size
@@ -35,7 +34,6 @@
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
 
 // Information about types
-#include <RadonFramework/Core/Types/CompilerConfig.hpp>
 #include <RadonFramework/Core/Types/TypeCode.hpp>
 
 #include <RadonFramework/Core/Common/DataManagment.hpp>

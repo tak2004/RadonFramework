@@ -4,6 +4,7 @@
 #pragma once
 #endif
 
+#include <RadonFramework/System/CompilerConfig.hpp>
 #include <RadonFramework/Core/Types/Char.hpp>
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>

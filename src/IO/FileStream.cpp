@@ -49,7 +49,7 @@ UInt64 FileStream::Read( UInt8* Buffer, const UInt64 Index, const UInt64 Count )
     return result;
 }
 
-UInt64 FileStream::Seek( const UInt64 Offset, const SeekOrigin::Type Origin )
+UInt64 FileStream::Seek( const Int64 Offset, const SeekOrigin::Type Origin )
 {
     Assert(m_Handle!=FileHandle::Zero(),"Invalid operation.");
     return SeekFile(m_Handle, Offset, Origin);
@@ -106,4 +106,19 @@ TimeSpan FileStream::ReadTimeout() const
 TimeSpan FileStream::WriteTimeout() const
 {
     return TimeSpan();
+}
+
+RF_Type::UInt64 FileStream::Peek(RF_Type::UInt8* Buffer, const RF_Type::UInt64 Index,
+    const RF_Type::UInt64 Count)
+{
+    Assert(m_Handle != FileHandle::Zero(), "Invalid operation.");
+    UInt64 result = 0;
+    ReadFile(m_Handle, Buffer + Index, Count, result);
+    SeekFile(m_Handle, -static_cast<RF_Type::Int64>(result), RF_IO::SeekOrigin::Current);
+    return result;
+}
+
+RF_Type::Bool RadonFramework::IO::FileStream::CanPeek() const
+{
+    return true;
 }

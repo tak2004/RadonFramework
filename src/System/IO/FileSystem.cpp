@@ -152,7 +152,7 @@ RF_Type::Bool FlushFile_SystemAPIDispatcher(const FileHandle& Handle)
 }
 
 RF_Type::UInt64 SeekFile_SystemAPIDispatcher(const FileHandle& Handle,
-    const RF_Type::UInt64 Offset, const SeekOrigin::Type Origin )
+    const RF_Type::Int64 Offset, const SeekOrigin::Type Origin )
 {
     SeekFile = 0;
     Dispatch();

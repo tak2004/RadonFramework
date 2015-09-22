@@ -1,7 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/Parameter.hpp"
 #include "RadonFramework/IO/Log.hpp"
-#include "RadonFramework/Compiler.hpp"
 
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;

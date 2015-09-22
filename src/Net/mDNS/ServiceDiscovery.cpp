@@ -2,6 +2,7 @@
 #include "RadonFramework/Net/mDNS/ServiceDiscovery.hpp"
 #include "RadonFramework/Net/mDNS/NetworkService.hpp"
 #include "RadonFramework/Net/mDNS/MessageWriter.hpp"
+#include "RadonFramework/Net/mDNS/MessageReader.hpp"
 #include "RadonFramework/Collections/AutoVector.hpp"
 #include "RadonFramework/Collections/HashMap.hpp"
 #include "RadonFramework/Net/Socket.hpp"
@@ -81,15 +82,22 @@ void ServiceDiscovery::PostBindConfigureSocket(Socket& Socket, IPAddress& Interf
     multicastRequest.MulticastAddress = ip;
     multicastRequest.Interface = Interface;
 
+    // send it till the internet modem
     error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MutlicastTimeToLive, RF_Type::UInt8(255));
-    //error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastLoopback, true);
+    // don't process own packets
+    error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastLoopback, false);
+    // let us be part of the broadcast interface
     error = Socket.SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::AddMembership, multicastRequest);
 }
 
 RF_Type::Bool ServiceDiscovery::ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)
 {
     int i = 0;
-    return false;
+    MessageReader reader;
+    reader.Reset(In);
+    reader.ReadHeader();
+    reader.ReadAnswers();
+    return true;
 }
 
 RF_Type::Bool ServiceDiscovery::Shutdown(const Time::TimeSpan& ReturnAfter)
@@ -119,7 +127,7 @@ void ServiceDiscovery::Update()
 
         MessageWriter writer;
         writer.WriteQueryHeader(0);
-        writer.WriteQuestion("_pbms._tcp.local", RecordType::PTR);
+        writer.WriteQuestion("_tcp.local", RecordType::PTR);
         RF_Type::UInt32 sendBytes = 0;
         writer.Finalize();
         GetSocket()->SendTo(writer.Data(), writer.DataSize(),m_PImpl->m_Endpoint, sendBytes);

@@ -229,7 +229,7 @@ Bool FlushFile(const FileHandle& Handle)
     return fsync(file) == 0;
 }
 
-UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin::Type Origin)
+UInt64 SeekFile(const FileHandle& Handle, const Int64 Offset, const SeekOrigin::Type Origin)
 {
     static const int NativeSeek[SeekOrigin::MAX] = {SEEK_SET, SEEK_CUR, SEEK_END };
     int file = static_cast<int>(Handle.GetID());

@@ -57,11 +57,14 @@ public:
     virtual RF_Type::UInt64 Read(RF_Type::UInt8* Buffer,
         const RF_Type::UInt64 Index, const RF_Type::UInt64 Count) override;
 
-    virtual RF_Type::UInt64 Seek(const RF_Type::UInt64 Offset,
+    virtual RF_Type::UInt64 Seek(const RF_Type::Int64 Offset,
         const SeekOrigin::Type Origin) override;
 
     virtual RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer,
         const RF_Type::UInt64 Offset, const RF_Type::UInt64 Count) override;
+
+    virtual RF_Type::UInt64 Peek(RF_Type::UInt8* Buffer,
+        const RF_Type::UInt64 Index, const RF_Type::UInt64 Count) override;
 
     /// Return pointer to T if enough space left in current pointer.
     template<class T>
@@ -73,6 +76,7 @@ public:
     virtual RF_Type::Bool CanSeek()const override;
     virtual RF_Type::Bool CanWrite()const override;
     virtual RF_Type::Bool CanTimeout()const override;
+    virtual RF_Type::Bool CanPeek()const override;
     virtual RF_Type::UInt64 Length()const override;
     virtual RF_Type::UInt64 Position()const override;
     virtual Time::TimeSpan ReadTimeout()const override;
@@ -86,6 +90,7 @@ protected:
     RF_Type::Bool m_CanSeek;
     RF_Type::Bool m_CanWrite;
     RF_Type::Bool m_CanTimeout;
+    RF_Type::Bool m_CanPeek;
     Collections::List<
         Memory::AutoPointerArray<RF_Type::UInt8> > m_Collection;
     RF_Type::UInt64 m_CursorIndex;

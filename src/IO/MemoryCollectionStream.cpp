@@ -13,6 +13,7 @@ MemoryCollectionStream::MemoryCollectionStream()
 ,m_CanSeek(true)
 ,m_CanWrite(true)
 ,m_CanTimeout(false)
+,m_CanPeek(true)
 ,m_CursorIndex(0)
 ,m_CursorOffset(0)
 ,m_Length(0)
@@ -78,7 +79,7 @@ void MemoryCollectionStream::Close()
 
 }
 
-UInt64 MemoryCollectionStream::Seek( const UInt64 Offset, 
+UInt64 MemoryCollectionStream::Seek( const Int64 Offset, 
                                      const SeekOrigin::Type Origin )
 {
     switch (Origin)
@@ -255,4 +256,18 @@ AutoPointerArray<UInt8> MemoryCollectionStream::RemoveAt( UInt32 Index )
 UInt64 MemoryCollectionStream::Count()
 {
     return m_Collection.Count();
+}
+
+RF_Type::UInt64 MemoryCollectionStream::Peek(RF_Type::UInt8* Buffer, 
+    const RF_Type::UInt64 Index, const RF_Type::UInt64 Count)
+{
+    UInt64 result = 0;
+    result = Read(Buffer,Index, Count);
+    Seek(-static_cast<RF_Type::Int64>(result), RF_IO::SeekOrigin::Current);
+    return result;
+}
+
+RF_Type::Bool MemoryCollectionStream::CanPeek() const
+{
+    return m_CanPeek;
 }

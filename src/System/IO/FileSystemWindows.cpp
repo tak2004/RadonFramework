@@ -154,7 +154,7 @@ Bool FlushFile(const FileHandle& Handle)
     return ::FlushFileBuffers(reinterpret_cast<HANDLE>(Handle.GetPointer())) == TRUE;
 }
 
-UInt64 SeekFile(const FileHandle& Handle, const UInt64 Offset, const SeekOrigin::Type Origin)
+UInt64 SeekFile(const FileHandle& Handle, const Int64 Offset, const SeekOrigin::Type Origin)
 {
     long hi=static_cast<long>(Offset), lo=Offset>>32;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), lo, &hi, GetNativeSeekOrigin(Origin));

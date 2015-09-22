@@ -123,7 +123,7 @@ using WriteFileCallback = RF_Type::Bool(*)(const FileHandle& Handle,
 using FlushFileCallback = RF_Type::Bool(*)(const FileHandle& Handle);
 
 using SeekFileCallback = RF_Type::UInt64(*)(const FileHandle& Handle,
-                                            const RF_Type::UInt64 Offset,
+                                            const RF_Type::Int64 Offset,
                                             const RF_IO::SeekOrigin::Type Origin );
 
 using TellFileCallback = RF_Type::UInt64(*)(const FileHandle& Handle);

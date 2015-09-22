@@ -18,6 +18,9 @@ public:
     RF_Type::UInt64 WriteType(const T& ByValue);
 
     template<typename T>
+    RF_Type::UInt64 ReadType(T& ByValue);
+
+    template<typename T>
     static T Convert(const T& Value);
 };
 
@@ -28,14 +31,23 @@ RF_Type::UInt64 NetworkStream<CLASS>::WriteType(const T& ByValue)
     return CLASS::WriteType<T>(Convert(ByValue));
 }
 
+template<typename CLASS>
+template<typename T>
+RF_Type::UInt64 NetworkStream<CLASS>::ReadType(T& ByValue)
+{
+    RF_Type::UInt64 result = CLASS::ReadType<T>(ByValue);
+    ByValue = Convert(ByValue);
+    return result;
+}
 
 template<typename CLASS>
 template<typename T>
 T NetworkStream<CLASS>::Convert(const T& Value)
 {
     T result = Value;
-    static RF_Type::Bool NeedConversion = sizeof(T) == 2 ||
-        sizeof(T) == 4 || sizeof(T) == 8;
+    static RF_Type::Bool DifferentEndian = RF_Sys::CompilerConfig::Endianness != RF_Sys::Endian::Big;
+    static RF_Type::Bool NeedConversion = (sizeof(T) == 2 ||
+        sizeof(T) == 4 || sizeof(T) == 8) && DifferentEndian;
 
     if(NeedConversion)
     {

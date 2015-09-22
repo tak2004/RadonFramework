@@ -4,19 +4,20 @@
 #pragma once
 #endif
 
-namespace RadonFramework
-{
-    namespace System
-    {
-        namespace Endian 
-        { 
-            enum Type
-            { 
-                Little=1, 
-                Big, 
-                Both 
-            }; 
-        }
-    }
-}
+namespace RadonFramework { namespace System {
+
+enum class Endian
+{ 
+    Little=1, 
+    Big, 
+    Both 
+}; 
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SYS
+#define RF_SHORTHAND_NAMESPACE_SYS
+namespace RF_Sys = RadonFramework::System;
+#endif
+
 #endif // RF_SYSTEM_ENDIAN_HPP
