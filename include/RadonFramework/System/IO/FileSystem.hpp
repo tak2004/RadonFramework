@@ -219,4 +219,9 @@ extern GetFileWatcherEventCallback GetFileWatcherEvent;
 
 namespace RFFILE = RadonFramework::System::IO::FileSystem;
 
+#ifndef RF_SHORTHAND_NAMESPACE_SYSFILE
+#define RF_SHORTHAND_NAMESPACE_SYSFILE
+namespace RF_SysFile = RadonFramework::System::IO::FileSystem;
+#endif
+
 #endif // RF_SYSTEM_IO_FILESYSTEM_HPP

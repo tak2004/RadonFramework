@@ -23,14 +23,14 @@ public:
     ListIterator operator++(int);
     ListIterator& operator--();
     ListIterator operator--(int);
-    ListIterator& operator+=(const RF_Type::UInt32 Step);
-    ListIterator& operator-=(const RF_Type::UInt32 Step);
-    const ListIterator operator+(const RF_Type::UInt32 Step)const;
-    const ListIterator operator-(const RF_Type::UInt32 Step)const;
+    ListIterator& operator+=(const RF_Type::Size Step);
+    ListIterator& operator-=(const RF_Type::Size Step);
+    const ListIterator operator+(const RF_Type::Size Step)const;
+    const ListIterator operator-(const RF_Type::Size Step)const;
     operator bool()const;
     Pointer operator->()const;
     Reference operator*()const;
-    static RF_Type::UInt32 Distance(ListIterator Start, ListIterator Stop);
+    static RF_Type::Size Distance(ListIterator Start, ListIterator Stop);
 protected:
     friend class List<T>;
     ListIterator(Node* node, List<T> *Owner);
@@ -93,23 +93,23 @@ public:
     void AddFirst(T &Item);
     void AddFirst(const T &Item);
     void AddList(const List<T> &L);
-    void Insert(const RF_Type::UInt32 Index, T &Item);
-    void Insert(const RF_Type::UInt32 Index, const T &Item);
+    void Insert(const RF_Type::Size Index, T &Item);
+    void Insert(const RF_Type::Size Index, const T &Item);
     T& CreateElementAtEnd();
     T& CreateElementAtBegin();
-    T& CreateElementAt(const RF_Type::UInt32 Position);
+    T& CreateElementAt(const RF_Type::Size Position);
 
     void Clear();
     RF_Type::Bool Remove(Iterator& It);
     void RemoveLast();
     void RemoveFirst();
-    void RemoveAt(RF_Type::UInt32 Index);
+    void RemoveAt(RF_Type::Size Index);
     void Swap(List<T>&rhs);
 
-    T& Item(const RF_Type::UInt32 Index);
-    const T& Item(const RF_Type::UInt32 Index)const;
-    T& operator[](const RF_Type::UInt32 Index);
-    const T& operator[](const RF_Type::UInt32 Index)const;
+    T& Item(const RF_Type::Size Index);
+    const T& Item(const RF_Type::Size Index)const;
+    T& operator[](const RF_Type::Size Index);
+    const T& operator[](const RF_Type::Size Index)const;
     RF_Type::Bool Find(const Iterator& It)const;
     RF_Type::Bool Find(const T& Item)const;
     T* First()const;
@@ -119,12 +119,21 @@ public:
     ConstIterator ConstBegin()const;
     ConstIterator ConstEnd()const;
 
-    RF_Type::UInt32 Count()const;
+    RF_Type::Size Count()const;
+
+    /// Return true if the element count is 0 else false.
+    RF_Type::Bool IsEmpty()const;
 private:
     Node *m_First;
     Node *m_Last;
-    RF_Type::UInt32 m_Count;
+    RF_Type::Size m_Count;
 };
+
+template <typename T>
+RF_Type::Bool List<T>::IsEmpty() const
+{
+    return m_Count == 0;
+}
 
 template<typename T>
 List<T>::Node::Node()
@@ -255,9 +264,9 @@ ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::o
 }
 
 template<typename T,class Node,class Pointer,class Reference>
-ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::operator+=(const RF_Type::UInt32 Step)
+ListIterator<T, Node, Pointer, Reference>& ListIterator<T, Node, Pointer, Reference>::operator+=(const RF_Type::Size Step)
 {
-    for (RF_Type::UInt32 i=0;i<Step;++i)
+    for(RF_Type::Size i = 0; i<Step; ++i)
         if (m_Node->GetNext())
             m_Node=m_Node->GetNext();
         else
@@ -266,9 +275,9 @@ ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::
 }
 
 template<typename T,class Node,class Pointer,class Reference>
-ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::operator-=(const RF_Type::UInt32 Step)
+ListIterator<T, Node, Pointer, Reference>& ListIterator<T, Node, Pointer, Reference>::operator-=(const RF_Type::Size Step)
 {
-    for (RF_Type::UInt32 i=0;i<Step;++i)
+    for(RF_Type::Size i = 0; i<Step; ++i)
         if (m_Node->GetPrev())
             m_Node=m_Node->GetPrev();
         else
@@ -277,10 +286,10 @@ ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::
 }
 
 template<typename T,class Node,class Pointer,class Reference>
-const ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::operator+(const RF_Type::UInt32 Step)const
+const ListIterator<T, Node, Pointer, Reference> ListIterator<T, Node, Pointer, Reference>::operator+(const RF_Type::Size Step)const
 {
     Node *n=m_Node;
-    for (RF_Type::UInt32 i=0;i<Step;++i)
+    for(RF_Type::Size i = 0; i<Step; ++i)
         if (n->GetNext())
             n=n->GetNext();
         else
@@ -289,10 +298,10 @@ const ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Referen
 }
 
 template<typename T,class Node,class Pointer,class Reference>
-const ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::operator-(const RF_Type::UInt32 Step)const
+const ListIterator<T, Node, Pointer, Reference> ListIterator<T, Node, Pointer, Reference>::operator-(const RF_Type::Size Step)const
 {
     Node *n=m_Node;
-    for (RF_Type::UInt32 i=0;i<Step;++i)
+    for(RF_Type::Size i = 0; i<Step; ++i)
         if (n->GetPrev())
             n=n->GetPrev();
         else
@@ -321,7 +330,7 @@ Reference ListIterator<T,Node,Pointer,Reference>::operator*()const
 }
 
 template<typename T,class Node,class Pointer,class Reference>
-RF_Type::UInt32 ListIterator<T,Node,Pointer,Reference>::Distance(
+RF_Type::Size ListIterator<T, Node, Pointer, Reference>::Distance(
     ListIterator Start, ListIterator Stop)
 {
     return (ptrdiff_t)(Stop.m_Element-Start.m_Element);
@@ -379,7 +388,7 @@ void List<T>::Swap(List<T>&rhs)
 {
     Node* first=m_First;
     Node* last=m_Last;
-    RF_Type::UInt32 size=m_Count;
+    RF_Type::Size size = m_Count;
     m_First=rhs.m_First;
     m_Last=rhs.m_Last;
     m_Count=rhs.m_Count;
@@ -491,14 +500,14 @@ void List<T>::AddList(const List<T> &L)
 }
 
 template<typename T>
-void List<T>::Insert(RF_Type::UInt32 Index, T &Item)
+void List<T>::Insert(RF_Type::Size Index, T &Item)
 {
     Assert(m_Count>=Index,"Out of bound.");
     if (m_Count==Index)
         AddLast(Item);
     else
     {
-        RF_Type::UInt32 i=0;
+        RF_Type::Size i = 0;
         for (Iterator it=Begin(); it!=End(); ++it)
         {
             if (Index==i)
@@ -512,7 +521,7 @@ void List<T>::Insert(RF_Type::UInt32 Index, T &Item)
 }
 
 template<typename T>
-void List<T>::Insert(RF_Type::UInt32 Index, const T &Item)
+void List<T>::Insert(RF_Type::Size Index, const T &Item)
 {
     T& item=const_cast<T&>(Item);
     Insert(Index,item);
@@ -547,7 +556,7 @@ T& List<T>::CreateElementAtBegin()
 }
 
 template<typename T>
-T& List<T>::CreateElementAt(const RF_Type::UInt32 Position)
+T& List<T>::CreateElementAt(const RF_Type::Size Position)
 {
     Assert(m_Count>Position,"Out of bound.");
     if (m_Count==Position)
@@ -555,7 +564,7 @@ T& List<T>::CreateElementAt(const RF_Type::UInt32 Position)
     if (Position==0)
         return CreateElementAtBegin();
 
-    RF_Type::UInt32 i=0;
+    RF_Type::Size i = 0;
     Node *it=m_First;
     while (i<Position)
     {
@@ -616,11 +625,11 @@ void List<T>::RemoveLast()
 }
 
 template<typename T>
-void List<T>::RemoveAt(RF_Type::UInt32 Index)
+void List<T>::RemoveAt(RF_Type::Size Index)
 {
     Assert(Index<m_Count,"Out of bound.");
 
-    RF_Type::UInt32 i=0;
+    RF_Type::Size i = 0;
     for (Iterator it=Begin(); it!=End(); ++it)
     {
         if (Index==i)
@@ -633,11 +642,11 @@ void List<T>::RemoveAt(RF_Type::UInt32 Index)
 }
 
 template<typename T>
-T& List<T>::Item(const RF_Type::UInt32 Index)
+T& List<T>::Item(const RF_Type::Size Index)
 {
     Assert(Index<m_Count,"Out of bound.");
 
-    RF_Type::UInt32 i=0;
+    RF_Type::Size i = 0;
     Iterator it=Begin();
     for (;it!=End();++it)
     {
@@ -649,11 +658,11 @@ T& List<T>::Item(const RF_Type::UInt32 Index)
 }
 
 template<typename T>
-const T& List<T>::Item(const RF_Type::UInt32 Index)const
+const T& List<T>::Item(const RF_Type::Size Index)const
 {
     Assert(Index<m_Count, "Out of bound");
 
-    RF_Type::UInt32 i=0;
+    RF_Type::Size i = 0;
     Iterator it=Begin();
     for (;it!=End();++it)
     {
@@ -665,13 +674,13 @@ const T& List<T>::Item(const RF_Type::UInt32 Index)const
 }
 
 template <typename T>
-T& List<T>::operator[]( const RF_Type::UInt32 Index )
+T& List<T>::operator[](const RF_Type::Size Index)
 {
     return Item(Index);
 }
 
 template <typename T>
-const T& List<T>::operator[]( const RF_Type::UInt32 Index ) const
+const T& List<T>::operator[](const RF_Type::Size Index) const
 {
     return Item(Index);
 }
@@ -735,7 +744,7 @@ typename List<T>::ConstIterator List<T>::ConstBegin()const
 }
 
 template<typename T>
-RF_Type::UInt32 List<T>::Count()const
+RF_Type::Size List<T>::Count()const
 {
     return m_Count;
 }

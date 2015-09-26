@@ -58,9 +58,14 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #define RF_ALIGN(X) alignas(X)
 #endif
 
-// clang: check if __has_feature is available
+// clang/gcc: check if __has_feature is available
 #ifndef __has_feature
 #define __has_feature(x) 0
+#endif
+
+// clang/gcc: check if __has_cpp_attribute is available
+#ifndef __has_cpp_attribute
+#define __has_cpp_attribute(x) 0
 #endif
 
 // detect if compiler can use constexpr
@@ -104,6 +109,24 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #endif
 #else
 #define RF_NOEXCEPT
+#endif
+
+// detect if the compiler can use deprecated(c++14) or similar extension
+// split deprecation into function and header
+// clang and gcc
+#if __has_cpp_attribute(deprecated)
+// c++14
+#define RF_DEPRECATED_FUNC(msg)[[deprecated(msg)]]
+#endif
+// visual studio c++
+#if defined(RF_VISUALCPP)
+#define RF_DEPRECATED_FUNC(msg) __declspec(deprecated(msg))
+#endif
+#define RF_DEPRECATED_HEADER(msg) RF_COMPILER_WARNING(msg);
+// it's not mandatory, warn about the lack of functionality and define the macro
+#ifndef RF_DEPRECATED_FUNC
+RF_COMPILER_WARNING("RF_DEPRECATED macro is not set you should implement it for this compiler!");
+#define RF_DEPRECATED_FUNC(msg)
 #endif
 
 #endif // RF_SYSTEM_COMPILERCONFIG_HPP

@@ -92,15 +92,26 @@ public:
     const T& operator [](const RF_Type::Size Index)const;
 
     /// Return true if the pointer is 0 else false.
+    RF_DEPRECATED_FUNC("Use IsEmpty() instead!")
     RF_Type::Bool operator!();
     /// Convert to Bool to allow boolean operation.
+    RF_DEPRECATED_FUNC("Use IsEmpty() instead!")
     operator RF_Type::Bool();
+
+    /// Return true if it contains a null-pointer or the size is 0 else false.
+    RF_Type::Bool IsEmpty()const;
 
     void Swap(AutoPointerArray<T>& Other);
 private:
     mutable T* m_Data;
     mutable RF_Type::Size m_Size;
 };
+
+template <typename T>
+RF_Type::Bool AutoPointerArray<T>::IsEmpty() const
+{
+    return m_Data == 0 || m_Size == 0;
+}
 
 template <typename T>
 RadonFramework::Memory::AutoPointerArray<T>::AutoPointerArray(RF_Type::Size Count)

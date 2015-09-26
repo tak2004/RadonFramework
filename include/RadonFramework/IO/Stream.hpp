@@ -44,6 +44,12 @@ public:
     template<class T>
     RF_Type::UInt64 PeekType(T& ByValue);
 
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> Read(RF_Type::Size Bytes);
+
+    RF_Type::UInt64 Write(const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
+
+
+
     virtual RF_Type::Bool CanRead()const=0;
     virtual RF_Type::Bool CanSeek()const=0;
     virtual RF_Type::Bool CanWrite()const=0;
