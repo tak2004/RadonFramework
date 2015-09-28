@@ -68,6 +68,15 @@ public:
     Array(const Array<T,SP,MA,MO>& Copy);
 
     /**
+    * \brief Moves the data during construction.
+    *
+    * The move constructor make a data exchange.
+    *
+    * \param Move The object with which the data will be exchanged.
+    */
+    Array(Array<T, SP, MA, MO>&& Move);
+
+    /**
     * Create a 1D Array.
     *
     * \param Length1 The size of the Array to create.
@@ -873,6 +882,12 @@ template<typename T, typename SP, typename MA, typename MO>
 Array<T,SP,MA,MO>::Array(const Array<T,SP,MA,MO>& Copy)
 {
     *this=Copy;
+}
+
+template<typename T, typename SP, typename MA, typename MO>
+Array<T, SP, MA, MO>::Array(Array<T, SP, MA, MO>&& Move)
+{
+    Swap(Move);
 }
 
 template<typename T, typename SP, typename MA, typename MO>
