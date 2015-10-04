@@ -31,6 +31,7 @@ public:
 class PoolThread : public System::Threading::Thread
 {
 public:
+    virtual ~PoolThread();
     void Run();
     PImpl<ThreadPool>::Data* Pool;
     volatile bool shutdown;
@@ -99,7 +100,7 @@ public:
     void UpdatePoolSize()
     {
         // shrink worker threads
-        if (MaxWorkerThreads > WorkerThreads.Count())
+        if (MaxWorkerThreads < WorkerThreads.Count())
         {
             // trigger exit routine in specified thread
             for (Size i = MaxWorkerThreads - 1; i < WorkerThreads.Count(); ++i)
@@ -332,6 +333,11 @@ bool ThreadPool::IsLowLatencyPool()
     return m_PImpl->Latency == 0;
 }
 
+RF_Type::Bool RadonFramework::Threading::ThreadPool::CanQueue() const
+{
+    return m_PImpl->IsQueingAllowed;
+}
+
 void RadonFramework::Threading::ThreadPool::WaitTillDoneWithInactiveQueue()
 {
     DisableAndWaitTillDone();
@@ -376,6 +382,11 @@ void PoolThread::Run()
             Thread::Sleep(Time::TimeSpan::CreateByTicks(Pool->Latency));
         }
     }
+}
+
+PoolThread::~PoolThread()
+{
+    shutdown = true;
 }
 
 PoolTask::PoolTask()

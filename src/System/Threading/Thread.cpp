@@ -118,7 +118,7 @@ void ThrImplementationFree(void* Data)
     if (p->alive)
     {
         ThrImplementationAlive(p,false);
-        WaitForSingleObject(p->thread, 1000);
+        WaitForSingleObject(p->thread, INFINITE);
     }
 
     if (p->thread)

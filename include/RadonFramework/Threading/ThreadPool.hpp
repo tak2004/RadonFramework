@@ -68,6 +68,8 @@ public:
     /// Enable the queing of new work items.
     void EnableQueing();
 
+    RF_Type::Bool CanQueue()const;
+
     /// Disable the processing of work items.
     void DisableProcessing();
 

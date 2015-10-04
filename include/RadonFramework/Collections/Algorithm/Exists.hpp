@@ -54,49 +54,59 @@ void ExistsEnumeratorTaskFunction(void* Data)
 template <class C, typename FUNCTION>
 RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
 {
-    auto enumerator = Enumerable.GetConstEnumerator();
-    
+    auto enumerator = Enumerable.GetConstEnumerator();    
     RF_Type::Size elements = enumerator.Size();
-    RF_Type::UInt32 worker, cport;
-    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
-    RF_Type::UInt32 jobsPerWorker = 0;    
-    RF_Type::AtomicInt32 overallWork(elements);
     RF_Type::AtomicInt32 hits;
-    
-    if(elements > worker)
+
+    if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue())
     {
-        jobsPerWorker = elements / worker;
-        elements -= jobsPerWorker * worker;
+        RF_Type::UInt32 worker, cport;
+        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
+        RF_Type::UInt32 jobsPerWorker = 0;    
+        RF_Type::AtomicInt32 overallWork(elements);
+    
+        if(elements > worker)
+        {
+            jobsPerWorker = elements / worker;
+            elements -= jobsPerWorker * worker;
+        }
+        else
+        {
+            jobsPerWorker = 1;
+            worker = elements;
+        }
+
+        for(RF_Type::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
+        {
+            if(elements <= i)
+                Extra = 0;
+            auto* task = new ExistsEnumeratorTaskData<C, FUNCTION>(Function);
+            task->Enumeable = enumerator;
+            task->Function = Function;
+            task->From = offset;
+            task->Steps = jobsPerWorker + Extra;
+            task->OverallWork = &overallWork;
+            task->Hits = &hits;
+            RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ExistsEnumeratorTaskFunction<C, FUNCTION>, task);
+            offset += jobsPerWorker + Extra;
+        }
+
+        // Wait for other threads. Sleep(0) will ensure that the thread return if no
+        // other process/thread will work for the rest of the time slice on this core.
+        RF_Time::TimeSpan sleep = RF_Time::TimeSpan::CreateByTicks(0);
+        while(overallWork != 0 && hits == 0)
+        {        
+            RadonFramework::System::Threading::Thread::Sleep(sleep);
+        }
     }
     else
     {
-        jobsPerWorker = 1;
-        worker = elements;
+        for(RF_Type::Size i = 0; i < elements; ++i, ++enumerator)
+        {
+            if (Function(enumerator))
+                ++hits;
+        }
     }
-
-    for(RF_Type::UInt32 i = 0, offset = 0, Extra = 1; i < worker; ++i)
-    {
-        if(elements <= i)
-            Extra = 0;
-        auto* task = new ExistsEnumeratorTaskData<C, FUNCTION>(Function);
-        task->Enumeable = enumerator;
-        task->Function = Function;
-        task->From = offset;
-        task->Steps = jobsPerWorker + Extra;
-        task->OverallWork = &overallWork;
-        task->Hits = &hits;
-        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ExistsEnumeratorTaskFunction<C, FUNCTION>, task);
-        offset += jobsPerWorker + Extra;
-    }
-
-    // Wait for other threads. Sleep(0) will ensure that the thread return if no
-    // other process/thread will work for the rest of the time slice on this core.
-    RF_Time::TimeSpan sleep = RF_Time::TimeSpan::CreateByTicks(0);
-    while(overallWork != 0 && hits == 0)
-    {        
-        RadonFramework::System::Threading::Thread::Sleep(sleep);
-    }
-
     return hits != 0;
 }
 

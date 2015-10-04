@@ -42,45 +42,55 @@ template <class C, typename FUNCTION>
 void ForEach(const C& Enumerable, FUNCTION Function)
 {
     auto enumerator = Enumerable.GetEnumerator();
-    
     RF_Type::Size elements = enumerator.Size();
-    RF_Type::UInt32 worker, cport;
-    RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
-    RF_Type::UInt32 jobsPerWorker = 0;    
-    RF_Type::AtomicInt32 overallWork(elements);
-    RF_Type::UInt32 extra = 1;
-    
-    if(elements > worker)
+
+    if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue())
     {
-        jobsPerWorker = elements / worker;
-        elements -= jobsPerWorker * worker;
+        RF_Type::UInt32 worker, cport;
+        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
+        RF_Type::UInt32 jobsPerWorker = 0;    
+        RF_Type::AtomicInt32 overallWork(elements);
+        RF_Type::UInt32 extra = 1;
+    
+        if(elements > worker)
+        {
+            jobsPerWorker = elements / worker;
+            elements -= jobsPerWorker * worker;
+        }
+        else
+        {
+            jobsPerWorker = 1;
+            worker = elements;
+            extra = 0;
+        }
+    
+        for(RF_Type::UInt32 i = 0, offset = 0; i < worker; ++i)
+        {
+            if(elements <= i)
+                extra = 0;
+            auto* task = new ForEachEnumeratorTaskData<C, FUNCTION>(Function);
+            task->Enumeable = enumerator;
+            task->From = offset;
+            task->Steps = jobsPerWorker + extra;
+            task->OverallWork = &overallWork; 
+            RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ForEachEnumeratorTaskFunction<C, FUNCTION>, task);
+            offset += jobsPerWorker + extra;
+        }
+    
+        // Wait for other threads. Sleep(0) will ensure that the thread return if no
+        // other process/thread will work for the rest of the time slice on this core.
+        Time::TimeSpan sleep = Time::TimeSpan::CreateByTicks(0);
+        while(overallWork != 0)
+        {
+            System::Threading::Thread::Sleep(sleep);
+        }
     }
     else
     {
-        jobsPerWorker = 1;
-        worker = elements;
-        extra = 0;
-    }
-    
-    for(RF_Type::UInt32 i = 0, offset = 0; i < worker; ++i)
-    {
-        if(elements <= i)
-            extra = 0;
-        auto* task = new ForEachEnumeratorTaskData<C, FUNCTION>(Function);
-        task->Enumeable = enumerator;
-        task->From = offset;
-        task->Steps = jobsPerWorker + extra;
-        task->OverallWork = &overallWork; 
-        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ForEachEnumeratorTaskFunction<C, FUNCTION>, task);
-        offset += jobsPerWorker + extra;
-    }
-    
-    // Wait for other threads. Sleep(0) will ensure that the thread return if no
-    // other process/thread will work for the rest of the time slice on this core.
-    Time::TimeSpan sleep = Time::TimeSpan::CreateByTicks(0);
-    while(overallWork != 0)
-    {
-        System::Threading::Thread::Sleep(sleep);
+        for(RF_Type::Size i = 0; i < elements; ++i, ++enumerator)
+        {
+            Function(enumerator);
+        }
     }
 }
 
