@@ -69,6 +69,12 @@ DWORD WINAPI ThreadFunction(void *userdata)
     return 0;
 }
 
+RF_Type::Bool ThrImplementationShouldRunning(void* Data)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    return !p->cancel && p->alive;
+}
+
 RFT::ThreadError::Type ThrImplementationInit(void*& Data, RFT::IRunnable *Job, 
     Thread* Instance, void(Thread::*Callback)(), Int64& PID)
 {
@@ -641,4 +647,9 @@ Bool Thread::GetAffinityMask(BitArray<>& Mask)const
 Bool Thread::SetAffinityMask(const BitArray<>& NewValue)const
 {
     return ThrImplementationSetAffinityMask(m_ImplData, NewValue);
+}
+
+RF_Type::Bool Thread::ShouldRunning()
+{
+    return ThrImplementationShouldRunning(m_ImplData);
 }

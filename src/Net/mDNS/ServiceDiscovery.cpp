@@ -7,6 +7,7 @@
 #include "RadonFramework/Collections/HashMap.hpp"
 #include "RadonFramework/Net/Socket.hpp"
 #include "RadonFramework/Net/MulticastRequest.hpp"
+#include "RadonFramework/Net/ServerConfig.hpp"
 
 template<>
 struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
@@ -27,6 +28,8 @@ struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
     RF_Time::DateTime m_NextQuery;
     RF_Time::TimeSpan m_UpdatePeriod;
     RF_Net::EndPoint m_Endpoint;
+    RF_Type::Bool m_UseIPv4;
+    RF_Type::Bool m_UseIPv6;
 };
 
 namespace RadonFramework { namespace Net { namespace mDNS {
@@ -39,6 +42,17 @@ ServiceDiscovery::ServiceDiscovery()
 ServiceDiscovery::~ServiceDiscovery()
 {
 
+}
+
+void ServiceDiscovery::Setup()
+{
+    RF_Net::ServerConfig newConfig;
+    newConfig.Blocking = false;
+    newConfig.Family = RF_Net::AddressFamily::InterNetwork;
+    newConfig.Hostname[0] = '*';
+    newConfig.Port = 5353;
+    newConfig.Protocol = RF_Net::SocketType::Datagram;
+    Server::Setup(newConfig);
 }
 
 const RF_Collect::AutoVector<NetworkService>& ServiceDiscovery::KnownServices() const
@@ -132,6 +146,36 @@ void ServiceDiscovery::Update()
         writer.Finalize();
         GetSocket()->SendTo(writer.Data(), writer.DataSize(),m_PImpl->m_Endpoint, sendBytes);
     }
+}
+
+RF_Type::Bool ServiceDiscovery::UseIPv4() const
+{
+    return m_PImpl->m_UseIPv4;
+}
+
+void ServiceDiscovery::UseIPv4(RF_Type::Bool NewValue)
+{
+    m_PImpl->m_UseIPv4 = NewValue;
+}
+
+RF_Type::Bool ServiceDiscovery::UseIPv6() const
+{
+    return m_PImpl->m_UseIPv6;
+}
+
+void ServiceDiscovery::UseIPv6(RF_Type::Bool NewValue)
+{
+    m_PImpl->m_UseIPv6 = NewValue;
+}
+
+const RF_Time::TimeSpan& ServiceDiscovery::UpdateCycle() const
+{
+    return m_PImpl->m_UpdatePeriod;
+}
+
+void ServiceDiscovery::UpdateCycle(const RF_Time::TimeSpan& NewValue)
+{
+    m_PImpl->m_UpdatePeriod = NewValue;
 }
 
 } } }

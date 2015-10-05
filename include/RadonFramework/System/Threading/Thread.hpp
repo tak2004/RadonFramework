@@ -47,8 +47,15 @@ public:
 
     /** Check if the thread was stopped by Exit() or Interrupt().
     * Use this in Run().
+    * This function never return and will kill the thread and call destruction from
+    * the thread which called Exit oder Interrupt.
+    * If you want to use a slower but cleaner exit with OnFinish events then use
+    * ShouldRunning.
     **/
     void CheckCancel();
+
+    /// Return false if the thread is not alive or Exit/Interrupt was called else true.
+    RF_Type::Bool ShouldRunning();
 
     /// Wait till the thread is dead.
     void Join();

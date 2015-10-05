@@ -23,11 +23,21 @@ public:
     ServiceDiscovery();
     virtual ~ServiceDiscovery();
 
+    void Setup();
     const Collections::AutoVector<NetworkService>& KnownServices()const;
     RF_Type::Bool IsKnown(const RF_Type::String& Servicename)const;
     NetworkService* FindService(const RF_Type::String& Servicename)const;
     virtual RF_Type::Bool Shutdown(const Time::TimeSpan& ReturnAfter)override;
     virtual void Update()override;
+
+    RF_Type::Bool UseIPv4()const;
+    void UseIPv4(RF_Type::Bool NewValue);
+
+    RF_Type::Bool UseIPv6()const;
+    void UseIPv6(RF_Type::Bool NewValue);
+
+    const RF_Time::TimeSpan& UpdateCycle()const;
+    void UpdateCycle(const RF_Time::TimeSpan& NewValue);
 protected:
     virtual void PostBindConfigureSocket(Socket& Socket, IPAddress& Interface) override;
     virtual void PreBindConfigureSocket(Socket& Socket, IPAddress& Interface) override;
