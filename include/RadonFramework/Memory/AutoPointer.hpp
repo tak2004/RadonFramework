@@ -189,9 +189,9 @@ template <typename T>
 template <typename T1>
 AutoPointer<T>::operator AutoPointer<T1>()
 {
-    static_assert(is_class<T>::value == false || 
-                  (is_class<T>::value == true && is_class<T1>::value == true &&
-                   is_base_of<T1, T>::value == true));
+    static_assert(std::is_class<T>::value == false || 
+        (std::is_class<T>::value == true && std::is_class<T1>::value == true &&
+        std::is_base_of<T1, T>::value == true));
     return AutoPointer<T1>(this->Release());
 }
 

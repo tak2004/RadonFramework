@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/Net/Server.hpp>
+#include <RadonFramework/Time/TimeSpan.hpp>
 
 namespace RadonFramework { namespace Collections {
 
