@@ -4,8 +4,6 @@
 #pragma once
 #endif
 
-#include <type_traits>
-
 #include <RadonFramework/Threading/ISynchronize.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
@@ -1544,9 +1542,9 @@ void Array<T,SP,MA,MO>::Sort(RF_Type::Size Index,
         }
     }
 
-    Size i = Index+1;
-    Size lt = Index+1;
-    Size gt = LastIndex-1;
+    RF_Type::Size i = Index + 1;
+    RF_Type::Size lt = Index + 1;
+    RF_Type::Size gt = LastIndex - 1;
 
     while(i <= gt)
     {
@@ -1622,9 +1620,9 @@ void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys,
         }
     }
 
-    Size i = Index+1;
-    Size lt = Index+1;
-    Size gt = LastIndex-1;
+    RF_Type::Size i = Index + 1;
+    RF_Type::Size lt = Index + 1;
+    RF_Type::Size gt = LastIndex - 1;
 
     while(i <= gt)
     {

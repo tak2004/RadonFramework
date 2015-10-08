@@ -120,7 +120,7 @@ public:
 
     /// UTF-8 can consists of multiple bytes for a character. 
     /// Use this to get the size instead of the character amount.
-    Size Size()const;
+    RF_Type::Size Size()const;
 
     static const UInt32 BUFFER_SIZE = 26;
     #pragma endregion

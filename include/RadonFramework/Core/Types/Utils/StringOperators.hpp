@@ -72,7 +72,7 @@ struct Murmur
     static const int r = 47;
 
     template<RF_Type::Size N>
-    __forceinline Murmur(const char(&Str)[N])
+    RF_FORCE_INLINE Murmur(const char(&Str)[N])
     {
         const RF_Type::Size LEN = N - 1;
         const RF_Type::Size FIRSTNONLOOPINDEX = (LEN / 8) * 8;
@@ -106,7 +106,7 @@ private:
     RF_Type::UInt64 m_Result;
 
     template<RF_Type::Size N>
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[N], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[N], const RF_Type::UInt64 h)
     {
         static const RF_Type::Size NEXT8BYTEINDEX = N & ~7;
         typedef const char(&truncated_str)[N - 8];
@@ -120,7 +120,7 @@ private:
         return result;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[8], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[8], const RF_Type::UInt64 h)
     {
         RF_Type::UInt64 result = h;
         RF_Type::UInt64 k = *reinterpret_cast<const RF_Type::UInt64*>(Str);
@@ -132,37 +132,37 @@ private:
         return result;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[7], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[7], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[6], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[6], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[5], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[5], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[4], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[4], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[3], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[3], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[2], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[2], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    __forceinline RF_Type::UInt64 Loop(const char(&Str)[1], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[1], const RF_Type::UInt64 h)
     {
         return h;
     }

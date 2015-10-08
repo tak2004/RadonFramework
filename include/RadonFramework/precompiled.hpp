@@ -8,6 +8,9 @@
 #include <RadonFramework/Defines.hpp>
 #include <RadonFramework/System/CompilerConfig.hpp>
 
+// type traits
+#include <type_traits>
+
 // allow to raise compile time assertion
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 

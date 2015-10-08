@@ -30,6 +30,7 @@ namespace RF_Sys = RadonFramework::System;
 #define __STR1__(x) __STR2__(x)
 #define __LOC__ __FILE__ "("__STR1__(__LINE__)") : Warning Msg: "		
 #define RF_COMPILER_WARNING(x) __pragma(message(__LOC__ x))
+#define RF_FORCE_INLINE __forceinline
 
 // memory alignment
 #define RF_ALIGN(X) __declspec(align(X))
@@ -42,6 +43,7 @@ namespace RF_Sys = RadonFramework::System;
 #else
 #if defined(RF_GCC)
 // gcc
+#define RF_FORCE_INLINE __attribute__((always_inline))
 
 // error msg
 // really bad solution but this is allready the best on gcc
@@ -52,6 +54,10 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
                                                           Please insert the warning command for your compiler here or remove this info.");
 #endif
 #endif
+#endif
+
+#ifndef RF_FORCE_INLINE
+#define RF_FORCE_INLINE
 #endif
 
 #ifndef RF_ALIGN
