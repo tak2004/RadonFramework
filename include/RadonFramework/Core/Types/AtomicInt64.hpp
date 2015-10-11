@@ -26,9 +26,9 @@ public:
     AtomicInt64& operator =(const AtomicInt64& Other);
     bool operator ==(Int64 Value)const;
     AtomicInt64& operator++();
-    AtomicInt64 operator++(Int64);
+    AtomicInt64 operator++(int);
     AtomicInt64& operator--();
-    AtomicInt64 operator--(Int64);
+    AtomicInt64 operator--(int);
 protected:
     Int64 m_Data;
 };

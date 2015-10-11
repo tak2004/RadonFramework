@@ -90,14 +90,14 @@ AtomicInt64& AtomicInt64::operator--()
     return *this;
 }
 
-AtomicInt64 AtomicInt64::operator--(Int64)
+AtomicInt64 AtomicInt64::operator--(int)
 {
     AtomicInt64 result(*this);
     Decrement();
     return result;
 }
 
-AtomicInt64 AtomicInt64::operator++(Int64)
+AtomicInt64 AtomicInt64::operator++(int)
 {
     AtomicInt64 result(*this);
     Increment();

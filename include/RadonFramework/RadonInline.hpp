@@ -71,6 +71,7 @@
 #include <RadonFramework/Core/SIMD.hpp>
 #include <RadonFramework/Core/Traits/AllocatorTraits.hpp>
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
+#include <RadonFramework/Core/Types/AtomicInt64.hpp>
 #include <RadonFramework/Core/Types/AtomicPointer.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/Char.hpp>
