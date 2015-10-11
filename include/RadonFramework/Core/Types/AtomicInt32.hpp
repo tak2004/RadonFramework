@@ -21,10 +21,14 @@ public:
 
     operator Int32()const;
     bool operator !()const;
-    bool operator !=(int Value)const;
-    AtomicInt32& operator =(int Value);
+    bool operator !=(Int32 Value)const;
+    AtomicInt32& operator =(Int32 Value);
     AtomicInt32& operator =(const AtomicInt32& Other);
-    bool operator ==(int Value)const;
+    bool operator ==(Int32 Value)const;
+    AtomicInt32& operator++();
+    AtomicInt32 operator++(Int32);
+    AtomicInt32& operator--();
+    AtomicInt32 operator--(Int32);
 protected:
     Int32 m_Data;
 };

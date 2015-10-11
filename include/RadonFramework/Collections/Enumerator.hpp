@@ -33,65 +33,65 @@ struct Enumerator
 
     RF_Type::Size Size()const;
 };
-
+    
 template<typename T, class ENUMERATORTYPE>
 Enumerator<T, ENUMERATORTYPE> Enumerator<T, ENUMERATORTYPE>::operator++(int)
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 Enumerator<T, ENUMERATORTYPE>& Enumerator<T, ENUMERATORTYPE>::operator++()
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 Enumerator<T, ENUMERATORTYPE> Enumerator<T, ENUMERATORTYPE>::operator--(int)
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 Enumerator<T, ENUMERATORTYPE>& Enumerator<T, ENUMERATORTYPE>::operator--()
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 T& Enumerator<T, ENUMERATORTYPE>::operator*()
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 const T& Enumerator<T, ENUMERATORTYPE>::operator*() const
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 T* Enumerator<T, ENUMERATORTYPE>::operator->()
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 const T* Enumerator<T, ENUMERATORTYPE>::operator->() const
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 Enumerator<T, ENUMERATORTYPE>& Enumerator<T, ENUMERATORTYPE>::MoveBy(const RF_Type::Size Steps)
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 template<typename T, class ENUMERATORTYPE>
 RF_Type::Size Enumerator<T, ENUMERATORTYPE>::Size() const
 {
-    static_assert(false, "Container isn't supported yet.");
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
 } }

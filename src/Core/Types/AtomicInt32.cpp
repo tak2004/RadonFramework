@@ -55,12 +55,12 @@ bool AtomicInt32::operator !()const
     return m_Data==0?true:false;
 }
 
-bool AtomicInt32::operator !=(int Value)const
+bool AtomicInt32::operator !=(Int32 Value)const
 {
     return m_Data!=Value;
 }
 
-AtomicInt32& AtomicInt32::operator =(int Value)
+AtomicInt32& AtomicInt32::operator =(Int32 Value)
 {
     m_Data=Value;
     return *this;
@@ -72,7 +72,33 @@ AtomicInt32& AtomicInt32::operator =(const AtomicInt32& Other)
     return *this;
 }
 
-bool AtomicInt32::operator ==(int Value)const
+bool AtomicInt32::operator ==(Int32 Value)const
 {
     return m_Data==Value;
+}
+
+AtomicInt32& AtomicInt32::operator++()
+{
+    Increment();
+    return *this;
+}
+
+AtomicInt32 AtomicInt32::operator++(Int32)
+{
+    AtomicInt32 result(*this);
+    Increment();
+    return result;
+}
+
+AtomicInt32& AtomicInt32::operator--()
+{
+    Decrement();
+    return *this;
+}
+
+AtomicInt32 AtomicInt32::operator--(Int32)
+{
+    AtomicInt32 result(*this);
+    Decrement();
+    return result;
 }

@@ -128,7 +128,7 @@ Matrix<T, N, M>::Matrix()
 template <typename T, RF_Type::Size N, RF_Type::Size M>
 Matrix<T, N, M>::Matrix(const Matrix<T, N, M>& Copy)
 {
-    RF_Mem::Copy(Value, Copy.Value, sizeof(T)*M*N);
+    RF_SysMem::Copy(Value, Copy.Value, sizeof(T)*M*N);
 }
 
 template <typename T, RF_Type::Size N, RF_Type::Size M>
@@ -152,7 +152,7 @@ Vector<T, N> Matrix<T, N, M>::GetColumn(RF_Type::Size Column)const
 template <typename T, RF_Type::Size N, RF_Type::Size M>
 void Matrix<T, N, M>::SetColumn(RF_Type::Size Column, const Vector<T, N> & Vec)
 {
-    RF_Mem::Copy(&Value[Column*N], Vec.Value, sizeof(T)*N);
+    RF_SysMem::Copy(&Value[Column*N], Vec.Value, sizeof(T)*N);
 }
 
 template <typename T, RF_Type::Size N, RF_Type::Size M>
@@ -167,7 +167,7 @@ Matrix<T, N, M>& Matrix<T, N, M>::LoadIdentity()
 template <typename T, RF_Type::Size N, RF_Type::Size M>
 Matrix<T, N, M>& Matrix<T, N, M>::LoadZero()
 {
-    RF_Mem::Set(Value, 0, N*M*sizeof(T));
+    RF_SysMem::Set(Value, 0, N*M*sizeof(T));
     return *this;
 }
 

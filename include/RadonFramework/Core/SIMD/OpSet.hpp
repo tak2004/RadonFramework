@@ -76,143 +76,143 @@ struct Operations
 
 template <typename VecType,RF_Type::Int32 OpSet>
 void Operations<VecType,OpSet>::Init(const typename VecType::ValueType Value, VecType& A)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Add(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Sub(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Mul(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Div(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Mod(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Avg(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Min(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Max(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Reciprocal(const VecType& A)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::ReciprocalOfSqrt(const VecType& A)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Sum(const VecType& A)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::And(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Not(const VecType& A)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Or(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Xor(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Equal(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Less(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::LessEqual(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Greater(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::GreaterEqual(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::NotEqual(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Ordered(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Unordered(const VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType Operations<VecType,OpSet>::Floor(const VecType& A)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::AddAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::SubAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::MulAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::DivAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::ModAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::ShiftRightAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::ShiftLeftAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::AndAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::XorAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
 
 template <typename VecType,RF_Type::Int32 OpSet>
 VecType& Operations<VecType,OpSet>::OrAssign(VecType& A, const VecType& B)
-{ static_assert(0,"Not allowed template parameter use SIMD types"); return A; }
+{ static_assert(sizeof(VecType)!=0,"Not allowed template parameter use SIMD types"); return A; }
         
 } } }
 

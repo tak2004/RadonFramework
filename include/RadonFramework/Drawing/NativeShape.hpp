@@ -42,7 +42,9 @@ public:
     NativeShape& operator=(const NativeShape& Other);
     ~NativeShape();
 
-    void AssignByteCode(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
+    void AssignByteCode(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Move);
+    
+    void AssignByteCode(RF_Mem::AutoPointerArray<RF_Type::UInt8>&& Move);
 
     void AddState(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
 

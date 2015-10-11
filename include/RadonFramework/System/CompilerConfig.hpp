@@ -44,6 +44,7 @@ namespace RF_Sys = RadonFramework::System;
 #if defined(RF_GCC)
 // gcc
 #define RF_FORCE_INLINE __attribute__((always_inline))
+#define RF_ALIGN(X) __attribute__((aligned (X)))
 
 // error msg
 // really bad solution but this is allready the best on gcc
@@ -60,6 +61,7 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #define RF_FORCE_INLINE
 #endif
 
+// c++11
 #ifndef RF_ALIGN
 #define RF_ALIGN(X) alignas(X)
 #endif
@@ -72,6 +74,11 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 // clang/gcc: check if __has_cpp_attribute is available
 #ifndef __has_cpp_attribute
 #define __has_cpp_attribute(x) 0
+#endif
+
+// clang/gcc: check if __has_extension is available
+#ifndef __has_extension
+#define __has_extension(x) 0
 #endif
 
 // detect if compiler can use constexpr
@@ -123,6 +130,11 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #if __has_cpp_attribute(deprecated)
 // c++14
 #define RF_DEPRECATED_FUNC(msg)[[deprecated(msg)]]
+#else
+// pre c++14
+#if __has_extension(attribute_deprecated_with_message)
+#define RF_DEPRECATED_FUNC(msg) __attribute__((deprecated(msg)))
+#endif
 #endif
 // visual studio c++
 #if defined(RF_VISUALCPP)

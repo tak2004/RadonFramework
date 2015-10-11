@@ -282,7 +282,7 @@ const GraphicDriverInformationOpenGL& OpenGLCanvas::GetContextRelatedGraphicDriv
         if (glGetError()==GL_NO_ERROR)
         {
             String extstr = String::UnsafeStringCreation(pext);
-            AutoPointerArray<String> vec=extstr.Split(" ");
+            AutoPointerArray<String> vec(extstr.Split(" "));
             for (UInt32 i=0;i<vec.Count();++i)
                 ext.PushBack(AutoPointer<String>(new String(vec[i])));
         }

@@ -28,14 +28,14 @@ template<typename CLASS>
 template<typename T>
 RF_Type::UInt64 NetworkStream<CLASS>::WriteType(const T& ByValue)
 {
-    return CLASS::WriteType<T>(Convert(ByValue));
+    return CLASS::template WriteType<T>(Convert(ByValue));
 }
 
 template<typename CLASS>
 template<typename T>
 RF_Type::UInt64 NetworkStream<CLASS>::ReadType(T& ByValue)
 {
-    RF_Type::UInt64 result = CLASS::ReadType<T>(ByValue);
+    RF_Type::UInt64 result = CLASS::template ReadType<T>(ByValue);
     ByValue = Convert(ByValue);
     return result;
 }

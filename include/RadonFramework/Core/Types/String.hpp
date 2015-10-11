@@ -325,7 +325,7 @@ String::String(char const (&CString)[N])
     m_Length = GetLength(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
     if (N <= BUFFER_SIZE)
     {// the locale buffer is a little bit faster
-        m_DataManagment = Common::DataManagment::Copy;
+        m_DataManagment = RF_Common::DataManagment::Copy;
         RF_SysMem::Copy(m_FixBuffer.Raw(), CString, N);
         m_FixBuffer.SetSize(N);
     }

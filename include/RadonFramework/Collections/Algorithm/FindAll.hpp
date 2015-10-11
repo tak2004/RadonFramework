@@ -38,7 +38,7 @@ void FindAllEnumeratorTaskFunction(void* Data)
 {
     auto* data = reinterpret_cast<FindAllEnumeratorTaskData<C, FUNCTION>*>(Data);
     data->Enumeable.MoveBy(data->From);
-    Int32 hits = 0;
+    RF_Type::Int32 hits = 0;
     RF_Type::UInt32 i, end;
     for(i = 0, end = data->Steps; i < end; ++i, ++data->Enumeable)
     {
@@ -52,7 +52,7 @@ void FindAllEnumeratorTaskFunction(void* Data)
             data->Results->Item(i)=0;
         }
     }
-    Int32 negativeLoopCounter = -static_cast<Int32>(i);
+    RF_Type::Int32 negativeLoopCounter = -static_cast<RF_Type::Int32>(i);
     data->OverallWork->Add(negativeLoopCounter);
     data->Hits->Add(hits);
 }
@@ -91,7 +91,6 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
                 extra = 0;
             auto* task = new FindAllEnumeratorTaskData<C, FUNCTION>(Function);
             task->Enumeable = enumerator;
-            task->Function = Function;
             task->From = offset;
             task->Steps = jobsPerWorker + extra;
             task->OverallWork = &overallWork;

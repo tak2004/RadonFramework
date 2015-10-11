@@ -46,7 +46,7 @@ RF_Type::String& operator<<(RF_Type::String &Str, const RF_Type::Char &Self);
 template<int N>
 RF_Type::String& operator<<(RF_Type::String &Str, char const (&Other)[N])
 {
-    Str += String(Other, N);
+    Str += RF_Type::String(Other, N);
     return Str;
 }
 

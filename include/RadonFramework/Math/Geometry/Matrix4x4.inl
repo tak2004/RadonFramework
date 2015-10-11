@@ -210,9 +210,9 @@ template<typename T>
 Matrix<T,4,4>& Matrix<T,4,4>::Translate(T x, T y, T z)
 {
     Matrix m;
-    m[12] = x;
-    m[13] = y;
-    m[14] = z;
+    Value[12] = x;
+    Value[13] = y;
+    Value[14] = z;
     (*this) *= m;
     return *this;
 }
@@ -235,17 +235,17 @@ Matrix<T,4,4>& Matrix<T,4,4>::Rotate(const T w, const T x, const T y, const T z)
     v[1] = y / mag;
     v[2] = z / mag;
 
-    m[0] = (v[0] * v[0] * ic) + c;
-    m[1] = (v[0] * v[1] * ic) + (v[2] * s);
-    m[2] = (v[0] * v[2] * ic) - (v[1] * s);
+    Value[0] = (v[0] * v[0] * ic) + c;
+    Value[1] = (v[0] * v[1] * ic) + (v[2] * s);
+    Value[2] = (v[0] * v[2] * ic) - (v[1] * s);
 
-    m[4] = (v[0] * v[1] * ic) - (v[2] * s);
-    m[5] = (v[1] * v[1] * ic) + c;
-    m[6] = (v[1] * v[2] * ic) + (v[0] * s);
+    Value[4] = (v[0] * v[1] * ic) - (v[2] * s);
+    Value[5] = (v[1] * v[1] * ic) + c;
+    Value[6] = (v[1] * v[2] * ic) + (v[0] * s);
 
-    m[8] = (v[0] * v[2] * ic) + (v[1] * s);
-    m[9] = (v[1] * v[2] * ic) - (v[0] * s);
-    m[10] = (v[2] * v[2] * ic) + c;
+    Value[8] = (v[0] * v[2] * ic) + (v[1] * s);
+    Value[9] = (v[1] * v[2] * ic) - (v[0] * s);
+    Value[10] = (v[2] * v[2] * ic) + c;
 
     *this *= m;
     return *this;
@@ -255,9 +255,9 @@ template<typename T>
 Matrix<T,4,4>& Matrix<T,4,4>::Scale(T x, T y, T z)
 {
     Matrix m;
-    m[0] = x;
-    m[5] = y;
-    m[10] = z;
+    Value[0] = x;
+    Value[5] = y;
+    Value[10] = z;
     *this *= m;
     return *this;
 }
@@ -269,24 +269,24 @@ Matrix<T,4,4> Matrix<T,4,4>::MatNormalMatrix()
     float d;
     for (unsigned int i=0;i<3;i++)
     for (unsigned int j=0;j<3;j++)
-        m_NormalMatrix.Value[i*3+j]=this->Value[i*4+j];
+        Value[i*3+j]=this->Value[i*4+j];
 
-    d=Determinant(m_NormalMatrix);
-    tnmat[0]=m_NormalMatrix[4]*m_NormalMatrix[8]-m_NormalMatrix[5]*m_NormalMatrix[7];
-    tnmat[3]=m_NormalMatrix[5]*m_NormalMatrix[6]-m_NormalMatrix[3]*m_NormalMatrix[8];
-    tnmat[6]=m_NormalMatrix[3]*m_NormalMatrix[7]-m_NormalMatrix[4]*m_NormalMatrix[6];
+    d=Determinant(*this);
+    tnmat[0]=Value[4]*Value[8]-Value[5]*Value[7];
+    tnmat[3]=Value[5]*Value[6]-Value[3]*Value[8];
+    tnmat[6]=Value[3]*Value[7]-Value[4]*Value[6];
 
-    tnmat[1]=m_NormalMatrix[2]*m_NormalMatrix[7]-m_NormalMatrix[5]*m_NormalMatrix[8];
-    tnmat[4]=m_NormalMatrix[0]*m_NormalMatrix[8]-m_NormalMatrix[2]*m_NormalMatrix[6];
-    tnmat[7]=m_NormalMatrix[1]*m_NormalMatrix[6]-m_NormalMatrix[1]*m_NormalMatrix[7];
+    tnmat[1]=Value[2]*Value[7]-Value[5]*Value[8];
+    tnmat[4]=Value[0]*Value[8]-Value[2]*Value[6];
+    tnmat[7]=Value[1]*Value[6]-Value[1]*Value[7];
 
-    tnmat[2]=m_NormalMatrix[1]*m_NormalMatrix[5]-m_NormalMatrix[2]*m_NormalMatrix[4];
-    tnmat[5]=m_NormalMatrix[2]*m_NormalMatrix[3]-m_NormalMatrix[0]*m_NormalMatrix[5];
-    tnmat[8]=m_NormalMatrix[0]*m_NormalMatrix[4]-m_NormalMatrix[1]*m_NormalMatrix[3];
+    tnmat[2]=Value[1]*Value[5]-Value[2]*Value[4];
+    tnmat[5]=Value[2]*Value[3]-Value[0]*Value[5];
+    tnmat[8]=Value[0]*Value[4]-Value[1]*Value[3];
 
     for (unsigned int i=0;i<3;i++)
     for (unsigned int j=0;j<3;j++)
-        m_NormalMatrix[i*3+j]=tnmat[i*3+j]/d;
+        Value[i*3+j]=tnmat[i*3+j]/d;
     return tnmat;
 }
 

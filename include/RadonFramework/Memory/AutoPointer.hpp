@@ -191,7 +191,7 @@ AutoPointer<T>::operator AutoPointer<T1>()
 {
     static_assert(std::is_class<T>::value == false || 
         (std::is_class<T>::value == true && std::is_class<T1>::value == true &&
-        std::is_base_of<T1, T>::value == true));
+        std::is_base_of<T1, T>::value == true), "T and T1 are classes but not related to each other.");
     return AutoPointer<T1>(this->Release());
 }
 

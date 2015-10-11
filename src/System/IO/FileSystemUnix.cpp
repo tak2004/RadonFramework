@@ -71,12 +71,24 @@ Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
 Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
 {
     Bool result=false;
-    int hFile=open(Path.c_str(),O_CREAT);
-    if (hFile)
+    struct stat buf;
+    int fd = open(Path.c_str(), O_RDWR);
+    if(!fstat(fd, &buf))
     {
-        result=posix_fallocate(hFile,0,FileSize)==0;
-        close(hFile);
+        if(buf.st_size < FileSize && buf.st_blksize && !ftruncate(fd, FileSize))
+        {
+            const int block = buf.st_blksize;
+            int written;
+            RF_Type::Int64 writeBytes=((buf.st_size+2*block-1)/block)*block-1;
+            do{
+                written=0;
+                if(lseek(fd, writeBytes, SEEK_SET) == writeBytes)
+                    written = write(fd,"",1);
+                writeBytes+=block;
+            }while(written == 1 && writeBytes < FileSize);
+            result = written == 1;
     }
+    close(fd);
     return result;
 }
 

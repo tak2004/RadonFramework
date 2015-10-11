@@ -294,7 +294,7 @@ void BitArray<RB, MA, MO>::Resize(RF_Type::Size NewSize)
 
     if(NewSize != m_ContainerInfo.elementCount)
     {
-        UInt8* data = MA::template NewArray<UInt8>(NewSize);
+        RF_Type::UInt8* data = MA::template NewArray<RF_Type::UInt8>(NewSize);
         MO::Copy(data, m_Data, Math::Integer<RF_Type::UInt32>::ClampUpperBound(m_ContainerInfo.elementCount, NewSize));
         MA::FreeArray(m_Data);
         m_Data = data;
@@ -305,7 +305,7 @@ void BitArray<RB, MA, MO>::Resize(RF_Type::Size NewSize)
 template<typename RB, typename MA, typename MO>
 void BitArray<RB, MA, MO>::Swap(BitArray<RB, MA, MO>& Other)
 {
-    T* tmpData = m_Data;
+    RF_Type::UInt8* tmpData = m_Data;
     m_Data = Other.m_Data;
     Other.m_Data = tmpData;
 
@@ -404,7 +404,7 @@ RF_Type::Bool BitArray<RB, MA, MO>::InitArray(const RF_Type::Size Length)
     if(Length > 0)
     {
         m_ContainerInfo.elementCount = Length;
-        m_Data = MA::template NewArray<UInt8>(m_ContainerInfo.ByteSize());
+        m_Data = MA::template NewArray<RF_Type::UInt8>(m_ContainerInfo.ByteSize());
         if(m_Data == 0)
             return false;        
     }

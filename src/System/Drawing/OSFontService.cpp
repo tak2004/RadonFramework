@@ -1,8 +1,8 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
+#include "RadonFramework/Collections/List.hpp"
 
 #if defined(RF_WINDOWS)
-#include "RadonFramework/Collections/List.hpp"
 #include <windows.h>
 
 void ObtainUnicodeRangeIdentifierFromUsb(const DWORD USB[4], 
@@ -370,6 +370,15 @@ void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>&
             }
         }
     }
+}
+#else
+void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>& fonts)
+{
+}
+
+void ImplementationGetUnicodeCharRanges(const RF_Type::String& Text,
+                                        RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out)
+{
 }
 #endif
 

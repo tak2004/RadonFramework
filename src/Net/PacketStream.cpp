@@ -45,7 +45,7 @@ void PacketStream::Enqueue(AutoPointerArray<UInt8>& packet)
     m_Data->MemoryStream.AddLast(packet);
     while (m_Data->MemoryStream.Length()>m_Data->MaxDataSize)
         m_Data->MemoryStream.RemoveFirst();
-    RF_Pattern::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(ProcessStreamTask,m_Data.Get(),TaskStrategy::Concurrent,false);
+    RF_Pattern::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(ProcessStreamTask,m_Data.Get(),TaskStrategy::Concurrent);
 }
 
 void PacketStream::SetPacketSplitFunction(SplitFunctionType SplitFunction)

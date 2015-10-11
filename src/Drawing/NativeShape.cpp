@@ -27,9 +27,9 @@ NativeShape::~NativeShape()
 {
 }
 
-void NativeShape::AssignByteCode(AutoPointerArray<UInt8>& Data)
+void NativeShape::AssignByteCode(AutoPointerArray<UInt8>& Move)
 {
-    m_Data=Data;
+    m_Data=Move;
     m_EntryTableSize=reinterpret_cast<UInt16*>(m_Data.Get());
     m_EntryTable=reinterpret_cast<State*>(m_EntryTableSize+1);
     //m_ByteCodeBlock=m_Data.Get()+2+((*m_EntryTableSize)*sizeof(State));
@@ -42,6 +42,11 @@ void NativeShape::AssignByteCode(AutoPointerArray<UInt8>& Data)
         m_HandleDataList(i).Second=offset;
         offset+=m_EntryTable[i].ByteCodeSize;
     }
+}
+    
+void NativeShape::AssignByteCode(AutoPointerArray<UInt8>&& Move)
+{
+    AssignByteCode(static_cast<AutoPointerArray<UInt8>&>(Move));
 }
 
 NativeShape::Handle NativeShape::GetCodeHandle(const ID ByID)

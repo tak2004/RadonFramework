@@ -131,18 +131,6 @@ public:
         const RF_Net::SocketOptionName OptionName,
         const T& OptionValue);
 
-    template <>
-    static RF_Net::Error SetSocketOption(const SocketHandler Handler,
-        const RF_Net::SocketOptionLevel OptionLevel,
-        const RF_Net::SocketOptionName OptionName,
-        const RF_Net::IPAddress& OptionValue);
-
-    template <>
-    static RF_Net::Error SetSocketOption(const SocketHandler Handler,
-        const RF_Net::SocketOptionLevel OptionLevel,
-        const RF_Net::SocketOptionName OptionName,
-        const RF_Net::MulticastRequest& OptionValue);
-
     // This method set a socket to blocking or non blocking mode.
     static RF_Net::Error SetBlockingMode(const SocketHandler Handler,
         const RF_Type::Bool NewValue);

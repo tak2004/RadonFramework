@@ -6,7 +6,7 @@
 
 namespace RadonFramework { namespace Core { namespace Common {
 
-enum class DataManagment : RF_Type::UInt8
+enum class DataManagment
 {
     // create a copy of data
     Copy=0,

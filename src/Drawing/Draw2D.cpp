@@ -36,14 +36,14 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     auto buffers = cmdBuffer.AddVariable<RF_Type::UInt32>(2);
     auto vao = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
     auto vertexShader = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
-    auto vertexShaderSize = cmdBuffer.AddVariable<RF_Type::Size>(1);
+    auto vertexShaderSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
     auto vertexShaderStream = cmdBuffer.AddVariable<void*>(1);
     auto fragmentShader = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
-    auto fragmentShaderSize = cmdBuffer.AddVariable<RF_Type::Size>(1);
+    auto fragmentShaderSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
     auto fragmentShaderStream = cmdBuffer.AddVariable<void*>(1);
     auto shader = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
-    auto vertexDataSize = cmdBuffer.AddVariable<RF_Type::Size>(1, true, "vertexdatasize");
-    auto indexDataSize = cmdBuffer.AddVariable<RF_Type::Size>(1, true, "indexdatasize");
+    auto vertexDataSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1, true, "vertexdatasize");
+    auto indexDataSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1, true, "indexdatasize");
     auto vertexStream = cmdBuffer.AddVariable<void*>(1, true, "vertexdata");
     auto indexStream = cmdBuffer.AddVariable<void*>(1, true, "indexdata");
     auto isCompiled = cmdBuffer.AddVariable<RF_Type::Int32>(2,true, "isCompiled");
@@ -113,7 +113,7 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
 RF_Mem::AutoPointer<Text2D> Draw2D::BeginText(const FontDescription& WhichFont, 
     const RF_Type::String& Text)const
 {
-    RF_Mem::AutoPointer<Path2D> result(new Path2D);
+    RF_Mem::AutoPointer<Text2D> result(new Text2D);
     return result;
 }
 

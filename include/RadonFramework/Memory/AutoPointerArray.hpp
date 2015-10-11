@@ -31,11 +31,13 @@ public:
 
     explicit AutoPointerArray();
 
-    AutoPointerArray(RF_Type::Size Count);
+    explicit AutoPointerArray(RF_Type::Size Count);
                 
     AutoPointerArray(ElementType* Ptr, RF_Type::Size Count);
 
-    AutoPointerArray(AutoPointerArray& Copy);
+    AutoPointerArray(const AutoPointerArray& Copy);
+    
+    AutoPointerArray(AutoPointerArray&& Move);
 
     template <typename T1>
     AutoPointerArray(AutoPointerArray<T1>& Ref);
@@ -142,11 +144,18 @@ AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RF_Type::Size Count)
 }
 
 template<typename T>
-AutoPointerArray<T>::AutoPointerArray(AutoPointerArray& Copy)
+AutoPointerArray<T>::AutoPointerArray(const AutoPointerArray<T>& Copy)
 {
-    AutoPointerArrayData<T> data=Copy.Release();
-    m_Size=data.Count;
-    m_Data=data.Ptr;
+    *this=Copy.Clone();
+}
+    
+template<typename T>
+AutoPointerArray<T>::AutoPointerArray(AutoPointerArray<T>&& Move)
+{
+    m_Data = Move.m_Data;
+    m_Size = Move.m_Size;
+    Move.m_Data = 0;
+    Move.m_Size = 0;
 }
 
 template<typename T>

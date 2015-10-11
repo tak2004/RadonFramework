@@ -172,7 +172,8 @@ set(LIBSRCFILES_WINDOW
 	src/System/StringWindows.cpp
 	src/System/TimeWindows.cpp
 	src/System/ProcessWindows.cpp
-	src/System/HardwareWindows.cpp)
+	src/System/HardwareWindows.cpp
+	src/System/Drawing/SystemTrayServiceWindows.cpp)
 	
 set(LIBSRCFILES_LINUX
 	src/System/TimeLinux.cpp
