@@ -31,6 +31,8 @@ namespace FileAccessPriority
 {
     enum Type
     {
+        /// No priority, use system default.
+        None,
         /// Optimize for sequential reading(prefetch upcomming blocks).
         ReadThroughput,
         /// Optimize for random position reading(no prefetching).

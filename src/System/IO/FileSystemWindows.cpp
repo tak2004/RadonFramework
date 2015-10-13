@@ -43,8 +43,9 @@ DWORD GetNativeAccessMode(FileAccessMode::Type AccessMode)
 
 DWORD GetNativePriority(FileAccessPriority::Type AccessPriority)
 {
-    static DWORD result[FileAccessPriority::MAX]={
-        FILE_FLAG_SEQUENTIAL_SCAN, FILE_FLAG_RANDOM_ACCESS, FILE_FLAG_WRITE_THROUGH, FILE_ATTRIBUTE_NORMAL
+    static DWORD result[FileAccessPriority::MAX] = {FILE_ATTRIBUTE_NORMAL,
+        FILE_FLAG_SEQUENTIAL_SCAN, FILE_FLAG_RANDOM_ACCESS, FILE_FLAG_WRITE_THROUGH, 
+        FILE_ATTRIBUTE_NORMAL
     };
     return result[AccessPriority];
 }

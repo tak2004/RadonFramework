@@ -209,45 +209,18 @@ RF_Net::Error NetService::SetSocketOption(
 }
 
 template<>
-RF_Net::Error NetService::SetSocketOption(
+RF_Net::Error NetService::SetSocketOption<RF_Net::IPAddress>(
     const NetService::SocketHandler Handler,
     const RF_Net::SocketOptionLevel OptionLevel,
     const RF_Net::SocketOptionName OptionName,
-    const RF_Net::IPAddress& OptionValue)
-{
-    if(OptionName == RF_Net::SocketOptionName::MulticastInterface &&
-            OptionLevel == RF_Net::SocketOptionLevel::IPv4)
-    {
-        return SetMulticastInterface(Handler, OptionValue);
-    }
-    else
-    {
-        return RF_Net::Error::InvalidArgument;
-    }
-}
+    const RF_Net::IPAddress& OptionValue);
 
 template<>
-RF_Net::Error NetService::SetSocketOption(
+RF_Net::Error NetService::SetSocketOption<RF_Net::MulticastRequest>(
     const NetService::SocketHandler Handler,
     const RF_Net::SocketOptionLevel OptionLevel,
     const RF_Net::SocketOptionName OptionName,
-    const RF_Net::MulticastRequest& OptionValue)
-{
-    if(OptionName == RF_Net::SocketOptionName::AddMembership &&
-       OptionLevel == RF_Net::SocketOptionLevel::IPv4)
-    {
-        return AddMembership(Handler, OptionValue);
-    }
-    else if(OptionName == RF_Net::SocketOptionName::DropMembership &&
-            OptionLevel == RF_Net::SocketOptionLevel::IPv4)
-    {
-        return DropMembership(Handler, OptionValue);
-    }
-    else
-    {
-        return RF_Net::Error::InvalidArgument;
-    }
-}
+    const RF_Net::MulticastRequest& OptionValue);
 
 } } }
 

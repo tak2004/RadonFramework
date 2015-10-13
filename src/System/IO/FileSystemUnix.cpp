@@ -70,25 +70,34 @@ Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
 
 Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
 {
-    Bool result=false;
-    struct stat buf;
-    int fd = open(Path.c_str(), O_RDWR);
-    if(!fstat(fd, &buf))
+    Bool result = false;
+    int fd = open(Path.c_str(), O_CREAT);
+    if(fd)
     {
-        if(buf.st_size < FileSize && buf.st_blksize && !ftruncate(fd, FileSize))
+#ifdef RF_HAVE_POSIX_FALLOCATE
+        result=posix_fallocate(fd,0,FileSize)==0;
+#else
+        struct stat buf;
+        if(!fstat(fd, &buf))
         {
-            const int block = buf.st_blksize;
-            int written;
-            RF_Type::Int64 writeBytes=((buf.st_size+2*block-1)/block)*block-1;
-            do{
-                written=0;
-                if(lseek(fd, writeBytes, SEEK_SET) == writeBytes)
-                    written = write(fd,"",1);
-                writeBytes+=block;
-            }while(written == 1 && writeBytes < FileSize);
-            result = written == 1;
+            if(buf.st_size < FileSize && buf.st_blksize && !ftruncate(fd, FileSize))
+            {
+                const int block = buf.st_blksize;
+                int written;
+                RF_Type::Int64 writeBytes = ((buf.st_size + 2 * block - 1) / block)*block - 1;
+                do
+                {
+                    written = 0;
+                    if(lseek(fd, writeBytes, SEEK_SET) == writeBytes)
+                        written = write(fd, "", 1);
+                    writeBytes += block;
+                } while(written == 1 && writeBytes < FileSize);
+                result = written == 1;
+            }
+        }
+#endif
+        close(fd);
     }
-    close(fd);
     return result;
 }
 
@@ -98,13 +107,13 @@ String WorkingDirectory()
     AutoPointerArray<char> buffer(size);
     String result;
     if (getcwd(buffer.Get(),size))
-        result=String(buffer.Release().Ptr, DataManagment::TransfereOwnership);
+        result=String(buffer.Release().Ptr,size, DataManagment::TransfereOwnership);
     return result;
 }
 
 String HomeDirectory()
 {
-    return String(getenv ("HOME"));
+    return String::UnsafeStringCreation(getenv ("HOME"));
 }
 
 String ApplicationDirectory()
@@ -136,7 +145,7 @@ AutoPointerArray<String> DirectoryContent(const String& Path)
         while ((direntry=readdir(dir))!=0)
             list.AddLast(String(direntry->d_name));
         closedir(dir);
-        result=AutoPointerArray<String>(list.Size());
+        result=AutoPointerArray<String>(list.Count());
         for (UInt32 i=0;i<result.Count();++i)
             result[i].Swap(list[i]);
     }    
@@ -159,27 +168,34 @@ Bool CopyFile(const String& From, const String& To)
 {
     Bool result=false;
     int in_fd = open(From.c_str(), O_RDONLY);
+#ifdef RF_HAVE_POSIX_FADVISE
     posix_fadvise(in_fd, 0,0,POSIX_FADV_SEQUENTIAL);
-    int out_fd=open(To.c_str(),O_WRONLY);
-    if (in_fd && out_fd)
+#else
+    fcntl(in_fd, F_READAHEAD, 1);
+#endif
+    if (in_fd)
     {
         AutoPointer<FileStatus> stats=::Stat(From);
         if (stats)
         {
-            result=posix_fallocate(out_fd,0,stats->Size);
-            char buf[8192];
-            while (result) 
+            CreatePreAllocatedFile(To, stats->Size);
+            int out_fd = open(To.c_str(), O_WRONLY);
+            if(out_fd)
             {
-                ssize_t bytes = read(in_fd, &buf[0], sizeof(buf));
-                if (bytes==0)
-                    break;
-                if (write(out_fd, &buf[0], bytes) != bytes)
-                    break;
+                char buf[8192];
+                while(result)
+                {
+                    size_t bytes = read(in_fd, &buf[0], sizeof(buf));
+                    if(bytes == 0)
+                        break;
+                    if(write(out_fd, &buf[0], bytes) != bytes)
+                        break;
+                }
+                result &= true;
             }
-            result&=true;
+            close(out_fd);
         }
         close(in_fd);
-        close(out_fd);
     }
     return result;
 }
@@ -189,26 +205,29 @@ int GetNativeFlags(const FileAccessMode::Type AccessMode, const FileAccessPriori
     static const int mode[FileAccessMode::MAX] = {O_RDONLY,
         O_WRONLY | O_CREAT | O_TRUNC,
         O_RDWR | O_CREAT | O_TRUNC};
-    static const int prio[FileAccessPriority::MAX] = {0, 0, O_DIRECT, 0 };
-    return mode[AccessMode] | prio[Priority];
+    return mode[AccessMode];
 }
 
+#ifdef RF_HAVE_POSIX_FADVISE
 int GetNativeAccessPriority(const FileAccessPriority::Type Priority)
 {
     static const int result[FileAccessPriority::MAX] = {POSIX_FADV_SEQUENTIAL,
         POSIX_FADV_RANDOM, POSIX_FADV_NORMAL, POSIX_FADV_NORMAL};
     return result[Priority];
 }
+#endif
 
 FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type AccessMode,
                     const FileAccessPriority::Type AccessPriority)
 {
     FileHandle result = FileHandle::Zero();
-    int file = open(Filepath.c_str(), GetNativeFlags(AccessMode, AccessPriority));
+    int file = open(Filepath.c_str(), GetNativeFlags(AccessMode));
     if (file != 0)
     {
+#ifdef RF_HAVE_POSIX_FADVISE
         // set file access pattern advise
         posix_fadvise(file, 0, 0, GetNativeAccessPriority(AccessPriority));
+#endif
         result = FileHandle::GenerateFromID(file);
     }
     return result;
@@ -254,15 +273,15 @@ UInt64 TellFile(const FileHandle& Handle)
     return lseek(file, 0, SEEK_CUR);
 }
 
-Char PathSeperator()
+RF_Type::String PathSeperator()
 {
-    static const Char result = ';';
+    static const RF_Type::String result(";");
     return result;
 }
 
-Char Seperator()
+RF_Type::String Seperator()
 {
-    static const Char result=  '/'; 
+    static const RF_Type::String result("/");
     return result;
 }
 
@@ -317,5 +336,10 @@ void RFFILE::Dispatch()
     #ifdef RF_LINUX
     extern void DispatchLinux();
     DispatchLinux();
+    #else
+    #ifdef RF_OSX
+    extern void DispatchOSX();
+    DispatchOSX();
+    #endif
     #endif
 }
