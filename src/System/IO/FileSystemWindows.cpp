@@ -311,7 +311,7 @@ void RealPath(const String& Path, String& ResolvedPath)
     {
         AutoPointerArray<char> buffer(neededBufferSize);
         GetFullPathName(Path.c_str(), neededBufferSize, buffer.Get(), lppPart);
-        ResolvedPath = WinToUri(String(buffer.Release().Ptr, neededBufferSize, RF_Common::DataManagment::TransfereOwnership));
+        ResolvedPath = String(buffer.Release().Ptr, neededBufferSize, RF_Common::DataManagment::TransfereOwnership).Replace("\\", "/");
     }
 }
 

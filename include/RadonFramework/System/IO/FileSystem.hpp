@@ -91,6 +91,11 @@ using SeperatorCallback = RF_Type::String(*)();
 using StatCallback = RF_Mem::AutoPointer<RF_IO::FileStatus>(*)(
     const RF_Type::String& Path);
 
+/**
+* Resolve symbolic links into an absolute path.
+* @Path system path
+* @ResolvedPath system path
+*/
 using RealPathCallback = void(*)(const RF_Type::String& Path,
                                  RF_Type::String& ResolvedPath);
 
@@ -132,17 +137,35 @@ using TellFileCallback = RF_Type::UInt64(*)(const FileHandle& Handle);
 
 using GenerateTempFilenameCallback = RF_Type::String(*)(const RF_Type::String& Path);
 
+/**
+* @Path system path
+* @FileSize size in bytes
+*/
 using CreatePreAllocatedFileCallback = RF_Type::Bool(*)(
     const RF_Type::String& Path, const RF_Type::Size FileSize);
 
+/**
+* @Path system path
+*/
 using CreateFileCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
 
+/**
+* @From system path
+* @To system path
+*/
 using CopyFileCallback = RF_Type::Bool(*)(const RF_Type::String& From,
                                           const RF_Type::String& To);
 
+/**
+* @From system path
+* @To system path
+*/
 using RenameFileCallback = RF_Type::Bool(*)(const RF_Type::String& From,
                                             const RF_Type::String& To);
 
+/**
+* @Path system path
+*/
 using DeleteFileCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
 
 // directory

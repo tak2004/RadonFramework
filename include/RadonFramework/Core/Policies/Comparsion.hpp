@@ -1,4 +1,5 @@
 #ifndef RF_CORE_POLICIES_COMPARSION_HPP
+#define RF_CORE_POLICIES_COMPARSION_HPP
 
 namespace RadonFramework
 {
