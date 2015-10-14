@@ -28,14 +28,6 @@
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Collections/Pair.hpp>
 #include <RadonFramework/Collections/Queue.hpp>
-#include <RadonFramework/Collections/SceneGraph/Component.hpp>
-#include <RadonFramework/Collections/SceneGraph/ComponentItem.hpp>
-#include <RadonFramework/Collections/SceneGraph/DataTraits.hpp>
-#include <RadonFramework/Collections/SceneGraph/Graph.hpp>
-#include <RadonFramework/Collections/SceneGraph/Node.hpp>
-#include <RadonFramework/Collections/SceneGraph/NodeItem.hpp>
-#include <RadonFramework/Collections/SceneGraph/Scene.hpp>
-#include <RadonFramework/Collections/SceneGraph.hpp>
 #include <RadonFramework/Collections/Stack.hpp>
 #include <RadonFramework/Collections/Tree.hpp>
 #endif
