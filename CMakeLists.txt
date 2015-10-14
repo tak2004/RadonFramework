@@ -94,7 +94,27 @@ endif()
 
 link_directories(${RadonFramework_BINARY_DIR}/dist/)
 
+OPTION(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE "Enable code which is still in development." OFF)
+if(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE)
+    OPTION(RADONFRAMEWORK_EXPERIMENTAL_HTTP "Enable HTTP namespace." OFF)
+    OPTION(RADONFRAMEWORK_EXPERIMENTAL_HASHTABLE "Enable HashTable class." OFF)
+    OPTION(RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR "Enable Allocator class." OFF)
+endif()
+
+if(NOT RADONFRAMEWORK_EXPERIMENTAL_HTTP)
+    AddSourceDirectoryRecursive(src "src/Net/HTTP" "Sources\\Net\\HTTP")
+    AddHeaderDirectoryRecursive(headers "include/RadonFramework/Net/HTTP" "Includes\\Net\\HTTP")
+    list(APPEND RADONFRAMEWORK_BLACKLIST ${headers} ${src})
+endif()
+if(NOT RADONFRAMEWORK_EXPERIMENTAL_HASHTABLE)
+    list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Collections/Hashtable.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Collections/Hashtable.cpp)
+endif()
+if(NOT RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR)
+    list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Memory/Allocator.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Memory/Allocator.cpp)
+endif()
+
 include(libRadonFramework.cmake)
+
 Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
 
 AddPublicInclude(RADONFRAMEWORK ${RadonFramework_SOURCE_DIR}/include/)
