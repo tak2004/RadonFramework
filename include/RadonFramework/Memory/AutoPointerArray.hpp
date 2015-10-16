@@ -70,6 +70,8 @@ public:
 
     AutoPointerArray& operator=(const AutoPointerArray& Copy);
 
+    AutoPointerArray& operator=(AutoPointerArray&& Copy);
+
     template <typename T1>
     AutoPointerArray& operator=(AutoPointerArray<T1>& Copy);
 
@@ -105,8 +107,8 @@ public:
 
     void Swap(AutoPointerArray<T>& Other);
 private:
-    mutable T* m_Data;
-    mutable RF_Type::Size m_Size;
+    T* m_Data;
+    RF_Type::Size m_Size;
 };
 
 template <typename T>
@@ -223,11 +225,18 @@ RF_Type::Size AutoPointerArray<T>::Size()const
 template<typename T>
 AutoPointerArray<T>& AutoPointerArray<T>::operator=(const AutoPointerArray<T>& Copy)
 {
+    *this=Copy.Clone();
+    return *this;
+}
+
+template<typename T>
+AutoPointerArray<T>& AutoPointerArray<T>::operator=(AutoPointerArray<T>&& Move)
+{
     Reset();
-    m_Data=Copy.m_Data;
-    Copy.m_Data=0;
-    m_Size=Copy.m_Size;
-    Copy.m_Size=0;
+    m_Data = Move.m_Data;
+    Move.m_Data = 0;
+    m_Size = Move.m_Size;
+    Move.m_Size = 0;
     return *this;
 }
 
