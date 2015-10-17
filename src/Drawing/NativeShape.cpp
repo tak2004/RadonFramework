@@ -147,9 +147,4 @@ void NativeShape::StripeOutUnchangedRegisterMoves()
     AssignByteCode(data);
 }
 
-void RadonFramework::Drawing::NativeShape::AddState(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data)
-{
-
-}
-
 } }

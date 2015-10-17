@@ -46,8 +46,6 @@ public:
     
     void AssignByteCode(RF_Mem::AutoPointerArray<RF_Type::UInt8>&& Move);
 
-    void AddState(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
-
     Handle GetCodeHandle(const ID ByID);
 
     template<typename T>
