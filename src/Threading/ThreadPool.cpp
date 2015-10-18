@@ -37,6 +37,7 @@ public:
     volatile bool shutdown;
 };
 
+namespace RadonFramework { namespace Core { namespace Idioms {
 template<class T>
 class PImpl<T>::Data
 {
@@ -172,6 +173,7 @@ public:
     Bool IsQueingAllowed;
     Bool Running;
 };
+} } }
 
 ThreadPool::ThreadPool()
 {

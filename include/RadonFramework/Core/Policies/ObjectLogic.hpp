@@ -65,4 +65,4 @@ namespace RadonFramework
     }
 }
 
-#endif RF_CORE_POLICIES_OBJECTLOGIC_HPP
+#endif // RF_CORE_POLICIES_OBJECTLOGIC_HPP

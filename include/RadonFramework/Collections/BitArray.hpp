@@ -397,6 +397,12 @@ BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::operator=(const BitArray<RB, MA, MO>
 }
 
 template<typename RB, typename MA, typename MO>
+RF_Type::Bool BitArray<RB, MA, MO>::operator[](RF_Type::Size Index) const
+{
+    return Test(Index);
+}
+
+template<typename RB, typename MA, typename MO>
 RF_Type::Bool BitArray<RB, MA, MO>::InitArray(const RF_Type::Size Length)
 {
     m_Data = 0;

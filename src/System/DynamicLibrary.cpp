@@ -25,13 +25,8 @@ void* LoadLib(const RF_Type::String& Name)
 
 Bool UnloadLib(void* Data)
 {
-    return FreeLibrary(*static_cast<HMODULE*>(Data))!=0;
-}
-
-void* LibDataCopy(void* Data)
-{
-    void* result=new HMODULE;
-    *static_cast<HMODULE*>(result)=*static_cast<HMODULE*>(Data);
+    RF_Type::Bool result = FreeLibrary(*static_cast<HMODULE*>(Data)) != 0;
+    delete static_cast<HMODULE*>(Data);
     return result;
 }
 
@@ -58,13 +53,8 @@ void* LoadLib(const RF_Type::String& Name)
 
 Bool UnloadLib(void* Data)
 {
-    return dlclose(*static_cast<void**>(Data))==0;
-}
-
-void* LibDataCopy(void* Data)
-{
-    void* result=new void*;
-    *static_cast<void**>(result)=*static_cast<void**>(Data);
+    RF_Type::Bool result = dlclose(*static_cast<void**>(Data))==0;
+    delete static_cast<void**>(Data);
     return result;
 }
 
@@ -117,22 +107,29 @@ DynamicLibrary::DynamicLibrary()
 
 }
 
-DynamicLibrary::DynamicLibrary(const DynamicLibrary& Copy)
+DynamicLibrary::DynamicLibrary(DynamicLibrary&& Move)
 {
-    *this=Copy;
+    *this=Move;
 }
 
 DynamicLibrary::~DynamicLibrary()
 {
     if (m_ImplementationData)
-        delete m_ImplementationData;
+        UnloadLib(m_ImplementationData);
 }
 
-DynamicLibrary& DynamicLibrary::operator=(const DynamicLibrary& Other)
+DynamicLibrary& DynamicLibrary::operator=(DynamicLibrary& Move)
 {
     if (m_ImplementationData)
-        delete m_ImplementationData;
-    m_ImplementationData=LibDataCopy(Other.m_ImplementationData);
+        UnloadLib(m_ImplementationData);
+    m_ImplementationData = Move.m_ImplementationData;
+    Move.m_ImplementationData = 0;
+    return *this;
+}
+
+DynamicLibrary& DynamicLibrary::operator=(DynamicLibrary&& Move)
+{
+    *this = Move;
     return *this;
 }
 

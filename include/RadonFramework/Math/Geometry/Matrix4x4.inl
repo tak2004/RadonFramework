@@ -382,6 +382,8 @@ RF_Type::Bool Matrix<T,4,4>::operator!=(const Matrix<T,4,4>& Other)const
 
 typedef Matrix<RF_Type::Float32, 4, 4> Mat4f;
 typedef Matrix<RF_Type::Float64, 4, 4> Mat4d;
+typedef Matrix<RF_Type::Float32, 4, 4> Matrix4f;
+typedef Matrix<RF_Type::Float64, 4, 4> Matrix4d;
 
 } } }
 

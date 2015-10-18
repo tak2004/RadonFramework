@@ -7,6 +7,7 @@
 #include <Windowsx.h>
 #include <Strsafe.h>
 
+namespace RadonFramework { namespace Core { namespace Idioms {
 template<>
 struct RF_Idiom::PImpl<RF_SysDraw::SystemTrayServiceWindows>::Data
 {
@@ -127,6 +128,7 @@ struct RF_Idiom::PImpl<RF_SysDraw::SystemTrayServiceWindows>::Data
     RF_Collect::Array<TrayIconItem> m_IconData;
     HWND m_HWND;
 };
+} } }
 
 RF_SysDraw::SystemTrayServiceWindows* SYSTEMTRAYSERVICE = 0;
 RF_Idiom::PImpl<RF_SysDraw::SystemTrayServiceWindows>::Data* SYSTEMTRAYSERVICEDATA = 0;

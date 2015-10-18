@@ -32,9 +32,10 @@ int main(int argc, char** argv)
 
     TestResultCollector results;
     BriefProgressCollector progress;
+    DebugCollector debugger;
     RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(results);
     RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(progress);
-    RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(DebugCollector());
+    RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(debugger);
 
     TestSuite* bitArrayTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitArray-Test");
     if (bitArrayTestSuite)

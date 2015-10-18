@@ -13,41 +13,43 @@ using namespace RadonFramework::System::String;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework;
 
-String SetLocale(const LocaleCategory::Type Category, const String& Locale)
+String SetLocaleUnix(const LocaleCategory::Type Category, const String& Locale)
 {
     const int LOCALECATEGORYMAPPER[LocaleCategory::MAX] = {LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME};
-    return String(setlocale(LOCALECATEGORYMAPPER[Category], Locale.c_str()),
-                  RadonFramework::Core::Common::DataManagment::TransfereOwnership);
+    return String::UnsafeStringCreation(
+        setlocale(LOCALECATEGORYMAPPER[Category], Locale.c_str()),
+        RF_Common::DataManagment::TransfereOwnership);
 }
 
-const String& GetLocale()
+const String& GetLocaleUnix()
 {
     static String globalLocale;
     if (globalLocale.Size() == 0)
-        globalLocale = String(setlocale(LC_ALL, 0), RadonFramework::Core::Common::DataManagment::TransfereOwnership);
+        globalLocale = String::UnsafeStringCreation(
+            setlocale(LC_ALL, 0), RF_Common::DataManagment::TransfereOwnership);
     return globalLocale;
 }
 
-Bool ToUpper(String& Instance)
+Bool ToUpperUnix(String& Instance)
 {
     unsigned c;
     unsigned char *p = const_cast<unsigned char *>(reinterpret_cast<const unsigned char*>(Instance.c_str()));
     while (c = *p) *p++ = toupper(c);
 }
 
-Bool ToLower(String& Instance)
+Bool ToLowerUnix(String& Instance)
 {
     unsigned c;
     unsigned char *p = const_cast<unsigned char *>(reinterpret_cast<const unsigned char*>(Instance.c_str()));
     while (c = *p) *p++ = tolower(c);
 }
 
-Size CStringSizeOf(const UInt8* Buffer, const Size BufferSize)
+Size CStringSizeOfUnix(const UInt8* Buffer, const Size BufferSize)
 {
     return strnlen(reinterpret_cast<const char*>(Buffer), BufferSize) + sizeof('\0');
 }
 
-Size Length(const UInt8* Buffer, const Size BufferSize)
+Size LengthUnix(const UInt8* Buffer, const Size BufferSize)
 {
     char const * pos = reinterpret_cast<const char*>(Buffer);
     Size length = 0;
@@ -61,19 +63,19 @@ Size Length(const UInt8* Buffer, const Size BufferSize)
     return length;
 }
 
-Bool ToInt64(const String& Instance, Int32 Base, Int64& Out)
+Bool ToInt64Unix(const String& Instance, Int32 Base, Int64& Out)
 {
     Out = strtol(Instance.c_str(), 0, Base);
     return !(errno == ERANGE && (Out == LONG_MIN || Out == LONG_MAX));
 }
 
-Bool ToUInt64(const String& Instance, Int32 Base, UInt64& Out)
+Bool ToUInt64Unix(const String& Instance, Int32 Base, UInt64& Out)
 {
     Out = strtoul(Instance.c_str(), 0, Base);
     return !(errno == ERANGE && Out == ULONG_MAX);
 }
 
-Bool ToFloat64(const String& Instance, Float64& Out)
+Bool ToFloat64Unix(const String& Instance, Float64& Out)
 {
     Out = strtod(Instance.c_str(), 0);
     return Out > Math::Math<Float64>::EPSILION &&
@@ -82,12 +84,12 @@ Bool ToFloat64(const String& Instance, Float64& Out)
            Math::Math<Float64>::FAbs(Out - HUGE_VAL) < Math::Math<Float64>::EPSILION));
 }
 
-Int32 Format(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, const String& Format, va_list arg)
+Int32 FormatUnix(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, const String& Format, va_list arg)
 {
     return vsnprintf(reinterpret_cast<char*>(Buffer), BufferSize, Format.c_str(), arg);
 }
 
-const UInt8* Find(const RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, 
+const UInt8* FindUnix(const RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, 
     const RF_Type::UInt8* LookingFor, RF_Type::Size LookingForSize)
 {
     const UInt8* result = reinterpret_cast<const UInt8*>(strstr(reinterpret_cast<const char*>(Buffer), 
@@ -97,17 +99,17 @@ const UInt8* Find(const RF_Type::UInt8* Buffer, RF_Type::Size BufferSize,
 
 void RF_SysStr::Dispatch()
 {
-    SetLocale = ::SetLocale;
-    GetLocale = ::GetLocale;
-    ToUpper = ::ToUpper;
-    ToLower = ::ToLower;
-    CStringSizeOf = ::StrSize;
-    Length = ::Length;
-    ToInt64 = ::ToInt64;
-    ToUInt64 = ::ToUInt64;
-    ToFloat64 = ::ToFloat64;
-    Format = ::Format;
-    Find = ::Find;
+    SetLocale = SetLocaleUnix;
+    GetLocale = GetLocaleUnix;
+    ToUpper = ToUpperUnix;
+    ToLower = ToLowerUnix;
+    CStringSizeOf = CStringSizeOfUnix;
+    Length = LengthUnix;
+    ToInt64 = ToInt64Unix;
+    ToUInt64 = ToUInt64Unix;
+    ToFloat64 = ToFloat64Unix;
+    Format = FormatUnix;
+    Find = FindUnix;
 
     #ifdef RF_LINUX
     extern void DispatchLinux();

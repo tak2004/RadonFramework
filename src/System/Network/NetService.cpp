@@ -163,6 +163,8 @@ inline Error CloseImplementation(const NetService::SocketHandler Handler)
     else
         return OSSocketError::ConvertOSError();
 }
+
+typedef int AddrSize;
 #endif // RF_WINDOWS
 
 #if defined(RF_UNIX)
@@ -183,7 +185,7 @@ inline Error CloseImplementation(const NetService::SocketHandler Handler)
 
 int SockShutdown[SocketShutdown::MAX]={SHUT_RDWR, SHUT_RD, SHUT_WR};
 
-int SocketOption[SocketOptionName::MAX]=
+int SocketOption[static_cast<RF_Type::Size>(SocketOptionName::MAX)]=
     {
         0,//Unset
         SO_DEBUG,//Debug
@@ -304,6 +306,8 @@ inline Error CloseImplementation(const NetService::SocketHandler Handler)
     else
         return OSSocketError::ConvertOSError();
 }
+
+typedef socklen_t AddrSize;
 #endif // RF_LINUX
 
 int SocketAddressFamily[static_cast<RF_Type::Size>(AddressFamily::MAX)]=
@@ -486,7 +490,7 @@ Error NetService::Bind(const NetService::SocketHandler Handler,
     EndPoint &LocalEP)
 {
     sockaddr_in addrIn;
-    int addrSize=sizeof(sockaddr_in);
+    AddrSize addrSize = sizeof(sockaddr_in);
     addrIn.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(LocalEP.Address().GetAddressFamily())];
     addrIn.sin_port=htons(LocalEP.Port());
     const UInt8* addr=LocalEP.Address().AsByteArray();// always most significant byte first

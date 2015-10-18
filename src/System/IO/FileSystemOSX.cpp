@@ -7,9 +7,12 @@ using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
-using namespace RadonFramework::System::IO::FileSystem;
 
-void DispatchOSX()
+namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
+
+void Dispatch_OSX()
 {
 
 }
+
+} } } }

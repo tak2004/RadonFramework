@@ -171,8 +171,3 @@ void WDMOpenGLCanvas3D::MakeCurrent()
 {
     wglMakeCurrent(m_DeviceContext, m_Context);
 }
-
-MeshGenerator2D& WDMOpenGLCanvas3D::GetMeshGenerator2D()
-{
-    return m_MeshGenerator;
-}

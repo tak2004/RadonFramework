@@ -16,6 +16,8 @@ public:
     template<typename T>
     struct Variable
     {
+        Variable() {}
+
         RF_Type::Size Count;
         RF_Type::Size Offset;
         RF_Type::Size Bytes;
@@ -37,6 +39,8 @@ public:
             result.Index = -1;
             return result;
         }
+    private:
+        Variable(const T&) {}
     };
 
     template<GLFunctions::Type FUNC, typename... ARGS>
@@ -86,13 +90,19 @@ public:
     }
 
     template<typename T>
-    Variable<T> AddVariable(RF_Type::Size HowMany, RF_Type::Bool Extern = false, 
-                             const RF_Type::String& Name = "")
+    Variable<T> AddVariable(RF_Type::Size HowMany)
+    {
+        return AddVariable<T>(HowMany,false,RF_Type::String());
+    }
+
+    template<typename T>
+    Variable<T> AddVariable(RF_Type::Size HowMany, RF_Type::Bool Extern,
+                            const RF_Type::String& Name)
     {
         static_assert(GetCopyOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
         Variable<T> result;
         result.Offset = m_ScratchPad.Position();
-        for (RF_Type::Size i = 0; i < HowMany; ++i)
+        for(RF_Type::Size i = 0; i < HowMany; ++i)
         {
             m_ScratchPad.WriteType<T>(0);
         }
@@ -114,45 +124,30 @@ private:
     template<RF_Type::Size TOTALPARAM, typename T>
     void Resolve(T Value)
     {
-        static_assert(GetMoveOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
         static_assert(OpenGLMachine::RegisterCount >= 1, "There is no Move command for this amount of parameter!");
-        static const GLOpCode::Type opCode = GetMoveOpCode<T>::COMMAND[TOTALPARAM - 1];
-
-        m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
-        m_ScratchPad.WriteType(Value);
-    }
-
-    template<RF_Type::Size TOTALPARAM, typename T>
-    void Resolve(Variable<T> Value)
-    {
-        WriteVariable<TOTALPARAM-1,T>(Value);
+        WriteData<TOTALPARAM - 1>(Value);
     }
 
     template<RF_Type::Size TOTALPARAM, typename T, typename... ARGS>
     void Resolve(T First, ARGS... Rest)
     {
-        static_assert(GetMoveOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
         static const RF_Type::UInt64 PARAMETERS = sizeof...(ARGS);
         static_assert(OpenGLMachine::RegisterCount > PARAMETERS, "There is no Move command for this amount of parameter!");
-        static const GLOpCode::Type opCode = GetMoveOpCode<T>::COMMAND[TOTALPARAM-PARAMETERS-1];
-
-        m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
-        m_ScratchPad.WriteType(First);
-        Resolve<TOTALPARAM>(Rest...);
-    }
-
-    template<RF_Type::Size TOTALPARAM, typename T, typename... ARGS>
-    void Resolve(Variable<T> First, ARGS... Rest)
-    {
-        static const RF_Type::UInt64 PARAMETERS = sizeof...(ARGS);
-        static_assert(OpenGLMachine::RegisterCount > PARAMETERS, "There is no Copy command for this amount of parameter!");
-
-        WriteVariable<TOTALPARAM - PARAMETERS - 1, T>(First);
+        WriteData<TOTALPARAM - PARAMETERS - 1>(First);
         Resolve<TOTALPARAM>(Rest...);
     }
 
     template<RF_Type::Size PARAMETER, typename T>
-    void WriteVariable(Variable<T> Value)
+    void WriteData(T Value)
+    {
+        static_assert(GetMoveOpCodeTrait<T>::SUPPORTED, "There is no Move command for this type!");
+        static const GLOpCode::Type opCode = GetMoveOpCode<T>::COMMAND[PARAMETER];
+        m_ScratchPad.WriteType<RF_Type::UInt16>(opCode);
+        m_ScratchPad.WriteType(Value);
+    }
+
+    template<RF_Type::Size PARAMETER,template<typename> class Variable, typename T>
+    void WriteData(Variable<T> Value)
     {
         static_assert(GetCopyOpCodeTrait<T>::SUPPORTED, "There is no Copy command for this type!");
         static_assert(GetAddrOpCodeTrait<void*>::SUPPORTED, "There is no Addr command for this type!");

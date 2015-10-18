@@ -5,27 +5,29 @@
 #include "RadonFramework/Collections/Queue.hpp"
 #include "RadonFramework/IO/Log.hpp"
 
-using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
-using namespace RadonFramework::System::IO::FileSystem;
 
+#include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/sendfile.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-Bool CopyFileLinux(const String& From, const String& To)
+namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
+
+RF_Type::Bool CopyFileLinux(const RF_Type::String& From, const RF_Type::String& To)
 {
-    Bool result=false;
+    RF_Type::Bool result = false;
     int in_fd = open(From.c_str(), O_RDONLY);
     int out_fd = open(To.c_str(),O_WRONLY);
     if (in_fd && out_fd)
     {
-        AutoPointer<FileStatus> stats=StatImplementation(From);
+        AutoPointer<FileStatus> stats=Stat(From);
         if (stats)
         {
             sendfile(out_fd, in_fd, 0, stats->Size);
@@ -66,8 +68,10 @@ FileHandle OpenFileLinux(const RF_Type::String& Filepath, const FileAccessMode::
     return result;
 }
 
-void DispatchLinux()
+void Dispatch_Linux()
 {
     CopyFile = CopyFileLinux;
     OpenFile = OpenFileLinux;
 }
+
+} } } }

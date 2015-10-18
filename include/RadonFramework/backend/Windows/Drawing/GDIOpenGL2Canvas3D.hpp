@@ -27,16 +27,12 @@ public:
     void MakeCurrent();
 
     RF_Geo::Mat4f& TexturecoordMatrix();
-
-    virtual MeshGenerator2D& GetMeshGenerator2D()override;
 protected:
     RF_Geo::Mat4f m_TexturecoordMatrix;
     HWND m_WndHandle;
     HDC m_DeviceContext;
     PIXELFORMATDESCRIPTOR m_PixelFormat;
     HGLRC m_Context;
-    GraphicDriverInformation* m_GraphicDriverInformation;
-    MeshGenerator2D m_MeshGenerator;
 };
 
 } }

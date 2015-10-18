@@ -2,7 +2,6 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
-#include <X11/Xmu/WinUtil.h>
 #undef Bool
 #undef True
 #undef False
@@ -27,7 +26,7 @@ void ResolveEvent(XEvent& Event)
   X11Window* m_Window;
   Size2D<> size;
   Point2D<> pos;
-  VirtualKey::Type vk;
+  VirtualKey vk;
   KeySym key;
   MouseEvent me;
   switch(Event.type)
@@ -90,8 +89,8 @@ void ResolveEvent(XEvent& Event)
             case XK_Down:vk=VirtualKey::Down;break;
             case XK_Shift_L:vk=VirtualKey::ShiftLeft;break;
             case XK_Shift_R:vk=VirtualKey::ShiftRight;break;
-            case 'a'...'z':vk=(VirtualKey::Type)((int)(VirtualKey::a)+(key-'a'));break;
-            case 'A'...'Z':vk=(VirtualKey::Type)((int)(VirtualKey::A)+(key-'A'));break;
+            case 'a'...'z':vk=(VirtualKey)((int)(VirtualKey::a)+(key-'a'));break;
+            case 'A'...'Z':vk=(VirtualKey)((int)(VirtualKey::A)+(key-'A'));break;
         }
         m_Window->OnKeyRelease(vk);
         break;
@@ -110,8 +109,8 @@ void ResolveEvent(XEvent& Event)
             case XK_Down:vk=VirtualKey::Down;break;
             case XK_Shift_L:vk=VirtualKey::ShiftLeft;break;
             case XK_Shift_R:vk=VirtualKey::ShiftRight;break;
-            case 'a'...'z':vk=(VirtualKey::Type)((int)(VirtualKey::a)+(key-'a'));break;
-            case 'A'...'Z':vk=(VirtualKey::Type)((int)(VirtualKey::A)+(key-'A'));break;
+            case 'a'...'z':vk=(VirtualKey)((int)(VirtualKey::a)+(key-'a'));break;
+            case 'A'...'Z':vk=(VirtualKey)((int)(VirtualKey::A)+(key-'A'));break;
         }
         m_Window->OnKeyPress(vk);
         break;

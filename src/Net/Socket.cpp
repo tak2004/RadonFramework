@@ -39,7 +39,7 @@ AutoPointer<Socket> Socket::Create(const AddressFamily Family,
     // Create a socket resource.
     NetService::SocketHandler handler;
     RF_Net::Error error=NetService::Create(handler,Family,Type);
-    if (error==Error::Ok)
+    if(error == RF_Net::Error::Ok)
         result=Create(handler);
     Error.Code=error;
     return result;
@@ -52,7 +52,7 @@ AutoPointer<Socket> Socket::Create(const AddressFamily Family,
     // Create a socket resource.
     NetService::SocketHandler handler;
     Error error=NetService::Create(handler,Family,Type);
-    if (error==Error::Ok)
+    if(error == RF_Net::Error::Ok)
         result=Create(handler);
     return result;
 }

@@ -296,3 +296,8 @@ System::Threading::Mutex& OpenGLCanvas::RenderLock()
 {
     return *m_Lock;
 }
+
+MeshGenerator2D& RadonFramework::Drawing::OpenGLCanvas::GetMeshGenerator2D()
+{
+    return m_MeshGenerator;
+}

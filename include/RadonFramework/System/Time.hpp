@@ -5,7 +5,6 @@
 #endif
 
 #include <RadonFramework/Collections/List.hpp>
-#
 
 namespace RadonFramework { namespace Time { class DateTime; } }
 namespace RF_Time = RadonFramework::Time;

@@ -4,7 +4,7 @@
 #include <mach/clock.h>
 #include <mach/mach.h>
 
-UInt64 GetHighResolutionCounter()
+UInt64 GetHighResolutionCounterOSX()
 {
     clock_serv_t cclock;
     mach_timespec_t mts;
@@ -16,13 +16,17 @@ UInt64 GetHighResolutionCounter()
     return result;
 }
 
-Bool IsHighResolutionCounterSupported()
+Bool IsHighResolutionCounterSupportedOSX()
 {
     return true;
 }
 
+namespace RadonFramework { namespace System { namespace Time {
+
 void Dispatch_OSX()
 {
-    RFTIME::GetHighResolutionCounter = GetHighResolutionCounter;
-    RFTIME::IsHighResolutionCounterSupported = IsHighResolutionCounterSupported;
+    GetHighResolutionCounter = GetHighResolutionCounterOSX;
+    IsHighResolutionCounterSupported = IsHighResolutionCounterSupportedOSX;
 }
+
+} } }

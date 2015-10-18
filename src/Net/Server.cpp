@@ -6,8 +6,9 @@
 #include "RadonFramework/Time/TimeSpan.hpp"
 #include <RadonFramework/System/Network/SelectObjectCollector.hpp>
 
+namespace RadonFramework { namespace Core { namespace Idioms {
 template<>
-struct RF_Idiom::PImpl<RF_Net::Server>::Data
+struct PImpl<RF_Net::Server>::Data
 {
     Data()
     {}
@@ -21,6 +22,7 @@ struct RF_Idiom::PImpl<RF_Net::Server>::Data
     RF_Net::IPAddress m_IP;
     RF_Net::EndPoint m_RemoteEndpoint;
 };
+} } }
 
 namespace RadonFramework { namespace Net {
 

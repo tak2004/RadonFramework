@@ -42,7 +42,7 @@ void X11OpenGL3Canvas3D::Generate()
     m_FBConfig=glXChooseFBConfig(display,DefaultScreen(display),m_Attr,&m_FBConfigCount);
     if (!m_FBConfig)
     {
-      LogError("Failed to retrieve a framebuffer config");
+        RF_IO::LogError("Failed to retrieve a framebuffer config");
       return;
     }
 
@@ -50,7 +50,7 @@ void X11OpenGL3Canvas3D::Generate()
     GLXContext TempContext=glXCreateContext(display,visinfo,NULL,true);
     if(TempContext==NULL)
     {
-        LogError("Could not vreate an OpenGL rendering context.");
+        RF_IO::LogError("Could not vreate an OpenGL rendering context.");
         return;
     }
 
@@ -63,7 +63,7 @@ void X11OpenGL3Canvas3D::Generate()
 
     if (glXCreateContextAttribsARB==NULL)//if the function don't exists then there is no OpenGL3 support
     {
-        LogError("There is no OpenGL3 context support.");
+        RF_IO::LogError("There is no OpenGL3 context support.");
         return;
     }
 
@@ -80,13 +80,13 @@ void X11OpenGL3Canvas3D::Generate()
         {
             if(i>0)
             {
-                LogError(String::Format("Couldn't create OpenGL3.%i context. Try now OpenGL3.&i context.",i,i-1));
+                RF_IO::LogError("Couldn't create OpenGL3.%u context. Try now OpenGL3.%u context.", i, i - 1);
                 continue;
             }
             else
             {
                 glXDestroyContext(display,TempContext);
-                LogError("Couldn't create OpenGL3 context.");
+                RF_IO::LogError("Couldn't create OpenGL3 context.");
                 return;
             }
         }
@@ -97,7 +97,7 @@ void X11OpenGL3Canvas3D::Generate()
     GLenum err=glewInit();
     if (GLEW_OK!=err)
     {
-        LogFatalError("Couldn't init OpenGL extension wrangler.");
+        RF_IO::LogFatalError("Couldn't init OpenGL extension wrangler.");
         return;
     }
 }
@@ -126,4 +126,10 @@ void X11OpenGL3Canvas3D::UpdateRectangle(Rectangle<> &Rec)
 Matrix4f& X11OpenGL3Canvas3D::TexturecoordMatrix()
 {
     return m_TexturecoordMatrix;
+}
+
+void X11OpenGL3Canvas3D::MakeCurrent()
+{
+    glXMakeCurrent(static_cast<X11Application*>(static_cast<X11Window*>(m_Window)->GetService()->Application())->GetDisplay(),
+                   static_cast<X11Window*>(m_Window)->GetHandle(), m_Context);
 }

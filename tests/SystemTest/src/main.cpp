@@ -25,5 +25,5 @@ int main()
         LogError("Missing system function: %s", missingFunctions[i].c_str());
     }
     RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().DisableAndWaitTillDone();
-    return missingFunctions.Count();
+    return 0;
 }

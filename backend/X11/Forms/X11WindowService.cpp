@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
+
 #undef Bool
 #undef True
 #undef False

@@ -27,12 +27,14 @@ void RFTIME::Dispatch()
 {
     GetNow = ::GetNow;
     GetMinutesWestOfGMT = ::GetMinutesWestOfGMT;
-    #ifdef RF_LINUX
+
+#ifdef RF_LINUX
     extern void Dispatch_Linux();
     Dispatch_Linux();
-    #endif
-    #ifdef RF_OSX
+#else
+#ifdef RF_OSX
     extern void Dispatch_OSX();
     Dispatch_OSX();
-    #endif
+#endif
+#endif
 }

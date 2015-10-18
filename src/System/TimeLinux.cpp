@@ -6,7 +6,7 @@
 #include <sys/timeb.h>
 #include <stdlib.h>
 
-RF_Type::UInt64 GetHighResolutionCounter()
+RF_Type::UInt64 GetHighResolutionCounterLinux()
 {
     timespec tmp;	
     RF_Type::UInt64 result=0;
@@ -15,14 +15,18 @@ RF_Type::UInt64 GetHighResolutionCounter()
     return result;
 }
 
-RF_Type::Bool IsHighResolutionCounterSupported()
+RF_Type::Bool IsHighResolutionCounterSupportedLinux()
 {
     timespec tmp;
     return clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&tmp)==0;
 }
 
+namespace RadonFramework { namespace System { namespace Time {
+
 void Dispatch_Linux()
 {
-    RFTIME::GetHighResolutionCounter = GetHighResolutionCounter;
-    RFTIME::IsHighResolutionCounterSupported = IsHighResolutionCounterSupported;
+    GetHighResolutionCounter = GetHighResolutionCounterLinux;
+    IsHighResolutionCounterSupported = IsHighResolutionCounterSupportedLinux;
 }
+
+} } }

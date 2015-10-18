@@ -82,8 +82,8 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #endif
 
 // detect if compiler can use constexpr
-// gcc: available since 4.0.6
-#if (__GNUC__ * 100 + __GNUC_MINOR__) >= 406
+// gcc: available since 4.6.0
+#if (__GNUC__ * 10 + __GNUC_MINOR__) >= 46
 #define RF_HAVE_CONSTEXPR
 #endif
 #if __has_feature(cxx_constexpr)
@@ -102,7 +102,7 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #define RF_HAVE_IS_TRIVIALLY_COPYABLE
 #endif
 
-#if !defined(RF_VISUALCPP)
+#if __GNUC__ >= 5
 #define RF_HAVE_IS_TRIVIALLY_COPYABLE
 #endif
 
@@ -132,7 +132,7 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #define RF_DEPRECATED_FUNC(msg)[[deprecated(msg)]]
 #else
 // pre c++14
-#if __has_extension(attribute_deprecated_with_message)
+#if __has_extension(attribute_deprecated_with_message) || __GNUC__ * 10 + __GNU_MINOR__ >= 34
 #define RF_DEPRECATED_FUNC(msg) __attribute__((deprecated(msg)))
 #endif
 #endif

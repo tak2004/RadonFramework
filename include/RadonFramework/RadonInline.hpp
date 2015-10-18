@@ -56,10 +56,6 @@
 #include <RadonFramework/Core/Policies/StringProcessor/ShiftAnd.hpp>
 #include <RadonFramework/Core/Policies/StringProcessor/SkipSearch.hpp>
 #include <RadonFramework/Core/Policies/StringProcessor/Sunday.hpp>
-#include <RadonFramework/Core/SIMD/FPU_ALU.hpp>
-#include <RadonFramework/Core/SIMD/OpSet.hpp>
-#include <RadonFramework/Core/SIMD/SSE2.hpp>
-#include <RadonFramework/Core/SIMD.hpp>
 #include <RadonFramework/Core/Traits/AllocatorTraits.hpp>
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
 #include <RadonFramework/Core/Types/AtomicInt64.hpp>
@@ -126,8 +122,6 @@
 #include <RadonFramework/Drawing/Canvas3DServiceConfig.hpp>
 #include <RadonFramework/Drawing/Canvas3DServiceLocator.hpp>
 #include <RadonFramework/Drawing/Color.hpp>
-#include <RadonFramework/Drawing/CommandBuffer.hpp>
-#include <RadonFramework/Drawing/Draw2D.hpp>
 #include <RadonFramework/Drawing/FontService.hpp>
 #include <RadonFramework/Drawing/FontServiceLocator.hpp>
 #include <RadonFramework/Drawing/Forms/Control.hpp>
@@ -143,15 +137,11 @@
 #include <RadonFramework/Drawing/GraphicDriverInformation.hpp>
 #include <RadonFramework/Drawing/ICanvas3D.hpp>
 #include <RadonFramework/Drawing/MeshGenerator2D.hpp>
-#include <RadonFramework/Drawing/NativeShape.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilitiesType.hpp>
-#include <RadonFramework/Drawing/OpenGLMachine.hpp>
-#include <RadonFramework/Drawing/Path2D.hpp>
 #include <RadonFramework/Drawing/PixelFormat.hpp>
 #include <RadonFramework/Drawing/PopupMenu.hpp>
 #include <RadonFramework/Drawing/SystemTray.hpp>
-#include <RadonFramework/Drawing/Text2D.hpp>
 #include <RadonFramework/Drawing/TrayIcon.hpp>
 #endif
 
@@ -210,7 +200,6 @@
 #include <RadonFramework/Math/Geometry/CubicBezier.hpp>
 #include <RadonFramework/Math/Geometry/Line.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
-#include <RadonFramework/Math/Geometry/Mesh.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Math/Geometry/ProjectionMatrix.hpp>
 #include <RadonFramework/Math/Geometry/Quaternion.hpp>

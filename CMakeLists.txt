@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.11)
 project(RadonFramework)
+INCLUDE (CheckFunctionExists)
 
 include("Integrate.cmake")
 
@@ -21,10 +22,12 @@ OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL" ON)
 #
 # set destination directory for all binaries
 #
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
 
+FIND_PACKAGE ( Threads REQUIRED )
+set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})    
 #
 # OS specific includes
 #
@@ -42,10 +45,6 @@ OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL" ON)
 	if(UNIX)
 		# for loading a dynamic library you have to link libdl.so
 		set(OSLIBS ${OSLIBS} dl rt)
-		# for using threads you have to link libpthread.so
-		if(PTHREADS_FOUND)
-			set(OSLIBS ${OSLIBS} pthread)
-		endif()
 	endif(UNIX)
 
 #
@@ -59,7 +58,7 @@ OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL" ON)
 			find_package(X11)
 			if(X11_FOUND)
 				set(USEX11 "#ifndef RF_USE_X11\n#define RF_USE_X11\n#endif")
-				set(OSLIBS ${OSLIBS} X11 Xrandr)
+				set(OSLIBS ${OSLIBS} X11)
 				find_path(X11_Xmu_INCLUDE_PATH X11/Xmu/Xmu.h ${X11_INC_SEARCH_PATH})
 				find_library(X11_Xmu_LIB Xmu ${X11_LIB_SEARCH_PATH})
 				if(X11_Xmu_INCLUDE_PATH AND X11_Xmu_LIB)
@@ -99,6 +98,8 @@ if(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_HTTP "Enable HTTP namespace." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_HASHTABLE "Enable HashTable class." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR "Enable Allocator class." OFF)
+    OPTION(RADONFRAMEWORK_EXPERIMENTAL_SIMD "Enable SIMD classes." OFF)
+    OPTION(RADONFRAMEWORK_EXPERIMENTAL_OGLVM "Enable OpenGL VM." OFF)
 endif()
 
 if(NOT RADONFRAMEWORK_EXPERIMENTAL_HTTP)
@@ -111,6 +112,35 @@ if(NOT RADONFRAMEWORK_EXPERIMENTAL_HASHTABLE)
 endif()
 if(NOT RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR)
     list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Memory/Allocator.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Memory/Allocator.cpp)
+endif()
+if(NOT RADONFRAMEWORK_EXPERIMENTAL_SIMD)
+    AddHeaderDirectoryRecursive(headers "include/RadonFramework/Core/SIMD" "Includes\\Core\\SIMD")
+    list(APPEND RADONFRAMEWORK_BLACKLIST ${headers} ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Core/SIMD.hpp)
+endif()
+if(NOT RADONFRAMEWORK_EXPERIMENTAL_OGLVM)
+    
+    list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/OpenGLMachine.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/OpenGLMachine.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/Text2D.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/Path2D.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Path2D.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/NativeShape.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/NativeShape.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Forms/Label.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Forms/Label.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/Draw2D.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Draw2D.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/CommandBuffer.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/CommandBuffer.cpp)
+endif()
+
+CHECK_FUNCTION_EXISTS(posix_fallocate RF_HAVE_POSIX_FALLOCATE)
+if(RF_HAVE_POSIX_FALLOCATE)
+    add_definitions(-DRF_HAVE_POSIX_FALLOCATE)
+endif()
+CHECK_FUNCTION_EXISTS(posix_fadvise RF_HAVE_POSIX_FADVISE)
+if(RF_HAVE_POSIX_FADVISE)
+    add_definitions(-DRF_HAVE_POSIX_FADVISE)
 endif()
 
 include(libRadonFramework.cmake)

@@ -30,7 +30,7 @@ void X11Application::Run(Form *MainForm)
             ResolveEvent(event);
         }
         for (unsigned int i=0;i<X11Window::GetObjectCount();i++)
-            X11Window::GetObjectByIndex(i)->OnIdle(dynamic_cast<const IObserver*>(this));
+            X11Window::GetObjectByIndex(i)->OnIdle();
     }
     XSync(m_Display,false);
 }

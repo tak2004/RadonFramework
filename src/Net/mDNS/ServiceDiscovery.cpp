@@ -9,6 +9,7 @@
 #include "RadonFramework/Net/MulticastRequest.hpp"
 #include "RadonFramework/Net/ServerConfig.hpp"
 
+namespace RadonFramework { namespace Core { namespace Idioms {
 template<>
 struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
 {
@@ -31,6 +32,7 @@ struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
     RF_Type::Bool m_UseIPv4;
     RF_Type::Bool m_UseIPv6;
 };
+} } }
 
 namespace RadonFramework { namespace Net { namespace mDNS {
 

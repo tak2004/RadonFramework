@@ -39,14 +39,14 @@ void X11OpenGL2Canvas3D::Generate()
     m_Context=glXCreateContext(display,visinfo,NULL,true);
     if(m_Context==NULL)
     {
-        LogError("Can't create X11 graphic context.");
+        RF_IO::LogError("Can't create X11 graphic context.");
         return;
     }
 
     glXMakeCurrent(display,static_cast<X11Window*>(m_Window)->GetHandle(),m_Context);
     GLenum err=glewInit();
     if (GLEW_OK!=err)
-        LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
+        RF_IO::LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
 }
 
 void X11OpenGL2Canvas3D::SetWindowInfos(IWindow* Window)
@@ -73,4 +73,10 @@ void X11OpenGL2Canvas3D::UpdateRectangle(Rectangle<> &Rec)
 Matrix4f& X11OpenGL2Canvas3D::TexturecoordMatrix()
 {
   return m_TexturecoordMatrix;
+}
+
+void RadonFramework::Drawing::X11OpenGL2Canvas3D::MakeCurrent()
+{
+    glXMakeCurrent(static_cast<X11Application*>(static_cast<X11Window*>(m_Window)->GetService()->Application())->GetDisplay(),
+                   static_cast<X11Window*>(m_Window)->GetHandle(), m_Context);
 }

@@ -434,4 +434,8 @@ void RFHDW::Dispatch()
     extern void DispatchWindows();
     DispatchWindows();
     #endif
+    #ifdef RF_LINUX
+    extern void DispatchLinux();
+    DispatchLinux();
+    #endif
 }

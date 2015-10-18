@@ -111,7 +111,7 @@ const OperatingSystem& OSVersion()
 
 void GetVariable(const RF_Type::String& Name, RF_Type::String& Result)
 {
-    Result=RF_Type::String(getenv(Name.c_str()),DataManagment::TransfereOwnership);
+    Result=RF_Type::String::UnsafeStringCreation(getenv(Name.c_str()),DataManagment::TransfereOwnership);
 }
 
 OperatingSystemFamily::Type OSFamily()

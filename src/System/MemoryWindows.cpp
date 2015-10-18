@@ -7,14 +7,14 @@
 
 using namespace RadonFramework::Core::Types;
 
-UInt32 GetPageSize()
+UInt32 GetPageSizeWindows()
 {
     SYSTEM_INFO systemInfo;
     GetSystemInfo(& systemInfo);
     return systemInfo.dwPageSize;
 }
 
-void EnableTerminationOnHeapCorruption()
+void EnableTerminationOnHeapCorruptionWindows()
 {
     // Only a 64Bit binary on Windows 64Bit all ready have set this flag but no other combination.
     #if !defined(RF_WINDOWS) && !defined(RF_64BIT) && _WIN32_WINNT>=0x0600
@@ -22,20 +22,20 @@ void EnableTerminationOnHeapCorruption()
     #endif
 }
 
-void* Allocate(UInt32 Bytes)
+void* AllocateWindows(UInt32 Bytes)
 {
     return HeapAlloc(GetProcessHeap(), 0, Bytes);
 }
 
-void Free(void* FirstPage)
+void FreeWindows(void* FirstPage)
 {
     HeapFree(GetProcessHeap(), 0, FirstPage);
 }
 
 void RF_SysMem::Dispatch()
 {
-    GetPageSize=::GetPageSize;
-    EnableTerminationOnHeapCorruption=::EnableTerminationOnHeapCorruption;
-    Allocate=::Allocate;
-    Free=::Free;
+    GetPageSize = GetPageSizeWindows;
+    EnableTerminationOnHeapCorruption = EnableTerminationOnHeapCorruptionWindows;
+    Allocate = AllocateWindows;
+    Free = FreeWindows;
 }

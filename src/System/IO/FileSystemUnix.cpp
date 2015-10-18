@@ -23,7 +23,7 @@ using namespace RadonFramework::System::IO::FileSystem;
 #include <unistd.h>
 #include <stdio.h>
 
-inline Bool Access(const String& Path, const AccessMode::Type Mode)
+inline Bool AccessUnix(const String& Path, const AccessMode::Type Mode)
 {
     int modes[AccessMode::MAX]={-1, F_OK, R_OK, F_OK|R_OK, W_OK, W_OK|F_OK, 
                                 W_OK|R_OK, W_OK|R_OK|F_OK, X_OK, X_OK|F_OK,
@@ -33,7 +33,7 @@ inline Bool Access(const String& Path, const AccessMode::Type Mode)
     return access(Path.c_str(),modes[Mode]);
 }
 
-inline AutoPointer<FileStatus> Stat(const String& Path)
+inline AutoPointer<FileStatus> StatUnix(const String& Path)
 {
     AutoPointer<FileStatus> result;
     struct stat buf;
@@ -50,7 +50,7 @@ inline AutoPointer<FileStatus> Stat(const String& Path)
     return result;
 }
 
-void RealPath(const String& Path, String& ResolvedPath)
+void RealPathUnix(const String& Path, String& ResolvedPath)
 {
     char* resolvedPath = realpath(Path.c_str(), 0);
     if(resolvedPath)
@@ -59,7 +59,7 @@ void RealPath(const String& Path, String& ResolvedPath)
     }    
 }
 
-Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
+Bool ChangeModeUnix( const String& Path, const AccessMode::Type NewMode )
 {
     int modes[AccessMode::MAX]={-1, F_OK, R_OK, F_OK|R_OK, W_OK, W_OK|F_OK, 
                                 W_OK|R_OK, W_OK|R_OK|F_OK, X_OK, X_OK|F_OK,
@@ -68,7 +68,7 @@ Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
     return chmod(Path.c_str(),modes[NewMode])==0;
 }
 
-Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
+Bool CreatePreAllocatedFileUnix(const String& Path, const Size FileSize)
 {
     Bool result = false;
     int fd = open(Path.c_str(), O_CREAT);
@@ -101,7 +101,7 @@ Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
     return result;
 }
 
-String WorkingDirectory()
+String WorkingDirectoryUnix()
 {
     long size = pathconf(".", _PC_PATH_MAX);
     AutoPointerArray<char> buffer(size);
@@ -111,29 +111,29 @@ String WorkingDirectory()
     return result;
 }
 
-String HomeDirectory()
+String HomeDirectoryUnix()
 {
     return String::UnsafeStringCreation(getenv ("HOME"));
 }
 
-String ApplicationDirectory()
+String ApplicationDirectoryUnix()
 {
     char buffer[BUFSIZ];
     readlink("/proc/self/exe", buffer, BUFSIZ);
     return String(buffer);
 }
 
-Bool ChangeDirectory( const String& Destination ) 
+Bool ChangeDirectoryUnix( const String& Destination ) 
 {
     return chdir(Destination.c_str())==0;
 }
 
-Bool CreateDirectory( const String& Path ) 
+Bool CreateDirectoryUnix( const String& Path ) 
 {    
     return mkdir(Path.c_str(),S_IRWXU | S_IRWXG | S_IRWXO)==0;
 }
 
-AutoPointerArray<String> DirectoryContent(const String& Path) 
+AutoPointerArray<String> DirectoryContentUnix(const String& Path) 
 {
     AutoPointerArray<String> result;
     List<String> list;
@@ -152,7 +152,7 @@ AutoPointerArray<String> DirectoryContent(const String& Path)
     return result;
 }
 
-Bool CreateFile(const String& Path)
+Bool CreateFileUnix(const String& Path)
 {
     Bool result=false;
     FILE* f=fopen(Path.c_str(),"w");
@@ -164,7 +164,7 @@ Bool CreateFile(const String& Path)
     return result;
 }
 
-Bool CopyFile(const String& From, const String& To)
+Bool CopyFileUnix(const String& From, const String& To)
 {
     Bool result=false;
     int in_fd = open(From.c_str(), O_RDONLY);
@@ -200,7 +200,7 @@ Bool CopyFile(const String& From, const String& To)
     return result;
 }
 
-int GetNativeFlags(const FileAccessMode::Type AccessMode, const FileAccessPriority::Type Priority)
+int GetNativeFlags(const FileAccessMode::Type AccessMode)
 {
     static const int mode[FileAccessMode::MAX] = {O_RDONLY,
         O_WRONLY | O_CREAT | O_TRUNC,
@@ -217,7 +217,7 @@ int GetNativeAccessPriority(const FileAccessPriority::Type Priority)
 }
 #endif
 
-FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type AccessMode,
+FileHandle OpenFileUnix(const RF_Type::String& Filepath, const FileAccessMode::Type AccessMode,
                     const FileAccessPriority::Type AccessPriority)
 {
     FileHandle result = FileHandle::Zero();
@@ -233,7 +233,7 @@ FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type 
     return result;
 }
 
-RF_Type::Bool CloseFile(FileHandle& Handle)
+RF_Type::Bool CloseFileUnix(FileHandle& Handle)
 {
     int file = static_cast<int>(Handle.GetID());
     Bool result = close(file) == 0;
@@ -241,105 +241,94 @@ RF_Type::Bool CloseFile(FileHandle& Handle)
     return result;
 }
 
-Bool ReadFile(const FileHandle& Handle, UInt8* Buffer, const UInt64 ReadBytes, UInt64& BytesRead)
+Bool ReadFileUnix(const FileHandle& Handle, UInt8* Buffer, const UInt64 ReadBytes, UInt64& BytesRead)
 {
     int file = static_cast<int>(Handle.GetID());
     BytesRead = read(file, Buffer, ReadBytes);
     return ReadBytes == BytesRead;
 }
 
-Bool WriteFile(const FileHandle& Handle, const UInt8* Buffer, const UInt64 WriteBytes, UInt64& BytesWritten)
+Bool WriteFileUnix(const FileHandle& Handle, const UInt8* Buffer, const UInt64 WriteBytes, UInt64& BytesWritten)
 {
     int file = static_cast<int>(Handle.GetID());
     return write(file, Buffer, WriteBytes) > 0;
 }
 
-Bool FlushFile(const FileHandle& Handle)
+Bool FlushFileUnix(const FileHandle& Handle)
 {
     int file = static_cast<int>(Handle.GetID());
     return fsync(file) == 0;
 }
 
-UInt64 SeekFile(const FileHandle& Handle, const Int64 Offset, const SeekOrigin::Type Origin)
+UInt64 SeekFileUnix(const FileHandle& Handle, const Int64 Offset, const SeekOrigin::Type Origin)
 {
     static const int NativeSeek[SeekOrigin::MAX] = {SEEK_SET, SEEK_CUR, SEEK_END };
     int file = static_cast<int>(Handle.GetID());
     return lseek(file, Offset, NativeSeek[Origin]);
 }
 
-UInt64 TellFile(const FileHandle& Handle)
+UInt64 TellFileUnix(const FileHandle& Handle)
 {
     int file = static_cast<int>(Handle.GetID());
     return lseek(file, 0, SEEK_CUR);
 }
 
-RF_Type::String PathSeperator()
+RF_Type::String PathSeperatorUnix()
 {
     static const RF_Type::String result(";");
     return result;
 }
 
-RF_Type::String Seperator()
+RF_Type::String SeperatorUnix()
 {
     static const RF_Type::String result("/");
     return result;
 }
 
-Bool DeleteFile(const String& Path)
+Bool DeleteFileUnix(const String& Path)
 {
     return unlink(Path.c_str()) == 0;
 }
 
-Bool RenameFile(const String& From, const String& To)
+Bool RenameFileUnix(const String& From, const String& To)
 {
     return rename(From.c_str(), To.c_str()) == 0;
 }
 
 void RFFILE::Dispatch()
 {
-    OpenFile=::OpenFile;
-    CloseFile=::CloseFile;
-/*    MapFileIntoMemory=::MapFileIntoMemory;
-    UnmapMemoryFile=::UnmapMemoryFile;
-    GetMemoryFile=::GetMemoryFile;*/
-    ReadFile=::ReadFile;
-    WriteFile=::WriteFile;
-    FlushFile=::FlushFile;
-    SeekFile=::SeekFile;
-    TellFile=::TellFile;
-    Access=::Access;
-    PathSeperator=::PathSeperator;
-    Seperator=::Seperator;
-    Stat=::Stat;
-    RealPath=::RealPath;
-    ChangeMode=::ChangeMode;
-    CreatePreAllocatedFile=::CreatePreAllocatedFile;
-    CreateFile=::CreateFile;
-    CopyFile=::CopyFile;
-    RenameFile=::RenameFile;
-    DeleteFile=::DeleteFile;
-    WorkingDirectory=::WorkingDirectory;
-    HomeDirectory=::HomeDirectory;
-    ApplicationDirectory=::ApplicationDirectory;
-    //UserApplicationDataDirectory = ::UserApplicationDataDirectory;
-    //ApplicationDataDirectory = ::ApplicationDataDirectory;
-    ChangeDirectory=::ChangeDirectory;
-    CreateDirectory=::CreateDirectory;
-    DirectoryContent=::DirectoryContent;
-    //CreateFileWatcher=::CreateFileWatcher;
-    //DestroyFileWatcher=::DestroyFileWatcher;
-    //WaitForFileWatcher=::WaitForFileWatcher;
-    //StartFileWatcher=::StartFileWatcher;
-    //StopFileWatcher=::StopFileWatcher;
-    //GetFileWatcherEvent=::GetFileWatcherEvent;
-    //GenerateTempFilename=::GenerateTempFilename;*/
-    #ifdef RF_LINUX
-    extern void DispatchLinux();
-    DispatchLinux();
-    #else
-    #ifdef RF_OSX
-    extern void DispatchOSX();
-    DispatchOSX();
-    #endif
-    #endif
+    OpenFile = OpenFileUnix;
+    CloseFile = CloseFileUnix;
+    ReadFile = ReadFileUnix;
+    WriteFile = WriteFileUnix;
+    FlushFile = FlushFileUnix;
+    SeekFile = SeekFileUnix;
+    TellFile = TellFileUnix;
+    Access = AccessUnix;
+    PathSeperator = PathSeperatorUnix;
+    Seperator = SeperatorUnix;
+    Stat = StatUnix;
+    RealPath = RealPathUnix;
+    ChangeMode = ChangeModeUnix;
+    CreatePreAllocatedFile = CreatePreAllocatedFileUnix;
+    CreateFile = CreateFileUnix;
+    CopyFile = CopyFileUnix;
+    RenameFile = RenameFileUnix;
+    DeleteFile = DeleteFileUnix;
+    WorkingDirectory = WorkingDirectoryUnix;
+    HomeDirectory = HomeDirectoryUnix;
+    ApplicationDirectory = ApplicationDirectoryUnix;
+    ChangeDirectory = ChangeDirectoryUnix;
+    CreateDirectory = CreateDirectoryUnix;
+    DirectoryContent = DirectoryContentUnix;
+
+#ifdef RF_LINUX
+    extern void Dispatch_Linux();
+    Dispatch_Linux();
+#else
+#ifdef RF_OSX
+    extern void Dispatch_OSX();
+    Dispatch_OSX();
+#endif
+#endif
 }

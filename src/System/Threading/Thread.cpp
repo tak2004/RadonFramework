@@ -282,10 +282,11 @@ struct ThreadHelper
     pthread_mutex_t mutexIsAlive;
     pthread_cond_t aliveChanged;
     pthread_attr_t attr;
-    Delegate<> OnFinished;
+    Delegate<void()> OnFinished;
     RFT::IRunnable* run;
     Int64* PID;
     Bool alive;
+    Bool cancel;
 };
 
 void ThrImplementationAlive(void* Data, Bool Value)
@@ -332,6 +333,7 @@ RFT::ThreadError::Type ThrImplementationInit(void*& Data, RFT::IRunnable* Job, T
     p->ID=0;
     p->PID=&PID;
     p->alive=false;
+    p->cancel = false;
     pthread_attr_init(&p->attr);
     pthread_mutex_init(&p->mutex,NULL);
     pthread_mutex_init(&p->mutexIsAlive,NULL);
@@ -371,6 +373,7 @@ void ThrImplementationDestroy(void* Data)
     ThreadHelper* p=static_cast<ThreadHelper*>(Data);
     if (p->ID)
     {
+        p->cancel = true;
         pthread_detach(p->ID);
         pthread_cancel(p->ID);
         pthread_join(p->ID,0);
@@ -382,6 +385,7 @@ void ThrImplementationCancel(void* Data)
     ThreadHelper* p=static_cast<ThreadHelper*>(Data);
     if (p->ID)
     {
+        p->cancel = true;
         pthread_detach(p->ID);
         pthread_cancel(p->ID);
     }
@@ -486,6 +490,45 @@ void ThrImplementationPriority(void* Data, RFT::ThreadPriority::Type Value)
             pthread_mutex_unlock(&p->mutex);
         }
     }
+}
+
+inline Bool ThrImplementationGetAffinityMask(void* Data, BitArray<>& Mask)
+{
+    RF_Type::Bool result = false;
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    if (pthread_getaffinity_np(p->ID, sizeof(cpuset),&cpuset) ==0)
+    {
+        Mask.Resize(CPU_SETSIZE);
+        Mask.Reset();
+        for (RF_Type::Size i = 0; i < CPU_SETSIZE;++i)
+        {
+            if (CPU_ISSET(i, &cpuset))
+                Mask.Set(i);
+        }
+        result = true;
+    }    
+    return result;
+}
+
+inline Bool ThrImplementationSetAffinityMask(void* Data, const BitArray<>& NewValue)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    for (RF_Type::Size i = 0; i < NewValue.Count(); ++i)
+    {
+        if (NewValue[i])
+            CPU_SET(i, &cpuset);
+    }    
+    return pthread_setaffinity_np(p->ID, sizeof(cpu_set_t),&cpuset) == 0;
+}
+
+RF_Type::Bool ThrImplementationShouldRunning(void* Data)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    return !p->cancel && p->alive;
 }
 #endif
 

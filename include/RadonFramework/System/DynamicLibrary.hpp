@@ -23,10 +23,10 @@ public:
 
     static const RF_Type::String& LineEnding();
 
-    DynamicLibrary();                
-                
-    DynamicLibrary(const DynamicLibrary& Copy);
-                
+    DynamicLibrary();
+
+    DynamicLibrary(DynamicLibrary&& Move);
+
     /**
     * @brief Cleanup internal data.
     *
@@ -46,9 +46,13 @@ public:
     */
     RF_Type::Bool IsDefault();                
 
-    DynamicLibrary& operator=(const DynamicLibrary& Other);
-protected:                
+    DynamicLibrary& operator=(DynamicLibrary& Move);
+    DynamicLibrary& operator=(DynamicLibrary&& Move);
+protected:
     void* m_ImplementationData;
+
+    DynamicLibrary(const DynamicLibrary& NoCopy) = delete;
+    DynamicLibrary& operator=(const DynamicLibrary& NoCopy) = delete;
 };
     
 } }

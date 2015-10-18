@@ -12,12 +12,4 @@ RF_Type::UInt32 GetCurrentProcessIdImplementation()
 void RFPROC::Dispatch()
 {
     GetCurrentProcessId = ::GetCurrentProcessIdImplementation;
-    #ifdef RF_LINUX
-    extern void Dispatch_Linux();
-    Dispatch_Linux();
-    #endif
-    #ifdef RF_OSX
-    extern void Dispatch_OSX();
-    Dispatch_OSX();
-    #endif
 }

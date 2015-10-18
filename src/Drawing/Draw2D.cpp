@@ -52,13 +52,15 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     cmdBuffer.State("createmesh");
     cmdBuffer.Call<GLFunctions::CreateBuffers>(2, buffers.Ptr());
     cmdBuffer.Call<GLFunctions::NamedBufferData>(buffers, vertexDataSize,
-                                                 vertexStream, RF_GL::GL_STATIC_DRAW);
+        vertexStream, static_cast<RF_Type::UInt32>(RF_GL::GL_STATIC_DRAW));
     cmdBuffer.Call<GLFunctions::NamedBufferData>(buffers[1], indexDataSize,
-                                                 indexStream, RF_GL::GL_STATIC_DRAW);
+        indexStream, static_cast<RF_Type::UInt32>(RF_GL::GL_STATIC_DRAW));
     cmdBuffer.Call<GLFunctions::CreateVertexArrays>(1, vao.Ptr());
     cmdBuffer.Call<GLFunctions::VertexArrayElementBuffer>(vao, buffers[1]);
     cmdBuffer.Call<GLFunctions::EnableVertexArrayAttrib>(vao, 0);
-    cmdBuffer.Call<GLFunctions::VertexArrayAttribFormat>(vao, 0, 3, RF_GL::GL_FLOAT, RF_GL::GL_FALSE, 0);
+    cmdBuffer.Call<GLFunctions::VertexArrayAttribFormat>(vao, 0, 3, 
+        static_cast<RF_Type::UInt32>(RF_GL::GL_FLOAT), 
+        static_cast<RF_Type::UInt32>(RF_GL::GL_FALSE), 0);
     cmdBuffer.Call<GLFunctions::VertexArrayVertexBuffer>(vao, 0, buffers, 0, 0);
     cmdBuffer.Call<GLFunctions::VertexArrayAttribBinding>(vao, 0, 0);
 
@@ -67,16 +69,18 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     cmdBuffer.Call<GLFunctions::DeleteBuffers>(buffers.Ptr());
 
     cmdBuffer.State("compileshaders");
-    cmdBuffer.Call<GLFunctions::CreateShader>(RF_GL::GL_VERTEX_SHADER);
+    cmdBuffer.Call<GLFunctions::CreateShader>(static_cast<RF_Type::UInt32>(RF_GL::GL_VERTEX_SHADER));
     cmdBuffer.CopyResult(vertexShader);
     cmdBuffer.Call<GLFunctions::ShaderSource>(vertexShader, 1, vertexShaderStream.Ptr(), vertexShaderSize.Ptr());
     cmdBuffer.Call<GLFunctions::CompileShader>(vertexShader);
-    cmdBuffer.Call<GLFunctions::GetShaderiv>(vertexShader, RF_GL::GL_COMPILE_STATUS, isCompiled.Ptr());
-    cmdBuffer.Call<GLFunctions::CreateShader>(RF_GL::GL_FRAGMENT_SHADER);
+    cmdBuffer.Call<GLFunctions::GetShaderiv>(vertexShader, 
+        static_cast<RF_Type::UInt32>(RF_GL::GL_COMPILE_STATUS), isCompiled.Ptr());
+    cmdBuffer.Call<GLFunctions::CreateShader>(static_cast<RF_Type::UInt32>(RF_GL::GL_FRAGMENT_SHADER));
     cmdBuffer.CopyResult(fragmentShader);
     cmdBuffer.Call<GLFunctions::ShaderSource>(fragmentShader, 1, fragmentShaderStream.Ptr(), fragmentShaderSize.Ptr());
     cmdBuffer.Call<GLFunctions::CompileShader>(fragmentShader);
-    cmdBuffer.Call<GLFunctions::GetShaderiv>(fragmentShader, RF_GL::GL_COMPILE_STATUS, isCompiled[1].Ptr());
+    cmdBuffer.Call<GLFunctions::GetShaderiv>(fragmentShader, 
+        static_cast<RF_Type::UInt32>(RF_GL::GL_COMPILE_STATUS), isCompiled[1].Ptr());
     
     cmdBuffer.State("linkprogram");
     cmdBuffer.Call<GLFunctions::CreateProgram>(1, shader.Ptr());
@@ -84,7 +88,8 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     cmdBuffer.Call<GLFunctions::AttachShader>(shader, vertexShader);
     cmdBuffer.Call<GLFunctions::AttachShader>(shader, fragmentShader);
     cmdBuffer.Call<GLFunctions::LinkProgram>(shader);
-    cmdBuffer.Call<GLFunctions::GetProgramiv>(shader, RF_GL::GL_LINK_STATUS, isLinked.Ptr());
+    cmdBuffer.Call<GLFunctions::GetProgramiv>(shader, 
+        static_cast<RF_Type::UInt32>(RF_GL::GL_LINK_STATUS), isLinked.Ptr());
     cmdBuffer.Call<GLFunctions::DetachShader>(shader, vertexShader);
     cmdBuffer.Call<GLFunctions::DetachShader>(shader, fragmentShader);
     cmdBuffer.Call<GLFunctions::DeleteShader>(vertexShader);
@@ -101,7 +106,8 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     cmdBuffer.State("zpass");
     cmdBuffer.Call<RF_Draw::GLFunctions::UseProgram>(shader);
     cmdBuffer.Call<RF_Draw::GLFunctions::BindVertexArray>(vao);
-    cmdBuffer.Call<RF_Draw::GLFunctions::DrawArrays>(RF_GL::GL_TRIANGLES, 0, 3);
+    cmdBuffer.Call<RF_Draw::GLFunctions::DrawArrays>(
+        static_cast<RF_Type::UInt32>(RF_GL::GL_TRIANGLES), 0, 3);
 
     cmdBuffer.Finalize();
     result->AssignByteCode(cmdBuffer.ReleaseData());

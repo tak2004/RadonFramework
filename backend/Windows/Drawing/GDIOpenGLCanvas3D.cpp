@@ -170,8 +170,3 @@ void GDIOpenGLCanvas3D::MakeCurrent()
 {
     wglMakeCurrent(m_DeviceContext, m_Context);
 }
-
-MeshGenerator2D& GDIOpenGLCanvas3D::GetMeshGenerator2D()
-{
-    return m_MeshGenerator;
-}
