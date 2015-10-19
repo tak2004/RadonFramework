@@ -837,7 +837,7 @@ void String::Swap(String& Other)
     }
 }
 
-inline RF_Type::UInt8* String::GetBuffer()
+RF_Type::UInt8* String::GetBuffer()
 {
     if (m_DataManagment == DataManagment::Copy)
         return m_FixBuffer.Raw();
@@ -845,7 +845,7 @@ inline RF_Type::UInt8* String::GetBuffer()
         return m_DynBuffer.Raw();
 }
 
-inline const RF_Type::UInt8* String::GetBuffer()const
+const RF_Type::UInt8* String::GetBuffer()const
 {
     if (m_DataManagment == DataManagment::Copy)
         return m_FixBuffer.Raw();
@@ -858,7 +858,7 @@ RF_Type::Bool String::IsEmpty() const
     return Size() == 0;
 }
 
-inline RF_Type::Size String::Size()const
+RF_Type::Size String::Size()const
 {
     if (m_DataManagment == DataManagment::Copy)
         return m_FixBuffer.GetSize();
@@ -866,12 +866,12 @@ inline RF_Type::Size String::Size()const
         return m_DynBuffer.GetSize();
 }
 
-inline RF_Type::Bool String::IsASCII()const
+RF_Type::Bool String::IsASCII()const
 {
     return Size() - 1 == m_Length;
 }
 
-inline RF_Type::Bool String::CanGlyphsBeCompared(const String& Other)const
+RF_Type::Bool String::CanGlyphsBeCompared(const String& Other)const
 {
     return IsASCII() == Other.IsASCII();
 }
