@@ -104,7 +104,7 @@ void DetectCacheInfo(AutoPointerArray<RFHDW::CacheInfo>& CacheDataList, RF_Type:
                     CacheDataList[j].UsedAs = RFHDW::CacheUseCase::Data;
                     break;
                 case CacheInstruction:
-                    CacheDataList[j].UsedAs = RFHDW::CacheUseCase::Data;
+                    CacheDataList[j].UsedAs = RFHDW::CacheUseCase::Code;
                     break;
                 case CacheTrace:
                     CacheDataList[j].UsedAs = RFHDW::CacheUseCase::CodeAndDataTLB;
@@ -215,14 +215,32 @@ RF_Type::Int32 GetCacheCount()
     return result;
 }
 
+RF_Type::Size GetPhysicalMemorySizeWindows()
+{
+    MEMORYSTATUSEX memInfo;
+    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+    GlobalMemoryStatusEx(&memInfo);
+    return memInfo.ullTotalPhys*1024;
+}
+
+RF_Type::Size GetFreePhysicalMemorySizeWindows()
+{
+    MEMORYSTATUSEX memInfo;
+    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+    GlobalMemoryStatusEx(&memInfo);
+    return memInfo.ullAvailPhys*1024;
+}
+
 namespace RadonFramework { namespace System { namespace Hardware {
 
-void DispatchWindows()
+void Dispatch_Windows()
 {
     GetAvailableLogicalProcessorCount = ::GetAvailableLogicalProcessorCount;
     GetCurrentProcessorNumber = ::GetCurrentProcessorNumberImplementation;
     GetCacheInfo = ::GetCacheInfo;
     GetCacheCount = ::GetCacheCount;
+    GetPhysicalMemorySize = GetPhysicalMemorySizeWindows;
+    GetFreePhysicalMemorySize = GetFreePhysicalMemorySizeWindows;
 }
 
 } } }

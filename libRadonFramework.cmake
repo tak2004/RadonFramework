@@ -191,7 +191,8 @@ set(LIBSRCFILES_UNIX
 	
 set(LIBSRCFILES_OSX
 	src/System/TimeOSX.cpp
-    src/System/IO/FileSystemOSX.cpp)
+    src/System/IO/FileSystemOSX.cpp
+    src/System/HardwareOSX.cpp)
 	
 set(LIBSRCFILES_MICROCRT
 	src/System/MicroRuntimeLibrary/CommandLine.cpp

@@ -430,12 +430,17 @@ void RFHDW::Dispatch()
 {
     RFHDW::GetCacheCount = ::DetectCacheCount;
     GetLogicalProcessorFeatures = ::GetLogicalProcessorFeatures;
-    #ifdef RF_WINDOWS
-    extern void DispatchWindows();
-    DispatchWindows();
-    #endif
-    #ifdef RF_LINUX
-    extern void DispatchLinux();
-    DispatchLinux();
-    #endif
+#ifdef RF_WINDOWS
+    extern void Dispatch_Windows();
+    Dispatch_Windows();
+#endif
+#ifdef RF_LINUX
+    extern void Dispatch_Linux();
+    Dispatch_Linux();
+#else
+#ifdef RF_OSX
+    extern void Dispatch_OSX();
+    Dispatch_OSX();
+#endif
+#endif
 }

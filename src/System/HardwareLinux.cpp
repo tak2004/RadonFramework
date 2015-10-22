@@ -5,6 +5,8 @@
 
 #include <unistd.h>
 #include <sched.h>
+#include <sys/types.h>
+#include <sys/sysinfo.h>
 
 using namespace RadonFramework;
 using namespace RadonFramework::Memory;
@@ -36,12 +38,32 @@ RF_Type::UInt32 GetCurrentProcessorNumberLinux()
     return result;
 }
 
+RF_Type::Size GetPhysicalMemorySizeLinux()
+{
+    struct sysinfo memInfo;    
+    sysinfo(&memInfo);
+    RF_Type::Size totalVirtualMem = memInfo.totalram;
+    totalVirtualMem *= memInfo.mem_unit;
+    return totalVirtualMem;
+}
+
+RF_Type::Size GetFreePhysicalMemorySizeLinux()
+{
+    struct sysinfo memInfo;
+    sysinfo(&memInfo);
+    RF_Type::Size totalVirtualMem = memInfo.freeram;
+    totalVirtualMem *= memInfo.mem_unit;
+    return totalVirtualMem;
+}
+
 namespace RadonFramework { namespace System { namespace Hardware {
 
-void DispatchLinux()
+void Dispatch_Linux()
 {
     GetAvailableLogicalProcessorCount = GetAvailableLogicalProcessorCountLinux;
     GetCurrentProcessorNumber = GetCurrentProcessorNumberLinux;
+    GetPhysicalMemorySize = GetPhysicalMemorySizeLinux;
+    GetFreePhysicalMemorySize = GetFreePhysicalMemorySizeLinux;
 }
 
 } } }

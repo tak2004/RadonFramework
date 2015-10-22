@@ -44,26 +44,34 @@ using GetCurrentProcessorNumberCallback = RF_Type::UInt32(*)();
   **/
 using GetCacheInfoCallback = RF_Type::Bool(*)(CacheInfo& Info, RF_Type::UInt32 Index);
 
-/** \brief This function obtain how many caches are available on the logical
+/** \brief This function obtains how many caches are available on the logical
   * processor unit this call is running on.
   *
   * @return Return -1 if an error occured else the number of available caches.
   **/
 using GetCacheCountCallback = RF_Type::Int32(*)();
 
-/** \brief This function obtain which processor features are available on the
+/** \brief This function obtains which processor features are available on the
   * logical processor unit this call is running on.
   *
-  * @param Features Specify the destition where the to write the processor features.
+  * @param Features Specify the destination where the to write the processor features.
   * @return Return true if data where written to Features else false.
   **/
 using GetLogicalProcessorFeaturesCallback = RF_Type::Bool(*)(ProcessorFeatureMask& Features);
+
+/// Returns the amount of physical memory(in bytes) accessible by the OS.
+using GetPhysicalMemorySizeCallback = RF_Type::Size (*)();
+
+/// Returns the amount of free physical memory in bytes.
+using GetFreePhysicalMemorySizeCallback = RF_Type::Size(*)();
 
 extern GetAvailableLogicalProcessorCountCallback GetAvailableLogicalProcessorCount;
 extern GetCurrentProcessorNumberCallback GetCurrentProcessorNumber;
 extern GetCacheInfoCallback GetCacheInfo;
 extern GetCacheCountCallback GetCacheCount;
 extern GetLogicalProcessorFeaturesCallback GetLogicalProcessorFeatures;
+extern GetPhysicalMemorySizeCallback GetPhysicalMemorySize;
+extern GetFreePhysicalMemorySizeCallback GetFreePhysicalMemorySize;
 
 } } }
 

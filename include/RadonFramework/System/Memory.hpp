@@ -28,6 +28,7 @@ RF_Type::Bool IsSuccessfullyDispatched();
 /// This function is for debugging purpose and return all unassigned functions.
 void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
     
+/// Return the granularity(in bytes) of memory allocation and validation.
 using GetPageSizeCallback = RF_Type::UInt32(*)();
 
 using EnableTerminationOnHeapCorruptionCallback = void(*)();

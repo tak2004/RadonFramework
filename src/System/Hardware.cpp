@@ -57,11 +57,33 @@ RF_Type::Bool GetLogicalProcessorFeatures_SystemAPIDispatcher(ProcessorFeatureMa
     return GetLogicalProcessorFeatures(Features);
 }
 
+RF_Type::Size GetPhysicalMemorySize_SystemAPIDispatcher()
+{
+    GetPhysicalMemorySize = 0;
+    Dispatch();
+    Assert(GetPhysicalMemorySize != GetPhysicalMemorySize_SystemAPIDispatcher &&
+           GetPhysicalMemorySize != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetPhysicalMemorySize();
+}
+
+RF_Type::Size GetFreePhysicalMemorySize_SystemAPIDispatcher()
+{
+    GetFreePhysicalMemorySize = 0;
+    Dispatch();
+    Assert(GetFreePhysicalMemorySize != GetFreePhysicalMemorySize_SystemAPIDispatcher &&
+        GetFreePhysicalMemorySize != 0,
+        "Funtion was called and couldn't be dispatched");
+    return GetFreePhysicalMemorySize();
+}
+
 RFHDW::GetAvailableLogicalProcessorCountCallback RFHDW::GetAvailableLogicalProcessorCount = GetAvailableLogicalProcessorCount_SystemAPIDispatcher;
 RFHDW::GetCurrentProcessorNumberCallback RFHDW::GetCurrentProcessorNumber = GetCurrentProcessorNumber_SystemAPIDispatcher;
 RFHDW::GetCacheInfoCallback RFHDW::GetCacheInfo = GetCacheInfo_SystemAPIDispatcher;
 RFHDW::GetCacheCountCallback RFHDW::GetCacheCount = GetCacheCount_SystemAPIDispatcher;
 RFHDW::GetLogicalProcessorFeaturesCallback RFHDW::GetLogicalProcessorFeatures = GetLogicalProcessorFeatures_SystemAPIDispatcher;
+RFHDW::GetPhysicalMemorySizeCallback RFHDW::GetPhysicalMemorySize = GetPhysicalMemorySize_SystemAPIDispatcher;
+RFHDW::GetFreePhysicalMemorySizeCallback RFHDW::GetFreePhysicalMemorySize = GetFreePhysicalMemorySize_SystemAPIDispatcher;
 
 RF_Type::Bool RFHDW::IsSuccessfullyDispatched()
 {
@@ -71,6 +93,8 @@ RF_Type::Bool RFHDW::IsSuccessfullyDispatched()
     result = result && GetCacheInfo != GetCacheInfo_SystemAPIDispatcher && GetCacheInfo != 0;
     result = result && GetCacheCount != GetCacheCount_SystemAPIDispatcher && GetCacheCount != 0;
     result = result && GetLogicalProcessorFeatures != GetLogicalProcessorFeatures_SystemAPIDispatcher && GetLogicalProcessorFeatures != 0;
+    result = result && GetPhysicalMemorySize != GetPhysicalMemorySize_SystemAPIDispatcher && GetPhysicalMemorySize != 0;
+    result = result && GetFreePhysicalMemorySize != GetFreePhysicalMemorySize_SystemAPIDispatcher && GetFreePhysicalMemorySize != 0;
     return result;
 }
 
@@ -86,4 +110,8 @@ void RFHDW::GetNotDispatchedFunctions( List<RF_Type::String>& Result )
         Result.AddLast(RF_Type::String("GetCacheCount", sizeof("GetCacheCount")));
     if (GetLogicalProcessorFeatures == GetLogicalProcessorFeatures_SystemAPIDispatcher || GetLogicalProcessorFeatures == 0) 
         Result.AddLast(RF_Type::String("GetLogicalProcessorFeatures", sizeof("GetLogicalProcessorFeatures")));
+    if(GetPhysicalMemorySize == GetPhysicalMemorySize_SystemAPIDispatcher || GetPhysicalMemorySize == 0)
+        Result.AddLast(RF_Type::String("GetPhysicalMemorySize", sizeof("GetPhysicalMemorySize")));
+    if(GetFreePhysicalMemorySize == GetFreePhysicalMemorySize_SystemAPIDispatcher || GetFreePhysicalMemorySize == 0)
+        Result.AddLast(RF_Type::String("GetFreePhysicalMemorySize", sizeof("GetFreePhysicalMemorySize")));
 }
