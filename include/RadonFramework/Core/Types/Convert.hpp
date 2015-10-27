@@ -1,6 +1,20 @@
 #ifndef RF_CORE_TYPES_CONVERT_HPP
 #define RF_CORE_TYPES_CONVERT_HPP
 
+#include <RadonFramework/Core/Types/Bool.hpp>
+#include <RadonFramework/Core/Types/Int8.hpp>
+#include <RadonFramework/Core/Types/Int16.hpp>
+#include <RadonFramework/Core/Types/Int32.hpp>
+#include <RadonFramework/Core/Types/Int64.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/UInt16.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/UInt64.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
+#include <RadonFramework/Core/Types/Float64.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
+
 namespace RadonFramework { namespace Core { namespace Types {
 
 struct Convert
