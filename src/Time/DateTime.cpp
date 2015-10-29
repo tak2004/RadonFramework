@@ -22,30 +22,52 @@ DateTime DateTime::CreateByTicks(TimeValue Value, DateTimeKind::Type Kind)
     return result;
 }
 
-DateTime DateTime::CreateByTime(UInt32 Year, UInt32 Month, UInt32 Day, UInt32 Hour,
-    UInt32 Minute, UInt32 Second, UInt32 Millisecond, UInt32 Microsecond, DateTimeKind::Type Kind)
+DateTime DateTime::CreateByTime(UInt32 Year, UInt32 Month, UInt32 Day, 
+    DateTimeKind::Type Kind)
 {
     DateTime result;
     result.m_Kind = Kind;
 
-    if (Hour>=0 && Hour<24 && Minute>=0 && Minute<60 && Second>=0 && Second<60 &&
-        Millisecond>=0 && Millisecond<1000 && Microsecond>=0 && Microsecond<1000)
+    if(Year >= 0 && Year < 10000 && Month >= 0 && Month < 13 && Day >= 0 &&
+        Day <= DaysInMonth(Year, Month))
+    {
+        result.m_Ticks = TimeSpan::CreateByTime(AbsoluteDays(Year, Month, Day),
+            0, 0, 0, 0, 0);
+    }
+    return result;
+}
+
+DateTime DateTime::CreateByTime(UInt32 Year, UInt32 Month, UInt32 Day, UInt32 Hour,
+    UInt32 Minute, UInt32 Second, DateTimeKind::Type Kind)
+{
+    DateTime result;
+    result.m_Kind = Kind;
+
+    if(Hour >= 0 && Hour < 24 && Minute >= 0 && Minute < 60 && Second >= 0 && Second < 60)
     {
         //check if specified parameter represent time instead of date and time
-        if (Day == 0 && Month == 0 && Year == 0)
+        if(Day == 0 && Month == 0 && Year == 0)
         {
-            result.m_Ticks = TimeSpan::CreateByTime(0, Hour, Minute, Second, Millisecond, Microsecond);
+            result.m_Ticks = TimeSpan::CreateByTime(0, Hour, Minute, Second, 0, 0);
         }
         else
         {
-            if (Year >= 0 && Year < 10000 && Month >= 0 && Month < 13 && Day >= 0 &&
+            if(Year >= 0 && Year < 10000 && Month >= 0 && Month < 13 && Day >= 0 &&
                 Day <= DaysInMonth(Year, Month))
             {//is datetime
                 result.m_Ticks = TimeSpan::CreateByTime(AbsoluteDays(Year, Month, Day),
-                    Hour, Minute, Second, Millisecond, Microsecond);
+                    Hour, Minute, Second, 0, 0);
             }
         }
     }
+    return result;
+}
+
+DateTime DateTime::CreateByTime(const TimeSpan& Value, DateTimeKind::Type Kind)
+{
+    DateTime result;
+    result.m_Kind = Kind;
+    result.m_Ticks = Value;
     return result;
 }
 

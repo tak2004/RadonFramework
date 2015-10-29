@@ -29,7 +29,8 @@ public:
     virtual RF_Type::Float32 NextFloat();
 protected:
     static const RF_Type::Int32 BUFFER_ELEMENT_COUNT = 55;
-    virtual RF_Type::Float32 Sample();
+    RF_Type::Float32 Sample();
+
     RF_Type::Int32 m_Seed;
     RF_Type::Int32 m_J;
     RF_Type::Int32 m_K;

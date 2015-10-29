@@ -43,11 +43,19 @@ namespace DateTimeKind
 
 struct DateTime
 {
-    static DateTime CreateByTicks(TimeValue Value, DateTimeKind::Type Kind = DateTimeKind::Undefined);
-    static DateTime CreateByTime(RF_Type::UInt32 Year, RF_Type::UInt32 Month, RF_Type::UInt32 Day,
-        RF_Type::UInt32 Hour = 0, RF_Type::UInt32 Minute = 0, RF_Type::UInt32 Second = 0,
-        RF_Type::UInt32 Millisecond = 0, RF_Type::UInt32 Microsecond = 0,
+    static DateTime CreateByTicks(TimeValue Value, 
         DateTimeKind::Type Kind = DateTimeKind::Undefined);
+
+    static DateTime CreateByTime(RF_Type::UInt32 Year, RF_Type::UInt32 Month, 
+        RF_Type::UInt32 Day, DateTimeKind::Type Kind = DateTimeKind::Undefined);
+
+    static DateTime CreateByTime(RF_Type::UInt32 Year, RF_Type::UInt32 Month, 
+        RF_Type::UInt32 Day, RF_Type::UInt32 Hour, RF_Type::UInt32 Minute, 
+        RF_Type::UInt32 Second, DateTimeKind::Type Kind = DateTimeKind::Undefined);
+
+    static DateTime CreateByTime(const TimeSpan& Value,
+        DateTimeKind::Type Kind = DateTimeKind::Undefined);
+
     static DateTime Now();
     static DateTime Today();
     static DateTime UtcNow();
