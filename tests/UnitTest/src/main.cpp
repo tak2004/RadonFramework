@@ -28,7 +28,9 @@ int main(int argc, char** argv)
     Radon framework;
 
     AutoPointer<Appender> console(new LogConsole);
+    AutoPointer<Appender> debugOut(new LogDebuggerOutput);
     Log::AddAppender(console);
+    Log::AddAppender(debugOut);
 
     TestResultCollector results;
     BriefProgressCollector progress;
