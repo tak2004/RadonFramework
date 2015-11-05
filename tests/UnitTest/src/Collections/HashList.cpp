@@ -65,9 +65,11 @@ public:
         AddTest(MakeDelegate(this, &HashListTest::SetEmptyKey),
             "HashListTest::SetEmptyKey", "SetEmptyKey");
         AddTest(MakeDelegate(this, &HashListTest::GetEmptyKey),
-                "HashListTest::GetEmptyKey", "GetEmptyKey");
+            "HashListTest::GetEmptyKey", "GetEmptyKey");
         AddTest(MakeDelegate(this, &HashListTest::Clone),
             "HashListTest::Clone", "Clone");
+        AddTest(MakeDelegate(this, &HashListTest::Grow),
+                "HashListTest::Grow", "Grow");
         AddTest(MakeDelegate(this, &HashListTest::EnsureCopyProtection),
             "HashListTest::EnsureCopyProtection", "EnsureCopyProtection");
         AddTest(MakeDelegate(this, &HashListTest::NoExceptions),
@@ -157,6 +159,31 @@ public:
         result &= o == &v;
         result &= hashList.Add(9+hashList.Capacity(), &v) == true;
         result &= hashList.Add(9, &v) == false;
+        return result;
+    }
+
+    RF_Type::Bool Grow()
+    {
+        RF_Type::Bool result = true;
+        RF_Collect::HashList hashList;
+
+        result &= hashList.Count() == 0;
+        result &= hashList.Capacity() == 0;
+
+        RF_Type::Size lastCapacity = hashList.Capacity();
+        hashList.Add(9, 0);
+
+        result &= hashList.Count() == 1;
+        result &= hashList.Capacity() > lastCapacity;
+        lastCapacity = hashList.Capacity();
+
+        for (RF_Type::Size i = 0; i < 5000; ++i)
+        {
+            hashList.Add(9+i, 0);
+        }
+
+        result &= hashList.Count() == 5001;
+        result &= hashList.Capacity() > lastCapacity;
         return result;
     }
 

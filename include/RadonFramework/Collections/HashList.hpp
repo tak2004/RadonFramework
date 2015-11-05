@@ -37,6 +37,7 @@ public:
     void SetEmptyKey(const KeyType Key);
     KeyType GetEmptyKey()const;
     void Clone(const HashList& ThisInstance);
+    void Reserve(const RF_Type::Size ElementCount);
 private:
     Core::Policies::ValueAllocator* m_Allocator;
     RF_Type::Size m_Count;

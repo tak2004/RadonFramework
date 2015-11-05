@@ -66,7 +66,8 @@ void HashList::Grow(const RF_Type::Size ToElementCount)
         m_Capacity = newCapacity;
 
         if(oldKeys)
-        {            
+        {
+            m_Count = 0;
             for(RF_Type::Size i = 0; i < oldCapacity; ++i)
             {
                 if(oldKeys[i] != m_EmptyKey)
@@ -97,14 +98,14 @@ void HashList::Clear()
 
 RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
 {
-    if(m_Count == m_Capacity)
+    if(m_Count >= m_Capacity/3)
     {
         Grow(m_Capacity+1);
     }
 
     RF_Type::Bool result = false;
     RF_Type::Size index = Key % m_Capacity;
-    RF_Type::Size offset = 0;
+    KeyType offset = 0;
     while(m_Keys[index] != m_EmptyKey)
     {
         if(m_Keys[index] == Key)
@@ -114,7 +115,7 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
         else
         {
             ++offset;
-            index = (Key + offset*offset) % m_Capacity;
+            index = (Key + (offset*(offset+1)/2)) % m_Capacity;
         }
     }
 
@@ -233,6 +234,12 @@ void HashList::Clone(const HashList& ThisInstance)
     RF_SysMem::Copy(m_Values, ThisInstance.m_Values, m_Capacity * sizeof(void*));
     m_Count = ThisInstance.m_Count;
 
+}
+
+void HashList::Reserve(const RF_Type::Size ElementCount)
+{
+    Clear();
+    Grow(ElementCount*3);
 }
 
 } }
