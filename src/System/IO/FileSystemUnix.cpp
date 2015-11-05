@@ -171,7 +171,9 @@ Bool CopyFileUnix(const String& From, const String& To)
 #ifdef RF_HAVE_POSIX_FADVISE
     posix_fadvise(in_fd, 0,0,POSIX_FADV_SEQUENTIAL);
 #else
+    #ifdef RF_HAVE_FREADAHEAD
     fcntl(in_fd, F_READAHEAD, 1);
+    #endif
 #endif
     if (in_fd)
     {

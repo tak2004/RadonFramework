@@ -20,6 +20,7 @@
 #include <RadonFramework/Collections/BitSet.hpp>
 #include <RadonFramework/Collections/DataTree.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
+#include <RadonFramework/Collections/HashList.hpp>
 #include <RadonFramework/Collections/HashMap.hpp>
 #include <RadonFramework/Collections/IEnumerable.hpp>
 #include <RadonFramework/Collections/IEnumerator.hpp>

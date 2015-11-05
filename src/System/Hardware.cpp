@@ -115,3 +115,90 @@ void RFHDW::GetNotDispatchedFunctions( List<RF_Type::String>& Result )
     if(GetFreePhysicalMemorySize == GetFreePhysicalMemorySize_SystemAPIDispatcher || GetFreePhysicalMemorySize == 0)
         Result.AddLast(RF_Type::String("GetFreePhysicalMemorySize", sizeof("GetFreePhysicalMemorySize")));
 }
+
+struct MostWantedCacheInfos
+{
+    void InitData()
+    {
+        CacheInfo tmp;
+        RF_Type::Int32 count = GetCacheCount();
+        for(RF_Type::Int32 i = 0; i < count; ++i)
+        {
+            if(GetCacheInfo(tmp, i))
+            {
+                if(tmp.Level == 1 && tmp.UsedAs == CacheUseCase::Data)
+                {
+                    RF_SysMem::Copy(&L1Data, &tmp, sizeof(CacheInfo));
+                }
+                if(tmp.Level == 2 && tmp.UsedAs == CacheUseCase::Data)
+                {
+                    RF_SysMem::Copy(&L2Data, &tmp, sizeof(CacheInfo));
+                }
+                if(tmp.Level == 1 && tmp.UsedAs == CacheUseCase::Code)
+                {
+                    RF_SysMem::Copy(&L1Instruction, &tmp, sizeof(CacheInfo));
+                }
+            }
+        }
+        // hardwired fallback which should fit to the majority
+        if(SharedCacheInfo.L1Data.Level == 0)
+        {
+            L1Data.Associativity = CacheAssociativity::Unknown;
+            L1Data.Level = 1;
+            L1Data.LineCount = 512;
+            L1Data.LineSize = 64;
+            L1Data.Size = 32768;
+            L1Data.UsedAs = CacheUseCase::Data;
+        }
+
+        if(SharedCacheInfo.L2Data.Level == 0)
+        {
+            L2Data.Associativity = CacheAssociativity::Unknown;
+            L2Data.Level = 2;
+            L2Data.LineCount = 4096;
+            L2Data.LineSize = 64;
+            L2Data.Size = 262144;
+            L2Data.UsedAs = CacheUseCase::Data;
+        }
+
+        if(SharedCacheInfo.L1Instruction.Level == 0)
+        {
+            L1Data.Associativity = CacheAssociativity::Unknown;
+            L1Data.Level = 1;
+            L1Data.LineCount = 512;
+            L1Data.LineSize = 64;
+            L1Data.Size = 32768;
+            L1Data.UsedAs = CacheUseCase::Code;
+        }
+    }
+    RFHDW::CacheInfo L1Data;
+    RFHDW::CacheInfo L2Data;
+    RFHDW::CacheInfo L1Instruction;
+} SharedCacheInfo = {0};
+
+RFHDW::CacheInfo& RFHDW::GetLevel1DataCache()
+{
+    if(SharedCacheInfo.L1Data.Level == 0)
+    {
+        SharedCacheInfo.InitData();
+    }
+    return SharedCacheInfo.L1Data;
+}
+
+RFHDW::CacheInfo& RFHDW::GetLevel1InstructionCache()
+{
+    if(SharedCacheInfo.L1Instruction.Level == 0)
+    {
+        SharedCacheInfo.InitData();
+    }
+    return SharedCacheInfo.L1Instruction;
+}
+
+RFHDW::CacheInfo& RFHDW::GetLevel2DataCache()
+{
+    if(SharedCacheInfo.L2Data.Level == 0)
+    {
+        SharedCacheInfo.InitData();
+    }
+    return SharedCacheInfo.L2Data;
+}

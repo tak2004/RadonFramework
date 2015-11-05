@@ -73,6 +73,10 @@ extern GetLogicalProcessorFeaturesCallback GetLogicalProcessorFeatures;
 extern GetPhysicalMemorySizeCallback GetPhysicalMemorySize;
 extern GetFreePhysicalMemorySizeCallback GetFreePhysicalMemorySize;
 
+CacheInfo& GetLevel1DataCache();
+CacheInfo& GetLevel1InstructionCache();
+CacheInfo& GetLevel2DataCache();
+
 } } }
 
 namespace RFHDW = RadonFramework::System::Hardware;
