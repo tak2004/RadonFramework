@@ -252,7 +252,7 @@ SystemTrayService::Handle SystemTrayServiceWindows::AddIcon(const RF_Draw::TrayI
     SystemTrayService::Handle result = Shell_NotifyIcon(NIM_ADD, notifyData.Get());
     if(result)
     {
-        handle = reinterpret_cast<Handle>(notifyData.Get());
+        handle = static_cast<Handle>(reinterpret_cast<intptr_t>(notifyData.Get()));
         
         m_PImpl->m_IconData.Resize(m_PImpl->m_IconData.Count() + 1);
         auto& item = m_PImpl->m_IconData(m_PImpl->m_IconData.Count() - 1);

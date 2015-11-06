@@ -22,11 +22,11 @@ class HashList
 {
 public:
     typedef RF_Type::UInt32 KeyType;
-    HashList() RF_NOEXCEPT;
-    HashList(const RF_Type::Size PreAllocationElementCount) RF_NOEXCEPT;
+    HashList();
+    HashList(const RF_Type::Size PreAllocationElementCount);
     HashList(Core::Policies::ValueAllocator* Allocator,
-        const RF_Type::Size PreAllocationElementCount) RF_NOEXCEPT;
-    ~HashList() RF_NOEXCEPT;
+        const RF_Type::Size PreAllocationElementCount);
+    ~HashList();
     void Clear();
     RF_Type::Bool Add(const KeyType Key, void* DataStart);
     RF_Type::Bool ContainsKey(const KeyType Key)const;

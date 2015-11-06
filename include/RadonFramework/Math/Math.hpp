@@ -12,7 +12,7 @@
 #include <math.h>
 // On some systems math.h defines INFINITY as macro !
 #ifdef INFINITY
-    #undef INFINITY
+//    #undef INFINITY
 #endif
 
 namespace RadonFramework { namespace Math {
@@ -39,7 +39,7 @@ public:
     static const T INV_TWO_PI;
     static const T DEG_TO_RAD;
     static const T RAD_TO_DEG;
-    static const T INFINITY;
+//    static const T INFINITY;
     static const T NEG_INFINITY;
     static const T QUITE_NAN;
     static const T SIGNALING_NAN;

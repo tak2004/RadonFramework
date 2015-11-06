@@ -40,12 +40,12 @@ struct RF_ALIGN(16) UUID
     };
 };
 
-bool operator==(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT;
-bool operator!=(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT;
-bool operator<(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT;
-bool operator>(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT;
-bool operator<=(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT;
-bool operator>=(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT;
+bool operator==(UUID const& lhs, UUID const& rhs);
+bool operator!=(UUID const& lhs, UUID const& rhs);
+bool operator<(UUID const& lhs, UUID const& rhs);
+bool operator>(UUID const& lhs, UUID const& rhs);
+bool operator<=(UUID const& lhs, UUID const& rhs);
+bool operator>=(UUID const& lhs, UUID const& rhs);
 
 } }
 
