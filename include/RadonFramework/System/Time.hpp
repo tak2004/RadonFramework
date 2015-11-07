@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Time { class DateTime; } }
+namespace RadonFramework { namespace Time { struct DateTime; } }
 namespace RF_Time = RadonFramework::Time;
 
 namespace RadonFramework { namespace System { namespace Time {

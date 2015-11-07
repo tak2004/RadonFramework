@@ -92,7 +92,6 @@ protected:
     RF_Type::UInt32 FromTicks(TickDayConverterTyp::Type To)const;
         
     static RF_Type::UInt32 AbsoluteDays(RF_Type::UInt32 Year, RF_Type::UInt32 Month, RF_Type::UInt32 Day);
-    static bool IsInvalid( const TimeValue& );
 };
 
 } }
