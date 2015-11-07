@@ -1,3 +1,8 @@
+/*
+*
+* THIS FILE IS GENERATED FROM build/code_templates/RadonInline.hxx !!!
+*
+*/
 #include <RadonFramework/Defines.hpp>
 
 // Each compiler can implement it on it's own way.
@@ -198,12 +203,16 @@
 
 #ifndef RF_NO_MATH
 
+#include <RadonFramework/Math/Float32.hpp>
+#include <RadonFramework/Math/Float64.hpp>
 #include <RadonFramework/Math/Geometry/CubicBezier.hpp>
 #include <RadonFramework/Math/Geometry/Line.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Math/Geometry/ProjectionMatrix.hpp>
 #include <RadonFramework/Math/Geometry/Quaternion.hpp>
+#include <RadonFramework/Math/Geometry/QuatF32.hpp>
+#include <RadonFramework/Math/Geometry/QuatF64.hpp>
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Vector.hpp>
@@ -299,5 +308,4 @@
 
 #include <RadonFramework/Text/Regex.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
-#include <RadonFramework/Util/UUID.hpp>
 #endif

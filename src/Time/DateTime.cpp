@@ -215,8 +215,8 @@ DateTime DateTime::Today()
 
 DateTime DateTime::Now()
 {
-    TimeValue now = RFTIME::GetNow();
-    TimeValue delta = RFTIME::GetMinutesWestOfGMT();
+    TimeValue now = RF_SysTime::GetNow();
+    TimeValue delta = RF_SysTime::GetMinutesWestOfGMT();
 
     DateTime dt = DateTime::CreateByTicks(now, DateTimeKind::Local);
     dt.m_Ticks += TimeSpan::CreateByTicks(delta);
@@ -226,7 +226,7 @@ DateTime DateTime::Now()
 
 DateTime DateTime::UtcNow()
 {
-    DateTime dt = DateTime::CreateByTicks(RFTIME::GetNow(), DateTimeKind::UTC);
+    DateTime dt = DateTime::CreateByTicks(RF_SysTime::GetNow(), DateTimeKind::UTC);
     return dt;
 }
 
@@ -287,5 +287,5 @@ RF_Type::String DateTime::ToString() const
 void RadonFramework::Time::DateTime::Format(const RF_Type::String& Format, 
                                             RF_Type::String& Result) const
 {
-    RFTIME::GetStringFormatedTime(*this, Format, Result);
+    RF_SysTime::GetStringFormattedTime(*this, Format, Result);
 }

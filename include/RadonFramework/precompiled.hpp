@@ -43,9 +43,7 @@
 
 #include <RadonFramework/Memory/Allocator.hpp>
 
-#if defined(RF_PRECOMPILED_PIMPL)
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
-#endif
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 
 //--------- depending on upper includes -----------

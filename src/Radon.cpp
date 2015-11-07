@@ -78,7 +78,7 @@ void Radon::InitSubSystem(UInt32 Flags)
 
     if (Flags & RadonFramework::Init::Time)
     {
-        RFTIME::Dispatch();
+        RF_SysTime::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Time;
     }
 

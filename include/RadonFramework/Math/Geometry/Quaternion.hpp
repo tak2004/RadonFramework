@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+RF_DEPRECATED_HEADER("Replaced by RF_Geo::QuatF32 and RF_Geo::QuatF64 classes.")
+
 #include <RadonFramework/Math/Math.hpp>
 #include <RadonFramework/Math/Geometry/Vector.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>

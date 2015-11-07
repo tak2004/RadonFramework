@@ -1,3 +1,8 @@
+/*
+*
+* THIS FILE IS GENERATED FROM build/code_templates/Defines.hxx !!!
+*
+*/
 #ifndef RF_DEFINES_HPP
 #define RF_DEFINES_HPP
 
@@ -86,9 +91,6 @@
 #define RF_USE_WDM
 #endif
 
-#ifndef RF_PRECOMPILED_PIMPL
-    #define RF_PRECOMPILED_PIMPL 1
-#endif
 
 
 #endif

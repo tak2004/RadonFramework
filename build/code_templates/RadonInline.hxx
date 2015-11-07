@@ -1,3 +1,8 @@
+/*
+*
+* THIS FILE IS GENERATED FROM build/code_templates/RadonInline.hxx !!!
+*
+*/
 #include <RadonFramework/Defines.hpp>
 
 // Each compiler can implement it on it's own way.

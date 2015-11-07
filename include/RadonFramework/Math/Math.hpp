@@ -4,16 +4,13 @@
 #pragma once
 #endif
 
+RF_DEPRECATED_HEADER("Replaced by RF_Math::Float32 and RF_Math::Float64 classes.")
+
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
 #include <RadonFramework/Core/Types/Float64.hpp>
-
 #include <math.h>
-// On some systems math.h defines INFINITY as macro !
-#ifdef INFINITY
-//    #undef INFINITY
-#endif
 
 namespace RadonFramework { namespace Math {
 

@@ -7,9 +7,6 @@ include("Integrate.cmake")
 OPTION(RADONFRAMEWORK_WITH_VISUALGDB "Generate a VisualGDB target for remote build." OFF)
 mark_as_advanced(RADONFRAMEWORK_WITH_VISUALGDB)
 
-OPTION(RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL "PImpl template will be included into the precompiled.hpp." ON)
-mark_as_advanced(RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL)
-
 OPTION(RADONFRAMEWORK_USE_MICROCRT "Radon framework will provide code for running without crt and std functions." OFF)
 mark_as_advanced(RADONFRAMEWORK_USE_MICROCRT)
 
@@ -143,25 +140,9 @@ if(RF_HAVE_POSIX_FADVISE)
     add_definitions(-DRF_HAVE_POSIX_FADVISE)
 endif()
 
-include(libRadonFramework.cmake)
-
-Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
-
-AddPublicInclude(RADONFRAMEWORK ${RadonFramework_SOURCE_DIR}/include/)
-target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/)
-target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/uripp/)
-
-Finalize(RADONFRAMEWORK)
-
 #
-# generate config file
+# code generation
 #
-if(${RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL})
-	set(RADONFRAMEWORK_PRECOMPILED_PIMPL "#ifndef RF_PRECOMPILED_PIMPL\n    #define RF_PRECOMPILED_PIMPL 1\n#endif")
-else()
-	set(RADONFRAMEWORK_PRECOMPILED_PIMPL "")
-endif()
-
 if(${RADONFRAMEWORK_USE_MICROCRT})
 	set(RADONFRAMEWORK_MICROCRT "#ifndef RF_MICROCRT\n    #define RF_MICROCRT 1\n#endif")
 else()
@@ -176,12 +157,20 @@ if (NOT DEFINED RADONFRAMEWORK_BUILDNUMBER )
 	set(RADONFRAMEWORK_BUILDNUMBER "0")
 endif ()
 
-message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hpp")
-configure_file("${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hxx" "${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hpp" @ONLY)
-message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp")
-configure_file("${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hxx" "${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp" @ONLY)
-message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cpp")
-configure_file("${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cxx" "${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cpp" @ONLY)
+include(build/code_templates/CMakeLists.txt)
+
+#
+# Include radon framework files
+#
+include(libRadonFramework.cmake)
+
+Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
+
+AddPublicInclude(RADONFRAMEWORK ${RadonFramework_SOURCE_DIR}/include/)
+target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/)
+target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/uripp/)
+
+Finalize(RADONFRAMEWORK)
 
 #
 # radon framework modules

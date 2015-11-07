@@ -269,79 +269,61 @@ list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Util" "Sources\\Util")
 list(APPEND LIBSRCFILES ${filelist})
 
-macro(GenerateIncludes variable files)
-	foreach(includefile ${files})
-		STRING(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/include/" "" escaped_includefile ${includefile}) 
-		set(${variable} "${${variable}}\n#include <${escaped_includefile}>")
-	endforeach()
-endmacro()
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Reflection" "Includes\\Reflection")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
-GenerateIncludes(INCLUDES_REFLECTION "${filelist}")
 list(APPEND LIBHDRFILES ${filelist})	
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Collections" "Includes\\Collections")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_COLLECTIONS "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Core" "Includes\\Core")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_CORE "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Diagnostics" "Includes\\Diagnostics")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_DIAGNOSTICS "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Math" "Includes\\Math")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_MATH "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/IO" "Includes\\IO")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_IO "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Memory" "Includes\\Memory")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_MEMORY "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/System" "Includes\\System")
+list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
+
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Threading" "Includes\\Threading")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_THREADING "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Time" "Includes\\Time")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_TIME "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Net" "Includes\\Net")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_NET "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Drawing" "Includes\\Drawing")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_DRAWING "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Text" "Includes\\Text")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_TEXT "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Util" "Includes\\Util")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_TEXT "${filelist}")
 
 # custom CMake files
 source_group("cmake" FILES "libRadonFramework.cmake")

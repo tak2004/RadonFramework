@@ -182,7 +182,7 @@ public:
             hashList.Add(9+i, 0);
         }
 
-        result &= hashList.Count() == 5001;
+        result &= hashList.Count() == 5000;
         result &= hashList.Capacity() > lastCapacity;
         return result;
     }

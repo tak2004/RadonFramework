@@ -1,3 +1,8 @@
+/*
+*
+* THIS FILE IS GENERATED FROM build/code_templates/CompilerConfig.cxx !!!
+*
+*/
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/CompilerConfig.hpp"
 #include "RadonFramework/Core/Common/Version.hpp"

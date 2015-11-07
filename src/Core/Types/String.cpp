@@ -693,7 +693,7 @@ RF_Type::Int32 String::HexToDec()const
     return val;
 }
 
-String String::Format(const String& Str,...)
+String String::Format(const String Str,...)
 {
     va_list argp;
     va_start(argp, Str);

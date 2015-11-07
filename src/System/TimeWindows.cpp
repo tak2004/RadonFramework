@@ -31,7 +31,7 @@ UInt64 GetMinutesWestOfGMT()
     }    
 }
 
-void GetStringFormatedTime(const RF_Time::DateTime& Time,
+void GetStringFormattedTimeWindows(const RF_Time::DateTime& Time,
     const RF_Type::String& Format, RF_Type::String& FormattedString)
 {
     RF_Mem::AutoPointerArray<char> buf(256);
@@ -116,7 +116,7 @@ void RadonFramework::System::Time::Dispatch()
     DeleteTimerQueue=::DeleteTimerQueue;
     GetNow=::GetNow;
     GetMinutesWestOfGMT=::GetMinutesWestOfGMT;
-    GetStringFormatedTime=::GetStringFormatedTime;
+    GetStringFormattedTime= GetStringFormattedTimeWindows;
     GetHighResolutionCounter=::GetHighResolutionCounter;
     IsHighResolutionCounterSupported=::IsHighResolutionCounterSupported;
 }
