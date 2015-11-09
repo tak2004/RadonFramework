@@ -41,6 +41,7 @@ public:
 private:
     Core::Policies::ValueAllocator* m_Allocator;
     RF_Type::Size m_Count;
+    // capacity have to be power of 2 to avoid modulo operation
     RF_Type::Size m_Capacity;
     KeyType* m_Keys;
     void** m_Values;

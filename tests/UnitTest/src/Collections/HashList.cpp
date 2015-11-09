@@ -72,8 +72,6 @@ public:
                 "HashListTest::Grow", "Grow");
         AddTest(MakeDelegate(this, &HashListTest::EnsureCopyProtection),
             "HashListTest::EnsureCopyProtection", "EnsureCopyProtection");
-        AddTest(MakeDelegate(this, &HashListTest::NoExceptions),
-            "HashListTest::NoExceptions", "NoExceptions");
     }
 
     RF_Type::Bool Constructor()
@@ -259,19 +257,6 @@ public:
         result &= std::is_nothrow_copy_constructible<RF_Collect::HashList>::value == false;
         result &= std::is_move_constructible<RF_Collect::HashList>::value == false;
         result &= std::is_trivially_move_constructible<RF_Collect::HashList>::value == false;
-        result &= std::is_nothrow_move_constructible<RF_Collect::HashList>::value == false;
-        return result;
-    }
-
-    RF_Type::Bool NoExceptions()
-    {
-        RF_Type::Bool result = std::is_nothrow_assignable<RF_Collect::HashList, RF_Collect::HashList>::value == false;
-        result &= std::is_nothrow_constructible<RF_Collect::HashList>::value == true;
-        result &= std::is_nothrow_copy_assignable<RF_Collect::HashList>::value == false;
-        result &= std::is_nothrow_copy_constructible<RF_Collect::HashList>::value == false;
-        result &= std::is_nothrow_destructible<RF_Collect::HashList>::value == true;
-        result &= std::is_nothrow_default_constructible<RF_Collect::HashList>::value == true;
-        result &= std::is_nothrow_move_assignable<RF_Collect::HashList>::value == false;
         result &= std::is_nothrow_move_constructible<RF_Collect::HashList>::value == false;
         return result;
     }

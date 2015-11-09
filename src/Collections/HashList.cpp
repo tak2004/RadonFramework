@@ -2,6 +2,7 @@
 #include "RadonFramework/Collections/HashList.hpp"
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
+#include "RadonFramework/Math/Integer.hpp"
 
 namespace RadonFramework { namespace Core { namespace Policies {
 
@@ -47,10 +48,11 @@ void HashList::Grow(const RF_Type::Size ToElementCount)
 {
     if(ToElementCount > m_Capacity)
     {
+        RF_Type::Size powerOfTwoCapacity = RF_Math::Integer<RF_Type::Size>::NextPowerOfTwo(ToElementCount);
         RF_Type::Size pageSize = RF_SysMem::GetPageSize();
-        RF_Type::Size neededPages = ((ToElementCount * sizeof(KeyType) - 1) / pageSize) + 1;
-        RF_Type::Size newCapacity = (neededPages * pageSize) / sizeof(KeyType);
-        RF_Type::Size valuePages = ((newCapacity * sizeof(void*) - 1) / pageSize) + 1;
+        RF_Type::Size capacityPerPage = ((pageSize - 1) / sizeof(KeyType)) +1;
+        RF_Type::Size neededPages = ((powerOfTwoCapacity-1) / capacityPerPage)+1;
+        RF_Type::Size valuePages = ((powerOfTwoCapacity * sizeof(void*) - 1) / pageSize) + 1;
 
         void* p = m_Allocator->Allocate(pageSize*(neededPages + valuePages));
         RF_SysMem::Fill(p, &m_EmptyKey, sizeof(KeyType), pageSize * neededPages);
@@ -63,7 +65,7 @@ void HashList::Grow(const RF_Type::Size ToElementCount)
         m_Values = reinterpret_cast<void**>(p);
 
         RF_Type::Size oldCapacity = m_Capacity;
-        m_Capacity = newCapacity;
+        m_Capacity = powerOfTwoCapacity;
 
         if(oldKeys)
         {
@@ -104,7 +106,7 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
     }
 
     RF_Type::Bool result = false;
-    RF_Type::Size index = Key % m_Capacity;
+    RF_Type::Size index = Key & (m_Capacity - 1);
     KeyType offset = 0;
     while(m_Keys[index] != m_EmptyKey)
     {
@@ -115,7 +117,7 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
         else
         {
             ++offset;
-            index = (Key + (offset*(offset+1)/2)) % m_Capacity;
+            index = (Key + (offset*(offset+1)/2)) & (m_Capacity - 1);
         }
     }
 
@@ -133,7 +135,7 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
 RF_Type::Bool HashList::ContainsKey(const KeyType Key) const
 {
     RF_Type::Bool result = false;
-    RF_Type::Size index = Key % m_Capacity;
+    RF_Type::Size index = Key & (m_Capacity-1);
     for(RF_Type::Size i = 0; i < m_Capacity; ++i)
     {
         if(m_Keys[index] == m_EmptyKey)
@@ -147,7 +149,7 @@ RF_Type::Bool HashList::ContainsKey(const KeyType Key) const
                 result = true;
                 break;
             }
-            index = (Key + i*i) % m_Capacity;
+            index = (Key + i*i) & (m_Capacity - 1);
         }
     }
     return result;
@@ -166,7 +168,7 @@ RF_Type::Size HashList::Capacity() const
 RF_Type::Bool HashList::Get(const KeyType Key, void*& Value) const
 {
     RF_Type::Bool result = false;
-    RF_Type::Size index = Key % m_Capacity;
+    RF_Type::Size index = Key & (m_Capacity - 1);
     for (RF_Type::Size i = 0; i < m_Capacity; ++i)
     {
         if(m_Keys[index] == m_EmptyKey)
@@ -181,7 +183,7 @@ RF_Type::Bool HashList::Get(const KeyType Key, void*& Value) const
                 Value = m_Values[index];
                 break;
             }
-            index = (Key + i*i) % m_Capacity;
+            index = (Key + i*i) & (m_Capacity - 1);
         }
     }
 
@@ -190,7 +192,7 @@ RF_Type::Bool HashList::Get(const KeyType Key, void*& Value) const
 
 void HashList::Erase(const KeyType Key)
 {
-    RF_Type::Size index = Key % m_Capacity;
+    RF_Type::Size index = Key & (m_Capacity - 1);
     for(RF_Type::Size i = 0; i < m_Capacity; ++i)
     {
         if(m_Keys[index] == Key || m_Keys[index] == m_EmptyKey)
@@ -199,7 +201,7 @@ void HashList::Erase(const KeyType Key)
             m_Keys[index] = m_EmptyKey;
             return;
         }
-        index = (Key + i*i) % m_Capacity;
+        index = (Key + i*i) & (m_Capacity - 1);
     }
 }
 
