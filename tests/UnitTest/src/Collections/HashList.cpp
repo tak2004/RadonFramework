@@ -11,7 +11,7 @@
 class TestAllocator:public RadonFramework::Core::Policies::ValueAllocator
 {
 public:
-    void* Allocate(RF_Type::Size Bytes)
+    void* Allocate(RF_Type::Size Bytes, RF_Type::Size Alignment)
     {
         void* result = 0;
         auto memoryBlock = RF_Mem::AutoPointerArray<RF_Type::UInt8>(Bytes);

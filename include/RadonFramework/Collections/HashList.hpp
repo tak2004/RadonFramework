@@ -9,7 +9,7 @@ namespace RadonFramework { namespace Core { namespace Policies {
 class ValueAllocator
 {
 public:
-    virtual void* Allocate(RF_Type::Size Bytes)=0;
+    virtual void* Allocate(RF_Type::Size Bytes, RF_Type::Size Alignment)=0;
     virtual void* Reallocate(void* Ptr, RF_Type::Size NewBytes)=0;
     virtual void Free(void* Memory)=0;
 };
@@ -41,8 +41,10 @@ public:
 private:
     Core::Policies::ValueAllocator* m_Allocator;
     RF_Type::Size m_Count;
-    // capacity have to be power of 2 to avoid modulo operation
     RF_Type::Size m_Capacity;
+    // bucket count have to be power of 2 to avoid modulo operation
+    RF_Type::Size m_BucketCount;
+    RF_Type::Size m_BucketElements;
     KeyType* m_Keys;
     void** m_Values;
     KeyType m_EmptyKey;
@@ -53,6 +55,7 @@ private:
     HashList& operator=(HashList) = delete;
 
     void Grow(const RF_Type::Size ToElementCount);
+    RF_Type::Size GetLastBucketElement(RF_Type::Size index, RF_Type::Size j);
 };
 
 } }

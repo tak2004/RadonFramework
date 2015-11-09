@@ -8,7 +8,7 @@ using namespace RadonFramework::Core::Types;
 LinearAllocator* LinearAllocator::CreateInstance(const Size MemorySize )
 {
     Size memoryBlockSize = MemorySize + sizeof(LinearAllocator) + 15;// +15 Byte to ensure 16Byte alignment
-    LinearAllocator* allocator = reinterpret_cast<LinearAllocator*>(RF_SysMem::Allocate(memoryBlockSize));
+    LinearAllocator* allocator = reinterpret_cast<LinearAllocator*>(RF_SysMem::Allocate(memoryBlockSize, 16));
     allocator->m_TotalSize = memoryBlockSize;
     Size next16ByteBoundary = reinterpret_cast<MemoryRange>(allocator) - (reinterpret_cast<MemoryRange>(allocator) & ~15);
     allocator->m_OffsetToFirstFreeByte = sizeof(LinearAllocator) + next16ByteBoundary;

@@ -9,9 +9,19 @@ namespace RadonFramework { namespace Core { namespace Policies {
 class DefaultValueAllocator:public ValueAllocator
 {
 public:
-    void* Allocate(RF_Type::Size Bytes) { return malloc(Bytes); }
-    void* Reallocate(void* Ptr, RF_Type::Size NewBytes) { return realloc(Ptr, NewBytes); }
-    void Free(void* Memory) { free(Memory); }
+    void* Allocate(RF_Type::Size Bytes, RF_Type::Size Alignment) 
+    {        
+        return RF_SysMem::Allocate(Bytes, Alignment);
+    }
+    void* Reallocate(void* Ptr, RF_Type::Size NewBytes)
+    { 
+        return 0;
+        //return realloc(Ptr, NewBytes); 
+    }
+    void Free(void* Memory) 
+    { 
+        RF_SysMem::Free(Memory);
+    }
 };
 
 } } }
@@ -54,7 +64,8 @@ void HashList::Grow(const RF_Type::Size ToElementCount)
         RF_Type::Size neededPages = ((powerOfTwoCapacity-1) / capacityPerPage)+1;
         RF_Type::Size valuePages = ((powerOfTwoCapacity * sizeof(void*) - 1) / pageSize) + 1;
 
-        void* p = m_Allocator->Allocate(pageSize*(neededPages + valuePages));
+        RF_Type::Size cacheAlignment = RFHDW::GetLevel1DataCache().LineSize;
+        void* p = m_Allocator->Allocate(pageSize*(neededPages + valuePages), cacheAlignment);
         RF_SysMem::Fill(p, &m_EmptyKey, sizeof(KeyType), pageSize * neededPages);
         KeyType* oldKeys = m_Keys;
         m_Keys = reinterpret_cast<KeyType*>(p);
@@ -117,7 +128,7 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
         else
         {
             ++offset;
-            index = (Key + (offset*(offset+1)/2)) & (m_Capacity - 1);
+            index = (Key + offset*offset) & (m_Capacity - 1);
         }
     }
 

@@ -135,7 +135,7 @@ String String::UnsafeStringCreation(const char* CString, RF_Common::DataManagmen
 
 void* String::operator new(size_t Bytes)
 {
-    return RF_SysMem::Allocate(Bytes);
+    return RF_SysMem::Allocate(Bytes, sizeof(String));
 }
 
 void* String::operator new(size_t Bytes, void* Buffer)

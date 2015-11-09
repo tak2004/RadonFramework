@@ -117,14 +117,14 @@ void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
     EnableTerminationOnHeapCorruption();
 }
 
-void* Allocate_SystemAPIDispatcher(UInt32 Bytes)
+void* Allocate_SystemAPIDispatcher(const Size Bytes, const Size Alignment)
 {
     Allocate = 0;
     Dispatch();
     Assert(Allocate != Allocate_SystemAPIDispatcher &&
            Allocate != 0,
            "Funtion was called and couldn't be dispatched");
-    return Allocate(Bytes);
+    return Allocate(Bytes, Alignment);
 }
 
 void Free_SystemAPIDispatcher(void* FirstPage)

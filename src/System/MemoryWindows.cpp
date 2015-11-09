@@ -22,14 +22,14 @@ void EnableTerminationOnHeapCorruptionWindows()
     #endif
 }
 
-void* AllocateWindows(UInt32 Bytes)
+void* AllocateWindows(const Size Bytes, const Size Alignment)
 {
-    return HeapAlloc(GetProcessHeap(), 0, Bytes);
+    return _aligned_malloc(Bytes, Alignment);
 }
 
 void FreeWindows(void* FirstPage)
 {
-    HeapFree(GetProcessHeap(), 0, FirstPage);
+    _aligned_free(FirstPage);
 }
 
 void RF_SysMem::Dispatch()
