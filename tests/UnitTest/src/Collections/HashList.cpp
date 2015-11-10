@@ -62,8 +62,6 @@ public:
                 "HashListTest::Add", "Add");
         AddTest(MakeDelegate(this, &HashListTest::Erase),
             "HashListTest::Erase", "Erase");
-        AddTest(MakeDelegate(this, &HashListTest::SetEmptyKey),
-            "HashListTest::SetEmptyKey", "SetEmptyKey");
         AddTest(MakeDelegate(this, &HashListTest::GetEmptyKey),
             "HashListTest::GetEmptyKey", "GetEmptyKey");
         AddTest(MakeDelegate(this, &HashListTest::Clone),
@@ -212,19 +210,10 @@ public:
         return result;
     }
 
-    RF_Type::Bool SetEmptyKey()
-    {
-        RF_Type::Bool result = true;
-        RF_Collect::HashList hashList;
-        result &= hashList.GetEmptyKey() == 0;
-        hashList.SetEmptyKey(1);
-        result &= hashList.GetEmptyKey() == 1;
-        return result;
-    }
-
     RF_Type::Bool GetEmptyKey()
     {
-        return SetEmptyKey();
+        RF_Collect::HashList hashList;
+        return hashList.GetEmptyKey() == 0;
     }
 
     RF_Type::Bool Clone()
@@ -233,14 +222,12 @@ public:
         RF_Collect::HashList hashList;
         RF_Collect::HashList hashListClone;
         int v = 5;
-        hashListClone.SetEmptyKey(1);
         hashListClone.Add(5, &v);
         result &= hashListClone.Count() == 1;
         result &= hashListClone.Capacity() >= 1;
         hashListClone.Clone(hashList);
         result &= hashListClone.Count() == 0;
         result &= hashListClone.Capacity() == 0;
-        result &= hashListClone.GetEmptyKey() == 0;
         return result;
     }
 

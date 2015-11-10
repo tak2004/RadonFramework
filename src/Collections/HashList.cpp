@@ -3,6 +3,8 @@
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
 #include "RadonFramework/Math/Integer.hpp"
+#include <xmmintrin.h>
+#include <pmmintrin.h>
 
 namespace RadonFramework { namespace Core { namespace Policies {
 
@@ -15,8 +17,7 @@ public:
     }
     void* Reallocate(void* Ptr, RF_Type::Size NewBytes)
     { 
-        return 0;
-        //return realloc(Ptr, NewBytes); 
+        return 0; 
     }
     void Free(void* Memory) 
     { 
@@ -49,8 +50,8 @@ HashList::HashList(Core::Policies::ValueAllocator* Allocator,
 ,m_Capacity(0)
 ,m_Keys(0)
 ,m_Values(0)
-,m_EmptyKey(0)
 {
+    m_BucketElements = RFHDW::GetLevel1DataCache().LineSize / (sizeof(KeyType) * 4);
     Grow(PreAllocationElementCount);
 }
 
@@ -58,38 +59,44 @@ void HashList::Grow(const RF_Type::Size ToElementCount)
 {
     if(ToElementCount > m_Capacity)
     {
-        RF_Type::Size powerOfTwoCapacity = RF_Math::Integer<RF_Type::Size>::NextPowerOfTwo(ToElementCount);
-        RF_Type::Size pageSize = RF_SysMem::GetPageSize();
-        RF_Type::Size capacityPerPage = ((pageSize - 1) / sizeof(KeyType)) +1;
-        RF_Type::Size neededPages = ((powerOfTwoCapacity-1) / capacityPerPage)+1;
-        RF_Type::Size valuePages = ((powerOfTwoCapacity * sizeof(void*) - 1) / pageSize) + 1;
-
         RF_Type::Size cacheAlignment = RFHDW::GetLevel1DataCache().LineSize;
+        RF_Type::Size pageSize = RF_SysMem::GetPageSize();
+        m_BucketCount = ((ToElementCount - 1) / m_BucketElements) +1;
+        m_BucketCount = RF_Math::Integer<RF_Type::Size>::NextPowerOfTwo(m_BucketCount);
+
+        RF_Type::Size oldCapacity = m_Capacity;
+        m_Capacity = m_BucketCount * m_BucketElements;
+
+        RF_Type::Size neededPages = ((m_Capacity*sizeof(KeyType) - 1) / pageSize) + 1;
+        RF_Type::Size valuePages = ((m_Capacity*sizeof(void*) - 1) / pageSize) + 1;
+
         void* p = m_Allocator->Allocate(pageSize*(neededPages + valuePages), cacheAlignment);
-        RF_SysMem::Fill(p, &m_EmptyKey, sizeof(KeyType), pageSize * neededPages);
+        RF_SysMem::Set(p, 0, pageSize * neededPages);
         KeyType* oldKeys = m_Keys;
         m_Keys = reinterpret_cast<KeyType*>(p);
 
-        p = reinterpret_cast<RF_Type::UInt8*>(p)+pageSize*neededPages;
+        p = reinterpret_cast<RF_Type::UInt8*>(p) + pageSize*neededPages;
         RF_SysMem::Set(p, 0, pageSize*valuePages);
         void** oldValues = m_Values;
         m_Values = reinterpret_cast<void**>(p);
-
-        RF_Type::Size oldCapacity = m_Capacity;
-        m_Capacity = powerOfTwoCapacity;
 
         if(oldKeys)
         {
             m_Count = 0;
             for(RF_Type::Size i = 0; i < oldCapacity; ++i)
             {
-                if(oldKeys[i] != m_EmptyKey)
+                if(oldKeys[i] != 0)
                     Add(oldKeys[i], m_Values[i]);
             }
 
             m_Allocator->Free(oldKeys);
         }
     }
+}
+
+inline RF_Type::Size HashList::FindBucket(const KeyType Key)const
+{
+    return (Key & (m_BucketCount - 1))*m_BucketElements;
 }
 
 HashList::~HashList()
@@ -103,7 +110,8 @@ void HashList::Clear()
 {
     if(m_Count > 0)
     {
-        RF_SysMem::Fill(m_Keys, &m_EmptyKey, sizeof(KeyType), m_Capacity * sizeof(KeyType));
+        KeyType emptyKey = 0;
+        RF_SysMem::Set(m_Keys, 0, m_Capacity * sizeof(KeyType));
         RF_SysMem::Set(m_Values, 0, m_Capacity * sizeof(void*));
         m_Count = 0;
     }
@@ -111,59 +119,53 @@ void HashList::Clear()
 
 RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
 {
-    if(m_Count >= m_Capacity/3)
+    if(m_Count == m_Capacity)
     {
-        Grow(m_Capacity+1);
+        Grow(m_Capacity + 1);
     }
 
     RF_Type::Bool result = false;
-    RF_Type::Size index = Key & (m_Capacity - 1);
-    KeyType offset = 0;
-    while(m_Keys[index] != m_EmptyKey)
-    {
-        if(m_Keys[index] == Key)
-        {
-            break;
+    RF_Type::Size index = FindBucket(Key);
+
+    __m128i key0 = _mm_set1_epi32(Key);
+    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
+
+    key0 = _mm_cmpeq_epi32(key0, key4);
+
+    if(_mm_movemask_epi8(key0) == 0)
+    {// key not found
+        key0 = _mm_set1_epi32(0);
+        key0 = _mm_cmpeq_epi32(key0, key4);
+
+        if(_mm_movemask_epi8(key0) != 0)
+        {// space left in the bucket
+            result = true;            
+            RF_Type::Size i = 0;
+            for (; i < m_BucketElements; ++i)
+            {
+                if (m_Keys[index+i] == 0)
+                    break;
+            }
+            m_Keys[index+i]=Key;
+            m_Values[index+i]=DataStart;
+            ++m_Count;
         }
         else
-        {
-            ++offset;
-            index = (Key + offset*offset) & (m_Capacity - 1);
+        {// no space left in bucket
+            Grow(m_Capacity * 2 );
+            result = Add(Key, DataStart);
         }
     }
-
-    if(m_Keys[index] == m_EmptyKey)
-    {
-        m_Keys[index] = Key;
-        m_Values[index] = DataStart;
-        result = true;
-        ++m_Count;
-    }
-
     return result;
 }
 
 RF_Type::Bool HashList::ContainsKey(const KeyType Key) const
 {
-    RF_Type::Bool result = false;
-    RF_Type::Size index = Key & (m_Capacity-1);
-    for(RF_Type::Size i = 0; i < m_Capacity; ++i)
-    {
-        if(m_Keys[index] == m_EmptyKey)
-        {
-            break;
-        }
-        else
-        {
-            if(m_Keys[index] == Key)
-            {
-                result = true;
-                break;
-            }
-            index = (Key + i*i) & (m_Capacity - 1);
-        }
-    }
-    return result;
+    RF_Type::Size index = FindBucket(Key);
+    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
+    __m128i key0 = _mm_set1_epi32(Key);
+    key0 = _mm_cmpeq_epi32(key0, key4);
+    return _mm_movemask_epi8(key0) != 0;
 }
 
 RF_Type::Size HashList::Count() const
@@ -179,58 +181,61 @@ RF_Type::Size HashList::Capacity() const
 RF_Type::Bool HashList::Get(const KeyType Key, void*& Value) const
 {
     RF_Type::Bool result = false;
-    RF_Type::Size index = Key & (m_Capacity - 1);
-    for (RF_Type::Size i = 0; i < m_Capacity; ++i)
+    RF_Type::Size index = FindBucket(Key);
+    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
+    __m128i key0 = _mm_set1_epi32(Key);
+    key0 = _mm_cmpeq_epi32(key0, key4);
+    int mask = _mm_movemask_epi8(key0);
+    switch(mask)
     {
-        if(m_Keys[index] == m_EmptyKey)
-        {
-            break;
-        }
-        else
-        {
-            if(m_Keys[index] == Key)
-            {
-                result = true;
-                Value = m_Values[index];
-                break;
-            }
-            index = (Key + i*i) & (m_Capacity - 1);
-        }
+    case 15:
+        Value = m_Values[index];
+        result = true;
+        break;
+    case 240:
+        Value = m_Values[index+1];
+        result = true;
+        break;
+    case 3840:
+        Value = m_Values[index+2];
+        result = true;
+        break;
+    case 61440:
+        Value = m_Values[index+3];
+        result = true;
+        break;
     }
-
     return result;
 }
 
 void HashList::Erase(const KeyType Key)
 {
-    RF_Type::Size index = Key & (m_Capacity - 1);
-    for(RF_Type::Size i = 0; i < m_Capacity; ++i)
+    RF_Type::Bool result = false;
+    RF_Type::Size index = FindBucket(Key);
+    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
+    __m128i key0 = _mm_set1_epi32(Key);
+    key0 = _mm_cmpeq_epi32(key0, key4);
+    int mask = _mm_movemask_epi8(key0);
+    switch(mask)
     {
-        if(m_Keys[index] == Key || m_Keys[index] == m_EmptyKey)
-        {
-            m_Values[index] = 0;
-            m_Keys[index] = m_EmptyKey;
-            return;
-        }
-        index = (Key + i*i) & (m_Capacity - 1);
+    case 15:
+        m_Keys[index] = 0;
+        break;
+    case 240:
+        m_Keys[index + 1];
+        break;
+    case 3840:
+        m_Keys[index + 2];
+        break;
+    case 61440:
+        m_Keys[index + 3];
+        break;
     }
-}
-
-void HashList::SetEmptyKey(const KeyType Key)
-{
-    for(RF_Type::Size i = 0; i < m_Capacity; ++i)
-    {
-        if(m_Keys[i] == m_EmptyKey)
-        {
-            m_Keys[i] = Key;
-        }
-    }
-    m_EmptyKey = Key;
 }
 
 HashList::KeyType HashList::GetEmptyKey() const
 {
-    return m_EmptyKey;
+    return 0;
 }
 
 void HashList::Clone(const HashList& ThisInstance)
@@ -239,7 +244,6 @@ void HashList::Clone(const HashList& ThisInstance)
     m_Keys = 0;
     m_Values = 0;
     m_Capacity = 0;
-    m_EmptyKey = ThisInstance.m_EmptyKey;
     m_Count = 0;
 
     Grow(ThisInstance.m_Capacity);
@@ -252,7 +256,7 @@ void HashList::Clone(const HashList& ThisInstance)
 void HashList::Reserve(const RF_Type::Size ElementCount)
 {
     Clear();
-    Grow(ElementCount*3);
+    Grow(ElementCount*4/3);
 }
 
 } }

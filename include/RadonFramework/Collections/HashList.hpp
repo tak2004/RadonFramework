@@ -34,7 +34,6 @@ public:
     RF_Type::Size Capacity()const;
     RF_Type::Bool Get(const KeyType Key, void*& Value)const;
     void Erase(const KeyType Key);
-    void SetEmptyKey(const KeyType Key);
     KeyType GetEmptyKey()const;
     void Clone(const HashList& ThisInstance);
     void Reserve(const RF_Type::Size ElementCount);
@@ -47,7 +46,6 @@ private:
     RF_Type::Size m_BucketElements;
     KeyType* m_Keys;
     void** m_Values;
-    KeyType m_EmptyKey;
 
     // forbid copies, use Clone() method
     HashList(const HashList&) = delete;
@@ -56,6 +54,7 @@ private:
 
     void Grow(const RF_Type::Size ToElementCount);
     RF_Type::Size GetLastBucketElement(RF_Type::Size index, RF_Type::Size j);
+    RF_Type::Size FindBucket(const KeyType Key)const;
 };
 
 } }
