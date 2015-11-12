@@ -7,6 +7,8 @@ using namespace RadonFramework;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
+#if RF_BUILD_INTRINSIC_CPUID
+
 #ifdef RF_WINDOWS
 #include <intrin.h>
 #else
@@ -390,6 +392,11 @@ static const RF_Type::UInt32 BITMASK_SSSE3=0x200;
 static const RF_Type::UInt32 BITMASK_SSE4_1=0x80000;
 static const RF_Type::UInt32 BITMASK_SSE4_2=0x100000;
 static const RF_Type::UInt32 BITMASK_TSC=0x10;
+static const RF_Type::UInt32 BITMASK_SHA = 0x20000000;
+static const RF_Type::UInt32 BITMASK_AVX512 = 0x10000;
+static const RF_Type::UInt32 BITMASK_SSE4A = 0x40;
+static const RF_Type::UInt32 BITMASK_FMA4 = 0x10000;
+static const RF_Type::UInt32 BITMASK_XOP = 0x800;
 
 RF_Type::Bool GetLogicalProcessorFeatures(RFHDW::ProcessorFeatureMask& Features)
 {
@@ -397,7 +404,8 @@ RF_Type::Bool GetLogicalProcessorFeatures(RFHDW::ProcessorFeatureMask& Features)
     RF_Type::UInt32 reg[4]={0,0,0,0};
     // is CPUId supported
     CPUId(0, reg);
-    if (reg[0] > 0)
+    RF_Type::UInt32 ids = reg[0];
+    if (ids > 0)
     {
         CPUId(1, reg);
         Features[RFHDW::ProcessorFeatures::AES] = (reg[2] & BITMASK_AES) != 0;
@@ -423,13 +431,32 @@ RF_Type::Bool GetLogicalProcessorFeatures(RFHDW::ProcessorFeatureMask& Features)
         Features[RFHDW::ProcessorFeatures::TSC] = (reg[3] & BITMASK_TSC) != 0;
         result = true;
     }
+    if(ids > 6)
+    {
+        CPUId(7, reg);
+        Features[RFHDW::ProcessorFeatures::SHA] = (reg[1] & BITMASK_SHA) != 0;
+        Features[RFHDW::ProcessorFeatures::AVX512] = (reg[1] & BITMASK_AVX512) != 0;
+    }
+
+    CPUId(0x80000000, reg);
+    ids = reg[0];
+    if(ids > 0x80000000)
+    {
+        Features[RFHDW::ProcessorFeatures::SSE4A] = (reg[2] & BITMASK_SSE4A) != 0;
+        Features[RFHDW::ProcessorFeatures::FMA4] = (reg[2] & BITMASK_FMA4) != 0;
+        Features[RFHDW::ProcessorFeatures::XOP] = (reg[2] & BITMASK_XOP) != 0;
+    }
     return result;
 }
 
+#endif
+
 void RFHDW::Dispatch()
 {
+#if RF_BUILD_INTRINSIC_CPUID
     RFHDW::GetCacheCount = ::DetectCacheCount;
     GetLogicalProcessorFeatures = ::GetLogicalProcessorFeatures;
+#endif
 #ifdef RF_WINDOWS
     extern void Dispatch_Windows();
     Dispatch_Windows();

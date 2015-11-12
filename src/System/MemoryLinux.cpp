@@ -1,9 +1,10 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Memory.hpp"
+#include <stdlib.h>
 
-void* AllocateLinux(RF_Type::UInt32 Bytes)
+void* AllocateLinux(const RF_Type::Size Bytes, const RF_Type::Size Alignment)
 {
-    return malloc(Bytes);
+    return aligned_alloc(Bytes, Alignment);
 }
 
 void FreeLinux(void* FirstPage)

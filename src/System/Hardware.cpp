@@ -141,7 +141,7 @@ struct MostWantedCacheInfos
             }
         }
         // hardwired fallback which should fit to the majority
-        if(SharedCacheInfo.L1Data.Level == 0)
+        if(L1Data.Level == 0)
         {
             L1Data.Associativity = CacheAssociativity::Unknown;
             L1Data.Level = 1;
@@ -151,7 +151,7 @@ struct MostWantedCacheInfos
             L1Data.UsedAs = CacheUseCase::Data;
         }
 
-        if(SharedCacheInfo.L2Data.Level == 0)
+        if(L2Data.Level == 0)
         {
             L2Data.Associativity = CacheAssociativity::Unknown;
             L2Data.Level = 2;
@@ -161,7 +161,7 @@ struct MostWantedCacheInfos
             L2Data.UsedAs = CacheUseCase::Data;
         }
 
-        if(SharedCacheInfo.L1Instruction.Level == 0)
+        if(L1Instruction.Level == 0)
         {
             L1Data.Associativity = CacheAssociativity::Unknown;
             L1Data.Level = 1;

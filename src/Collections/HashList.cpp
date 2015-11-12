@@ -3,8 +3,12 @@
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
 #include "RadonFramework/Math/Integer.hpp"
+#if __arm__
+#include "RadonFramework/System/Hardware/SSE2NEON.h"
+#else
 #include <xmmintrin.h>
-#include <pmmintrin.h>
+#include <emmintrin.h>
+#endif
 
 namespace RadonFramework { namespace Core { namespace Policies {
 

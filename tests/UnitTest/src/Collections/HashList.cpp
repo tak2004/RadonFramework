@@ -234,16 +234,24 @@ public:
     RF_Type::Bool EnsureCopyProtection()
     {
         RF_Type::Bool result = std::is_copy_assignable<RF_Collect::HashList>::value == false;
-        result &= std::is_trivially_copy_assignable<RF_Collect::HashList>::value == false;
+        #if !__GNUG__ && __GNUC__ < 5
+            result &= std::is_trivially_copy_assignable<RF_Collect::HashList>::value == false;
+        #endif
         result &= std::is_nothrow_copy_assignable<RF_Collect::HashList>::value == false;
         result &= std::is_move_assignable<RF_Collect::HashList>::value == false;
-        result &= std::is_trivially_move_assignable<RF_Collect::HashList>::value == false;
+        #if !__GNUG__ && __GNUC__ < 5
+            result &= std::is_trivially_move_assignable<RF_Collect::HashList>::value == false;
+        #endif
         result &= std::is_nothrow_move_assignable<RF_Collect::HashList>::value == false;
         result &= std::is_copy_constructible<RF_Collect::HashList>::value == false;
-        result &= std::is_trivially_copy_constructible<RF_Collect::HashList>::value == false;
+        #if !__GNUG__ && __GNUC__ < 5
+            result &= std::is_trivially_copy_constructible<RF_Collect::HashList>::value == false;
+        #endif
         result &= std::is_nothrow_copy_constructible<RF_Collect::HashList>::value == false;
         result &= std::is_move_constructible<RF_Collect::HashList>::value == false;
-        result &= std::is_trivially_move_constructible<RF_Collect::HashList>::value == false;
+        #if !__GNUG__ && __GNUC__ < 5
+            result &= std::is_trivially_move_constructible<RF_Collect::HashList>::value == false;
+        #endif
         result &= std::is_nothrow_move_constructible<RF_Collect::HashList>::value == false;
         return result;
     }

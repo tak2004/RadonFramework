@@ -48,12 +48,11 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 # setup graphic
 #
 	#find_package(OpenGL)
-	if(RADONFRAMEWORK_USE_OPENGL)
-		set(USEOPENGL "#ifndef RF_USE_OPENGL\n#define RF_USE_OPENGL\n#endif")
+	if(RADONFRAMEWORK_USE_OPENGL)		
 		if(UNIX)
-			set(OSLIBS ${OSLIBS} GL GLU)
 			find_package(X11)
 			if(X11_FOUND)
+                set(OSLIBS ${OSLIBS} GL GLU)
 				set(USEX11 "#ifndef RF_USE_X11\n#define RF_USE_X11\n#endif")
 				set(OSLIBS ${OSLIBS} X11)
 				find_path(X11_Xmu_INCLUDE_PATH X11/Xmu/Xmu.h ${X11_INC_SEARCH_PATH})
@@ -62,6 +61,9 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 					set(X11_Xmu_FOUND TRUE)
 					message(STATUS "X11 support: Yes")
 				endif(X11_Xmu_INCLUDE_PATH AND X11_Xmu_LIB)
+                set(RADONFRAMEWORK_USE_X11 1)
+            else()
+                set(RADONFRAMEWORK_USE_OPENGL OFF CACHE BOOL "Activate OpenGL" FORCE)
 			endif(X11_FOUND)
 		endif(UNIX)
 		
@@ -72,10 +74,13 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
             message(STATUS "WDM support: Yes")
 			set(OSLIBS ${OSLIBS} OpenGL32)            
 		endif(WIN32)
-		
+    endif()
+    
+    if(RADONFRAMEWORK_USE_OPENGL)
 		include_directories(${OPENGL_INCLUDE_DIR})
 		add_definitions(-DGLEW_STATIC)    
 		message(STATUS "OpenGL support: Yes")
+        set(USEOPENGL "#ifndef RF_USE_OPENGL\n#define RF_USE_OPENGL\n#endif")        
 	else(RADONFRAMEWORK_USE_OPENGL)
 		message(STATUS "OpenGL support: No")
 	endif(RADONFRAMEWORK_USE_OPENGL)
@@ -157,6 +162,12 @@ if (NOT DEFINED RADONFRAMEWORK_BUILDNUMBER )
 	set(RADONFRAMEWORK_BUILDNUMBER "0")
 endif ()
 
+foreach(ext MMX SSE SSE2 SSE3 SSSE3 SSE41 SSE42 SSE4A AVX AVX2 AVX512 FMA3 FMA4 NEON AES XOP SHA CPUID)
+    if(${RADONFRAMEWORK_COMPILER_USE_INTRINSIC_${ext}})
+        set(RADONFRAMEWORK_BUILD_INTRINSIC_${ext} "#ifndef RF_BUILD_INTRINSIC_${ext}\n    #define RF_BUILD_INTRINSIC_${ext} 1\n#endif")
+    endif()
+endforeach()
+
 include(build/code_templates/CMakeLists.txt)
 
 #
@@ -208,10 +219,3 @@ install(TARGETS RadonFramework
 install(EXPORT RadonFramework
 		DESTINATION .
 		FILE RadonFrameworkDependencies.cmake)
-
-#
-#
-#
-if(RADONFRAMEWORK_WITH_VISUALGDB)
-	include(libRadonFramework_VGDB.cmake)
-endif()

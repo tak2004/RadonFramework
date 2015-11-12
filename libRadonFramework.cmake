@@ -83,7 +83,7 @@ if(RADONFRAMEWORK_USE_OPENGL)
 	set(HDRS_BACKEND_OPENGL
 		include/RadonFramework/backend/OpenGL/OpenGLCanvas.hpp
 		include/RadonFramework/backend/OpenGL/GraphicDriverInformationOpenGL.hpp)
-endif(RADONFRAMEWORK_USE_OPENGL)
+endif()
 
 AddSourceDirectory(filelist "backend/stringcoders" "Sources\\backend\\stringcoders")
 set(SRC_BACKEND_STRINGCODERS ${filelist})
@@ -92,35 +92,41 @@ set_source_files_properties(${SRC_BACKEND_STRINGCODERS} PROPERTIES LANGUAGE CXX)
 AddHeaderDirectory(filelist "include/RadonFramework/backend/stringcoders" "Includes\\backend\\stringcoders")
 set(HDRS_BACKEND_STRINGCODERS ${filelist})
 	
-if(RADONFRAMEWORK_USE_OPENGL)
-# OpenGL Windows
-AddSourceDirectoryRecursive(filelist "backend/Windows/Drawing" "Backend\\Windows\\Drawing")
-list(APPEND SRC_BACKEND_WINDOWS_DRAWING ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Drawing" "Includes\\Backend\\Windows\\Drawing")
-list(APPEND HDRS_BACKEND_WINDOWS_DRAWING ${filelist})	
-
-# OpenGL X11
-AddSourceDirectoryRecursive(filelist "backend/X11/Drawing" "Backend\\X11\\Drawing")
-list(APPEND SRC_BACKEND_X11_DRAWING ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Drawing" "Includes\\Backend\\X11\\Drawing")
-list(APPEND HDRS_BACKEND_X11_DRAWING ${filelist})		
+if(RADONFRAMEWORK_USE_OPENGL AND WIN32)
+    # OpenGL Windows GDI/WDM
+    AddSourceDirectoryRecursive(filelist "backend/Windows/Drawing" "Backend\\Windows\\Drawing")
+    list(APPEND SRC_BACKEND_WINDOWS_DRAWING ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Drawing" "Includes\\Backend\\Windows\\Drawing")
+    list(APPEND HDRS_BACKEND_WINDOWS_DRAWING ${filelist})	
 endif()
 
-# Windows window managment
-AddSourceDirectoryRecursive(filelist "backend/Windows/Forms" "Backend\\Windows\\Forms")
-list(APPEND SRC_BACKEND_WINDOWS_FORMS ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Forms" "Includes\\Backend\\Windows\\Forms")
-list(APPEND HDRS_BACKEND_WINDOWS_FORMS ${filelist})		
+if(RADONFRAMEWORK_USE_X11)
+    # OpenGL X11
+    AddSourceDirectoryRecursive(filelist "backend/X11/Drawing" "Backend\\X11\\Drawing")
+    list(APPEND SRC_BACKEND_X11_DRAWING ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Drawing" "Includes\\Backend\\X11\\Drawing")
+    list(APPEND HDRS_BACKEND_X11_DRAWING ${filelist})		
+endif()
 
-# X11 window managment
-AddSourceDirectoryRecursive(filelist "backend/X11/Forms" "Backend\\X11\\Forms")
-list(APPEND SRC_BACKEND_X11_FORMS ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Forms" "Includes\\Backend\\X11\\Forms")
-list(APPEND HDRS_BACKEND_X11_FORMS ${filelist})		
+if(RADONFRAMEWORK_USE_OPENGL AND WIN32)
+    # Windows window managment
+    AddSourceDirectoryRecursive(filelist "backend/Windows/Forms" "Backend\\Windows\\Forms")
+    list(APPEND SRC_BACKEND_WINDOWS_FORMS ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Forms" "Includes\\Backend\\Windows\\Forms")
+    list(APPEND HDRS_BACKEND_WINDOWS_FORMS ${filelist})		
+endif()
+
+if(RADONFRAMEWORK_USE_X11)
+    # X11 window managment
+    AddSourceDirectoryRecursive(filelist "backend/X11/Forms" "Backend\\X11\\Forms")
+    list(APPEND SRC_BACKEND_X11_FORMS ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Forms" "Includes\\Backend\\X11\\Forms")
+    list(APPEND HDRS_BACKEND_X11_FORMS ${filelist})		
+endif()
 
 set(LIBBACKENDGENERALSRCFILES
     ${SRC_BACKEND_GLEW}

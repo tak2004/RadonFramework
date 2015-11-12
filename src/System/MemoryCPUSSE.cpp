@@ -1,12 +1,14 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Memory.hpp"
 #include "RadonFramework/Collections/List.hpp"
-#include <smmintrin.h>
-#include <nmmintrin.h>
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::System::Memory;
+
+#if RF_BUILD_INTRINSIC_SSE41 
+#include <smmintrin.h>
+#include <nmmintrin.h>
 
 RF_Type::Int32 Compare_SSE4(const void* P1, const void* P2, RF_Type::Size Bytes)
 {
@@ -70,7 +72,10 @@ RF_Type::Int32 Compare_SSE4(const void* P1, const void* P2, RF_Type::Size Bytes)
 
     return 0;
 }
+#endif
 
+#if RF_BUILD_INTRINSIC_SSE2
+#include <emmintrin.h>
 void Set_SSE2(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes)
 {
     RF_Type::UInt8* p = reinterpret_cast<RF_Type::UInt8*>(Pointer);
@@ -177,3 +182,4 @@ void Swap_SSE2(void* P1, void* P2, Size Bytes)
         }
     }
 }
+#endif
