@@ -530,36 +530,13 @@ inline Bool ThrImplementationSetAffinityMask(void* Data, const BitArray<>& NewVa
 inline Bool ThrImplementationGetAffinityMask(void* Data, BitArray<>& Mask)
 {
     RF_Type::Bool result = false;
-    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
-    int cpuset=0;
-    thread_port_t mach_thread;
-    thread_affinity_policy_data_t policy = {cpuset};
-    mach_thread = pthread_mach_thread_np(p->ID);
-    if (thread_policy_get(mach_thread, THREAD_AFFINITY_POLICY,(thread_policy_t)&policy,1,0) ==0)
-    {
-        Mask.Resize(CPU_SETSIZE);
-        Mask.Reset();
-        for (RF_Type::Size i = 0; i < CPU_SETSIZE;++i)
-        {
-            if(CPU_ISSET(i, &cpuset))
-                Mask.Set(i);
-        }
-        result = true;
-    }
     return result;
 }
 
 inline Bool ThrImplementationSetAffinityMask(void* Data, const BitArray<>& NewValue)
 {
-    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
-    int cpuset;
-    CPU_ZERO(&cpuset);
-    for(RF_Type::Size i = 0; i < NewValue.Count(); ++i)
-    {
-        if(NewValue[i])
-            CPU_SET(i, &cpuset);
-    }
-    return pthread_setaffinity_np(p->ID, sizeof(cpu_set_t), &cpuset) == 0;
+    RF_Type::Bool result = false;
+    return result;
 }
 #endif
 #endif
