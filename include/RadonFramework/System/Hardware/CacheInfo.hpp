@@ -6,37 +6,31 @@
 
 namespace RadonFramework { namespace System { namespace Hardware {
 
-namespace CacheAssociativity
+enum class CacheAssociativity: RF_Type::UInt8
 {
-    enum Type : RF_Type::UInt8
-    {
-        Unknown,
-        _2WaySetAssociative,
-        _4WaySetAssociative,
-        _6WaySetAssociative,
-        _8WaySetAssociative,
-        _12WaySetAssociative,
-        _16WaySetAssociative,
-        _24WaySetAssociative,
-        FullyAssociative,
-        Other
-    };
-}
+    Unknown,
+    _2WaySetAssociative,
+    _4WaySetAssociative,
+    _6WaySetAssociative,
+    _8WaySetAssociative,
+    _12WaySetAssociative,
+    _16WaySetAssociative,
+    _24WaySetAssociative,
+    FullyAssociative,
+    Other
+};
 
-namespace CacheUseCase
+enum class CacheUseCase : RF_Type::UInt8
 {
-    enum Type : RF_Type::UInt8
-    {
-        Unknown,
-        Data,
-        Code,
-        CodeAndData,
-        CodeTLB,
-        DataTLB,
-        CodeAndDataTLB,
-        Other
-    };
-}
+    Unknown,
+    Data,
+    Code,
+    CodeAndData,
+    CodeTLB,
+    DataTLB,
+    CodeAndDataTLB,
+    Other
+};
 
 struct RF_ALIGN(16) CacheInfo
 {
@@ -49,9 +43,9 @@ struct RF_ALIGN(16) CacheInfo
     /// Determine the cache level.
     RF_Type::UInt8 Level;
     /// How does the cache will by filled.
-    CacheAssociativity::Type Associativity;
+    CacheAssociativity Associativity;
     /// Describe the purpose of how the cache is used.
-    CacheUseCase::Type UsedAs;
+    CacheUseCase UsedAs;
     /// This field is currently used as padding to speed up processing.
     RF_Type::UInt8 ReservedPadding;
 };
