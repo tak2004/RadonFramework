@@ -41,9 +41,11 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 
 	if(UNIX)
 		# for loading a dynamic library you have to link libdl.so
-		set(OSLIBS ${OSLIBS} dl rt)
+		set(OSLIBS ${OSLIBS} dl)
+        if(NOT OSX)
+            set(OSLIBS ${OSLIBS} rt)
+        endif()
 	endif(UNIX)
-
 #
 # setup graphic
 #
