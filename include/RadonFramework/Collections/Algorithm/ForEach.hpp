@@ -82,7 +82,7 @@ void ForEach(const C& Enumerable, FUNCTION Function)
         Time::TimeSpan sleep = Time::TimeSpan::CreateByTicks(0);
         while(overallWork != 0)
         {
-            System::Threading::Thread::Sleep(sleep);
+            RF_Thread::Thread::Sleep(sleep);
         }
     }
     else

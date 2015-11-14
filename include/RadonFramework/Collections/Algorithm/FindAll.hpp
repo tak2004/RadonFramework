@@ -106,7 +106,7 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
         while(overallWork != 0)
         {
         
-            RadonFramework::System::Threading::Thread::Sleep(sleep);
+            RF_Thread::Thread::Sleep(sleep);
         }
     }
     else

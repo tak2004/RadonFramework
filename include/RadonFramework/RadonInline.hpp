@@ -290,6 +290,7 @@
 #include <RadonFramework/Threading/RegisteredWaitHandle.hpp>
 #include <RadonFramework/Threading/Scopelock.hpp>
 #include <RadonFramework/Threading/TaskStrategy.hpp>
+#include <RadonFramework/Threading/Thread.hpp>
 #include <RadonFramework/Threading/ThreadError.hpp>
 #include <RadonFramework/Threading/ThreadPool.hpp>
 #include <RadonFramework/Threading/ThreadPriority.hpp>

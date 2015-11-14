@@ -7,6 +7,7 @@
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Process.hpp"
 #include "RadonFramework/System/String.hpp"
+#include "RadonFramework/System/Threading/Thread.hpp"
 
 void RadonFramework::Diagnostics::Debugging::FrameworkDiagnostics::GetAllMissingSystemFunctions(
     RadonFramework::Collections::List<RadonFramework::Core::Types::String>& Result)
@@ -27,4 +28,6 @@ void RadonFramework::Diagnostics::Debugging::FrameworkDiagnostics::GetAllMissing
         RF_SysMem::GetNotDispatchedFunctions(Result);
     if (!RFHDW::IsSuccessfullyDispatched())
         RFHDW::GetNotDispatchedFunctions(Result);
+    if(!RF_SysThread::IsSuccessfullyDispatched())
+        RF_SysThread::GetNotDispatchedFunctions(Result);
 }

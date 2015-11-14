@@ -14,7 +14,8 @@ namespace RadonFramework {
     class Mutex
     {
     friend void CondImplementationWait(void*, Mutex&);
-    friend void CondImplementationTimeWait(void*, Mutex&, const Time::TimeSpan&);
+    friend void CondImplementationTimeWait(void*, Mutex&, 
+        const RadonFramework::Time::TimeSpan&);
     public:
         Mutex();
         ~Mutex();
@@ -30,5 +31,10 @@ namespace RadonFramework {
     };
 
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SYSTHREAD
+#define RF_SHORTHAND_NAMESPACE_SYSTHREAD
+namespace RF_SysThread = RadonFramework::System::Threading;
+#endif
 
 #endif // RF_SYSTEM_THREADING_MUTEX_HPP

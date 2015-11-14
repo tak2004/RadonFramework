@@ -15,7 +15,7 @@ namespace Init
 {
 	enum Type
 	{
-		All = 0x3FF,
+		All = 0x7FF,
 		Core = 1,
 		Drawing = 2,
 		Forms = 4,
@@ -25,7 +25,8 @@ namespace Init
 		Diagnostics = 0x40,
 		Time = 0x80,
 		Memory = 0x100,
-		Process= 0x200
+		Process= 0x200,
+        Threading = 0x400
 	};
 }
 

@@ -28,7 +28,7 @@ public:
     ThreadPool::FreeCallback FreeData;
 };
 
-class PoolThread : public System::Threading::Thread
+class PoolThread : public Thread
 {
 public:
     virtual ~PoolThread();

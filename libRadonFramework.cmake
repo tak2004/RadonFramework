@@ -179,7 +179,8 @@ set(LIBSRCFILES_WINDOW
 	src/System/TimeWindows.cpp
 	src/System/ProcessWindows.cpp
 	src/System/HardwareWindows.cpp
-	src/System/Drawing/SystemTrayServiceWindows.cpp)
+	src/System/Drawing/SystemTrayServiceWindows.cpp
+    src/System/Threading/ThreadWindows.cpp)
 	
 set(LIBSRCFILES_LINUX
 	src/System/TimeLinux.cpp
@@ -187,18 +188,21 @@ set(LIBSRCFILES_LINUX
 	src/System/MemoryLinux.cpp
 	src/System/StringLinux.cpp
 	src/System/IO/FileSystemLinux.cpp
-	src/System/HardwareLinux.cpp)
+	src/System/HardwareLinux.cpp
+    src/System/Threading/ThreadLinux.cpp)
 	
 set(LIBSRCFILES_UNIX
 	src/System/TimeUnix.cpp
 	src/System/StringUnix.cpp
 	src/System/ProcessUnix.cpp
-	src/System/IO/FileSystemUnix.cpp)
+	src/System/IO/FileSystemUnix.cpp
+    src/System/Threading/ThreadUnix.cpp)
 	
 set(LIBSRCFILES_OSX
 	src/System/TimeOSX.cpp
     src/System/IO/FileSystemOSX.cpp
-    src/System/HardwareOSX.cpp)
+    src/System/HardwareOSX.cpp
+    src/System/Threading/ThreadOSX.cpp)
 	
 set(LIBSRCFILES_MICROCRT
 	src/System/MicroRuntimeLibrary/CommandLine.cpp

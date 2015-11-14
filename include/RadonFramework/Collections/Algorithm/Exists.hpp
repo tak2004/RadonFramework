@@ -96,7 +96,7 @@ RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
         RF_Time::TimeSpan sleep = RF_Time::TimeSpan::CreateByTicks(0);
         while(overallWork != 0 && hits == 0)
         {        
-            RadonFramework::System::Threading::Thread::Sleep(sleep);
+            RF_Thread::Thread::Sleep(sleep);
         }
     }
     else

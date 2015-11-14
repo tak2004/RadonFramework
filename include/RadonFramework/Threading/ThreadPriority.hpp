@@ -18,6 +18,6 @@ namespace ThreadPriority
 
 } }
 
-namespace RF_Thread = ::RadonFramework::Threading;
+namespace RF_Thread = RadonFramework::Threading;
 
 #endif // RF_THREADING_THREADPRIORITY_HPP

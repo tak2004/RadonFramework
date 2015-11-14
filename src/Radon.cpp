@@ -18,6 +18,7 @@
 #include "RadonFramework/System/Hardware.hpp"
 #include "RadonFramework/System/Drawing/SystemTrayServiceLocator.hpp"
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
+#include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
 
 using namespace RadonFramework;
@@ -74,6 +75,12 @@ void Radon::InitSubSystem(UInt32 Flags)
     {
         RF_SysMem::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Memory;
+    }
+
+    if(Flags & RadonFramework::Init::Threading)
+    {
+        RF_SysThread::Dispatch();
+        m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Threading;
     }
 
     if (Flags & RadonFramework::Init::Time)
@@ -179,6 +186,11 @@ void Radon::QuitSubSystem(UInt32 Flags)
 {
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Memory)
     {
+    }
+
+    if(m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Threading)
+    {
+
     }
 
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Time)
