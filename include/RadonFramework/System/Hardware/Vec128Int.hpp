@@ -7,33 +7,37 @@
 namespace RadonFramework { namespace System { namespace Hardware {
 
 /// This function will be called by RadonFramework_Init function.
-void Dispatch();
+void DispatchVec128Int();
 
 /** This function will be called by RadonFraemwork_Init function to
 * check if the dispatching was successfully.
 **/
-RF_Type::Bool IsSuccessfullyDispatched();
+RF_Type::Bool IsVec128IntSuccessfullyDispatched();
 
 /// This function is for debugging purpose and return all unassigned functions.
-void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
+void GetNotDispatchedVec128IntFunctions(Collections::List<RF_Type::String>& Result);
 
-using LoadCallback = void(*)(RF_Type::Vec128Int32* Destination, 
+using Vec128IntLoadCallback = void(*)(RF_Type::Vec128Int32* Destination, 
     const RF_Type::Vec128Int32* Source,  const RF_Type::Size Elements);
 
-using SetInt32Callback = void(*)(RF_Type::Vec128Int32* Destination, 
+using Vec128IntSetInt32Callback = void(*)(RF_Type::Vec128Int32* Destination,
     const RF_Type::Int32 Source, const RF_Type::Size Elements);
 
-using CompareInt32Callback = void(*)(RF_Type::Vec128Int32* Destination, 
+using Vec128IntCompareInt32Callback = void(*)(RF_Type::Vec128Int32* Destination,
     const RF_Type::Vec128Int32* SourceA, const RF_Type::Vec128Int32* SourceB,
     const RF_Type::Size Elements);
 
-using MaskInt8Callback = void(*)(RF_Type::Int32* Masks,
+using Vec128IntMaskInt8Callback = void(*)(RF_Type::Int32* Masks,
     const RF_Type::Vec128Int32* Source, const RF_Type::Size Elements);
 
-extern LoadCallback Load;
-extern SetInt32Callback SetInt32;
-extern CompareInt32Callback CompareInt32;
-extern MaskInt8Callback MaskInt8;
+using Vec128IntFindInt32Callback = RF_Type::Int32(*)(
+    const RF_Type::Vec128Int32* Source, RF_Type::Int32 Value);
+
+extern Vec128IntLoadCallback Vec128IntLoad;
+extern Vec128IntSetInt32Callback Vec128IntSetInt32;
+extern Vec128IntCompareInt32Callback Vec128IntCompareInt32;
+extern Vec128IntMaskInt8Callback Vec128IntMaskInt8;
+extern Vec128IntFindInt32Callback Vec128IntFindInt32;
 
 } } }
 

@@ -2,6 +2,7 @@
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/System/Threading/Condition.hpp"
+#include "RadonFramework/System/Threading/ThreadUnix.hpp"
 #include <unistd.h>
 #include <sys/types.h>
 #include <errno.h>
@@ -21,7 +22,7 @@ void Rename(void* Data, const RF_Type::String& Name)
 RF_Type::Bool GetAffinityMask(void* Data, RF_Collect::BitArray<>& Mask)
 {
     RF_Type::Bool result = false;
-    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    Unix::ThreadHelper* p = static_cast<Unix::ThreadHelper*>(Data);
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
     if(pthread_getaffinity_np(p->ID, sizeof(cpuset), &cpuset) == 0)
@@ -40,7 +41,7 @@ RF_Type::Bool GetAffinityMask(void* Data, RF_Collect::BitArray<>& Mask)
 
 RF_Type::Bool SetAffinityMask(void* Data, const RF_Collect::BitArray<>& NewValue)
 {
-    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    Unix::ThreadHelper* p = static_cast<Unix::ThreadHelper*>(Data);
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
     for(RF_Type::Size i = 0; i < NewValue.Count(); ++i)

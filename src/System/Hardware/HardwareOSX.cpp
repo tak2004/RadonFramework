@@ -1,5 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #include <mach/vm_statistics.h>

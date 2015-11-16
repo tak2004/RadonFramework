@@ -1,14 +1,9 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Collections/HashList.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
+#include "RadonFramework/System/Hardware/Vec128Int.hpp"
 #include "RadonFramework/Math/Integer.hpp"
-#if __arm__
-#include "RadonFramework/System/Hardware/SSE2NEON.h"
-#else
-#include <xmmintrin.h>
-#include <emmintrin.h>
-#endif
 
 namespace RadonFramework { namespace Core { namespace Policies {
 
@@ -55,7 +50,7 @@ HashList::HashList(Core::Policies::ValueAllocator* Allocator,
 ,m_Keys(0)
 ,m_Values(0)
 {
-    m_BucketElements = RFHDW::GetLevel1DataCache().LineSize / (sizeof(KeyType) * 4);
+    m_BucketElements = RF_SysHardware::GetLevel1DataCache().LineSize / (sizeof(KeyType) * 4);
     Grow(PreAllocationElementCount);
 }
 
@@ -63,7 +58,7 @@ void HashList::Grow(const RF_Type::Size ToElementCount)
 {
     if(ToElementCount > m_Capacity)
     {
-        RF_Type::Size cacheAlignment = RFHDW::GetLevel1DataCache().LineSize;
+        RF_Type::Size cacheAlignment = RF_SysHardware::GetLevel1DataCache().LineSize;
         RF_Type::Size pageSize = RF_SysMem::GetPageSize();
         m_BucketCount = ((ToElementCount - 1) / m_BucketElements) +1;
         m_BucketCount = RF_Math::Integer<RF_Type::Size>::NextPowerOfTwo(m_BucketCount);
@@ -130,18 +125,11 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
 
     RF_Type::Bool result = false;
     RF_Type::Size index = FindBucket(Key);
-
-    __m128i key0 = _mm_set1_epi32(Key);
-    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
-
-    key0 = _mm_cmpeq_epi32(key0, key4);
-
-    if(_mm_movemask_epi8(key0) == 0)
+    RF_Type::Int32 mask= RF_SysHardware::Vec128IntFindInt32(reinterpret_cast<const RF_Type::Vec128Int32*>(&m_Keys[index]), Key);
+    if(mask == 0)
     {// key not found
-        key0 = _mm_set1_epi32(0);
-        key0 = _mm_cmpeq_epi32(key0, key4);
-
-        if(_mm_movemask_epi8(key0) != 0)
+        mask = RF_SysHardware::Vec128IntFindInt32(reinterpret_cast<const RF_Type::Vec128Int32*>(&m_Keys[index]), 0);
+        if(mask != 0)
         {// space left in the bucket
             result = true;            
             RF_Type::Size i = 0;
@@ -166,10 +154,7 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
 RF_Type::Bool HashList::ContainsKey(const KeyType Key) const
 {
     RF_Type::Size index = FindBucket(Key);
-    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
-    __m128i key0 = _mm_set1_epi32(Key);
-    key0 = _mm_cmpeq_epi32(key0, key4);
-    return _mm_movemask_epi8(key0) != 0;
+    return RF_SysHardware::Vec128IntFindInt32(reinterpret_cast<const RF_Type::Vec128Int32*>(&m_Keys[index]), Key) != 0;
 }
 
 RF_Type::Size HashList::Count() const
@@ -186,10 +171,7 @@ RF_Type::Bool HashList::Get(const KeyType Key, void*& Value) const
 {
     RF_Type::Bool result = false;
     RF_Type::Size index = FindBucket(Key);
-    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
-    __m128i key0 = _mm_set1_epi32(Key);
-    key0 = _mm_cmpeq_epi32(key0, key4);
-    int mask = _mm_movemask_epi8(key0);
+    RF_Type::Int32 mask = RF_SysHardware::Vec128IntFindInt32(reinterpret_cast<const RF_Type::Vec128Int32*>(&m_Keys[index]), Key);
     switch(mask)
     {
     case 15:
@@ -216,10 +198,7 @@ void HashList::Erase(const KeyType Key)
 {
     RF_Type::Bool result = false;
     RF_Type::Size index = FindBucket(Key);
-    __m128i key4 = _mm_load_si128(reinterpret_cast<const __m128i*>(&m_Keys[index]));
-    __m128i key0 = _mm_set1_epi32(Key);
-    key0 = _mm_cmpeq_epi32(key0, key4);
-    int mask = _mm_movemask_epi8(key0);
+    RF_Type::Int32 mask= RF_SysHardware::Vec128IntFindInt32(reinterpret_cast<const RF_Type::Vec128Int32*>(&m_Keys[index]), Key);
     switch(mask)
     {
     case 15:

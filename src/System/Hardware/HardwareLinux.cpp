@@ -1,5 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
 #include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
 

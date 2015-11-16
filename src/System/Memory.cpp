@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Memory.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
 #include "RadonFramework/Collections/List.hpp"
 
@@ -17,10 +17,10 @@ extern RF_Type::Int32 Compare_SSE4(const void* P1, const void* P2, RF_Type::Size
 extern RF_Type::Int32 Compare_Std(const void* P1, const void* P2, RF_Type::Size Bytes);
 RF_Type::Int32 Compare_CPUDispatcher(const void* P1, const void* P2, RF_Type::Size Bytes)
 {
-    RFHDW::ProcessorFeatureMask features;
-    RFHDW::GetLogicalProcessorFeatures(features);
+    RF_SysHardware::ProcessorFeatureMask features;
+    RF_SysHardware::GetLogicalProcessorFeatures(features);
 #if RF_BUILD_INTRINSIC_SSE41 
-    if(features[RFHDW::ProcessorFeatures::SSE4_2])
+    if(features[RF_SysHardware::ProcessorFeatures::SSE4_2])
         RF_SysMem::Compare = Compare_SSE4;
     else
 #endif
@@ -34,10 +34,10 @@ extern void Set_SSE2(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes);
 extern void Set_Std(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes);
 void Set_CPUDispatcher(void* Pointer, RF_Type::Int32 Value, RF_Type::Size Bytes)
 {
-    RFHDW::ProcessorFeatureMask features;
-    RFHDW::GetLogicalProcessorFeatures(features);
+    RF_SysHardware::ProcessorFeatureMask features;
+    RF_SysHardware::GetLogicalProcessorFeatures(features);
 #if RF_BUILD_INTRINSIC_SSE2
-    if(features[RFHDW::ProcessorFeatures::SSE2])
+    if(features[RF_SysHardware::ProcessorFeatures::SSE2])
         RF_SysMem::Set = Set_SSE2;
     else
 #endif
@@ -51,10 +51,10 @@ extern void Copy_SSE2(void* Destination, const void* Source, Size Bytes);
 extern void Copy_Std(void* Destination, const void* Source, Size Bytes);
 void Copy_CPUDispatcher(void* Destination, const void* Source, Size Bytes)
 {
-    RFHDW::ProcessorFeatureMask features;
-    RFHDW::GetLogicalProcessorFeatures(features);
+    RF_SysHardware::ProcessorFeatureMask features;
+    RF_SysHardware::GetLogicalProcessorFeatures(features);
 #if RF_BUILD_INTRINSIC_SSE2
-    if(features[RFHDW::ProcessorFeatures::SSE2])
+    if(features[RF_SysHardware::ProcessorFeatures::SSE2])
         RF_SysMem::Copy = Copy_SSE2;
     else
 #endif
@@ -75,10 +75,10 @@ extern void Swap_SSE2(void* P1, void* P2, Size Bytes);
 extern void Swap_Std(void* P1, void* P2, Size Bytes);
 void Swap_CPUDispatcher(void* P1, void* P2, Size Bytes)
 {
-    RFHDW::ProcessorFeatureMask features;
+    RF_SysHardware::ProcessorFeatureMask features;
 #if RF_BUILD_INTRINSIC_SSE2
-    RFHDW::GetLogicalProcessorFeatures(features);
-    if(features[RFHDW::ProcessorFeatures::SSE2])
+    RF_SysHardware::GetLogicalProcessorFeatures(features);
+    if(features[RF_SysHardware::ProcessorFeatures::SSE2])
         RF_SysMem::Swap = Swap_SSE2;
     else
 #endif

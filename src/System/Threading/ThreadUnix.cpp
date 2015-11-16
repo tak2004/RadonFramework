@@ -2,6 +2,7 @@
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/System/Threading/Condition.hpp"
 #include "RadonFramework/IO/Log.hpp"
+#include "RadonFramework/System/Threading/ThreadUnix.hpp"
 #include <unistd.h>
 #include <sys/types.h>
 #include <errno.h>
@@ -11,20 +12,6 @@
 namespace RadonFramework { namespace System { namespace Threading {
 
 namespace Unix {
-
-struct ThreadHelper
-{
-    pthread_t ID;
-    pthread_mutex_t mutex;
-    pthread_mutex_t mutexIsAlive;
-    pthread_cond_t aliveChanged;
-    pthread_attr_t attr;
-    Delegate<void()> OnFinished;
-    Delegate<void()> OnRun;
-    RF_Type::Int64* PID;
-    RF_Type::Bool alive;
-    RF_Type::Bool cancel;
-};
 
 void SetAlive(void* Data, RF_Type::Bool Value)
 {
@@ -43,6 +30,11 @@ void SetAlive(void* Data, RF_Type::Bool Value)
         pthread_mutex_unlock(&p->mutexIsAlive);
 }
 
+RF_Type::Int64 GetProcessId()
+{
+    return getpid();
+}
+
 void* ThreadFunction(void *userdata)
 {
     ThreadHelper* p = static_cast<ThreadHelper*>(userdata);
@@ -51,7 +43,7 @@ void* ThreadFunction(void *userdata)
         RF_IO::LogError("Parameter is empty.");
         return 0;
     }
-    *p->PID = GetCurrentProcessId();
+    *p->PID = GetProcessId();
     SetAlive(p, true);
     p->OnRun();
     SetAlive(p, false);
@@ -67,8 +59,8 @@ RF_Thread::ThreadError::Type Create(void*& Data, RF_Thread::Thread* Instance,
     ThreadHelper* p = new ThreadHelper;
     Data = static_cast<void*>(p);
 
-    p->OnFinished = MakeDelegate(Instance, RF_Thread::Thread::Finished);
-    p->OnRun = MakeDelegate(Instance, RF_Thread::Thread::Run);
+    p->OnFinished = MakeDelegate(Instance, &RF_Thread::Thread::Finished);
+    p->OnRun = MakeDelegate(Instance, &RF_Thread::Thread::Run);
     p->ID = 0;
     p->PID = &PID;
     p->alive = false;
@@ -125,12 +117,7 @@ void Sleep(const RF_Time::TimeSpan& Delta)
     usleep((unsigned int)(Delta.TotalMicroseconds()));
 }
 
-RF_Type::Int64 GetCurrentProcessId()
-{
-    return getpid();
-}
-
-void Wait(void* Data, const TimeSpan& Delta)
+void Wait(void* Data, const RF_Time::TimeSpan& Delta)
 {
     ThreadHelper* p = static_cast<ThreadHelper*>(Data);
     pthread_mutex_lock(&p->mutexIsAlive);
@@ -211,7 +198,7 @@ void SetPriority(void* Data, RF_Thread::ThreadPriority::Type Value)
             if(0 != pthread_getschedparam(p->ID, reinterpret_cast<int*>(&policy), &param))
                 RF_IO::LogError("Can't access the priority of the thread.");
 
-            param.sched_priority = ThrImplementationConvertPriority(Value, policy);
+            param.sched_priority = ConvertPriority(Value, policy);
 
             if(0 != pthread_setschedparam(p->ID, policy, &param))
                 RF_IO::LogError("Can't set the priority of the thread.");
@@ -230,15 +217,13 @@ RF_Type::Bool IsRunning(void* Data)
 
 void Dispatch()
 {
-    SetAlive = Unix::SetAlive;
     Create = Unix::Create;
     Destroy = Unix::Destroy;
     Sleep = Unix::Sleep;
-    GetCurrentProcessId = Unix::GetCurrentProcessId;
+    GetProcessId = Unix::GetProcessId;
     Wait = Unix::Wait;
     Join = Unix::Join;
     IsAlive = Unix::IsAlive;
-    ConvertPriority = Unix::ConvertPriority;
     SetPriority = Unix::SetPriority;
     IsRunning = Unix::IsRunning;
 #ifdef RF_LINUX

@@ -15,7 +15,7 @@
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/System/Process.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/System/Drawing/SystemTrayServiceLocator.hpp"
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
 #include "RadonFramework/System/Threading/Thread.hpp"
@@ -164,7 +164,7 @@ void Radon::InitSubSystem(UInt32 Flags)
     
     if (Flags & RadonFramework::Init::Diagnostics)
     {
-        RFHDW::Dispatch();
+        RF_SysHardware::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Diagnostics;
     }
 
