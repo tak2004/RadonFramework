@@ -4,7 +4,10 @@
 
 void* AllocateLinux(const RF_Type::Size Bytes, const RF_Type::Size Alignment)
 {
-    return aligned_alloc(Bytes, Alignment);
+    void* result = 0;
+    if(Bytes > 0)
+        ::posix_memalign(&result, Alignment, Bytes);
+    return result;
 }
 
 void FreeLinux(void* FirstPage)
