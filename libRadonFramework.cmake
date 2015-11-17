@@ -185,7 +185,6 @@ set(LIBSRCFILES_WINDOW
 set(LIBSRCFILES_LINUX
 	src/System/TimeLinux.cpp
 	src/System/EnvironmentLinux.cpp
-	src/System/MemoryLinux.cpp
 	src/System/StringLinux.cpp
 	src/System/IO/FileSystemLinux.cpp
 	src/System/Hardware/HardwareLinux.cpp
@@ -195,6 +194,7 @@ set(LIBSRCFILES_UNIX
 	src/System/TimeUnix.cpp
     src/System/EnvironmentUnix.cpp
 	src/System/StringUnix.cpp
+	src/System/MemoryUnix.cpp
 	src/System/ProcessUnix.cpp
 	src/System/IO/FileSystemUnix.cpp
     src/System/Threading/ThreadUnix.cpp)
