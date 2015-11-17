@@ -193,12 +193,14 @@ set(LIBSRCFILES_LINUX
 	
 set(LIBSRCFILES_UNIX
 	src/System/TimeUnix.cpp
+    src/System/EnvironmentUnix.cpp
 	src/System/StringUnix.cpp
 	src/System/ProcessUnix.cpp
 	src/System/IO/FileSystemUnix.cpp
     src/System/Threading/ThreadUnix.cpp)
 	
 set(LIBSRCFILES_OSX
+    src/System/EnvironmentOSX.cpp
 	src/System/TimeOSX.cpp
     src/System/IO/FileSystemOSX.cpp
     src/System/Hardware/HardwareOSX.cpp

@@ -4,6 +4,7 @@
 #include "RadonFramework/IO/Log.hpp"
 #include <windows.h>
 #include <process.h>
+#include <errno.h>
 
 namespace RadonFramework { namespace System { namespace Threading {
 

@@ -42,7 +42,7 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 	if(UNIX)
 		# for loading a dynamic library you have to link libdl.so
 		set(OSLIBS ${OSLIBS} dl)
-        if(NOT OSX)
+        IF(NOT APPLE)
             set(OSLIBS ${OSLIBS} rt)
         endif()
 	endif(UNIX)
