@@ -85,14 +85,13 @@ RF_Type::Bool IsRunning(void* Data)
     return !p->cancel && p->alive;
 }
 
-RF_Thread::ThreadError::Type Create(void*& Data,
-    RF_Thread::Thread* Instance, RF_Type::Int64& PID)
+void* Create(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
 {
     ThreadHelper* p = new ThreadHelper;
-    Data = static_cast<void*>(p);
+    void* result = 0;
 
-    p->OnFinished = MakeDelegate(Instance, &RF_Thread::Thread::Finished);
-    p->OnRun = MakeDelegate(Instance, &RF_Thread::Thread::Run);
+    p->OnFinished = MakeDelegate(&Instance, &RF_Thread::Thread::Finished);
+    p->OnRun = MakeDelegate(&Instance, &RF_Thread::Thread::Run);
     p->ID = 0;
     p->PID = &PID;
     p->alive = false;
@@ -105,26 +104,28 @@ RF_Thread::ThreadError::Type Create(void*& Data,
     if(!p->thread)
     {
         p->mutex.Unlock();
-        Data = 0;
         delete p;
         switch(errno)
         {
         case EAGAIN:
             RF_IO::LogError("There are to many threads.");
-            return RF_Thread::ThreadError::ThreadLimitReached;
+            break;
         case EINVAL:
             RF_IO::LogError("The argument is invalid or the stack size is incorrect.");
-            return RF_Thread::ThreadError::InvalidArgument;
+            break;
         default:
             RF_IO::LogError("An unhandled error occurred.");
-            return RF_Thread::ThreadError::InternalError;
+            break;
         }
     }
     else
+    {
         p->aliveChanged.Wait(p->mutex);
+        result = static_cast<void*>(p);
+    }
 
     p->mutex.Unlock();
-    return RF_Thread::ThreadError::NoError;
+    return result;
 }
 
 void Destroy(void* Data)

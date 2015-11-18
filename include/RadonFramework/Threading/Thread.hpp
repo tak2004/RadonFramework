@@ -93,16 +93,15 @@ public:
     virtual void Finished();
 
     /// This function will be called from the thread to run multi threaded code.
-    virtual void Run()=0;
+    virtual void Run();
 protected:
     ThreadPriority::Type m_Priority;
-    RF_Type::Bool m_Alive;
-    RF_Type::Bool m_CreateSuccessful;
     RF_Collect::AutoVector<RF_Type::UInt8> m_ThreadAllocatedMemory;
     RF_SysThread::Mutex m_ThreadBarrier;
     RF_Type::String m_Name;
     RF_Type::Int64 m_Pid;
     void* m_ImplData;
+    RF_Type::Bool m_Alive;
 };
 
 } }

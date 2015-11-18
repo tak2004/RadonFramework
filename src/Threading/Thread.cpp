@@ -6,7 +6,6 @@ namespace RadonFramework { namespace Threading {
 
 Thread::Thread()
 :m_Priority(ThreadPriority::Normal)
-,m_CreateSuccessful(false)
 ,m_Pid(-1)
 ,m_ImplData(0)
 {
@@ -24,11 +23,8 @@ void Thread::Run()
 
 void Thread::Start()
 {
-    ThreadError::Type res=RF_SysThread::Create(m_ImplData, this, m_Pid);
-    m_CreateSuccessful=(res==ThreadError::NoError);
-
-    if (m_CreateSuccessful)
-        RF_SysThread::SetPriority(m_ImplData, m_Priority);
+    m_ImplData =RF_SysThread::Create(*this, m_Pid);
+    RF_SysThread::SetPriority(m_ImplData, m_Priority);
 }
 
 void Thread::Exit()
@@ -77,7 +73,7 @@ RF_Type::Bool Thread::IsAlive()
 
 RF_Type::Bool Thread::Working()
 {
-    return m_CreateSuccessful;
+    return m_ImplData != 0;
 }
 
 void Thread::Finished()

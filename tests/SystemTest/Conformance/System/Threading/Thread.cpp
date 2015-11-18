@@ -5,6 +5,7 @@
 
 #include <RadonFramework/Threading/IRunnable.hpp>
 #include <RadonFramework/System/Threading/Thread.hpp>
+#include <RadonFramework/Threading/Thread.hpp>
 
 using namespace RadonFramework::Threading;
 using namespace RadonFramework::Core::Types;
@@ -25,7 +26,13 @@ public:
 
     Bool Constructor()
     {
-        return false;
+        RF_Type::Bool result = true;
+        RF_Thread::Thread testThread;
+        void* handle;
+        RF_Type::Int64 pid;
+        handle = RF_SysThread::Create(testThread, pid);
+        result &= (handle != 0);
+        return result;
     }
 
     Bool Start()

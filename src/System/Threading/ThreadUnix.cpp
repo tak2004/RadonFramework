@@ -53,14 +53,13 @@ void* ThreadFunction(void *userdata)
     return 0;
 }
 
-RF_Thread::ThreadError::Type Create(void*& Data, RF_Thread::Thread* Instance, 
-    RF_Type::Int64& PID)
+void* Create(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
 {
     ThreadHelper* p = new ThreadHelper;
-    Data = static_cast<void*>(p);
+    void* result = 0;
 
-    p->OnFinished = MakeDelegate(Instance, &RF_Thread::Thread::Finished);
-    p->OnRun = MakeDelegate(Instance, &RF_Thread::Thread::Run);
+    p->OnFinished = MakeDelegate(&Instance, &RF_Thread::Thread::Finished);
+    p->OnRun = MakeDelegate(&Instance, &RF_Thread::Thread::Run);
     p->ID = 0;
     p->PID = &PID;
     p->alive = false;
@@ -77,25 +76,27 @@ RF_Thread::ThreadError::Type Create(void*& Data, RF_Thread::Thread* Instance,
     if(res != 0)
     {
         pthread_mutex_unlock(&p->mutex);
-        Data = 0;
         delete p;
         switch(errno)
         {
-        case EAGAIN:
-            RF_IO::LogError("Can't create thread because of following error. %s", strerror(errno));
-            return RF_Thread::ThreadError::ThreadLimitReached;
-        case EINVAL:
-        case EPERM:
-            break;
-        default:
-            RF_IO::LogError("An unhandled error occured.");
-            return RF_Thread::ThreadError::InternalError;
+            case EAGAIN:
+                RF_IO::LogError("Can't create thread because of following error. %s", strerror(errno));
+                break;
+            case EINVAL:
+            case EPERM:
+                break;
+            default:
+                RF_IO::LogError("An unhandled error occured.");
+                break;
         }
     }
     else
+    {
         pthread_cond_wait(&p->aliveChanged, &p->mutex);
+        result = static_cast<void*>(p);
+    }
     pthread_mutex_unlock(&p->mutex);
-    return RF_Thread::ThreadError::NoError;
+    return result;
 }
 
 void Destroy(void* Data)

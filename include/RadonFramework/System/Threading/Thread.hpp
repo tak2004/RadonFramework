@@ -25,8 +25,14 @@ void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 
 using IsAliveCallback = RF_Type::Bool(*)(void* Data);
 using IsRunningCallback = RF_Type::Bool(*)(void* Data);
-using CreateCallback = RF_Thread::ThreadError::Type(*)(void*& Data, 
-    RF_Thread::Thread* Instance, RF_Type::Int64& PID);
+
+/*
+If the function succeed then Data will be unequal 0 else it will be set to 0.
+The function creates a new sub-process, execute the Instance->Run() function and
+writes the process id to PID.
+
+*/
+using CreateCallback = void*(*)(RF_Thread::Thread& Instance, RF_Type::Int64& PID);
 using DestroyCallback = void(*)(void* Data);
 using RenameCallback = void(*)(void* Data, const RF_Type::String& Name);
 using SleepCallback = void(*)(const RF_Time::TimeSpan& Delta);

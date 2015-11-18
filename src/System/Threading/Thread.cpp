@@ -22,14 +22,13 @@ RF_Type::Bool IsRunning_SystemAPIDispatcher(void* Data)
     return IsRunning(Data);
 }
 
-RF_Thread::ThreadError::Type Create_SystemAPIDispatcher(void*& Data,
-    RF_Thread::Thread* Instance, RF_Type::Int64& PID)
+void* Create_SystemAPIDispatcher(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
 {
     Create = 0;
     Dispatch();
     Assert(Create != Create_SystemAPIDispatcher &&
         Create != 0, "Funtion was called and couldn't be dispatched");
-    return Create(Data, Instance, PID);
+    return Create(Instance, PID);
 }
 
 void Destroy_SystemAPIDispatcher(void* Data)
