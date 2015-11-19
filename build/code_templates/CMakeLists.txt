@@ -65,8 +65,9 @@ configure_file("${RadonFramework_SOURCE_DIR}/build/code_templates/RadonInline.hx
 
 message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp")
 configure_file("${RadonFramework_SOURCE_DIR}/build/code_templates/Defines.hxx" "${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp" @ONLY)
-set(RADONFRAMEWORK_ENDIANNESS ${RadonFramework_ENDIANNESS})
-set(RADONFRAMEWORK_COMPILEDFORARCHITECTURE ${RadonFramework_COMPILEDFORARCHITECTURE})
+
+set(RADONFRAMEWORK_ENDIANNESS ${${CMAKE_PROJECT_NAME}_ENDIANNESS})
+set(RADONFRAMEWORK_COMPILEDFORARCHITECTURE ${${CMAKE_PROJECT_NAME}_COMPILEDFORARCHITECTURE})
 message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cpp")
 configure_file("${RadonFramework_SOURCE_DIR}/build/code_templates/CompilerConfig.cxx" "${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cpp" @ONLY)
 
