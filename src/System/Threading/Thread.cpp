@@ -22,7 +22,7 @@ RF_Type::Bool IsRunning_SystemAPIDispatcher(void* Data)
     return IsRunning(Data);
 }
 
-void* Create_SystemAPIDispatcher(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
+void* Create_SystemAPIDispatcher(RF_Thread::Thread& Instance, RF_Type::UInt64& PID)
 {
     Create = 0;
     Dispatch();
@@ -58,7 +58,7 @@ void Sleep_SystemAPIDispatcher(const RF_Time::TimeSpan& Delta)
     Sleep(Delta);
 }
 
-RF_Type::Int64 GetProcessId_SystemAPIDispatcher()
+RF_Type::UInt64 GetProcessId_SystemAPIDispatcher()
 {
     GetProcessId = 0;
     Dispatch();

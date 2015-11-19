@@ -25,18 +25,11 @@ void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 
 using IsAliveCallback = RF_Type::Bool(*)(void* Data);
 using IsRunningCallback = RF_Type::Bool(*)(void* Data);
-
-/*
-If the function succeed then Data will be unequal 0 else it will be set to 0.
-The function creates a new sub-process, execute the Instance->Run() function and
-writes the process id to PID.
-
-*/
-using CreateCallback = void*(*)(RF_Thread::Thread& Instance, RF_Type::Int64& PID);
+using CreateCallback = void*(*)(RF_Thread::Thread& Instance, RF_Type::UInt64& PID);
 using DestroyCallback = void(*)(void* Data);
 using RenameCallback = void(*)(void* Data, const RF_Type::String& Name);
 using SleepCallback = void(*)(const RF_Time::TimeSpan& Delta);
-using GetProcessIdCallback = RF_Type::Int64(*)();
+using GetProcessIdCallback = RF_Type::UInt64(*)();
 using WaitCallback = void(*)(void* Data, const RF_Time::TimeSpan& Delta);
 using JoinCallback = void(*)(void* Data);
 using SetPriorityCallback = void(*)(void* Data, RF_Thread::ThreadPriority::Type Value);
@@ -46,7 +39,16 @@ using GetAffinityMaskCallback = RF_Type::Bool(*)(void* Data, RF_Collect::BitArra
 
 extern IsAliveCallback IsAlive;
 extern IsRunningCallback IsRunning;
+/**
+* If the function succeed then Data will be unequal 0 else it will be set to 0.
+* The function creates a new sub-process, execute the Instance->Run() function and
+* writes the thread id to PID.
+* It will return if an error occurred or after the thread started.
+*/
 extern CreateCallback Create;
+/**
+*
+*/
 extern DestroyCallback Destroy;
 extern RenameCallback Rename;
 extern SleepCallback Sleep;

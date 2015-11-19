@@ -30,7 +30,7 @@ void SetAlive(void* Data, RF_Type::Bool Value)
         pthread_mutex_unlock(&p->mutexIsAlive);
 }
 
-RF_Type::Int64 GetProcessId()
+RF_Type::UInt64 GetProcessId()
 {
     return getpid();
 }
@@ -53,7 +53,7 @@ void* ThreadFunction(void *userdata)
     return 0;
 }
 
-void* Create(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
+void* Create(RF_Thread::Thread& Instance, RF_Type::UInt64& PID)
 {
     ThreadHelper* p = new ThreadHelper;
     void* result = 0;

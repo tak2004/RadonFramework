@@ -82,7 +82,6 @@ RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
                 Extra = 0;
             auto* task = new ExistsEnumeratorTaskData<C, FUNCTION>(Function);
             task->Enumeable = enumerator;
-            task->Function = Function;
             task->From = offset;
             task->Steps = jobsPerWorker + Extra;
             task->OverallWork = &overallWork;

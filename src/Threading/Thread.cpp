@@ -92,7 +92,7 @@ void Thread::Name(const class RF_Type::String& NewName)
     return RF_SysThread::Rename(m_ImplData, NewName);
 }
 
-RF_Type::Int64 Thread::Pid()const
+RF_Type::UInt64 Thread::Pid()const
 {
     return m_Pid;
 }
@@ -128,7 +128,7 @@ RF_Type::Bool Thread::MemAccess(const void* Ptr)
     return false;
 }
 
-RF_Type::Int64 Thread::CurrentPid()
+RF_Type::UInt64 Thread::CurrentPid()
 {
     return RF_SysThread::GetProcessId();
 }

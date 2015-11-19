@@ -69,7 +69,7 @@ public:
     void Name(const RF_Type::String& NewName);
 
     /// ProcessID
-    RF_Type::Int64 Pid()const;
+    RF_Type::UInt64 Pid()const;
 
     static void Sleep(const RF_Time::TimeSpan& Delta);
             
@@ -87,7 +87,7 @@ public:
     RF_Type::Bool MemAccess(const void* Ptr);
 
     /// Return the Process ID of the current thread or main process.
-    static RF_Type::Int64 CurrentPid();
+    static RF_Type::UInt64 CurrentPid();
 
     /// This function will be called from the dying thread.
     virtual void Finished();
@@ -99,7 +99,7 @@ protected:
     RF_Collect::AutoVector<RF_Type::UInt8> m_ThreadAllocatedMemory;
     RF_SysThread::Mutex m_ThreadBarrier;
     RF_Type::String m_Name;
-    RF_Type::Int64 m_Pid;
+    RF_Type::UInt64 m_Pid;
     void* m_ImplData;
     RF_Type::Bool m_Alive;
 };

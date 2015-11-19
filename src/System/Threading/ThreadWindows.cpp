@@ -19,7 +19,6 @@ struct ThreadHelper
     RF_Type::Bool alive;
     RF_Type::Bool cancel;
     DWORD ID;
-    RF_Type::Int64* PID;
     Delegate<void()> OnFinished;
     Delegate<void()> OnRun;
 };
@@ -61,7 +60,6 @@ DWORD WINAPI ThreadFunction(void *userdata)
         RF_IO::LogError("Parameter is empty.");
         return 1;
     }
-    *p->PID = GetCurrentProcessId();
     SetAlive(p, true);
     p->OnRun();
     SetAlive(p, false);
@@ -85,7 +83,7 @@ RF_Type::Bool IsRunning(void* Data)
     return !p->cancel && p->alive;
 }
 
-void* Create(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
+void* Create(RF_Thread::Thread& Instance, RF_Type::UInt64& PID)
 {
     ThreadHelper* p = new ThreadHelper;
     void* result = 0;
@@ -93,7 +91,6 @@ void* Create(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
     p->OnFinished = MakeDelegate(&Instance, &RF_Thread::Thread::Finished);
     p->OnRun = MakeDelegate(&Instance, &RF_Thread::Thread::Run);
     p->ID = 0;
-    p->PID = &PID;
     p->alive = false;
     p->cancel = false;
     p->thread = 0;
@@ -122,9 +119,9 @@ void* Create(RF_Thread::Thread& Instance, RF_Type::Int64& PID)
     {
         p->aliveChanged.Wait(p->mutex);
         result = static_cast<void*>(p);
+        PID = p->ID;
+        p->mutex.Unlock();
     }
-
-    p->mutex.Unlock();
     return result;
 }
 
@@ -150,6 +147,13 @@ void Rename(void* Data, const RF_Type::String& Name)
     info.szName = Name.c_str();
     info.dwThreadID = static_cast<ThreadHelper*>(Data)->ID;
     info.dwFlags = 0;
+
+    __try
+    {
+        RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER)
+    {}
 }
 
 void Sleep(const RF_Time::TimeSpan& Delta)
@@ -158,7 +162,7 @@ void Sleep(const RF_Time::TimeSpan& Delta)
     ::Sleep(timeInMiliseconds);
 }
 
-RF_Type::Int64 GetProcessId()
+RF_Type::UInt64 GetProcessId()
 {
     return GetCurrentProcessId();
 }

@@ -4,6 +4,7 @@
 *
 */
 #include <RadonFramework/Defines.hpp>
+#include <RadonFramework/precompiled.hpp>
 
 // Each compiler can implement it on it's own way.
 #include <stdarg.h>
