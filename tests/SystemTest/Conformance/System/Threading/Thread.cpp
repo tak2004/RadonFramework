@@ -39,7 +39,7 @@ public:
             "ThreadingThreadTest::Destroy", "Destroy");
     }
 
-    Bool Constructor()
+    Bool Create()
     {
         RF_Type::Bool result = true;
         TestThread testThread;
