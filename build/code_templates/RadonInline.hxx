@@ -58,3 +58,7 @@
 #ifndef RF_NO_TEXT
 @INCLUDES_TEXT@
 #endif
+
+#ifndef RF_NO_UTIL
+@INCLUDES_UTIL@
+#endif

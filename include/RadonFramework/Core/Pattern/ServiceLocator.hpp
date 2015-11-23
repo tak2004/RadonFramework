@@ -91,6 +91,11 @@ struct Locator
     {
         return Locator::m_Services.End();
     }
+
+    static RF_Type::Bool IsNullService(const T& Instance)
+    {
+        return &Locator::m_NullService == &Instance;
+    }
 protected:
     static N m_NullService;
     static RF_Collect::AutoVector<T> m_Services;
