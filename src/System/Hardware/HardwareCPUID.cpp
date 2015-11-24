@@ -409,6 +409,7 @@ RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
     // is CPUId supported
     CPUId(0, reg);
     RF_Type::UInt32 ids = reg[0];
+    Features.None();
     if(ids > 0)
     {
         CPUId(1, reg);
@@ -438,7 +439,9 @@ RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
     if(ids > 6)
     {
         CPUId(7, reg);
-        Features[ProcessorFeatures::SHA] = (reg[1] & BITMASK_SHA) != 0;
+        // sha1 and 2 are on the same flag
+        Features[ProcessorFeatures::SHA1] = (reg[1] & BITMASK_SHA) != 0;
+        Features[ProcessorFeatures::SHA2] = (reg[1] & BITMASK_SHA) != 0;
         Features[ProcessorFeatures::AVX512] = (reg[1] & BITMASK_AVX512) != 0;
     }
 
