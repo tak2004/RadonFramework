@@ -153,7 +153,7 @@ void Radon::InitSubSystem(UInt32 Flags)
         DecoderServiceLocator::Initialize();
         ProtocolServiceLocator::Initialize();
         ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RF_Type::String("file"))));
-        //ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new MemoryProtocolService(RF_Type::String("mem"))));
+        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new MemoryProtocolService(RF_Type::String("mem"))));
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::IO;
     }
 

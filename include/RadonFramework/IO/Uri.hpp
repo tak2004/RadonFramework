@@ -93,17 +93,17 @@ public:
     // Properties
 
     // Gets the path of the URI.
-    RF_Type::String Path()const;
+    const RF_Type::String& Path()const;
 
     // Gets the user data, Domain Name System (DNS) host name or IP address 
     // and the port number for a server.
-    RF_Type::String Authority()const;
+    const RF_Type::String& Authority()const;
 
     // Gets the escaped URI fragment.
-    RF_Type::String Fragment()const;
+    const RF_Type::String& Fragment()const;
             
     // Gets the host component of this instance.
-    RF_Type::String Host()const;
+    const RF_Type::String& Host()const;
             
     // Gets the type of the host name specified in the URI.
     UriHostNameType::Type HostNameType()const;
@@ -118,19 +118,19 @@ public:
     RF_Type::Bool IsDefaultUser()const;
 
     // Gets the original URI string that was passed to the Uri constructor.
-    RF_Type::String OriginalString()const;
+    const RF_Type::String& OriginalString()const;
             
     // Gets the port number of this URI.
     RF_Type::Int32 Port()const;
             
     // Gets any query information included in the specified URI.
-    RF_Type::String Query()const;
+    const RF_Type::String& Query()const;
             
     // Gets the scheme name for this URI.
-    RF_Type::String Scheme()const;
+    const RF_Type::String& Scheme()const;
             
     // Gets the scheme specific part for this URI.
-    RF_Type::String SchemeSpecificPart()const;
+    const RF_Type::String& SchemeSpecificPart()const;
 
     // Indicates that the URI string was completely escaped before the
     // Uri instance was created.
@@ -138,7 +138,7 @@ public:
 
     // Gets the user name, password, or other user-specific information
     // associated with the specified URI.
-    RF_Type::String UserInfo()const;
+    const RF_Type::String& UserInfo()const;
 
     // An opaque URI is an absolute URI whose scheme-specific part does
     // not begin with a slash character('/').

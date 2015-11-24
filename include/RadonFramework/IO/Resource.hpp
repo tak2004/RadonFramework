@@ -6,31 +6,30 @@
 
 #include <RadonFramework/IO/Uri.hpp>
 
-namespace RadonFramework
-{
-    namespace IO
-    {
-        class Stream;
+namespace RadonFramework { namespace IO {
 
-        class Resource
-        {
-            public:
-                virtual ~Resource();
-                virtual void Open();
-                virtual RF_Type::Bool Exists()const=0;
-                virtual RF_Type::Bool IsReadable()const;
-                virtual RF_Type::Bool IsWriteable()const;
-                virtual RF_Type::UInt32 FourCC()=0;
-                virtual Stream* Reader()const=0;
-                virtual Stream* Writer()const=0;
-                virtual RF_Type::Size GetSize();
-                const Uri& Location()const;
-                void Location(const Uri& NewLocation);
-                Memory::AutoPointerArray<RF_Type::UInt8> Read();
-            protected:
-                Uri m_Location;
-        };
-    }
-}
+class Stream;
+class ProtocolService;
+
+class Resource
+{
+public:
+    static RF_Mem::AutoPointer<Resource> FromUri(const RF_IO::Uri& Location);
+    ~Resource();
+    RF_Type::Bool Exists()const;
+    RF_Type::Bool IsReadable()const;
+    RF_Type::Bool IsWriteable()const;
+    Stream* GetStream()const;
+    RF_Type::Size GetSize();
+    const Uri& Location()const;
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> Read();
+protected:
+    Resource();
+    Uri m_Location;
+    ProtocolService* m_UsedProtocol;
+    Stream* m_Stream;
+};
+
+} }
 
 #endif // RF_IO_RESOURCE_HPP

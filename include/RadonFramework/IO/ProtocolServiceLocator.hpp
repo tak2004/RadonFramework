@@ -15,14 +15,14 @@ class NullProtocolService:public ProtocolService
 {
     public:
         NullProtocolService(const RF_Type::String &Name):ProtocolService(Name){}
-        Memory::AutoPointer<Resource> GenerateResource(const Uri&){return Memory::AutoPointer<Resource>();}
+        virtual RF_Type::Bool Exists(const Uri& URI) override{return false;}
+        virtual Stream* GenerateInterface(const Uri& URI) override{return 0;}
+        virtual void FreeInterface(const Uri& URI) override{}
 };
 
 struct ProtocolServiceLocator:public RF_Pattern::Locator<ProtocolService, NullProtocolService>
 {
     ProtocolServiceLocator() = delete;
-
-    static Memory::AutoPointer<Resource> GenerateResource(const Uri& URI);
 };
 
 } }

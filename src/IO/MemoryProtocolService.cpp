@@ -1,10 +1,9 @@
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/IO/FileProtocolService.hpp"
+#include "RadonFramework/IO/MemoryProtocolService.hpp"
 #include "RadonFramework/IO/Resource.hpp"
-#include "RadonFramework/IO/File.hpp"
 #include "RadonFramework/Collections/HashList.hpp"
 #include "RadonFramework/Collections/AutoVector.hpp"
-#include "RadonFramework/IO/FileStream.hpp"
+#include "RadonFramework/IO/MemoryStream.hpp"
 
 namespace RadonFramework { namespace Core { namespace Idioms {
 
@@ -31,31 +30,31 @@ public:
     }
 
     RF_Collect::HashList m_StreamLookup;
-    RF_Collect::AutoVector<RF_IO::FileStream> m_FileStreams;
+    RF_Collect::AutoVector<RF_IO::MemoryStream> m_MemoryStreams;
 };
 
 } } }
 
 namespace RadonFramework { namespace IO {
 
-FileProtocolService::FileProtocolService(const RF_Type::String &Name)
+MemoryProtocolService::MemoryProtocolService(const RF_Type::String &Name)
 :ProtocolService(Name)
 {
 }
 
-void FileProtocolService::FreeInterface(const Uri& URI)
+void MemoryProtocolService::FreeInterface(const Uri& URI)
 {
     RF_Collect::HashList::KeyType key = 0;
     key = m_PImpl->CalculateFNV(URI.Path());
     void* value = 0;
     if(m_PImpl->m_StreamLookup.Get(key, value))
     {
-        for(decltype(m_PImpl->m_FileStreams)::Iterator it = m_PImpl->m_FileStreams.Begin();
-        it != m_PImpl->m_FileStreams.End(); ++it)
+        for(decltype(m_PImpl->m_MemoryStreams)::Iterator it = m_PImpl->m_MemoryStreams.Begin();
+            it != m_PImpl->m_MemoryStreams.End(); ++it)
         {
             if(*it == value)
             {
-                m_PImpl->m_FileStreams.Erase(it);
+                m_PImpl->m_MemoryStreams.Erase(it);
                 break;
             }
         }
@@ -63,14 +62,14 @@ void FileProtocolService::FreeInterface(const Uri& URI)
     }
 }
 
-RF_Type::Bool FileProtocolService::Exists(const Uri& URI)
+RF_Type::Bool MemoryProtocolService::Exists(const Uri& URI)
 {
-    RF_IO::File file;
-    file.SetLocation(URI);
-    return file.Exists();
+    RF_Collect::HashList::KeyType key = 0;
+    key = m_PImpl->CalculateFNV(URI.Path());
+    return m_PImpl->m_StreamLookup.ContainsKey(key);
 }
 
-Stream* FileProtocolService::GenerateInterface(const Uri& URI)
+Stream* MemoryProtocolService::GenerateInterface(const Uri& URI)
 {
     Stream* result;
     RF_Collect::HashList::KeyType key = 0;
@@ -82,12 +81,10 @@ Stream* FileProtocolService::GenerateInterface(const Uri& URI)
     }
     else
     {
-        auto stream = RF_Mem::AutoPointer<FileStream>(new FileStream);
-        RF_IO::Uri fileSystem(URI.OriginalString().Replace(URI.Scheme(),"file"));
-        stream->Open(fileSystem, RF_SysFile::FileAccessMode::ReadWrite, RF_SysFile::FileAccessPriority::ReadThroughput);
+        auto stream = RF_Mem::AutoPointer<MemoryStream>(new MemoryStream);
         result = stream.Get();
         m_PImpl->m_StreamLookup.Add(key, result);
-        m_PImpl->m_FileStreams.PushBack(stream);
+        m_PImpl->m_MemoryStreams.PushBack(stream);        
     }
     return result;
 }

@@ -180,6 +180,7 @@
 #include <RadonFramework/IO/LogConsole.hpp>
 #include <RadonFramework/IO/LogDebuggerOutput.hpp>
 #include <RadonFramework/IO/MemoryCollectionStream.hpp>
+#include <RadonFramework/IO/MemoryProtocolService.hpp>
 #include <RadonFramework/IO/MemoryStream.hpp>
 #include <RadonFramework/IO/MouseEvent.hpp>
 #include <RadonFramework/IO/OptionRule.hpp>
@@ -310,4 +311,9 @@
 
 #include <RadonFramework/Text/Regex.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
+#endif
+
+#ifndef RF_NO_UTIL
+
+#include <RadonFramework/Util/UUID.hpp>
 #endif
