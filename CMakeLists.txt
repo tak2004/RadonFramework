@@ -28,6 +28,12 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 #
 # OS specific includes
 #
+if(UNIX)
+    option(RADONFRAMEWORK_HOST_IS_RASPBERRYPI2B "Specify that the host is a RaspberryPi2b" OFF)
+    if(RADONFRAMEWORK_HOST_IS_RASPBERRYPI2B)
+        add_definitions(-DRF_IS_RASPI2B)
+    endif()
+endif()
 
 #	
 # OS specific libs

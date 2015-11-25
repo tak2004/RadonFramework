@@ -76,12 +76,6 @@ RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
     Features[ProcessorFeatures::CRC32] = hwcaps2 & HWCAP2_CRC32;
     return true;
 }
-#else
-RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
-{
-    Features.None();
-    return true;
-}
 #endif
 #endif
 
@@ -94,7 +88,9 @@ void Dispatch_Linux()
     GetPhysicalMemorySize = Linux::GetPhysicalMemorySizeLinux;
     GetFreePhysicalMemorySize = Linux::GetFreePhysicalMemorySizeLinux;
 #ifndef RF_BUILD_INTRINSIC_CPUID
+#if __ARMEL__
     GetLogicalProcessorFeatures = Linux::GetLogicalProcessorFeatures;
+#endif
 #endif
 }
 

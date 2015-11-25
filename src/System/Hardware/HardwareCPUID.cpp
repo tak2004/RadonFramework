@@ -460,6 +460,14 @@ RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
 
 }
 
+#if RF_IS_RASPI2B
+#include "RadonFramework/System/HostConfig/RaspberryPi2b.inl"
+#endif
+
+#ifndef Dispatch_HardwareSpecificHost
+#define Dispatch_HardwareSpecificHost()
+#endif
+
 void Dispatch()
 {
     DispatchVec128Int();
@@ -481,6 +489,8 @@ void Dispatch()
     Dispatch_OSX();
 #endif
 #endif
+
+    Dispatch_HardwareSpecificHost();
 }
 
 } } }
