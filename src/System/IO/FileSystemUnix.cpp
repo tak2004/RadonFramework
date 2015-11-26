@@ -6,7 +6,6 @@
 #include "RadonFramework/IO/Log.hpp"
 #include "RadonFramework/IO/Uri.hpp"
 
-using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
@@ -23,13 +22,14 @@ using namespace RadonFramework::System::IO::FileSystem;
 #include <dirent.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/mman.h>
 
 namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
 
 namespace Unix {
 
-inline Bool Access(const String& Path, const AccessMode::Type Mode)
-{
+inline RF_Type::Bool Access(const RF_Type::String& Path, const AccessMode::Type Mode)
+{ 
     int modes[AccessMode::MAX] = {-1, F_OK, R_OK, F_OK | R_OK, W_OK, W_OK | F_OK,
                                 W_OK | R_OK, W_OK | R_OK | F_OK, X_OK, X_OK | F_OK,
                                 X_OK | R_OK, X_OK | R_OK | F_OK, X_OK | W_OK,
@@ -38,7 +38,7 @@ inline Bool Access(const String& Path, const AccessMode::Type Mode)
     return access(Path.c_str(), modes[Mode]);
 }
 
-inline AutoPointer<FileStatus> Stat(const String& Path)
+inline AutoPointer<FileStatus> Stat(const RF_Type::String& Path)
 {
     AutoPointer<FileStatus> result;
     struct stat buf;
@@ -55,16 +55,16 @@ inline AutoPointer<FileStatus> Stat(const String& Path)
     return result;
 }
 
-void RealPath(const String& Path, String& ResolvedPath)
+void RealPath(const RF_Type::String& Path, RF_Type::String& ResolvedPath)
 {
     char* resolvedPath = realpath(Path.c_str(), 0);
     if(resolvedPath)
     {
-        ResolvedPath = String(resolvedPath, strlen(resolvedPath), RF_Common::DataManagment::TransfereOwnership);
+        ResolvedPath = RF_Type::String(resolvedPath, strlen(resolvedPath), RF_Common::DataManagment::TransfereOwnership);
     }
 }
 
-Bool ChangeMode(const String& Path, const AccessMode::Type NewMode)
+RF_Type::Bool ChangeMode(const RF_Type::String& Path, const AccessMode::Type NewMode)
 {
     int modes[AccessMode::MAX] = {-1, F_OK, R_OK, F_OK | R_OK, W_OK, W_OK | F_OK,
                                 W_OK | R_OK, W_OK | R_OK | F_OK, X_OK, X_OK | F_OK,
@@ -73,9 +73,9 @@ Bool ChangeMode(const String& Path, const AccessMode::Type NewMode)
     return chmod(Path.c_str(), modes[NewMode]) == 0;
 }
 
-Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
+RF_Type::Bool CreatePreAllocatedFile(const RF_Type::String& Path, const RF_Type::Size FileSize)
 {
-    Bool result = false;
+    RF_Type::Bool result = false;
     int fd = open(Path.c_str(), O_CREAT);
     if(fd)
     {
@@ -106,60 +106,60 @@ Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
     return result;
 }
 
-String WorkingDirectory()
+RF_Type::String WorkingDirectory()
 {
     long size = pathconf(".", _PC_PATH_MAX);
     AutoPointerArray<char> buffer(size);
-    String result;
+    RF_Type::String result;
     if(getcwd(buffer.Get(), size))
-        result = String(buffer.Release().Ptr, size, DataManagment::TransfereOwnership);
+        result = RF_Type::String(buffer.Release().Ptr, size, DataManagment::TransfereOwnership);
     return result;
 }
 
-String HomeDirectory()
+RF_Type::String HomeDirectory()
 {
-    return String::UnsafeStringCreation(getenv("HOME"));
+    return RF_Type::String::UnsafeStringCreation(getenv("HOME"));
 }
 
-String ApplicationDirectory()
+RF_Type::String ApplicationDirectory()
 {
     char buffer[BUFSIZ];
     readlink("/proc/self/exe", buffer, BUFSIZ);
-    return String(buffer);
+    return RF_Type::String(buffer);
 }
 
-Bool ChangeDirectory(const String& Destination)
+RF_Type::Bool ChangeDirectory(const RF_Type::String& Destination)
 {
     return chdir(Destination.c_str()) == 0;
 }
 
-Bool CreateDirectory(const String& Path)
+RF_Type::Bool CreateDirectory(const RF_Type::String& Path)
 {
     return mkdir(Path.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) == 0;
 }
 
-AutoPointerArray<String> DirectoryContent(const String& Path)
+AutoPointerArray<RF_Type::String> DirectoryContent(const RF_Type::String& Path)
 {
-    AutoPointerArray<String> result;
-    List<String> list;
+    AutoPointerArray<RF_Type::String> result;
+    List<RF_Type::String> list;
     DIR* dir = 0;
     dir = opendir(Path.c_str());
     if(dir)
     {
         struct dirent* direntry = 0;
         while((direntry = readdir(dir)) != 0)
-            list.AddLast(String(direntry->d_name));
+            list.AddLast(RF_Type::String(direntry->d_name));
         closedir(dir);
-        result = AutoPointerArray<String>(list.Count());
-        for(UInt32 i = 0; i < result.Count(); ++i)
+        result = AutoPointerArray<RF_Type::String>(list.Count());
+        for(RF_Type::UInt32 i = 0; i < result.Count(); ++i)
             result[i].Swap(list[i]);
     }
     return result;
 }
 
-Bool CreateFile(const String& Path)
+RF_Type::Bool CreateFile(const RF_Type::String& Path)
 {
-    Bool result = false;
+    RF_Type::Bool result = false;
     FILE* f = fopen(Path.c_str(), "w");
     if(f != 0)
     {
@@ -169,9 +169,9 @@ Bool CreateFile(const String& Path)
     return result;
 }
 
-Bool CopyFile(const String& From, const String& To)
+RF_Type::Bool CopyFile(const RF_Type::String& From, const RF_Type::String& To)
 {
-    Bool result = false;
+    RF_Type::Bool result = false;
     int in_fd = open(From.c_str(), O_RDONLY);
 #ifdef RF_HAVE_POSIX_FADVISE
     posix_fadvise(in_fd, 0, 0, POSIX_FADV_SEQUENTIAL);
@@ -243,7 +243,7 @@ FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type 
 RF_Type::Bool CloseFile(FileHandle& Handle)
 {
     int file = static_cast<int>(Handle.GetID());
-    Bool result = close(file) == 0;
+    RF_Type::Bool result = close(file) == 0;
     Handle = FileHandle::Zero();
     return result;
 }
@@ -278,33 +278,36 @@ void* GetMemoryFile(const MemoryMappingHandle& Handle)
     return Handle.GetPointer();
 }
 
-Bool ReadFile(const FileHandle& Handle, UInt8* Buffer, const UInt64 ReadBytes, UInt64& BytesRead)
+RF_Type::Bool ReadFile(const FileHandle& Handle, RF_Type::UInt8* Buffer, 
+    const RF_Type::UInt64 ReadBytes, RF_Type::UInt64& BytesRead)
 {
     int file = static_cast<int>(Handle.GetID());
     BytesRead = read(file, Buffer, ReadBytes);
     return ReadBytes == BytesRead;
 }
 
-Bool WriteFile(const FileHandle& Handle, const UInt8* Buffer, const UInt64 WriteBytes, UInt64& BytesWritten)
+RF_Type::Bool WriteFile(const FileHandle& Handle, const RF_Type::UInt8* Buffer, 
+    const RF_Type::UInt64 WriteBytes, RF_Type::UInt64& BytesWritten)
 {
     int file = static_cast<int>(Handle.GetID());
     return write(file, Buffer, WriteBytes) > 0;
 }
 
-Bool FlushFile(const FileHandle& Handle)
+RF_Type::Bool FlushFile(const FileHandle& Handle)
 {
     int file = static_cast<int>(Handle.GetID());
     return fsync(file) == 0;
 }
 
-UInt64 SeekFile(const FileHandle& Handle, const Int64 Offset, const SeekOrigin::Type Origin)
+RF_Type::UInt64 SeekFile(const FileHandle& Handle, const RF_Type::Int64 Offset, 
+    const SeekOrigin::Type Origin)
 {
     static const int NativeSeek[SeekOrigin::MAX] = {SEEK_SET, SEEK_CUR, SEEK_END};
     int file = static_cast<int>(Handle.GetID());
     return lseek(file, Offset, NativeSeek[Origin]);
 }
 
-UInt64 TellFile(const FileHandle& Handle)
+RF_Type::UInt64 TellFile(const FileHandle& Handle)
 {
     int file = static_cast<int>(Handle.GetID());
     return lseek(file, 0, SEEK_CUR);
@@ -322,12 +325,12 @@ RF_Type::String Seperator()
     return result;
 }
 
-Bool DeleteFile(const String& Path)
+RF_Type::Bool DeleteFile(const RF_Type::String& Path)
 {
     return unlink(Path.c_str()) == 0;
 }
 
-Bool RenameFile(const String& From, const String& To)
+RF_Type::Bool RenameFile(const RF_Type::String& From, const RF_Type::String& To)
 {
     return rename(From.c_str(), To.c_str()) == 0;
 }
