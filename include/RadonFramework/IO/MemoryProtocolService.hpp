@@ -1,5 +1,5 @@
-#ifndef RF_FILEPROTOCOLSERVICE_HPP
-#define RF_FILEPROTOCOLSERVICE_HPP
+#ifndef RF_MEMORYPROTOCOLSERVICE_HPP
+#define RF_MEMORYPROTOCOLSERVICE_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
@@ -9,10 +9,10 @@
 
 namespace RadonFramework { namespace IO {
 
-class FileProtocolService:public ProtocolService
+class MemoryProtocolService:public ProtocolService
 {
 public:
-    FileProtocolService(const RF_Type::String &Name);
+    MemoryProtocolService(const RF_Type::String &Name);
 
     virtual RF_Type::Bool Exists(const Uri& URI) override;
 
@@ -20,9 +20,9 @@ public:
 
     virtual void FreeInterface(const Uri& URI) override;
 private:
-    RF_Idiom::PImpl<FileProtocolService> m_PImpl;
+    RF_Idiom::PImpl<MemoryProtocolService> m_PImpl;
 };
 
 } }
 
-#endif // RF_FILEPROTOCOLSERVICE_HPP
+#endif // RF_MEMORYPROTOCOLSERVICE_HPP

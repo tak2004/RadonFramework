@@ -99,8 +99,15 @@ String::String(const RF_Type::Size StringSize)
     m_Length=StringSize-1;
     if (StringSize <= BUFFER_SIZE)
     {
-        RF_SysMem::Set(static_cast<void*>(m_FixBuffer.Raw()), ' ', m_Length);
-        m_FixBuffer[m_Length] = 0;
+        if (StringSize > 0)
+        {
+            RF_SysMem::Set(static_cast<void*>(m_FixBuffer.Raw()), ' ', m_Length);
+            m_FixBuffer[m_Length] = 0;
+        }
+        else
+        {
+            m_FixBuffer[0] = 0;
+        }
         m_FixBuffer.SetSize(StringSize);
     }
     else
@@ -108,7 +115,6 @@ String::String(const RF_Type::Size StringSize)
         m_DataManagment = DataManagment::AllocateAndCopy;
         m_DynBuffer.m_Buffer = new UInt8[StringSize];
         m_DynBuffer.m_Size = StringSize;
-        m_Length = StringSize - 1;
         RF_SysMem::Set(static_cast<void*>(m_DynBuffer.Raw()), ' ', m_Length);
         m_DynBuffer[m_Length] = '\0';
     }

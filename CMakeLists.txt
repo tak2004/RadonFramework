@@ -28,6 +28,12 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 #
 # OS specific includes
 #
+if(UNIX)
+    option(RADONFRAMEWORK_HOST_IS_RASPBERRYPI2B "Specify that the host is a RaspberryPi2b" OFF)
+    if(RADONFRAMEWORK_HOST_IS_RASPBERRYPI2B)
+        add_definitions(-DRF_IS_RASPI2B)
+    endif()
+endif()
 
 #	
 # OS specific libs
@@ -158,7 +164,7 @@ endif()
 
 GIT_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
 set(RADONFRAMEWORK_MAJORNUMBER "0")
-set(RADONFRAMEWORK_MINORNUMBER "3")
+set(RADONFRAMEWORK_MINORNUMBER "4")
 set(RADONFRAMEWORK_REVISIONNUMBER "${ProjectRevision}")
 if (NOT DEFINED RADONFRAMEWORK_BUILDNUMBER )
 	set(RADONFRAMEWORK_BUILDNUMBER "0")

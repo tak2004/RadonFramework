@@ -4,6 +4,7 @@
 #include "RadonFramework/Collections/List.hpp"
 #include "RadonFramework/Collections/Queue.hpp"
 #include "RadonFramework/IO/Log.hpp"
+#include "RadonFramework/IO/Uri.hpp"
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 #include <stdlib.h>
@@ -27,11 +28,9 @@
 #undef DeleteFile
 #endif
 
-using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::IO;
-using namespace RadonFramework::Memory;
-using namespace RadonFramework::Collections;
-using namespace RadonFramework::System::IO::FileSystem;
+namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
+
+namespace Windows {
 
 DWORD GetNativeAccessMode(FileAccessMode::Type AccessMode)
 {
@@ -58,16 +57,17 @@ DWORD GetNativeCreationDisposition(FileAccessMode::Type AccessMode)
     return result[AccessMode];
 }
 
-DWORD GetNativeSeekOrigin(SeekOrigin::Type Origin)
+DWORD GetNativeSeekOrigin(RF_IO::SeekOrigin::Type Origin)
 {
-    static DWORD result[SeekOrigin::MAX]={
+    static DWORD result[RF_IO::SeekOrigin::MAX]={
         FILE_BEGIN, FILE_CURRENT, FILE_END
     };
     return result[Origin];
 }
 
-FileHandle OpenFile(const String& FilePath, const FileAccessMode::Type AccessMode,
-                    const FileAccessPriority::Type AccessPriority)
+FileHandle OpenFile(const RF_Type::String& FilePath, 
+    const FileAccessMode::Type AccessMode,
+    const FileAccessPriority::Type AccessPriority)
 {
     FileHandle result = FileHandle::Zero();
     HANDLE file = CreateFileA(FilePath.c_str(), GetNativeAccessMode(AccessMode), 
@@ -77,10 +77,10 @@ FileHandle OpenFile(const String& FilePath, const FileAccessMode::Type AccessMod
     return result;
 }
 
-Bool CloseFile(FileHandle& Handle)
+RF_Type::Bool CloseFile(FileHandle& Handle)
 {
     HANDLE file=reinterpret_cast<HANDLE>(Handle.GetPointer());
-    Bool result=static_cast<Bool>(CloseHandle(file) == TRUE);
+    RF_Type::Bool result=static_cast<RF_Type::Bool>(CloseHandle(file) == TRUE);
     Handle=FileHandle::Zero();
     return result;
 }
@@ -106,7 +106,7 @@ MemoryMappingHandle MapFileIntoMemory(const FileHandle& Handle)
     return result;
 }
 
-Bool UnmapMemoryFile(MemoryMappingHandle& Handle)
+RF_Type::Bool UnmapMemoryFile(MemoryMappingHandle& Handle)
 {
     FileMapping* fileMapping=reinterpret_cast<FileMapping*>(Handle.GetPointer());
     if (fileMapping!=0 &&
@@ -128,7 +128,8 @@ void* GetMemoryFile(const MemoryMappingHandle& Handle)
     return 0;
 }
 
-Bool ReadFile(const FileHandle& Handle, UInt8* Buffer, const UInt64 ReadBytes, UInt64& BytesRead)
+RF_Type::Bool ReadFile(const FileHandle& Handle, RF_Type::UInt8* Buffer, 
+    const RF_Type::UInt64 ReadBytes, RF_Type::UInt64& BytesRead)
 {
     DWORD lowReadBytes=0;
     BOOL result = ::ReadFile(reinterpret_cast<HANDLE>(Handle.GetPointer()), 
@@ -139,7 +140,8 @@ Bool ReadFile(const FileHandle& Handle, UInt8* Buffer, const UInt64 ReadBytes, U
     return result == TRUE;
 }
 
-Bool WriteFile(const FileHandle& Handle, const UInt8* Buffer, const UInt64 WriteBytes, UInt64& BytesWritten)
+RF_Type::Bool WriteFile(const FileHandle& Handle, const RF_Type::UInt8* Buffer, 
+    const RF_Type::UInt64 WriteBytes, RF_Type::UInt64& BytesWritten)
 {
     DWORD lowWriteBytes = 0;
     BOOL result = ::WriteFile(reinterpret_cast<HANDLE>(Handle.GetPointer()), 
@@ -150,75 +152,76 @@ Bool WriteFile(const FileHandle& Handle, const UInt8* Buffer, const UInt64 Write
     return result == TRUE;
 }
 
-Bool FlushFile(const FileHandle& Handle)
+RF_Type::Bool FlushFile(const FileHandle& Handle)
 {
     return ::FlushFileBuffers(reinterpret_cast<HANDLE>(Handle.GetPointer())) == TRUE;
 }
 
-UInt64 SeekFile(const FileHandle& Handle, const Int64 Offset, const SeekOrigin::Type Origin)
+RF_Type::UInt64 SeekFile(const FileHandle& Handle, const RF_Type::Int64 Offset, 
+    const RF_IO::SeekOrigin::Type Origin)
 {
     long hi = static_cast<long>(Offset >> 32), lo = static_cast<long>(Offset);
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), lo, &hi, GetNativeSeekOrigin(Origin));
     if (lo!=INVALID_SET_FILE_POINTER)
-        return (static_cast<UInt64>(hi) << 32) + lo;
+        return (static_cast<RF_Type::UInt64>(hi) << 32) + lo;
     else
         return 0;
 }
 
-UInt64 TellFile(const FileHandle& Handle)
+RF_Type::UInt64 TellFile(const FileHandle& Handle)
 {
     long hi=0, lo;
     lo=SetFilePointer(reinterpret_cast<HANDLE>(Handle.GetPointer()), 0, &hi, FILE_CURRENT);
     if (lo!=INVALID_SET_FILE_POINTER)
-        return (static_cast<UInt64>(hi) << 32) + lo;
+        return (static_cast<RF_Type::UInt64>(hi) << 32) + lo;
     else
         return 0;
 }
 
-String GenerateTempFilename(const String& Path)
+RF_Type::String GenerateTempFilename(const RF_Type::String& Path)
 {
     char buf[MAX_PATH];
-    UInt32 len=GetTempFileName(Path.c_str(), "tmp", 0, buf);
-    String result(buf, len);
+    RF_Type::UInt32 len=GetTempFileName(Path.c_str(), "tmp", 0, buf);
+    RF_Type::String result(buf, len);
     return result;
 }
 
-Bool Access(const String& Path, const AccessMode::Type Mode)
+RF_Type::Bool Access(const RF_Type::String& Path, const RF_IO::AccessMode::Type Mode)
 {
-    if(Mode != AccessMode::None)
+    if(Mode != RF_IO::AccessMode::None)
     {
         int result = 0;
-        if(Mode & AccessMode::Exists)
+        if(Mode & RF_IO::AccessMode::Exists)
             result |= _access(Path.c_str(), 0);
-        if(Mode & AccessMode::Read)
+        if(Mode & RF_IO::AccessMode::Read)
             result |= _access(Path.c_str(), 4);
-        if(Mode & AccessMode::Write)
+        if(Mode & RF_IO::AccessMode::Write)
             result |= _access(Path.c_str(), 2);
         return result == 0;
     }
     return true;
 }
 
-String PathSeperator()
+RF_Type::String PathSeperator()
 {
-    return String(";");
+    return RF_Type::String(";");
 }
 
-String Seperator()
+RF_Type::String Seperator()
 {
-    return String("\\");
+    return RF_Type::String("\\");
 }
 
-AutoPointer<FileStatus> Stat(const String& Path)
+RF_Mem::AutoPointer<RF_IO::FileStatus> Stat(const RF_Type::String& Path)
 {
-    AutoPointer<FileStatus> result;
+    RF_Mem::AutoPointer<RF_IO::FileStatus> result;
     BY_HANDLE_FILE_INFORMATION info;
     HANDLE fHndl = CreateFileA(Path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
     if (0 != fHndl)
     {
         if (0 != GetFileInformationByHandle(fHndl, &info))
         {
-            result=AutoPointer<FileStatus>(new FileStatus);
+            result=RF_Mem::AutoPointer<RF_IO::FileStatus>(new RF_IO::FileStatus);
             result->Size = info.nFileSizeHigh;
             result->Size <<= 32;
             result->Size += info.nFileSizeLow;
@@ -243,14 +246,14 @@ AutoPointer<FileStatus> Stat(const String& Path)
     return result;
 }
 
-Bool ChangeMode( const String& Path, const AccessMode::Type NewMode )
+RF_Type::Bool ChangeMode( const RF_Type::String& Path, const RF_IO::AccessMode::Type NewMode )
 {
     return false;
 }
 
-Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
+RF_Type::Bool CreatePreAllocatedFile(const RF_Type::String& Path, const RF_Type::Size FileSize)
 {
-    Bool result=false;
+    RF_Type::Bool result=false;
     HANDLE hFile = CreateFileA(Path.c_str(),GENERIC_WRITE,0,0,CREATE_ALWAYS,FILE_FLAG_SEQUENTIAL_SCAN,NULL);
     if (hFile!=INVALID_HANDLE_VALUE)
     {
@@ -264,9 +267,9 @@ Bool CreatePreAllocatedFile(const String& Path, const Size FileSize)
     return result;
 }
 
-Bool CreateFile(const String& Path)
+RF_Type::Bool CreateFile(const RF_Type::String& Path)
 {
-    Bool result=false;
+    RF_Type::Bool result=false;
     HANDLE hFile = CreateFileA(Path.c_str(),0,0,0,CREATE_ALWAYS,0,NULL);
     if (hFile!=INVALID_HANDLE_VALUE)
     {        
@@ -275,27 +278,27 @@ Bool CreateFile(const String& Path)
     return result;
 }
 
-Bool CopyFile(const String& From, const String& To)
+RF_Type::Bool CopyFile(const RF_Type::String& From, const RF_Type::String& To)
 {
     return CopyFileA(From.c_str(),To.c_str(),true)==TRUE;
 }
 
-Bool DeleteFile(const String& Path)
+RF_Type::Bool DeleteFile(const RF_Type::String& Path)
 {
     return DeleteFileA(Path.c_str())==0;
 }
 
-Bool RenameFile(const String& From, const String& To)
+RF_Type::Bool RenameFile(const RF_Type::String& From, const RF_Type::String& To)
 {
     if (MoveFile(From.c_str(), To.c_str())==0)
         return true;
     return false;
 }
 
-String WinToUri(const String& WinPath)
+RF_Type::String WinToUri(const RF_Type::String& WinPath)
 {
-    String result(String("file:///")+WinPath);
-    for (UInt32 i=0;i<result.Length();++i)
+    RF_Type::String result(RF_Type::String("file:///")+WinPath);
+    for (RF_Type::UInt32 i=0;i<result.Length();++i)
     {
         if (result[i]=='\\')
             result[i]='/';
@@ -303,102 +306,103 @@ String WinToUri(const String& WinPath)
     return result;
 }
 
-void RealPath(const String& Path, String& ResolvedPath)
+void RealPath(const RF_Type::String& Path, RF_Type::String& ResolvedPath)
 {
     TCHAR** lppPart = {0};
     DWORD neededBufferSize = GetFullPathName(Path.c_str(), 0, 0, lppPart);
     if(neededBufferSize > 0)
     {
-        AutoPointerArray<char> buffer(neededBufferSize);
+        RF_Mem::AutoPointerArray<char> buffer(neededBufferSize);
         GetFullPathName(Path.c_str(), neededBufferSize, buffer.Get(), lppPart);
-        ResolvedPath = String(buffer.Release().Ptr, neededBufferSize, RF_Common::DataManagment::TransfereOwnership).Replace("\\", "/");
+        ResolvedPath = RF_Type::String(buffer.Release().Ptr, neededBufferSize, 
+            RF_Common::DataManagment::TransfereOwnership).Replace("\\", "/");
     }
 }
 
-String WorkingDirectory()
+RF_Type::String WorkingDirectory()
 {
     char buffer[1024];
-    String result;
+    RF_Type::String result;
     if (GetCurrentDirectory(1024,buffer)!=0)
-        result=WinToUri(String(buffer, 1024));
+        result=WinToUri(RF_Type::String(buffer, 1024));
     return result;
 }
 
-String HomeDirectory()
+RF_Type::String HomeDirectory()
 {
     // getenv return a unix like path
     char buf[MAX_PATH];
     GetEnvironmentVariable("%USERPROFILE%", buf, MAX_PATH);
-    String path(buf, MAX_PATH);
+    RF_Type::String path(buf, MAX_PATH);
     return WinToUri(path);
 }
 
-String ApplicationDirectory()
+RF_Type::String ApplicationDirectory()
 {
     char buf[MAX_PATH];
     GetModuleFileName(NULL,buf,MAX_PATH);
-    String result(buf, MAX_PATH);
+    RF_Type::String result(buf, MAX_PATH);
     
-    RF_Type::Int32 index = result.LastIndexOf(::Seperator());
+    RF_Type::Int32 index = result.LastIndexOf(Seperator());
     if(index > 0)
     {
-        result = result.SubString(0, index + ::Seperator().Length());
+        result = result.SubString(0, index + Seperator().Length());
         result = WinToUri(result);
     }
     else
     {
-        result = String();
+        result = RF_Type::String();
     }
 
     return result;
 }
 
-String UserApplicationDataDirectory()
+RF_Type::String UserApplicationDataDirectory()
 {
-    String result;
+    RF_Type::String result;
     char buf[MAX_PATH];
     if (SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, buf) == S_OK)
-        result = WinToUri(String(buf, MAX_PATH));
+        result = WinToUri(RF_Type::String(buf, MAX_PATH));
     return result;
 }
 
-String ApplicationDataDirectory()
+RF_Type::String ApplicationDataDirectory()
 {
-    String result;
+    RF_Type::String result;
     char buf[MAX_PATH];
     if (SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, buf) == S_OK)
-        result = WinToUri(String(buf, MAX_PATH));
+        result = WinToUri(RF_Type::String(buf, MAX_PATH));
     return result;
 }
 
-Bool ChangeDirectory( const String& Destination ) 
+RF_Type::Bool ChangeDirectory( const RF_Type::String& Destination )
 {
     return SetCurrentDirectory(Destination.c_str())==0;
 }
 
-Bool CreateDirectory( const String& Path ) 
+RF_Type::Bool CreateDirectory( const RF_Type::String& Path )
 {
     return CreateDirectoryA(Path.c_str(), NULL) == TRUE;
 }
 
-AutoPointerArray<String> DirectoryContent(const String& Path) 
+RF_Mem::AutoPointerArray<RF_Type::String> DirectoryContent(const RF_Type::String& Path)
 {
-    AutoPointerArray<String> result;
-    List<String> list;
+    RF_Mem::AutoPointerArray<RF_Type::String> result;
+    RF_Collect::List<RF_Type::String> list;
     WIN32_FIND_DATA findFileData;
     HANDLE hFind;    
-    String winPath=Path+"\\*";// search for everything
+    RF_Type::String winPath=Path+"\\*";// search for everything
     hFind=FindFirstFile(winPath.c_str(),&findFileData);    
     if (hFind!=INVALID_HANDLE_VALUE)
     {
         do
         {
             if (strcmp(findFileData.cFileName,".")!=0 && strcmp(findFileData.cFileName,"..")!=0)
-                list.AddLast(String(findFileData.cFileName, MAX_PATH));
+                list.AddLast(RF_Type::String(findFileData.cFileName, MAX_PATH));
         }while(FindNextFile(hFind,&findFileData)!=0);
         FindClose(hFind);
-        result = AutoPointerArray<String>(list.Count());
-        for (UInt32 i=0;i<result.Count();++i)
+        result = RF_Mem::AutoPointerArray<RF_Type::String>(list.Count());
+        for (RF_Type::UInt32 i=0;i<result.Count();++i)
             result[i].Swap(list[i]);
     }    
     return result;
@@ -410,14 +414,14 @@ class FileWatcherObject
         HANDLE m_FileHandle;
         HANDLE m_AsyncHandle;
         OVERLAPPED m_Overlapped;
-        UInt8 m_Buf[8096];
-        Queue<FileWatcherEvent> m_Events;
-        String m_Path;
+        RF_Type::UInt8 m_Buf[8096];
+        RF_Collect::Queue<FileWatcherEvent> m_Events;
+        RF_Type::String m_Path;
 
-        void Process(const UInt32 Bytes);
+        void Process(const RF_Type::UInt32 Bytes);
 };
 
-void FileWatcherObject::Process(const UInt32 Bytes)
+void FileWatcherObject::Process(const RF_Type::UInt32 Bytes)
 {
     if (Bytes)
     {
@@ -434,7 +438,7 @@ void FileWatcherObject::Process(const UInt32 Bytes)
                                         pNotify->FileNameLength / sizeof(WCHAR),
                                         szFile, MAX_PATH - 1, NULL, NULL);
             szFile[count] = TEXT('\0');
-            args.Name = String(szFile, count).Replace("\\", "/");
+            args.Name = RF_Type::String(szFile, count).Replace("\\", "/");
 
             switch(pNotify->Action)
             {
@@ -457,7 +461,7 @@ void FileWatcherObject::Process(const UInt32 Bytes)
     }
 }
 
-FileWatcherHandle CreateFileWatcher(const String& Path)
+FileWatcherHandle CreateFileWatcher(const RF_Type::String& Path)
 {
     FileWatcherObject* pimpl=new FileWatcherObject();
     FileWatcherHandle result=FileWatcherHandle::GenerateFromPointer(pimpl);
@@ -485,8 +489,8 @@ void CALLBACK NotificationCompletion(DWORD errorCode, DWORD tferred, LPOVERLAPPE
     {
         FileWatcherObject* data = reinterpret_cast<FileWatcherObject*>(over->hEvent);
         data->Process(tferred);
-        Size bufSize = sizeof(data->m_Buf);
-        Bool result=ReadDirectoryChangesW(data->m_AsyncHandle,data->m_Buf, bufSize,true,
+        RF_Type::Size bufSize = sizeof(data->m_Buf);
+        RF_Type::Bool result=ReadDirectoryChangesW(data->m_AsyncHandle,data->m_Buf, bufSize,true,
             FILE_NOTIFY_CHANGE_FILE_NAME|FILE_NOTIFY_CHANGE_DIR_NAME|
             FILE_NOTIFY_CHANGE_LAST_WRITE|FILE_NOTIFY_CHANGE_CREATION,
             0,&data->m_Overlapped,NotificationCompletion)!=0?true:false;
@@ -504,16 +508,16 @@ void CALLBACK NotificationCompletion(DWORD errorCode, DWORD tferred, LPOVERLAPPE
                 (LPTSTR)&lpBuffer,              // Put the message here
                 0,                     // Number of bytes to store the message
                 NULL);
-            LogError((char*)lpBuffer);
+            RF_IO::LogError((char*)lpBuffer);
         }
     }
 }
 
-Bool WaitForFileWatcher(const FileWatcherHandle& Handle, FileWatcherEvent& Event)
+RF_Type::Bool WaitForFileWatcher(const FileWatcherHandle& Handle, FileWatcherEvent& Event)
 {
     FileWatcherObject* pimpl=reinterpret_cast<FileWatcherObject*>(Handle.GetPointer());
     DWORD dwBytes=0;
-    Bool result=false;
+    RF_Type::Bool result=false;
     if (pimpl)
     {
         if (!pimpl->m_Events.IsEmpty())
@@ -571,51 +575,65 @@ void StopFileWatcher(const FileWatcherHandle& Handle)
     }
 }
 
-Bool GetFileWatcherEvent(const FileWatcherHandle& Handle, FileWatcherEvent& Event)
+RF_Type::Bool GetFileWatcherEvent(const FileWatcherHandle& Handle, FileWatcherEvent& Event)
 {
-    Bool result=false;
+    RF_Type::Bool result=false;
     FileWatcherObject* pimpl=reinterpret_cast<FileWatcherObject*>(Handle.GetPointer());
     if (pimpl!=0 && !pimpl->m_Events.IsEmpty())
         result = pimpl->m_Events.Dequeue(Event);
     return result;
 }
 
-void RadonFramework::System::IO::FileSystem::Dispatch()
+RF_Type::Bool SystemPathToUri(const RF_Type::String& SystemPath,
+    RF_IO::Uri& UriInterpretation)
 {
-    OpenFile=::OpenFile;
-    CloseFile=::CloseFile;
-    MapFileIntoMemory=::MapFileIntoMemory;
-    UnmapMemoryFile=::UnmapMemoryFile;
-    GetMemoryFile=::GetMemoryFile;
-    ReadFile=::ReadFile;
-    WriteFile=::WriteFile;
-    FlushFile=::FlushFile;
-    SeekFile=::SeekFile;
-    TellFile=::TellFile;
-    Access=::Access;
-    PathSeperator=::PathSeperator;
-    Seperator=::Seperator;
-    Stat=::Stat;
-    RealPath=::RealPath;
-    //ChangeMode=::ChangeMode;
-    CreatePreAllocatedFile=::CreatePreAllocatedFile;
-    CreateFile=::CreateFile;
-    CopyFile=::CopyFile;
-    RenameFile=::RenameFile;
-    DeleteFile=::DeleteFile;
-    WorkingDirectory=::WorkingDirectory;
-    HomeDirectory=::HomeDirectory;
-    ApplicationDirectory=::ApplicationDirectory;
-    UserApplicationDataDirectory = ::UserApplicationDataDirectory;
-    ApplicationDataDirectory = ::ApplicationDataDirectory;
-    ChangeDirectory=::ChangeDirectory;
-    CreateDirectory=::CreateDirectory;
-    DirectoryContent=::DirectoryContent;
-    CreateFileWatcher=::CreateFileWatcher;
-    DestroyFileWatcher=::DestroyFileWatcher;
-    WaitForFileWatcher=::WaitForFileWatcher;
-    StartFileWatcher=::StartFileWatcher;
-    StopFileWatcher=::StopFileWatcher;
-    GetFileWatcherEvent=::GetFileWatcherEvent;
-    GenerateTempFilename=::GenerateTempFilename;
+    RF_Type::String uriPath=WinToUri(SystemPath);
+    RF_IO::Uri uri1(uriPath, RF_IO::UriKind::Absolute);
+    UriInterpretation = uri1;
+    return true;
 }
+
+}
+
+void Dispatch()
+{
+    OpenFile=Windows::OpenFile;
+    CloseFile= Windows::CloseFile;
+    MapFileIntoMemory= Windows::MapFileIntoMemory;
+    UnmapMemoryFile= Windows::UnmapMemoryFile;
+    GetMemoryFile= Windows::GetMemoryFile;
+    ReadFile= Windows::ReadFile;
+    WriteFile= Windows::WriteFile;
+    FlushFile= Windows::FlushFile;
+    SeekFile= Windows::SeekFile;
+    TellFile= Windows::TellFile;
+    Access= Windows::Access;
+    PathSeperator= Windows::PathSeperator;
+    Seperator= Windows::Seperator;
+    Stat= Windows::Stat;
+    RealPath= Windows::RealPath;
+    //ChangeMode=::ChangeMode;
+    CreatePreAllocatedFile= Windows::CreatePreAllocatedFile;
+    CreateFile= Windows::CreateFile;
+    CopyFile= Windows::CopyFile;
+    RenameFile= Windows::RenameFile;
+    DeleteFile= Windows::DeleteFile;
+    WorkingDirectory= Windows::WorkingDirectory;
+    HomeDirectory= Windows::HomeDirectory;
+    ApplicationDirectory= Windows::ApplicationDirectory;
+    UserApplicationDataDirectory = Windows::UserApplicationDataDirectory;
+    ApplicationDataDirectory = Windows::ApplicationDataDirectory;
+    ChangeDirectory= Windows::ChangeDirectory;
+    CreateDirectory= Windows::CreateDirectory;
+    DirectoryContent= Windows::DirectoryContent;
+    CreateFileWatcher= Windows::CreateFileWatcher;
+    DestroyFileWatcher= Windows::DestroyFileWatcher;
+    WaitForFileWatcher= Windows::WaitForFileWatcher;
+    StartFileWatcher= Windows::StartFileWatcher;
+    StopFileWatcher= Windows::StopFileWatcher;
+    GetFileWatcherEvent= Windows::GetFileWatcherEvent;
+    GenerateTempFilename= Windows::GenerateTempFilename;
+    SystemPathToUri = Windows::SystemPathToUri;
+}
+
+} } } }

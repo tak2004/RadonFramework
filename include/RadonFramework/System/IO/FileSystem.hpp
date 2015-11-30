@@ -10,6 +10,12 @@
 #include <RadonFramework/IO/SeekOrigin.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
+namespace RadonFramework { namespace IO {
+
+class Uri;
+
+} }
+
 namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
 
 typedef RF_Mem::PointerID FileHandle;
@@ -203,6 +209,9 @@ using StopFileWatcherCallback = void(*)(const FileWatcherHandle& Handle);
 using GetFileWatcherEventCallback = RF_Type::Bool(*)(const FileWatcherHandle& Handle, 
                                                      FileWatcherEvent& Event);
 
+using SystemPathToUriCallback = RF_Type::Bool(*)(const RF_Type::String& SystemPath,
+    RF_IO::Uri& UriInterpretation);
+
 extern OpenFileCallback OpenFile;
 extern CloseFileCallback CloseFile;
 extern MapFileIntoMemoryCallback MapFileIntoMemory;
@@ -239,6 +248,7 @@ extern WaitForFileWatcherCallback WaitForFileWatcher;
 extern StartFileWatcherCallback StartFileWatcher;
 extern StopFileWatcherCallback StopFileWatcher;
 extern GetFileWatcherEventCallback GetFileWatcherEvent;
+extern SystemPathToUriCallback SystemPathToUri;
 
 } } } }
 

@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/String.hpp>
+
 namespace RadonFramework { namespace Core { namespace Pattern {
 
 class Service

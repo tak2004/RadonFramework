@@ -20,15 +20,17 @@ using namespace RadonFramework::Collections;
 
 namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
 
-RF_Type::Bool CopyFileLinux(const RF_Type::String& From, const RF_Type::String& To)
+namespace Linux {
+
+RF_Type::Bool CopyFile(const RF_Type::String& From, const RF_Type::String& To)
 {
     RF_Type::Bool result = false;
     int in_fd = open(From.c_str(), O_RDONLY);
-    int out_fd = open(To.c_str(),O_WRONLY);
-    if (in_fd && out_fd)
+    int out_fd = open(To.c_str(), O_WRONLY);
+    if(in_fd && out_fd)
     {
-        AutoPointer<FileStatus> stats=Stat(From);
-        if (stats)
+        AutoPointer<FileStatus> stats = Stat(From);
+        if(stats)
         {
             sendfile(out_fd, in_fd, 0, stats->Size);
         }
@@ -54,7 +56,7 @@ int GetNativeAccessPriority(const FileAccessPriority::Type Priority)
     return result[Priority];
 }
 
-FileHandle OpenFileLinux(const RF_Type::String& Filepath, const FileAccessMode::Type AccessMode,
+FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type AccessMode,
     const FileAccessPriority::Type AccessPriority)
 {
     FileHandle result = FileHandle::Zero();
@@ -68,10 +70,12 @@ FileHandle OpenFileLinux(const RF_Type::String& Filepath, const FileAccessMode::
     return result;
 }
 
+}
+
 void Dispatch_Linux()
 {
-    CopyFile = CopyFileLinux;
-    OpenFile = OpenFileLinux;
+    CopyFile = Linux::CopyFile;
+    OpenFile = Linux::OpenFile;
 }
 
 } } } }
