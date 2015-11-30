@@ -527,7 +527,20 @@ public:
     {
         String str("a=b+c");
         AutoPointerArray<String> list=str.Split("=+");
-        return list.Count()==3 && list[0]=="a" && list[1]=="b" && list[2]=="c";
+        String empty;
+        String notEmpty("foo/bar");
+        String delimeterAtStart("/foo/bar");
+        String delimeterAtEnd("foo/bar/");
+        String delimiterAtStartAndEnd("/foo/bar/");
+        RF_Type::Bool result = true;
+        result &= empty.Split("/").Count() == 0;
+        result &= notEmpty.Split("/").Count() == 2;
+        result &= delimeterAtStart.Split("/").Count() == 2;
+        result &= delimeterAtEnd.Split("/").Count() == 2;
+        result &= delimiterAtStartAndEnd.Split("/").Count() == 2;
+        result &= list.Count() == 3;
+        result &= list[0] == "a" && list[1] == "b" && list[2] == "c";
+        return result;
     }
 
     RadonFramework::Core::Types::Bool SplitByString()

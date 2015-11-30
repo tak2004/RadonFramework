@@ -427,44 +427,58 @@ AutoPointerArray<String> String::Split(const String &Delimiters)const
 {
     const int TERMINATION = 1;
     AutoPointerArray<String> list;
-    const RF_Type::UInt8* p = GetBuffer();
-    RF_Type::Size hits = 1, end = Size() - TERMINATION - 1;
-
-    for (RF_Type::Size i = 0; i < Size() - TERMINATION; ++i)
+    if(m_Length != 0)
     {
-        for (RF_Type::Size j = 0; j < Delimiters.Size() - TERMINATION; ++j)
+        const RF_Type::UInt8* p = GetBuffer();
+        RF_Type::Size hits = 1, end = Size() - TERMINATION - 1;
+
+        for(RF_Type::Size i = 0; i < Size() - TERMINATION; ++i)
         {
-            if (p[i] == Delimiters[j] && i != 0 && i != end)
+            for(RF_Type::Size j = 0; j < Delimiters.Size() - TERMINATION; ++j)
             {
-                ++hits;
+                if(p[i] == Delimiters[j] && i != 0 && i != end)
+                {
+                    ++hits;
+                    break;
+                }
+            }
+        }
+
+        list = AutoPointerArray<String>(hits);
+        hits = 0;
+        RF_Type::Size lasthit = 0;
+
+        // if first glyph is a delimiter
+        for(RF_Type::Size j = 0; j < Delimiters.Size() - TERMINATION; ++j)
+        {
+            if(p[0] == Delimiters[j])
+            {
+                ++lasthit;
                 break;
             }
         }
-    }
 
-    list = AutoPointerArray<String>(hits);
-    hits=0;
-    RF_Type::Size lasthit=0;
-
-    for (RF_Type::Size i = 0; i < Size() - TERMINATION; ++i)
-    {
-        for (RF_Type::Size j = 0; j < Delimiters.Size() - TERMINATION; ++j)
+        for(RF_Type::Size i = 0; i < Size() - TERMINATION; ++i)
         {
-            if (p[i] == Delimiters[j])
+            for(RF_Type::Size j = 0; j < Delimiters.Size() - TERMINATION; ++j)
             {
-                String& str=list[hits];
-                str = SubString(lasthit, i - lasthit);
-                lasthit = i + 1;
-                ++hits;
-                break;
+                if(p[i] == Delimiters[j] && i != 0 && i != end)
+                {
+                    String& str = list[hits];
+                    str = SubString(lasthit, i - lasthit);
+                    lasthit = i + 1;
+                    ++hits;
+                    break;
+                }
             }
         }
-    }
 
-    if (lasthit < Size() - TERMINATION)
-    {
-        String& str = list[hits];
-        str = SubString(lasthit, Size() - lasthit - TERMINATION);
+        // if last glyph is no delimiter
+        if(lasthit < Size() - TERMINATION)
+        {
+            String& str = list[hits];
+            str = SubString(lasthit, Size() - lasthit - TERMINATION);
+        }
     }
     return list;
 }
