@@ -2,13 +2,11 @@
 #include "RadonFramework/IO/Directory.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/Collections/List.hpp"
-#include <stdio.h>
 
 using namespace RadonFramework;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::System::IO;
 using namespace RadonFramework::Collections;
 
 Directory::Directory()
@@ -21,37 +19,47 @@ Directory::~Directory()
 
 String Directory::PathSeperator()
 {
-    return FileSystem::PathSeperator();
+    return RF_SysFile::PathSeperator();
 }
 
 String Directory::Seperator()
 {
-    return FileSystem::Seperator();
+    return RF_SysFile::Seperator();
 }
 
 AutoPointer<Directory> Directory::WorkingDirectory()
 {
-    return GenerateDirectory(Uri(FileSystem::WorkingDirectory()));
+    RF_IO::Uri uri;
+    RF_SysFile::SystemPathToUri(RF_SysFile::WorkingDirectory(), uri);
+    return GenerateDirectory(uri);
 }
 
 AutoPointer<Directory> Directory::HomeDirectory()
 {
-    return GenerateDirectory(Uri(FileSystem::HomeDirectory()));
+    RF_IO::Uri uri;
+    RF_SysFile::SystemPathToUri(RF_SysFile::HomeDirectory(), uri);
+    return GenerateDirectory(uri);
 }
 
 AutoPointer<Directory> Directory::ApplicationDirectory()
 {
-    return GenerateDirectory(Uri(FileSystem::ApplicationDirectory()));
+    RF_IO::Uri uri;
+    RF_SysFile::SystemPathToUri(RF_SysFile::ApplicationDirectory(), uri);
+    return GenerateDirectory(uri);
 }
 
 AutoPointer<Directory> Directory::UserApplicationDataDirectory()
 {
-    return GenerateDirectory(Uri(FileSystem::UserApplicationDataDirectory()));
+    RF_IO::Uri uri;
+    RF_SysFile::SystemPathToUri(RF_SysFile::UserApplicationDataDirectory(), uri);
+    return GenerateDirectory(uri);
 }
 
 AutoPointer<Directory> Directory::ApplicationDataDirectory()
 {
-    return GenerateDirectory(Uri(FileSystem::ApplicationDataDirectory()));
+    RF_IO::Uri uri;
+    RF_SysFile::SystemPathToUri(RF_SysFile::ApplicationDataDirectory(), uri);
+    return GenerateDirectory(uri);
 }
 
 AutoPointer<Directory> Directory::GenerateDirectory( const Uri& Location )
@@ -81,29 +89,39 @@ void Directory::SetLocation(const Uri& Location)
 Bool Directory::CreateNewDirectory(const Bool Recursive /* = true */) const
 {
     Bool result = false;
-    AutoPointerArray<String> dirs = m_Uri.GetComponents(UriComponents::Path).Split(Uri::PathSeperator);
     if (Recursive)
     {
-        String path;
+        AutoPointerArray<String> dirs = m_Uri.GetComponents(UriComponents::Path).Split(Uri::PathSeperator);
+        String path("file://");
+        String systemPath;
         for (Size i = 0; i < dirs.Count(); ++i)
         {
-            path += dirs[i]+"/";
-            result = FileSystem::CreateDirectory(path);
+            path += RF_Type::String("/") + dirs[i];
+            RF_SysFile::UriToSystemPath(path, systemPath);
+            result = RF_SysFile::CreateDirectory(systemPath);
         }            
     }
     else
-        result = FileSystem::CreateDirectory(m_Uri.GetComponents(UriComponents::Path));
+    {
+        RF_Type::String systemPath;
+        RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+        result = RF_SysFile::CreateDirectory(systemPath);
+    }
     return result;
 }
 
 Bool Directory::Delete() const
 {
-    return remove(m_Uri.GetComponents(UriComponents::Path).c_str()) == 0;
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    return RF_SysFile::DeleteDirectory(systemPath);
 }
 
 Bool Directory::Exists() const
 {
-    return FileSystem::Access(m_Uri.GetComponents(UriComponents::Path), AccessMode::Exists);
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    return RF_SysFile::Access(systemPath, AccessMode::Exists);
 }
 
 String Directory::Name() const
@@ -122,37 +140,49 @@ Uri Directory::Location() const
 
 Bool Directory::IsHidden() const
 {
-    AutoPointer<FileStatus> stat = FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointer<FileStatus> stat = RF_SysFile::Stat(systemPath);
     return stat && stat->IsHidden;
 }
 
 Bool Directory::IsDirectory() const
 {
-    AutoPointer<FileStatus> stat = FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointer<FileStatus> stat = RF_SysFile::Stat(systemPath);
     return stat && stat->IsDirectory;
 }
 
 UInt64 Directory::LastModified() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && stat->LastModificationTimestamp;
 }
 
 UInt64 Directory::LastAccess() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && stat->LastAccessTimestamp;
 }
 
-UInt64 Directory::CreatedOn() const
+UInt64 Directory::CreatedAt() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && stat->CreateionTimestamp;
 }
 
 UInt64 Directory::Length() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     Assert(stat!=0,"Unexspected result.");
     if (stat)
         return stat->Size;
@@ -161,7 +191,10 @@ UInt64 Directory::Length() const
 
 Bool Directory::RenameTo( const Uri& NewLocation )
 {
-    if (rename(m_Uri.GetComponents(UriComponents::Path).c_str(), NewLocation.GetComponents(UriComponents::Path).c_str())==0)
+    RF_Type::String systemPathFrom, systemPathTo;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPathFrom);
+    RF_SysFile::UriToSystemPath(NewLocation, systemPathTo);
+    if (RF_SysFile::RenameFile(systemPathFrom, systemPathTo))
     {
         m_Uri=NewLocation;
         return true;
@@ -171,19 +204,23 @@ Bool Directory::RenameTo( const Uri& NewLocation )
 
 Bool Directory::AccessMode(AccessMode::Type NewValue)
 {
-    return FileSystem::ChangeMode(m_Uri.GetComponents(UriComponents::Path), NewValue);
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    return RF_SysFile::ChangeMode(systemPath, NewValue);
 }
 
 AccessMode::Type Directory::AccessMode()
 {
     AccessMode::Type result=AccessMode::None;
-    if (FileSystem::Access(m_Uri.GetComponents(UriComponents::Path), AccessMode::Write))
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    if (RF_SysFile::Access(systemPath, AccessMode::Write))
         result|=AccessMode::Write;
-    if (FileSystem::Access(m_Uri.GetComponents(UriComponents::Path), AccessMode::Read))
+    if (RF_SysFile::Access(systemPath, AccessMode::Read))
         result|=AccessMode::Read;
-    if (FileSystem::Access(m_Uri.GetComponents(UriComponents::Path), AccessMode::Execute))
+    if (RF_SysFile::Access(systemPath, AccessMode::Execute))
         result|=AccessMode::Execute;
-    if (FileSystem::Access(m_Uri.GetComponents(UriComponents::Path), AccessMode::Exists))
+    if (RF_SysFile::Access(systemPath, AccessMode::Exists))
         result|=AccessMode::Exists;
     return result;
 }
@@ -195,54 +232,73 @@ String Directory::ToSystemPath() const
 
 AutoPointerArray<String> Directory::Files()const
 {
-    AutoPointerArray<String> content=FileSystem::DirectoryContent(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointerArray<String> content= RF_SysFile::DirectoryContent(systemPath);
     AutoPointerArray<String> result;
     List<String> tmp;
-    for (UInt32 i=0; i<content.Count(); ++i)
-        if (!FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path)+Uri::PathSeperator+content[i])->IsDirectory)
+    for (Size i=0; i<content.Count(); ++i)
+    {
+        if(!RF_SysFile::Stat(systemPath + RF_SysFile::PathSeperator() + content[i])->IsDirectory)
+        {
             tmp.AddLast(content[i]);
+        }
+    }
+
     result = AutoPointerArray<String>(tmp.Count());
-    for(UInt32 i = 0; i<tmp.Count(); ++i)
+    for(Size i = 0; i<tmp.Count(); ++i)
+    {
         result[i].Swap(tmp[i]);
+    }
     return result;
 }
 
 AutoPointerArray<String> Directory::FilesIncludingSubdirectories()const
 {
-    AutoPointerArray<String> content=FileSystem::DirectoryContent(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointerArray<String> content= RF_SysFile::DirectoryContent(systemPath);
     AutoPointerArray<String> result;
     List<String> tmp;
-    for (UInt32 i=0; i<content.Count(); ++i)
-        if (FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path)+Uri::PathSeperator+content[i])->IsDirectory)
+    for (Size i=0; i<content.Count(); ++i)
+    {
+        if(RF_SysFile::Stat(systemPath + RF_SysFile::PathSeperator() + content[i])->IsDirectory)
         {
             Directory subdir;
-            subdir.SetLocation(m_Uri.GetComponents(UriComponents::Path)+Uri::PathSeperator+content[i]);
-            AutoPointerArray<String> dirContent=subdir.FilesIncludingSubdirectories();
-            for (Size i=0; i<dirContent.Size(); ++i)
+            subdir.SetLocation(systemPath + RF_SysFile::PathSeperator() + content[i]);
+            AutoPointerArray<String> dirContent = subdir.FilesIncludingSubdirectories();
+            for(Size i = 0; i < dirContent.Size(); ++i)
                 tmp.AddLast(dirContent[i]);
         }
         else
             tmp.AddLast(content[i]);
+    }
+
     result = AutoPointerArray<String>(tmp.Count());
-    for(UInt32 i = 0; i<tmp.Count(); ++i)
+    for(Size i = 0; i<tmp.Count(); ++i)
         result[i].Swap(tmp[i]);
     return result;
 }
 
 AutoPointerArray<Directory> Directory::Directories()const
 {
-    AutoPointerArray<String> content=FileSystem::DirectoryContent(m_Uri.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Uri, systemPath);
+    AutoPointerArray<String> content= RF_SysFile::DirectoryContent(systemPath);
     AutoPointerArray<Directory> result;
     List<Directory> tmp;
-    for (UInt32 i=0; i<content.Count(); ++i)
-        if(FileSystem::Stat(m_Uri.GetComponents(UriComponents::Path) + Uri::PathSeperator + content[i])->IsDirectory)
+    for (Size i=0; i<content.Count(); ++i)
+    {
+        if(RF_SysFile::Stat(systemPath + RF_SysFile::PathSeperator() + content[i])->IsDirectory)
         {
             Directory dir;
-            dir.SetLocation(m_Uri.OriginalString()+Uri::PathSeperator+content[i]);
+            dir.SetLocation(systemPath + RF_SysFile::PathSeperator() + content[i]);
             tmp.AddLast(dir);
         }
+    }
+
     result = AutoPointerArray<Directory>(tmp.Count());
-    for(UInt32 i = 0; i<tmp.Count(); ++i)
+    for(Size i = 0; i<tmp.Count(); ++i)
         result[i]=tmp[i];
     return result;
 }

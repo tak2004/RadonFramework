@@ -42,7 +42,7 @@ public:
     RF_Type::Bool IsHidden()const;
     RF_Type::Bool IsDirectory()const;
     RF_Type::UInt64 LastModified()const;
-    RF_Type::UInt64 CreatedOn()const;
+    RF_Type::UInt64 CreatedAt()const;
     RF_Type::UInt64 LastAccess()const;
     RF_Type::UInt64 Length()const;
     RF_Type::Bool RenameTo(const Uri& NewLocation);

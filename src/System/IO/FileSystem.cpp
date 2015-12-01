@@ -235,6 +235,16 @@ RF_Type::Bool DeleteFile_SystemAPIDispatcher(const RF_Type::String& Path)
     return DeleteFile(Path);
 }
 
+RF_Type::Bool DeleteDirectory_SystemAPIDispatcher(const RF_Type::String& Path)
+{
+    DeleteDirectory = 0;
+    Dispatch();
+    Assert(DeleteDirectory != DeleteDirectory_SystemAPIDispatcher &&
+        DeleteDirectory != 0,
+        "Funtion was called and couldn't be dispatched");
+    return DeleteDirectory(Path);
+}
+
 RF_Type::String WorkingDirectory_SystemAPIDispatcher()
 {
     WorkingDirectory = 0;
@@ -387,6 +397,17 @@ RF_Type::Bool SystemPathToUri_SystemAPIDispatcher(const RF_Type::String& SystemP
     return SystemPathToUri(SystemPath, UriInterpretation);
 }
 
+RF_Type::Bool UriToSystemPath_SystemAPIDispatcher(const RF_IO::Uri& Uri,
+    RF_Type::String& SystemPath)
+{
+    UriToSystemPath = 0;
+    Dispatch();
+    Assert(UriToSystemPath != UriToSystemPath_SystemAPIDispatcher &&
+        UriToSystemPath != 0,
+        "Funtion was called and couldn't be dispatched");
+    return UriToSystemPath(Uri, SystemPath);
+}
+
 OpenFileCallback RFFILE::OpenFile = OpenFile_SystemAPIDispatcher;
 CloseFileCallback RFFILE::CloseFile = CloseFile_SystemAPIDispatcher;
 MapFileIntoMemoryCallback RFFILE::MapFileIntoMemory = MapFileIntoMemory_SystemAPIDispatcher;
@@ -424,6 +445,8 @@ StartFileWatcherCallback RFFILE::StartFileWatcher = StartFileWatcher_SystemAPIDi
 StopFileWatcherCallback RFFILE::StopFileWatcher = StopFileWatcher_SystemAPIDispatcher;
 GetFileWatcherEventCallback RFFILE::GetFileWatcherEvent = GetFileWatcherEvent_SystemAPIDispatcher;
 SystemPathToUriCallback RFFILE::SystemPathToUri = SystemPathToUri_SystemAPIDispatcher;
+UriToSystemPathCallback RFFILE::UriToSystemPath = UriToSystemPath_SystemAPIDispatcher;
+DeleteDirectoryCallback RFFILE::DeleteDirectory = DeleteDirectory_SystemAPIDispatcher;
 
 Bool RFFILE::IsSuccessfullyDispatched()
 {
@@ -465,6 +488,8 @@ Bool RFFILE::IsSuccessfullyDispatched()
     result=result && StopFileWatcher != StopFileWatcher_SystemAPIDispatcher && StopFileWatcher != 0;
     result=result && GetFileWatcherEvent != GetFileWatcherEvent_SystemAPIDispatcher && GetFileWatcherEvent != 0;
     result = result && SystemPathToUri != SystemPathToUri_SystemAPIDispatcher && SystemPathToUri != 0;
+    result = result && UriToSystemPath != UriToSystemPath_SystemAPIDispatcher && UriToSystemPath != 0;
+    result = result && DeleteDirectory != DeleteDirectory_SystemAPIDispatcher && DeleteDirectory != 0;
     return result;
 }
 
@@ -544,4 +569,8 @@ void RFFILE::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
         Result.AddLast(RF_Type::String("GetFileWatcherEvent", sizeof("GetFileWatcherEvent")));
     if(SystemPathToUri == SystemPathToUri_SystemAPIDispatcher || SystemPathToUri == 0)
         Result.AddLast(RF_Type::String("SystemPathToUri", sizeof("SystemPathToUri")));
+    if(UriToSystemPath == UriToSystemPath_SystemAPIDispatcher || UriToSystemPath == 0)
+        Result.AddLast(RF_Type::String("UriToSystemPath", sizeof("UriToSystemPath")));
+    if(DeleteDirectory == DeleteDirectory_SystemAPIDispatcher || DeleteDirectory == 0)
+        Result.AddLast(RF_Type::String("DeleteDirectory", sizeof("DeleteDirectory")));
 }

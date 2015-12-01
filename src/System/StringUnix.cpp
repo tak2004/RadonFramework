@@ -52,12 +52,13 @@ Size CStringSizeOfUnix(const UInt8* Buffer, const Size BufferSize)
 Size LengthUnix(const UInt8* Buffer, const Size BufferSize)
 {
     char const * pos = reinterpret_cast<const char*>(Buffer);
+    char const * end = pos + BufferSize;
     Size length = 0;
 
-    while(*pos != '\0')
+    while(*pos != '\0' && pos != end)
     {
         ++length;
-        pos += mblen(pos, MB_CUR_MAX);
+        pos += mblen(pos, end-pos);
     }
 
     return length;

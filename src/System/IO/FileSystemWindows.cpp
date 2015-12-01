@@ -285,14 +285,17 @@ RF_Type::Bool CopyFile(const RF_Type::String& From, const RF_Type::String& To)
 
 RF_Type::Bool DeleteFile(const RF_Type::String& Path)
 {
-    return DeleteFileA(Path.c_str())==0;
+    return DeleteFileA(Path.c_str())!=0;
+}
+
+RF_Type::Bool DeleteDirectory(const RF_Type::String& Path)
+{
+    return RemoveDirectory(Path.c_str()) != 0;
 }
 
 RF_Type::Bool RenameFile(const RF_Type::String& From, const RF_Type::String& To)
 {
-    if (MoveFile(From.c_str(), To.c_str())==0)
-        return true;
-    return false;
+    return MoveFile(From.c_str(), To.c_str()) != 0;
 }
 
 RF_Type::String WinToUri(const RF_Type::String& WinPath)
@@ -324,7 +327,7 @@ RF_Type::String WorkingDirectory()
     char buffer[1024];
     RF_Type::String result;
     if (GetCurrentDirectory(1024,buffer)!=0)
-        result=WinToUri(RF_Type::String(buffer, 1024));
+        result=RF_Type::String(buffer, 1024);
     return result;
 }
 
@@ -334,7 +337,7 @@ RF_Type::String HomeDirectory()
     char buf[MAX_PATH];
     GetEnvironmentVariable("%USERPROFILE%", buf, MAX_PATH);
     RF_Type::String path(buf, MAX_PATH);
-    return WinToUri(path);
+    return path;
 }
 
 RF_Type::String ApplicationDirectory()
@@ -347,7 +350,6 @@ RF_Type::String ApplicationDirectory()
     if(index > 0)
     {
         result = result.SubString(0, index + Seperator().Length());
-        result = WinToUri(result);
     }
     else
     {
@@ -362,7 +364,7 @@ RF_Type::String UserApplicationDataDirectory()
     RF_Type::String result;
     char buf[MAX_PATH];
     if (SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, buf) == S_OK)
-        result = WinToUri(RF_Type::String(buf, MAX_PATH));
+        result = RF_Type::String(buf, MAX_PATH);
     return result;
 }
 
@@ -371,7 +373,7 @@ RF_Type::String ApplicationDataDirectory()
     RF_Type::String result;
     char buf[MAX_PATH];
     if (SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, buf) == S_OK)
-        result = WinToUri(RF_Type::String(buf, MAX_PATH));
+        result = RF_Type::String(buf, MAX_PATH);
     return result;
 }
 
@@ -593,6 +595,17 @@ RF_Type::Bool SystemPathToUri(const RF_Type::String& SystemPath,
     return true;
 }
 
+RF_Type::Bool UriToSystemPath(const RF_IO::Uri& Uri,
+    RF_Type::String& SystemPath)
+{
+    SystemPath = Uri.GetComponents(RF_IO::UriComponents::Path);
+    if(SystemPath.Length() > 0)
+    {
+        SystemPath = SystemPath.SubString(1, SystemPath.Length() - 1);
+    }
+    return true;
+}
+
 }
 
 void Dispatch()
@@ -634,6 +647,8 @@ void Dispatch()
     GetFileWatcherEvent= Windows::GetFileWatcherEvent;
     GenerateTempFilename= Windows::GenerateTempFilename;
     SystemPathToUri = Windows::SystemPathToUri;
+    UriToSystemPath = Windows::UriToSystemPath;
+    DeleteDirectory = Windows::DeleteDirectory;
 }
 
 } } } }

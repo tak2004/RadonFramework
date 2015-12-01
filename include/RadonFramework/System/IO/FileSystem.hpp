@@ -176,6 +176,8 @@ using DeleteFileCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
 
 // directory
 
+using DeleteDirectoryCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
+
 using WorkingDirectoryCallback = RF_Type::String(*)();
 
 using HomeDirectoryCallback = RF_Type::String(*)();
@@ -211,6 +213,9 @@ using GetFileWatcherEventCallback = RF_Type::Bool(*)(const FileWatcherHandle& Ha
 
 using SystemPathToUriCallback = RF_Type::Bool(*)(const RF_Type::String& SystemPath,
     RF_IO::Uri& UriInterpretation);
+
+using UriToSystemPathCallback = RF_Type::Bool(*)(const RF_IO::Uri& Uri,
+    RF_Type::String& SystemPath);
 
 extern OpenFileCallback OpenFile;
 extern CloseFileCallback CloseFile;
@@ -249,6 +254,8 @@ extern StartFileWatcherCallback StartFileWatcher;
 extern StopFileWatcherCallback StopFileWatcher;
 extern GetFileWatcherEventCallback GetFileWatcherEvent;
 extern SystemPathToUriCallback SystemPathToUri;
+extern UriToSystemPathCallback UriToSystemPath;
+extern DeleteDirectoryCallback DeleteDirectory;
 
 } } } }
 

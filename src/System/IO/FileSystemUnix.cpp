@@ -23,6 +23,7 @@ using namespace RadonFramework::System::IO::FileSystem;
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/mman.h>
+#include <errno.h>
 
 namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
 
@@ -35,7 +36,7 @@ inline RF_Type::Bool Access(const RF_Type::String& Path, const AccessMode::Type 
                                 X_OK | R_OK, X_OK | R_OK | F_OK, X_OK | W_OK,
                                 X_OK | W_OK | F_OK, X_OK | W_OK | R_OK, X_OK | W_OK | R_OK | F_OK};
     Assert(modes[Mode] >= 0 && modes[Mode] <= X_OK | W_OK | R_OK | F_OK, "Invalid argument.");
-    return access(Path.c_str(), modes[Mode]);
+    return access(Path.c_str(), modes[Mode])==0;
 }
 
 inline AutoPointer<FileStatus> Stat(const RF_Type::String& Path)
@@ -57,10 +58,12 @@ inline AutoPointer<FileStatus> Stat(const RF_Type::String& Path)
 
 void RealPath(const RF_Type::String& Path, RF_Type::String& ResolvedPath)
 {
-    char* resolvedPath = realpath(Path.c_str(), 0);
-    if(resolvedPath)
+    char out[PATH_MAX];
+    char* resolvedPath = realpath(Path.c_str(), out);
+    if(resolvedPath == out || 
+       (resolvedPath == 0 && errno == ENOENT))
     {
-        ResolvedPath = RF_Type::String(resolvedPath, strlen(resolvedPath), RF_Common::DataManagment::TransfereOwnership);
+        ResolvedPath = RF_Type::String(out, PATH_MAX);
     }
 }
 
@@ -135,7 +138,7 @@ RF_Type::Bool ChangeDirectory(const RF_Type::String& Destination)
 
 RF_Type::Bool CreateDirectory(const RF_Type::String& Path)
 {
-    return mkdir(Path.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) == 0;
+    return mkdir(Path.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) == 0 || errno == EEXIST;
 }
 
 AutoPointerArray<RF_Type::String> DirectoryContent(const RF_Type::String& Path)
@@ -228,7 +231,7 @@ FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type 
     const FileAccessPriority::Type AccessPriority)
 {
     FileHandle result = FileHandle::Zero();
-    int file = open(Filepath.c_str(), GetNativeFlags(AccessMode));
+    int file = open(Filepath.c_str(), GetNativeFlags(AccessMode), S_IRWXU | S_IRWXG | S_IRWXO);
     if(file != 0)
     {
 #ifdef RF_HAVE_POSIX_FADVISE
@@ -330,6 +333,11 @@ RF_Type::Bool DeleteFile(const RF_Type::String& Path)
     return unlink(Path.c_str()) == 0;
 }
 
+RF_Type::Bool DeleteDirectory(const RF_Type::String& Path)
+{
+    return rmdir(Path.c_str()) == 0;
+}
+
 RF_Type::Bool RenameFile(const RF_Type::String& From, const RF_Type::String& To)
 {
     return rename(From.c_str(), To.c_str()) == 0;
@@ -341,6 +349,13 @@ RF_Type::Bool SystemPathToUri(const RF_Type::String& SystemPath,
     RF_Type::String uriPath = RF_Type::String("file://")+SystemPath;
     RF_IO::Uri uri1(uriPath, RF_IO::UriKind::Absolute);
     UriInterpretation = uri1;
+    return true;
+}
+
+RF_Type::Bool UriToSystemPath(const RF_IO::Uri& Uri,
+    RF_Type::String& SystemPath)
+{
+    SystemPath = Uri.GetComponents(RF_IO::UriComponents::Path);
     return true;
 }
 
@@ -376,6 +391,8 @@ void Dispatch()
     CreateDirectory = Unix::CreateDirectory;
     DirectoryContent = Unix::DirectoryContent;
     SystemPathToUri = Unix::SystemPathToUri;
+    UriToSystemPath = Unix::UriToSystemPath;
+    DeleteDirectory = Unix::DeleteDirectory;
 
 #ifdef RF_LINUX
     extern void Dispatch_Linux();
