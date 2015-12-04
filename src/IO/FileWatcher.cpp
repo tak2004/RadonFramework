@@ -25,7 +25,9 @@ void FileWatcher::Initialize(const Uri& Path, const String& Filter)
 {
     m_Filter=Filter;
     m_Path=Path;
-    m_Handle=CreateFileWatcher(m_Path.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Path, systemPath);
+    m_Handle=CreateFileWatcher(systemPath);
 }
 
 const Uri& FileWatcher::Path()const

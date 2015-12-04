@@ -289,10 +289,12 @@ AutoPointerArray<Directory> Directory::Directories()const
     List<Directory> tmp;
     for (Size i=0; i<content.Count(); ++i)
     {
-        if(RF_SysFile::Stat(systemPath + RF_SysFile::PathSeperator() + content[i])->IsDirectory)
+        if(RF_SysFile::Stat(systemPath + RF_SysFile::Seperator() + content[i])->IsDirectory)
         {
             Directory dir;
-            dir.SetLocation(systemPath + RF_SysFile::PathSeperator() + content[i]);
+            RF_IO::Uri dirPath;
+            RF_SysFile::SystemPathToUri(systemPath + RF_SysFile::Seperator() + content[i], dirPath);
+            dir.SetLocation(dirPath);
             tmp.AddLast(dir);
         }
     }

@@ -20,6 +20,8 @@ struct Integer
     static T NextPowerOfTwo(const T Value);
 
     static RF_Type::Bool IsPowerOfTwo(const T Value);
+
+    static T Abs(const T Value);
 };
 
 template <typename T>
@@ -59,6 +61,12 @@ template <typename T>
 RF_Type::Bool Integer<T>::IsPowerOfTwo(const T Value)
 {// http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
     return (Value != 0) && ((Value & (~Value +1)) == Value);
+}
+
+template <typename T>
+T Integer<T>::Abs(const T Value)
+{
+    return Value < 0 ? -Value : Value;
 }
 
 } }

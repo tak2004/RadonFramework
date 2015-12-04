@@ -78,19 +78,26 @@ void Settings::Load()
                 fs.Read(buf.Get(), 0, buf.Size());
                 fs.Close();
                 for (Size i = 0, s = 0; i < buf.Size(); ++i)
-                    if (buf[i] == '\n')
+                {
+                    if(buf[i] == '\n' || buf[i] == '\r')
                     {
                         String line = String(reinterpret_cast<const char*>(&buf[s]), i - s);
                         AutoPointerArray<String> keyValue = line.Split(String("="));
-                        if (keyValue.Count() == 2)
+                        if(keyValue.Count() == 2)
                         {
                             const char* key = StringCache::Find(keyValue[0]);
-                            if (key == 0)
+                            if(key == 0)
                                 key = keyValue[0].c_str();
                             m_PImpl->m_Data[key] = keyValue[1];
                         }
-                        s = i+1;
+
+                        while(i < buf.Size() && (buf[i] == '\n' || buf[i] == '\r'))
+                        {
+                            ++i;
+                        }
+                        s = i;
                     }
+                }
             }
         }
     }

@@ -209,7 +209,7 @@ RF_Type::String PathSeperator()
 
 RF_Type::String Seperator()
 {
-    return RF_Type::String("\\");
+    return RF_Type::String("/");
 }
 
 RF_Mem::AutoPointer<RF_IO::FileStatus> Stat(const RF_Type::String& Path)
