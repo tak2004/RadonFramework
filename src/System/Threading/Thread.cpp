@@ -601,7 +601,8 @@ void Thread::Priority(RFT::ThreadPriority::Type Value)
 
 void Thread::Join()
 {
-    ThrImplementationJoin(m_ImplData,RF_Time::TimeSpan::Zero);
+    Time::TimeSpan t;
+    ThrImplementationJoin(m_ImplData,t);
 }
 
 void Thread::Join(const RadonFramework::Time::TimeSpan& Delta)
