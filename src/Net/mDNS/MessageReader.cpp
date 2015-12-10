@@ -17,62 +17,112 @@ void MessageReader::Reset(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data)
     RF_SysMem::Set(&m_Header, 0, sizeof(m_Header));
 }
 
-void MessageReader::ReadHeader()
+RF_Type::Bool MessageReader::ReadHeader()
 {
-    m_Data.ReadType(m_Header.TransactionID);
-    m_Data.ReadType(m_Header.Flags);
-    m_Data.ReadType(m_Header.QuestionCount);
-    m_Data.ReadType(m_Header.AnswerCount);
-    m_Data.ReadType(m_Header.AuthorityCount);
-    m_Data.ReadType(m_Header.AdditionalCount);
+    RF_Type::Bool result = false;
+    if (m_Data.Length() >= sizeof(Header))
+    {
+        m_Data.ReadType(m_Header.TransactionID);
+        m_Data.ReadType(m_Header.Flags);
+        m_Data.ReadType(m_Header.QuestionCount);
+        m_Data.ReadType(m_Header.AnswerCount);
+        m_Data.ReadType(m_Header.AuthorityCount);
+        m_Data.ReadType(m_Header.AdditionalCount);
+        result = true;
+    }
+    return result;
 }
 
-void MessageReader::ReadAnswers()
+RF_Type::Bool MessageReader::ReadQuestions()
 {
-    m_Answers.Resize(m_Header.AnswerCount);
-    for(RF_Type::UInt16 i = 0; i < m_Header.AnswerCount; ++i)
+    RF_Type::Bool result = false;
+    if(m_Data.Length() - m_Data.Position() > 0)
     {
-        m_Answers(i).Name = ReadName();
-        m_Data.ReadType(m_Answers(i).Type);
-        m_Data.ReadType(m_Answers(i).Class);
-        m_Data.ReadType(m_Answers(i).TTL);
-        RF_Type::UInt16 dataLength;
-        m_Data.ReadType(dataLength);
+        m_Questions.Resize(m_Header.QuestionCount);
+        for(RF_Type::UInt16 i = 0; i < m_Header.QuestionCount; ++i)
+        {
+            m_Questions(i).Name = ReadName();
 
-        switch(m_Answers(i).Type)
-        {
-        case RecordType::A:
-            m_Address.Resize(m_Address.Count() + 1);
-            m_Data.ReadType(m_Address(m_Address.Count() - 1));
-            m_Answers(i).Index = m_Address.Count() - 1;
-            break;
-        case RecordType::SRV:
-        {
-            m_ServiceInfo.Resize(m_ServiceInfo.Count() + 1);
-            auto& svc = m_ServiceInfo(m_ServiceInfo.Count() - 1);
-            m_Data.ReadType(svc.Priority);
-            m_Data.ReadType(svc.Weight);
-            m_Data.ReadType(svc.Port);
-            svc.Target = ReadName();
-            m_Answers(i).Index = m_ServiceInfo.Count() - 1;
-            break;
+            const RF_Type::Size ExpectedData = sizeof(RecordType) +
+                sizeof(RecordClass);
+
+            if(m_Data.Length() - m_Data.Position() >= ExpectedData)
+            {
+                m_Data.ReadType(m_Questions(i).Type);
+                m_Data.ReadType(m_Questions(i).Class);
+                result = true;
+            }
         }
-        case RecordType::PTR:
-            m_Domainname.Resize(m_Domainname.Count() + 1);
-            m_Domainname(m_Domainname.Count() - 1) = ReadName();
-            m_Answers(i).Index = m_Domainname.Count() - 1;
-            break;
-        case RecordType::TXT:
-            m_Text.Resize(m_Text.Count() + 1);
-            m_Text(m_Text.Count() - 1) = ReadText();
-            m_Answers(i).Index = m_Text.Count() - 1;
-            break;
-        default:
-            m_Data.Seek(dataLength, RF_IO::SeekOrigin::Current);
-            m_Answers(i).Index = ~0;
-            break;
-        }        
     }
+    return result;
+}
+
+RF_Type::Bool MessageReader::ReadAnswers()
+{
+    RF_Type::Bool result = false;
+    if (m_Data.Length()-m_Data.Position() > 0)
+    {
+        m_Answers.Resize(m_Header.AnswerCount);
+        for(RF_Type::UInt16 i = 0; i < m_Header.AnswerCount; ++i)
+        {
+            m_Answers(i).Name = ReadName();
+            
+            const RF_Type::Size ExpectedData = sizeof(RecordType) + 
+                sizeof(RecordClass) + sizeof(RF_Type::UInt32) + sizeof(RF_Type::UInt16);
+
+            RF_Type::UInt16 dataLength;
+
+            if(m_Data.Length() - m_Data.Position() >= ExpectedData)
+            {
+                m_Data.ReadType(m_Answers(i).Type);
+                m_Data.ReadType(m_Answers(i).Class);
+                m_Data.ReadType(m_Answers(i).TTL);
+                m_Data.ReadType(dataLength);
+
+                if (m_Data.Length() - m_Data.Position() >= dataLength)
+                {
+                    switch(m_Answers(i).Type)
+                    {
+                    case RecordType::A:
+                    {
+                        m_Address.Resize(m_Address.Count() + 1);
+                        m_Data.ReadType(m_Address(m_Address.Count() - 1));
+                        m_Answers(i).Index = m_Address.Count() - 1;
+                        break;
+                    }
+                    case RecordType::SRV:
+                    {
+                        m_ServiceInfo.Resize(m_ServiceInfo.Count() + 1);
+                        auto& svc = m_ServiceInfo(m_ServiceInfo.Count() - 1);
+                        m_Data.ReadType(svc.Priority);
+                        m_Data.ReadType(svc.Weight);
+                        m_Data.ReadType(svc.Port);
+                        svc.Target = ReadName();
+                        m_Answers(i).Index = m_ServiceInfo.Count() - 1;
+                        break;
+                    }
+                    case RecordType::PTR:
+                        m_Domainname.Resize(m_Domainname.Count() + 1);
+                        m_Domainname(m_Domainname.Count() - 1) = ReadName();
+                        m_Answers(i).Index = m_Domainname.Count() - 1;
+                        break;
+                    case RecordType::TXT:
+                        m_Text.Resize(m_Text.Count() + 1);
+                        m_Text(m_Text.Count() - 1) = ReadText();
+                        m_Answers(i).Index = m_Text.Count() - 1;
+                        break;
+                    default:
+                        m_Data.Seek(dataLength, RF_IO::SeekOrigin::Current);
+                        m_Answers(i).Index = ~0;
+                        break;
+                    }
+
+                    result = true;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 const Header& MessageReader::GetHeader() const
@@ -83,6 +133,11 @@ const Header& MessageReader::GetHeader() const
 const RF_Collect::Array<Answer>& MessageReader::Answers() const
 {
     return m_Answers;
+}
+
+const RF_Collect::Array<Question>& MessageReader::Questions() const
+{
+    return m_Questions;
 }
 
 const RF_Collect::Array<RF_Type::String>& MessageReader::Domainnames() const
