@@ -21,6 +21,14 @@ public:
     RF_Type::Size Index;
 };
 
+class Question
+{
+public:
+    RF_Type::String Name;
+    RecordType Type;
+    RecordClass Class;
+};
+
 class ServiceInfo
 {
 public:
@@ -36,11 +44,13 @@ public:
     MessageReader();
     void Reset(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
 
-    void ReadHeader();
-    void ReadAnswers();
+    RF_Type::Bool ReadHeader();
+    RF_Type::Bool ReadQuestions();
+    RF_Type::Bool ReadAnswers();
 
     const Header& GetHeader()const;
     const RF_Collect::Array<Answer>& Answers()const;
+    const RF_Collect::Array<Question>& Questions()const;
     const RF_Collect::Array<RF_Type::String>& Domainnames()const;
     const RF_Collect::Array<RF_Type::String>& TextEntries()const;
     const RF_Collect::Array<ServiceInfo>& ServiceInfos()const;
@@ -49,6 +59,7 @@ protected:
     RF_Net::NetworkStream<RF_IO::MemoryStream> m_Data;
     Header m_Header;
     RF_Collect::Array<Answer> m_Answers;
+    RF_Collect::Array<Question> m_Questions;
     RF_Collect::Array<RF_Type::String> m_Domainname;
     RF_Collect::Array<RF_Type::String> m_Text;
     RF_Collect::Array<ServiceInfo> m_ServiceInfo;

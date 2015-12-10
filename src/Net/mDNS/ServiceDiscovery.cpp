@@ -52,6 +52,7 @@ void ServiceDiscovery::Setup()
     newConfig.Blocking = false;
     newConfig.Family = RF_Net::AddressFamily::InterNetwork;
     newConfig.Hostname[0] = '*';
+    newConfig.Hostname[1] = 0;
     newConfig.Port = 5353;
     newConfig.Protocol = RF_Net::SocketType::Datagram;
     Server::Setup(newConfig);
@@ -112,7 +113,9 @@ RF_Type::Bool ServiceDiscovery::ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::
     MessageReader reader;
     reader.Reset(In);
     reader.ReadHeader();
+    reader.ReadQuestions();
     reader.ReadAnswers();
+
     return true;
 }
 
@@ -142,7 +145,7 @@ void ServiceDiscovery::Update()
         m_PImpl->m_NextQuery = RF_Time::DateTime::CreateByTicks(now.Ticks() + m_PImpl->m_UpdatePeriod.Ticks());
 
         MessageWriter writer;
-        writer.WriteQueryHeader(0);
+        writer.WriteQueryHeader(1);
         writer.WriteQuestion("_tcp.local", RecordType::PTR);
         RF_Type::UInt32 sendBytes = 0;
         writer.Finalize();
