@@ -1,3 +1,8 @@
+/*
+*
+* THIS FILE IS GENERATED FROM build/code_templates/Defines.hxx !!!
+*
+*/
 #ifndef RF_DEFINES_HPP
 #define RF_DEFINES_HPP
 
@@ -86,9 +91,52 @@
 #define RF_USE_WDM
 #endif
 
-#ifndef RF_PRECOMPILED_PIMPL
-    #define RF_PRECOMPILED_PIMPL 1
+
+#ifndef RF_BUILD_INTRINSIC_MMX
+    #define RF_BUILD_INTRINSIC_MMX 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_SSE
+    #define RF_BUILD_INTRINSIC_SSE 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_SSE2
+    #define RF_BUILD_INTRINSIC_SSE2 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_SSE3
+    #define RF_BUILD_INTRINSIC_SSE3 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_SSSE3
+    #define RF_BUILD_INTRINSIC_SSSE3 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_SSE41
+    #define RF_BUILD_INTRINSIC_SSE41 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_SSE42
+    #define RF_BUILD_INTRINSIC_SSE42 1
 #endif
 
+#ifndef RF_BUILD_INTRINSIC_AVX
+    #define RF_BUILD_INTRINSIC_AVX 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_AVX2
+    #define RF_BUILD_INTRINSIC_AVX2 1
+#endif
+
+#ifndef RF_BUILD_INTRINSIC_FMA3
+    #define RF_BUILD_INTRINSIC_FMA3 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_FMA4
+    #define RF_BUILD_INTRINSIC_FMA4 1
+#endif
+
+#ifndef RF_BUILD_INTRINSIC_AES
+    #define RF_BUILD_INTRINSIC_AES 1
+#endif
+#ifndef RF_BUILD_INTRINSIC_XOP
+    #define RF_BUILD_INTRINSIC_XOP 1
+#endif
+
+#ifndef RF_BUILD_INTRINSIC_CPUID
+    #define RF_BUILD_INTRINSIC_CPUID 1
+#endif
 
 #endif

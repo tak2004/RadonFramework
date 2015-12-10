@@ -1,11 +1,13 @@
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/Collections/List.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
 #include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
+#include "RadonFramework/System/Hardware/Vec128Int.hpp"
 
-using namespace RadonFramework::System::Hardware;
 using namespace RadonFramework::Collections;
+
+namespace RadonFramework { namespace System { namespace Hardware {
 
 RF_Type::UInt32 GetAvailableLogicalProcessorCount_SystemAPIDispatcher()
 {
@@ -77,15 +79,15 @@ RF_Type::Size GetFreePhysicalMemorySize_SystemAPIDispatcher()
     return GetFreePhysicalMemorySize();
 }
 
-RFHDW::GetAvailableLogicalProcessorCountCallback RFHDW::GetAvailableLogicalProcessorCount = GetAvailableLogicalProcessorCount_SystemAPIDispatcher;
-RFHDW::GetCurrentProcessorNumberCallback RFHDW::GetCurrentProcessorNumber = GetCurrentProcessorNumber_SystemAPIDispatcher;
-RFHDW::GetCacheInfoCallback RFHDW::GetCacheInfo = GetCacheInfo_SystemAPIDispatcher;
-RFHDW::GetCacheCountCallback RFHDW::GetCacheCount = GetCacheCount_SystemAPIDispatcher;
-RFHDW::GetLogicalProcessorFeaturesCallback RFHDW::GetLogicalProcessorFeatures = GetLogicalProcessorFeatures_SystemAPIDispatcher;
-RFHDW::GetPhysicalMemorySizeCallback RFHDW::GetPhysicalMemorySize = GetPhysicalMemorySize_SystemAPIDispatcher;
-RFHDW::GetFreePhysicalMemorySizeCallback RFHDW::GetFreePhysicalMemorySize = GetFreePhysicalMemorySize_SystemAPIDispatcher;
+GetAvailableLogicalProcessorCountCallback GetAvailableLogicalProcessorCount = GetAvailableLogicalProcessorCount_SystemAPIDispatcher;
+GetCurrentProcessorNumberCallback GetCurrentProcessorNumber = GetCurrentProcessorNumber_SystemAPIDispatcher;
+GetCacheInfoCallback GetCacheInfo = GetCacheInfo_SystemAPIDispatcher;
+GetCacheCountCallback GetCacheCount = GetCacheCount_SystemAPIDispatcher;
+GetLogicalProcessorFeaturesCallback GetLogicalProcessorFeatures = GetLogicalProcessorFeatures_SystemAPIDispatcher;
+GetPhysicalMemorySizeCallback GetPhysicalMemorySize = GetPhysicalMemorySize_SystemAPIDispatcher;
+GetFreePhysicalMemorySizeCallback GetFreePhysicalMemorySize = GetFreePhysicalMemorySize_SystemAPIDispatcher;
 
-RF_Type::Bool RFHDW::IsSuccessfullyDispatched()
+RF_Type::Bool IsSuccessfullyDispatched()
 {
     RF_Type::Bool result = true;
     result = result && GetAvailableLogicalProcessorCount != GetAvailableLogicalProcessorCount_SystemAPIDispatcher && GetAvailableLogicalProcessorCount != 0;
@@ -95,10 +97,11 @@ RF_Type::Bool RFHDW::IsSuccessfullyDispatched()
     result = result && GetLogicalProcessorFeatures != GetLogicalProcessorFeatures_SystemAPIDispatcher && GetLogicalProcessorFeatures != 0;
     result = result && GetPhysicalMemorySize != GetPhysicalMemorySize_SystemAPIDispatcher && GetPhysicalMemorySize != 0;
     result = result && GetFreePhysicalMemorySize != GetFreePhysicalMemorySize_SystemAPIDispatcher && GetFreePhysicalMemorySize != 0;
+    result = result && IsVec128IntSuccessfullyDispatched();
     return result;
 }
 
-void RFHDW::GetNotDispatchedFunctions( List<RF_Type::String>& Result )
+void GetNotDispatchedFunctions( List<RF_Type::String>& Result )
 {
     if (GetAvailableLogicalProcessorCount == GetAvailableLogicalProcessorCount_SystemAPIDispatcher || GetAvailableLogicalProcessorCount == 0) 
         Result.AddLast(RF_Type::String("GetAvailableLogicalProcessorCount", sizeof("GetAvailableLogicalProcessorCount")));
@@ -114,4 +117,94 @@ void RFHDW::GetNotDispatchedFunctions( List<RF_Type::String>& Result )
         Result.AddLast(RF_Type::String("GetPhysicalMemorySize", sizeof("GetPhysicalMemorySize")));
     if(GetFreePhysicalMemorySize == GetFreePhysicalMemorySize_SystemAPIDispatcher || GetFreePhysicalMemorySize == 0)
         Result.AddLast(RF_Type::String("GetFreePhysicalMemorySize", sizeof("GetFreePhysicalMemorySize")));
+    GetNotDispatchedVec128IntFunctions(Result);
 }
+
+struct MostWantedCacheInfos
+{
+    void InitData()
+    {
+        CacheInfo tmp;
+        RF_Type::Int32 count = GetCacheCount();
+        for(RF_Type::Int32 i = 0; i < count; ++i)
+        {
+            if(GetCacheInfo(tmp, i))
+            {
+                if(tmp.Level == 1 && tmp.UsedAs == CacheUseCase::Data)
+                {
+                    RF_SysMem::Copy(&L1Data, &tmp, sizeof(CacheInfo));
+                }
+                if(tmp.Level == 2 && tmp.UsedAs == CacheUseCase::Data)
+                {
+                    RF_SysMem::Copy(&L2Data, &tmp, sizeof(CacheInfo));
+                }
+                if(tmp.Level == 1 && tmp.UsedAs == CacheUseCase::Code)
+                {
+                    RF_SysMem::Copy(&L1Instruction, &tmp, sizeof(CacheInfo));
+                }
+            }
+        }
+        // hardwired fallback which should fit to the majority
+        if(L1Data.Level == 0)
+        {
+            L1Data.Associativity = CacheAssociativity::Unknown;
+            L1Data.Level = 1;
+            L1Data.LineCount = 512;
+            L1Data.LineSize = 64;
+            L1Data.Size = 32768;
+            L1Data.UsedAs = CacheUseCase::Data;
+        }
+
+        if(L2Data.Level == 0)
+        {
+            L2Data.Associativity = CacheAssociativity::Unknown;
+            L2Data.Level = 2;
+            L2Data.LineCount = 4096;
+            L2Data.LineSize = 64;
+            L2Data.Size = 262144;
+            L2Data.UsedAs = CacheUseCase::Data;
+        }
+
+        if(L1Instruction.Level == 0)
+        {
+            L1Data.Associativity = CacheAssociativity::Unknown;
+            L1Data.Level = 1;
+            L1Data.LineCount = 512;
+            L1Data.LineSize = 64;
+            L1Data.Size = 32768;
+            L1Data.UsedAs = CacheUseCase::Code;
+        }
+    }
+    CacheInfo L1Data;
+    CacheInfo L2Data;
+    CacheInfo L1Instruction;
+} SharedCacheInfo = {0};
+
+CacheInfo& GetLevel1DataCache()
+{
+    if(SharedCacheInfo.L1Data.Level == 0)
+    {
+        SharedCacheInfo.InitData();
+    }
+    return SharedCacheInfo.L1Data;
+}
+
+CacheInfo& GetLevel1InstructionCache()
+{
+    if(SharedCacheInfo.L1Instruction.Level == 0)
+    {
+        SharedCacheInfo.InitData();
+    }
+    return SharedCacheInfo.L1Instruction;
+}
+
+CacheInfo& GetLevel2DataCache()
+{
+    if(SharedCacheInfo.L2Data.Level == 0)
+    {
+        SharedCacheInfo.InitData();
+    }
+    return SharedCacheInfo.L2Data;
+}
+
+} } }

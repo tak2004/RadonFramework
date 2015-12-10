@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/Math/Math.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/Time/ScopeTimer.hpp"
 
 using namespace RadonFramework;
@@ -28,7 +28,7 @@ public:
     ThreadPool::FreeCallback FreeData;
 };
 
-class PoolThread : public System::Threading::Thread
+class PoolThread : public Thread
 {
 public:
     virtual ~PoolThread();

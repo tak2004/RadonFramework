@@ -83,7 +83,7 @@ if(RADONFRAMEWORK_USE_OPENGL)
 	set(HDRS_BACKEND_OPENGL
 		include/RadonFramework/backend/OpenGL/OpenGLCanvas.hpp
 		include/RadonFramework/backend/OpenGL/GraphicDriverInformationOpenGL.hpp)
-endif(RADONFRAMEWORK_USE_OPENGL)
+endif()
 
 AddSourceDirectory(filelist "backend/stringcoders" "Sources\\backend\\stringcoders")
 set(SRC_BACKEND_STRINGCODERS ${filelist})
@@ -92,35 +92,41 @@ set_source_files_properties(${SRC_BACKEND_STRINGCODERS} PROPERTIES LANGUAGE CXX)
 AddHeaderDirectory(filelist "include/RadonFramework/backend/stringcoders" "Includes\\backend\\stringcoders")
 set(HDRS_BACKEND_STRINGCODERS ${filelist})
 	
-if(RADONFRAMEWORK_USE_OPENGL)
-# OpenGL Windows
-AddSourceDirectoryRecursive(filelist "backend/Windows/Drawing" "Backend\\Windows\\Drawing")
-list(APPEND SRC_BACKEND_WINDOWS_DRAWING ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Drawing" "Includes\\Backend\\Windows\\Drawing")
-list(APPEND HDRS_BACKEND_WINDOWS_DRAWING ${filelist})	
-
-# OpenGL X11
-AddSourceDirectoryRecursive(filelist "backend/X11/Drawing" "Backend\\X11\\Drawing")
-list(APPEND SRC_BACKEND_X11_DRAWING ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Drawing" "Includes\\Backend\\X11\\Drawing")
-list(APPEND HDRS_BACKEND_X11_DRAWING ${filelist})		
+if(RADONFRAMEWORK_USE_OPENGL AND WIN32)
+    # OpenGL Windows GDI/WDM
+    AddSourceDirectoryRecursive(filelist "backend/Windows/Drawing" "Backend\\Windows\\Drawing")
+    list(APPEND SRC_BACKEND_WINDOWS_DRAWING ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Drawing" "Includes\\Backend\\Windows\\Drawing")
+    list(APPEND HDRS_BACKEND_WINDOWS_DRAWING ${filelist})	
 endif()
 
-# Windows window managment
-AddSourceDirectoryRecursive(filelist "backend/Windows/Forms" "Backend\\Windows\\Forms")
-list(APPEND SRC_BACKEND_WINDOWS_FORMS ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Forms" "Includes\\Backend\\Windows\\Forms")
-list(APPEND HDRS_BACKEND_WINDOWS_FORMS ${filelist})		
+if(RADONFRAMEWORK_USE_X11)
+    # OpenGL X11
+    AddSourceDirectoryRecursive(filelist "backend/X11/Drawing" "Backend\\X11\\Drawing")
+    list(APPEND SRC_BACKEND_X11_DRAWING ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Drawing" "Includes\\Backend\\X11\\Drawing")
+    list(APPEND HDRS_BACKEND_X11_DRAWING ${filelist})		
+endif()
 
-# X11 window managment
-AddSourceDirectoryRecursive(filelist "backend/X11/Forms" "Backend\\X11\\Forms")
-list(APPEND SRC_BACKEND_X11_FORMS ${filelist})	
-	
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Forms" "Includes\\Backend\\X11\\Forms")
-list(APPEND HDRS_BACKEND_X11_FORMS ${filelist})		
+if(RADONFRAMEWORK_USE_OPENGL AND WIN32)
+    # Windows window managment
+    AddSourceDirectoryRecursive(filelist "backend/Windows/Forms" "Backend\\Windows\\Forms")
+    list(APPEND SRC_BACKEND_WINDOWS_FORMS ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Forms" "Includes\\Backend\\Windows\\Forms")
+    list(APPEND HDRS_BACKEND_WINDOWS_FORMS ${filelist})		
+endif()
+
+if(RADONFRAMEWORK_USE_X11)
+    # X11 window managment
+    AddSourceDirectoryRecursive(filelist "backend/X11/Forms" "Backend\\X11\\Forms")
+    list(APPEND SRC_BACKEND_X11_FORMS ${filelist})	
+        
+    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Forms" "Includes\\Backend\\X11\\Forms")
+    list(APPEND HDRS_BACKEND_X11_FORMS ${filelist})		
+endif()
 
 set(LIBBACKENDGENERALSRCFILES
     ${SRC_BACKEND_GLEW}
@@ -172,27 +178,33 @@ set(LIBSRCFILES_WINDOW
 	src/System/StringWindows.cpp
 	src/System/TimeWindows.cpp
 	src/System/ProcessWindows.cpp
-	src/System/HardwareWindows.cpp
-	src/System/Drawing/SystemTrayServiceWindows.cpp)
+	src/System/Hardware/HardwareWindows.cpp
+	src/System/Drawing/SystemTrayServiceWindows.cpp
+    src/System/Threading/ThreadWindows.cpp)
 	
 set(LIBSRCFILES_LINUX
 	src/System/TimeLinux.cpp
 	src/System/EnvironmentLinux.cpp
-	src/System/MemoryLinux.cpp
 	src/System/StringLinux.cpp
 	src/System/IO/FileSystemLinux.cpp
-	src/System/HardwareLinux.cpp)
+	src/System/Hardware/HardwareLinux.cpp
+    src/System/Threading/ThreadLinux.cpp)
 	
 set(LIBSRCFILES_UNIX
 	src/System/TimeUnix.cpp
+    src/System/EnvironmentUnix.cpp
 	src/System/StringUnix.cpp
+	src/System/MemoryUnix.cpp
 	src/System/ProcessUnix.cpp
-	src/System/IO/FileSystemUnix.cpp)
+	src/System/IO/FileSystemUnix.cpp
+    src/System/Threading/ThreadUnix.cpp)
 	
 set(LIBSRCFILES_OSX
+    src/System/EnvironmentOSX.cpp
 	src/System/TimeOSX.cpp
     src/System/IO/FileSystemOSX.cpp
-    src/System/HardwareOSX.cpp)
+    src/System/Hardware/HardwareOSX.cpp
+    src/System/Threading/ThreadOSX.cpp)
 	
 set(LIBSRCFILES_MICROCRT
 	src/System/MicroRuntimeLibrary/CommandLine.cpp
@@ -269,79 +281,61 @@ list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Util" "Sources\\Util")
 list(APPEND LIBSRCFILES ${filelist})
 
-macro(GenerateIncludes variable files)
-	foreach(includefile ${files})
-		STRING(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/include/" "" escaped_includefile ${includefile}) 
-		set(${variable} "${${variable}}\n#include <${escaped_includefile}>")
-	endforeach()
-endmacro()
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Reflection" "Includes\\Reflection")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
-GenerateIncludes(INCLUDES_REFLECTION "${filelist}")
 list(APPEND LIBHDRFILES ${filelist})	
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Collections" "Includes\\Collections")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_COLLECTIONS "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Core" "Includes\\Core")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_CORE "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Diagnostics" "Includes\\Diagnostics")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_DIAGNOSTICS "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Math" "Includes\\Math")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_MATH "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/IO" "Includes\\IO")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_IO "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Memory" "Includes\\Memory")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_MEMORY "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/System" "Includes\\System")
+list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
+
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Threading" "Includes\\Threading")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_THREADING "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Time" "Includes\\Time")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_TIME "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Net" "Includes\\Net")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_NET "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Drawing" "Includes\\Drawing")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_DRAWING "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Text" "Includes\\Text")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_TEXT "${filelist}")
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Util" "Includes\\Util")
 list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
-GenerateIncludes(INCLUDES_TEXT "${filelist}")
 
 # custom CMake files
 source_group("cmake" FILES "libRadonFramework.cmake")

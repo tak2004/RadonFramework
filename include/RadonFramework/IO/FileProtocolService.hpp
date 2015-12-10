@@ -5,20 +5,24 @@
 #endif
 
 #include <RadonFramework/IO/ProtocolService.hpp>
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace IO {
+
+class FileProtocolService:public ProtocolService
 {
-    class UniformResourceIdentifier;
+public:
+    FileProtocolService(const RF_Type::String &Name);
 
-    namespace IO
-    {
-        class FileProtocolService:public ProtocolService
-        {
-            public:
-                FileProtocolService(const RF_Type::String &Name);
-                Memory::AutoPointer<Resource> GenerateResource(const Uri &Location);
-        };
-    }
-}
+    virtual RF_Type::Bool Exists(const Uri& URI) override;
+
+    virtual Stream* GenerateInterface(const Uri& URI) override;
+
+    virtual void FreeInterface(const Uri& URI) override;
+private:
+    RF_Idiom::PImpl<FileProtocolService> m_PImpl;
+};
+
+} }
 
 #endif // RF_FILEPROTOCOLSERVICE_HPP

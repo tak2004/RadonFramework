@@ -73,8 +73,15 @@ extern GetLogicalProcessorFeaturesCallback GetLogicalProcessorFeatures;
 extern GetPhysicalMemorySizeCallback GetPhysicalMemorySize;
 extern GetFreePhysicalMemorySizeCallback GetFreePhysicalMemorySize;
 
+CacheInfo& GetLevel1DataCache();
+CacheInfo& GetLevel1InstructionCache();
+CacheInfo& GetLevel2DataCache();
+
 } } }
 
-namespace RFHDW = RadonFramework::System::Hardware;
+#ifndef RF_SHORTHAND_NAMESPACE_SYSHARDWARE
+#define RF_SHORTHAND_NAMESPACE_SYSHARDWARE
+namespace RF_SysHardware = RadonFramework::System::Hardware;
+#endif
 
 #endif // RF_SYSTEM_HARDWARE_HPP

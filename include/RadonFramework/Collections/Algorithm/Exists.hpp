@@ -82,7 +82,6 @@ RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
                 Extra = 0;
             auto* task = new ExistsEnumeratorTaskData<C, FUNCTION>(Function);
             task->Enumeable = enumerator;
-            task->Function = Function;
             task->From = offset;
             task->Steps = jobsPerWorker + Extra;
             task->OverallWork = &overallWork;
@@ -96,7 +95,7 @@ RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
         RF_Time::TimeSpan sleep = RF_Time::TimeSpan::CreateByTicks(0);
         while(overallWork != 0 && hits == 0)
         {        
-            RadonFramework::System::Threading::Thread::Sleep(sleep);
+            RF_Thread::Thread::Sleep(sleep);
         }
     }
     else

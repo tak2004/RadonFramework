@@ -15,9 +15,10 @@
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/System/Process.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/System/Drawing/SystemTrayServiceLocator.hpp"
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
+#include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
 
 using namespace RadonFramework;
@@ -76,9 +77,15 @@ void Radon::InitSubSystem(UInt32 Flags)
         m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Memory;
     }
 
+    if(Flags & RadonFramework::Init::Threading)
+    {
+        RF_SysThread::Dispatch();
+        m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Threading;
+    }
+
     if (Flags & RadonFramework::Init::Time)
     {
-        RFTIME::Dispatch();
+        RF_SysTime::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Time;
     }
 
@@ -131,12 +138,12 @@ void Radon::InitSubSystem(UInt32 Flags)
     if (Flags & RadonFramework::Init::Hashing)
     {
         HashfunctionServiceLocator::Initialize();
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new MurmurHashHashfunctionService(RF_Type::String("MurmurHash", sizeof("MurmurHash"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibMD5HashfunctionService(RF_Type::String("MD5", sizeof("MD5"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA1HashfunctionService(RF_Type::String("SHA1", sizeof("SHA1"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService(RF_Type::String("SHA256", sizeof("SHA256"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService(RF_Type::String("SHA384", sizeof("SHA384"), DataManagment::UnmanagedInstance))));
-        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService(RF_Type::String("SHA512", sizeof("SHA512"), DataManagment::UnmanagedInstance))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new MurmurHashHashfunctionService(RF_Type::String("MurmurHash"))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibMD5HashfunctionService(RF_Type::String("MD5"))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA1HashfunctionService(RF_Type::String("SHA1"))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService(RF_Type::String("SHA256"))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService(RF_Type::String("SHA384"))));
+        HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService(RF_Type::String("SHA512"))));
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Hashing;
     }
 
@@ -145,7 +152,8 @@ void Radon::InitSubSystem(UInt32 Flags)
         RFFILE::Dispatch();
         DecoderServiceLocator::Initialize();
         ProtocolServiceLocator::Initialize();
-        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RF_Type::String("file", sizeof("file"), DataManagment::UnmanagedInstance))));
+        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService(RF_Type::String("file"))));
+        ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new MemoryProtocolService(RF_Type::String("mem"))));
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::IO;
     }
 
@@ -157,7 +165,7 @@ void Radon::InitSubSystem(UInt32 Flags)
     
     if (Flags & RadonFramework::Init::Diagnostics)
     {
-        RFHDW::Dispatch();
+        RF_SysHardware::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Diagnostics;
     }
 
@@ -179,6 +187,11 @@ void Radon::QuitSubSystem(UInt32 Flags)
 {
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Memory)
     {
+    }
+
+    if(m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Threading)
+    {
+
     }
 
     if (m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Time)

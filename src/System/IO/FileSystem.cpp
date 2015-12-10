@@ -376,6 +376,17 @@ RF_Type::Bool GetFileWatcherEvent_SystemAPIDispatcher(const FileWatcherHandle& H
     return GetFileWatcherEvent(Handle, Event);
 }
 
+RF_Type::Bool SystemPathToUri_SystemAPIDispatcher(const RF_Type::String& SystemPath,
+    RF_IO::Uri& UriInterpretation)
+{
+    SystemPathToUri = 0;
+    Dispatch();
+    Assert(SystemPathToUri != SystemPathToUri_SystemAPIDispatcher &&
+        SystemPathToUri != 0,
+        "Funtion was called and couldn't be dispatched");
+    return SystemPathToUri(SystemPath, UriInterpretation);
+}
+
 OpenFileCallback RFFILE::OpenFile = OpenFile_SystemAPIDispatcher;
 CloseFileCallback RFFILE::CloseFile = CloseFile_SystemAPIDispatcher;
 MapFileIntoMemoryCallback RFFILE::MapFileIntoMemory = MapFileIntoMemory_SystemAPIDispatcher;
@@ -412,6 +423,7 @@ WaitForFileWatcherCallback RFFILE::WaitForFileWatcher = WaitForFileWatcher_Syste
 StartFileWatcherCallback RFFILE::StartFileWatcher = StartFileWatcher_SystemAPIDispatcher;
 StopFileWatcherCallback RFFILE::StopFileWatcher = StopFileWatcher_SystemAPIDispatcher;
 GetFileWatcherEventCallback RFFILE::GetFileWatcherEvent = GetFileWatcherEvent_SystemAPIDispatcher;
+SystemPathToUriCallback RFFILE::SystemPathToUri = SystemPathToUri_SystemAPIDispatcher;
 
 Bool RFFILE::IsSuccessfullyDispatched()
 {
@@ -452,6 +464,7 @@ Bool RFFILE::IsSuccessfullyDispatched()
     result=result && StartFileWatcher != StartFileWatcher_SystemAPIDispatcher && StartFileWatcher != 0;
     result=result && StopFileWatcher != StopFileWatcher_SystemAPIDispatcher && StopFileWatcher != 0;
     result=result && GetFileWatcherEvent != GetFileWatcherEvent_SystemAPIDispatcher && GetFileWatcherEvent != 0;
+    result = result && SystemPathToUri != SystemPathToUri_SystemAPIDispatcher && SystemPathToUri != 0;
     return result;
 }
 
@@ -529,4 +542,6 @@ void RFFILE::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
         Result.AddLast(RF_Type::String("StopFileWatcher", sizeof("StopFileWatcher")));
     if (GetFileWatcherEvent == GetFileWatcherEvent_SystemAPIDispatcher || GetFileWatcherEvent == 0)
         Result.AddLast(RF_Type::String("GetFileWatcherEvent", sizeof("GetFileWatcherEvent")));
+    if(SystemPathToUri == SystemPathToUri_SystemAPIDispatcher || SystemPathToUri == 0)
+        Result.AddLast(RF_Type::String("SystemPathToUri", sizeof("SystemPathToUri")));
 }

@@ -23,7 +23,7 @@ UInt64 GetMinutesWestOfGMT()
     return abs(t.timezone)*600000000llu;
 }
 
-void RFTIME::Dispatch()
+void RF_SysTime::Dispatch()
 {
     GetNow = ::GetNow;
     GetMinutesWestOfGMT = ::GetMinutesWestOfGMT;

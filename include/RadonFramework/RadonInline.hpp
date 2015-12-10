@@ -1,4 +1,10 @@
+/*
+*
+* THIS FILE IS GENERATED FROM build/code_templates/RadonInline.hxx !!!
+*
+*/
 #include <RadonFramework/Defines.hpp>
+#include <RadonFramework/precompiled.hpp>
 
 // Each compiler can implement it on it's own way.
 #include <stdarg.h>
@@ -20,6 +26,7 @@
 #include <RadonFramework/Collections/BitSet.hpp>
 #include <RadonFramework/Collections/DataTree.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
+#include <RadonFramework/Collections/HashList.hpp>
 #include <RadonFramework/Collections/HashMap.hpp>
 #include <RadonFramework/Collections/IEnumerable.hpp>
 #include <RadonFramework/Collections/IEnumerator.hpp>
@@ -173,6 +180,7 @@
 #include <RadonFramework/IO/LogConsole.hpp>
 #include <RadonFramework/IO/LogDebuggerOutput.hpp>
 #include <RadonFramework/IO/MemoryCollectionStream.hpp>
+#include <RadonFramework/IO/MemoryProtocolService.hpp>
 #include <RadonFramework/IO/MemoryStream.hpp>
 #include <RadonFramework/IO/MouseEvent.hpp>
 #include <RadonFramework/IO/OptionRule.hpp>
@@ -197,12 +205,16 @@
 
 #ifndef RF_NO_MATH
 
+#include <RadonFramework/Math/Float32.hpp>
+#include <RadonFramework/Math/Float64.hpp>
 #include <RadonFramework/Math/Geometry/CubicBezier.hpp>
 #include <RadonFramework/Math/Geometry/Line.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Math/Geometry/ProjectionMatrix.hpp>
 #include <RadonFramework/Math/Geometry/Quaternion.hpp>
+#include <RadonFramework/Math/Geometry/QuatF32.hpp>
+#include <RadonFramework/Math/Geometry/QuatF64.hpp>
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Vector.hpp>
@@ -280,6 +292,7 @@
 #include <RadonFramework/Threading/RegisteredWaitHandle.hpp>
 #include <RadonFramework/Threading/Scopelock.hpp>
 #include <RadonFramework/Threading/TaskStrategy.hpp>
+#include <RadonFramework/Threading/Thread.hpp>
 #include <RadonFramework/Threading/ThreadError.hpp>
 #include <RadonFramework/Threading/ThreadPool.hpp>
 #include <RadonFramework/Threading/ThreadPriority.hpp>
@@ -298,5 +311,9 @@
 
 #include <RadonFramework/Text/Regex.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
+#endif
+
+#ifndef RF_NO_UTIL
+
 #include <RadonFramework/Util/UUID.hpp>
 #endif

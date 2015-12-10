@@ -62,32 +62,32 @@ inline RF_Type::Int32 UUID::CompareTo(const UUID& Other) const
     return RF_SysMem::Compare(Bytes.m_Vector, Other.Bytes.m_Vector, 16);
 }
 
-bool operator==(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT
+bool operator==(UUID const& lhs, UUID const& rhs)
 {
     return lhs.CompareTo(rhs) == 0;
 }
 
-bool operator!=(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT
+bool operator!=(UUID const& lhs, UUID const& rhs)
 {
     return lhs.CompareTo(rhs) != 0;
 }
 
-bool operator<(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT
+bool operator<(UUID const& lhs, UUID const& rhs)
 {
     return lhs.CompareTo(rhs) < 0;
 }
 
-bool operator>(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT
+bool operator>(UUID const& lhs, UUID const& rhs)
 {
     return lhs.CompareTo(rhs) > 0;
 }
 
-bool operator<=(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT
+bool operator<=(UUID const& lhs, UUID const& rhs)
 {
     return lhs.CompareTo(rhs) <= 0;
 }
 
-bool operator>=(UUID const& lhs, UUID const& rhs) RF_NOEXCEPT
+bool operator>=(UUID const& lhs, UUID const& rhs)
 {
     return lhs.CompareTo(rhs) >= 0;
 }

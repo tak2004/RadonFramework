@@ -1,5 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/System/Hardware.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #include <mach/vm_statistics.h>
@@ -13,7 +13,7 @@ RF_Type::Size GetPhysicalMemorySizeOSX()
     RF_Type::Size physical_memory;
     mib[0] = CTL_HW;
     mib[1] = HW_MEMSIZE;
-    length = sizeof(RF_Type::Size);
+    RF_Type::Size length = sizeof(RF_Type::Size);
     sysctl(mib, 2, &physical_memory, &length, NULL, 0);
     return physical_memory;
 }

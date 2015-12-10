@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/String.hpp"
-#include "RadonFramework/Math/Math.hpp"
+#include <math.h>
 #include <locale.h>
 #include <string.h>
 #include <stdlib.h>

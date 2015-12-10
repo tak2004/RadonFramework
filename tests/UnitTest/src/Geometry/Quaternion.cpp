@@ -3,7 +3,7 @@
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
-#include <RadonFramework/Math/Math.hpp>
+#include <RadonFramework/Math/Float32.hpp>
 #include <RadonFramework/Math/Geometry/Quaternion.hpp>
 
 using namespace RadonFramework;
@@ -166,7 +166,7 @@ class GeometryQuaternionTest:public TestSuite
         {
             Quaternion<Float32> q(180.0f,Vector<Float32,3>(1,0,0));
             Vector<Float32,4> v(0,1,0,0);
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&v[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&v[0],4);
         }
 
         Bool SeperateElementsConstructor()
@@ -180,7 +180,7 @@ class GeometryQuaternionTest:public TestSuite
         {
             Quaternion<Float32> q(Vector<Float32,3>(0,0,1));
             Vector<Float32,4> v(1,0,0,0);
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&v[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&v[0],4);
         }
 
         Bool RotationMatrixConstructor()
@@ -190,14 +190,14 @@ class GeometryQuaternionTest:public TestSuite
             RF_SysMem::Copy(mat.Value,a,sizeof(Float32)*9);
             Quaternion<Float32> q(mat);
             Vector<Float32,4> v(0,0,0,1);
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&v[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&v[0],4);
         }
 
         Bool EulerConstructor()
         {
             Quaternion<Float32> q(0,180,0);
             Vector<Float32,4> v(0,0,0,1);
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&v[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&v[0],4);
         }
 
         Bool Addition()
@@ -232,7 +232,7 @@ class GeometryQuaternionTest:public TestSuite
             Quaternion<Float32> q(0,0,0,1);
             Quaternion<Float32> q1;
             q=q/q;
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&q1[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&q1[0],4);
         }
 
         Bool AdditionAssign()
@@ -267,7 +267,7 @@ class GeometryQuaternionTest:public TestSuite
             Quaternion<Float32> q(0,0,0,1);
             Quaternion<Float32> q1;
             q/=q;
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&q1[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&q1[0],4);
         }
 
         Bool SetIdentity()
@@ -285,7 +285,7 @@ class GeometryQuaternionTest:public TestSuite
             q.Normalize();
             q.Invert();
             q*=Quaternion<Float32>(1,5,8,-3).Normalize();
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&q2[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&q2[0],4);
         }
 
         Bool Conjugate()
@@ -326,7 +326,7 @@ class GeometryQuaternionTest:public TestSuite
             q.Normalize();
             q=q.Inverse();
             q*=Quaternion<Float32>(1,5,8,-3).Normalize();
-            return Math::Math<Float32>::IsAlmostEqual(&q[0],&q2[0],4);
+            return Math::Float32::IsAlmostEqual(&q[0],&q2[0],4);
         }
 
         Bool MultiplyPosition()
@@ -336,7 +336,7 @@ class GeometryQuaternionTest:public TestSuite
             Vector<Float32,4> v2;
             Vector<Float32,4> v3(-1,0,0,0);
             v2=q*v1;
-            return Math::Math<Float32>::IsAlmostEqual(&v3[0],&v2[0],4);
+            return Math::Float32::IsAlmostEqual(&v3[0],&v2[0],4);
         }
 
         Bool Equal()
@@ -355,13 +355,13 @@ class GeometryQuaternionTest:public TestSuite
 
         Bool IsInfinity()
         {
-            Quaternion<Float32> q(0,Math::Math<Float32>::INFINITY,1,0);
+            Quaternion<Float32> q(0,Math::Float32::POS_INFINITY,1,0);
             return q.IsInfinite();
         }
 
         Bool IsNaN()
         {
-            Quaternion<Float32> q(0,0,Math::Math<Float32>::QUITE_NAN,0);
+            Quaternion<Float32> q(0,0,Math::Float32::QUITE_NAN,0);
             return q.IsNaN();
         }
 
@@ -402,7 +402,7 @@ class GeometryQuaternionTest:public TestSuite
             Quaternion<Float32> q2(0.7071067811865475f,0,0,0.7071067811865475f);
             Quaternion<Float32> q3;
             q3=q.Slerp(q1,0.5);
-            return Math::Math<Float32>::IsAlmostEqual(&q3[0],&q2[0],4);
+            return Math::Float32::IsAlmostEqual(&q3[0],&q2[0],4);
         }
 
         Bool ToAxisAngle()

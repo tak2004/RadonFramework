@@ -4,8 +4,12 @@
 #pragma once
 #endif
 
+RF_DEPRECATED_HEADER("Will be replaced by a none template, code generated version")
+
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+
+#include <math.h>
 
 namespace RadonFramework { namespace Math { namespace Geometry {
 

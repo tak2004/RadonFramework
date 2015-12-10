@@ -4,19 +4,19 @@
 #include <mach/clock.h>
 #include <mach/mach.h>
 
-UInt64 GetHighResolutionCounterOSX()
+RF_Type::UInt64 GetHighResolutionCounterOSX()
 {
     clock_serv_t cclock;
     mach_timespec_t mts;
     host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &cclock);
     clock_get_time(cclock, &mts);
     mach_port_deallocate(mach_task_self(), cclock);
-    UInt64 result = 0;
+    RF_Type::UInt64 result = 0;
     result = mts.tv_sec*1000000000llu+mts.tv_nsec;
     return result;
 }
 
-Bool IsHighResolutionCounterSupportedOSX()
+RF_Type::Bool IsHighResolutionCounterSupportedOSX()
 {
     return true;
 }

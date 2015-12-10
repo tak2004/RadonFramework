@@ -7,9 +7,6 @@ include("Integrate.cmake")
 OPTION(RADONFRAMEWORK_WITH_VISUALGDB "Generate a VisualGDB target for remote build." OFF)
 mark_as_advanced(RADONFRAMEWORK_WITH_VISUALGDB)
 
-OPTION(RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL "PImpl template will be included into the precompiled.hpp." ON)
-mark_as_advanced(RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL)
-
 OPTION(RADONFRAMEWORK_USE_MICROCRT "Radon framework will provide code for running without crt and std functions." OFF)
 mark_as_advanced(RADONFRAMEWORK_USE_MICROCRT)
 
@@ -31,6 +28,12 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 #
 # OS specific includes
 #
+if(UNIX)
+    option(RADONFRAMEWORK_HOST_IS_RASPBERRYPI2B "Specify that the host is a RaspberryPi2b" OFF)
+    if(RADONFRAMEWORK_HOST_IS_RASPBERRYPI2B)
+        add_definitions(-DRF_IS_RASPI2B)
+    endif()
+endif()
 
 #	
 # OS specific libs
@@ -44,19 +47,20 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 
 	if(UNIX)
 		# for loading a dynamic library you have to link libdl.so
-		set(OSLIBS ${OSLIBS} dl rt)
+		set(OSLIBS ${OSLIBS} dl)
+        IF(NOT APPLE)
+            set(OSLIBS ${OSLIBS} rt)
+        endif()
 	endif(UNIX)
-
 #
 # setup graphic
 #
 	#find_package(OpenGL)
-	if(RADONFRAMEWORK_USE_OPENGL)
-		set(USEOPENGL "#ifndef RF_USE_OPENGL\n#define RF_USE_OPENGL\n#endif")
+	if(RADONFRAMEWORK_USE_OPENGL)		
 		if(UNIX)
-			set(OSLIBS ${OSLIBS} GL GLU)
 			find_package(X11)
 			if(X11_FOUND)
+                set(OSLIBS ${OSLIBS} GL GLU)
 				set(USEX11 "#ifndef RF_USE_X11\n#define RF_USE_X11\n#endif")
 				set(OSLIBS ${OSLIBS} X11)
 				find_path(X11_Xmu_INCLUDE_PATH X11/Xmu/Xmu.h ${X11_INC_SEARCH_PATH})
@@ -65,6 +69,9 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
 					set(X11_Xmu_FOUND TRUE)
 					message(STATUS "X11 support: Yes")
 				endif(X11_Xmu_INCLUDE_PATH AND X11_Xmu_LIB)
+                set(RADONFRAMEWORK_USE_X11 1)
+            else()
+                set(RADONFRAMEWORK_USE_OPENGL OFF CACHE BOOL "Activate OpenGL" FORCE)
 			endif(X11_FOUND)
 		endif(UNIX)
 		
@@ -75,10 +82,13 @@ set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})
             message(STATUS "WDM support: Yes")
 			set(OSLIBS ${OSLIBS} OpenGL32)            
 		endif(WIN32)
-		
+    endif()
+    
+    if(RADONFRAMEWORK_USE_OPENGL)
 		include_directories(${OPENGL_INCLUDE_DIR})
 		add_definitions(-DGLEW_STATIC)    
 		message(STATUS "OpenGL support: Yes")
+        set(USEOPENGL "#ifndef RF_USE_OPENGL\n#define RF_USE_OPENGL\n#endif")        
 	else(RADONFRAMEWORK_USE_OPENGL)
 		message(STATUS "OpenGL support: No")
 	endif(RADONFRAMEWORK_USE_OPENGL)
@@ -143,6 +153,34 @@ if(RF_HAVE_POSIX_FADVISE)
     add_definitions(-DRF_HAVE_POSIX_FADVISE)
 endif()
 
+#
+# code generation
+#
+if(${RADONFRAMEWORK_USE_MICROCRT})
+	set(RADONFRAMEWORK_MICROCRT "#ifndef RF_MICROCRT\n    #define RF_MICROCRT 1\n#endif")
+else()
+	set(RADONFRAMEWORK_MICROCRT "")
+endif()
+
+GIT_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
+set(RADONFRAMEWORK_MAJORNUMBER "0")
+set(RADONFRAMEWORK_MINORNUMBER "4")
+set(RADONFRAMEWORK_REVISIONNUMBER "${ProjectRevision}")
+if (NOT DEFINED RADONFRAMEWORK_BUILDNUMBER )
+	set(RADONFRAMEWORK_BUILDNUMBER "0")
+endif ()
+
+foreach(ext MMX SSE SSE2 SSE3 SSSE3 SSE41 SSE42 SSE4A AVX AVX2 AVX512 FMA3 FMA4 NEON AES XOP SHA CPUID)
+    if(${RADONFRAMEWORK_COMPILER_USE_INTRINSIC_${ext}})
+        set(RADONFRAMEWORK_BUILD_INTRINSIC_${ext} "#ifndef RF_BUILD_INTRINSIC_${ext}\n    #define RF_BUILD_INTRINSIC_${ext} 1\n#endif")
+    endif()
+endforeach()
+
+include(build/code_templates/CMakeLists.txt)
+
+#
+# Include radon framework files
+#
 include(libRadonFramework.cmake)
 
 Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
@@ -152,36 +190,6 @@ target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/i
 target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/uripp/)
 
 Finalize(RADONFRAMEWORK)
-
-#
-# generate config file
-#
-if(${RADONFRAMEWORK_COMPILER_PRECOMPILED_PIMPL})
-	set(RADONFRAMEWORK_PRECOMPILED_PIMPL "#ifndef RF_PRECOMPILED_PIMPL\n    #define RF_PRECOMPILED_PIMPL 1\n#endif")
-else()
-	set(RADONFRAMEWORK_PRECOMPILED_PIMPL "")
-endif()
-
-if(${RADONFRAMEWORK_USE_MICROCRT})
-	set(RADONFRAMEWORK_MICROCRT "#ifndef RF_MICROCRT\n    #define RF_MICROCRT 1\n#endif")
-else()
-	set(RADONFRAMEWORK_MICROCRT "")
-endif()
-
-GIT_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
-set(RADONFRAMEWORK_MAJORNUMBER "0")
-set(RADONFRAMEWORK_MINORNUMBER "3")
-set(RADONFRAMEWORK_REVISIONNUMBER "${ProjectRevision}")
-if (NOT DEFINED RADONFRAMEWORK_BUILDNUMBER )
-	set(RADONFRAMEWORK_BUILDNUMBER "0")
-endif ()
-
-message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hpp")
-configure_file("${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hxx" "${RadonFramework_SOURCE_DIR}/include/RadonFramework/RadonInline.hpp" @ONLY)
-message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp")
-configure_file("${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hxx" "${RadonFramework_SOURCE_DIR}/include/RadonFramework/Defines.hpp" @ONLY)
-message(STATUS "Generate ${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cpp")
-configure_file("${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cxx" "${RadonFramework_SOURCE_DIR}/src/System/CompilerConfig.cpp" @ONLY)
 
 #
 # radon framework modules
@@ -219,10 +227,3 @@ install(TARGETS RadonFramework
 install(EXPORT RadonFramework
 		DESTINATION .
 		FILE RadonFrameworkDependencies.cmake)
-
-#
-#
-#
-if(RADONFRAMEWORK_WITH_VISUALGDB)
-	include(libRadonFramework_VGDB.cmake)
-endif()

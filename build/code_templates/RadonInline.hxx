@@ -1,4 +1,10 @@
+/*
+*
+* THIS FILE IS GENERATED FROM build/code_templates/RadonInline.hxx !!!
+*
+*/
 #include <RadonFramework/Defines.hpp>
+#include <RadonFramework/precompiled.hpp>
 
 // Each compiler can implement it on it's own way.
 #include <stdarg.h>
@@ -51,4 +57,8 @@
 
 #ifndef RF_NO_TEXT
 @INCLUDES_TEXT@
+#endif
+
+#ifndef RF_NO_UTIL
+@INCLUDES_UTIL@
 #endif

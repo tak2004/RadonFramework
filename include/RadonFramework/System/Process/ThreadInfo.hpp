@@ -15,7 +15,7 @@ namespace RadonFramework { namespace System { namespace Process {
 struct ThreadInfo
 {
     //General
-    RF_Type::UInt32 ID;
+    RF_Type::UInt64 ID;
     RF_Thread::ThreadPriority::Type Priority;
     //Timing
     RF_Time::DateTime CreationTime;

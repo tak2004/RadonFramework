@@ -115,7 +115,7 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #endif
 
 #ifdef RF_HAVE_NOEXCEPT
-#ifdef RF_VISUALCPP
+#if defined(RF_VISUALCPP) && _MSC_VER < 1900
 #define RF_NOEXCEPT _NOEXCEPT
 #else
 #define RF_NOEXCEPT noexcept

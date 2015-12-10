@@ -33,7 +33,7 @@ using GetPageSizeCallback = RF_Type::UInt32(*)();
 
 using EnableTerminationOnHeapCorruptionCallback = void(*)();
 
-using AllocateCallback = void* (*)(const RF_Type::UInt32 Bytes);
+using AllocateCallback = void* (*)(const RF_Type::Size Bytes, const RF_Type::Size Alignment);
 
 using FreeCallback = void(*)(void* FirstPage);
 

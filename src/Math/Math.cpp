@@ -1,7 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Math.hpp"
 
-#include <math.h>
 #include <limits>
 
 using namespace RadonFramework::Math;
@@ -40,8 +39,8 @@ template<> const double Math<double>::RAD_TO_DEG=180.0/(4.0*atan(1.0));
 template<> const float Math<float>::EPSILION=numeric_limits<float>::epsilon();
 template<> const double Math<double>::EPSILION=numeric_limits<double>::epsilon();
 
-template<> const float Math<float>::INFINITY=numeric_limits<float>::infinity();
-template<> const double Math<double>::INFINITY=numeric_limits<double>::infinity();
+//template<> const float Math<float>::INFINITY=numeric_limits<float>::infinity();
+//template<> const double Math<double>::INFINITY=numeric_limits<double>::infinity();
 
 template<> const float Math<float>::NEG_INFINITY=-numeric_limits<float>::infinity();
 template<> const double Math<double>::NEG_INFINITY=-numeric_limits<double>::infinity();

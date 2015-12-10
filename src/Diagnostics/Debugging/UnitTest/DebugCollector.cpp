@@ -12,6 +12,7 @@ void DebugCollector::ProcessResult(const UnitTestResult& Result)
 #if defined(RF_DEBUG)
     if (!Result.Passed())
     {
+        RF_Type::String failingTest = Result.Name();
         abort();
     }
 #endif

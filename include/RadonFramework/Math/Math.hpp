@@ -4,16 +4,13 @@
 #pragma once
 #endif
 
+RF_DEPRECATED_HEADER("Replaced by RF_Math::Float32 and RF_Math::Float64 classes.")
+
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
 #include <RadonFramework/Core/Types/Float64.hpp>
-
 #include <math.h>
-// On some systems math.h defines INFINITY as macro !
-#ifdef INFINITY
-    #undef INFINITY
-#endif
 
 namespace RadonFramework { namespace Math {
 
@@ -39,7 +36,7 @@ public:
     static const T INV_TWO_PI;
     static const T DEG_TO_RAD;
     static const T RAD_TO_DEG;
-    static const T INFINITY;
+//    static const T INFINITY;
     static const T NEG_INFINITY;
     static const T QUITE_NAN;
     static const T SIGNALING_NAN;

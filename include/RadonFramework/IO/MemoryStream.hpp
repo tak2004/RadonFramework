@@ -22,6 +22,8 @@ public:
 
     void Reserve(RF_Type::Size ReserveBytes);
 
+    void Resize(RF_Type::Size NewByteSize);
+
     void Replace(RF_Mem::AutoPointerArray<RF_Type::UInt8>& ConsumeBuffer);
 
     virtual void Close() override;
@@ -50,6 +52,8 @@ public:
 
     virtual RF_Type::Bool CanPeek() const override;
 
+    RF_Type::Bool CanExpand()const;
+
     virtual RF_Type::UInt64 Length() const override;
 
     virtual RF_Type::UInt64 Position() const override;
@@ -74,8 +78,9 @@ protected:
     RF_Type::Size m_FenceEnd;
     RF_Type::Size m_Position;
     RF_Type::Bool m_CanWrite;
-    RF_Type::Bool m_CanPeek;
+    RF_Type::Bool m_CanRead;
     RF_Type::Bool m_UseFence;
+    RF_Type::Bool m_Expandable;
 };
 
 } }

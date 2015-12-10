@@ -8,8 +8,10 @@ MemoryStream::MemoryStream()
 :m_FenceStart(0)
 ,m_FenceEnd(0)
 ,m_Position(0)
-,m_CanWrite(false)
+,m_CanWrite(true)
+,m_CanRead(false)
 ,m_UseFence(false)
+,m_Expandable(true)
 {
 
 }
@@ -21,27 +23,32 @@ MemoryStream::MemoryStream(const MemoryStream& Copy)
 
 MemoryStream::MemoryStream(RF_Mem::AutoPointerArray<RF_Type::UInt8>& ConsumeBuffer, 
     RF_Type::Bool Writeable /*= true*/)
+:m_FenceStart(0)
+,m_FenceEnd(0)
+,m_Position(0)
+,m_CanWrite(Writeable)
+,m_CanRead(true)
+,m_UseFence(false)
+,m_Expandable(false)
 {
     m_Data = ConsumeBuffer;
-    m_FenceStart = 0;
-    m_FenceEnd = 0;
-    m_Position = 0;
-    m_CanWrite = Writeable;
-    m_UseFence = false;
 }
 
 MemoryStream::MemoryStream(RF_Mem::AutoPointerArray<RF_Type::UInt8>& ConsumeBuffer, 
     RF_Type::Size FenceStart, RF_Type::Size FenceByteSize, RF_Type::Bool Writeable /*= true*/)
+:m_FenceStart(FenceStart)
+,m_FenceEnd(FenceStart + FenceByteSize)
+,m_Position(0)
+,m_CanWrite(Writeable)
+,m_CanRead(true)
+,m_UseFence(true)
+,m_Expandable(false)
 {
     m_Data = ConsumeBuffer;
-    m_FenceStart = FenceStart;
-    m_FenceEnd = FenceStart + FenceByteSize;
-    m_Position = 0;
-    m_CanWrite = Writeable;
-    m_UseFence = true;
 }
 
 MemoryStream::MemoryStream(RF_Type::Size ReserveBytes)
+:MemoryStream()
 {
     Reserve(ReserveBytes);
 }
@@ -59,12 +66,23 @@ MemoryStream& MemoryStream::operator=(const MemoryStream& Other)
 
 void MemoryStream::Reserve(RF_Type::Size ReserveBytes)
 {
-    m_Data = RF_Mem::AutoPointerArray<RF_Type::UInt8>(ReserveBytes);
-    m_FenceStart = 0;
-    m_FenceEnd = 0;
-    m_Position = 0;
-    m_CanWrite = true;
-    m_UseFence = false;
+    if (m_Expandable)
+    {
+        m_Data = RF_Mem::AutoPointerArray<RF_Type::UInt8>(ReserveBytes);
+        m_Position = 0;
+        m_CanRead = ReserveBytes > 0;
+    }
+}
+
+void MemoryStream::Resize(RF_Type::Size NewByteSize)
+{
+    if(m_Expandable)
+    {
+        auto newData = RF_Mem::AutoPointerArray<RF_Type::UInt8>(NewByteSize);
+        RF_SysMem::Copy(newData.Get(), m_Data.Get(), Position());
+        m_Data.Swap(newData);
+        m_CanRead = true;
+    }
 }
 
 void MemoryStream::Replace(RF_Mem::AutoPointerArray<RF_Type::UInt8>& ConsumeBuffer)
@@ -134,6 +152,13 @@ RF_Type::UInt64 MemoryStream::Write(const RF_Type::UInt8* Buffer,
     RF_Type::UInt64 readbytes = 0;
     RF_Type::UInt64 length = Length();
     RF_Type::UInt64 position = Position();
+    if(m_Expandable && length - position >= Count)
+    {
+        auto bytesPerPage = RF_SysMem::GetPageSize();
+        RF_Type::Size pageCount = ((position + Count - 1) / bytesPerPage) + 1;
+        Resize(pageCount * bytesPerPage);
+    }
+    
     if(position < length)
     {
         readbytes = RF_Math::Integer<RF_Type::UInt64>::ClampUpperBound(Count, length - position);
@@ -159,7 +184,7 @@ RF_Type::UInt64 MemoryStream::Peek(RF_Type::UInt8* Buffer,
 
 RF_Type::Bool MemoryStream::CanRead() const
 {
-    return true;
+    return m_CanRead;
 }
 
 RF_Type::Bool MemoryStream::CanSeek() const
@@ -180,6 +205,11 @@ RF_Type::Bool MemoryStream::CanTimeout() const
 RF_Type::Bool MemoryStream::CanPeek() const
 {
     return true;
+}
+
+RF_Type::Bool MemoryStream::CanExpand() const
+{
+    return m_Expandable;
 }
 
 RF_Type::UInt64 MemoryStream::Length() const

@@ -412,22 +412,22 @@ String Uri::UnescapeDataString(const String& StringToUnescape)
     return str;
 }
 
-String Uri::Path()const
+const String& Uri::Path()const
 {
     return m_Path;
 }
 
-String Uri::Authority()const
+const String& Uri::Authority()const
 {
     return m_Authority;
 }
 
-String Uri::Fragment()const
+const String& Uri::Fragment()const
 {
     return m_Fragment;
 }
 
-String Uri::Host()const
+const String& Uri::Host()const
 {
     return m_Host;
 }
@@ -452,7 +452,7 @@ Core::Types::Bool Uri::IsDefaultUser()const
     return m_IsDefaultUser;
 }
 
-String Uri::OriginalString()const
+const String& Uri::OriginalString()const
 {
     return m_OriginalString;
 }
@@ -462,17 +462,17 @@ Int32 Uri::Port()const
     return m_Port;
 }
 
-String Uri::Query()const
+const String& Uri::Query()const
 {
     return m_Query;
 }
 
-String Uri::Scheme()const
+const String& Uri::Scheme()const
 {
     return m_Scheme;
 }
 
-String Uri::SchemeSpecificPart()const
+const String& Uri::SchemeSpecificPart()const
 {
     return m_SchemeSpecificPart;
 }
@@ -487,7 +487,7 @@ Bool Uri::UserEscaped()const
     return m_UserEscaped;
 }
 
-String Uri::UserInfo()const
+const String& Uri::UserInfo()const
 {
     return m_UserInfo;
 }
