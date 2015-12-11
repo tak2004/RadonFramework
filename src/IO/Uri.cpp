@@ -109,7 +109,7 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
                 pathEnd=m_SchemeSpecificPart.IndexOf("#",lastEnd);
             if (pathEnd<0)
                 pathEnd=m_SchemeSpecificPart.Length();
-            m_Path=m_SchemeSpecificPart.SubString(lastEnd + 1, pathEnd - lastEnd - 1);
+            m_Path=m_SchemeSpecificPart.SubString(lastEnd, pathEnd - lastEnd);
             lastEnd=pathEnd;
         }
 

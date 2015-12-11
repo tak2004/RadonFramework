@@ -8,7 +8,6 @@ using namespace RadonFramework;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::System::IO;
 
 AutoPointer<File> File::CreateTempFile()
 {
@@ -22,7 +21,7 @@ String File::GenerateTemporaryFilename()
 {
     char buffer [L_tmpnam];
     tmpnam(buffer);
-    return String(buffer+1, L_tmpnam);//ignore path seperator
+    return String(buffer+1, L_tmpnam);//ignore path separator
 }
 
 AutoPointer<File> File::GenerateFile(const Uri& Location)
@@ -35,12 +34,12 @@ AutoPointer<File> File::GenerateFile(const Uri& Location)
 
 String File::PathSeperator()
 {
-    return FileSystem::PathSeperator();
+    return RF_SysFile::PathSeperator();
 }
 
 String File::Seperator()
 {
-    return FileSystem::Seperator();
+    return RF_SysFile::Seperator();
 }
 
 File::File()
@@ -69,29 +68,40 @@ void File::SetLocation(const Uri& Location)
 
 Bool File::CreateNewFile() const
 {
-    return FileSystem::CreateFile(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    return RF_SysFile::CreateFile(systemPath);
 }
 
 Bool File::Preallocate(const RF_Type::Size SizeInBytes)const
 {
-    return FileSystem::CreatePreAllocatedFile(m_Location.GetComponents(UriComponents::Path), SizeInBytes);
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    return RF_SysFile::CreatePreAllocatedFile(systemPath, SizeInBytes);
 }
 
 Bool File::Delete() const
 {
-    return FileSystem::DeleteFile(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    return RF_SysFile::DeleteFile(systemPath);
 }
 
 Bool File::Exists() const
 {
-    return FileSystem::Access(m_Location.GetComponents(UriComponents::Path), AccessMode::Exists);
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    return RF_SysFile::Access(systemPath, AccessMode::Exists);
 }
 
-Bool File::CopyTo(const String& Destination)
+Bool File::CopyTo(const Uri& Destination)
 {
     UInt64 size=Size();
-    Bool result=FileSystem::CreatePreAllocatedFile(Destination,size);
-    result&=FileSystem::CopyFile(m_Location.GetComponents(UriComponents::Path), Destination);
+    RF_Type::String systemPathFrom, systemPathTo;
+    RF_SysFile::UriToSystemPath(m_Location, systemPathFrom);
+    RF_SysFile::UriToSystemPath(Destination, systemPathTo);
+    Bool result = RF_SysFile::CreatePreAllocatedFile(systemPathTo, size);
+    result&= RF_SysFile::CopyFile(systemPathFrom, systemPathTo);
     return result;
 }
 
@@ -106,43 +116,56 @@ const String File::Name() const
 
 String File::Path() const
 {
-    String path=m_Location.GetComponents(UriComponents::Path);
-    return path.SubString(0,path.LastIndexOf(Uri::PathSeperator));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    return systemPath.SubString(0, systemPath.LastIndexOf(RF_SysFile::PathSeperator()));
 }
 
 Bool File::IsHidden() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && stat->IsHidden;
 }
 
 Bool File::IsFile() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && !stat->IsDirectory;
 }
 
 UInt64 File::LastModified() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && stat->LastModificationTimestamp;
 }
 
 UInt64 File::LastAccess() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && stat->LastAccessTimestamp;
 }
 
 UInt64 File::CreatedOn() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     return stat && stat->CreateionTimestamp;
 }
 
 UInt64 File::Size() const
 {
-    AutoPointer<FileStatus> stat=FileSystem::Stat(m_Location.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
     Assert(stat!=0,"Unexspected result.");
     if (stat)
         return stat->Size;
@@ -151,7 +174,10 @@ UInt64 File::Size() const
 
 Bool File::RenameTo( const Uri& NewLocation )
 {
-    Bool result=FileSystem::RenameFile(m_Location.GetComponents(UriComponents::Path), NewLocation.GetComponents(UriComponents::Path));
+    RF_Type::String systemPathFrom, systemPathTo;
+    RF_SysFile::UriToSystemPath(m_Location, systemPathFrom);
+    RF_SysFile::UriToSystemPath(NewLocation, systemPathTo);
+    Bool result= RF_SysFile::RenameFile(systemPathFrom, systemPathTo);
     if (result)
         m_Location=NewLocation;
     return result;
@@ -159,19 +185,23 @@ Bool File::RenameTo( const Uri& NewLocation )
 
 Bool File::AccessMode(AccessMode::Type NewValue)
 {
-    return FileSystem::ChangeMode(m_Location.GetComponents(UriComponents::Path), NewValue);
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    return RF_SysFile::ChangeMode(systemPath, NewValue);
 }
 
 AccessMode::Type File::AccessMode()
 {
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
     AccessMode::Type result=AccessMode::None;
-    if (FileSystem::Access(m_Location.GetComponents(UriComponents::Path), AccessMode::Write))
+    if (RF_SysFile::Access(systemPath, AccessMode::Write))
         result|=AccessMode::Write;
-    if (FileSystem::Access(m_Location.GetComponents(UriComponents::Path), AccessMode::Read))
+    if (RF_SysFile::Access(systemPath, AccessMode::Read))
         result|=AccessMode::Read;
-    if (FileSystem::Access(m_Location.GetComponents(UriComponents::Path), AccessMode::Execute))
+    if (RF_SysFile::Access(systemPath, AccessMode::Execute))
         result|=AccessMode::Execute;
-    if (FileSystem::Access(m_Location.GetComponents(UriComponents::Path), AccessMode::Exists))
+    if (RF_SysFile::Access(systemPath, AccessMode::Exists))
         result|=AccessMode::Exists;
     return result;
 }
@@ -186,16 +216,18 @@ AutoPointerArray<UInt8> File::Read()
     UInt64 size=Size();
     AutoPointerArray<UInt8> result(size);
     FileStream stream;
-    stream.Open(m_Location, FileSystem::FileAccessMode::Read, FileSystem::FileAccessPriority::ReadThroughput);
+    stream.Open(m_Location, RF_SysFile::FileAccessMode::Read, RF_SysFile::FileAccessPriority::ReadThroughput);
     stream.Read(result.Get(), 0, result.Size());
     return result;
 }
 
 Bool File::Write(const AutoPointerArray<UInt8>& Data)
 {
-    Bool result=FileSystem::CreatePreAllocatedFile(m_Location.GetComponents(UriComponents::Path), Data.Size());
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    Bool result= RF_SysFile::CreatePreAllocatedFile(systemPath, Data.Size());
     FileStream stream;
-    stream.Open(m_Location, FileSystem::FileAccessMode::Write, FileSystem::FileAccessPriority::DelayReadWrite);
+    stream.Open(m_Location, RF_SysFile::FileAccessMode::Write, RF_SysFile::FileAccessPriority::DelayReadWrite);
     stream.Write(Data.Get(), 0, Data.Size());
     return result;
 }

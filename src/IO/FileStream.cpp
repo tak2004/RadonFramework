@@ -25,7 +25,9 @@ Bool FileStream::Open(const Uri& Location, const FileAccessMode::Type Mode,
     m_Mode=Mode;
     m_Location=Location;
     m_AccessPriority=AccessPriority;
-    m_Handle=OpenFile(m_Location.GetComponents(UriComponents::Path), m_Mode, m_AccessPriority);
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(m_Location, systemPath);
+    m_Handle=OpenFile(systemPath, m_Mode, m_AccessPriority);
     return m_Handle!=FileHandle::Zero();
 }
 

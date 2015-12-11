@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/DynamicLibrary.hpp"
 #include "RadonFramework/IO/Uri.hpp"
+#include "RadonFramework/System/IO/FileSystem.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::System;
@@ -69,7 +70,9 @@ AutoPointer<DynamicLibrary> DynamicLibrary::Load(const Uri& Name)
     void* data;
     AutoPointer<DynamicLibrary> result;
     
-    data = LoadLib(Name.GetComponents(UriComponents::Path));
+    RF_Type::String systemPath;
+    RF_SysFile::UriToSystemPath(Name, systemPath);
+    data = LoadLib(systemPath);
 
     if (data)
     {
