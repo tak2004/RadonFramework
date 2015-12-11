@@ -436,6 +436,7 @@ ApplicationDirectoryCallback RFFILE::ApplicationDirectory = ApplicationDirectory
 ApplicationDataDirectoryCallback RFFILE::UserApplicationDataDirectory = UserApplicationDataDirectory_SystemAPIDispatcher;
 UserApplicationDataDirectoryCallback RFFILE::ApplicationDataDirectory = ApplicationDataDirectory_SystemAPIDispatcher;
 ChangeDirectoryCallback RFFILE::ChangeDirectory = ChangeDirectory_SystemAPIDispatcher;
+/// Every directory created by this function will use the permissions of the parent directory.
 CreateDirectoryCallback RFFILE::CreateDirectory = CreateDirectory_SystemAPIDispatcher;
 DirectoryContentCallback RFFILE::DirectoryContent = DirectoryContent_SystemAPIDispatcher;
 CreateFileWatcherCallback RFFILE::CreateFileWatcher = CreateFileWatcher_SystemAPIDispatcher;

@@ -138,7 +138,14 @@ RF_Type::Bool ChangeDirectory(const RF_Type::String& Destination)
 
 RF_Type::Bool CreateDirectory(const RF_Type::String& Path)
 {
-    return mkdir(Path.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) == 0 || errno == EEXIST;
+    mode_t mode = ACCESSPERMS;
+    struct stat buf;
+
+    if(stat((Path + "/..").c_str(), &buf) == 0)
+    {
+        mode = mode & buf.st_mode;
+    }
+    return mkdir(Path.c_str(), mode) == 0 || errno == EEXIST;
 }
 
 AutoPointerArray<RF_Type::String> DirectoryContent(const RF_Type::String& Path)
