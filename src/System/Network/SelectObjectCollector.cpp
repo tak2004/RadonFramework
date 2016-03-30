@@ -76,7 +76,7 @@ Bool SelectObjectCollector::IsSet(const Size Index)const
 }
 
 Error SelectObjectCollector::Select(
-    const SelectMode::Type Mode, const TimeSpan* Timeout)
+    const SelectMode::Type Mode, TimeSpan* const Timeout)
 {
     Error result=Error::Ok;
     int ret=-1;

@@ -26,7 +26,7 @@ public:
         const Net::Socket& Handler);
 
     Net::Error Select(const Net::SelectMode::Type Mode,
-        const RadonFramework::Time::TimeSpan* Timeout=0);
+        RadonFramework::Time::TimeSpan* const Timeout=0);
 
     ~SelectObjectCollector();
     void Add(const NetService::SocketHandler& Handler);
