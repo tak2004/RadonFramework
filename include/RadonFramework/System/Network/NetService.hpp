@@ -98,7 +98,7 @@ public:
     // This method receives a datagram and stores the source address.
     static RF_Net::Error ReceiveFrom(const SocketHandler Handler,
         RF_Mem::AutoPointerArray<RF_Type::UInt8> &Data, 
-        const RF_Net::EndPoint &RemoteEP);
+        RF_Net::EndPoint &RemoteEP);
 
     // This method sends data on a connected socket.
     static RF_Net::Error Send(const SocketHandler Handler,

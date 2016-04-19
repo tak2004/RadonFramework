@@ -255,6 +255,7 @@
 #include <RadonFramework/Net/mDNS/MessageWriter.hpp>
 #include <RadonFramework/Net/mDNS/NetworkService.hpp>
 #include <RadonFramework/Net/mDNS/ServiceDiscovery.hpp>
+#include <RadonFramework/Net/mDNS/ServiceDiscoveryView.hpp>
 #include <RadonFramework/Net/mDNS/ServiceResponder.hpp>
 #include <RadonFramework/Net/MulticastRequest.hpp>
 #include <RadonFramework/Net/NetworkAdapter.hpp>
@@ -264,6 +265,7 @@
 #include <RadonFramework/Net/SelectMode.hpp>
 #include <RadonFramework/Net/Server.hpp>
 #include <RadonFramework/Net/ServerConfig.hpp>
+#include <RadonFramework/Net/Service.hpp>
 #include <RadonFramework/Net/Socket.hpp>
 #include <RadonFramework/Net/SocketError.hpp>
 #include <RadonFramework/Net/SocketOptionLevel.hpp>

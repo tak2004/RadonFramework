@@ -4,12 +4,12 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/UInt32.hpp>
-#include <RadonFramework/Core/Types/Char.hpp>
 #include <RadonFramework/Net/AddressFamily.hpp>
 #include <RadonFramework/Net/SocketType.hpp>
 
 namespace RadonFramework { namespace Net {
+
+class IPAddress;
 
 struct ServerConfig
 {
@@ -38,6 +38,8 @@ struct ServerConfig
     RF_Type::Char Hostname[MAXHOSTNAME]; 
 
     RF_Type::Bool Blocking;
+
+    static void AssignIPAsHostname(ServerConfig& Config, const IPAddress IP);
 };
     
 } }

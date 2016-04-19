@@ -55,6 +55,7 @@ public:
     const RF_Collect::Array<RF_Type::String>& TextEntries()const;
     const RF_Collect::Array<ServiceInfo>& ServiceInfos()const;
     const RF_Collect::Array<RF_Type::UInt32>& IP4()const;
+    RF_Type::Bool IsResponse()const;
 protected:
     RF_Net::NetworkStream<RF_IO::MemoryStream> m_Data;
     Header m_Header;

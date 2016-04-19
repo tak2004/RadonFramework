@@ -885,6 +885,7 @@ Array<T,SP,MA,MO>::Array(const Array<T,SP,MA,MO>& Copy)
 template<typename T, typename SP, typename MA, typename MO>
 Array<T, SP, MA, MO>::Array(Array<T, SP, MA, MO>&& Move)
 {
+    InitArray(0,0);
     Swap(Move);
 }
 

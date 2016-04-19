@@ -16,12 +16,12 @@ ServiceResponder::~ServiceResponder()
 
 }
 
-const NetworkService& ServiceResponder::Info() const
+const NetworkServiceInfo& ServiceResponder::Info() const
 {
     return m_Service;
 }
 
-void ServiceResponder::Setup(const NetworkService& NewConfiguration,
+void ServiceResponder::Setup(const NetworkServiceInfo& NewConfiguration,
                              RF_Type::Bool Blocking /*= true*/)
 {
     m_Service = NewConfiguration;

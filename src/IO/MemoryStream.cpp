@@ -152,7 +152,7 @@ RF_Type::UInt64 MemoryStream::Write(const RF_Type::UInt8* Buffer,
     RF_Type::UInt64 readbytes = 0;
     RF_Type::UInt64 length = Length();
     RF_Type::UInt64 position = Position();
-    if(m_Expandable && length - position >= Count)
+    if(m_Expandable && position + Count >= length)
     {
         auto bytesPerPage = RF_SysMem::GetPageSize();
         RF_Type::Size pageCount = ((position + Count - 1) / bytesPerPage) + 1;

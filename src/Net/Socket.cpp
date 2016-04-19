@@ -124,7 +124,7 @@ SocketError Socket::Receive(AutoPointerArray<UInt8>& Data)
 }
 
 SocketError Socket::ReceiveFrom(AutoPointerArray<UInt8>& Data, 
-                                      const EndPoint &RemoteEP )
+    EndPoint &RemoteEP)
 {
     SocketError res;
     res.Code=NetService::ReceiveFrom(m_Data->Handler,Data,RemoteEP);
@@ -193,7 +193,7 @@ EndPoint RadonFramework::Net::Socket::RemoteEndPoint()
     return EndPoint();
 }
 */
-EndPoint& Socket::LocalEndPoint()const
+const EndPoint& Socket::LocalEndPoint()const
 {
     return m_Data->LocalEndPoint;
 }

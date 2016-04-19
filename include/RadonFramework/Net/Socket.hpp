@@ -51,7 +51,7 @@ public:
     SocketError Receive(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
                 
     SocketError ReceiveFrom(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data,
-                            const EndPoint &RemoteEP);                
+                            EndPoint &RemoteEP);                
                 
     SocketError Send(const RF_Type::UInt8* Data, 
                         const RF_Type::UInt32 DataSize,
@@ -70,7 +70,7 @@ public:
     SocketError Blocking(const RF_Type::Bool NewValue);
     RF_Type::Bool Blocking()const;
 
-    EndPoint& LocalEndPoint()const;
+    const EndPoint& LocalEndPoint()const;
 
     SocketError SetSocketOption(const SocketOptionLevel OptionLevel, 
         const SocketOptionName OptionName, const RF_Type::Bool Value);

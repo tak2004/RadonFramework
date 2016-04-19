@@ -153,9 +153,9 @@ String IPAddress::ToString()const
         case AddressFamily::InterNetwork6:
             for (int i=0; i<16; i=i+2)
                 if (i!=14)
-                    ip+=String::Format(RF_Type::String("%x%x", sizeof("%x%x")), m_IP[i], m_IP[i+1]);
+                    ip+=String::Format("%x%x:", m_IP[i], m_IP[i+1]);
                 else
-                    ip+=String::Format(RF_Type::String("%x%x:", sizeof("%x%x:")),m_IP[i], m_IP[i+1]);
+                    ip+=String::Format("%x%x",m_IP[i], m_IP[i+1]);
             break;
         case AddressFamily::Unix:
             break;
@@ -283,10 +283,66 @@ RF_Type::Bool IPAddress::ResolveIP4(const RF_Type::String& Text,
     return result;
 }
 
-RF_Type::Bool IPAddress::ResolveIP6(const RF_Type::String& Text,
-                                    IPAddress& ResolvedAddress)
+Bool IPv6HexToShort(const String& Text, UInt16& Out)
 {
-    return false;
+    Bool result = true;
+
+    if(Text.Length() <= 4)
+    {
+        UInt16 hexValue;
+        Out = 0;
+        Size offset = 0;
+        for (Int32 i = Text.Length() - 1; i >= 0; --i)
+        {
+            if(Text[i] < 71 && Text[i] > 64)
+                hexValue = Text[i] - 65;
+            else
+            if(Text[i] > 96 && Text[i] < 103)
+                hexValue = Text[i] - 87;
+            else
+            if(Text[i] > 47 && Text[i] < 58)
+                hexValue = Text[i] - 48;
+            else
+                result = false;
+
+            if(result)
+            {
+                offset = Text.Length() - i - 1;
+                Out += (hexValue * ((offset % 2) * 15 + 1)) << ((offset >> 1) << 3);
+            }
+        }
+    }
+    else
+    {
+        result = false;
+    }
+
+    return result;
+}
+
+Bool IPAddress::ResolveIP6(const String& Text, IPAddress& ResolvedAddress)
+{
+    Bool result = true;
+
+    AutoPointerArray<UInt16> shorts(8);
+    UInt16* fragments = shorts.Get();
+    AutoPointerArray<String> tokens = Text.Split(":");
+    result = RF_Algo::FindAll(tokens, [fragments](AutoPointerArray<String>::ConstEnumeratorType& Text)
+    {
+        Bool result;
+        UInt16 value;
+        result = IsHex(*Text) && IPv6HexToShort(*Text, value);
+        fragments[Text.AtIndex()] = value;
+        return result;
+    }).Count() == tokens.Count();
+
+    if(result)
+    {
+        ResolvedAddress = IPAddress(shorts[0], shorts[1], shorts[2], shorts[3],
+            shorts[4], shorts[5], shorts[6], shorts[7]);
+    }
+
+    return result;
 }
 
 RF_Type::Bool IPAddress::ResolveIP6Hybrid(const RF_Type::String& Text,

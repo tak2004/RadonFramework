@@ -6,18 +6,31 @@
 
 #include <RadonFramework/Net/IPAddress.hpp>
 #include <RadonFramework/Time/DateTime.hpp>
+#include <RadonFramework/Collections/AutoVector.hpp>
 
 namespace RadonFramework { namespace Net { namespace mDNS {
+
+class ServiceInstanceInfo
+{
+public:
+    ServiceInstanceInfo();
+    ServiceInstanceInfo(const ServiceInstanceInfo& Copy);
+    ServiceInstanceInfo& operator=(const ServiceInstanceInfo& Copy);
+
+    RF_Type::String Name;
+    RF_Type::UInt16 Port;
+    RF_Time::DateTime TimeToLive;
+};
 
 class NetworkService
 {
 public:
     NetworkService();
+    NetworkService(const NetworkService& Copy);
+    NetworkService& operator=(const NetworkService& Copy);
 
     RF_Type::String Name;
-    RF_Net::IPAddress IP;
-    RF_Type::UInt16 Port;
-    RF_Time::DateTime TimeToLive;
+    RF_Collect::AutoVector<ServiceInstanceInfo> Instances;
 };
 
 } } }

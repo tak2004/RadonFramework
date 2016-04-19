@@ -13,16 +13,16 @@ class EndPoint
 {
 public:
     EndPoint();
-    EndPoint(const IPAddress &Addr, unsigned int Port = 0);
+    EndPoint(const IPAddress &Addr, RF_Type::UInt16 Port = 0);
     const RF_Type::String ToString()const;
     const IPAddress& Address()const;
     void Address(const IPAddress &Value);
-    unsigned int Port()const;
-    void Port(unsigned int Value);
+    RF_Type::UInt16 Port()const;
+    void Port(RF_Type::UInt16 Value);
     bool operator==(const EndPoint &Other);
 protected:
     IPAddress m_IP;
-    unsigned short int m_Port;
+    RF_Type::UInt16 m_Port;
 };
 
 } }

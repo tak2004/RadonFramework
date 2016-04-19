@@ -4,49 +4,58 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Net/Server.hpp>
-#include <RadonFramework/Time/TimeSpan.hpp>
+#include <RadonFramework/Net/Service.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework { namespace Time { class TimeSpan; } }
 
-template<class T>
-class AutoVector;
+namespace RadonFramework { namespace Collections { template<class T> class AutoVector; } }
 
-} }
+namespace RadonFramework { namespace Net { class IPHostEntry; } }
 
 namespace RadonFramework { namespace Net { namespace mDNS {
 
 class NetworkService;
+class ServiceDiscoveryView;
 
-class ServiceDiscovery: public Server
+class ServiceDiscovery: public Service
 {
 public:
     ServiceDiscovery();
-    virtual ~ServiceDiscovery();
+    ~ServiceDiscovery();
 
     void Setup();
-    const Collections::AutoVector<NetworkService>& KnownServices()const;
+    const RF_Collect::AutoVector<NetworkService>& KnownServices()const;
     RF_Type::Bool IsKnown(const RF_Type::String& Servicename)const;
     NetworkService* FindService(const RF_Type::String& Servicename)const;
-    virtual RF_Type::Bool Shutdown(const Time::TimeSpan& ReturnAfter)override;
-    virtual void Update()override;
 
-    RF_Type::Bool UseIPv4()const;
-    void UseIPv4(RF_Type::Bool NewValue);
+    const RF_Collect::AutoVector<IPHostEntry>& KnownDomainNames()const;
+    RF_Type::Bool IsDomainNameKnown(const RF_Type::String& DomainName)const;
+    IPHostEntry* FindDomainName(const RF_Type::String& DomainName)const;
 
-    RF_Type::Bool UseIPv6()const;
-    void UseIPv6(RF_Type::Bool NewValue);
+    virtual RF_Type::Bool Shutdown(const Time::TimeSpan& ReturnAfter) override;
+    virtual void Update() override;
+    virtual void Start() override;
+    virtual void Stop() override;
 
-    const RF_Time::TimeSpan& UpdateCycle()const;
-    void UpdateCycle(const RF_Time::TimeSpan& NewValue);
+    const Time::TimeSpan& UpdateCycle()const;
+    void UpdateCycle(const Time::TimeSpan& NewValue);
+
+    void AttachView(ServiceDiscoveryView& View);
+    RF_Type::Bool DetachView(ServiceDiscoveryView& View);
+    const RF_Collect::List<ServiceDiscoveryView*>& Views()const;
 protected:
-    virtual void PostBindConfigureSocket(Socket& Socket, IPAddress& Interface) override;
-    virtual void PreBindConfigureSocket(Socket& Socket, IPAddress& Interface) override;
-    virtual RF_Type::Bool ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::UInt8>& In) override;
+    virtual void PostBindConfigureSocket(ServerEvent& Sender) override;
+    virtual void PreBindConfigureSocket(ServerEvent& Sender) override;
+    virtual void PacketReceived(ServerProcessPacketEvent& Sender) override;
 private:
     RF_Idiom::PImpl<ServiceDiscovery> m_PImpl;
 };
 
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_MDNS
+#define RF_SHORTHAND_NAMESPACE_MDNS
+namespace RF_mDNS = RadonFramework::Net::mDNS;
+#endif
 
 #endif // RF_NET_MDNS_SERVICEDISCOVERY_HPP

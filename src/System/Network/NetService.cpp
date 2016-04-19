@@ -76,7 +76,10 @@ int SocketOption[static_cast<RF_Type::Size>(SocketOptionName::MAX)] =
     0,//ChecksumCoverage
     0,//UpdateAcceptContext
     0,//UpdateConnectContext
-    SO_REUSEADDR//ReusePort
+    SO_REUSEADDR,//ReusePort
+    IPV6_MULTICAST_HOPS,//MulticastHops
+    IPV6_UNICAST_HOPS,//UnicastHops
+    IPV6_MULTICAST_LOOP//MulticastLoopbackIPv6
 };
 
 inline Error InitializeImplementation()
@@ -101,48 +104,71 @@ inline Error FreeImplementation()
 inline Array<NetworkAdapter> GetLocalInterfacesImplementation()
 {
     Array<NetworkAdapter> result;
-    UInt32 buflen=sizeof(IP_ADAPTER_INFO)*10;// reserve memory for 10 adapter
-    AutoPointerArray<UInt8> adapterInfo(buflen);
 
-    // try to get the adapter
-    if(GetAdaptersInfo(reinterpret_cast<PIP_ADAPTER_INFO>(adapterInfo.Get()),
-        reinterpret_cast<long unsigned int*>(&buflen))==ERROR_BUFFER_OVERFLOW)
+    UInt32 outBufLen = 0;
+    AutoPointerArray<UInt8> addressInfo;
+    UInt32 family = AF_UNSPEC;
+    UInt32 flags = GAA_FLAG_INCLUDE_PREFIX;
+    UInt32 returnValue = NO_ERROR;
+    UInt32 addressCount = 0;
+    do 
     {
-        // there are more adapters as the buffer can take, generate a new buffer
-        adapterInfo=AutoPointerArray<UInt8>(buflen);
-
+        outBufLen += 15000;// suggested value by Microsoft
+        addressInfo=AutoPointerArray<UInt8>(new UInt8[outBufLen], outBufLen);
         // get all adapters
-        if (GetAdaptersInfo(reinterpret_cast<PIP_ADAPTER_INFO>(adapterInfo.Get()),
-            reinterpret_cast<long unsigned int*>(&buflen))!=NO_ERROR)
-            return result;
-    }
+        returnValue = GetAdaptersAddresses(family, flags, NULL, 
+            reinterpret_cast<PIP_ADAPTER_ADDRESSES>(addressInfo.Get()), 
+            reinterpret_cast<PULONG>(&outBufLen));
+        // if an ERROR_BUFFER_OVERFLOW occur then run again with more memory
+    } while (returnValue == ERROR_BUFFER_OVERFLOW);    
 
+    PIP_ADAPTER_UNICAST_ADDRESS pUnicastAddress = 0;
+    PIP_ADAPTER_ADDRESSES pCurrAddresses = reinterpret_cast<PIP_ADAPTER_ADDRESSES>(addressInfo.Get());
     // get the number of the Ethernet adapters
-    PIP_ADAPTER_INFO pAdapter=reinterpret_cast<PIP_ADAPTER_INFO>(adapterInfo.Get());
-    UInt32 adapterCount=0;
-    while(pAdapter)
+    while(pCurrAddresses)
     {
-        if (pAdapter->Type==MIB_IF_TYPE_ETHERNET)
-            ++adapterCount;
+        if(pCurrAddresses->OperStatus == IfOperStatusUp)
+        {
+            pUnicastAddress = pCurrAddresses->FirstUnicastAddress;
+            while(pUnicastAddress)
+            {
+                pUnicastAddress = pUnicastAddress->Next;
+                ++addressCount;
+            }
+        }
+        pCurrAddresses = pCurrAddresses->Next;
     }
 
     // reserve memory for the adapters and configure them
-    result=Array<NetworkAdapter>(adapterCount);
-    pAdapter=reinterpret_cast<PIP_ADAPTER_INFO>(adapterInfo.Get());
-    UInt32 i=0;
-    while(pAdapter)
+    result = Array<NetworkAdapter>(addressCount);
+    pCurrAddresses = reinterpret_cast<PIP_ADAPTER_ADDRESSES>(addressInfo.Get());
+    UInt32 i = 0;
+    while(pCurrAddresses)
     {
-        if (pAdapter->Type==MIB_IF_TYPE_ETHERNET)
+        if(pCurrAddresses->OperStatus == IfOperStatusUp)
         {
-            String ip=String(pAdapter->IpAddressList.IpAddress.String, sizeof(IP_ADDRESS_STRING));
-            String netmask=String(pAdapter->IpAddressList.IpMask.String, sizeof(IP_ADDRESS_STRING));
-            IPAddress::Resolve(ip, result(i).IP);
-            IPAddress::Resolve(netmask, result(i).Netmask);
-            ++i;
+            pUnicastAddress = pCurrAddresses->FirstUnicastAddress;
+            for(; pUnicastAddress != NULL; ++i)
+            {
+                if (pUnicastAddress->Address.lpSockaddr->sa_family == AF_INET)
+                {
+                    auto* addr = reinterpret_cast<struct sockaddr_in*>(pUnicastAddress->Address.lpSockaddr);
+                    result(i).IP = IPAddress(static_cast<UInt32>(addr->sin_addr.s_addr));
+                }
+                else
+                {
+                    auto* addr = reinterpret_cast<struct sockaddr_in6*>(pUnicastAddress->Address.lpSockaddr);
+                    result(i).IP = IPAddress(addr->sin6_addr.u.Word[0],
+                        addr->sin6_addr.u.Word[1], addr->sin6_addr.u.Word[2],
+                        addr->sin6_addr.u.Word[3], addr->sin6_addr.u.Word[4],
+                        addr->sin6_addr.u.Word[5], addr->sin6_addr.u.Word[6],
+                        addr->sin6_addr.u.Word[7]);
+                }
+                pUnicastAddress = pUnicastAddress->Next;
+            }
         }
-        pAdapter=pAdapter->Next;
+        pCurrAddresses = pCurrAddresses->Next;
     }
-
     return result;
 }
 
@@ -231,7 +257,10 @@ int SocketOption[static_cast<RF_Type::Size>(SocketOptionName::MAX)]=
         0,//ChecksumCoverage
         0,//UpdateAcceptContext
         0,//UpdateConnectContext
-        SO_REUSEPORT//ReusePort
+        SO_REUSEPORT,//ReusePort
+        IPV6_MULTICAST_HOPS,//MulticastHops    
+        IPV6_UNICAST_HOPS,//UnicastHops
+        IPV6_MULTICAST_LOOP//MulticastLoopbackIPv6
     };
 
 inline Error InitializeImplementation()
@@ -391,7 +420,10 @@ SocketOptionLevel SocketOptionAviableLevel[static_cast<RF_Type::Size>(SocketOpti
     SocketOptionLevel::Unset,//ChecksumCoverage
     SocketOptionLevel::Socket,//UpdateAcceptContext
     SocketOptionLevel::Unset,//UpdateConnectContext
-    SocketOptionLevel::Socket//ReusePort
+    SocketOptionLevel::Socket,//ReusePort
+    SocketOptionLevel::IPv6,//MulticastHops
+    SocketOptionLevel::IPv6,//UnicastHops
+    SocketOptionLevel::IPv6//MulticastLoopbackIPv6
 };
 
 Error NetService::Initialize()
@@ -486,35 +518,90 @@ Error NetService::Create(NetService::SocketHandler& Handler,
         return OSSocketError::ConvertOSError();
 }
 
-Error NetService::Bind(const NetService::SocketHandler Handler, 
-    EndPoint &LocalEP)
+Error BindIPv4(const NetService::SocketHandler Handler, EndPoint &LocalEP)
 {
+    Error result = Error::Ok;
+
     sockaddr_in addrIn;
     AddrSize addrSize = sizeof(sockaddr_in);
+    RF_SysMem::Set(&addrIn, 0, addrSize);
     addrIn.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(LocalEP.Address().GetAddressFamily())];
-    addrIn.sin_port=htons(LocalEP.Port());
-    const UInt8* addr=LocalEP.Address().AsByteArray();// always most significant byte first
-
-    switch(LocalEP.Address().GetAddressFamily())
-    {
-        case AddressFamily::InterNetwork:
-            addrIn.sin_addr.s_addr=*reinterpret_cast<const u_long*>(addr);
-            break;
-        default:
-            return Error::InternalError;
-    }
+    addrIn.sin_port = htons(LocalEP.Port());
+    const UInt8* addr = LocalEP.Address().AsByteArray();// always most significant byte first
+    addrIn.sin_addr.s_addr = *reinterpret_cast<const u_long*>(addr);
 
     if(bind(Handler, reinterpret_cast<sockaddr*>(&addrIn), addrSize) != SOCKET_ERROR)
     {
         if(getsockname(Handler, reinterpret_cast<sockaddr*>(&addrIn), &addrSize) == 0)
         {
-            IPAddress publicIP(ntohl(addrIn.sin_addr.s_addr));
+            IPAddress publicIP(addrIn.sin_addr.s_addr);
             LocalEP.Address(publicIP);
         }
-        return Error::Ok;
     }
     else
-        return OSSocketError::ConvertOSError(); 
+        result = OSSocketError::ConvertOSError();
+
+    return result;
+}
+
+Error BindIPv6(const NetService::SocketHandler Handler, EndPoint &LocalEP)
+{
+    Error result = Error::Ok;
+
+    sockaddr_in6 addrIn;
+    AddrSize addrSize = sizeof(sockaddr_in6);
+    RF_SysMem::Set(&addrIn, 0, addrSize);
+    addrIn.sin6_family = SocketAddressFamily[static_cast<RF_Type::Size>(LocalEP.Address().GetAddressFamily())];
+    addrIn.sin6_port = htons(LocalEP.Port());
+    const UInt16* addr = reinterpret_cast<const UInt16*>(LocalEP.Address().AsByteArray());
+    addrIn.sin6_addr.u.Word[0] = htons(addr[0]);
+    addrIn.sin6_addr.u.Word[1] = htons(addr[1]);
+    addrIn.sin6_addr.u.Word[2] = htons(addr[2]);
+    addrIn.sin6_addr.u.Word[3] = htons(addr[3]);
+    addrIn.sin6_addr.u.Word[4] = htons(addr[4]);
+    addrIn.sin6_addr.u.Word[5] = htons(addr[5]);
+    addrIn.sin6_addr.u.Word[6] = htons(addr[6]);
+    addrIn.sin6_addr.u.Word[7] = htons(addr[7]);
+
+    if(bind(Handler, reinterpret_cast<sockaddr*>(&addrIn), addrSize) != SOCKET_ERROR)
+    {
+        if(getsockname(Handler, reinterpret_cast<sockaddr*>(&addrIn), &addrSize) == 0)
+        {
+            IPAddress publicIP(ntohs(addrIn.sin6_addr.u.Word[0]),
+                ntohs(addrIn.sin6_addr.u.Word[1]),
+                ntohs(addrIn.sin6_addr.u.Word[2]),
+                ntohs(addrIn.sin6_addr.u.Word[3]),
+                ntohs(addrIn.sin6_addr.u.Word[4]),
+                ntohs(addrIn.sin6_addr.u.Word[5]),
+                ntohs(addrIn.sin6_addr.u.Word[6]),
+                ntohs(addrIn.sin6_addr.u.Word[7]));
+            LocalEP.Address(publicIP);
+        }
+    }
+    else
+        result = OSSocketError::ConvertOSError();
+
+    return result;
+}
+
+Error NetService::Bind(const NetService::SocketHandler Handler, 
+    EndPoint &LocalEP)
+{
+    Error result = Error::Ok;
+
+    switch(LocalEP.Address().GetAddressFamily())
+    {
+    case AddressFamily::InterNetwork:
+        result = BindIPv4(Handler, LocalEP);
+        break;
+    case AddressFamily::InterNetwork6:
+        result = BindIPv6(Handler, LocalEP);
+        break;
+    default:
+        result = Error::InternalError;
+    }
+
+    return result;
 }
 
 Error NetService::Close(const NetService::SocketHandler Handler)
@@ -551,7 +638,7 @@ Error NetService::Listen(const NetService::SocketHandler Handler,
 Error NetService::Receive(const NetService::SocketHandler Handler,
     AutoPointerArray<UInt8>& Data)
 {
-    char Buffer[2048];//totaly enough(1400-1500 is normal)
+    char Buffer[2048];// MTU of 1400-1500 byte is common
 
     int ret=recv(Handler,Buffer,2048,0);
     if (ret>0)
@@ -570,23 +657,12 @@ Error NetService::Receive(const NetService::SocketHandler Handler,
 }
 
 Error NetService::ReceiveFrom(const NetService::SocketHandler Handler,
-    AutoPointerArray<UInt8> &Data, const EndPoint &RemoteEP)
+    AutoPointerArray<UInt8> &Data, EndPoint &RemoteEP)
 {
     char Buffer[2048];
     sockaddr_in src;
-    socklen_t addrSize=sizeof(sockaddr_in);
-    src.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
-    src.sin_port=htons(RemoteEP.Port());
-    const UInt8* addr = RemoteEP.Address().AsByteArray();// always most significant byte first
-
-    switch(RemoteEP.Address().GetAddressFamily())
-    {
-    case AddressFamily::InterNetwork:
-        src.sin_addr.s_addr=*reinterpret_cast<const u_long*>(addr);
-        break;
-    default:
-        return Error::InternalError;
-    }
+    RF_SysMem::Set(&src, 0, sizeof(src));
+    int addrSize = sizeof(src);
 
     int ret=recvfrom(Handler,Buffer,2048,0,(sockaddr*)&src,&addrSize);
     if (ret>0)
@@ -622,23 +698,49 @@ Error NetService::SendTo(const NetService::SocketHandler Handler,
     const UInt8* Data, const UInt32 DataSize, const EndPoint &RemoteEP, 
     UInt32 *SendDataSize)
 {
-    sockaddr_in dst;
-    dst.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
-    dst.sin_port=htons(static_cast<RF_Type::UInt16>(RemoteEP.Port()));
-    const UInt8* addr = RemoteEP.Address().AsByteArray();// always most significant byte first
+    int ret = SOCKET_ERROR;
+    sockaddr_in dstV4;
+    sockaddr_in6 dstV6;
+    const UInt8* addrV4 = 0;
+    const UInt16* addrV6 = 0;
+    const char* data = reinterpret_cast<const char*>(Data);
+    sockaddr* addr = 0;
+    int addrSize = 0;
+
+    RF_SysMem::Set(&dstV4, 0, sizeof(dstV4));
+    RF_SysMem::Set(&dstV6, 0, sizeof(dstV6));
 
     switch(RemoteEP.Address().GetAddressFamily())
     {
     case AddressFamily::InterNetwork:
-        dst.sin_addr.s_addr=*reinterpret_cast<const u_long*>(addr);
+        dstV4.sin_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
+        dstV4.sin_port = htons(RemoteEP.Port());
+        addrV4 = RemoteEP.Address().AsByteArray();// always most significant byte first
+        dstV4.sin_addr.s_addr= (*reinterpret_cast<const u_long*>(addrV4));
+        addr = reinterpret_cast<sockaddr*>(&dstV4);
+        addrSize = sizeof(dstV4);
+        break;
+    case AddressFamily::InterNetwork6:
+        dstV6.sin6_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
+        dstV6.sin6_port = htons(RemoteEP.Port());
+        addrV6 = reinterpret_cast<const UInt16*>(RemoteEP.Address().AsByteArray());
+        dstV6.sin6_addr.u.Word[0] = htons(addrV6[0]);
+        dstV6.sin6_addr.u.Word[1] = htons(addrV6[1]);
+        dstV6.sin6_addr.u.Word[2] = htons(addrV6[2]);
+        dstV6.sin6_addr.u.Word[3] = htons(addrV6[3]);
+        dstV6.sin6_addr.u.Word[4] = htons(addrV6[4]);
+        dstV6.sin6_addr.u.Word[5] = htons(addrV6[5]);
+        dstV6.sin6_addr.u.Word[6] = htons(addrV6[6]);
+        dstV6.sin6_addr.u.Word[7] = htons(addrV6[7]);
+        addr = reinterpret_cast<sockaddr*>(&dstV6);
+        addrSize = sizeof(dstV6);
         break;
     default:
         return Error::InternalError;
     }
 
-    int ret=sendto(Handler, reinterpret_cast<const char*>(Data),
-                   DataSize, 0, reinterpret_cast<sockaddr*>(&dst),
-        sizeof(sockaddr_in));
+    ret = sendto(Handler, data, DataSize, 0, addr, addrSize);
+
     if (ret!=SOCKET_ERROR)
     {
         if (SendDataSize)
@@ -748,10 +850,9 @@ Error NetService::AddMembership(const NetService::SocketHandler Handler,
                                 const RF_Net::MulticastRequest& OptionValue)
 {
     struct ip_mreq multicastRequest;
-    u_long address = OptionValue.MulticastAddress.ToUInt32();
-    u_long interface = OptionValue.Interface.ToUInt32();
-    memcpy(&multicastRequest.imr_multiaddr, &address, sizeof(u_long));
-    memcpy(&multicastRequest.imr_interface, &interface, sizeof(u_long));    
+    RF_SysMem::Set(&multicastRequest, 0, sizeof(multicastRequest));
+    multicastRequest.imr_interface.s_addr = OptionValue.Interface.ToUInt32();
+    multicastRequest.imr_multiaddr.s_addr = OptionValue.MulticastAddress.ToUInt32();
     return SetSocketOption(Handler, SocketOptionLevel::IPv4, 
         SocketOptionName::AddMembership, &multicastRequest, sizeof(ip_mreq));
 }
@@ -760,10 +861,9 @@ Error NetService::DropMembership(const NetService::SocketHandler Handler,
                                 const RF_Net::MulticastRequest& OptionValue)
 {
     struct ip_mreq multicastRequest;
-    u_long address = OptionValue.MulticastAddress.ToUInt32();
-    u_long interface = OptionValue.Interface.ToUInt32();
-    memcpy(&multicastRequest.imr_multiaddr, &address, sizeof(u_long));
-    memcpy(&multicastRequest.imr_interface, &interface, sizeof(u_long));
+    RF_SysMem::Set(&multicastRequest, 0, sizeof(multicastRequest));
+    multicastRequest.imr_interface.s_addr = OptionValue.Interface.ToUInt32();
+    multicastRequest.imr_multiaddr.s_addr = OptionValue.MulticastAddress.ToUInt32();
     return SetSocketOption(Handler, SocketOptionLevel::IPv4,
         SocketOptionName::DropMembership, &multicastRequest, sizeof(ip_mreq));
 }

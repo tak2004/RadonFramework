@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Pattern/Event.hpp>
+
 namespace RadonFramework { namespace Time {
 
 class TimeSpan;
@@ -15,6 +17,19 @@ namespace RadonFramework { namespace Net {
 struct ServerConfig;
 class IPAddress;
 class Socket;
+
+struct ServerEvent
+{
+    ServerConfig* Config;
+    Socket* Target;
+};
+
+struct ServerProcessPacketEvent
+{
+    ServerConfig* Config;
+    Socket* Target;
+    RF_Mem::AutoPointerArray<RF_Type::UInt8>* Data;
+};
 
 class Server
 {
@@ -45,9 +60,14 @@ public:
     const ServerConfig& Configuration()const;
 
     const IPAddress& InterfaceIp()const;
-protected:
-    virtual RF_Type::Bool ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::UInt8>& In);
+
     Socket* GetSocket()const;
+    
+    RF_Pattern::Event<ServerEvent&> OnPreBind;
+    RF_Pattern::Event<ServerEvent&> OnPostBind;
+    RF_Pattern::Event<ServerProcessPacketEvent&> OnPacketReceived;
+protected:
+    virtual RF_Type::Bool ProcessPacket(Socket& Socket, RF_Mem::AutoPointerArray<RF_Type::UInt8>& In);
     virtual void PostBindConfigureSocket(Socket& Socket, IPAddress& Interface);
     virtual void PreBindConfigureSocket(Socket& Socket, IPAddress& Interface);
 private:

@@ -86,7 +86,15 @@ RF_Type::Bool MessageReader::ReadAnswers()
                     case RecordType::A:
                     {
                         m_Address.Resize(m_Address.Count() + 1);
-                        m_Data.ReadType(m_Address(m_Address.Count() - 1));
+                        RF_Type::UInt8 byte;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) = byte;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) |= byte << 8;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) |= byte << 16;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) |= byte << 24;
                         m_Answers(i).Index = m_Address.Count() - 1;
                         break;
                     }
@@ -210,6 +218,14 @@ RF_Type::String MessageReader::ReadText()
     buffer[byte] = 0;
     RF_Type::String result(reinterpret_cast<char*>(buffer), byte+1);
     return result;
+}
+
+RF_Type::Bool MessageReader::IsResponse()const
+{
+    const RF_Type::UInt16 DNS_QR_BIT = 1 << 15;
+    const RF_Type::UInt16 DNS_RESPONSE = 1 << 15;
+    const RF_Type::UInt16 DNS_QUERY = 0 << 15;
+    return (m_Header.Flags & DNS_QR_BIT) == DNS_RESPONSE;
 }
 
 } } }

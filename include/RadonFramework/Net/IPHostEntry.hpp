@@ -12,12 +12,16 @@ namespace RadonFramework { namespace Net {
 class IPHostEntry
 {
 public:
+    IPHostEntry(const RF_Type::String &Hostname);
     IPHostEntry(const RF_Type::String &Hostname,
                 const Collections::List<RF_Type::String> &Aliases,
                 const Collections::List<IPAddress> &AddressList);
-    const RF_Type::String& Hostname();
-    const Collections::List<RF_Type::String>& Aliases();
-    const Collections::List<IPAddress>& AddressList();
+
+    const RF_Type::String& Hostname()const;
+    const Collections::List<RF_Type::String>& Aliases()const;
+    const Collections::List<IPAddress>& AddressList()const;
+
+    void AddAddress(const IPAddress& Address);
 protected:
     RF_Type::String m_Hostname;
     Collections::List<RF_Type::String> m_Aliases;

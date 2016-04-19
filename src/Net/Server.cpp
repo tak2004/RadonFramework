@@ -72,10 +72,10 @@ RF_Type::Bool Server::Start()
         {
             PreBindConfigureSocket(*serverSocket, ip);
 
-            if(m_PImpl->m_Config.Protocol == RF_Net::SocketType::Stream)
+            RF_Net::EndPoint endPoint(ip, m_PImpl->m_Config.Port);
+            if(serverSocket->Bind(endPoint))
             {
-                RF_Net::EndPoint endPoint(ip, m_PImpl->m_Config.Port);
-                if(serverSocket->Bind(endPoint))
+                if(m_PImpl->m_Config.Protocol == RF_Net::SocketType::Stream)
                 {
                     result = serverSocket->Listen(m_PImpl->m_Config.MaxConcurrentSessions);
                     if(result)
@@ -83,14 +83,9 @@ RF_Type::Bool Server::Start()
                         m_PImpl->m_Pool = RF_SysNet::SelectObjectCollector::Create(*serverSocket);
                     }
                 }
-            }
-            else
-            {
-                RF_Net::EndPoint endPoint(IPAddress::IPv4Any, m_PImpl->m_Config.Port);
-                if(serverSocket->Bind(endPoint))
+                else
                 {
                     result = true;
-                    m_PImpl->m_RemoteEndpoint = RF_Net::EndPoint(ip, m_PImpl->m_Config.Port);
                 }
             }
 
@@ -141,7 +136,7 @@ void Server::Update()
                     {
                         if(m_PImpl->m_Sockets[i]->Receive(packet).Code != Error::ConnectionReset)
                         {
-                            ProcessPacket(packet);
+                            ProcessPacket(*m_PImpl->m_Sockets[i], packet);
                         }
                         else
                         {
@@ -164,10 +159,11 @@ void Server::Update()
     else
     {
         RF_Mem::AutoPointerArray<RF_Type::UInt8> packet;
-        m_PImpl->m_Sockets[0]->Receive(packet);
+        EndPoint ep;
+        m_PImpl->m_Sockets[0]->ReceiveFrom(packet, ep);
         if(packet)
         {
-            ProcessPacket(packet);
+            ProcessPacket(*m_PImpl->m_Sockets[0], packet);
         }
     }
 }
@@ -177,8 +173,14 @@ const IPAddress& Server::InterfaceIp()const
     return m_PImpl->m_IP;
 }
 
-RF_Type::Bool Server::ProcessPacket(RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)
+RF_Type::Bool Server::ProcessPacket(Socket& Socket, 
+    RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)
 {
+    ServerProcessPacketEvent event;
+    event.Config = &m_PImpl->m_Config;
+    event.Target = &Socket;
+    event.Data = &In;
+    OnPacketReceived(event);
     return true;
 }
 
@@ -194,6 +196,10 @@ Socket* Server::GetSocket() const
 
 void Server::PostBindConfigureSocket(Socket& Socket, IPAddress& Interface)
 {
+    ServerEvent event;
+    event.Config = &m_PImpl->m_Config;
+    event.Target = &Socket;
+    OnPostBind(event);
 }
 
 void Server::PreBindConfigureSocket(Socket& Socket, IPAddress& Interface)
@@ -202,6 +208,11 @@ void Server::PreBindConfigureSocket(Socket& Socket, IPAddress& Interface)
     error.Code = Error::Ok;
     error = Socket.Blocking(m_PImpl->m_Config.Blocking);
     error = Socket.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReuseAddress, true);
+
+    ServerEvent event;
+    event.Config = &m_PImpl->m_Config;
+    event.Target = &Socket;
+    OnPreBind(event);
 }
 
 } }

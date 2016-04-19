@@ -53,6 +53,9 @@ enum class SocketOptionName
     UpdateAcceptContext,
     UpdateConnectContext,
     ReusePort,
+    MulticastHops,
+    UnicastHops,
+    MulticastLoopbackIPv6,
     MAX
 };
 
