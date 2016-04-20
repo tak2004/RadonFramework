@@ -132,7 +132,9 @@ void ServiceDiscovery::Update()
                 ++id;
                 MessageWriter writer;
                 writer.WriteQueryHeader(id);
-                writer.WriteQuestion(m_PImpl->m_Views[i]->Services()(j).Name, RecordType::ANY);
+                RF_Type::String query;
+                query = m_PImpl->m_Views[i]->Services()(j).Name + "." + m_PImpl->m_Views[i]->Services()(j).Domain;
+                writer.WriteQuestion(query, RecordType::PTR);
                 writer.Finalize();
 
                 RF_Type::UInt32 sendBytes = 0;

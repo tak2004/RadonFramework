@@ -33,10 +33,12 @@ void ServiceDiscoveryView::UpdateData(const RF_Collect::AutoVector<NetworkServic
     UpdateHash();
 }
 
-void ServiceDiscoveryView::AddServiceFilter(const RF_Type::String& Servicename)
+void ServiceDiscoveryView::AddServiceFilter(const RF_Type::String& Servicename,
+    const RF_Type::String& Domain)
 {
     m_Services.Resize(m_Services.Count() + 1);
     m_Services(m_Services.Count() - 1).Name = Servicename;
+    m_Services(m_Services.Count() - 1).Domain = Domain;
     UpdateHash();
 }
 

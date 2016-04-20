@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Collections/AutoVector.hpp>
 #include <RadonFramework/Collections/Array.hpp>
-#include "RadonFramework/Net/mDNS/NetworkService.hpp"
+#include <RadonFramework/Net/mDNS/NetworkService.hpp>
 
 namespace RadonFramework { namespace Net { class IPHostEntry; } }
 
@@ -19,7 +19,8 @@ public:
     void UpdateData(const RF_Collect::AutoVector<NetworkService>& Services,
         const RF_Collect::AutoVector<IPHostEntry>& HostEntries);
 
-    void AddServiceFilter(const RF_Type::String& Servicename);
+    void AddServiceFilter(const RF_Type::String& Servicename,
+        const RF_Type::String& Domain);
 
     RF_Type::UInt32 GetHash();
     const RF_Collect::Array<NetworkService>& Services();

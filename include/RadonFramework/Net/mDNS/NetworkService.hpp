@@ -30,6 +30,7 @@ public:
     NetworkService& operator=(const NetworkService& Copy);
 
     RF_Type::String Name;
+    RF_Type::String Domain;
     RF_Collect::AutoVector<ServiceInstanceInfo> Instances;
 };
 

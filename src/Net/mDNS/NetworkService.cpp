@@ -9,6 +9,7 @@ NetworkService::NetworkService()
 
 NetworkService::NetworkService(const NetworkService& Copy)
 :Name(Copy.Name)
+,Domain(Copy.Domain)
 {
     for(RF_Type::Size i = 0; i < Copy.Instances.Count(); ++i)
     {
@@ -20,6 +21,7 @@ NetworkService::NetworkService(const NetworkService& Copy)
 NetworkService& NetworkService::operator=(const NetworkService& Copy)
 {
     Name = Copy.Name;
+    Domain = Copy.Domain;
     Instances.Clear();
     for(RF_Type::Size i = 0; i < Copy.Instances.Count(); ++i)
     {
