@@ -11,35 +11,41 @@
 
 class PIMPL;
 
-namespace RadonFramework
+namespace RadonFramework { namespace IO { class MemoryCollectionStream; } }
+
+namespace RadonFramework { namespace Net { 
+
+template<typename T>
+class NetworkStream;
+
+enum class StreamStatus
 {
-    namespace IO
-    {
-        class MemoryCollectionStream;
-    }
+    NeedMoreBytes,// will be wait for the next packet
+    ThrowAway,// will be discard the whole packet from the stream
+    Dispatch// remove the packet from the stream and dispatch it
+};
 
-    namespace Net
-    {
-        class PacketStream
-        {
-            public:
-                typedef Delegate1<RF_Type::Bool(IO::MemoryCollectionStream&)> SplitFunctionType;
-                typedef Delegate1<RF_Type::Bool(Memory::AutoPointerArray<RF_Type::UInt8>&)> DispatcherFunctionType;
-                PacketStream();
+class PacketStream
+{
+public:
+    PacketStream();
 
-                void Enqueue(Memory::AutoPointerArray<RF_Type::UInt8>& packet);
+    void Enqueue(RF_Mem::AutoPointerArray<RF_Type::UInt8>& packet);
 
-                void MaxDataSize(const RF_Type::UInt32 NewSize);
+    void MaxDataSize(const RF_Type::UInt32 NewSize);
+    RF_Type::UInt32 MaxDataSize()const;
 
-                RF_Type::UInt32 MaxDataSize()const;
+    virtual StreamStatus Process(NetworkStream<IO::MemoryCollectionStream>& Stream);
+    virtual void Dispatch(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet);
+private:                
+    RF_Mem::AutoPointer<PIMPL> m_Data;
+};
 
-                void SetPacketSplitFunction(SplitFunctionType SplitFunction);
+} }
 
-                void SetPacketDispatcherFunction(DispatcherFunctionType DispatcherFunction);
-            private:                
-                Memory::AutoPointer<PIMPL> m_Data;
-        };
-    }
-}
+#ifndef RF_SHORTHAND_NAMESPACE_NET
+#define RF_SHORTHAND_NAMESPACE_NET
+namespace RF_Net = RadonFramework::Net;
+#endif
 
 #endif // RF_NET_PACKETSTREAM_HPP

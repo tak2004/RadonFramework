@@ -8,7 +8,7 @@
 
 namespace RadonFramework { namespace Time {
 
-class TimeSpan;
+struct TimeSpan;
 
 } }
 

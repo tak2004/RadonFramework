@@ -3,8 +3,8 @@
 #include "RadonFramework/IO/MemoryCollectionStream.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/IO/Log.hpp"
+#include "RadonFramework/Net/NetworkStream.hpp"
 
-using namespace RadonFramework::Net;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::IO;
@@ -12,27 +12,12 @@ using namespace RadonFramework::Threading;
 
 class PIMPL
 {
-    public:
-        MemoryCollectionStream MemoryStream;
-        UInt32 MaxDataSize;
-        PacketStream::SplitFunctionType SplitPacketFunction;
-        PacketStream::DispatcherFunctionType PacketDispatcherFunction;
+public:
+    RF_Net::NetworkStream<RF_IO::MemoryCollectionStream> MemoryStream;
+    UInt32 MaxDataSize;
 };
 
-void ProcessStreamTask(void* Data)
-{
-    PIMPL* data=reinterpret_cast<PIMPL*>(Data);
-    if (!data->SplitPacketFunction.empty())
-        if (data->SplitPacketFunction(data->MemoryStream))
-        {
-            UInt32 bytes=static_cast<UInt32>(data->MemoryStream.Position())-1;
-            data->MemoryStream.Seek(0,SeekOrigin::Begin);
-            AutoPointerArray<UInt8> buf(bytes);
-            data->MemoryStream.Read(buf.Get(),0,bytes);
-            if (!data->PacketDispatcherFunction(buf))
-                LogError("Dispatch packet failed");
-        }
-}
+namespace RadonFramework { namespace Net {
 
 PacketStream::PacketStream()
 {
@@ -43,19 +28,40 @@ PacketStream::PacketStream()
 void PacketStream::Enqueue(AutoPointerArray<UInt8>& packet)
 {
     m_Data->MemoryStream.AddLast(packet);
-    while (m_Data->MemoryStream.Length()>m_Data->MaxDataSize)
+
+    RF_Type::UInt64 bytes = 0;
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> buffer;
+
+    StreamStatus status = Process(m_Data->MemoryStream);
+    switch(status)
+    {
+    case StreamStatus::ThrowAway:
         m_Data->MemoryStream.RemoveFirst();
-    RF_Pattern::Singleton<ThreadPool>::GetInstance().QueueUserWorkItem(ProcessStreamTask,m_Data.Get(),TaskStrategy::Concurrent);
+        break;
+    case StreamStatus::Dispatch:
+        bytes = m_Data->MemoryStream.Position() - 1;
+        m_Data->MemoryStream.Seek(0, SeekOrigin::Begin);
+        buffer = RF_Mem::AutoPointerArray<RF_Type::UInt8>(bytes);
+        m_Data->MemoryStream.Read(buffer.Get(), 0, bytes);
+        Dispatch(buffer);
+        break;
+    case StreamStatus::NeedMoreBytes:
+        break;
+    }
+
+    while(m_Data->MemoryStream.Length() > m_Data->MaxDataSize)
+        m_Data->MemoryStream.RemoveFirst();
 }
 
-void PacketStream::SetPacketSplitFunction(SplitFunctionType SplitFunction)
+StreamStatus PacketStream::Process(NetworkStream<IO::MemoryCollectionStream>& Stream)
 {
-    m_Data->SplitPacketFunction=SplitFunction;
+    StreamStatus result = StreamStatus::ThrowAway;
+    return result;
 }
 
-void PacketStream::SetPacketDispatcherFunction(DispatcherFunctionType DispatcherFunction)
+void PacketStream::Dispatch(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet)
 {
-    m_Data->PacketDispatcherFunction=DispatcherFunction;
+    
 }
 
 void PacketStream::MaxDataSize(const UInt32 NewSize)
@@ -67,3 +73,5 @@ UInt32 PacketStream::MaxDataSize()const
 {
     return m_Data->MaxDataSize;
 }
+
+} }
