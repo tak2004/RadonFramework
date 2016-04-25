@@ -266,6 +266,7 @@
 #include <RadonFramework/Net/Server.hpp>
 #include <RadonFramework/Net/ServerConfig.hpp>
 #include <RadonFramework/Net/Service.hpp>
+#include <RadonFramework/Net/SessionServer.hpp>
 #include <RadonFramework/Net/Socket.hpp>
 #include <RadonFramework/Net/SocketError.hpp>
 #include <RadonFramework/Net/SocketOptionLevel.hpp>

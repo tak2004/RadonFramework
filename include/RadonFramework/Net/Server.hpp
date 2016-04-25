@@ -28,6 +28,7 @@ struct ServerProcessPacketEvent
 {
     ServerConfig* Config;
     Socket* Target;
+    const IPAddress* Source;
     RF_Mem::AutoPointerArray<RF_Type::UInt8>* Data;
 };
 
@@ -66,10 +67,20 @@ public:
     RF_Pattern::Event<ServerEvent&> OnPreBind;
     RF_Pattern::Event<ServerEvent&> OnPostBind;
     RF_Pattern::Event<ServerProcessPacketEvent&> OnPacketReceived;
+    RF_Pattern::Event<ServerEvent&> OnAddedSocket;
+    RF_Pattern::Event<ServerEvent&> OnRemoveSocket;
 protected:
-    virtual RF_Type::Bool ProcessPacket(Socket& Socket, RF_Mem::AutoPointerArray<RF_Type::UInt8>& In);
+    /// Will be called for every incoming packet.
+    virtual RF_Type::Bool ProcessPacket(Socket& Socket, 
+        const IPAddress& Source, RF_Mem::AutoPointerArray<RF_Type::UInt8>& In);
+    /// Will be called after the server listen socket was created.
     virtual void PostBindConfigureSocket(Socket& Socket, IPAddress& Interface);
+    /// Will be called before the server listen socket is created.
     virtual void PreBindConfigureSocket(Socket& Socket, IPAddress& Interface);
+    /// Will be called right after the socket was added to the server.
+    virtual void AddedSocket(Socket& Socket, IPAddress& Interface);
+    /// Will be called before the socket will be removed from the server.
+    virtual void RemoveSocket(Socket& Socket, IPAddress& Interface);
 private:
     RF_Idiom::PImpl<Server> m_PImpl;
 };

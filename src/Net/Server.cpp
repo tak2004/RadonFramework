@@ -136,12 +136,13 @@ void Server::Update()
                     {
                         if(m_PImpl->m_Sockets[i]->Receive(packet).Code != Error::ConnectionReset)
                         {
-                            ProcessPacket(*m_PImpl->m_Sockets[i], packet);
+                            ProcessPacket(*m_PImpl->m_Sockets[i], m_PImpl->m_Sockets[i]->LocalEndPoint().Address(), packet);
                         }
                         else
                         {
+                            RemoveSocket(*m_PImpl->m_Sockets[i], m_PImpl->m_IP);
                             m_PImpl->m_Pool->Remove(i);
-                            m_PImpl->m_Sockets.RemoveAt(i);
+                            m_PImpl->m_Sockets.RemoveAt(i);                            
                         }
                     }
                     else
@@ -150,6 +151,7 @@ void Server::Update()
                         {
                             newSession->AssignSelectObjectCollector(*m_PImpl->m_Pool);
                             m_PImpl->m_Sockets.AddLast(newSession);
+                            AddedSocket(*newSession.Get(), m_PImpl->m_IP);
                         }
                     }
                 }
@@ -163,7 +165,7 @@ void Server::Update()
         m_PImpl->m_Sockets[0]->ReceiveFrom(packet, ep);
         if(packet)
         {
-            ProcessPacket(*m_PImpl->m_Sockets[0], packet);
+            ProcessPacket(*m_PImpl->m_Sockets[0], ep.Address(), packet);
         }
     }
 }
@@ -174,12 +176,13 @@ const IPAddress& Server::InterfaceIp()const
 }
 
 RF_Type::Bool Server::ProcessPacket(Socket& Socket, 
-    RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)
+    const IPAddress& Source, RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)
 {
     ServerProcessPacketEvent event;
     event.Config = &m_PImpl->m_Config;
     event.Target = &Socket;
     event.Data = &In;
+    event.Source = &Source;
     OnPacketReceived(event);
     return true;
 }
@@ -213,6 +216,22 @@ void Server::PreBindConfigureSocket(Socket& Socket, IPAddress& Interface)
     event.Config = &m_PImpl->m_Config;
     event.Target = &Socket;
     OnPreBind(event);
+}
+
+void Server::AddedSocket(Socket& Socket, IPAddress& Interface)
+{
+    ServerEvent event;
+    event.Config = &m_PImpl->m_Config;
+    event.Target = &Socket;
+    OnAddedSocket(event);
+}
+
+void Server::RemoveSocket(Socket& Socket, IPAddress& Interface)
+{
+    ServerEvent event;
+    event.Config = &m_PImpl->m_Config;
+    event.Target = &Socket;
+    OnRemoveSocket(event);
 }
 
 } }
