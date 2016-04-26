@@ -20,7 +20,6 @@ class NetworkStream;
 
 enum class StreamStatus
 {
-    NeedMoreBytes,// will be wait for the next packet
     ThrowAway,// will be discard the whole packet from the stream
     Dispatch// remove the packet from the stream and dispatch it
 };

@@ -32,22 +32,24 @@ void PacketStream::Enqueue(AutoPointerArray<UInt8>& packet)
     RF_Type::UInt64 bytes = 0;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> buffer;
 
-    StreamStatus status = Process(m_Data->MemoryStream);
-    switch(status)
+    StreamStatus status;
+    do
     {
-    case StreamStatus::ThrowAway:
-        m_Data->MemoryStream.RemoveFirst();
-        break;
-    case StreamStatus::Dispatch:
-        bytes = m_Data->MemoryStream.Position() - 1;
-        m_Data->MemoryStream.Seek(0, SeekOrigin::Begin);
-        buffer = RF_Mem::AutoPointerArray<RF_Type::UInt8>(bytes);
-        m_Data->MemoryStream.Read(buffer.Get(), 0, bytes);
-        Dispatch(buffer);
-        break;
-    case StreamStatus::NeedMoreBytes:
-        break;
-    }
+        status = Process(m_Data->MemoryStream);
+        switch(status)
+        {
+        case StreamStatus::ThrowAway:
+            m_Data->MemoryStream.RemoveFirst();
+            break;
+        case StreamStatus::Dispatch:
+            bytes = m_Data->MemoryStream.Position() - 1;
+            m_Data->MemoryStream.Seek(0, SeekOrigin::Begin);
+            buffer = RF_Mem::AutoPointerArray<RF_Type::UInt8>(bytes);
+            m_Data->MemoryStream.Read(buffer.Get(), 0, bytes);
+            Dispatch(buffer);
+            break;
+        }
+    } while(m_Data->MemoryStream.Count() > 0);
 
     while(m_Data->MemoryStream.Length() > m_Data->MaxDataSize)
         m_Data->MemoryStream.RemoveFirst();

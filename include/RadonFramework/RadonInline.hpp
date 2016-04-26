@@ -173,8 +173,6 @@
 #include <RadonFramework/IO/FileStatus.hpp>
 #include <RadonFramework/IO/FileStream.hpp>
 #include <RadonFramework/IO/FileWatcher.hpp>
-#include <RadonFramework/IO/IConfig.hpp>
-#include <RadonFramework/IO/IReadableConfig.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/IO/LogConfig.hpp>
 #include <RadonFramework/IO/LogConsole.hpp>
