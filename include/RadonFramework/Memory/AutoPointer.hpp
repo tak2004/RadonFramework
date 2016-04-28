@@ -63,9 +63,9 @@ public:
     template <typename T1>
     operator AutoPointer<T1>();                
     /// Return true if the pointer is 0 else false.
-    RF_Type::Bool operator!();
+    RF_Type::Bool operator!()const;
     /// Convert to Bool to allow boolean operation.
-    operator RF_Type::Bool();
+    operator RF_Type::Bool()const;
 private:
     mutable T* m_Data;
 };
@@ -196,13 +196,13 @@ AutoPointer<T>::operator AutoPointer<T1>()
 }
 
 template <typename T>
-RF_Type::Bool AutoPointer<T>::operator!()
+RF_Type::Bool AutoPointer<T>::operator!()const
 {
     return 0==m_Data;
 }
 
 template <typename T>
-AutoPointer<T>::operator RF_Type::Bool()
+AutoPointer<T>::operator RF_Type::Bool()const
 {
     return 0!=m_Data;
 }

@@ -120,6 +120,25 @@ String::String(const RF_Type::Size StringSize)
     }
 }
 
+String::String(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Memory, 
+    RF_Common::DataManagment Ownership /*= RF_Common::DataManagment::TransfereOwnership*/)
+{
+    switch(Ownership)
+    {
+        case RadonFramework::Core::Common::DataManagment::Copy:
+        case RadonFramework::Core::Common::DataManagment::AllocateAndCopy:
+        case RadonFramework::Core::Common::DataManagment::UnmanagedInstance:
+            String(reinterpret_cast<const char*>(Memory.Get()), Memory.Size(), Ownership);
+            break;
+        case RadonFramework::Core::Common::DataManagment::TransfereOwnership:
+        {
+            auto data = Memory.Release();
+            String(reinterpret_cast<const char*>(data.Ptr), data.Count, Ownership);
+            break;
+        }
+    }
+}
+
 String::~String()
 {
     if (m_DataManagment == Common::DataManagment::AllocateAndCopy)

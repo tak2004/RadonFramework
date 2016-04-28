@@ -55,6 +55,9 @@ public:
     explicit String(const char* CString, const Size CStringSize,
         RF_Common::DataManagment Ownership = RF_Common::DataManagment::Copy);
 
+    explicit String(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Memory,
+        RF_Common::DataManagment Ownership = RF_Common::DataManagment::TransfereOwnership);
+
     /** \brief This constructor accept a C string without any information
     *          about size.
     *

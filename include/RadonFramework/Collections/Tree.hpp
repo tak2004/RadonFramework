@@ -6,6 +6,8 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Collections/Algorithm/ForEach.hpp>
+#include <RadonFramework/Collections/Algorithm/FindAll.hpp>
 
 namespace RadonFramework { namespace Collections {
 
@@ -16,24 +18,26 @@ class ArrayNode
 {
 public:
     ArrayNode(ArrayNode<T>* Parent=0);
-
     ArrayNode(const ArrayNode<T>& Copy);
 
     ArrayNode<T>* AddChild(const T& Value);
-
+    void AddChilds(RF_Type::Size Count);
     void RemoveChild(ArrayNode<T>* Node);
-
     ArrayNode<T>* FirstChild();
-
     ArrayNode<T>* LastChild();
+    void MoveFrom(ArrayNode<T>& Node, RF_Type::Size Start, RF_Type::Size End);
 
     ArrayNode<T>* Parent();
-
+    const ArrayNode<T>* Parent()const;
     ArrayNode<T>* Next();
-
+    const ArrayNode<T>* Next()const;
     ArrayNode<T>* Prev();
+    ArrayNode<T>* Child(RF_Type::Size Index);
 
     T& Data();
+    const T& Data()const;
+    RF_Type::Size Childs()const;
+    RF_Type::Bool IndexOf(const ArrayNode<T>& Object, RF_Type::Size& Index)const;
 
     ArrayNode<T>& operator =(const ArrayNode<T>& Other);
 protected:
@@ -42,7 +46,18 @@ protected:
     T m_Data;
 };
 
-template <class T, class Node=ArrayNode<T> >
+template<class T>
+void ArrayNode<T>::MoveFrom(ArrayNode<T>& Node, RF_Type::Size Start, RF_Type::Size End)
+{
+    RF_Type::Size index = m_Children.Count();
+    RF_Type::Size count = End - Start + 1;
+    m_Children.Resize(index + count);
+    Node.m_Children.Copy(Start, m_Children, index, count);
+    Node.m_Children.ConstrainedCopy(End + 1, Node.m_Children, Start, Node.m_Children.Count() - End - 1);
+    Node.m_Children.Resize(Node.m_Children.Count() - count);
+}
+
+template <class T, class Node = ArrayNode<T> >
 class Tree
 {
 public:
@@ -54,6 +69,61 @@ public:
 protected:
     NodeType m_Root;
 };
+
+template<class T>
+RF_Type::Size ArrayNode<T>::Childs() const
+{
+    return m_Children.Count();
+}
+
+template<class T>
+ArrayNode<T>* ArrayNode<T>::Child(RF_Type::Size Index)
+{
+    ArrayNode<T>* result = 0;
+
+    if(m_Children.Count() > Index)
+    {
+        result = &m_Children(Index);
+    }
+
+    return result;
+}
+
+template<class T>
+RF_Type::Bool ArrayNode<T>::IndexOf(const ArrayNode<T>& Object, RF_Type::Size& Index)const
+{
+    RF_Type::Bool result = false;
+
+    auto hits = RF_Algo::FindAll(m_Children, [&](decltype(m_Children)::ConstEnumeratorType& Element) {
+        RF_Type::Bool result = false;
+        if(&(*Element) == &Object)
+        {
+            result = true;
+        }
+        return result;
+    });
+
+    if(hits.Count() > 0)
+    {
+        Index = hits[0];
+        result = true;
+    }
+
+    return result;
+}
+
+template<class T>
+void ArrayNode<T>::AddChilds(RF_Type::Size Count)
+{
+    if(m_Children.Count() == 0)
+        m_Children = Array<ArrayNode<T> >(Count);
+    else
+        m_Children.Resize(m_Children.Count() + Count);
+    RF_Algo::ForEach(m_Children, [=](Array<ArrayNode<T>>::EnumeratorType& Element) {
+        Element->m_Parent = this;
+        Element->m_Data = T();
+    });
+}
 
 template <class T>
 ArrayNode<T>::ArrayNode(ArrayNode<T>* Parent /* = 0 */)
@@ -85,23 +155,22 @@ void ArrayNode<T>::RemoveChild(ArrayNode<T>* Node)
     Assert(m_Children.Count()>0,"Invalid parameter.");
     if (m_Children.Count()>1)// most expected case
     {
-        RF_Type::UInt32 index=(RF_Type::UInt32)((&m_Children[0]-Node)/sizeof(T));
-        Array<ArrayNode<T> > tmp(m_Children.Count()-1);
-        if (index>0)
+        RF_Type::MemoryRange index = Node - &m_Children(0);
+        Array<ArrayNode<T>> tmp(m_Children.Count()-1);
+        if (index > 0)
         {
-            RF_Type::UInt32 leftPart=index-1;
-            RF_Type::UInt32 rightPart=index+1;
-            m_Children.Copy(0,tmp,0,leftPart);
-            if (index<tmp.Count())// if not the last one
-                m_Children.Copy(rightPart,tmp,index,tmp.Count()-index);
+            RF_Type::Size rightPart = index + 1;
+            m_Children.Copy(0, tmp, 0, index);
+            if (index < tmp.Count())// if not the last one
+                m_Children.Copy(rightPart, tmp, index, tmp.Count() - index);
         }
         else// index==0
-            m_Children.Copy(1,tmp,0,tmp.Count());
+            m_Children.Copy(1, tmp, 0, tmp.Count());
         m_Children.Swap(tmp);
     }
     else// count==1
     {
-        Assert(Node==&m_Children[0],"Invalid parameter.");
+        Assert(Node == &m_Children(0), "Invalid parameter.");
         m_Children.Resize(0);
     }
 }
@@ -109,21 +178,27 @@ void ArrayNode<T>::RemoveChild(ArrayNode<T>* Node)
 template <class T>
 ArrayNode<T>* ArrayNode<T>::FirstChild()
 {
-    Assert(m_Children.Count()>0,"Invalid operation on empty container.");
-    if (m_Children.Count()>0)
-        return &m_Children(0);
-    else
-        return 0;
+    ArrayNode<T>* result = 0;
+
+    if (m_Children.Count() > 0)
+    { 
+        result = &m_Children(0);
+    }
+
+    return result;
 }
 
 template <class T>
 ArrayNode<T>* ArrayNode<T>::LastChild()
 {
-    Assert(m_Children.Count()>0,"Invalid operation on empty container.");
-    if (m_Children.Count()>0)
-        return &m_Children(m_Children.Count()-1);
-    else
-        return 0;
+    ArrayNode<T>* result = 0;
+
+    if(m_Children.Count() > 0)
+    {
+        result = &m_Children(m_Children.Count() - 1);
+    }
+
+    return result;
 }
 
 template <class T>
@@ -133,33 +208,73 @@ ArrayNode<T>* ArrayNode<T>::Parent()
 }
 
 template <class T>
+const ArrayNode<T>* ArrayNode<T>::Parent()const
+{
+    return m_Parent;
+}
+
+template <class T>
 ArrayNode<T>* ArrayNode<T>::Next()
 {
-    Assert(m_Parent,"Invalid Operation on null pointer.");
-    if (m_Parent->m_Children.Count()==0)
-        return 0;
-    RF_Type::MemoryRange index=this-&m_Parent->m_Children(0);
-    if (static_cast<RF_Type::MemoryRange>(m_Parent->m_Children.Count()) <= index+1)
-        return 0;
-    else    
-        return &m_Parent->m_Children(static_cast<RF_Type::UInt32>(index)+1);
+    ArrayNode<T>* result = 0;
+    if(m_Parent)
+    {
+        if(m_Parent->m_Children.Count() > 0)
+        {
+            RF_Type::MemoryRange index = this - &m_Parent->m_Children(0) + 1;
+            if(index < m_Parent->m_Children.Count())
+            {
+                result = &m_Parent->m_Children(index);
+            }
+        }
+    }
+    return result;
+}
+
+template <class T>
+const ArrayNode<T>* ArrayNode<T>::Next()const
+{
+    const ArrayNode<T>* result = 0;
+    if(m_Parent)
+    {
+        if(m_Parent->m_Children.Count() > 0)
+        {
+            RF_Type::MemoryRange index = this - &m_Parent->m_Children(0) + 1;
+            if(index < m_Parent->m_Children.Count())
+            {
+                result = &m_Parent->m_Children(index);
+            }
+        }
+    }
+    return result;
 }
 
 template <class T>
 ArrayNode<T>* ArrayNode<T>::Prev()
 {
-    Assert(m_Parent,"Invalid operation.");
-    if (m_Parent->m_Children.Count()==0)
-        return 0;
-    RF_Type::MemoryRange index=this-&m_Parent->m_Children(0);
-    if (m_Parent->m_Children.Count()<=index-1)
-        return 0;
-    else
-        return &m_Parent->m_Children(index-1);
+    ArrayNode<T>* result = 0;
+    if (m_Parent)
+    {
+        if (m_Parent->m_Children.Count() > 0)
+        {
+            RF_Type::MemoryRange index = this - &m_Parent->m_Children(0) - 1;
+            if(index >= 0)
+            {
+                result = &m_Parent->m_Children(index);
+            }
+        }
+    }
+    return result;
 }
 
 template <class T>
 T& ArrayNode<T>::Data()
+{
+    return m_Data;
+}
+
+template<class T>
+const T& ArrayNode<T>::Data() const
 {
     return m_Data;
 }

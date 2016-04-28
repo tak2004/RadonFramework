@@ -311,6 +311,7 @@
 #ifndef RF_NO_TEXT
 
 #include <RadonFramework/Text/Regex.hpp>
+#include <RadonFramework/Text/Tokenizer.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
 #endif
 
