@@ -147,6 +147,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             wnd->OnMouseMove(event);
             break;
         }
+    case WM_SETFOCUS:
+    {
+        wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        wnd->OnGotFocus();
+        break;
+    }
+    case WM_KILLFOCUS:
+    {
+        wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        wnd->OnLostFocus();
+        break;
+    }
     //case WM_MOUSEWHEEL:
         case WM_DESTROY:
             return 0;
@@ -169,7 +181,7 @@ WindowsWindow::WindowsWindow(WindowService *Service)
 ,m_Created(false)
 ,m_Handle(0)
 ,m_CloseButton(true)
-, m_WindowFlags(WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN)
+,m_WindowFlags(WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN)
 {
     WindowsWindow::m_Objects.AddLast(this);
 }
@@ -318,4 +330,22 @@ void WindowsWindow::CloseButton(const RF_Type::Bool Show)
         HMENU hmenu = GetSystemMenu(m_Handle, FALSE);
         EnableMenuItem(hmenu, SC_CLOSE, Show ? (MF_BYCOMMAND | MF_ENABLED) : (MF_BYCOMMAND | MF_DISABLED | MF_GRAYED));
     }
+}
+
+RF_Type::Bool WindowsWindow::HasFocus()const
+{
+    return GetForegroundWindow() == m_Handle;
+}
+
+RF_Geo::Point2D<> WindowsWindow::GetCursorPosition() const
+{
+    RF_Geo::Point2D<> result;
+    POINT p;
+
+    GetCursorPos(&p);
+    ScreenToClient(m_Handle, &p);
+    result.X = p.x;
+    result.Y = p.y;
+    
+    return result;
 }

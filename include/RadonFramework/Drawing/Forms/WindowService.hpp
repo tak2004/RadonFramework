@@ -9,6 +9,7 @@
 #include <RadonFramework/Drawing/Forms/DisplayInformation.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Error.hpp>
 #include <RadonFramework/Collections/AutoVector.hpp>
+#include <RadonFramework/IO/VirtualMouseButton.hpp>
 
 namespace RadonFramework { namespace Forms {
 
@@ -45,6 +46,7 @@ public:
     /// Set a new screen resolution.
     virtual void ScreenResolution(const DisplayInformation& DiplayInfo,
                                     const Resolution& NewResolution)=0;
+    virtual RF_Type::Bool IsMouseButtonPressed(RF_IO::VirtualMouseButton::Type Which)=0;
 protected:
     IApplication *m_Application;
 };

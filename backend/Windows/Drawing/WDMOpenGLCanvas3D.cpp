@@ -73,6 +73,13 @@ void WDMOpenGLCanvas3D::Generate()
     }
     wglMakeCurrent(m_DeviceContext,TempContext);
 
+    GLenum err = glewInit();
+    if(GLEW_OK != err)
+    {
+        LogError("Couldn't init OpenGL extension wrangler.");
+        return;
+    }
+
     unsigned int numFormats;
     const int attribList [] = {
         WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,

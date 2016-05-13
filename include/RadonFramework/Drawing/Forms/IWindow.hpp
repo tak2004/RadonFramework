@@ -31,6 +31,8 @@ public:
     virtual void CursorVisible(const RF_Type::Bool Value)=0;
     virtual WindowService* GetService()=0;
     virtual void CloseButton(const RF_Type::Bool Show) = 0;
+    virtual RF_Type::Bool HasFocus()const=0;
+    virtual RF_Geo::Point2D<> GetCursorPosition()const=0;
 
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
@@ -40,6 +42,8 @@ public:
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonPressed;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonReleased;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseMove;
+    RF_Pattern::Signal OnLostFocus;
+    RF_Pattern::Signal OnGotFocus;
 };
 
 } }
