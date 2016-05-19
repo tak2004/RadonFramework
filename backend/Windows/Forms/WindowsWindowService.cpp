@@ -232,3 +232,9 @@ void WindowsWindowService::ScreenResolution(const DisplayInformation& DiplayInfo
     else
         LogError("EnumDisplaySettings failed:%d", GetLastError());
 }
+
+RF_Type::Bool WindowsWindowService::IsMouseButtonPressed(RF_IO::VirtualMouseButton::Type Which)
+{
+    int mapping[RF_IO::VirtualMouseButton::MAX] = {VK_LBUTTON, VK_RBUTTON, VK_MBUTTON};
+    return GetAsyncKeyState(mapping[Which]) & 0x8000;
+}

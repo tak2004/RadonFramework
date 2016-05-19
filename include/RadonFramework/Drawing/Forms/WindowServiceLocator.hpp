@@ -28,6 +28,11 @@ public:
     }
 
 	void ScreenResolution(const DisplayInformation& DiplayInfo, const Resolution& NewResolution){}
+
+    RF_Type::Bool IsMouseButtonPressed(RF_IO::VirtualMouseButton::Type Which)
+    {
+        return false;
+    }
 };
 
 typedef RF_Pattern::Locator<WindowService,NullWindowService> WindowServiceLocator;

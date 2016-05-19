@@ -32,6 +32,10 @@ public:
     virtual void Border(const RF_Type::Bool Show);
     virtual void CloseButton(const RF_Type::Bool Show);
     virtual void CursorVisible(const bool Value);
+    virtual void LostFocus();
+    virtual void GotFocus();
+    RF_Type::Bool HasFocus()const;
+    RF_Geo::Point2D<> GetCursorPosition()const;
 
     RF_Pattern::Signal OnIdle;
     RF_Pattern::Event<const IO::VirtualKey&> OnKeyPress;
@@ -39,8 +43,11 @@ public:
     RF_Pattern::Event<const IO::MouseEvent&> OnMouseButtonPressed;
     RF_Pattern::Event<const IO::MouseEvent&> OnMouseButtonReleased;
     RF_Pattern::Event<const IO::MouseEvent&> OnMouseMove;
+    RF_Pattern::Signal OnLostFocus;
+    RF_Pattern::Signal OnGotFocus;
 protected:
     IWindow* m_Backend;
+    RF_Type::Bool m_HasFocus;
 };
 
 } }
