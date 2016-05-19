@@ -1,28 +1,25 @@
-#ifndef RF_NET_SESSIONSERVER_HPP
-#define RF_NET_SESSIONSERVER_HPP
+#ifndef RF_NET_SESSIONCLIENT_HPP
+#define RF_NET_SESSIONCLIENT_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
 
-#include <RadonFramework/Net/Server.hpp>
+#include <RadonFramework/Net/Client.hpp>
 #include <RadonFramework/Net/PacketLogicFactory.hpp>
-#include <RadonFramework/Collections/HashList.hpp>
 
 namespace RadonFramework { namespace Net {
 
-class SessionServer : public Server
+class SessionClient: public Client
 {
-public: 
-    virtual void Update()override;
+public:
     void SetLogicFactory(RF_Mem::AutoPointer<PacketLogicFactory>& Factory);
+    virtual void Connect(const IPAddress& IP, const RF_Type::UInt16 Port) override;
 protected:
-    virtual void AddedSocket(Socket& Socket, IPAddress& Interface)override;
-    virtual void RemoveSocket(Socket& Socket, IPAddress& Interface)override;
     virtual RF_Type::Bool ProcessPacket(Socket& Socket,
         const IPAddress& Source, RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)override;
 private:
-    RF_Collect::HashList m_Sessions;
     RF_Mem::AutoPointer<PacketLogicFactory> m_Factory;
+    RF_Mem::AutoPointer<PacketStream> m_PacketStream;
 };
 
 } }
@@ -32,4 +29,4 @@ private:
 namespace RF_Net = RadonFramework::Net;
 #endif
 
-#endif // RF_NET_SESSIONSERVER_HPP
+#endif

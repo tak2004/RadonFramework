@@ -243,6 +243,7 @@
 #ifndef RF_NO_NET
 
 #include <RadonFramework/Net/AddressFamily.hpp>
+#include <RadonFramework/Net/Client.hpp>
 #include <RadonFramework/Net/EndPoint.hpp>
 #include <RadonFramework/Net/Error.hpp>
 #include <RadonFramework/Net/FixedLengthString.hpp>
@@ -258,12 +259,14 @@
 #include <RadonFramework/Net/MulticastRequest.hpp>
 #include <RadonFramework/Net/NetworkAdapter.hpp>
 #include <RadonFramework/Net/NetworkStream.hpp>
+#include <RadonFramework/Net/PacketLogicFactory.hpp>
 #include <RadonFramework/Net/PacketStream.hpp>
 #include <RadonFramework/Net/PacketWithHeader.hpp>
 #include <RadonFramework/Net/SelectMode.hpp>
 #include <RadonFramework/Net/Server.hpp>
 #include <RadonFramework/Net/ServerConfig.hpp>
 #include <RadonFramework/Net/Service.hpp>
+#include <RadonFramework/Net/SessionClient.hpp>
 #include <RadonFramework/Net/SessionServer.hpp>
 #include <RadonFramework/Net/Socket.hpp>
 #include <RadonFramework/Net/SocketError.hpp>

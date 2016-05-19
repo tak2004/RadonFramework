@@ -110,6 +110,7 @@ if(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR "Enable Allocator class." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_SIMD "Enable SIMD classes." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_OGLVM "Enable OpenGL VM." OFF)
+    OPTION(RADONFRAMEWORK_EXPERIMENTAL_JIT "Enable JIT support." OFF)
 endif()
 
 if(NOT RADONFRAMEWORK_EXPERIMENTAL_HTTP)
@@ -142,6 +143,19 @@ if(NOT RADONFRAMEWORK_EXPERIMENTAL_OGLVM)
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Draw2D.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/CommandBuffer.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/CommandBuffer.cpp)
+endif()
+if(RADONFRAMEWORK_EXPERIMENTAL_JIT)
+    rcf_addlocation(ASMJIT "git" "https://github.com/kobalicek/asmjit.git")
+    rcf_obtain_project(ASMJIT outdir)
+    set(ASMJIT_EMBED ON CACHE BOOL "" FORCE)
+    include(${outdir}/CMakeLists.txt)
+    
+    set(ASMJIT_FILES ${ASMJIT_SRC})
+    Generate(MODULE ASMJIT AsmJit "Framework")
+    AddPublicInclude(ASMJIT ${outdir}/src/asmjit)
+    Finalize(ASMJIT)
+else()
+
 endif()
 
 CHECK_FUNCTION_EXISTS(posix_fallocate RF_HAVE_POSIX_FALLOCATE)
