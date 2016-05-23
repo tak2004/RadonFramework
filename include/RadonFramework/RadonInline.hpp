@@ -144,6 +144,9 @@
 #include <RadonFramework/Drawing/Forms/WindowService.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/Drawing/GraphicDriverInformation.hpp>
+#include <RadonFramework/Drawing/GraphicMachineOpenGLCommands.hpp>
+#include <RadonFramework/Drawing/GraphicMachineOpenGLConstants.hpp>
+#include <RadonFramework/Drawing/GraphicMachineOpenGLFunctions.hpp>
 #include <RadonFramework/Drawing/ICanvas3D.hpp>
 #include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 #include <RadonFramework/Drawing/NativeShape.hpp>
@@ -179,6 +182,7 @@
 #include <RadonFramework/IO/FileStatus.hpp>
 #include <RadonFramework/IO/FileStream.hpp>
 #include <RadonFramework/IO/FileWatcher.hpp>
+#include <RadonFramework/IO/KeyboardEvent.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/IO/LogConfig.hpp>
 #include <RadonFramework/IO/LogConsole.hpp>

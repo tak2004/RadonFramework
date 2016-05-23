@@ -128,12 +128,12 @@ String::String(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Memory,
         case RadonFramework::Core::Common::DataManagment::Copy:
         case RadonFramework::Core::Common::DataManagment::AllocateAndCopy:
         case RadonFramework::Core::Common::DataManagment::UnmanagedInstance:
-            String(reinterpret_cast<const char*>(Memory.Get()), Memory.Size(), Ownership);
+            *this=String(reinterpret_cast<const char*>(Memory.Get()), Memory.Size(), Ownership);
             break;
         case RadonFramework::Core::Common::DataManagment::TransfereOwnership:
         {
             auto data = Memory.Release();
-            String(reinterpret_cast<const char*>(data.Ptr), data.Count, Ownership);
+            *this=String(reinterpret_cast<const char*>(data.Ptr), data.Count, Ownership);
             break;
         }
     }

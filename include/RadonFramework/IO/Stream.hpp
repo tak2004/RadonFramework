@@ -35,6 +35,8 @@ public:
     virtual RF_Type::UInt64 Peek(RF_Type::UInt8* Buffer,
         const RF_Type::UInt64 Index, const RF_Type::UInt64 Count) = 0;
 
+    RF_Type::UInt64 WriteText(const RF_Type::String& ByValue);
+
     template<class T>
     RF_Type::UInt64 WriteType(const T& ByValue);
 

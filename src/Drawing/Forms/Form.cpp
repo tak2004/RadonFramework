@@ -13,13 +13,16 @@ Form::Form()
     m_Backend->OnIdle += SignalReceiver::Connector<Form>(&Form::Idle);
     m_Backend->OnResize += IObserver::Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
     m_Backend->OnReposition += IObserver::Connector<Form, const Math::Geometry::Point2D<>&>(&Form::Reposition);
-    m_Backend->OnKeyPress += IObserver::Connector<Form, const VirtualKey>(&Form::KeyPressed);
-    m_Backend->OnKeyRelease += IObserver::Connector<Form, const VirtualKey>(&Form::KeyReleased);
+    m_Backend->OnKeyPress += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyPressed);
+    m_Backend->OnPrintableKeyPressed += IObserver::Connector<Form, const KeyboardEvent&>(&Form::PrintableKeyPressed);
+    m_Backend->OnKeyRelease += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyReleased);
     m_Backend->OnMouseButtonPressed += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonPressed);
     m_Backend->OnMouseButtonReleased += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonReleased);
     m_Backend->OnMouseMove += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseMove);
     m_Backend->OnLostFocus += SignalReceiver::Connector<Form>(&Form::LostFocus);
     m_Backend->OnGotFocus += SignalReceiver::Connector<Form>(&Form::GotFocus);
+    m_Backend->OnVerticalMouseWheelMoved += IObserver::Connector<Form>(&Form::VerticalMouseWheelMoved);
+    m_Backend->OnHorizontalMouseWheelMoved += IObserver::Connector<Form>(&Form::HorizontalMouseWheelMoved);
     InitializeComponent();
 }
 
@@ -55,14 +58,14 @@ void Form::Idle()
     OnIdle();
 }
 
-void Form::KeyPressed(const VirtualKey VK)
+void Form::KeyPressed(const KeyboardEvent& Value)
 {
-    OnKeyPress(VK);
+    OnKeyPress(Value);
 }
 
-void Form::KeyReleased(const VirtualKey VK)
+void Form::KeyReleased(const KeyboardEvent& Value)
 {
-    OnKeyRelease(VK);
+    OnKeyRelease(Value);
 }
 
 void Form::MouseButtonPressed(const MouseEvent& Value)
@@ -115,17 +118,32 @@ RF_Type::Bool Form::HasFocus()const
     return m_Backend->HasFocus();
 }
 
-void RadonFramework::Forms::Form::LostFocus()
+void Form::LostFocus()
 {
     OnLostFocus();
 }
 
-void RadonFramework::Forms::Form::GotFocus()
+void Form::GotFocus()
 {
     OnGotFocus();
 }
 
-RF_Geo::Point2D<> RadonFramework::Forms::Form::GetCursorPosition() const
+RF_Geo::Point2D<> Form::GetCursorPosition() const
 {
     return m_Backend->GetCursorPosition();
+}
+
+void Form::VerticalMouseWheelMoved(RF_Type::Int32 Value)
+{
+    OnVerticalMouseWheelMoved(Value);
+}
+
+void Form::HorizontalMouseWheelMoved(RF_Type::Int32 Value)
+{
+    OnHorizontalMouseWheelMoved(Value);
+}
+
+void Form::PrintableKeyPressed(const KeyboardEvent& Value)
+{
+    OnPrintableKeyPressed(Value);
 }

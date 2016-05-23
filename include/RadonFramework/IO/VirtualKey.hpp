@@ -10,17 +10,23 @@ enum class VirtualKey : RF_Type::UInt8
 {
 	NotSet,
 	Escape,
-	Space,
-	PageUp,
-	PageDown,
 	Left,
 	Up,
 	Right,
 	Down,
 	ShiftLeft,
 	ShiftRight,
-	a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
-	A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
+    ControlLeft,
+    ControlRight,
+    AltLeft,
+    AltRight,
+    Enter,
+    Tab,
+    Backspace,
+    Insert, Delete, Home, End, PageUp, PageDown,
+    Keypad0, Keypad1, Keypad2, Keypad3, Keypad4, Keypad5, Keypad6, Keypad7, Keypad8, Keypad9,
+    KeypadDivide, KeypadMultiply, KeypadSubtract, KeypadAdd, KeypadDecimal, KeypadEnter,
+    F1, F2, F3, F4, F5, F6, F7,F8, F9, F10, F11, F12,
 };
 
 } }

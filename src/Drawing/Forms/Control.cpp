@@ -56,6 +56,8 @@ Control::~Control()
 
 void Control::Resize(const RF_Geo::Size2D<>& Value)
 {
+    m_ClientRectangle.Width(Value.Width);
+    m_ClientRectangle.Height(Value.Height);
     for (List<Control*>::Iterator it=Controls.Begin(); it!=Controls.End(); ++it)
         (*it)->Resize(Value);
     OnResize(Value);

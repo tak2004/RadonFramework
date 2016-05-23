@@ -16,137 +16,373 @@ using namespace RadonFramework::Collections;
 
 List<WindowsWindow*> WindowsWindow::m_Objects;
 
+void MapWindowsToRadonVirtualKeys(WPARAM wParam, LPARAM lParam, KeyboardEvent& event)
+{
+    VirtualKey vk = VirtualKey::NotSet;
+
+    // Numpad
+    auto hiFlags = HIWORD(lParam);
+    static const RF_Type::UInt16 KEYDOWNBIT = 1 << 15;
+    static const RF_Type::UInt16 EXTENDEDKEYBIT = 1 << 8;
+    static const RF_Type::UInt16 SCANCODEBITS = 255;
+    if((hiFlags & EXTENDEDKEYBIT) == 0)
+    {
+        switch(MapVirtualKey(hiFlags & SCANCODEBITS, MAPVK_VSC_TO_VK))
+        {
+            case VK_INSERT: vk = VirtualKey::Keypad0; break;
+            case VK_END: vk = VirtualKey::Keypad1; break;
+            case VK_DOWN: vk = VirtualKey::Keypad2; break;
+            case VK_NEXT: vk = VirtualKey::Keypad3; break;
+            case VK_LEFT: vk = VirtualKey::Keypad4; break;
+            case VK_CLEAR: vk = VirtualKey::Keypad5; break;
+            case VK_RIGHT: vk = VirtualKey::Keypad6; break;
+            case VK_HOME: vk = VirtualKey::Keypad7; break;
+            case VK_UP: vk = VirtualKey::Keypad8; break;
+            case VK_PRIOR: vk = VirtualKey::Keypad9; break;
+            case VK_DIVIDE: vk = VirtualKey::KeypadDivide; break;
+            case VK_MULTIPLY: vk = VirtualKey::KeypadMultiply; break;
+            case VK_SUBTRACT: vk = VirtualKey::KeypadSubtract; break;
+            case VK_ADD: vk = VirtualKey::KeypadAdd; break;
+            case VK_DELETE: vk = VirtualKey::KeypadDecimal; break;
+            default:
+                break;
+        }
+    }
+
+    switch(wParam)
+    {
+        case VK_ESCAPE:vk = VirtualKey::Escape; break;
+        case VK_TAB: vk = VirtualKey::Tab; break;
+        case VK_BACK: vk = VirtualKey::Backspace; break;
+        case VK_HOME: vk = VirtualKey::Home; break;
+        case VK_END: vk = VirtualKey::End; break;
+        case VK_INSERT: vk = VirtualKey::Insert; break;
+        case VK_DELETE: vk = VirtualKey::Delete; break;
+        case VK_PRIOR:vk = VirtualKey::PageUp; break;
+        case VK_NEXT:vk = VirtualKey::PageDown; break;
+        case VK_LEFT:vk = VirtualKey::Left; break;
+        case VK_UP:vk = VirtualKey::Up; break;
+        case VK_RIGHT:vk = VirtualKey::Right; break;
+        case VK_DOWN:vk = VirtualKey::Down; break;
+        case VK_SHIFT:
+        {
+            // both shift keys have the extended bit set but use different virtual keys
+            auto virtualKey= MapVirtualKey(VK_RSHIFT, 0);
+            if((hiFlags & (EXTENDEDKEYBIT | SCANCODEBITS)) == virtualKey)
+            {
+                vk = VirtualKey::ShiftRight;
+            }
+            else
+            {
+                vk = VirtualKey::ShiftLeft;
+            }
+            break;
+        }
+        case VK_CONTROL:
+        {
+            if(hiFlags & EXTENDEDKEYBIT)
+            {
+                vk = VirtualKey::ControlRight;
+            }
+            else
+            {
+                vk = VirtualKey::ControlLeft;
+            }
+            break;
+        }
+        case VK_MENU:
+        {
+            if(hiFlags & EXTENDEDKEYBIT)
+            {
+                vk = VirtualKey::AltRight;
+            }
+            else
+            {
+                vk = VirtualKey::AltLeft;
+            }
+            break;
+        }
+        case VK_RETURN:
+        {
+            if(hiFlags & EXTENDEDKEYBIT)
+            {
+                vk = VirtualKey::KeypadEnter;
+            }
+            else
+            {
+                vk = VirtualKey::Enter;
+            }
+        }
+    }
+    if (wParam >= VK_F1 && wParam <= VK_F12)
+        vk = (VirtualKey)((int)(VirtualKey::F1) + (wParam - VK_F1));
+
+    if((wParam >= '0' && wParam <= '9'))
+    {
+        event.PrintableCharacter = String(2);
+        event.PrintableCharacter[0] = static_cast<RF_Type::UInt8>(wParam);
+    }
+    if((wParam >= 'A' && wParam <= 'Z'))
+    {
+        event.PrintableCharacter = String(2);
+        event.PrintableCharacter[0] = 'a'+(static_cast<RF_Type::UInt8>(wParam)-'A');
+    }
+    
+    event.Key = vk;
+    BYTE states[256];
+    GetKeyboardState(states);
+    event.Alt = states[VK_MENU];
+    event.Ctrl = states[VK_CONTROL];
+    event.Shift = states[VK_SHIFT];
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    static const RF_Type::UInt16 EXTENDEDKEYBIT = 1 << 8;
+
     WindowsWindow *wnd=0;
     Size2D<> size;
     Point2D<> pos;
     VirtualKey vk=VirtualKey::NotSet;
     switch (uMsg)
     {
-        case WM_ERASEBKGND:
-            return 1;// avoid GDI to clean the background
-        case WM_PAINT:
+    case WM_ERASEBKGND:
+        return 1;// avoid GDI to clean the background
+    case WM_PAINT:
+    {
+        wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        break;
+    }
+    case WM_MOVE:
+        wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        pos.X = LOWORD(lParam);
+        pos.Y = HIWORD(lParam);
+        wnd->OnReposition(pos);
+        return 0;
+    case WM_SIZE:
+    {
+        wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        size.Width=LOWORD(lParam);
+        size.Height=HIWORD(lParam);
+        wnd->OnResize(size);
+        return 0;
+    }
+    case WM_CHAR:
+    case WM_SYSCHAR:
+    {
+        BYTE states[256];
+        GetKeyboardState(states);
+        if(states[VK_CONTROL] == 0)
         {
-            wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            break;
-        }
-        case WM_MOVE:
-            wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            pos.X = LOWORD(lParam);
-            pos.Y = HIWORD(lParam);
-            wnd->OnReposition(pos);
-            return 0;
-        case WM_SIZE:
-        {
-            wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            size.Width=LOWORD(lParam);
-            size.Height=HIWORD(lParam);
-            wnd->OnResize(size);
-            return 0;
-        }
-        case WM_KEYDOWN:
-        {
-            wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            switch (wParam)
+            RF_Type::UInt32 glyph = static_cast<RF_Type::UInt32>(wParam);
+            if((glyph >= 0xD800) && (glyph <= 0xDBFF))
             {
-                case VK_ESCAPE:vk=VirtualKey::Escape;break;
-                case VK_SPACE:vk=VirtualKey::Space;break;
-                case VK_PRIOR:vk=VirtualKey::PageUp;break;
-                case VK_NEXT:vk=VirtualKey::PageDown;break;
-                case VK_LEFT:vk=VirtualKey::Left;break;
-                case VK_UP:vk=VirtualKey::Up;break;
-                case VK_RIGHT:vk=VirtualKey::Right;break;
-                case VK_DOWN:vk=VirtualKey::Down;break;
-                case VK_LSHIFT:vk=VirtualKey::ShiftLeft;break;
-                case VK_RSHIFT:vk=VirtualKey::ShiftRight;break;
+                MSG nextMessage;
+                if(PeekMessageW(&nextMessage, NULL, 0, 0, PM_NOREMOVE))
+                {// check if there is an other message without removing it from the queue
+                    if(nextMessage.message == WM_CHAR ||
+                       nextMessage.message == WM_SYSCHAR)
+                    {
+                        RF_Type::UInt32 glyphPart = static_cast<RF_Type::UInt32>(nextMessage.wParam);
+                        if((glyphPart >= 0xDC00) && (glyphPart <= 0xDFFF))
+                        {
+                            WCHAR multybyteText[3] = {static_cast<WCHAR>(glyph), static_cast<WCHAR>(glyphPart),0};
+                            char languageUtf8[LOCALE_NAME_MAX_LENGTH];
+                            size_t writtenBytes = wcstombs(languageUtf8, multybyteText, LOCALE_NAME_MAX_LENGTH);
+                            if(writtenBytes > 0)
+                            {
+                                wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+                                KeyboardEvent event;
+                                event.PrintableCharacter = RF_Type::String(languageUtf8, writtenBytes + 1);
+                                wnd->OnPrintableKeyPressed(event);
+                            }
+                        }
+                    }
+                }
             }
-            if (wParam>='a' && wParam<='z')
-                vk=(VirtualKey)((int)(VirtualKey::a)+(wParam-'a'));
-            if (wParam>='A' && wParam<='Z')
-                vk=(VirtualKey)((int)(VirtualKey::A)+(wParam-'A'));
-            if (vk!=VirtualKey::NotSet)
-                wnd->OnKeyPress(vk);
-            break;
-        }
-        case WM_KEYUP:
-        {
-            wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            switch (wParam)
+            else
             {
-                case VK_ESCAPE:vk=VirtualKey::Escape;break;
-                case VK_SPACE:vk=VirtualKey::Space;break;
-                case VK_PRIOR:vk=VirtualKey::PageUp;break;
-                case VK_NEXT:vk=VirtualKey::PageDown;break;
-                case VK_LEFT:vk=VirtualKey::Left;break;
-                case VK_UP:vk=VirtualKey::Up;break;
-                case VK_RIGHT:vk=VirtualKey::Right;break;
-                case VK_DOWN:vk=VirtualKey::Down;break;
-                case VK_LSHIFT:vk=VirtualKey::ShiftLeft;break;
-                case VK_RSHIFT:vk=VirtualKey::ShiftRight;break;
+                WCHAR multybyteText[2] = {static_cast<WCHAR>(glyph),0};
+                char languageUtf8[LOCALE_NAME_MAX_LENGTH];
+                size_t writtenBytes = wcstombs(languageUtf8, multybyteText, LOCALE_NAME_MAX_LENGTH);
+                if(writtenBytes > 0)
+                {
+                    wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+                    KeyboardEvent event;
+                    event.Key = VirtualKey::NotSet;
+                    event.PrintableCharacter = RF_Type::String(languageUtf8, writtenBytes + 1);
+                    wnd->OnPrintableKeyPressed(event);
+                }
             }
-            if (wParam>='a' && wParam<='z')
-                vk=(VirtualKey)((int)(VirtualKey::a)+(wParam-'a'));
-            if (wParam>='A' && wParam<='Z')
-                vk=(VirtualKey)((int)(VirtualKey::A)+(wParam-'A'));
-            if (vk!=VirtualKey::NotSet)
-                wnd->OnKeyRelease(vk);
-            break;
         }
-    //case WM_CHAR:
-            
+        break;
+    }
+    case WM_SYSKEYDOWN:
+    case WM_KEYDOWN:
+    {
+        wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        if(wParam == VK_CONTROL)
+        {// right alt key will throw 2 messages, first left control and then right alt key
+            auto hiFlags = HIWORD(lParam);
+            if(hiFlags & EXTENDEDKEYBIT != 0)
+            {// current message is a left control key
+                auto messageTime = GetMessageTime();
+                MSG nextMessage;
+                if(PeekMessageW(&nextMessage, NULL, 0, 0, PM_NOREMOVE))
+                {// check if there is an other message without removing it from the queue
+                    if(nextMessage.message == WM_KEYDOWN ||
+                       nextMessage.message == WM_SYSKEYDOWN)
+                    {
+                        if(nextMessage.wParam == VK_MENU &&
+                            (HIWORD(nextMessage.lParam) & EXTENDEDKEYBIT) &&
+                           nextMessage.time == messageTime)
+                        {// remove the left control key message
+                            return -1;
+                        }
+                    }
+                }
+            }
+        }
+
+        KeyboardEvent event;
+        MapWindowsToRadonVirtualKeys(wParam, lParam, event);
+        wnd->OnKeyPress(event);
+        break;
+    }
+    case WM_SYSKEYUP:
+    case WM_KEYUP:
+    {
+        wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        if(wParam == VK_CONTROL)
+        {// right alt key will throw 2 messages, first left control and then right alt key
+            auto hiFlags = HIWORD(lParam);
+            if(hiFlags & EXTENDEDKEYBIT != 0)
+            {// current message is a left control key
+                auto messageTime = GetMessageTime();
+                MSG nextMessage;
+                if(PeekMessageW(&nextMessage, NULL, 0, 0, PM_NOREMOVE))
+                {// check if there is an other message without removing it from the queue
+                    if(nextMessage.message == WM_KEYUP ||
+                       nextMessage.message == WM_SYSKEYUP)
+                    {
+                        if(nextMessage.wParam == VK_MENU &&
+                            (HIWORD(nextMessage.lParam) & EXTENDEDKEYBIT) &&
+                           nextMessage.time == messageTime)
+                        {// remove the left control key message
+                            return -1;
+                        }
+                    }
+                }
+            }
+        }
+
+        KeyboardEvent event;
+        MapWindowsToRadonVirtualKeys(wParam, lParam, event);
+        wnd->OnKeyRelease(event);
+        break;
+    }
+    case WM_SYSCOMMAND:
+    {
+        // disallow screen saver and window menu activation 
+        switch(wParam)
+        {
+            case SC_SCREENSAVE:
+                return 0;
+            case SC_KEYMENU:
+                return 0;
+        }
+        break;
+    }
     case WM_LBUTTONDOWN:
     case WM_RBUTTONDOWN:
     case WM_MBUTTONDOWN:
+    case WM_XBUTTONDOWN:
+    {
+        wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        MouseEvent event;
+        event.CurrentPosition=Point2D<>(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
+        for (UInt32 i=0;i<VirtualMouseButton::MAX;++i)
+            event.MouseButtonState[i]=0;
+        if (uMsg == WM_MBUTTONDOWN)
+            event.MouseButtonState[VirtualMouseButton::Middle]=true;
+        if (uMsg == WM_LBUTTONDOWN)
+            event.MouseButtonState[VirtualMouseButton::Left]=true;
+        if (uMsg == WM_RBUTTONDOWN)
+            event.MouseButtonState[VirtualMouseButton::Right]=true;
+        if(uMsg == WM_XBUTTONUP)
         {
-            wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            MouseEvent event;
-            event.CurrentPosition=Point2D<>(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
-            for (UInt32 i=0;i<VirtualMouseButton::MAX;++i)
-                event.MouseButtonState[i]=0;
-            if (uMsg == WM_MBUTTONDOWN)
-                event.MouseButtonState[VirtualMouseButton::Middle]=true;
-            if (uMsg == WM_LBUTTONDOWN)
-                event.MouseButtonState[VirtualMouseButton::Left]=true;
-            if (uMsg == WM_RBUTTONDOWN)
-                event.MouseButtonState[VirtualMouseButton::Right]=true;
-            wnd->OnMouseButtonPressed(event);
-            break;
+            if(HIWORD(wParam) == XBUTTON1)
+            {
+                event.MouseButtonState[VirtualMouseButton::Button4] = true;
+            }
+            if(HIWORD(wParam) == XBUTTON2)
+            {
+                event.MouseButtonState[VirtualMouseButton::Button5] = true;
+            }
         }
+        wnd->OnMouseButtonPressed(event);
+        break;
+    }
     case WM_LBUTTONUP:
     case WM_RBUTTONUP:
     case WM_MBUTTONUP:
+    case WM_XBUTTONUP:
+    {
+        wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        MouseEvent event;
+        event.CurrentPosition=Point2D<>(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
+        for (UInt32 i=0;i<VirtualMouseButton::MAX;++i)
+            event.MouseButtonState[i]=0;
+        if (uMsg == WM_MBUTTONUP)
+            event.MouseButtonState[VirtualMouseButton::Middle]=true;
+        if (uMsg == WM_LBUTTONUP)
+            event.MouseButtonState[VirtualMouseButton::Left]=true;
+        if (uMsg == WM_RBUTTONUP)
+            event.MouseButtonState[VirtualMouseButton::Right]=true;
+        if(uMsg == WM_XBUTTONUP)
         {
-            wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            MouseEvent event;
-            event.CurrentPosition=Point2D<>(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
-            for (UInt32 i=0;i<VirtualMouseButton::MAX;++i)
-                event.MouseButtonState[i]=0;
-            if (uMsg == WM_MBUTTONUP)
-                event.MouseButtonState[VirtualMouseButton::Middle]=true;
-            if (uMsg == WM_LBUTTONUP)
-                event.MouseButtonState[VirtualMouseButton::Left]=true;
-            if (uMsg == WM_RBUTTONUP)
-                event.MouseButtonState[VirtualMouseButton::Right]=true;
-            wnd->OnMouseButtonReleased(event);
-            break;
+            if(HIWORD(wParam) == XBUTTON1)
+            {
+                event.MouseButtonState[VirtualMouseButton::Button4] = true;
+            }
+            if(HIWORD(wParam) == XBUTTON2)
+            {
+                event.MouseButtonState[VirtualMouseButton::Button5] = true;
+            }
         }
+        wnd->OnMouseButtonReleased(event);
+        break;
+    }
     case WM_MOUSEMOVE:
-        {
-            wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-            MouseEvent event;
-            event.CurrentPosition=Point2D<>(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
-            for (UInt32 i=0;i<VirtualMouseButton::MAX;++i)
-                event.MouseButtonState[i]=0;
-            if (wParam & MK_MBUTTON)
-                event.MouseButtonState[VirtualMouseButton::Middle]=true;
-            if (wParam & MK_LBUTTON)
-                event.MouseButtonState[VirtualMouseButton::Left]=true;
-            if (wParam & MK_RBUTTON)
-                event.MouseButtonState[VirtualMouseButton::Right]=true;
-            wnd->OnMouseMove(event);
-            break;
-        }
+    {
+        wnd=dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        MouseEvent event;
+        event.CurrentPosition=Point2D<>(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam));
+        for (UInt32 i=0;i<VirtualMouseButton::MAX;++i)
+            event.MouseButtonState[i]=0;
+        if (wParam & MK_MBUTTON)
+            event.MouseButtonState[VirtualMouseButton::Middle]=true;
+        if (wParam & MK_LBUTTON)
+            event.MouseButtonState[VirtualMouseButton::Left]=true;
+        if (wParam & MK_RBUTTON)
+            event.MouseButtonState[VirtualMouseButton::Right]=true;
+        wnd->OnMouseMove(event);
+        break;
+    }
+    case WM_MOUSEWHEEL:
+    {
+        wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        auto zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+        wnd->OnVerticalMouseWheelMoved(zDelta);
+        break;
+    }
+    case WM_MOUSEHWHEEL:
+    {
+        wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        auto zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+        wnd->OnHorizontalMouseWheelMoved(zDelta);
+        break;
+    }
     case WM_SETFOCUS:
     {
         wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
@@ -169,7 +405,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return 0;
         }
     }
-    return DefWindowProc(hWnd,uMsg,wParam,lParam);
+    return DefWindowProcW(hWnd,uMsg,wParam,lParam);
 }
 
 WindowsWindow::WindowsWindow(WindowService *Service)
@@ -216,11 +452,13 @@ void WindowsWindow::Visible(const Bool Value)
             if (!m_Created)//Form wasn't created till now
             {
                 m_Created=true;
-                m_Handle=CreateWindowExA(0,"#32770",m_Title.c_str(),
+                WCHAR languageUtf16[LOCALE_NAME_MAX_LENGTH];
+                mbstowcs(languageUtf16, m_Title.c_str(), LOCALE_NAME_MAX_LENGTH);
+                m_Handle=CreateWindowExW(0,L"#32770", languageUtf16,
                                             WS_VISIBLE | m_WindowFlags,
                                             m_Pos.X, m_Pos.Y, m_Size.Width, m_Size.Height,
                                             0, 0, 0, NULL );
-                SetWindowLongPtr(m_Handle,GWLP_WNDPROC,(LONG_PTR)WndProc);
+                SetWindowLongPtrW(m_Handle,GWLP_WNDPROC,(LONG_PTR)WndProc);
             }
             else
                 ShowWindow(m_Handle,SW_SHOW);
@@ -238,7 +476,9 @@ String WindowsWindow::Title()
 
 void WindowsWindow::Title(const String &Value)
 {
-    if (SetWindowText(m_Handle,Value.c_str()) || GetLastError()==0)
+    WCHAR languageUtf16[LOCALE_NAME_MAX_LENGTH];
+    mbstowcs(languageUtf16, Value.c_str(), LOCALE_NAME_MAX_LENGTH);
+    if (SetWindowTextW(m_Handle, languageUtf16) || GetLastError()==0)
         m_Title=Value;
 }
 
