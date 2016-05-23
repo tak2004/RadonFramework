@@ -2,12 +2,14 @@
 #include "RadonFramework/IO/Directory.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/Collections/List.hpp"
+#include "RadonFramework/IO/File.hpp"
 
 using namespace RadonFramework;
-using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
+
+namespace RadonFramework { namespace IO {
 
 Directory::Directory()
 {
@@ -304,3 +306,17 @@ AutoPointerArray<Directory> Directory::Directories()const
         result[i]=tmp[i];
     return result;
 }
+
+AutoPointer<File> Directory::SubFile(const RF_Type::String& Filename) const
+{
+    AutoPointer<File> result;
+    if(Exists())
+    {
+        result = AutoPointer<File>(new File);
+        auto location = Uri(Location().OriginalString()+Filename);
+        result->SetLocation(location);
+    }
+    return result;
+}
+
+} }

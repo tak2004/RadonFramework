@@ -10,6 +10,7 @@
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/IO/VirtualKey.hpp>
 #include <RadonFramework/IO/MouseEvent.hpp>
+#include <RadonFramework/IO/KeyboardEvent.hpp>
 
 namespace RadonFramework { namespace Forms {
 
@@ -37,13 +38,16 @@ public:
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
     RF_Pattern::Signal OnIdle;
-    RF_Pattern::Event<const RF_IO::VirtualKey> OnKeyPress;
-    RF_Pattern::Event<const RF_IO::VirtualKey> OnKeyRelease;
+    RF_Pattern::Event<const RF_IO::KeyboardEvent&> OnKeyPress;
+    RF_Pattern::Event<const RF_IO::KeyboardEvent&> OnKeyRelease;
+    RF_Pattern::Event<const RF_IO::KeyboardEvent&> OnPrintableKeyPressed;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonPressed;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonReleased;
     RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseMove;
     RF_Pattern::Signal OnLostFocus;
     RF_Pattern::Signal OnGotFocus;
+    RF_Pattern::Event<RF_Type::Int32> OnVerticalMouseWheelMoved;
+    RF_Pattern::Event<RF_Type::Int32> OnHorizontalMouseWheelMoved;
 };
 
 } }

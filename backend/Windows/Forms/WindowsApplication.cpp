@@ -25,10 +25,10 @@ void WindowsApplication::Run(Form *MainForm)
     while (m_Active==true && (MainForm == 0 || (MainForm != 0 && MainForm->Visible())))
     {
         SleepEx(0, true);// necessary for completion port api
-        while (PeekMessage(&msg,0,0,0,PM_REMOVE))
+        while (PeekMessageW(&msg,0,0,0,PM_REMOVE))
         {
             TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            DispatchMessageW(&msg);
         }
 
         for (unsigned int i=0;i<WindowsWindow::GetObjectCount();i++)
@@ -44,9 +44,9 @@ void WindowsApplication::End()
   m_Active=false;
 }
 
-bool WindowsApplication::IsRunningOnDesktop()
+RF_Type::Bool WindowsApplication::IsRunningOnDesktop()
 {
-    bool result = false;
+    RF_Type::Bool result = false;
     DWORD sp = GetCurrentProcessId();
     HANDLE ptree = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     PROCESSENTRY32 e = {0}; 
@@ -81,8 +81,68 @@ bool WindowsApplication::IsRunningOnDesktop()
     return result;
 }
 
-void WindowsApplication::ShowConsole(bool isVisible)
+void WindowsApplication::ShowConsole(RF_Type::Bool isVisible)
 {
     ShowWindow(GetConsoleWindow(), isVisible? SW_SHOW : SW_HIDE);
+}
+
+RF_Type::String RadonFramework::Forms::WindowsApplication::GetClipboardText()
+{
+    RF_Type::String result;
+    if(IsClipboardFormatAvailable(CF_UNICODETEXT))
+    {
+        // Because the process is interested in the clipboard we don't specify a window handle.
+        if(OpenClipboard(NULL))
+        {
+            auto handle = GetClipboardData(CF_UNICODETEXT);
+            if(handle)
+            {
+                void* multybyteText = GlobalLock(handle);
+                if(multybyteText)
+                {
+                    RF_Type::Size bytes = GlobalSize(handle);
+                    RF_Mem::AutoPointerArray<RF_Type::UInt8> buffer(bytes);
+                    bytes = wcstombs(reinterpret_cast<char*>(buffer.Get()), reinterpret_cast<WCHAR*>(multybyteText), buffer.Size());
+                    if(bytes > 0)
+                    {
+                        result = RF_Type::String(buffer);
+                    }
+                    GlobalUnlock(handle);
+                }
+            }
+            CloseClipboard();
+        }        
+    }
+    return result;
+    
+}
+
+void RadonFramework::Forms::WindowsApplication::SetClipboardText(const RF_Type::String& NewText)
+{
+    if(IsClipboardFormatAvailable(CF_UNICODETEXT))
+    {
+        size_t elements = mbstowcs(0,NewText.c_str(), NewText.Size()) + 1;
+        RF_Mem::AutoPointerArray<RF_Type::UInt16> languageUtf16(elements);
+        size_t writtenBytes = mbstowcs(reinterpret_cast<WCHAR*>(languageUtf16.Get()), NewText.c_str(), NewText.Size()) * sizeof(WCHAR) + sizeof(WCHAR);
+        if(writtenBytes > 0)
+        {
+            auto stringHandle = GlobalAlloc(GMEM_MOVEABLE, writtenBytes);
+            if (stringHandle)
+            {
+                memcpy(GlobalLock(stringHandle), languageUtf16.Get(), writtenBytes);
+                GlobalUnlock(stringHandle);
+                if(OpenClipboard(NULL))
+                {
+                    EmptyClipboard();
+                    SetClipboardData(CF_UNICODETEXT, stringHandle);
+                    CloseClipboard();
+                }
+                else
+                {
+                    GlobalFree(stringHandle);
+                }
+            }
+        }
+    }
 }
 

@@ -52,7 +52,7 @@ DWORD GetNativePriority(FileAccessPriority::Type AccessPriority)
 DWORD GetNativeCreationDisposition(FileAccessMode::Type AccessMode)
 {
     static DWORD result[FileAccessMode::MAX] = {
-        OPEN_EXISTING, OPEN_ALWAYS, OPEN_ALWAYS
+        OPEN_EXISTING, CREATE_ALWAYS, OPEN_ALWAYS
     };
     return result[AccessMode];
 }
@@ -343,14 +343,14 @@ RF_Type::String HomeDirectory()
 
 RF_Type::String ApplicationDirectory()
 {
+    const static RF_Type::String PathDelimiter("\\");
     char buf[MAX_PATH];
     GetModuleFileName(NULL,buf,MAX_PATH);
     RF_Type::String result(buf, MAX_PATH);
-    
-    RF_Type::Int32 index = result.LastIndexOf(Seperator());
+    RF_Type::Int32 index = result.LastIndexOf(PathDelimiter);
     if(index > 0)
     {
-        result = result.SubString(0, index + Seperator().Length());
+        result = result.SubString(0, index + PathDelimiter.Length());
     }
     else
     {

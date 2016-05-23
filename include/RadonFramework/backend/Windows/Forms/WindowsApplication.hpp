@@ -3,23 +3,23 @@
 
 #include <RadonFramework/Drawing/Forms/IApplication.hpp>
 
-namespace RadonFramework
+namespace RadonFramework { namespace Forms {
+    
+class WindowsApplication:public IApplication
 {
-  namespace Forms
-  {
-    class WindowsApplication:public IApplication
-    {
-      protected:
-        bool m_Active;
-      public:
-        WindowsApplication();
-        ~WindowsApplication();
-        void Run(Form *MainForm);
-        void End();
-        bool IsRunningOnDesktop();
-        void ShowConsole(bool isVisible);
-    };
-  }
-}
+public:
+    WindowsApplication();
+    virtual ~WindowsApplication() override;
+    virtual void Run(Form *MainForm) override;
+    virtual void End() override;
+    virtual RF_Type::Bool IsRunningOnDesktop() override;
+    virtual void ShowConsole(RF_Type::Bool isVisible) override;
+    virtual RF_Type::String GetClipboardText() override;
+    virtual void SetClipboardText(const RF_Type::String& NewText) override;
+protected:
+    RF_Type::Bool m_Active;
+};
+
+} }
 
 #endif

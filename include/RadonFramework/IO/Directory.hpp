@@ -9,6 +9,8 @@
 
 namespace RadonFramework { namespace IO {
 
+class File;
+
 class Directory
 {
 public:
@@ -52,6 +54,8 @@ public:
     Memory::AutoPointerArray<RF_Type::String> Files()const;
     Memory::AutoPointerArray<RF_Type::String> FilesIncludingSubdirectories()const;
     Memory::AutoPointerArray<Directory> Directories()const;
+    /// Returns an file instance if the directory exists and the specified Filename is an valid file.
+    Memory::AutoPointer<File> SubFile(const RF_Type::String& Filename)const;
 protected:
     Uri m_Uri;
 };

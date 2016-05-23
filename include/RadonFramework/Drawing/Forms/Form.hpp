@@ -21,8 +21,9 @@ public:
     virtual void Title(const RF_Type::String &Value);
     virtual void InitializeComponent();
     virtual void Idle();
-    virtual void KeyPressed(const IO::VirtualKey VK);
-    virtual void KeyReleased(const IO::VirtualKey VK);
+    virtual void KeyPressed(const IO::KeyboardEvent& Value);
+    virtual void KeyReleased(const IO::KeyboardEvent& Value);
+    virtual void PrintableKeyPressed(const IO::KeyboardEvent& Value);
     virtual void MouseButtonPressed(const IO::MouseEvent& Value);
     virtual void MouseButtonReleased(const IO::MouseEvent& Value);
     virtual void MouseMove(const IO::MouseEvent& Value);
@@ -34,17 +35,22 @@ public:
     virtual void CursorVisible(const bool Value);
     virtual void LostFocus();
     virtual void GotFocus();
+    virtual void VerticalMouseWheelMoved(RF_Type::Int32 Value);
+    virtual void HorizontalMouseWheelMoved(RF_Type::Int32 Value);
     RF_Type::Bool HasFocus()const;
     RF_Geo::Point2D<> GetCursorPosition()const;
 
     RF_Pattern::Signal OnIdle;
-    RF_Pattern::Event<const IO::VirtualKey&> OnKeyPress;
-    RF_Pattern::Event<const IO::VirtualKey&> OnKeyRelease;
+    RF_Pattern::Event<const IO::KeyboardEvent&> OnKeyPress;
+    RF_Pattern::Event<const IO::KeyboardEvent&> OnKeyRelease;
+    RF_Pattern::Event<const IO::KeyboardEvent&> OnPrintableKeyPressed;
     RF_Pattern::Event<const IO::MouseEvent&> OnMouseButtonPressed;
     RF_Pattern::Event<const IO::MouseEvent&> OnMouseButtonReleased;
     RF_Pattern::Event<const IO::MouseEvent&> OnMouseMove;
     RF_Pattern::Signal OnLostFocus;
     RF_Pattern::Signal OnGotFocus;
+    RF_Pattern::Event<RF_Type::Int32> OnVerticalMouseWheelMoved;
+    RF_Pattern::Event<RF_Type::Int32> OnHorizontalMouseWheelMoved;
 protected:
     IWindow* m_Backend;
     RF_Type::Bool m_HasFocus;

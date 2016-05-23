@@ -12,6 +12,8 @@ enum Type
     Left,
     Right,
     Middle,
+    Button4,
+    Button5,
     MAX
 };
 }
