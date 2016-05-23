@@ -87,15 +87,15 @@ RF_Type::Bool IsVec128IntSuccessfullyDispatched()
 void GetNotDispatchedVec128IntFunctions(RF_Collect::List<RF_Type::String>& Result)
 {
     if(Vec128IntLoad == Vec128Load_SystemAPIDispatcher || Vec128IntLoad == 0)
-        Result.AddLast("Vec128IntLoad");
+        Result.AddLast(RF_Type::String("Vec128IntLoad"));
     if(Vec128IntSetInt32 == Vec128SetInt32_SystemAPIDispatcher || Vec128IntSetInt32 == 0)
-        Result.AddLast("Vec128IntSetInt32");
+        Result.AddLast(RF_Type::String("Vec128IntSetInt32"));
     if(Vec128IntCompareInt32 == Vec128CompareInt32_SystemAPIDispatcher || Vec128IntCompareInt32 == 0)
-        Result.AddLast("Vec128IntCompareInt32");
+        Result.AddLast(RF_Type::String("Vec128IntCompareInt32"));
     if(Vec128IntMaskInt8 == Vec128MaskInt8_SystemAPIDispatcher || Vec128IntMaskInt8 == 0)
-        Result.AddLast("Vec128IntMaskInt8");
+        Result.AddLast(RF_Type::String("Vec128IntMaskInt8"));
     if(Vec128IntFindInt32 == Vec128IntFindInt32_SystemAPIDispatcher || Vec128IntFindInt32 == 0)
-        Result.AddLast("Vec128IntFindInt32");
+        Result.AddLast(RF_Type::String("Vec128IntFindInt32"));
 }
 
 } } }

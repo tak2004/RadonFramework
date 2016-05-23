@@ -251,7 +251,7 @@ void ServiceDiscovery::PacketReceived(ServerProcessPacketEvent& Sender)
         {
             if (reader.Answers()(i).Type == RecordType::SRV)
             {
-                RF_Mem::AutoPointerArray<RF_Type::String> nameParts = reader.Answers()(i).Name.Split(".");
+                RF_Mem::AutoPointerArray<RF_Type::String> nameParts = reader.Answers()(i).Name.Split(RF_Type::String("."));
 
                 RF_Type::Size j;
                 for(j = 1; j < nameParts.Count(); ++j)

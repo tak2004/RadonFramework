@@ -83,7 +83,7 @@ Stream* FileProtocolService::GenerateInterface(const Uri& URI)
     else
     {
         auto stream = RF_Mem::AutoPointer<FileStream>(new FileStream);
-        RF_IO::Uri fileSystem(URI.OriginalString().Replace(URI.Scheme(),"file"));
+        RF_IO::Uri fileSystem(URI.OriginalString().Replace(URI.Scheme(), RF_Type::String("file")));
         stream->Open(fileSystem, RF_SysFile::FileAccessMode::ReadWrite, RF_SysFile::FileAccessPriority::ReadThroughput);
         result = stream.Get();
         m_PImpl->m_StreamLookup.Add(key, result);

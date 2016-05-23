@@ -318,7 +318,8 @@ void RealPath(const RF_Type::String& Path, RF_Type::String& ResolvedPath)
         RF_Mem::AutoPointerArray<char> buffer(neededBufferSize);
         GetFullPathName(Path.c_str(), neededBufferSize, buffer.Get(), lppPart);
         ResolvedPath = RF_Type::String(buffer.Release().Ptr, neededBufferSize, 
-            RF_Common::DataManagment::TransfereOwnership).Replace("\\", "/");
+            RF_Common::DataManagment::TransfereOwnership).Replace(
+                RF_Type::String("\\"), RF_Type::String("/"));
     }
 }
 
@@ -440,7 +441,8 @@ void FileWatcherObject::Process(const RF_Type::UInt32 Bytes)
                                         pNotify->FileNameLength / sizeof(WCHAR),
                                         szFile, MAX_PATH - 1, NULL, NULL);
             szFile[count] = TEXT('\0');
-            args.Name = RF_Type::String(szFile, count).Replace("\\", "/");
+            args.Name = RF_Type::String(szFile, count).Replace(
+                RF_Type::String("\\"), RF_Type::String("/"));
 
             switch(pNotify->Action)
             {

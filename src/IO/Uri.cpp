@@ -69,7 +69,7 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
     // check if it's a opaque URI
     // opaque==absolute+no '/' at start of scheme specific part
     if (m_IsAbsolute)
-        if (m_SchemeSpecificPart.IndexOf("/") == -1)
+        if (m_SchemeSpecificPart.IndexOf(String("/")) == -1)
             m_IsOpaque=true;
 
     // non opaque uri's need more parsing
@@ -84,14 +84,14 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
         // The authority component is preceded by a double slash ("//") and is
         // terminated by the next slash ("/"), question mark ("?"), or number
         // sign ("#") character, or by the end of the URI.
-        if (m_SchemeSpecificPart.StartsWith("//"))
+        if (m_SchemeSpecificPart.StartsWith(String("//")))
         {
 
-            Int32 authorityEnd=m_SchemeSpecificPart.IndexOf("/", 2);
+            Int32 authorityEnd=m_SchemeSpecificPart.IndexOf(String("/"), 2);
             if (authorityEnd<0)
-                authorityEnd=m_SchemeSpecificPart.IndexOf("?",2);
+                authorityEnd=m_SchemeSpecificPart.IndexOf(String("?"),2);
             if (authorityEnd<0)
-                authorityEnd=m_SchemeSpecificPart.IndexOf("#",2);
+                authorityEnd=m_SchemeSpecificPart.IndexOf(String("#"),2);
             if (authorityEnd<0)
                 authorityEnd=m_SchemeSpecificPart.Length();
             m_Authority=m_SchemeSpecificPart.SubString(2,authorityEnd-2);
@@ -104,9 +104,9 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
         {
             // The path is terminated by the first question mark ("?") or
             // number sign ("#") character, or by the end of the URI.
-            Int32 pathEnd=m_SchemeSpecificPart.IndexOf("?",lastEnd);
+            Int32 pathEnd=m_SchemeSpecificPart.IndexOf(String("?"),lastEnd);
             if (pathEnd<0)
-                pathEnd=m_SchemeSpecificPart.IndexOf("#",lastEnd);
+                pathEnd=m_SchemeSpecificPart.IndexOf(String("#"),lastEnd);
             if (pathEnd<0)
                 pathEnd=m_SchemeSpecificPart.Length();
             m_Path=m_SchemeSpecificPart.SubString(lastEnd, pathEnd - lastEnd);
@@ -119,7 +119,7 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
         {
             // The path is terminated by the first question mark ("?") or
             // number sign ("#") character, or by the end of the URI.
-            Int32 queryEnd=m_SchemeSpecificPart.IndexOf("#", lastEnd);
+            Int32 queryEnd=m_SchemeSpecificPart.IndexOf(String("#"), lastEnd);
             if (queryEnd<0)
                 queryEnd=m_SchemeSpecificPart.Length();
             m_Query=m_SchemeSpecificPart.SubString(lastEnd + 1, queryEnd - lastEnd - 1);
@@ -130,7 +130,7 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
     // parse authority
     if (0==m_Authority.Length())//if authority is empty then it's localhost and default port
     {
-        m_Host="localhost";
+        m_Host= "localhost";
         m_IsDefaultPort=true;
         m_IsDefaultUser=true;
         m_HostNameType=UriHostNameType::DomainName;
@@ -138,7 +138,7 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
     else
     {
         // get user info
-        Int32 userinfoEnd=m_Authority.IndexOf("@");
+        Int32 userinfoEnd=m_Authority.IndexOf(String("@"));
         if (userinfoEnd>=0)
         {
             m_IsDefaultUser=false;
@@ -154,8 +154,8 @@ Uri::Uri(const String& UriString, const UriKind::Type UriKind)
         // If there is a ']' which indicate that there is a IPv6 then check if
         // the hostnameEnd don't point to a ':' of the IPv6.
         // Check also if hostnameEnd point to a ':' of the user info.
-        Int32 hostnameEnd=m_Authority.LastIndexOf(":");
-        Int32 IPliteral=m_Authority.IndexOf("]");
+        Int32 hostnameEnd=m_Authority.LastIndexOf(String(":"));
+        Int32 IPliteral=m_Authority.IndexOf(String("]"));
         if (hostnameEnd<0 || hostnameEnd<IPliteral || hostnameEnd<userinfoEnd)
             hostnameEnd=m_Authority.Length();
 
@@ -350,7 +350,9 @@ String Uri::GetComponents(const UriComponents::Type Components,
     return str;
 }
 
-String Uri::HexUpperChars[]={"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+String Uri::HexUpperChars[]={String("0"),String("1"),String("2"),String("3"),
+    String("4"),String("5"),String("6"),String("7"),String("8"),String("9"),
+    String("A"),String("B"),String("C"),String("D"),String("E"),String("F")};
 
 String Uri::HexEscape(const Char Character)
 {

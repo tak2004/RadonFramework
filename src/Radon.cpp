@@ -94,31 +94,31 @@ void Radon::InitSubSystem(UInt32 Flags)
         Canvas3DServiceLocator::Initialize();
         #ifdef RF_USE_OPENGL
             #ifdef RF_USE_X11
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL1Canvas3DService("OpenGL1.x")));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL2Canvas3DService("OpenGL2.x")));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL3Canvas3DService("OpenGL3.x")));
-            Canvas3DServiceLocator::SetDefault("OpenGL3.x");
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL1Canvas3DService(RF_Type::String("OpenGL1.x"))));
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL2Canvas3DService(RF_Type::String("OpenGL2.x"))));
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL3Canvas3DService(RF_Type::String("OpenGL3.x"))));
+            Canvas3DServiceLocator::SetDefault(RF_Type::String("OpenGL3.x"));
             #endif
             #ifdef RF_USE_GDI
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL1Canvas3DService("OpenGL1.x")));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL2Canvas3DService("OpenGL2.x")));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL3Canvas3DService("OpenGL3.x")));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGLCanvas3DService("Newest OpenGL Version with GDI")));
-            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version with GDI");
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL1Canvas3DService(RF_Type::String("OpenGL1.x"))));
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL2Canvas3DService(RF_Type::String("OpenGL2.x"))));
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL3Canvas3DService(RF_Type::String("OpenGL3.x"))));
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGLCanvas3DService(RF_Type::String("Newest OpenGL Version with GDI"))));
+            Canvas3DServiceLocator::SetDefault(RF_Type::String("Newest OpenGL Version with GDI"));
             #endif
             #ifdef RF_USE_WDM
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new WDMOpenGLCanvas3DService("Newest OpenGL Version without GDI")));
-            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version without GDI");
+            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new WDMOpenGLCanvas3DService(RF_Type::String("Newest OpenGL Version without GDI"))));
+            Canvas3DServiceLocator::SetDefault(RF_Type::String("Newest OpenGL Version without GDI"));
             #endif
         #endif
         RF_SysDraw::SystemTrayServiceLocator::Initialize();
         #if defined(RF_WINDOWS)
-        RF_SysDraw::SystemTrayServiceLocator::Register(AutoPointer<RF_SysDraw::SystemTrayService>((RF_SysDraw::SystemTrayService*)new RF_SysDraw::SystemTrayServiceWindows("Windows system tray")));
+        RF_SysDraw::SystemTrayServiceLocator::Register(AutoPointer<RF_SysDraw::SystemTrayService>((RF_SysDraw::SystemTrayService*)new RF_SysDraw::SystemTrayServiceWindows(RF_Type::String("Windows system tray"))));
         #endif
         
         FontServiceLocator::Initialize();
         #if defined(RF_WINDOWS)        
-            FontServiceLocator::Register(AutoPointer<FontService>((FontService*)new RF_SysDraw::OSFontService("OS Fonts")));
+            FontServiceLocator::Register(AutoPointer<FontService>((FontService*)new RF_SysDraw::OSFontService(RF_Type::String("OS Fonts"))));
         #endif
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Drawing;
     }
@@ -127,10 +127,10 @@ void Radon::InitSubSystem(UInt32 Flags)
     {
         WindowServiceLocator::Initialize();
         #ifdef RF_USE_X11
-        WindowServiceLocator::Register(AutoPointer<WindowService>(new X11WindowService("Linux_X11")));
+        WindowServiceLocator::Register(AutoPointer<WindowService>(new X11WindowService(RF_Type::String("Linux_X11"))));
         #endif
         #ifdef RF_USE_GDI
-        WindowServiceLocator::Register(AutoPointer<WindowService>(new WindowsWindowService("Windows_GDI")));
+        WindowServiceLocator::Register(AutoPointer<WindowService>(new WindowsWindowService(RF_Type::String("Windows_GDI"))));
         #endif
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Forms;
     }

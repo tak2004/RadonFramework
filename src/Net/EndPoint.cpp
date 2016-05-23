@@ -33,7 +33,7 @@ bool RadonFramework::Net::EndPoint::operator==( const EndPoint &Other )
 
 const String EndPoint::ToString()const
 {
-	return String::Format("%s:%uh", m_IP.ToString().c_str(), m_Port);
+	return String::Format(String("%s:%uh"), m_IP.ToString().c_str(), m_Port);
 }
 
 const IPAddress& EndPoint::Address()const

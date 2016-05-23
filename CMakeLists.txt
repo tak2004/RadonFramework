@@ -152,7 +152,7 @@ if(RADONFRAMEWORK_EXPERIMENTAL_JIT)
     
     set(ASMJIT_FILES ${ASMJIT_SRC})
     Generate(MODULE ASMJIT AsmJit "Framework")
-    AddPublicInclude(ASMJIT ${outdir}/src/asmjit)
+    AddPublicInclude(ASMJIT ${outdir}/src)
     Finalize(ASMJIT)
 else()
 

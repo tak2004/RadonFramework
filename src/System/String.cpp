@@ -144,25 +144,25 @@ Bool RF_SysStr::IsSuccessfullyDispatched()
 void RF_SysStr::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if (SetLocale == SetLocale_SystemAPIDispatcher || SetLocale == 0) 
-        Result.AddLast("SetLocale");
+        Result.AddLast(RF_Type::String("SetLocale"));
     if (GetLocale == GetLocaleCallback_SystemAPIDispatcher || GetLocale == 0) 
-        Result.AddLast("GetLocale");
+        Result.AddLast(RF_Type::String("GetLocale"));
     if (ToUpper == ToUpperCallback_SystemAPIDispatcher || ToUpper == 0)
-        Result.AddLast("ToUpper");
+        Result.AddLast(RF_Type::String("ToUpper"));
     if (ToLower == ToLowerCallback_SystemAPIDispatcher || ToLower == 0)
-        Result.AddLast("ToLower");
+        Result.AddLast(RF_Type::String("ToLower"));
     if(CStringSizeOf == SizeCallback_SystemAPIDispatcher || CStringSizeOf == 0)
-        Result.AddLast("CStringSizeOf");
+        Result.AddLast(RF_Type::String("CStringSizeOf"));
     if (Length == LengthCallback_SystemAPIDispatcher || Length == 0)
-        Result.AddLast("Length");
+        Result.AddLast(RF_Type::String("Length"));
     if (ToInt64 == ToInt64Callback_SystemAPIDispatcher || ToInt64 == 0)
-        Result.AddLast("ToInt64");
+        Result.AddLast(RF_Type::String("ToInt64"));
     if (ToUInt64 == ToUInt64Callback_SystemAPIDispatcher || ToUInt64 == 0)
-        Result.AddLast("ToUInt64");
+        Result.AddLast(RF_Type::String("ToUInt64"));
     if (ToFloat64 == ToFloat64Callback_SystemAPIDispatcher || ToFloat64 == 0)
-        Result.AddLast("ToFloat64");
+        Result.AddLast(RF_Type::String("ToFloat64"));
     if (Format == FormatCallback_SystemAPIDispatcher || Format == 0)
-        Result.AddLast("Format");
+        Result.AddLast(RF_Type::String("Format"));
     if (Find == FindCallback_SystemAPIDispatcher || Find == 0)
-        Result.AddLast("Find");
+        Result.AddLast(RF_Type::String("Find"));
 }

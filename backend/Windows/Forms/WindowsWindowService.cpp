@@ -65,7 +65,7 @@ const GUID GUID_CLASS_MONITOR = {0x4d36e96e, 0xe325, 0x11ce, 0xbf, 0xc1, 0x08, 0
 void GetMonitorSizeFromEDID(const RF_Type::String& AdapterName, DisplayInformation& Display)
 {
     RF_Type::String adapterName(AdapterName);
-    auto adapterChain = adapterName.Split("\\");
+    auto adapterChain = adapterName.Split(String("\\"));
     RF_Type::String model = adapterChain[1];
 
     Display.HorizontalLengthInMilimeter = 0;
@@ -174,7 +174,7 @@ AutoVector<DisplayInformation> WindowsWindowService::GetAllDisplays()
             if(EnumDisplayDevices(dd.DeviceName, 0, &mondd,0))
             {
                 RF_Type::String adapterName(mondd.DeviceID, 128);
-                GetMonitorSizeFromEDID(mondd.DeviceID, *display);
+                GetMonitorSizeFromEDID(RF_Type::String(mondd.DeviceID), *display);
             }
 
             display->AvaiableResolution = Array<Resolution>(reslist.Count());

@@ -203,50 +203,50 @@ String Convert::ToString(const Bool Value)
 
 String Convert::ToString(const Int8 Value)
 {
-    return String::Format("%i", Value);
+    return String::Format(String("%i"), Value);
 }
 
 String Convert::ToString(const Int16 Value)
 {
-    return String::Format("%i",Value);
+    return String::Format(String("%i"),Value);
 }
 
 String Convert::ToString(const Int32 Value)
 {
-    return String::Format("%i",Value);
+    return String::Format(String("%i"),Value);
 }
 
 String Convert::ToString(const Int64 Value)
 {
-    return String::Format("%lld",Value);
+    return String::Format(String("%lld"),Value);
 }
 
 String Convert::ToString(const UInt8 Value)
 {
-    return String::Format("%u", Value);
+    return String::Format(String("%u"), Value);
 }
 
 String Convert::ToString(const UInt16 Value)
 {
-    return String::Format("%u", Value);
+    return String::Format(String("%u"), Value);
 }
 
 String Convert::ToString(const UInt32 Value)
 {
-    return String::Format("%u", Value);
+    return String::Format(String("%u"), Value);
 }
 
 String Convert::ToString(const UInt64 Value)
 {
-    return String::Format("%llu", Value);
+    return String::Format(String("%llu"), Value);
 }
 
 String Convert::ToString(const Float32 Value)
 {
-    return String::Format("%f", Value);
+    return String::Format(String("%f"), Value);
 }
 
 String Convert::ToString(const Float64 Value)
 {
-    return String::Format("%f", Value);
+    return String::Format(String("%f"), Value);
 }

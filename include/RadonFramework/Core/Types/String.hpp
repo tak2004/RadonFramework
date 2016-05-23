@@ -42,7 +42,7 @@ public:
     explicit String(const Size StringSize);
 
     template<int N>
-    String(char const (&CString)[N]);
+    explicit String(char const (&CString)[N]);
 
     ~String();
 
@@ -277,7 +277,7 @@ public:
      * For more information you can look at the manual of printf.
      * http://www.cplusplus.com/reference/clibrary/cstdio/printf/
      **/
-    static String Format(const String Str,...);
+    static String Format(const String Str, ...);
     /// Like Format method but restrict the formatting to a specified variadic list.
     static String FormatStrict(const String &Str, va_list ArgumentList);
 

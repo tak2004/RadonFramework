@@ -158,29 +158,29 @@ RF_Type::Bool IsSuccessfullyDispatched()
 void GetNotDispatchedFunctions(RF_Collect::List<RF_Type::String>& Result)
 {
     if(IsAlive == IsAlive_SystemAPIDispatcher || IsAlive == 0)
-        Result.AddLast("IsAlive");
+        Result.AddLast(RF_Type::String("IsAlive"));
     if(IsRunning == IsRunning_SystemAPIDispatcher || IsRunning == 0)
-        Result.AddLast("IsRunning");
+        Result.AddLast(RF_Type::String("IsRunning"));
     if(Create == Create_SystemAPIDispatcher || Create == 0)
-        Result.AddLast("Create");
+        Result.AddLast(RF_Type::String("Create"));
     if(Rename == Rename_SystemAPIDispatcher || Rename == 0)
-        Result.AddLast("Rename");
+        Result.AddLast(RF_Type::String("Rename"));
     if(Sleep == Sleep_SystemAPIDispatcher || Sleep == 0)
-        Result.AddLast("Sleep");
+        Result.AddLast(RF_Type::String("Sleep"));
     if(GetProcessId == GetProcessId_SystemAPIDispatcher || GetProcessId == 0)
-        Result.AddLast("GetProcessId");
+        Result.AddLast(RF_Type::String("GetProcessId"));
     if(Wait == Wait_SystemAPIDispatcher || Wait == 0)
-        Result.AddLast("Wait");
+        Result.AddLast(RF_Type::String("Wait"));
     if(Join == Join_SystemAPIDispatcher || Join == 0)
-        Result.AddLast("Join");
+        Result.AddLast(RF_Type::String("Join"));
     if(SetPriority == SetPriority_SystemAPIDispatcher || SetPriority == 0)
-        Result.AddLast("SetPriority");
+        Result.AddLast(RF_Type::String("SetPriority"));
     if(GetPriority == GetPriority_SystemAPIDispatcher || GetPriority == 0)
-        Result.AddLast("GetPriority");
+        Result.AddLast(RF_Type::String("GetPriority"));
     if(SetAffinityMask == SetAffinityMask_SystemAPIDispatcher || SetAffinityMask == 0)
-        Result.AddLast("SetAffinityMask");
+        Result.AddLast(RF_Type::String("SetAffinityMask"));
     if(GetAffinityMask == GetAffinityMask_SystemAPIDispatcher || GetAffinityMask == 0)
-        Result.AddLast("GetAffinityMask");
+        Result.AddLast(RF_Type::String("GetAffinityMask"));
 }
 
 } } }

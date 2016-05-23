@@ -177,7 +177,7 @@ const GraphicDriverInformation& OpenGLCanvas::GetGraphicDriverInformation()
         caps.MinorVersion=oglcaps.Capabilities().IsAvaiable[OpenGLCapabilities::_GL_MINOR_VERSION]?
             oglcaps.Capabilities().Value[OpenGLCapabilities::_GL_MINOR_VERSION].GLInt():0;
         caps.Renderer=oglcaps.Capabilities().IsAvaiable[OpenGLCapabilities::_GL_RENDERER]?
-            oglcaps.Capabilities().Value[OpenGLCapabilities::_GL_RENDERER].GLString():"not available";
+            oglcaps.Capabilities().Value[OpenGLCapabilities::_GL_RENDERER].GLString():String("not available");
         UInt32 sm=0;
         if (oglcaps.Capabilities().IsAvaiable[OpenGLCapabilities::_GL_SHADING_LANGUAGE_VERSION])
         {//all unsupported glslang version return sm with the value 0
@@ -206,9 +206,9 @@ const GraphicDriverInformation& OpenGLCanvas::GetGraphicDriverInformation()
         caps.ShaderModel=sm;
         caps.Stereo=oglcaps.Capabilities().IsAvaiable[OpenGLCapabilities::_GL_STEREO];
         caps.Vendor=oglcaps.Capabilities().IsAvaiable[OpenGLCapabilities::_GL_VENDOR]?
-            oglcaps.Capabilities().Value[OpenGLCapabilities::_GL_VENDOR].GLString():"not available";
+            oglcaps.Capabilities().Value[OpenGLCapabilities::_GL_VENDOR].GLString():String("not available");
         caps.Version=oglcaps.Capabilities().IsAvaiable[OpenGLCapabilities::_GL_VERSION]?
-            oglcaps.Capabilities().Value[OpenGLCapabilities::_GL_VERSION].GLString():"not available";
+            oglcaps.Capabilities().Value[OpenGLCapabilities::_GL_VERSION].GLString():String("not available");
 
         m_GraphicDriverInformation=new GraphicDriverInformation(caps);
     }
@@ -282,7 +282,7 @@ const GraphicDriverInformationOpenGL& OpenGLCanvas::GetContextRelatedGraphicDriv
         if (glGetError()==GL_NO_ERROR)
         {
             String extstr = String::UnsafeStringCreation(pext);
-            AutoPointerArray<String> vec(extstr.Split(" "));
+            AutoPointerArray<String> vec(extstr.Split(String(" ")));
             for (UInt32 i=0;i<vec.Count();++i)
                 ext.PushBack(AutoPointer<String>(new String(vec[i])));
         }

@@ -69,7 +69,7 @@ Bool Parameter::SafeParsingWithErrorOutput(const AutoPointerArray<String>& Param
             {
                 if(matchingParameter)
                 {
-                    ErrorMessage = String::Format("Can't parse '%s', expected '%s' or '%s'.",
+                    ErrorMessage = String::Format(String("Can't parse '%s', expected '%s' or '%s'."),
                         Parameters[parameterIndex].c_str(),
                         Rules[i].LongName,
                         Rules[i].ShortName);

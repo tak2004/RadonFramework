@@ -41,7 +41,7 @@ void MessageWriter::WriteQueryHeader(RF_Type::UInt16 TransactionId)
 void MessageWriter::WriteQuestion(const RF_Type::String& Name, RecordType Type, 
     RecordClass Class /*= RecordClass::Internet*/)
 {
-    auto names = Name.Split(".");
+    auto names = Name.Split(RF_Type::String("."));
     for(RF_Type::Size i = 0; i < names.Count(); ++i)
     {
         m_Data.WriteType<RF_Type::UInt8>(names[i].Length());

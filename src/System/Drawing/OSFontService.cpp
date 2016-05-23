@@ -243,9 +243,12 @@ int CALLBACK EnumerateFontFamily(const ENUMLOGFONTEX *lpelfe, const NEWTEXTMETRI
     {
 
         const RF_Type::Size TABLESIZE = 11;
-        const RF_Type::String STRINGLOOKUPTABLE[TABLESIZE] = {"Bold", "BoldItalic",
-            "BoldOblique", "Bold Italic", "Bold Oblique", "Italic", "Oblique",
-            "Regular", "Roman", "Standard", "ExtraLight"};
+        const RF_Type::String STRINGLOOKUPTABLE[TABLESIZE] = {RF_Type::String("Bold"), 
+            RF_Type::String("BoldItalic"), RF_Type::String("BoldOblique"), 
+            RF_Type::String("Bold Italic"), RF_Type::String("Bold Oblique"), 
+            RF_Type::String("Italic"), RF_Type::String("Oblique"),
+            RF_Type::String("Regular"), RF_Type::String("Roman"), 
+            RF_Type::String("Standard"), RF_Type::String("ExtraLight")};
         const RF_Draw::FontStyle TYPELOOKUPTABLE[TABLESIZE] = {RF_Draw::FontStyle::Bold,
             RF_Draw::FontStyle::Bold | RF_Draw::FontStyle::Italic,
             RF_Draw::FontStyle::Bold | RF_Draw::FontStyle::Oblique,
