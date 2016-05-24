@@ -5,7 +5,6 @@
 #
 if (NOT DEFINED ${CMAKE_PROJECT_NAME}_INCLUDED)
 
-cmake_minimum_required(VERSION 2.8)
 set(${CMAKE_PROJECT_NAME}_INCLUDED "")
 set(${CMAKE_PROJECT_NAME}_INTEGRATED "" CACHE INTERNAL "Integrated projects")
 

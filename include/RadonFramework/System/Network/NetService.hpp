@@ -26,6 +26,7 @@ class NetService
 {
 public:
     typedef int SocketHandler;
+    static SocketHandler InvalidSocketHandler;
 
     /** Initialize the network API.
         * This method will be called by RadonFramework_Init().

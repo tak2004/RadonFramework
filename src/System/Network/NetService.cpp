@@ -916,3 +916,5 @@ RF_Net::Error NetService::SetSocketOption<RF_Net::MulticastRequest>(
         return RF_Net::Error::InvalidArgument;
     }
 }
+
+NetService::SocketHandler NetService::InvalidSocketHandler = SOCKET_ERROR;

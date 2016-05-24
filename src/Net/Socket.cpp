@@ -15,6 +15,8 @@ class PIMPL
 {
 public:
     PIMPL()
+    :Handler(NetService::InvalidSocketHandler)
+    ,Blocking(true)
     {
     }
 

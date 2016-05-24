@@ -11,7 +11,6 @@ struct PImpl<RF_Net::Client>::Data
     :m_IsConnected(false)
     {
         m_Socket = RF_Net::Socket::Create(RF_Net::AddressFamily::InterNetwork, RF_Net::SocketType::Stream);
-        m_Socket->Blocking(false);
     }
 
     ~Data()
@@ -43,6 +42,8 @@ void Client::Connect(const IPAddress& IP, const RF_Type::UInt16 Port)
     if(status)
     {
         m_Data->m_IsConnected = true;
+        // wait till the connection is accomplished and then switch to non blocking
+        m_Data->m_Socket->Blocking(false);
     }
 }
 

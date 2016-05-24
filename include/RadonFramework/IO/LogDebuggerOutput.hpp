@@ -8,6 +8,13 @@
 
 namespace RadonFramework { namespace IO {
 
+/** @brief This class relay the log messages to the IDE debug output window.
+*
+* Usage:
+* RF_Mem::AutoPointer<RF_Diag::Appender> console(new RF_IO::LogDebuggerOutput);
+* RF_IO::Log::AddAppender(console);
+* RF_IO::LogInfo("Hello world!");
+**/
 class LogDebuggerOutput:public Diagnostics::Appender
 {
 public:

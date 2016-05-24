@@ -1,5 +1,8 @@
-cmake_minimum_required(VERSION 2.8.11)
-project(RadonFramework)
+if(NOT CMAKE_PROJECT_NAME OR "${CMAKE_PROJECT_NAME}" MATCHES "^RadonFramework$")
+    cmake_minimum_required(VERSION 2.8.11)
+    project(RadonFramework C CXX)
+endif()
+
 INCLUDE (CheckFunctionExists)
 
 include("Integrate.cmake")
@@ -148,23 +151,16 @@ if(RADONFRAMEWORK_EXPERIMENTAL_JIT)
     rcf_addlocation(ASMJIT "git" "https://github.com/kobalicek/asmjit.git")
     rcf_obtain_project(ASMJIT outdir)
     set(ASMJIT_EMBED ON CACHE BOOL "" FORCE)
+    set(ASMJIT_STATIC ON CACHE BOOL "" FORCE)
     include(${outdir}/CMakeLists.txt)
     
     set(ASMJIT_FILES ${ASMJIT_SRC})
     Generate(MODULE ASMJIT AsmJit "Framework")
+    AddPublicDefine(ASMJIT ASMJIT_STATIC)
     AddPublicInclude(ASMJIT ${outdir}/src)
     Finalize(ASMJIT)
 else()
 
-endif()
-
-CHECK_FUNCTION_EXISTS(posix_fallocate RF_HAVE_POSIX_FALLOCATE)
-if(RF_HAVE_POSIX_FALLOCATE)
-    add_definitions(-DRF_HAVE_POSIX_FALLOCATE)
-endif()
-CHECK_FUNCTION_EXISTS(posix_fadvise RF_HAVE_POSIX_FADVISE)
-if(RF_HAVE_POSIX_FADVISE)
-    add_definitions(-DRF_HAVE_POSIX_FADVISE)
 endif()
 
 #
@@ -198,6 +194,15 @@ include(build/code_templates/CMakeLists.txt)
 include(libRadonFramework.cmake)
 
 Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
+
+CHECK_FUNCTION_EXISTS(posix_fallocate RF_HAVE_POSIX_FALLOCATE)
+if(RF_HAVE_POSIX_FALLOCATE)
+    AddPublicDefine(RADONFRAMEWORK RF_HAVE_POSIX_FALLOCATE)
+endif()
+CHECK_FUNCTION_EXISTS(posix_fadvise RF_HAVE_POSIX_FADVISE)
+if(RF_HAVE_POSIX_FADVISE)
+    AddPublicDefine(RADONFRAMEWORK RF_HAVE_POSIX_FADVISE)
+endif()
 
 AddPublicInclude(RADONFRAMEWORK ${RadonFramework_SOURCE_DIR}/include/)
 target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/)
