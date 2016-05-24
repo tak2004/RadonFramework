@@ -42,14 +42,14 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     auto fragmentShaderSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
     auto fragmentShaderStream = cmdBuffer.AddVariable<void*>(1);
     auto shader = cmdBuffer.AddVariable<RF_Type::UInt32>(1);
-    auto vertexDataSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1, true, "vertexdatasize");
-    auto indexDataSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1, true, "indexdatasize");
-    auto vertexStream = cmdBuffer.AddVariable<void*>(1, true, "vertexdata");
-    auto indexStream = cmdBuffer.AddVariable<void*>(1, true, "indexdata");
-    auto isCompiled = cmdBuffer.AddVariable<RF_Type::Int32>(2,true, "isCompiled");
-    auto isLinked = cmdBuffer.AddVariable<RF_Type::Int32>(1, true, "isLinked");
+    auto vertexDataSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1, true, RF_Type::String("vertexdatasize"));
+    auto indexDataSize = cmdBuffer.AddVariable<RF_Type::UInt32>(1, true, RF_Type::String("indexdatasize"));
+    auto vertexStream = cmdBuffer.AddVariable<void*>(1, true, RF_Type::String("vertexdata"));
+    auto indexStream = cmdBuffer.AddVariable<void*>(1, true, RF_Type::String("indexdata"));
+    auto isCompiled = cmdBuffer.AddVariable<RF_Type::Int32>(2,true, RF_Type::String("isCompiled"));
+    auto isLinked = cmdBuffer.AddVariable<RF_Type::Int32>(1, true, RF_Type::String("isLinked"));
 
-    cmdBuffer.State("createmesh");
+    cmdBuffer.State(RF_Type::String("createmesh"));
     cmdBuffer.Call<GLFunctions::CreateBuffers>(2, buffers.Ptr());
     cmdBuffer.Call<GLFunctions::NamedBufferData>(buffers, vertexDataSize,
         vertexStream, static_cast<RF_Type::UInt32>(RF_GL::GL_STATIC_DRAW));
@@ -64,11 +64,11 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     cmdBuffer.Call<GLFunctions::VertexArrayVertexBuffer>(vao, 0, buffers, 0, 0);
     cmdBuffer.Call<GLFunctions::VertexArrayAttribBinding>(vao, 0, 0);
 
-    cmdBuffer.State("destroymesh");
+    cmdBuffer.State(RF_Type::String("destroymesh"));
     cmdBuffer.Call<GLFunctions::DeleteVertexArrays>(vao.Ptr());
     cmdBuffer.Call<GLFunctions::DeleteBuffers>(buffers.Ptr());
 
-    cmdBuffer.State("compileshaders");
+    cmdBuffer.State(RF_Type::String("compileshaders"));
     cmdBuffer.Call<GLFunctions::CreateShader>(static_cast<RF_Type::UInt32>(RF_GL::GL_VERTEX_SHADER));
     cmdBuffer.CopyResult(vertexShader);
     cmdBuffer.Call<GLFunctions::ShaderSource>(vertexShader, 1, vertexShaderStream.Ptr(), vertexShaderSize.Ptr());
@@ -82,7 +82,7 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     cmdBuffer.Call<GLFunctions::GetShaderiv>(fragmentShader, 
         static_cast<RF_Type::UInt32>(RF_GL::GL_COMPILE_STATUS), isCompiled[1].Ptr());
     
-    cmdBuffer.State("linkprogram");
+    cmdBuffer.State(RF_Type::String("linkprogram"));
     cmdBuffer.Call<GLFunctions::CreateProgram>(1, shader.Ptr());
     cmdBuffer.CopyResult(shader);
     cmdBuffer.Call<GLFunctions::AttachShader>(shader, vertexShader);
@@ -95,15 +95,15 @@ RF_Mem::AutoPointer<NativeShape> Draw2D::EndPath(Path2D& Path)const
     cmdBuffer.Call<GLFunctions::DeleteShader>(vertexShader);
     cmdBuffer.Call<GLFunctions::DeleteShader>(fragmentShader);
 
-    cmdBuffer.State("deleteshader");
+    cmdBuffer.State(RF_Type::String("deleteshader"));
     cmdBuffer.Call<GLFunctions::DeleteShader>(vertexShader);
     cmdBuffer.Call<GLFunctions::DeleteShader>(vertexShader);
 
-    cmdBuffer.State("deleteprogram");
+    cmdBuffer.State(RF_Type::String("deleteprogram"));
     cmdBuffer.Call<GLFunctions::DeleteProgram>(shader.Ptr());
 
     // z-pass
-    cmdBuffer.State("zpass");
+    cmdBuffer.State(RF_Type::String("zpass"));
     cmdBuffer.Call<RF_Draw::GLFunctions::UseProgram>(shader);
     cmdBuffer.Call<RF_Draw::GLFunctions::BindVertexArray>(vao);
     cmdBuffer.Call<RF_Draw::GLFunctions::DrawArrays>(

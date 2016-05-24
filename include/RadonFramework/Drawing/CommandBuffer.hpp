@@ -109,7 +109,7 @@ public:
         result.Bytes = m_ScratchPad.Position() - result.Offset;
         result.Count = HowMany;
         result.Index = 0;
-        auto keyHashArray = RF_Math::Hash::Hash::Generate(Name.c_str(), "MurmurHash");
+        auto keyHashArray = RF_Math::Hash::Hash::Generate(Name.c_str(), RF_Type::String("MurmurHash"));
         RF_SysMem::Copy(&result.Hash, keyHashArray.Get(), sizeof(RF_Type::UInt64));
         m_DebugNames[result.Hash] = Name;
         result.Extern = Extern;

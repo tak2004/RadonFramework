@@ -26,7 +26,7 @@ RF_Mem::AutoPointerArray<RF_Type::UInt8> CommandBuffer::ReleaseData()
 void CommandBuffer::State(const RF_Type::String& Name)
 {
     RF_Type::UInt64 hash = 0;
-    auto keyHashArray = RF_Math::Hash::Hash::Generate(Name.c_str(), "MurmurHash");
+    auto keyHashArray = RF_Math::Hash::Hash::Generate(Name.c_str(), RF_Type::String("MurmurHash"));
     RF_SysMem::Copy(&hash, keyHashArray.Get(), sizeof(RF_Type::UInt64));
     m_DebugNames[hash] = Name;
 }
