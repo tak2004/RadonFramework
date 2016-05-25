@@ -150,8 +150,9 @@ void Server::Update()
                         if(m_PImpl->m_Sockets[0]->Accept(newSession))
                         {
                             newSession->AssignSelectObjectCollector(*m_PImpl->m_Pool);
+                            auto* session = newSession.Get();
                             m_PImpl->m_Sockets.AddLast(newSession);
-                            AddedSocket(*newSession.Get(), m_PImpl->m_IP);
+                            AddedSocket(*session, m_PImpl->m_IP);
                         }
                     }
                 }

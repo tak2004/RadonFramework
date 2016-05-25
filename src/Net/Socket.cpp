@@ -99,6 +99,7 @@ SocketError Socket::Accept(AutoPointer<Socket>& Client)
 SocketError Socket::Connect( const EndPoint &RemoteEP )
 {
     SocketError result;
+
     result.Code=NetService::Connect(m_Data->Handler,RemoteEP);
     if (result)
         m_Data->LocalEndPoint=RemoteEP;
@@ -330,7 +331,7 @@ Bool Socket::Blocking()const
 
 SocketError Socket::Blocking(const Bool NewValue)
 {
-    SocketError res;
+    SocketError res = {Error::OperationNotSupported};
     if(m_Data->Blocking != NewValue)
     {
         res.Code = NetService::SetBlockingMode(m_Data->Handler, NewValue);

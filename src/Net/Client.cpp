@@ -37,7 +37,7 @@ void Client::Connect(const IPAddress& IP, const RF_Type::UInt16 Port)
         m_Data->m_Socket->Disconnect();
         m_Data->m_IsConnected = false;
     }
-
+    
     auto status = m_Data->m_Socket->Connect(IP, Port);
     if(status)
     {
@@ -60,6 +60,8 @@ void Client::Update()
             break;
         case Error::ConnectionReset:
             m_Data->m_IsConnected = false;
+            OnDisconnect();
+            m_Data->m_Socket = RF_Net::Socket::Create(RF_Net::AddressFamily::InterNetwork, RF_Net::SocketType::Stream);
             break;
         default:
             break;
@@ -70,6 +72,14 @@ void Client::Update()
 RF_Type::Bool Client::IsConnected()
 {
     return m_Data->m_IsConnected;
+}
+
+void Client::Send(RF_Mem::AutoPointerArray<RF_Type::UInt8> Data)
+{
+    if(m_Data->m_IsConnected)
+    {
+        
+    }
 }
 
 RF_Type::Bool Client::ProcessPacket(Socket& Socket, const IPAddress& Source,

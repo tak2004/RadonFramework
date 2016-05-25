@@ -11,7 +11,7 @@
 
 namespace RadonFramework { namespace Core { namespace Pattern {
 
-class SignalReciever;
+class SignalReceiver;
 class Signal;
 
 class SignalConnection

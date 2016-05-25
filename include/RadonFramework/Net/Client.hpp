@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/Core/Pattern/Event.hpp>
+#include <RadonFramework/Core/Pattern/Signal.hpp>
 
 namespace RadonFramework { namespace Net {
 
@@ -25,8 +26,10 @@ public:
     virtual void Connect(const IPAddress& IP, const RF_Type::UInt16 Port);
     virtual void Update();
     RF_Type::Bool IsConnected();
+    virtual void Send(RF_Mem::AutoPointerArray<RF_Type::UInt8> Data);
 
     RF_Pattern::Event<ClientProcessPacketEvent&> OnPacketReceived;
+    RF_Pattern::Signal OnDisconnect;
 protected:
     virtual RF_Type::Bool ProcessPacket(Socket& Socket,
         const IPAddress& Source, RF_Mem::AutoPointerArray<RF_Type::UInt8>& In);
