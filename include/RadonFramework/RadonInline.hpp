@@ -57,12 +57,6 @@
 #include <RadonFramework/Core/Policies/LazyResize.hpp>
 #include <RadonFramework/Core/Policies/MallocAllocator.hpp>
 #include <RadonFramework/Core/Policies/ObjectLogic.hpp>
-#include <RadonFramework/Core/Policies/StringProcessor/BruteForce.hpp>
-#include <RadonFramework/Core/Policies/StringProcessor/Horspool.hpp>
-#include <RadonFramework/Core/Policies/StringProcessor/KnuthMorrisPratt.hpp>
-#include <RadonFramework/Core/Policies/StringProcessor/ShiftAnd.hpp>
-#include <RadonFramework/Core/Policies/StringProcessor/SkipSearch.hpp>
-#include <RadonFramework/Core/Policies/StringProcessor/Sunday.hpp>
 #include <RadonFramework/Core/Traits/AllocatorTraits.hpp>
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
 #include <RadonFramework/Core/Types/AtomicInt64.hpp>
@@ -81,19 +75,11 @@
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
-#include <RadonFramework/Core/Types/StringUtils/Base16.hpp>
-#include <RadonFramework/Core/Types/StringUtils/Base2.hpp>
-#include <RadonFramework/Core/Types/StringUtils/Base64.hpp>
-#include <RadonFramework/Core/Types/StringUtils/Base85.hpp>
-#include <RadonFramework/Core/Types/StringUtils/JavaScript.hpp>
-#include <RadonFramework/Core/Types/StringUtils/StringProcessor.hpp>
-#include <RadonFramework/Core/Types/StringUtils/URL.hpp>
 #include <RadonFramework/Core/Types/TypeCode.hpp>
 #include <RadonFramework/Core/Types/UInt16.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/Core/Types/UInt8.hpp>
-#include <RadonFramework/Core/Types/Utils/StringBuilder.hpp>
 #include <RadonFramework/Core/Types/Utils/StringOperators.hpp>
 #include <RadonFramework/Core/Types/Vec.hpp>
 #include <RadonFramework/Core/Types/Vec128Float.hpp>
@@ -142,9 +128,6 @@
 #include <RadonFramework/Drawing/Forms/WindowService.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/Drawing/GraphicDriverInformation.hpp>
-#include <RadonFramework/Drawing/GraphicMachineOpenGLCommands.hpp>
-#include <RadonFramework/Drawing/GraphicMachineOpenGLConstants.hpp>
-#include <RadonFramework/Drawing/GraphicMachineOpenGLFunctions.hpp>
 #include <RadonFramework/Drawing/ICanvas3D.hpp>
 #include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
@@ -214,7 +197,6 @@
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Math/Geometry/ProjectionMatrix.hpp>
-#include <RadonFramework/Math/Geometry/Quaternion.hpp>
 #include <RadonFramework/Math/Geometry/QuatF32.hpp>
 #include <RadonFramework/Math/Geometry/QuatF64.hpp>
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
@@ -225,7 +207,6 @@
 #include <RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp>
 #include <RadonFramework/Math/Hash/IHashfunction.hpp>
 #include <RadonFramework/Math/Integer.hpp>
-#include <RadonFramework/Math/Math.hpp>
 #include <RadonFramework/Math/Random.hpp>
 #endif
 
@@ -233,14 +214,12 @@
 
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Memory/CoreLocal.hpp>
 #include <RadonFramework/Memory/DoubleSideStackAllocator.hpp>
 #include <RadonFramework/Memory/FixedLengthAllocator.hpp>
 #include <RadonFramework/Memory/LinearAllocator.hpp>
 #include <RadonFramework/Memory/ManagedInstanceStackAllocator.hpp>
-#include <RadonFramework/Memory/MemoryInfo.hpp>
-#include <RadonFramework/Memory/MemoryOperation.hpp>
 #include <RadonFramework/Memory/PointerID.hpp>
-#include <RadonFramework/Memory/ReadBuffer.hpp>
 #include <RadonFramework/Memory/StackAllocator.hpp>
 #endif
 
@@ -293,11 +272,6 @@
 
 #ifndef RF_NO_THREADING
 
-#include <RadonFramework/Threading/IRunnable.hpp>
-#include <RadonFramework/Threading/ISynchronize.hpp>
-#include <RadonFramework/Threading/IWaitHandle.hpp>
-#include <RadonFramework/Threading/Policies/NoSynchronization.hpp>
-#include <RadonFramework/Threading/RegisteredWaitHandle.hpp>
 #include <RadonFramework/Threading/Scopelock.hpp>
 #include <RadonFramework/Threading/TaskStrategy.hpp>
 #include <RadonFramework/Threading/Thread.hpp>
@@ -318,6 +292,20 @@
 #ifndef RF_NO_TEXT
 
 #include <RadonFramework/Text/Regex.hpp>
+#include <RadonFramework/Text/StringBuilder.hpp>
+#include <RadonFramework/Text/StringProcessor/BruteForce.hpp>
+#include <RadonFramework/Text/StringProcessor/Horspool.hpp>
+#include <RadonFramework/Text/StringProcessor/KnuthMorrisPratt.hpp>
+#include <RadonFramework/Text/StringProcessor/ShiftAnd.hpp>
+#include <RadonFramework/Text/StringProcessor/SkipSearch.hpp>
+#include <RadonFramework/Text/StringProcessor/Sunday.hpp>
+#include <RadonFramework/Text/StringProcessor.hpp>
+#include <RadonFramework/Text/StringUtils/Base16.hpp>
+#include <RadonFramework/Text/StringUtils/Base2.hpp>
+#include <RadonFramework/Text/StringUtils/Base64.hpp>
+#include <RadonFramework/Text/StringUtils/Base85.hpp>
+#include <RadonFramework/Text/StringUtils/JavaScript.hpp>
+#include <RadonFramework/Text/StringUtils/URL.hpp>
 #include <RadonFramework/Text/Tokenizer.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
 #endif

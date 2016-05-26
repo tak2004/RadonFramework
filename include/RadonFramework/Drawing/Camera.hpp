@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/Float32.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
-#include <RadonFramework/Math/Geometry/Quaternion.hpp>
+#include <RadonFramework/Math/Geometry/QuatF32.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
@@ -22,7 +22,7 @@ public:
     void Move(RF_Type::Float32 Value);
     RF_Geo::Mat4f GetMatrix();
 protected:
-    RF_Geo::Quaternion<RF_Type::Float32> m_Quat;
+    RF_Geo::QuatF32 m_Quat;
     RF_Geo::Vec4f m_Position;
     RF_Geo::Vec3f m_Up;
     RF_Geo::Vec3f m_Front;

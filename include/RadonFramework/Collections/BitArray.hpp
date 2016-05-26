@@ -295,7 +295,7 @@ void BitArray<RB, MA, MO>::Resize(RF_Type::Size NewSize)
     if(NewSize != m_ContainerInfo.elementCount)
     {
         RF_Type::UInt8* data = MA::template NewArray<RF_Type::UInt8>(NewSize);
-        MO::Copy(data, m_Data, Math::Integer<RF_Type::UInt32>::ClampUpperBound(m_ContainerInfo.elementCount, NewSize));
+        MO::Copy(data, m_Data, Math::Integer<RF_Type::UInt32>::Min(m_ContainerInfo.elementCount, NewSize));
         MA::FreeArray(m_Data);
         m_Data = data;
         m_ContainerInfo.elementCount = NewSize;
@@ -400,6 +400,24 @@ template<typename RB, typename MA, typename MO>
 RF_Type::Bool BitArray<RB, MA, MO>::operator[](RF_Type::Size Index) const
 {
     return Test(Index);
+}
+
+template<typename RB, typename MA, typename MO>
+RF_Type::Bool BitArray<RB, MA, MO>::operator==(const BitArray& Other) const
+{
+    RF_Type::Bool result = true;
+    for(RF_Type::Size i = 0, end = m_ContainerInfo.BlockCount(); i < end; ++i)
+        result &= m_Data[i] == Other.m_Data[i];
+    return result;
+}
+
+template<typename RB, typename MA, typename MO>
+RF_Type::Bool BitArray<RB, MA, MO>::operator!=(const BitArray& Other) const
+{
+    RF_Type::Bool result = true;
+    for(RF_Type::Size i = 0, end = m_ContainerInfo.BlockCount(); i < end; ++i)
+        result &= m_Data[i] == Other.m_Data[i];
+    return !result;
 }
 
 template<typename RB, typename MA, typename MO>

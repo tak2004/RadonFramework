@@ -56,7 +56,7 @@ public:
     RF_Type::Bool GetAffinityMask(RF_Collect::BitArray<>& Mask)const;
     
     /// Set the affinity mask.
-    RF_Type::Bool SetAffinityMask(const RF_Collect::BitArray<>& NewValue)const;
+    RF_Type::Bool SetAffinityMask(const RF_Collect::BitArray<>& NewValue);
 
     /// Is the thread is running.
     RF_Type::Bool IsAlive();
@@ -96,6 +96,7 @@ public:
     virtual void Run();
 protected:
     ThreadPriority::Type m_Priority;
+    RF_Collect::BitArray<> m_AffinityMask;
     RF_Collect::AutoVector<RF_Type::UInt8> m_ThreadAllocatedMemory;
     RF_SysThread::Mutex m_ThreadBarrier;
     RF_Type::String m_Name;

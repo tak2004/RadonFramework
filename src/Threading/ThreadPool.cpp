@@ -1,6 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
-#include "RadonFramework/Math/Math.hpp"
 #include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/Time/ScopeTimer.hpp"
 
@@ -186,7 +185,7 @@ ThreadPool::~ThreadPool()
 RF_Type::UInt32 ThreadPool::GetBestThreadAmountByProcessorCoreAmount(RF_Type::UInt32 Amount)
 {
     // twice more as logical processor count
-    return Math::Math<UInt32>::Max(Amount, 1) << 1;
+    return Math::Integer<UInt32>::Max(Amount, 1) << 1;
 }
 
 void ThreadPool::GetMaxThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)

@@ -2,8 +2,6 @@
 #include "RadonFramework/Math/Geometry/ProjectionMatrix.hpp"
 #include "RadonFramework/Math/Geometry/Point2D.hpp"
 #include "RadonFramework/Math/Geometry/Size2D.hpp"
-#include "RadonFramework/Math/Math.hpp"
-#include <math.h>
 
 using namespace RadonFramework::Math::Geometry;
 

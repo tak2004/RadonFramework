@@ -29,10 +29,20 @@ void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 using GetAvailableLogicalProcessorCountCallback = RF_Type::UInt32(*)();
 
 /** @brief Return the logical processor number on which this call is executed.
+  * On a multi CPU system the logical processor number will exists multiple times.
+  * Use GetCurrentUniqueProcessorNumberCallback if you want to distinguish 
+  * between all logical processors.
   *
   * @return Return the logical processor number.
   **/
 using GetCurrentProcessorNumberCallback = RF_Type::UInt32(*)();
+
+/** @brief Return the system unique logical processor number on which this call is executed.
+ *  This function use the logical processor and socket number to assign an system unique number.
+ *
+ * @return Return the system unique logical processor number.
+ **/
+using GetCurrentUniqueProcessorNumberCallback = RF_Type::UInt32(*)();
 
 /** \brief If successfull this function return the cache information of the logical processor
   * on which the call was executed. The call can return different values on different
@@ -67,6 +77,7 @@ using GetFreePhysicalMemorySizeCallback = RF_Type::Size(*)();
 
 extern GetAvailableLogicalProcessorCountCallback GetAvailableLogicalProcessorCount;
 extern GetCurrentProcessorNumberCallback GetCurrentProcessorNumber;
+extern GetCurrentUniqueProcessorNumberCallback GetCurrentUniqueProcessorNumber;
 extern GetCacheInfoCallback GetCacheInfo;
 extern GetCacheCountCallback GetCacheCount;
 extern GetLogicalProcessorFeaturesCallback GetLogicalProcessorFeatures;

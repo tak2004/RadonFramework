@@ -16,7 +16,7 @@ namespace RadonFramework { namespace System { namespace Hardware {
 
 namespace Linux {
 
-RF_Type::UInt32 GetAvailableLogicalProcessorCountLinux()
+RF_Type::UInt32 GetAvailableLogicalProcessorCount()
 {
     static RF_Type::UInt32 NumberOfProcessors = 0;
     RF_Type::UInt32 result;
@@ -31,7 +31,7 @@ RF_Type::UInt32 GetAvailableLogicalProcessorCountLinux()
     return result;
 }
 
-RF_Type::UInt32 GetCurrentProcessorNumberLinux()
+RF_Type::UInt32 GetCurrentProcessorNumber()
 {
     RF_Type::UInt32 result = 0;
     int cpu = sched_getcpu();
@@ -42,7 +42,12 @@ RF_Type::UInt32 GetCurrentProcessorNumberLinux()
     return result;
 }
 
-RF_Type::Size GetPhysicalMemorySizeLinux()
+RF_Type::UInt32 GetCurrentUniqueProcessorNumber()
+{
+    return GetCurrentProcessorNumber();
+}
+
+RF_Type::Size GetPhysicalMemorySize()
 {
     struct sysinfo memInfo;    
     sysinfo(&memInfo);
@@ -51,7 +56,7 @@ RF_Type::Size GetPhysicalMemorySizeLinux()
     return totalVirtualMem;
 }
 
-RF_Type::Size GetFreePhysicalMemorySizeLinux()
+RF_Type::Size GetFreePhysicalMemorySize()
 {
     struct sysinfo memInfo;
     sysinfo(&memInfo);
@@ -83,10 +88,11 @@ RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
 
 void Dispatch_Linux()
 {
-    GetAvailableLogicalProcessorCount = Linux::GetAvailableLogicalProcessorCountLinux;
-    GetCurrentProcessorNumber = Linux::GetCurrentProcessorNumberLinux;
-    GetPhysicalMemorySize = Linux::GetPhysicalMemorySizeLinux;
-    GetFreePhysicalMemorySize = Linux::GetFreePhysicalMemorySizeLinux;
+    GetAvailableLogicalProcessorCount = Linux::GetAvailableLogicalProcessorCount;
+    GetCurrentProcessorNumber = Linux::GetCurrentProcessorNumber;
+    GetCurrentUniqueProcessorNumber = Linux::GetCurrentUniqueProcessorNumber;
+    GetPhysicalMemorySize = Linux::GetPhysicalMemorySize;
+    GetFreePhysicalMemorySize = Linux::GetFreePhysicalMemorySize;
 #ifndef RF_BUILD_INTRINSIC_CPUID
 #if __ARMEL__
     GetLogicalProcessorFeatures = Linux::GetLogicalProcessorFeatures;

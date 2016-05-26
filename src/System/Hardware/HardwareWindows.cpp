@@ -38,6 +38,16 @@ RF_Type::UInt32 GetCurrentProcessorNumber()
     return result;
 }
 
+RF_Type::UInt32 GetCurrentUniqueProcessorNumber()
+{
+    static RF_Type::UInt32 MAX_GROUP_COUNT = 64;
+    RF_Type::UInt32 result;
+    PROCESSOR_NUMBER value;
+    ::GetCurrentProcessorNumberEx(&value);
+    result = value.Group * MAX_GROUP_COUNT + value.Number;
+    return result;
+}
+
 // Util function: use it only for internal purpose
 void DetectCacheInfo(AutoPointerArray<CacheInfo>& CacheDataList, RF_Type::Int32 PId)
 {
@@ -241,6 +251,7 @@ void Dispatch_Windows()
 {
     GetAvailableLogicalProcessorCount = Windows::GetAvailableLogicalProcessorCount;
     GetCurrentProcessorNumber = Windows::GetCurrentProcessorNumber;
+    GetCurrentUniqueProcessorNumber = Windows::GetCurrentUniqueProcessorNumber;
     GetCacheInfo = Windows::GetCacheInfo;
     GetCacheCount = Windows::GetCacheCount;
     GetPhysicalMemorySize = Windows::GetPhysicalMemorySizeWindows;

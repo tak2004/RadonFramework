@@ -84,7 +84,8 @@
 #include <RadonFramework/Core/Types/Utils/StringOperators.hpp>
 
 // floating point math
-#include <RadonFramework/Math/Math.hpp>
+#include <RadonFramework/Math/Float32.hpp>
+#include <RadonFramework/Math/Float64.hpp>
 // integer math
 #include <RadonFramework/Math/Integer.hpp>
 

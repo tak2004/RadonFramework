@@ -11,18 +11,28 @@ struct Integer
 {
     static T Clamp(const T Value, const T LowerBound, const T UpperBound);
     
-    /// Equal to min.
-    static T ClampUpperBound(const T Value, const T UpperBound);
-    
-    /// Equal to max.
-    static T ClampLowerBound(const T Value, const T LowerBound);
-
     static T NextPowerOfTwo(const T Value);
 
     static RF_Type::Bool IsPowerOfTwo(const T Value);
 
     static T Abs(const T Value);
+
+    static T Min(const T ValueA, const T ValueB);
+
+    static T Max(const T ValueA, const T ValueB);
 };
+
+template <typename T>
+T Integer<T>::Min(const T ValueA, const T ValueB)
+{
+    return ValueA > ValueB ? ValueB : ValueA;
+}
+
+template <typename T>
+T Integer<T>::Max(const T ValueA, const T ValueB)
+{
+    return ValueA < ValueB ? ValueB : ValueA;
+}
 
 template <typename T>
 T Integer<T>::Clamp(const T Value, const T LowerBound,
@@ -30,18 +40,6 @@ T Integer<T>::Clamp(const T Value, const T LowerBound,
 {
     T result = Value<LowerBound ? Value : LowerBound;
     return result>UpperBound ? UpperBound : result;
-}
-
-template <typename T>
-T Integer<T>::ClampUpperBound(const T Value, const T UpperBound)
-{
-    return Value > UpperBound ? UpperBound : Value;
-}
-
-template <typename T>
-T Integer<T>::ClampLowerBound(const T Value, const T LowerBound)
-{
-    return Value < LowerBound ? LowerBound : Value;
 }
 
 template <typename T>

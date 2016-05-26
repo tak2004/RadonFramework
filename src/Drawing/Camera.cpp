@@ -1,6 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Camera.hpp"
-#include "RadonFramework/Math/Math.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::Drawing;
@@ -37,13 +36,13 @@ void Camera::Move(Float32 Value)
 
 void Camera::RotateX(Float32 Value)
 {
-    Quaternion<Core::Types::Float32> q(Value*Math::MathF::DEG_TO_RAD, Vec3f(1.0f, 0.0f, 0.0f));
+    QuatF32 q(Value*Math::Float32::DEG_TO_RAD, Vec3f(1.0f, 0.0f, 0.0f));
     m_Quat=m_Quat*q;
 }
 
 void Camera::RotateY(Float32 Value)
 {
-    Quaternion<Core::Types::Float32> q(Value*Math::MathF::DEG_TO_RAD,Vec3f(0.0f,1.0f,0.0f));
+    QuatF32 q(Value*Math::Float32::DEG_TO_RAD,Vec3f(0.0f,1.0f,0.0f));
     m_Quat=q*m_Quat;
 }
 

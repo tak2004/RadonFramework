@@ -4,14 +4,11 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Threading/ISynchronize.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
 #include <RadonFramework/Core/Policies/CPPAllocator.hpp>
-#include <RadonFramework/Threading/Policies/NoSynchronization.hpp>
 #include <RadonFramework/Collections/ArrayEnumerator.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
-#include <RadonFramework/Math/Math.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 
@@ -37,12 +34,11 @@ namespace RadonFramework { namespace Collections {
 *            allocated memory.
 */
 template<typename T, 
-         typename SP=Threading::Policies::NoSynchronization, 
          typename MA=Core::Policies::CPPAllocator,
          typename MO=Core::Policies::CMemoryOperation>
 class Array
 {
-template <typename,typename,typename,typename>
+template <typename,typename,typename>
 friend class Array;
 public:
     typedef T Type;
@@ -63,7 +59,7 @@ public:
     *
     * \param Copy The object from which the copy will be done.
     */
-    Array(const Array<T,SP,MA,MO>& Copy);
+    Array(const Array<T,MA,MO>& Copy);
 
     /**
     * \brief Moves the data during construction.
@@ -72,7 +68,7 @@ public:
     *
     * \param Move The object with which the data will be exchanged.
     */
-    Array(Array<T, SP, MA, MO>&& Move);
+    Array(Array<T, MA, MO>&& Move);
 
     /**
     * Create a 1D Array.
@@ -115,7 +111,7 @@ public:
     *                the size of each dimension of the Array 
     *                to create.
     */
-    static Memory::AutoPointer<Array<T,SP,MA,MO> > 
+    static Memory::AutoPointer<Array<T,MA,MO> > 
         CreateInstance(const Array<RF_Type::Size>& Lengths);
 
     /**
@@ -125,7 +121,7 @@ public:
     * \param CArray An array which was created by C.
     * \param Length Specify the length of the Array.
     */
-    static Memory::AutoPointer<Array<T,SP,MA,MO> > 
+    static Memory::AutoPointer<Array<T,MA,MO> > 
         CreateInstance(const T* CArray, 
             const RF_Type::Size Length);
 
@@ -144,39 +140,6 @@ public:
     * \return The rank (number of dimensions) of the Array.
     */
     RF_Type::Size Rank()const;
-
-    /** 
-    * \brief Gets an object that can be used to synchronize access 
-    *         to the Array<T>.
-    *
-    * Classes that use arrays can also implement their own 
-    * synchronization using the SyncRoot property. The synchronizing
-    * code must perform operations on the SyncRoot of the collection,
-    * not directly on the collection. This ensures proper operation 
-    * of collections that are derived from other objects. 
-    * Specifically, it maintains proper synchronization with other 
-    * threads that might be simultaneously modifying the collection. 
-    * Note that some implementations of SyncRoot might return the 
-    * Array itself.
-    * 
-    * Enumerating through a collection is intrinsically not a thread 
-    * safe procedure. Even when a collection is synchronized, other 
-    * threads can still modify the collection. To guarantee 
-    * thread safety during enumeration, you can either lock the
-    * collection during the entire enumeration.
-    *
-    * Retrieving the value of this property is an O(1) operation.
-    *
-    * \return An object that can be used to synchronize access to 
-    *         the Array.
-    */
-    Threading::ISynchronize& SyncRoot();                
-
-    /**
-    * \brief Gets a value indicating whether access to the 
-    *        Array is synchronized (thread safe).
-    */
-    RF_Type::Bool IsSynchronized()const;
 
     /**
     * \brief Gets a value indicating whether the Array has a 
@@ -248,7 +211,7 @@ public:
     *
     * This method is an O(n) operation, where n is Count.
     */
-    Memory::AutoPointer<Array<T,SP,MA,MO> > Clone()const;
+    Memory::AutoPointer<Array<T,MA,MO> > Clone()const;
 
     /**
     * \brief Copies a range of elements from an Array starting
@@ -270,7 +233,7 @@ public:
     */
     RF_Type::Bool ConstrainedCopy(
         RF_Type::Size SourceIndex,
-        Array<T,SP,MA,MO>& DestinationArray,
+        Array<T,MA,MO>& DestinationArray,
         RF_Type::Size DestinationIndex,
         RF_Type::Size Length);
 
@@ -286,7 +249,7 @@ public:
     *               the number of elements to copy.
     */
     RF_Type::Bool ConstrainedCopy(
-        Array<T,SP,MA,MO>& DestinationArray, 
+        Array<T,MA,MO>& DestinationArray, 
         RF_Type::Size Length);
 
     /**
@@ -296,7 +259,7 @@ public:
     *                  from one type to another type.
     */
     template<typename Out>
-    Memory::AutoPointer<Array<Out,SP> > ConvertAll(
+    Memory::AutoPointer<Array<Out> > ConvertAll(
         const Delegate1<Out(T)>& Converter);
 
     /**
@@ -309,7 +272,7 @@ public:
     * \param Length A 32-bit unsigned integer that represents 
     *               the number of elements to copy.
     */
-    void Copy(Array<T,SP,MA,MO>& DestinationArray, 
+    void Copy(Array<T,MA,MO>& DestinationArray, 
         RF_Type::Size Length);
 
     /**
@@ -329,7 +292,7 @@ public:
     *               the number of elements to copy.
     */
     void Copy(RF_Type::Size Index, 
-        Array<T,SP,MA,MO>& DestinationArray,
+        Array<T,MA,MO>& DestinationArray,
         RF_Type::Size DestinationIndex, 
         RF_Type::Size Length);
 
@@ -360,7 +323,7 @@ public:
     * \param Match The function that defines the conditions of
     *              the elements to search for.
     */
-    Memory::AutoPointer<Array<T,SP,MA,MO> > FindAll(
+    Memory::AutoPointer<Array<T,MA,MO> > FindAll(
         const Delegate1<RF_Type::Bool(T)>& Match);
 
     /**
@@ -690,7 +653,7 @@ public:
     *              the position of the element to set.
     */
     void SetValue(const T& Value, 
-        Array<RF_Type::Size,SP>& Indices);
+        Array<RF_Type::Size>& Indices);
 
     /**
     * \brief Sets a value to the element at the specified 
@@ -766,7 +729,7 @@ public:
     *                 element of the Array.
     */
     template <typename TKey, typename TValue>
-    static void Sort(Array<TKey,SP,MA,MO>& Keys, Array<TValue,SP,MA,MO>& Items,
+    static void Sort(Array<TKey,MA,MO>& Keys, Array<TValue,MA,MO>& Items,
         const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
 
     /**
@@ -789,7 +752,7 @@ public:
     *                 element of the Array.
     */
     template <typename TKey, typename TValue>
-    static void Sort(Array<TKey,SP,MA,MO>& Keys, Array<TValue,SP,MA,MO>& Items,
+    static void Sort(Array<TKey,MA,MO>& Keys, Array<TValue,MA,MO>& Items,
                      RF_Type::Size Index, RF_Type::Size LastIndex,
                      const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
 
@@ -807,7 +770,7 @@ public:
     RF_Type::Bool TrueForAll(
         const Delegate1<RF_Type::Bool(T)>& Match);
 
-    void Swap(Array<T,SP,MA,MO>& Other);
+    void Swap(Array<T,MA,MO>& Other);
 // Operators
     /**
     * \brief Create a deep copy of the Array.
@@ -823,8 +786,8 @@ public:
     * and everything directly or indirectly referenced by the 
     * elements.
     */
-    Array<T,SP,MA,MO>& operator=(
-        const Array<T,SP,MA,MO>& Other);
+    Array<T,MA,MO>& operator=(
+        const Array<T,MA,MO>& Other);
 
     T& operator()(const RF_Type::Size Index);
                     
@@ -848,8 +811,6 @@ public:
 protected:
     RF_Type::Size* m_Length;
     RF_Type::Size m_Rank;
-    Threading::ISynchronize* m_SyncRoot;
-    RF_Type::Bool m_Synchronized;
     T* m_Data;
     RF_Type::Size m_ElementCount;
 
@@ -859,8 +820,8 @@ protected:
         const RF_Type::Size* LengthArray);
 };
 
-template<typename T, typename SP, typename MA, typename MO>
-inline void Array<T, SP, MA, MO>::Exchange( 
+template<typename T, typename MA, typename MO>
+inline void Array<T, MA, MO>::Exchange( 
     const RF_Type::Size IndexA, const RF_Type::Size IndexB )
 {
     T swap = m_Data[IndexA];
@@ -870,33 +831,33 @@ inline void Array<T, SP, MA, MO>::Exchange(
 
 // Constructor & Destructor
 
-template<typename T, typename SP, typename MA, typename MO>
-Array<T,SP,MA,MO>::Array()
+template<typename T, typename MA, typename MO>
+Array<T,MA,MO>::Array()
 {
     InitArray(0,0);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Array<T,SP,MA,MO>::Array(const Array<T,SP,MA,MO>& Copy)
+template<typename T, typename MA, typename MO>
+Array<T,MA,MO>::Array(const Array<T,MA,MO>& Copy)
 {
     *this=Copy;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Array<T, SP, MA, MO>::Array(Array<T, SP, MA, MO>&& Move)
+template<typename T, typename MA, typename MO>
+Array<T, MA, MO>::Array(Array<T, MA, MO>&& Move)
 {
     InitArray(0,0);
     Swap(Move);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Array<T,SP,MA,MO>::Array(const RF_Type::Size Length1)
+template<typename T, typename MA, typename MO>
+Array<T,MA,MO>::Array(const RF_Type::Size Length1)
 {
     InitArray(1,&Length1);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Array<T,SP,MA,MO>::Array(const RF_Type::Size Length1,
+template<typename T, typename MA, typename MO>
+Array<T,MA,MO>::Array(const RF_Type::Size Length1,
     const RF_Type::Size Length2)
 {
     RF_Type::Size arr[2];
@@ -904,8 +865,8 @@ Array<T,SP,MA,MO>::Array(const RF_Type::Size Length1,
     InitArray(2,arr);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Array<T,SP,MA,MO>::Array(const RF_Type::Size Length1,
+template<typename T, typename MA, typename MO>
+Array<T,MA,MO>::Array(const RF_Type::Size Length1,
     const RF_Type::Size Length2,
     const RF_Type::Size Length3)
 {
@@ -914,12 +875,12 @@ Array<T,SP,MA,MO>::Array(const RF_Type::Size Length1,
     InitArray(3,arr);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::CreateInstance(
+template<typename T, typename MA, typename MO>
+Memory::AutoPointer<Array<T,MA,MO> > Array<T,MA,MO>::CreateInstance(
     const T* CArray, 
     const RF_Type::Size Length)
 {
-    typename Memory::AutoPointer<Array<T,SP,MA,MO> > arr(MA::template New<Array<T,SP,MA,MO> >());
+    typename Memory::AutoPointer<Array<T,MA,MO> > arr(MA::template New<Array<T,MA,MO> >());
     if (arr.Get()!=0) // out of memory check
     {
         if (arr->InitArray(1,&Length))
@@ -930,11 +891,11 @@ Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::CreateInstance(
     return arr;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::CreateInstance(
+template<typename T, typename MA, typename MO>
+Memory::AutoPointer<Array<T,MA,MO> > Array<T,MA,MO>::CreateInstance(
     const Array<RF_Type::Size>& Lengths)
 {
-    typename Memory::AutoPointer<Array<T,SP,MA,MO> > arr(MA::template New<Array>());
+    typename Memory::AutoPointer<Array<T,MA,MO> > arr(MA::template New<Array>());
     if (arr.Get()!=0) // out of memory check
         if (false==arr->InitArray(Lengths.m_ElementCount, Lengths.m_Data))
         {// something was going wrong, clean up
@@ -943,15 +904,9 @@ Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::CreateInstance(
     return arr;
 }
             
-template<typename T, typename SP, typename MA,typename MO>
-Array<T,SP,MA,MO>::~Array()
+template<typename T, typename MA,typename MO>
+Array<T,MA,MO>::~Array()
 {
-    if (m_SyncRoot!=0)
-    {
-        MA::Free(static_cast<SP*>(m_SyncRoot));
-        m_SyncRoot=0;
-    }
-
     if (m_Data!=0)
     {
         MA::FreeArray(m_Data);
@@ -961,52 +916,40 @@ Array<T,SP,MA,MO>::~Array()
 
 // Properties
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::Count()const
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::Count()const
 {
     return m_ElementCount;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::Rank()const
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::Rank()const
 {
     return m_Rank;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Threading::ISynchronize& Array<T,SP,MA,MO>::SyncRoot()
-{
-    return *m_SyncRoot;
-}
-
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::IsSynchronized()const
-{
-    return m_Synchronized;
-}
-
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::IsFixedSize()const
+template<typename T, typename MA, typename MO>
+RF_Type::Bool Array<T,MA,MO>::IsFixedSize()const
 {
     return true;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::IsReadOnly()const
+template<typename T, typename MA, typename MO>
+RF_Type::Bool Array<T,MA,MO>::IsReadOnly()const
 {
     return false;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Item(RF_Type::Size Index, const T& Value)
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Item(RF_Type::Size Index, const T& Value)
 {
     Assert(m_Rank>0,"Try to access an item on an empty array.");
     Assert(m_ElementCount>Index,"Index out of bound.");
     m_Data[Index]=Value;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-T& Array<T,SP,MA,MO>::Item(RF_Type::Size Index)const
+template<typename T, typename MA, typename MO>
+T& Array<T,MA,MO>::Item(RF_Type::Size Index)const
 {   
     Assert(m_Rank>0,"Try to access an item on an empty array.");
     Assert(m_ElementCount>Index,"Index out of bound.");
@@ -1015,15 +958,15 @@ T& Array<T,SP,MA,MO>::Item(RF_Type::Size Index)const
 
 // Methods
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::BinarySearch(const T& Value, 
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::BinarySearch(const T& Value, 
     const Delegate2<RF_Type::Size(const T&, const T&)>* Comparer)
 {
     return BinarySearch(0,m_ElementCount,Value,Comparer);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::BinarySearch(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::BinarySearch(
     RF_Type::Size Index, RF_Type::Size Length, const T& Value, 
     const Delegate2<RF_Type::Size(const T&, const T&)>* Comparer)
 {
@@ -1042,10 +985,10 @@ RF_Type::Size Array<T,SP,MA,MO>::BinarySearch(
     return ~left;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::Clone()const
+template<typename T, typename MA, typename MO>
+Memory::AutoPointer<Array<T,MA,MO> > Array<T,MA,MO>::Clone()const
 {
-    Array<RF_Type::Size,SP,MA,MO> lengths(m_Rank);
+    Array<RF_Type::Size,MA,MO> lengths(m_Rank);
     for (RF_Type::Size i=0;i<m_Rank;++i)
         lengths.m_Data[i]=m_Length[i];
     Memory::AutoPointer<Array> result=Array::CreateInstance(lengths);
@@ -1053,9 +996,9 @@ Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::Clone()const
     return result;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::ConstrainedCopy(RF_Type::Size SourceIndex,
-    Array<T,SP,MA,MO>& DestinationArray,
+template<typename T, typename MA, typename MO>
+RF_Type::Bool Array<T,MA,MO>::ConstrainedCopy(RF_Type::Size SourceIndex,
+    Array<T,MA,MO>& DestinationArray,
     RF_Type::Size DestinationIndex,
     RF_Type::Size Length)
 {
@@ -1072,40 +1015,40 @@ RF_Type::Bool Array<T,SP,MA,MO>::ConstrainedCopy(RF_Type::Size SourceIndex,
     return true;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::ConstrainedCopy(
-    Array<T,SP,MA,MO>& DestinationArray, 
+template<typename T, typename MA, typename MO>
+RF_Type::Bool Array<T,MA,MO>::ConstrainedCopy(
+    Array<T,MA,MO>& DestinationArray, 
     RF_Type::Size Length)
 {
     return ConstrainedCopy(0,DestinationArray,0,Length);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
+template<typename T, typename MA, typename MO>
 template<typename Out>
-Memory::AutoPointer<Array<Out,SP> > Array<T,SP,MA,MO>::ConvertAll(
+Memory::AutoPointer<Array<Out> > Array<T,MA,MO>::ConvertAll(
     const Delegate1<Out(T)>& Converter)
 {
-    Array<RF_Type::Size,SP,MA,MO> lengths(m_Rank);
+    Array<RF_Type::Size,MA,MO> lengths(m_Rank);
     for (RF_Type::Size i=0;i<m_Rank;++i)
         lengths.m_Data[i]=m_Length[i];
 
-    Memory::AutoPointer<Array<Out,SP,MA,MO> > result=Array<Out,SP,MA,MO>::CreateInstance(lengths);
+    Memory::AutoPointer<Array<Out,MA,MO> > result=Array<Out,MA,MO>::CreateInstance(lengths);
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
         result->m_Data[i]=Converter(m_Data[i]);
 
     return result;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Copy(Array<T,SP,MA,MO>& DestinationArray, 
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Copy(Array<T,MA,MO>& DestinationArray, 
     RF_Type::Size Length)
 {
     Copy(0,DestinationArray,0,Length);
 }
             
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Copy(RF_Type::Size Index, 
-    Array<T,SP,MA,MO>& DestinationArray,
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Copy(RF_Type::Size Index, 
+    Array<T,MA,MO>& DestinationArray,
     RF_Type::Size DestinationIndex, 
     RF_Type::Size Length)
 {
@@ -1115,8 +1058,8 @@ void Array<T,SP,MA,MO>::Copy(RF_Type::Size Index,
     MO::Move(&DestinationArray.m_Data[DestinationIndex],&m_Data[Index],Length);
 }
             
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::Exists(
+template<typename T, typename MA, typename MO>
+RF_Type::Bool Array<T,MA,MO>::Exists(
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
@@ -1126,8 +1069,8 @@ RF_Type::Bool Array<T,SP,MA,MO>::Exists(
     return false;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-T* Array<T,SP,MA,MO>::Find(const Delegate1<RF_Type::Bool(T)>& Match)
+template<typename T, typename MA, typename MO>
+T* Array<T,MA,MO>::Find(const Delegate1<RF_Type::Bool(T)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=0;i<end;++i)
@@ -1136,8 +1079,8 @@ T* Array<T,SP,MA,MO>::Find(const Delegate1<RF_Type::Bool(T)>& Match)
     return 0;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-T* Array<T,SP,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(T)>& Match)
+template<typename T, typename MA, typename MO>
+T* Array<T,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(T)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=end; i <= end;--i)
@@ -1146,11 +1089,11 @@ T* Array<T,SP,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(T)>& Match)
     return 0;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::FindAll(
+template<typename T, typename MA, typename MO>
+Memory::AutoPointer<Array<T,MA,MO> > Array<T,MA,MO>::FindAll(
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
-    Memory::AutoPointer<Array<T,SP,MA,MO> > result;
+    Memory::AutoPointer<Array<T,MA,MO> > result;
     // reserve memory with the size of pow
     RF_Type::Size reserved=2;
     RF_Type::Size size=0;
@@ -1172,22 +1115,22 @@ Memory::AutoPointer<Array<T,SP,MA,MO> > Array<T,SP,MA,MO>::FindAll(
             ++size;
         }
     // store the final result and free the temporary memory
-    result=Memory::AutoPointer<Array<T,SP,MA,MO> >(new Array<T,SP,MA,MO>(size));
+    result=Memory::AutoPointer<Array<T,MA,MO> >(new Array<T,MA,MO>(size));
     MO::Copy(result->m_Data,arr,size);
     MA::FreeArray(arr);
     return result;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::FindIndex(
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindIndex(0,m_Length[0],Match);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::FindIndex(
     RF_Type::Size StartIndex,
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
@@ -1195,8 +1138,8 @@ RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
     return FindIndex(StartIndex,m_Length[0]-StartIndex,Match);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::FindIndex(
     RF_Type::Size StartIndex,
     RF_Type::Size Count, 
     const Delegate1<RF_Type::Bool(T)>& Match)
@@ -1209,16 +1152,16 @@ RF_Type::Size Array<T,SP,MA,MO>::FindIndex(
     return -1;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::FindLastIndex(
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindLastIndex(m_Length[0]-1,m_Length[0],Match);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::FindLastIndex(
     RF_Type::Size StartIndex,
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
@@ -1226,8 +1169,8 @@ RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
     return FindLastIndex(StartIndex,m_Length[0]-StartIndex,Match);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::FindLastIndex(
     RF_Type::Size StartIndex, RF_Type::Size Count, 
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
@@ -1243,30 +1186,30 @@ RF_Type::Size Array<T,SP,MA,MO>::FindLastIndex(
     return -1;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::ForEach(const Delegate1<void(T&)>& Action)
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::ForEach(const Delegate1<void(T&)>& Action)
 {
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
         Action(m_Data[i]);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
+template<typename T, typename MA, typename MO>
 template<typename X>
-void Array<T,SP,MA,MO>::ForEach(const Delegate2<void(T&,X)>& Action, X Param)
+void Array<T,MA,MO>::ForEach(const Delegate2<void(T&,X)>& Action, X Param)
 {
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
         Action(m_Data[i],Param);
 }
              
-template<typename T, typename SP, typename MA, typename MO>
-ArrayEnumerator<T> Array<T,SP,MA,MO>::GetArrayEnumerator()const
+template<typename T, typename MA, typename MO>
+ArrayEnumerator<T> Array<T,MA,MO>::GetArrayEnumerator()const
 {
     ArrayEnumerator<T> result(m_Data, &m_Data[m_ElementCount - 1]);
     return result;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-typename Array<T, SP, MA, MO>::EnumeratorType Array<T, SP, MA, MO>::GetEnumerator()const
+template<typename T, typename MA, typename MO>
+typename Array<T, MA, MO>::EnumeratorType Array<T, MA, MO>::GetEnumerator()const
 {
     EnumeratorType result;
     result.m_Start = m_Data;
@@ -1275,8 +1218,8 @@ typename Array<T, SP, MA, MO>::EnumeratorType Array<T, SP, MA, MO>::GetEnumerato
     return result;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-typename Array<T, SP, MA, MO>::ConstEnumeratorType Array<T, SP, MA, MO>::GetConstEnumerator()const
+template<typename T, typename MA, typename MO>
+typename Array<T, MA, MO>::ConstEnumeratorType Array<T, MA, MO>::GetConstEnumerator()const
 {
     ConstEnumeratorType result;
     result.m_Start = m_Data;
@@ -1285,24 +1228,24 @@ typename Array<T, SP, MA, MO>::ConstEnumeratorType Array<T, SP, MA, MO>::GetCons
     return result;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::GetLength(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::GetLength(
     RF_Type::Size Dimension)
 {
     Assert(Dimension<m_Rank,"Dimension is out bound.");
     return m_Length[Dimension];
 }
                    
-template<typename T, typename SP, typename MA, typename MO>
-const T& Array<T,SP,MA,MO>::GetValue(RF_Type::Size Index)
+template<typename T, typename MA, typename MO>
+const T& Array<T,MA,MO>::GetValue(RF_Type::Size Index)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     Assert(Index<m_Length[0],"Index out of bound.");
     return m_Data[Index];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-const T& Array<T,SP,MA,MO>::GetValue(RF_Type::Size Index1,
+template<typename T, typename MA, typename MO>
+const T& Array<T,MA,MO>::GetValue(RF_Type::Size Index1,
                                         RF_Type::Size Index2)
 {
     Assert(m_Rank==2,"Unexpected dimension of array.");
@@ -1311,8 +1254,8 @@ const T& Array<T,SP,MA,MO>::GetValue(RF_Type::Size Index1,
     return m_Data[(Index1*m_Length[1])+Index2];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-const T& Array<T,SP,MA,MO>::GetValue(RF_Type::Size Index1,
+template<typename T, typename MA, typename MO>
+const T& Array<T,MA,MO>::GetValue(RF_Type::Size Index1,
                                         RF_Type::Size Index2,
                                         RF_Type::Size Index3)
 {
@@ -1323,8 +1266,8 @@ const T& Array<T,SP,MA,MO>::GetValue(RF_Type::Size Index1,
     return m_Data[((Index1*m_Length[1]*m_Length[2])+Index2*m_Length[2])+Index3];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-const T& Array<T,SP,MA,MO>::GetValue(Array<RF_Type::Size>& Index)
+template<typename T, typename MA, typename MO>
+const T& Array<T,MA,MO>::GetValue(Array<RF_Type::Size>& Index)
 {
     RF_Type::Size index=0;
     RF_Type::Size i=0;
@@ -1338,23 +1281,23 @@ const T& Array<T,SP,MA,MO>::GetValue(Array<RF_Type::Size>& Index)
     return m_Data[index];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::IndexOf(const T& Value)
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return IndexOf(Value,0,m_Length[0]);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::IndexOf(const T& Value,
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value,
     const RF_Type::Size StartIndex)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return IndexOf(Value,StartIndex,m_Length[0]-StartIndex);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::IndexOf(const T& Value,
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value,
     const RF_Type::Size StartIndex, 
     const RF_Type::Size Count)
 {
@@ -1367,23 +1310,23 @@ RF_Type::Size Array<T,SP,MA,MO>::IndexOf(const T& Value,
     return -1;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::LastIndexOf(const T& Value)
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::LastIndexOf(const T& Value)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return LastIndexOf(Value,m_Length[0]-1,m_Length[0]);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::LastIndexOf(const T& Value, 
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::LastIndexOf(const T& Value, 
     const RF_Type::Size StartIndex)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return LastIndexOf(Value,StartIndex,m_Length[0]-StartIndex);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Size Array<T,SP,MA,MO>::LastIndexOf(
+template<typename T, typename MA, typename MO>
+RF_Type::Size Array<T,MA,MO>::LastIndexOf(
     const T& Value, const RF_Type::Size StartIndex,
     const RF_Type::Size Count)
 {
@@ -1400,8 +1343,8 @@ RF_Type::Size Array<T,SP,MA,MO>::LastIndexOf(
     return -1;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Resize(RF_Type::Size NewSize)
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Resize(RF_Type::Size NewSize)
 {
     if(m_Rank == 0)
     {
@@ -1417,7 +1360,7 @@ void Array<T,SP,MA,MO>::Resize(RF_Type::Size NewSize)
         if(std::is_trivially_copyable<T>::value == false)
         {
         #endif
-            for(RF_Type::Size i = 0, end = RadonFramework::Math::Math<RF_Type::Size>::Min(m_Length[0], NewSize); i < end; ++i)
+            for(RF_Type::Size i = 0, end = RF_Math::Integer<RF_Type::Size>::Min(m_Length[0], NewSize); i < end; ++i)
             {
                 data[i] = m_Data[i];
             }
@@ -1425,7 +1368,7 @@ void Array<T,SP,MA,MO>::Resize(RF_Type::Size NewSize)
         }
         else
         {
-            MO::Copy(data, m_Data, RadonFramework::Math::Math<RF_Type::Size>::Min(m_Length[0], NewSize));
+            MO::Copy(data, m_Data, RF_Math::Integer<RF_Type::Size>::Min(m_Length[0], NewSize));
         }
         #endif
         MA::FreeArray(m_Data);
@@ -1435,14 +1378,14 @@ void Array<T,SP,MA,MO>::Resize(RF_Type::Size NewSize)
     }
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Reverse()
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Reverse()
 {
     Reverse(0,m_ElementCount);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Reverse(RF_Type::Size Index, 
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Reverse(RF_Type::Size Index, 
     RF_Type::Size Length)
 {
     Assert(Index+Length<=m_ElementCount,"Operation out of bound.");
@@ -1458,16 +1401,16 @@ void Array<T,SP,MA,MO>::Reverse(RF_Type::Size Index,
     MA::Free(tmp);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::SetValue(const T& Value, RF_Type::Size Index)
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::SetValue(const T& Value, RF_Type::Size Index)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     Assert(Index<m_ElementCount,"Index out of bound.");
     m_Data[Index]=Value;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::SetValue(const T& Value, RF_Type::Size Index1,
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::SetValue(const T& Value, RF_Type::Size Index1,
     RF_Type::Size Index2)
 {
     Assert(m_Rank==2,"Unexpected dimension of array.");
@@ -1476,8 +1419,8 @@ void Array<T,SP,MA,MO>::SetValue(const T& Value, RF_Type::Size Index1,
     m_Data[(Index1*m_Length[1])+Index2]=Value;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::SetValue(const T& Value, RF_Type::Size Index1,
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::SetValue(const T& Value, RF_Type::Size Index1,
     RF_Type::Size Index2,
     RF_Type::Size Index3)
 {
@@ -1488,9 +1431,9 @@ void Array<T,SP,MA,MO>::SetValue(const T& Value, RF_Type::Size Index1,
     m_Data[((Index1*m_Length[1]*m_Length[2])+Index2*m_Length[2])+Index3]=Value;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::SetValue(const T& Value, 
-    Array<RF_Type::Size,SP>& Indices)
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::SetValue(const T& Value, 
+    Array<RF_Type::Size>& Indices)
 {
     Assert(m_Rank==Indices.Count(),"Unexpected dimension of array.");
     RF_Type::Size index=0;
@@ -1505,14 +1448,14 @@ void Array<T,SP,MA,MO>::SetValue(const T& Value,
     m_Data[index]=Value;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T, SP, MA, MO>::Sort(const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
+template<typename T, typename MA, typename MO>
+void Array<T, MA, MO>::Sort(const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
     Sort(0,m_ElementCount-1,Comparer);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Sort(RF_Type::Size Index, 
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Sort(RF_Type::Size Index, 
     RF_Type::Size LastIndex,
     const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
@@ -1576,19 +1519,19 @@ void Array<T,SP,MA,MO>::Sort(RF_Type::Size Index,
     Sort(gt+1, LastIndex, Comparer);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
+template<typename T, typename MA, typename MO>
 template<typename TKey, typename TValue>
-void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys, 
-    Array<TValue,SP,MA,MO>& Items,
+void Array<T,MA,MO>::Sort(Array<TKey,MA,MO>& Keys, 
+    Array<TValue,MA,MO>& Items,
     const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
     Sort(Keys,Items,0,Keys.m_ElementCount-1,Comparer);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
+template<typename T, typename MA, typename MO>
 template <typename TKey, typename TValue>
-void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys,
-    Array<TValue,SP,MA,MO>& Items, RF_Type::Size Index, RF_Type::Size LastIndex,
+void Array<T,MA,MO>::Sort(Array<TKey,MA,MO>& Keys,
+    Array<TValue,MA,MO>& Items, RF_Type::Size Index, RF_Type::Size LastIndex,
     const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
 {
     Assert(Keys.m_ElementCount==Items.m_ElementCount,"Invalid parameter.");
@@ -1658,8 +1601,8 @@ void Array<T,SP,MA,MO>::Sort(Array<TKey,SP,MA,MO>& Keys,
     Sort(Keys, Items, gt+1, LastIndex, Comparer);
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::TrueForAll(
+template<typename T, typename MA, typename MO>
+RF_Type::Bool Array<T,MA,MO>::TrueForAll(
     const Delegate1<RF_Type::Bool(T)>& Match)
 {
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
@@ -1668,8 +1611,8 @@ RF_Type::Bool Array<T,SP,MA,MO>::TrueForAll(
     return true;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-void Array<T,SP,MA,MO>::Swap(Array<T,SP,MA,MO>& Other)
+template<typename T, typename MA, typename MO>
+void Array<T,MA,MO>::Swap(Array<T,MA,MO>& Other)
 {
     T* tmpData=m_Data;
     m_Data=Other.m_Data;
@@ -1686,19 +1629,11 @@ void Array<T,SP,MA,MO>::Swap(Array<T,SP,MA,MO>& Other)
     RF_Type::Size tmpRank=m_Rank;
     m_Rank=Other.m_Rank;
     Other.m_Rank=tmpRank;
-
-    RF_Type::Bool tmpSync=m_Synchronized;
-    m_Synchronized=Other.m_Synchronized;
-    Other.m_Synchronized=tmpSync;
-
-    Threading::ISynchronize* tmpSynchronize=m_SyncRoot;
-    m_SyncRoot=Other.m_SyncRoot;
-    Other.m_SyncRoot=tmpSynchronize;
 }
 
 // Operators
-template<typename T, typename SP, typename MA, typename MO>
-Array<T,SP,MA,MO>& Array<T,SP,MA,MO>::operator=(const Array<T,SP,MA,MO>& Other)
+template<typename T, typename MA, typename MO>
+Array<T,MA,MO>& Array<T,MA,MO>::operator=(const Array<T,MA,MO>& Other)
 {
     InitArray(Other.m_Rank,Other.m_Length);
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
@@ -1706,24 +1641,24 @@ Array<T,SP,MA,MO>& Array<T,SP,MA,MO>::operator=(const Array<T,SP,MA,MO>& Other)
     return *this;
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index)
+template<typename T, typename MA, typename MO>
+T& Array<T,MA,MO>::operator()(const RF_Type::Size Index)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     Assert(Index<m_Length[0],"Index out of bound.");                
     return m_Data[Index];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-const T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index)const
+template<typename T, typename MA, typename MO>
+const T& Array<T,MA,MO>::operator()(const RF_Type::Size Index)const
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     Assert(Index<m_Length[0],"Index out of bound.");
     return m_Data[Index];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index1,
+template<typename T, typename MA, typename MO>
+T& Array<T,MA,MO>::operator()(const RF_Type::Size Index1,
                             const RF_Type::Size Index2)
 {
     Assert(m_Rank==2,"Unexpected dimension of array.");
@@ -1732,8 +1667,8 @@ T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index1,
     return m_Data[(Index1*m_Length[1])+Index2];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-const T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index1,
+template<typename T, typename MA, typename MO>
+const T& Array<T,MA,MO>::operator()(const RF_Type::Size Index1,
                                     const RF_Type::Size Index2)const
 {
     Assert(m_Rank==2,"Unexpected dimension of array.");
@@ -1742,8 +1677,8 @@ const T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index1,
     return m_Data[(Index1*m_Length[1])+Index2];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index1,
+template<typename T, typename MA, typename MO>
+T& Array<T,MA,MO>::operator()(const RF_Type::Size Index1,
                             const RF_Type::Size Index2,
                             const RF_Type::Size Index3)
 {
@@ -1754,8 +1689,8 @@ T& Array<T,SP,MA,MO>::operator()(const RF_Type::Size Index1,
     return m_Data[((Index1*m_Length[1]*m_Length[2])+Index2*m_Length[2])+Index3];
 }
 
-template<typename T, typename SP, typename MA, typename MO>
-const T& Array<T,SP,MA,MO>::operator()(
+template<typename T, typename MA, typename MO>
+const T& Array<T,MA,MO>::operator()(
     const RF_Type::Size Index1,
     const RF_Type::Size Index2,
     const RF_Type::Size Index3)const
@@ -1769,20 +1704,15 @@ const T& Array<T,SP,MA,MO>::operator()(
 
 // internal helper functions
 
-template<typename T, typename SP, typename MA, typename MO>
-RF_Type::Bool Array<T,SP,MA,MO>::InitArray(
+template<typename T, typename MA, typename MO>
+RF_Type::Bool Array<T,MA,MO>::InitArray(
     RF_Type::Size Rank, 
     const RF_Type::Size* LengthArray)
 {
     m_Rank=Rank;
-    m_Synchronized=false;
     m_Data=0;
     m_Length=0;
-    m_SyncRoot=MA::template New<SP>();
     m_ElementCount=0;
-
-    if (m_SyncRoot==0)
-        return false;
 
     if (Rank>0)
     {

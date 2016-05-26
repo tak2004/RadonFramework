@@ -8,8 +8,6 @@
 #include <RadonFramework/System/Threading/Thread.hpp>
 #include <RadonFramework/System/Threading/Mutex.hpp>
 #include <RadonFramework/System/Threading/Condition.hpp>
-#include <RadonFramework/Threading/RegisteredWaitHandle.hpp>
-#include <RadonFramework/Threading/IWaitHandle.hpp>
 #include <RadonFramework/Threading/TaskStrategy.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Collections/Queue.hpp>

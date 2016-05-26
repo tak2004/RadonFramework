@@ -1,6 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Core/Types/String.hpp"
-#include "RadonFramework/Math/Math.hpp"
 
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Common;

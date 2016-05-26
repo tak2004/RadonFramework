@@ -16,11 +16,12 @@ struct ThreadHelper
     HANDLE thread;
     HANDLE mutexIsAlive;
     Mutex mutex;
-    RF_Type::Bool alive;
-    RF_Type::Bool cancel;
     DWORD ID;
     Delegate<void()> OnFinished;
     Delegate<void()> OnRun;
+    RF_Type::Bool alive;
+    RF_Type::Bool cancel;
+    RF_Type::Bool postConfigurationComplete;
 };
 
 const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -61,6 +62,10 @@ DWORD WINAPI ThreadFunction(void *userdata)
         return 1;
     }
     SetAlive(p, true);
+    while(!p->postConfigurationComplete)
+    {
+        ::Sleep(0);
+    }
     p->OnRun();
     SetAlive(p, false);
     p->OnFinished();
@@ -93,6 +98,7 @@ void* Create(RF_Thread::Thread& Instance, RF_Type::UInt64& PID)
     p->ID = 0;
     p->alive = false;
     p->cancel = false;
+    p->postConfigurationComplete = false;
     p->thread = 0;
 
     p->mutex.Lock();
@@ -181,44 +187,53 @@ void Join(void* Data)
 void SetPriority(void* Data, RF_Thread::ThreadPriority::Type Value)
 {
     ThreadHelper* p = static_cast<ThreadHelper*>(Data);
-    if(p->ID)
+    if(p)
     {
-        if(p->alive)
+        if(p->ID)
         {
-            SuspendThread(p->thread);
-            int prio = 0;
-            switch(Value)
+            if(p->alive)
             {
-            case RF_Thread::ThreadPriority::Normal:
-                prio = THREAD_PRIORITY_NORMAL; break;
-            case RF_Thread::ThreadPriority::Minimal:
-                prio = THREAD_PRIORITY_BELOW_NORMAL; break;
-            case RF_Thread::ThreadPriority::Maximal:
-                prio = THREAD_PRIORITY_ABOVE_NORMAL; break;
-            default:
-                prio = THREAD_PRIORITY_NORMAL;
+                SuspendThread(p->thread);
+                int prio = 0;
+                switch(Value)
+                {
+                case RF_Thread::ThreadPriority::Normal:
+                    prio = THREAD_PRIORITY_NORMAL; break;
+                case RF_Thread::ThreadPriority::Minimal:
+                    prio = THREAD_PRIORITY_BELOW_NORMAL; break;
+                case RF_Thread::ThreadPriority::Maximal:
+                    prio = THREAD_PRIORITY_ABOVE_NORMAL; break;
+                default:
+                    prio = THREAD_PRIORITY_NORMAL;
+                }
+                SetThreadPriority(p->thread, prio);
+                ResumeThread(p->thread);
             }
-            SetThreadPriority(p->thread, prio);
-            ResumeThread(p->thread);
         }
     }
 }
 
 RF_Type::Bool SetAffinityMask(void* Data, const RF_Collect::BitArray<>& NewMask)
 {
+    RF_Type::Bool result = false;
     ThreadHelper* p = static_cast<ThreadHelper*>(Data);
-    DWORD_PTR threadAffinityMask;
-    threadAffinityMask = 0;
-
-    RF_Type::Size end = RadonFramework::Math::Integer<RF_Type::Size>::ClampUpperBound(
-        sizeof(DWORD_PTR) << 3,
-        NewMask.Count()
-    );
-    for(RF_Type::Size i = 0; i < end; ++i)
+    if (p)
     {
-        threadAffinityMask |= static_cast<DWORD_PTR>(NewMask.Test(i)) << i;
+        DWORD_PTR threadAffinityMask;
+        threadAffinityMask = 0;
+
+        RF_Type::Size end = RadonFramework::Math::Integer<RF_Type::Size>::Min(
+            sizeof(DWORD_PTR) << 3,
+            NewMask.Count()
+        );
+        for(RF_Type::Size i = 0; i < end; ++i)
+        {
+            threadAffinityMask |= static_cast<DWORD_PTR>(NewMask.Test(i)) << i;
+        }
+
+        result = SetThreadAffinityMask(p->thread, threadAffinityMask);
     }
-    return SetThreadAffinityMask(p->thread, threadAffinityMask);
+    return result;
 }
 
 RF_Type::Bool GetAffinityMask(void* Data, RF_Collect::BitArray<>& Mask)
@@ -239,6 +254,12 @@ RF_Type::Bool GetAffinityMask(void* Data, RF_Collect::BitArray<>& Mask)
     return true;
 }
 
+void PostConfigurationComplete(void* Data)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    p->postConfigurationComplete = true;
+}
+
 }
 
 void Dispatch()
@@ -255,6 +276,7 @@ void Dispatch()
     SetPriority = Windows::SetPriority;
     SetAffinityMask = Windows::SetAffinityMask;
     GetAffinityMask = Windows::GetAffinityMask;
+    PostConfigurationComplete = Windows::PostConfigurationComplete;
 }
 
 } } }

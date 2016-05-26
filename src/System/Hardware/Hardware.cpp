@@ -29,6 +29,16 @@ RF_Type::UInt32 GetCurrentProcessorNumber_SystemAPIDispatcher()
     return GetCurrentProcessorNumber();
 }
 
+RF_Type::UInt32 GetCurrentUniqueProcessorNumber_SystemAPIDispatcher()
+{
+    GetCurrentUniqueProcessorNumber = 0;
+    Dispatch();
+    Assert(GetCurrentUniqueProcessorNumber != GetCurrentUniqueProcessorNumber_SystemAPIDispatcher &&
+        GetCurrentUniqueProcessorNumber != 0,
+        "Funtion was called and couldn't be dispatched");
+    return GetCurrentUniqueProcessorNumber();
+}
+
 RF_Type::Bool GetCacheInfo_SystemAPIDispatcher(CacheInfo& Info, RF_Type::UInt32 Index)
 {
     GetCacheInfo = 0;
@@ -81,6 +91,7 @@ RF_Type::Size GetFreePhysicalMemorySize_SystemAPIDispatcher()
 
 GetAvailableLogicalProcessorCountCallback GetAvailableLogicalProcessorCount = GetAvailableLogicalProcessorCount_SystemAPIDispatcher;
 GetCurrentProcessorNumberCallback GetCurrentProcessorNumber = GetCurrentProcessorNumber_SystemAPIDispatcher;
+GetCurrentUniqueProcessorNumberCallback GetCurrentUniqueProcessorNumber = GetCurrentUniqueProcessorNumber_SystemAPIDispatcher;
 GetCacheInfoCallback GetCacheInfo = GetCacheInfo_SystemAPIDispatcher;
 GetCacheCountCallback GetCacheCount = GetCacheCount_SystemAPIDispatcher;
 GetLogicalProcessorFeaturesCallback GetLogicalProcessorFeatures = GetLogicalProcessorFeatures_SystemAPIDispatcher;
@@ -92,6 +103,7 @@ RF_Type::Bool IsSuccessfullyDispatched()
     RF_Type::Bool result = true;
     result = result && GetAvailableLogicalProcessorCount != GetAvailableLogicalProcessorCount_SystemAPIDispatcher && GetAvailableLogicalProcessorCount != 0;
     result = result && GetCurrentProcessorNumber != GetCurrentProcessorNumber_SystemAPIDispatcher && GetCurrentProcessorNumber != 0;
+    result = result && GetCurrentUniqueProcessorNumber != GetCurrentUniqueProcessorNumber_SystemAPIDispatcher && GetCurrentUniqueProcessorNumber != 0;
     result = result && GetCacheInfo != GetCacheInfo_SystemAPIDispatcher && GetCacheInfo != 0;
     result = result && GetCacheCount != GetCacheCount_SystemAPIDispatcher && GetCacheCount != 0;
     result = result && GetLogicalProcessorFeatures != GetLogicalProcessorFeatures_SystemAPIDispatcher && GetLogicalProcessorFeatures != 0;
@@ -107,6 +119,8 @@ void GetNotDispatchedFunctions( List<RF_Type::String>& Result )
         Result.AddLast(RF_Type::String("GetAvailableLogicalProcessorCount", sizeof("GetAvailableLogicalProcessorCount")));
     if (GetCurrentProcessorNumber == GetCurrentProcessorNumber_SystemAPIDispatcher || GetCurrentProcessorNumber == 0) 
         Result.AddLast(RF_Type::String("GetCurrentProcessorNumber", sizeof("GetCurrentProcessorNumber")));
+    if(GetCurrentUniqueProcessorNumber == GetCurrentUniqueProcessorNumber_SystemAPIDispatcher || GetCurrentUniqueProcessorNumber == 0)
+        Result.AddLast(RF_Type::String("GetCurrentUniqueProcessorNumber", sizeof("GetCurrentUniqueProcessorNumber")));
     if (GetCacheInfo == GetCacheInfo_SystemAPIDispatcher || GetCacheInfo == 0) 
         Result.AddLast(RF_Type::String("GetCacheInfo", sizeof("GetCacheInfo")));
     if (GetCacheCount == GetCacheCount_SystemAPIDispatcher || GetCacheCount == 0) 

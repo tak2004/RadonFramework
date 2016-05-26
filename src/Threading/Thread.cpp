@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/Threading/Scopelock.hpp"
+#include "RadonFramework/System/Hardware/Hardware.hpp"
 
 namespace RadonFramework { namespace Threading {
 
@@ -9,6 +10,8 @@ Thread::Thread()
 ,m_Pid(-1)
 ,m_ImplData(0)
 {
+    m_AffinityMask.Resize(RF_SysHardware::GetAvailableLogicalProcessorCount());
+    m_AffinityMask.Set();
 }
 
 Thread::~Thread()
@@ -25,6 +28,8 @@ void Thread::Start()
 {
     m_ImplData =RF_SysThread::Create(*this, m_Pid);
     RF_SysThread::SetPriority(m_ImplData, m_Priority);
+    RF_SysThread::SetAffinityMask(m_ImplData, m_AffinityMask);
+    RF_SysThread::PostConfigurationComplete(m_ImplData);
 }
 
 void Thread::Exit()
@@ -138,9 +143,15 @@ RF_Type::Bool Thread::GetAffinityMask(RF_Collect::BitArray<>& Mask)const
     return RF_SysThread::GetAffinityMask(m_ImplData, Mask);
 }
 
-RF_Type::Bool Thread::SetAffinityMask(const RF_Collect::BitArray<>& NewValue)const
+RF_Type::Bool Thread::SetAffinityMask(const RF_Collect::BitArray<>& NewValue)
 {
-    return RF_SysThread::SetAffinityMask(m_ImplData, NewValue);
+    RF_Type::Bool result = true;
+    if(NewValue != m_AffinityMask)
+    {
+        m_AffinityMask = NewValue;
+        result = RF_SysThread::SetAffinityMask(m_ImplData, m_AffinityMask);
+    }
+    return result;
 }
 
 RF_Type::Bool Thread::ShouldRunning()

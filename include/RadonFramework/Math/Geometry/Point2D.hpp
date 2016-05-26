@@ -4,8 +4,6 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Math/Math.hpp>
-
 namespace RadonFramework { namespace Math { namespace Geometry {
             
 template<class T=RF_Type::Int32>
@@ -78,7 +76,7 @@ T Point2D<T>::Sum()const
 template<class T>
 RF_Type::Float32 Point2D<T>::Distance(const Point2D<T> &Other)const
 {
-    return Math<RF_Type::Float32>::Sqrt(SquareDistance(Other));
+    return Float32::Sqrt(SquareDistance(Other));
 }
 
 template<class T>

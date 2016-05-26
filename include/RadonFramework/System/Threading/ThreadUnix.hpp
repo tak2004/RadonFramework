@@ -18,6 +18,7 @@ struct ThreadHelper
     RF_Type::UInt64* PID;
     RF_Type::Bool alive;
     RF_Type::Bool cancel;
+    RF_Type::Bool postConfigurationComplete;
 };
 
 } } } }

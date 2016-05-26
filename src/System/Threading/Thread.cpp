@@ -123,6 +123,15 @@ RF_Type::Bool GetAffinityMask_SystemAPIDispatcher(void* Data,
     return GetAffinityMask(Data, Mask);
 }
 
+void PostConfigurationComplete_SystemAPIDispatcher(void* Data)
+{
+    PostConfigurationComplete = 0;
+    Dispatch();
+    Assert(PostConfigurationComplete != PostConfigurationComplete_SystemAPIDispatcher &&
+        PostConfigurationComplete != 0, "Funtion was called and couldn't be dispatched");
+    PostConfigurationComplete(Data);
+}
+
 IsAliveCallback IsAlive = IsAlive_SystemAPIDispatcher;
 IsRunningCallback IsRunning = IsRunning_SystemAPIDispatcher;
 CreateCallback Create = Create_SystemAPIDispatcher;
@@ -136,6 +145,7 @@ SetPriorityCallback SetPriority = SetPriority_SystemAPIDispatcher;
 GetPriorityCallback GetPriority = GetPriority_SystemAPIDispatcher;
 SetAffinityMaskCallback SetAffinityMask = SetAffinityMask_SystemAPIDispatcher;
 GetAffinityMaskCallback GetAffinityMask = GetAffinityMask_SystemAPIDispatcher;
+PostConfigurationCompleteCallback PostConfigurationComplete = PostConfigurationComplete_SystemAPIDispatcher;
 
 RF_Type::Bool IsSuccessfullyDispatched()
 {
@@ -152,6 +162,7 @@ RF_Type::Bool IsSuccessfullyDispatched()
     result = result && GetPriority != GetPriority_SystemAPIDispatcher && GetPriority != 0;
     result = result && SetAffinityMask != SetAffinityMask_SystemAPIDispatcher && SetAffinityMask != 0;
     result = result && GetAffinityMask != GetAffinityMask_SystemAPIDispatcher && GetAffinityMask != 0;
+    result = result && PostConfigurationComplete != PostConfigurationComplete_SystemAPIDispatcher && PostConfigurationComplete != 0;
     return result;
 }
 
@@ -181,6 +192,8 @@ void GetNotDispatchedFunctions(RF_Collect::List<RF_Type::String>& Result)
         Result.AddLast(RF_Type::String("SetAffinityMask"));
     if(GetAffinityMask == GetAffinityMask_SystemAPIDispatcher || GetAffinityMask == 0)
         Result.AddLast(RF_Type::String("GetAffinityMask"));
+    if(PostConfigurationComplete == PostConfigurationComplete_SystemAPIDispatcher || PostConfigurationComplete == 0)
+        Result.AddLast(RF_Type::String("PostConfigurationComplete"));
 }
 
 } } }

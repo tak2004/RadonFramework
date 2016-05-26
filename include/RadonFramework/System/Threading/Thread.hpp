@@ -36,6 +36,7 @@ using SetPriorityCallback = void(*)(void* Data, RF_Thread::ThreadPriority::Type 
 using GetPriorityCallback = RF_Thread::ThreadPriority::Type(*)(void* Data);
 using SetAffinityMaskCallback = RF_Type::Bool(*)(void* Data, const RF_Collect::BitArray<>& NewMask);
 using GetAffinityMaskCallback = RF_Type::Bool(*)(void* Data, RF_Collect::BitArray<>& Mask);
+using PostConfigurationCompleteCallback = void(*)(void* Data);
 
 extern IsAliveCallback IsAlive;
 extern IsRunningCallback IsRunning;
@@ -44,6 +45,7 @@ extern IsRunningCallback IsRunning;
 * The function creates a new sub-process, execute the Instance->Run() function and
 * writes the thread id to PID.
 * It will return if an error occurred or after the thread started.
+* Call PostConfigurationComplete afterwards to start the Instance->Run() function.
 */
 extern CreateCallback Create;
 /**
@@ -59,6 +61,12 @@ extern SetPriorityCallback SetPriority;
 extern GetPriorityCallback GetPriority;
 extern SetAffinityMaskCallback SetAffinityMask;
 extern GetAffinityMaskCallback GetAffinityMask;
+/**
+* On some architectures it's necessary to configure the thread after it was created.
+* To ensure that the configuration was applied before execute Instance->Run()
+* the internal thread function will wait till this function was called.
+*/
+extern PostConfigurationCompleteCallback PostConfigurationComplete;
 
 } } }
 

@@ -44,6 +44,10 @@ void* ThreadFunction(void *userdata)
         return 0;
     }
     *p->PID = GetProcessId();
+    while(!p->postConfigurationComplete)
+    {
+        usleep(0);
+    }
     SetAlive(p, true);
     p->OnRun();
     SetAlive(p, false);
@@ -64,6 +68,7 @@ void* Create(RF_Thread::Thread& Instance, RF_Type::UInt64& PID)
     p->PID = &PID;
     p->alive = false;
     p->cancel = false;
+    p->postConfigurationComplete = false;
     pthread_attr_init(&p->attr);
     pthread_mutex_init(&p->mutex, NULL);
     pthread_mutex_init(&p->mutexIsAlive, NULL);
@@ -214,6 +219,12 @@ RF_Type::Bool IsRunning(void* Data)
     return !p->cancel && p->alive;
 }
 
+void PostConfigurationComplete(void* Data)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    p->postConfigurationComplete = true;
+}
+
 }
 
 void Dispatch()
@@ -227,6 +238,7 @@ void Dispatch()
     IsAlive = Unix::IsAlive;
     SetPriority = Unix::SetPriority;
     IsRunning = Unix::IsRunning;
+    PostConfigurationComplete = Unix::PostConfigurationComplete;
 #ifdef RF_LINUX
     extern void Dispatch_Linux();
     Dispatch_Linux();

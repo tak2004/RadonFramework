@@ -113,7 +113,7 @@ RF_Type::UInt64 MemoryStream::Read(RF_Type::UInt8* Buffer,
     RF_Type::UInt64 position = Position();
     if(position < length)
     {
-        readbytes = RF_Math::Integer<RF_Type::UInt64>::ClampUpperBound(Count, length - position);
+        readbytes = RF_Math::Integer<RF_Type::UInt64>::Min(Count, length - position);
         RF_Policy::CMemoryOperation::Copy(Buffer + Index, m_Data.Get()+m_Position, readbytes);
         m_Position += readbytes;
     }
@@ -128,18 +128,18 @@ RF_Type::UInt64 MemoryStream::Seek(const RF_Type::Int64 Offset, const SeekOrigin
     switch(Origin)
     {
     case SeekOrigin::Begin:
-        readbytes = RF_Math::Integer<RF_Type::Int64>::ClampUpperBound(
-            RF_Math::Integer<RF_Type::Int64>::ClampLowerBound(Offset,0), length);
+        readbytes = RF_Math::Integer<RF_Type::Int64>::Min(
+            RF_Math::Integer<RF_Type::Int64>::Max(Offset,0), length);
         m_Position = readbytes + m_FenceStart;
         break;
     case SeekOrigin::Current:
-        readbytes = RF_Math::Integer<RF_Type::Int64>::ClampUpperBound(Offset, 
+        readbytes = RF_Math::Integer<RF_Type::Int64>::Min(Offset, 
             length - position);
         m_Position += readbytes;
         break;
     case SeekOrigin::End:
-        readbytes = RF_Math::Integer<RF_Type::Int64>::ClampUpperBound(
-            RF_Math::Integer<RF_Type::Int64>::ClampLowerBound(Offset,0), length);
+        readbytes = RF_Math::Integer<RF_Type::Int64>::Min(
+            RF_Math::Integer<RF_Type::Int64>::Max(Offset,0), length);
         m_Position = m_FenceEnd - readbytes;
         break;
     }
@@ -161,7 +161,7 @@ RF_Type::UInt64 MemoryStream::Write(const RF_Type::UInt8* Buffer,
     
     if(position < length)
     {
-        readbytes = RF_Math::Integer<RF_Type::UInt64>::ClampUpperBound(Count, length - position);
+        readbytes = RF_Math::Integer<RF_Type::UInt64>::Min(Count, length - position);
         RF_Policy::CMemoryOperation::Copy(m_Data.Get() + m_Position, Buffer + Offset, readbytes);
         m_Position += readbytes;
     }
@@ -176,7 +176,7 @@ RF_Type::UInt64 MemoryStream::Peek(RF_Type::UInt8* Buffer,
     RF_Type::UInt64 position = Position();
     if(position < length)
     {
-        readbytes = RF_Math::Integer<RF_Type::UInt64>::ClampUpperBound(Count, length - position);
+        readbytes = RF_Math::Integer<RF_Type::UInt64>::Min(Count, length - position);
         RF_Policy::CMemoryOperation::Copy(Buffer + Index, m_Data.Get() + m_Position, Count);
     }
     return readbytes;

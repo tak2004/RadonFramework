@@ -5,7 +5,6 @@
 #endif
 
 #include <RadonFramework/Math/Geometry/Vector.hpp>
-#include <RadonFramework/Math/Math.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/System/Memory.hpp>
 
@@ -273,7 +272,7 @@ Matrix<T, N, M>& Matrix<T, N, M>::operator /=(T Other)
 template <typename T, RF_Type::Size N, RF_Type::Size M>
 RF_Type::Bool Matrix<T, N, M>::operator==(const Matrix<T, N, M>& Other)const
 {
-    return Math<T>::IsAlmostEqual(Value, Other.Value, N*M, 5);
+    return Float32::IsAlmostEqual(Value, Other.Value, N*M, 5);
 }
 
 template <typename T, RF_Type::Size N, RF_Type::Size M>
@@ -442,7 +441,7 @@ Matrix<T, 2, 2>& Matrix<T, 2, 2>::operator /=(T Other)
 template <typename T>
 Matrix<T, 2, 2>& Matrix<T, 2, 2>::Rotate(T Angle)
 {
-    T rad = RF_Math::Math<T>::DegToRad(Angle);
+    T rad = RF_Math::Float32::DegToRad(Angle);
     T c = cos(rad);
     T s = sin(rad);
     Matrix m;
@@ -465,7 +464,7 @@ Matrix<T, 2, 2> Matrix<T, 2, 2>::Inverse()
     Matrix inverse;
 
     T det = Determinants();
-    if (RF_Math::Math<T>::FAbs(det) > RF_Math::Math<T>::EPSILION)
+    if (RF_Math::Float32::FAbs(det) > RF_Math::Float32::EPSILION)
     {
         T invDet = ((T)1) / det;
         inverse.Value[0] = Value[3] * invDet;
@@ -481,7 +480,7 @@ Matrix<T, 2, 2> Matrix<T, 2, 2>::Inverse()
 template <typename T>
 RF_Type::Bool Matrix<T, 2, 2>::operator==(const Matrix<T, 2, 2>& Other)const
 {
-    return RF_Math::Math<T>::IsAlmostEqual(Value, Other.Value, 4);
+    return RF_Math::Float32::IsAlmostEqual(Value, Other.Value, 4);
 }
 
 template <typename T>
@@ -663,7 +662,7 @@ Matrix<T,3,3>& Matrix<T,3,3>::Rotate(T w, T x, T y, T z)
     Vector<T, 3> v(x, y, z);
     T len = v.Length();
     Assert(len != 0, "Argument is not legal because the x,y,z components are zero.");
-    T rad = Math<T>::DegToRad(w);
+    T rad = Float32::DegToRad(w);
     T c = cos(rad);
     T ic = 1.0 - c;
     T s = sin(rad);
@@ -715,7 +714,7 @@ Matrix<T,3,3> Matrix<T,3,3>::Inverse()
     T det = Value[0] * inverse.Value[0] + Value[1] * inverse.Value[3] +
         Value[2] * inverse.Value[6];
 
-    if (RF_Math::Math<T>::FAbs(det) > RF_Math::Math<T>::EPSILION)
+    if (RF_Math::Float32::FAbs(det) > RF_Math::Float32::EPSILION)
     {
         T invDet = ((T)1) / det;
         inverse.Value[0] *= invDet;
@@ -736,7 +735,7 @@ Matrix<T,3,3> Matrix<T,3,3>::Inverse()
 template<typename T>
 RF_Type::Bool Matrix<T,3,3>::operator==(const Matrix<T,3,3>& Other)const
 {
-    return RF_Math::Math<T>::IsAlmostEqual(Value, Other.Value, 9);
+    return RF_Math::Float32::IsAlmostEqual(Value, Other.Value, 9);
 }
 
 template<typename T>
