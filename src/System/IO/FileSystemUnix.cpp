@@ -353,7 +353,7 @@ RF_Type::Bool RenameFile(const RF_Type::String& From, const RF_Type::String& To)
 RF_Type::Bool SystemPathToUri(const RF_Type::String& SystemPath,
     RF_IO::Uri& UriInterpretation)
 {
-    RF_Type::String uriPath = RF_Type::String("file://")+SystemPath;
+    RF_Type::String uriPath = "file://"_rfs + SystemPath;
     RF_IO::Uri uri1(uriPath, RF_IO::UriKind::Absolute);
     UriInterpretation = uri1;
     return true;

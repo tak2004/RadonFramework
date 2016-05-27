@@ -34,4 +34,4 @@ ReflectionMethode* Reflectable::Methode(UInt32 Index)
     return 0;
 }
 
-REGISTER_REFLECTION_CLASS(Reflectable, RF_Type::String("Reflectable", sizeof("Reflectable")))
+REGISTER_REFLECTION_CLASS(Reflectable, "Reflectable"_rfs)

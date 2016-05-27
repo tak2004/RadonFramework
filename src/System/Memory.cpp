@@ -168,12 +168,12 @@ Bool RF_SysMem::IsSuccessfullyDispatched()
 void RF_SysMem::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if(GetPageSize == GetPageSize_SystemAPIDispatcher || GetPageSize == 0)
-        Result.AddLast(RF_Type::String("GetPageSize", sizeof("GetPageSize")));
+        Result.AddLast("GetPageSize"_rfs);
     if(EnableTerminationOnHeapCorruption == EnableTerminationOnHeapCorruption_SystemAPIDispatcher
        || EnableTerminationOnHeapCorruption == 0)
-       Result.AddLast(RF_Type::String("EnableTerminationOnHeapCorruption", sizeof("EnableTerminationOnHeapCorruption")));
+       Result.AddLast("EnableTerminationOnHeapCorruption"_rfs);
     if(Allocate == Allocate_SystemAPIDispatcher || Allocate == 0)
-        Result.AddLast(RF_Type::String("Allocate", sizeof("Allocate")));
+        Result.AddLast("Allocate"_rfs);
     if(Free == Free_SystemAPIDispatcher || Free == 0)
-        Result.AddLast(RF_Type::String("Free", sizeof("Free")));
+        Result.AddLast("Free"_rfs);
 }

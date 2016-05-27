@@ -103,7 +103,7 @@ protected:
 };
 
 template<class T, class N> 
-N Locator<T,N>::m_NullService(RF_Type::String("NullService", sizeof("NullService"), Common::DataManagment::UnmanagedInstance));
+N Locator<T,N>::m_NullService("NullService"_rfs);
 
 template<class T, class N> 
 RF_Collect::AutoVector<T> Locator<T, N>::m_Services;

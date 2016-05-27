@@ -136,24 +136,24 @@ RF_Type::Bool RFPROC::IsSuccessfullyDispatched()
 void RFPROC::GetNotDispatchedFunctions( RadonFramework::Collections::List<RF_Type::String>& Result )
 {
     if (GetProcessList == GetProcessList_SystemAPIDispatcher || GetProcessList == 0) 
-        Result.AddLast(RF_Type::String("GetProcessList", sizeof("GetProcessList")));
+        Result.AddLast("GetProcessList"_rfs);
     if (GetCurrentProcessId == GetCurrentProcessId_SystemAPIDispatcher || GetCurrentProcessId == 0) 
-        Result.AddLast(RF_Type::String("GetCurrentProcessId", sizeof("GetCurrentProcessId")));
+        Result.AddLast("GetCurrentProcessId"_rfs);
     if (GetGeneralInfo == GetGeneralInfo_SystemAPIDispatcher || GetGeneralInfo == 0) 
-        Result.AddLast(RF_Type::String("GetGeneralInfo", sizeof("GetGeneralInfo")));
+        Result.AddLast("GetGeneralInfo"_rfs);
     if (GetIOInfo == GetIOInfo_SystemAPIDispatcher || GetIOInfo == 0)
-        Result.AddLast(RF_Type::String("GetIOInfo", sizeof("GetIOInfo")));
+        Result.AddLast("GetIOInfo"_rfs);
     if (GetMemoryInfo == GetMemoryInfo_SystemAPIDispatcher || GetMemoryInfo == 0)
-        Result.AddLast(RF_Type::String("GetMemoryInfo", sizeof("GetMemoryInfo")));
+        Result.AddLast("GetMemoryInfo"_rfs);
     if (GetTimingInfo == GetTimingInfo_SystemAPIDispatcher || GetTimingInfo == 0)
-        Result.AddLast(RF_Type::String("GetTimingInfo", sizeof("GetTimingInfo")));
+        Result.AddLast("GetTimingInfo"_rfs);
     if (GetModuleInfo == GetModuleInfo_SystemAPIDispatcher || GetModuleInfo == 0)
-        Result.AddLast(RF_Type::String("GetModuleInfo", sizeof("GetModuleInfo")));
+        Result.AddLast("GetModuleInfo"_rfs);
     if (GetThreadInfo == GetThreadInfo_SystemAPIDispatcher || GetThreadInfo == 0)
-        Result.AddLast(RF_Type::String("GetThreadInfo", sizeof("GetThreadInfo")));
+        Result.AddLast("GetThreadInfo"_rfs);
 	if (ExecuteProgram == ExecuteProgram_SystemAPIDispatcher || ExecuteProgram == 0)
-		Result.AddLast(RF_Type::String("ExecuteProgram", sizeof("ExecuteProgram")));
+		Result.AddLast("ExecuteProgram"_rfs);
     if(OpenWithDefaultApplication == OpenWithDefaultApplication_SystemAPIDispatcher ||
        OpenWithDefaultApplication == 0)
-        Result.AddLast(RF_Type::String("OpenWithDefaultApplication", sizeof("OpenWithDefaultApplication")));
+        Result.AddLast("OpenWithDefaultApplication"_rfs);
 }

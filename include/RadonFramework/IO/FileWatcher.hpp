@@ -18,7 +18,7 @@ public:
     ~FileWatcher();
 
     void Initialize(const Uri& Path,
-                    const RF_Type::String& Filter = RF_Type::String("",1));
+                    const RF_Type::String& Filter = ""_rfs);
                 
     const Uri& Path()const;
     const RF_Type::String& Filter();

@@ -153,9 +153,9 @@ String IPAddress::ToString()const
         case AddressFamily::InterNetwork6:
             for (int i=0; i<16; i=i+2)
                 if (i!=14)
-                    ip+=String::Format(RF_Type::String("%x%x:"), m_IP[i], m_IP[i+1]);
+                    ip+=String::Format("%x%x:"_rfs, m_IP[i], m_IP[i+1]);
                 else
-                    ip+=String::Format(RF_Type::String("%x%x"), m_IP[i], m_IP[i+1]);
+                    ip+=String::Format("%x%x"_rfs, m_IP[i], m_IP[i+1]);
             break;
         case AddressFamily::Unix:
             break;
@@ -219,7 +219,7 @@ Bool IPAddress::IsValidIPv4(const String& Text)
     if(Text.Length() < 7)
         return false;
 
-    AutoPointerArray<String> tokens = Text.Split(RF_Type::String("."));
+    AutoPointerArray<String> tokens = Text.Split("."_rfs);
     return tokens.Count() == 4 && RF_Algo::FindAll(tokens, [](AutoPointerArray<String>::ConstEnumeratorType& Text) {
         Size value;
         return Convert::ToSize(*Text, value) && value < 256;
@@ -264,7 +264,7 @@ RF_Type::Bool IPAddress::ResolveIP4(const RF_Type::String& Text,
     {
         AutoPointerArray<UInt8> bytes(4);
         UInt8* fragments = bytes.Get();
-        AutoPointerArray<String> tokens = Text.Split(RF_Type::String("."));
+        AutoPointerArray<String> tokens = Text.Split("."_rfs);
         result = tokens.Count() == 4 && 
             RF_Algo::FindAll(tokens, [fragments](AutoPointerArray<String>::ConstEnumeratorType& Text)
                  {
@@ -326,7 +326,7 @@ Bool IPAddress::ResolveIP6(const String& Text, IPAddress& ResolvedAddress)
 
     AutoPointerArray<UInt16> shorts(8);
     UInt16* fragments = shorts.Get();
-    AutoPointerArray<String> tokens = Text.Split(RF_Type::String(":"));
+    AutoPointerArray<String> tokens = Text.Split(":"_rfs);
     result = RF_Algo::FindAll(tokens, [fragments](AutoPointerArray<String>::ConstEnumeratorType& Text)
     {
         Bool result;
@@ -361,9 +361,9 @@ RF_Type::Bool IPAddress::Resolve(const RF_Type::String& Text,
     if (Text.Length()<2 || Text.Length()>39)//shortest and longest possibility is IPv6
         return false;
     
-    if(Text.Contains(RF_Type::String(".")) >= 0)
+    if(Text.Contains("."_rfs) >= 0)
     {
-        if(Text.Contains(RF_Type::String("::")) >= 0)
+        if(Text.Contains("::"_rfs) >= 0)
         {
             return ResolveIP6Hybrid(Text, ResolvedAddress);
         }

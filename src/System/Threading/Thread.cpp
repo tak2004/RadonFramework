@@ -169,31 +169,31 @@ RF_Type::Bool IsSuccessfullyDispatched()
 void GetNotDispatchedFunctions(RF_Collect::List<RF_Type::String>& Result)
 {
     if(IsAlive == IsAlive_SystemAPIDispatcher || IsAlive == 0)
-        Result.AddLast(RF_Type::String("IsAlive"));
+        Result.AddLast("IsAlive"_rfs);
     if(IsRunning == IsRunning_SystemAPIDispatcher || IsRunning == 0)
-        Result.AddLast(RF_Type::String("IsRunning"));
+        Result.AddLast("IsRunning"_rfs);
     if(Create == Create_SystemAPIDispatcher || Create == 0)
-        Result.AddLast(RF_Type::String("Create"));
+        Result.AddLast("Create"_rfs);
     if(Rename == Rename_SystemAPIDispatcher || Rename == 0)
-        Result.AddLast(RF_Type::String("Rename"));
+        Result.AddLast("Rename"_rfs);
     if(Sleep == Sleep_SystemAPIDispatcher || Sleep == 0)
-        Result.AddLast(RF_Type::String("Sleep"));
+        Result.AddLast("Sleep"_rfs);
     if(GetProcessId == GetProcessId_SystemAPIDispatcher || GetProcessId == 0)
-        Result.AddLast(RF_Type::String("GetProcessId"));
+        Result.AddLast("GetProcessId"_rfs);
     if(Wait == Wait_SystemAPIDispatcher || Wait == 0)
-        Result.AddLast(RF_Type::String("Wait"));
+        Result.AddLast("Wait"_rfs);
     if(Join == Join_SystemAPIDispatcher || Join == 0)
-        Result.AddLast(RF_Type::String("Join"));
+        Result.AddLast("Join"_rfs);
     if(SetPriority == SetPriority_SystemAPIDispatcher || SetPriority == 0)
-        Result.AddLast(RF_Type::String("SetPriority"));
+        Result.AddLast("SetPriority"_rfs);
     if(GetPriority == GetPriority_SystemAPIDispatcher || GetPriority == 0)
-        Result.AddLast(RF_Type::String("GetPriority"));
+        Result.AddLast("GetPriority"_rfs);
     if(SetAffinityMask == SetAffinityMask_SystemAPIDispatcher || SetAffinityMask == 0)
-        Result.AddLast(RF_Type::String("SetAffinityMask"));
+        Result.AddLast("SetAffinityMask"_rfs);
     if(GetAffinityMask == GetAffinityMask_SystemAPIDispatcher || GetAffinityMask == 0)
-        Result.AddLast(RF_Type::String("GetAffinityMask"));
+        Result.AddLast("GetAffinityMask"_rfs);
     if(PostConfigurationComplete == PostConfigurationComplete_SystemAPIDispatcher || PostConfigurationComplete == 0)
-        Result.AddLast(RF_Type::String("PostConfigurationComplete"));
+        Result.AddLast("PostConfigurationComplete"_rfs);
 }
 
 } } }

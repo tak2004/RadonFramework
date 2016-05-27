@@ -72,7 +72,7 @@ RF_Type::Bool ServiceResponder::Start()
         error = socket->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MutlicastTimeToLive, RF_Type::UInt8(255));
         // join the multicast group which tells the OS to stop dropping the packets with this destination
         IPAddress ip;
-        IPAddress::Resolve(RF_Type::String("224.0.0.251"), ip);
+        IPAddress::Resolve("224.0.0.251"_rfs, ip);
 
         MulticastRequest multicastRequest;
         multicastRequest.MulticastAddress = ip;

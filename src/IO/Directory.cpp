@@ -98,7 +98,7 @@ Bool Directory::CreateNewDirectory(const Bool Recursive /* = true */) const
         String systemPath;
         for (Size i = 0; i < dirs.Count(); ++i)
         {
-            path += RF_Type::String("/") + dirs[i];
+            path += "/"_rfs + dirs[i];
             RF_SysFile::UriToSystemPath(path, systemPath);
             result = RF_SysFile::CreateDirectory(systemPath);
         }            

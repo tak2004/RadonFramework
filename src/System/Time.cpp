@@ -103,17 +103,17 @@ Bool RF_SysTime::IsSuccessfullyDispatched()
 void RF_SysTime::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if (CreateTimerQueue == CreateTimerQueue_SystemAPIDispatcher || CreateTimerQueue == 0) 
-        Result.AddLast(RF_Type::String("CreateTimerQueue", sizeof("CreateTimerQueue")));
+        Result.AddLast("CreateTimerQueue"_rfs);
     if (DeleteTimerQueue == DeleteTimerQueue_SystemAPIDispatcher || DeleteTimerQueue == 0) 
-        Result.AddLast(RF_Type::String("DeleteTimerQueue", sizeof("DeleteTimerQueue")));
+        Result.AddLast("DeleteTimerQueue"_rfs);
     if (GetNow == GetNow_SystemAPIDispatcher || GetNow == 0) 
-        Result.AddLast(RF_Type::String("GetNow", sizeof("GetNow")));
+        Result.AddLast("GetNow"_rfs);
     if (GetMinutesWestOfGMT == GetMinutesWestOfGMT_SystemAPIDispatcher || GetMinutesWestOfGMT == 0) 
-        Result.AddLast(RF_Type::String("GetMinutesWestOfGMT", sizeof("GetMinutesWestOfGMT")));
+        Result.AddLast("GetMinutesWestOfGMT"_rfs);
     if(GetStringFormattedTime == GetStringFormattedTime_SystemAPIDispatcher || GetStringFormattedTime == 0)
-        Result.AddLast(RF_Type::String("GetStringFormattedTime", sizeof("GetStringFormattedTime")));
+        Result.AddLast("GetStringFormattedTime"_rfs);
     if (GetHighResolutionCounter == GetHighResolutionCounter_SystemAPIDispatcher || GetHighResolutionCounter == 0) 
-        Result.AddLast(RF_Type::String("GetHighResolutionCounter", sizeof("GetHighResolutionCounter")));
+        Result.AddLast("GetHighResolutionCounter"_rfs);
     if (IsHighResolutionCounterSupported == IsHighResolutionCounterSupported_SystemAPIDispatcher || IsHighResolutionCounterSupported == 0) 
-        Result.AddLast(RF_Type::String("IsHighResolutionCounterSupported", sizeof("IsHighResolutionCounterSupported")));
+        Result.AddLast("IsHighResolutionCounterSupported"_rfs);
 }

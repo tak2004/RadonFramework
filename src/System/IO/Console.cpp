@@ -172,7 +172,7 @@ Console& RadonFramework::System::IO::operator<<(Console& Con,double& val){
 
 Console& RadonFramework::System::IO::operator<<(Console& Con,const void* val){
     RF_Type::String str;
-    str=RF_Type::String::Format(RF_Type::String("%p", sizeof("%p")),val);
+    str=RF_Type::String::Format("%p"_rfs,val);
     fputs(str.c_str(),stdout);
     return Con;
 }

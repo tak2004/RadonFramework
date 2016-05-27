@@ -28,6 +28,7 @@
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Collections/HashList.hpp>
 #include <RadonFramework/Collections/HashMap.hpp>
+#include <RadonFramework/Collections/Hashtable.hpp>
 #include <RadonFramework/Collections/IEnumerable.hpp>
 #include <RadonFramework/Collections/IEnumerator.hpp>
 #include <RadonFramework/Collections/LinkedEnumerator.hpp>

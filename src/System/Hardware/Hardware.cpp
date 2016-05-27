@@ -116,21 +116,21 @@ RF_Type::Bool IsSuccessfullyDispatched()
 void GetNotDispatchedFunctions( List<RF_Type::String>& Result )
 {
     if (GetAvailableLogicalProcessorCount == GetAvailableLogicalProcessorCount_SystemAPIDispatcher || GetAvailableLogicalProcessorCount == 0) 
-        Result.AddLast(RF_Type::String("GetAvailableLogicalProcessorCount", sizeof("GetAvailableLogicalProcessorCount")));
+        Result.AddLast("GetAvailableLogicalProcessorCount"_rfs);
     if (GetCurrentProcessorNumber == GetCurrentProcessorNumber_SystemAPIDispatcher || GetCurrentProcessorNumber == 0) 
-        Result.AddLast(RF_Type::String("GetCurrentProcessorNumber", sizeof("GetCurrentProcessorNumber")));
+        Result.AddLast("GetCurrentProcessorNumber"_rfs);
     if(GetCurrentUniqueProcessorNumber == GetCurrentUniqueProcessorNumber_SystemAPIDispatcher || GetCurrentUniqueProcessorNumber == 0)
-        Result.AddLast(RF_Type::String("GetCurrentUniqueProcessorNumber", sizeof("GetCurrentUniqueProcessorNumber")));
+        Result.AddLast("GetCurrentUniqueProcessorNumber"_rfs);
     if (GetCacheInfo == GetCacheInfo_SystemAPIDispatcher || GetCacheInfo == 0) 
-        Result.AddLast(RF_Type::String("GetCacheInfo", sizeof("GetCacheInfo")));
+        Result.AddLast("GetCacheInfo"_rfs);
     if (GetCacheCount == GetCacheCount_SystemAPIDispatcher || GetCacheCount == 0) 
-        Result.AddLast(RF_Type::String("GetCacheCount", sizeof("GetCacheCount")));
+        Result.AddLast("GetCacheCount"_rfs);
     if (GetLogicalProcessorFeatures == GetLogicalProcessorFeatures_SystemAPIDispatcher || GetLogicalProcessorFeatures == 0) 
-        Result.AddLast(RF_Type::String("GetLogicalProcessorFeatures", sizeof("GetLogicalProcessorFeatures")));
+        Result.AddLast("GetLogicalProcessorFeatures"_rfs);
     if(GetPhysicalMemorySize == GetPhysicalMemorySize_SystemAPIDispatcher || GetPhysicalMemorySize == 0)
-        Result.AddLast(RF_Type::String("GetPhysicalMemorySize", sizeof("GetPhysicalMemorySize")));
+        Result.AddLast("GetPhysicalMemorySize"_rfs);
     if(GetFreePhysicalMemorySize == GetFreePhysicalMemorySize_SystemAPIDispatcher || GetFreePhysicalMemorySize == 0)
-        Result.AddLast(RF_Type::String("GetFreePhysicalMemorySize", sizeof("GetFreePhysicalMemorySize")));
+        Result.AddLast("GetFreePhysicalMemorySize"_rfs);
     GetNotDispatchedVec128IntFunctions(Result);
 }
 

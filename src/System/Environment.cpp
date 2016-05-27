@@ -184,31 +184,31 @@ RF_Type::Bool RF_SysEnv::IsSuccessfullyDispatched()
 void RF_SysEnv::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if(MemoryArchitectureOfOS == MemoryArchitectureOfOS_SystemAPIDispatcher || MemoryArchitectureOfOS == 0)
-        Result.AddLast(RF_Type::String("MemoryArchitectureOfOS", sizeof("MemoryArchitectureOfOS")));
+        Result.AddLast("MemoryArchitectureOfOS"_rfs);
     if(Is32BitEmulation == Is32BitEmulation_SystemAPIDispatcher || Is32BitEmulation == 0)
-        Result.AddLast(RF_Type::String("Is32BitEmulation", sizeof("Is32BitEmulation")));
+        Result.AddLast("Is32BitEmulation"_rfs);
     if(OSVersion == OSVersion_SystemAPIDispatcher || OSVersion == 0)
-        Result.AddLast(RF_Type::String("OSVersion", sizeof("OSVersion")));
+        Result.AddLast("OSVersion"_rfs);
     if(GetVariable == GetVariable_SystemAPIDispatcher || GetVariable == 0)
-        Result.AddLast(RF_Type::String("GetVariable", sizeof("GetVariable")));
+        Result.AddLast("GetVariable"_rfs);
     if(Platform == Platform_SystemAPIDispatcher || Platform == 0)
-        Result.AddLast(RF_Type::String("Platform", sizeof("Platform")));
+        Result.AddLast("Platform"_rfs);
     if(OSFamily == OSFamily_SystemAPIDispatcher || OSFamily == 0)
-        Result.AddLast(RF_Type::String("OSFamily", sizeof("OSFamily")));
+        Result.AddLast("OSFamily"_rfs);
     if(FastRandomUUID == FastRandomUUID_SystemAPIDispatcher || FastRandomUUID == 0)
-        Result.AddLast(RF_Type::String("FastRandomUUID", sizeof("FastRandomUUID")));
+        Result.AddLast("FastRandomUUID"_rfs);
     if(SecureRandomUUID == SecureRandomUUID_SystemAPIDispatcher || SecureRandomUUID == 0)
-        Result.AddLast(RF_Type::String("SecureRandomUUID", sizeof("SecureRandomUUID")));
+        Result.AddLast("SecureRandomUUID"_rfs);
     if(UUIDFromString == UUIDFromString_SystemAPIDispatcher || UUIDFromString == 0)
-        Result.AddLast(RF_Type::String("UUIDFromString", sizeof("UUIDFromString")));
+        Result.AddLast("UUIDFromString"_rfs);
     if(ActiveLanguage == ActiveLanguage_SystemAPIDispatcher || ActiveLanguage == 0)
-        Result.AddLast(RF_Type::String("ActiveLanguage", sizeof("ActiveLanguage")));
+        Result.AddLast("ActiveLanguage"_rfs);
     if(ActiveLanguageName == ActiveLanguageName_SystemAPIDispatcher || ActiveLanguageName == 0)
-        Result.AddLast(RF_Type::String("ActiveLanguageName", sizeof("ActiveLanguageName")));
+        Result.AddLast("ActiveLanguageName"_rfs);
     if(ActiveNativeLanguageName == ActiveNativeLanguageName_SystemAPIDispatcher || ActiveNativeLanguageName == 0)
-        Result.AddLast(RF_Type::String("ActiveNativeLanguageName", sizeof("ActiveNativeLanguageName")));
+        Result.AddLast("ActiveNativeLanguageName"_rfs);
     if(ActiveLanguageLocation == ActiveLanguageLocation_SystemAPIDispatcher || ActiveLanguageLocation == 0)
-        Result.AddLast(RF_Type::String("ActiveLanguageLocation", sizeof("ActiveLanguageLocation")));
+        Result.AddLast("ActiveLanguageLocation"_rfs);
     if(ActiveNativeLanguageLocation == ActiveNativeLanguageLocation_SystemAPIDispatcher || ActiveNativeLanguageLocation == 0)
-        Result.AddLast(RF_Type::String("ActiveNativeLanguageLocation", sizeof("ActiveNativeLanguageLocation")));
+        Result.AddLast("ActiveNativeLanguageLocation"_rfs);
 }

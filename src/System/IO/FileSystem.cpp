@@ -497,81 +497,81 @@ Bool RFFILE::IsSuccessfullyDispatched()
 void RFFILE::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if (OpenFile == OpenFile_SystemAPIDispatcher || OpenFile == 0) 
-        Result.AddLast(RF_Type::String("OpenFile", sizeof("OpenFile")));
+        Result.AddLast("OpenFile"_rfs);
     if (CloseFile == CloseFile_SystemAPIDispatcher || CloseFile == 0)
-        Result.AddLast(RF_Type::String("CloseFile", sizeof("CloseFile")));
+        Result.AddLast("CloseFile"_rfs);
     if (MapFileIntoMemory == MapFileIntoMemory_SystemAPIDispatcher || MapFileIntoMemory == 0)
-        Result.AddLast(RF_Type::String("MapFileIntoMemory", sizeof("MapFileIntoMemory")));
+        Result.AddLast("MapFileIntoMemory"_rfs);
     if (UnmapMemoryFile == UnmapMemoryFile_SystemAPIDispatcher || UnmapMemoryFile == 0) 
-        Result.AddLast(RF_Type::String("UnmapMemoryFile", sizeof("UnmapMemoryFile")));
+        Result.AddLast("UnmapMemoryFile"_rfs);
     if (GetMemoryFile == GetMemoryFile_SystemAPIDispatcher || GetMemoryFile == 0) 
-        Result.AddLast(RF_Type::String("GetMemoryFile", sizeof("GetMemoryFile")));
+        Result.AddLast("GetMemoryFile"_rfs);
     if (ReadFile == ReadFile_SystemAPIDispatcher || ReadFile == 0)
-        Result.AddLast(RF_Type::String("ReadFile", sizeof("ReadFile")));
+        Result.AddLast("ReadFile"_rfs);
     if (WriteFile == WriteFile_SystemAPIDispatcher || WriteFile == 0)
-        Result.AddLast(RF_Type::String("WriteFile", sizeof("WriteFile")));
+        Result.AddLast("WriteFile"_rfs);
     if (FlushFile == FlushFile_SystemAPIDispatcher || FlushFile == 0)
-        Result.AddLast(RF_Type::String("FlushFile", sizeof("FlushFile")));
+        Result.AddLast("FlushFile"_rfs);
     if (SeekFile == SeekFile_SystemAPIDispatcher || SeekFile == 0)
-        Result.AddLast(RF_Type::String("SeekFile", sizeof("SeekFile")));
+        Result.AddLast("SeekFile"_rfs);
     if (TellFile == TellFile_SystemAPIDispatcher || TellFile == 0)
-        Result.AddLast(RF_Type::String("TellFile", sizeof("TellFile")));
+        Result.AddLast("TellFile"_rfs);
     if (GenerateTempFilename == GenerateTempFilename_SystemAPIDispatcher || GenerateTempFilename == 0)
-        Result.AddLast(RF_Type::String("GenerateTempFilename", sizeof("GenerateTempFilename")));
+        Result.AddLast("GenerateTempFilename"_rfs);
     if (Access == Access_SystemAPIDispatcher || Access == 0)
-        Result.AddLast(RF_Type::String("Access", sizeof("Access")));
+        Result.AddLast("Access"_rfs);
     if (PathSeperator == PathSeperator_SystemAPIDispatcher || PathSeperator == 0)
-        Result.AddLast(RF_Type::String("PathSeperator", sizeof("PathSeperator")));
+        Result.AddLast("PathSeperator"_rfs);
     if (Seperator == Seperator_SystemAPIDispatcher || Seperator == 0)
-        Result.AddLast(RF_Type::String("Seperator", sizeof("Seperator")));
+        Result.AddLast("Seperator"_rfs);
     if (Stat == Stat_SystemAPIDispatcher || Stat == 0)
-        Result.AddLast(RF_Type::String("Stat", sizeof("Stat")));
+        Result.AddLast("Stat"_rfs);
     if(RealPath == RealPath_SystemAPIDispatcher || RealPath == 0)
-        Result.AddLast(RF_Type::String("RealPath", sizeof("RealPath")));
+        Result.AddLast("RealPath"_rfs);
     if (ChangeMode == ChangeMode_SystemAPIDispatcher || ChangeMode == 0)
-        Result.AddLast(RF_Type::String("ChangeMode", sizeof("ChangeMode")));
+        Result.AddLast("ChangeMode"_rfs);
     if (CreatePreAllocatedFile == CreatePreAllocatedFile_SystemAPIDispatcher || CreatePreAllocatedFile == 0)
-        Result.AddLast(RF_Type::String("CreatePreAllocatedFile", sizeof("CreatePreAllocatedFile")));
+        Result.AddLast("CreatePreAllocatedFile"_rfs);
     if (CreateFile == CreateFile_SystemAPIDispatcher || CreateFile == 0)
-        Result.AddLast(RF_Type::String("CreateFile", sizeof("CreateFile")));
+        Result.AddLast("CreateFile"_rfs);
     if (CopyFile == CopyFile_SystemAPIDispatcher || CopyFile == 0)
-        Result.AddLast(RF_Type::String("CopyFile", sizeof("CopyFile")));
+        Result.AddLast("CopyFile"_rfs);
     if (RenameFile == RenameFile_SystemAPIDispatcher || RenameFile == 0)
-        Result.AddLast(RF_Type::String("RenameFile", sizeof("RenameFile")));
+        Result.AddLast("RenameFile"_rfs);
     if (DeleteFile == DeleteFile_SystemAPIDispatcher || DeleteFile == 0)
-        Result.AddLast(RF_Type::String("DeleteFile", sizeof("DeleteFile")));
+        Result.AddLast("DeleteFile"_rfs);
     if (WorkingDirectory == WorkingDirectory_SystemAPIDispatcher || WorkingDirectory == 0)
-        Result.AddLast(RF_Type::String("WorkingDirectory", sizeof("WorkingDirectory")));
+        Result.AddLast("WorkingDirectory"_rfs);
     if (HomeDirectory == HomeDirectory_SystemAPIDispatcher || HomeDirectory == 0)
-        Result.AddLast(RF_Type::String("HomeDirectory", sizeof("HomeDirectory")));
+        Result.AddLast("HomeDirectory"_rfs);
     if (ApplicationDirectory == ApplicationDirectory_SystemAPIDispatcher || ApplicationDataDirectory == 0)
-        Result.AddLast(RF_Type::String("ApplicationDirectory", sizeof("ApplicationDirectory")));
+        Result.AddLast("ApplicationDirectory"_rfs);
     if (UserApplicationDataDirectory == UserApplicationDataDirectory_SystemAPIDispatcher || UserApplicationDataDirectory == 0)
-        Result.AddLast(RF_Type::String("UserApplicationDataDirectory", sizeof("UserApplicationDataDirectory")));
+        Result.AddLast("UserApplicationDataDirectory"_rfs);
     if (ApplicationDataDirectory == ApplicationDataDirectory_SystemAPIDispatcher || ApplicationDataDirectory == 0)
-        Result.AddLast(RF_Type::String("ApplicationDataDirectory", sizeof("ApplicationDataDirectory")));
+        Result.AddLast("ApplicationDataDirectory"_rfs);
     if (ChangeDirectory == ChangeDirectory_SystemAPIDispatcher || ChangeDirectory == 0)
-        Result.AddLast(RF_Type::String("ChangeDirectory", sizeof("ChangeDirectory")));
+        Result.AddLast("ChangeDirectory"_rfs);
     if (CreateDirectory == CreateDirectory_SystemAPIDispatcher || CreateDirectory == 0)
-        Result.AddLast(RF_Type::String("CreateDirectory", sizeof("CreateDirectory")));
+        Result.AddLast("CreateDirectory"_rfs);
     if (DirectoryContent == DirectoryContent_SystemAPIDispatcher || DirectoryContent == 0)
-        Result.AddLast(RF_Type::String("DirectoryContent", sizeof("DirectoryContent")));
+        Result.AddLast("DirectoryContent"_rfs);
     if (CreateFileWatcher == CreateFileWatcher_SystemAPIDispatcher || CreateFileWatcher == 0)
-        Result.AddLast(RF_Type::String("CreateFileWatcher", sizeof("CreateFileWatcher")));
+        Result.AddLast("CreateFileWatcher"_rfs);
     if (DestroyFileWatcher == DestroyFileWatcher_SystemAPIDispatcher || DestroyFileWatcher == 0)
-        Result.AddLast(RF_Type::String("DestroyFileWatcher", sizeof("DestroyFileWatcher")));
+        Result.AddLast("DestroyFileWatcher"_rfs);
     if (WaitForFileWatcher == WaitForFileWatcher_SystemAPIDispatcher || WaitForFileWatcher == 0)
-        Result.AddLast(RF_Type::String("WaitForFileWatcher", sizeof("WaitForFileWatcher")));
+        Result.AddLast("WaitForFileWatcher"_rfs);
     if (StartFileWatcher == StartFileWatcher_SystemAPIDispatcher || StartFileWatcher == 0)
-        Result.AddLast(RF_Type::String("StartFileWatcher", sizeof("StartFileWatcher")));
+        Result.AddLast("StartFileWatcher"_rfs);
     if (StopFileWatcher == StopFileWatcher_SystemAPIDispatcher || StopFileWatcher == 0)
-        Result.AddLast(RF_Type::String("StopFileWatcher", sizeof("StopFileWatcher")));
+        Result.AddLast("StopFileWatcher"_rfs);
     if (GetFileWatcherEvent == GetFileWatcherEvent_SystemAPIDispatcher || GetFileWatcherEvent == 0)
-        Result.AddLast(RF_Type::String("GetFileWatcherEvent", sizeof("GetFileWatcherEvent")));
+        Result.AddLast("GetFileWatcherEvent"_rfs);
     if(SystemPathToUri == SystemPathToUri_SystemAPIDispatcher || SystemPathToUri == 0)
-        Result.AddLast(RF_Type::String("SystemPathToUri", sizeof("SystemPathToUri")));
+        Result.AddLast("SystemPathToUri"_rfs);
     if(UriToSystemPath == UriToSystemPath_SystemAPIDispatcher || UriToSystemPath == 0)
-        Result.AddLast(RF_Type::String("UriToSystemPath", sizeof("UriToSystemPath")));
+        Result.AddLast("UriToSystemPath"_rfs);
     if(DeleteDirectory == DeleteDirectory_SystemAPIDispatcher || DeleteDirectory == 0)
-        Result.AddLast(RF_Type::String("DeleteDirectory", sizeof("DeleteDirectory")));
+        Result.AddLast("DeleteDirectory"_rfs);
 }

@@ -204,12 +204,12 @@ RF_Type::Bool Access(const RF_Type::String& Path, const RF_IO::AccessMode::Type 
 
 RF_Type::String PathSeperator()
 {
-    return RF_Type::String(";");
+    return ";"_rfs;
 }
 
 RF_Type::String Seperator()
 {
-    return RF_Type::String("/");
+    return "/"_rfs;
 }
 
 RF_Mem::AutoPointer<RF_IO::FileStatus> Stat(const RF_Type::String& Path)
@@ -300,7 +300,7 @@ RF_Type::Bool RenameFile(const RF_Type::String& From, const RF_Type::String& To)
 
 RF_Type::String WinToUri(const RF_Type::String& WinPath)
 {
-    RF_Type::String result(RF_Type::String("file:///")+WinPath);
+    RF_Type::String result("file:///"_rfs+WinPath);
     for (RF_Type::UInt32 i=0;i<result.Length();++i)
     {
         if (result[i]=='\\')
@@ -441,8 +441,7 @@ void FileWatcherObject::Process(const RF_Type::UInt32 Bytes)
                                         pNotify->FileNameLength / sizeof(WCHAR),
                                         szFile, MAX_PATH - 1, NULL, NULL);
             szFile[count] = TEXT('\0');
-            args.Name = RF_Type::String(szFile, count).Replace(
-                RF_Type::String("\\"), RF_Type::String("/"));
+            args.Name = RF_Type::String(szFile, count).Replace("\\"_rfs, "/"_rfs);
 
             switch(pNotify->Action)
             {

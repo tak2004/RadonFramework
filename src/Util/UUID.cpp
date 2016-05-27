@@ -50,7 +50,7 @@ RF_Type::String UUID::ToString()const
 {
     RF_Type::String result;
     result = RF_Type::String::Format(
-        RF_Type::String("%8.8x-%4.4x-%4.4x-%2.2x%2.2x-%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"),
+        "%8.8x-%4.4x-%4.4x-%2.2x%2.2x-%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"_rfs,
         Structure.TimeLow, Structure.TimeMid, Structure.TimeHiAndVersion, 
         Structure.ClockSeqHiAndReserved, Structure.ClockSeqLow, 
         Structure.Node[0], Structure.Node[1], Structure.Node[2], 
