@@ -936,3 +936,8 @@ RF_Type::Size String::GetLength(const RF_Type::UInt8* CString, const RF_Type::Si
 }
 
 } } }
+
+RF_Type::String operator "" _rfs(const char* Data, size_t Size)
+{
+    return RF_Type::String(Data, Size + 1);
+}

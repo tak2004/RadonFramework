@@ -383,10 +383,7 @@ String& String::operator=(char const (&Other)[N])
 
 } } }
 
-RF_Type::String operator "" _rfs(const char* Data, size_t Size)
-{
-    return RF_Type::String(Data, Size + 1);
-}
+RF_Type::String operator "" _rfs(const char* Data, size_t Size);
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

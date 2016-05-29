@@ -118,7 +118,7 @@ void NativeShape::StripeOutUnchangedRegisterMoves()
             p+=sizeof(GLFunctions::Type);
             if (id>=GLFunctions::MAX)
             {
-                ind=static_cast<Int32>(Math::Math<Float32>::Floor((opCode-GLOpCode::MoveFloat32Reg0)/static_cast<Float32>(regTypes)));
+                ind=static_cast<Int32>(Math::Float32::Floor((opCode-GLOpCode::MoveFloat32Reg0)/static_cast<Float32>(regTypes)));
                 offset=OpenGLMachine::RegisterSize*ind;
                 lastp=p;
                 RF_SysMem::Copy(lastRegisterValue+offset,OpenGLMachine::Registers+offset,8);
