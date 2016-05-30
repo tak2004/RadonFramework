@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
-#include <GL/glew.h>
+#include <RadonFramework/System/Drawing/OpenGL.hpp>
+#include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL2Canvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
@@ -21,6 +22,7 @@ GDIOpenGL2Canvas3D::GDIOpenGL2Canvas3D()
 
 GDIOpenGL2Canvas3D::~GDIOpenGL2Canvas3D()
 {
+    OpenGLExit();
     ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
@@ -61,9 +63,10 @@ void GDIOpenGL2Canvas3D::Generate()
         LogError("Could not create an OpenGL rendering context");
     wglMakeCurrent(m_DeviceContext,m_Context);
 
-  GLenum err=glewInit();
-  if (GLEW_OK!=err)
-        LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
+    OpenGLInit();
+  //GLenum err=glewInit();
+  //if (GLEW_OK!=err)
+    //    LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
 }
 
 void GDIOpenGL2Canvas3D::SetWindowInfos(IWindow* Window)

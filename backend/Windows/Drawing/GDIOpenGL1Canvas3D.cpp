@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
-#include <GL/glew.h>
+#include <RadonFramework/System/Drawing/OpenGL.hpp>
+#include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL1Canvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
@@ -20,6 +21,7 @@ GDIOpenGL1Canvas3D::GDIOpenGL1Canvas3D()
 
 GDIOpenGL1Canvas3D::~GDIOpenGL1Canvas3D()
 {
+    OpenGLExit();
     ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
@@ -61,9 +63,10 @@ void GDIOpenGL1Canvas3D::Generate()
 
     wglMakeCurrent(m_DeviceContext,m_Context);
 
-    GLenum err=glewInit();
-    if (GLEW_OK!=err)
-        LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
+    OpenGLInit();
+//     GLenum err=glewInit();
+//     if (GLEW_OK!=err)
+//         LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
 }
 
 void GDIOpenGL1Canvas3D::SetWindowInfos(IWindow* Window)

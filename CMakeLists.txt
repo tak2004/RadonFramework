@@ -89,7 +89,6 @@ endif()
     
     if(RADONFRAMEWORK_USE_OPENGL)
 		include_directories(${OPENGL_INCLUDE_DIR})
-		add_definitions(-DGLEW_STATIC)    
 		message(STATUS "OpenGL support: Yes")
         set(USEOPENGL "#ifndef RF_USE_OPENGL\n#define RF_USE_OPENGL\n#endif")        
 	else(RADONFRAMEWORK_USE_OPENGL)

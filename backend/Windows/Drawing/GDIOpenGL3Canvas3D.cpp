@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/backend/GL/glew.h>
-#include <RadonFramework/backend/GL/wglew.h>
+#include <RadonFramework/System/Drawing/OpenGL.hpp>
+#include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
@@ -22,6 +22,7 @@ GDIOpenGL3Canvas3D::GDIOpenGL3Canvas3D()
 
 GDIOpenGL3Canvas3D::~GDIOpenGL3Canvas3D()
 {
+    OpenGLExit();
     ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
@@ -67,12 +68,13 @@ void GDIOpenGL3Canvas3D::Generate()
     }
     wglMakeCurrent(m_DeviceContext,TempContext);//setzt den erstellten GC als aktuellen GC
 
-    GLenum err=glewInit();
-    if (GLEW_OK!=err)
-    {
-        LogError("Couldn't init OpenGL extension wrangler.");
-        return;
-    }
+    OpenGLInit();
+//     GLenum err=glewInit();
+//     if (GLEW_OK!=err)
+//     {
+//         LogError("Couldn't init OpenGL extension wrangler.");
+//         return;
+//     }
 
     unsigned int numFormats;
     const int attribList [] = {
@@ -91,13 +93,13 @@ void GDIOpenGL3Canvas3D::Generate()
         0, 0       //End
     };
 
-    if (wglChoosePixelFormatARB != NULL)
+    if (OpenGLGetProcAddress("wglChoosePixelFormatARB") != NULL)
     {
         if (wglChoosePixelFormatARB(m_DeviceContext, attribList, 0, 1, &iFormat, &numFormats) != 0 && numFormats > 0)
             SetPixelFormat(m_DeviceContext, iFormat, &m_PixelFormat);
     }
 
-    if(wglCreateContextAttribsARB == NULL)//wenn es diese Funktion nicht gibt, dann hat der -->Treiber<-- keinen OpenGL3 support
+    if(OpenGLGetProcAddress("wglCreateContextAttribsARB") == NULL)//wenn es diese Funktion nicht gibt, dann hat der -->Treiber<-- keinen OpenGL3 support
     {
         wglDeleteContext(TempContext);
         LogError("There is no OpenGL3 context support.");

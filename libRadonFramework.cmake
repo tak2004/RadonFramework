@@ -12,17 +12,6 @@ set(HDRS_BACKEND
     include/RadonFramework/backend/FastDelegate.h
     include/RadonFramework/backend/FastDelegateBind.h)
 	
-if(RADONFRAMEWORK_USE_OPENGL)
-	set(SRC_BACKEND_GLEW backend/Glew/glew.c)
-        
-    set_source_files_properties(backend/Glew/glew.c PROPERTIES LANGUAGE CXX)
-
-	set(HDRS_BACKEND_GL
-		include/RadonFramework/backend/GL/glew.h
-		include/RadonFramework/backend/GL/glxew.h
-		include/RadonFramework/backend/GL/wglew.h)
-endif(RADONFRAMEWORK_USE_OPENGL)
-
 set(HDRS_BACKEND_GOOGLE
     include/RadonFramework/backend/google/dense_hash_map
     include/RadonFramework/backend/google/dense_hash_set

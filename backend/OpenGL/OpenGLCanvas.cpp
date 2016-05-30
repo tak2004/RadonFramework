@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/backend/OpenGL/OpenGLCanvas.hpp>
 #include <RadonFramework/Drawing/GraphicDriverInformation.hpp>
-#include <RadonFramework/backend/GL/glew.h>
+#include <RadonFramework/System/Drawing/OpenGL.hpp>
 #include <RadonFramework/backend/OpenGL/GraphicDriverInformationOpenGL.hpp>
 #include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
 #include "RadonFramework/System/Threading/Mutex.hpp"

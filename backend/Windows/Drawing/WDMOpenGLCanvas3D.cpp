@@ -1,8 +1,8 @@
 ﻿#include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/backend/GL/WindowsOpenGLConstants.hpp>
 #include <RadonFramework/backend/GL/OpenGLConstants.hpp>
-#include <RadonFramework/backend/GL/glew.h>
-#include <RadonFramework/backend/GL/wglew.h>
+#include <RadonFramework/System/Drawing/OpenGL.hpp>
+#include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <windows.h>
 #include <RadonFramework/backend/Windows/Drawing/WDMOpenGLCanvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
@@ -26,6 +26,7 @@ WDMOpenGLCanvas3D::WDMOpenGLCanvas3D()
 
 WDMOpenGLCanvas3D::~WDMOpenGLCanvas3D()
 {
+    OpenGLExit();
     ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
@@ -73,12 +74,7 @@ void WDMOpenGLCanvas3D::Generate()
     }
     wglMakeCurrent(m_DeviceContext,TempContext);
 
-    GLenum err = glewInit();
-    if(GLEW_OK != err)
-    {
-        LogError("Couldn't init OpenGL extension wrangler.");
-        return;
-    }
+    OpenGLInit();
 
     unsigned int numFormats;
     const int attribList [] = {
@@ -98,17 +94,14 @@ void WDMOpenGLCanvas3D::Generate()
     };
 
     // ask with the current context for gl 3.0 and higher functions
-    //wglChoosePixelFormatARB = ()wglGetProcAddress("wglChoosePixelFormatARB");
-    //wglCreateContextAttribsARB = ()wglGetProcAddress("wglCreateContextAttribsARB");
-
-    if (wglChoosePixelFormatARB != NULL)
+    if (OpenGLGetProcAddress("wglChoosePixelFormatARB") != NULL)
     {
         if (wglChoosePixelFormatARB(m_DeviceContext, attribList, 0, 1, &iFormat, &numFormats) != 0 && numFormats > 0)
             SetPixelFormat(m_DeviceContext, iFormat, &m_PixelFormat);
     }
 
     // context version is something between 1.1 and 2.0 yet
-    if(wglCreateContextAttribsARB == NULL)
+    if(OpenGLGetProcAddress("wglCreateContextAttribsARB") == NULL)
     {
         // wglCreateContextAttribsARB is part of context creation for 3.0 and higher 
         m_Context = TempContext;
@@ -138,13 +131,6 @@ void WDMOpenGLCanvas3D::Generate()
     // switch to the newest context and destroy the old one
     wglMakeCurrent(m_DeviceContext, m_Context);
     wglDeleteContext(TempContext);
-
-//     GLenum err = glewInit();
-//     if(GLEW_OK != err)
-//     {
-//         LogError("Couldn't init OpenGL extension wrangler.");
-//         return;
-//     }
 }
 
 void WDMOpenGLCanvas3D::SetWindowInfos(IWindow* Window)

@@ -1,6 +1,7 @@
 #include <RadonFramework/precompiled.hpp>
 #include <RadonFramework/Drawing/OpenGLMachine.hpp>
-#include <GL/glew.h>
+#include <RadonFramework/System/Drawing/OpenGL.hpp>
+//#include <GL/glew.h>
 
 using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Core::Types;

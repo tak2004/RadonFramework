@@ -1,8 +1,8 @@
 ﻿#include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/backend/GL/WindowsOpenGLConstants.hpp>
 #include <RadonFramework/backend/GL/OpenGLConstants.hpp>
-#include <RadonFramework/backend/GL/glew.h>
-#include <RadonFramework/backend/GL/wglew.h>
+#include <RadonFramework/System/Drawing/OpenGL.hpp>
+#include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <windows.h>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/IWindow.hpp>
@@ -90,17 +90,14 @@ void GDIOpenGLCanvas3D::Generate()
     };
 
     // ask with the current context for gl 3.0 and higher functions
-    //wglChoosePixelFormatARB = ()wglGetProcAddress("wglChoosePixelFormatARB");
-    //wglCreateContextAttribsARB = ()wglGetProcAddress("wglCreateContextAttribsARB");
-
-    if (wglChoosePixelFormatARB != NULL)
+    if (OpenGLGetProcAddress("wglChoosePixelFormatARB") != NULL)
     {
         if (wglChoosePixelFormatARB(m_DeviceContext, attribList, 0, 1, &iFormat, &numFormats) != 0 && numFormats > 0)
             SetPixelFormat(m_DeviceContext, iFormat, &m_PixelFormat);
     }
 
     // context version is something between 1.1 and 2.0 yet
-    if(wglCreateContextAttribsARB == NULL)
+    if(OpenGLGetProcAddress("wglCreateContextAttribsARB") == NULL)
     {
         // wglCreateContextAttribsARB is part of context creation for 3.0 and higher 
         m_Context = TempContext;

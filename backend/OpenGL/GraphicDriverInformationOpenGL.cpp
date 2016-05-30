@@ -1,7 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/backend/OpenGL/GraphicDriverInformationOpenGL.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
-#include <string.h>
 
 using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Core::Types;
@@ -40,7 +39,7 @@ OpenGLCapability::OpenGLCapability(OpenGLCapabilitiesType::Type Type,
 {
     UInt32 size=OpenGLCapabilitySize[m_Type]*m_ElementCount;
     m_Data=new UInt8[size];
-    memset(m_Data,0,size);
+    RF_SysMem::Set(m_Data,0,size);
 }
 
 OpenGLCapability::~OpenGLCapability()
@@ -61,7 +60,7 @@ OpenGLCapability& OpenGLCapability::operator =(const OpenGLCapability& Other)
     {
         UInt32 size=OpenGLCapabilitySize[m_Type]*m_ElementCount;
         m_Data=new UInt8[size];
-        memcpy(m_Data,Other.m_Data,size);
+        RF_SysMem::Copy(m_Data,Other.m_Data,size);
     }
     return *this;
 }
@@ -152,12 +151,12 @@ GraphicDriverInformationOpenGL::GraphicDriverInformationOpenGL(AutoVector<String
 
 GraphicDriverCapabilitiesOpenGL::GraphicDriverCapabilitiesOpenGL()
 {
-    memset(this,0,sizeof(GraphicDriverCapabilitiesOpenGL));
+    RF_SysMem::Set(this,0,sizeof(GraphicDriverCapabilitiesOpenGL));
 }
 
 GraphicDriverCapabilitiesOpenGL::GraphicDriverCapabilitiesOpenGL(const GraphicDriverCapabilitiesOpenGL& Copy)
 {
-    memcpy(IsAvaiable,Copy.IsAvaiable,sizeof(Bool)*OpenGLCapabilities::MAX);
+    RF_SysMem::Copy(IsAvaiable,Copy.IsAvaiable,sizeof(Bool)*OpenGLCapabilities::MAX);
     for (UInt32 i=0;i<OpenGLCapabilities::MAX;++i)
         Value[i]=Copy.Value[i];
 }
