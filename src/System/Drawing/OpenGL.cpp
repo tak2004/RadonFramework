@@ -1035,7 +1035,7 @@ glDepthMaskCallback glDepthMask = glDepthMaskDispatcher;
 
 void glDepthRangeDispatcher(GLdouble near_,GLdouble far_){
 	glDepthRange = reinterpret_cast<glDepthRangeCallback>(OpenGLGetProcAddress("glDepthRange"));
-	glDepthRange(near_, far_);
+	glDepthRange(near_,far_);
 }
 glDepthRangeCallback glDepthRange = glDepthRangeDispatcher;
 
@@ -1181,6 +1181,7 @@ void glDrawElementsInstancedBaseVertexBaseInstanceDispatcher(GLenum mode,GLsizei
 	glDrawElementsInstancedBaseVertexBaseInstance = reinterpret_cast<glDrawElementsInstancedBaseVertexBaseInstanceCallback>(OpenGLGetProcAddress("glDrawElementsInstancedBaseVertexBaseInstance"));
 	glDrawElementsInstancedBaseVertexBaseInstance(mode,count,type,indices,instancecount,basevertex,baseinstance);
 }
+
 glDrawElementsInstancedBaseVertexBaseInstanceCallback glDrawElementsInstancedBaseVertexBaseInstance = glDrawElementsInstancedBaseVertexBaseInstanceDispatcher;
 
 void glDrawPixelsDispatcher(GLsizei width,GLsizei height,GLenum format,GLenum type,const void * pixels){

@@ -2088,4 +2088,4 @@ extern glWindowPos3sCallback glWindowPos3s;
 using glWindowPos3svCallback = void (*)(const GLshort * v);
 extern glWindowPos3svCallback glWindowPos3sv;
 
-#endif // RF_SYSTEM_DRAWING_OPENGL_HPP
+#endif // RF_SYSTEM_DRAWING_OPENGLCONSTANTS_HPP
