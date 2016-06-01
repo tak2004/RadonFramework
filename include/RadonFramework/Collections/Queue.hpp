@@ -41,6 +41,8 @@ public:
 
     /// Adds a copy of an object to the end of the Queue<T>.
     void Enqueue(const T& Item);
+    /// Adds a copy of an object to the end of the Queue<T>.
+    void Enqueue(T& Item);
 
     RF_Type::Bool IsEmpty()const;
 protected:
@@ -75,6 +77,22 @@ void Queue<T,MA,MO>::Enqueue(const T& Item)
     node->m_Next=0;
     node->m_Value=Item;
     
+    // replace tail pointer and get previous pointer
+    Node* old = m_Tail.FetchAndExchange(node);
+    // replace head with current pointer if it is 0 else there was already a value
+    // which m_Next pointer have to point to our new node
+    if(m_Head.CompareAndExchange(0, node) != 0)
+        old->m_Next = node;
+}
+
+template<typename T, typename MA, typename MO>
+void Queue<T, MA, MO>::Enqueue(T& Item)
+{
+    Node* node;
+    node = MA::template New<Node>();
+    node->m_Next = 0;
+    node->m_Value = Item;
+
     // replace tail pointer and get previous pointer
     Node* old = m_Tail.FetchAndExchange(node);
     // replace head with current pointer if it is 0 else there was already a value

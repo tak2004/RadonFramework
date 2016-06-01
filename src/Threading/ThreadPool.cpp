@@ -19,11 +19,11 @@ public:
     ~PoolTask();
     PoolTask(ThreadPool::WaitCallback Callback, void* Data,
              ThreadPool::FreeCallback CustomFree);
-    PoolTask(const PoolTask& Copy);
-    PoolTask& operator=(const PoolTask& Other);
+    PoolTask(const PoolTask& Copy) = delete;
+    PoolTask& operator=(PoolTask& Other);
 
     ThreadPool::WaitCallback Callback;
-    mutable void* Data;
+    void* Data;
     ThreadPool::FreeCallback FreeData;
 };
 
@@ -250,7 +250,7 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
         }
         else
         {
-            Int64 serialGrp=Thread::CurrentPid() % m_PImpl->WorkerThreads.Count();
+            Int64 serialGrp=RF_SysHardware::GetCurrentUniqueProcessorNumber() % m_PImpl->WorkerThreads.Count();
             m_PImpl->SerialTaskLists[static_cast<UInt32>(serialGrp)].Enqueue(task);
         }   
         return true;
@@ -349,7 +349,7 @@ void PoolThread::Run()
 {
     PoolTask task;
     Bool result=false;
-    Int64 serialGrp = Thread::CurrentPid() % Pool->WorkerThreads.Count();
+    Int64 serialGrp = RF_SysHardware::GetCurrentUniqueProcessorNumber() % Pool->WorkerThreads.Count();
     while(!shutdown)
     {
         Pool->WorkingThreads.Increment();
@@ -408,12 +408,8 @@ PoolTask::PoolTask(ThreadPool::WaitCallback Callback, void* Data,
 {
 }
 
-PoolTask::PoolTask(const PoolTask& Copy)
-{
-    *this = Copy;
-}
 
-PoolTask& PoolTask::operator=(const PoolTask& Other)
+PoolTask& PoolTask::operator=(PoolTask& Other)
 {
     Callback=Other.Callback;
     Data=Other.Data;

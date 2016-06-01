@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Float64.hpp"
 #include <limits>
+#include <math.h>
 
 namespace RadonFramework { namespace Math {
 

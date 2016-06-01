@@ -58,7 +58,7 @@ RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
     RF_Type::Size elements = enumerator.Size();
     RF_Type::AtomicInt32 hits;
 
-    if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue())
+    if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue() && elements > 1)
     {
         RF_Type::UInt32 worker, cport;
         RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
