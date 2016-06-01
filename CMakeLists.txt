@@ -22,9 +22,9 @@ OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL" ON)
 #
 # set destination directory for all binaries
 #
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${RadonFramework_SOURCE_DIR}/dist)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${RADONFRAMEWORK_LOCATION}/dist)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RADONFRAMEWORK_LOCATION}/dist)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${RADONFRAMEWORK_LOCATION}/dist)
 
 FIND_PACKAGE ( Threads REQUIRED )
 set(OSLIBS ${OSLIBS} ${CMAKE_THREAD_LIBS_INIT})    
@@ -162,7 +162,7 @@ else()
 	set(RADONFRAMEWORK_MICROCRT "")
 endif()
 
-GIT_GET_REVISION(${RadonFramework_SOURCE_DIR} ProjectRevision)
+GIT_GET_REVISION(${RADONFRAMEWORK_LOCATION} ProjectRevision)
 set(RADONFRAMEWORK_MAJORNUMBER "0")
 set(RADONFRAMEWORK_MINORNUMBER "4")
 set(RADONFRAMEWORK_REVISIONNUMBER "${ProjectRevision}")
@@ -194,9 +194,9 @@ if(RF_HAVE_POSIX_FADVISE)
     AddPublicDefine(RADONFRAMEWORK RF_HAVE_POSIX_FADVISE)
 endif()
 
-AddPublicInclude(RADONFRAMEWORK ${RadonFramework_SOURCE_DIR}/include/)
-target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/)
-target_include_directories(RadonFramework PRIVATE ${RadonFramework_SOURCE_DIR}/include/RadonFramework/backend/uripp/)
+AddPublicInclude(RADONFRAMEWORK ${RADONFRAMEWORK_LOCATION}/include/)
+target_include_directories(RadonFramework PRIVATE ${RADONFRAMEWORK_LOCATION}/include/RadonFramework/backend/)
+target_include_directories(RadonFramework PRIVATE ${RADONFRAMEWORK_LOCATION}/include/RadonFramework/backend/uripp/)
 
 Finalize(RADONFRAMEWORK)
 
@@ -226,7 +226,7 @@ endif()
 #
 #
 #	
-install(DIRECTORY ${RadonFramework_SOURCE_DIR}/include/RadonFramework 
+install(DIRECTORY ${RADONFRAMEWORK_LOCATION}/include/RadonFramework 
 		DESTINATION "include" 
 		FILES_MATCHING PATTERN "*" PATTERN ".svn" EXCLUDE)
 install(TARGETS RadonFramework
