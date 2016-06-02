@@ -44,7 +44,7 @@ void ForEach(const C& Enumerable, FUNCTION Function)
     auto enumerator = Enumerable.GetEnumerator();
     RF_Type::Size elements = enumerator.Size();
 
-    if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue())
+    if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue() && elements > 1)
     {
         RF_Type::UInt32 worker, cport;
         RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
