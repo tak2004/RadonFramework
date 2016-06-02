@@ -4,9 +4,8 @@
 #pragma once
 #endif
 
-#include <RadonFramework/System/Drawing/OpenGLTypes.hpp>
+#include <RadonFramework/System/Drawing/WindowsOpenGLTypes.hpp>
 #include <RadonFramework/System/Drawing/WindowsOpenGLConstants.hpp>
-#include <windows.h>
 
 using wglChoosePixelFormatARBCallback = BOOL (*)(HDC hdc, const int *piAttribIList,
     const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);
