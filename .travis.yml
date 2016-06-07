@@ -1,51 +1,45 @@
-# Use new trusty images, should yield newer compilers and packages
-sudo: required
-dist: precise
-language: cpp
+language: c++
+compiler:
+  - clang
+  - gcc
+os:
+  - linux
+  - osx
 
+addons:
+  apt:
+    packages:
+      - clang-3.8
+      - g++-5
+      - gcc-5
+    sources: &sources
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.5
+      - llvm-toolchain-precise-3.6
+      - llvm-toolchain-precise-3.7
+      - llvm-toolchain-precise-3.8
+      - llvm-toolchain-precise
+      
 matrix:
-  include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env: COMPILER=g++-4.9
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: COMPILER=g++-5
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-          packages:
-            - clang-3.6
-      env: COMPILER=clang++-3.6
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
-          packages:
-            - clang-3.7
-      env: COMPILER=clang++-3.7
+  include:      
+    - os: linux
+      env: COMPILER=clang++-3.8
+    - os: linux
+      env: COMPILER=g++5    
+    - os: osx
+      osx_image: xcode7
+      env: COMPILER=clang++      
 
 before_install:
-  - sudo apt-get update -qq
-script:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+  
+before_script:  
   - mkdir build/os
   - cd build/os
-  - cmake -DCMAKE_CXX_COMPILER=$COMPILER ../.. && make
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER ../..
+  
+script:
+  - cd build/os && make 
   - cd ../../dist
   - ./SystemAPITest
   - ./SystemConformanceTest

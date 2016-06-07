@@ -116,8 +116,6 @@
 #include <RadonFramework/Drawing/Canvas3DServiceConfig.hpp>
 #include <RadonFramework/Drawing/Canvas3DServiceLocator.hpp>
 #include <RadonFramework/Drawing/Color.hpp>
-#include <RadonFramework/Drawing/CommandBuffer.hpp>
-#include <RadonFramework/Drawing/Draw2D.hpp>
 #include <RadonFramework/Drawing/FontService.hpp>
 #include <RadonFramework/Drawing/FontServiceLocator.hpp>
 #include <RadonFramework/Drawing/Forms/Control.hpp>
@@ -131,20 +129,13 @@
 #include <RadonFramework/Drawing/Forms/WindowService.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/Drawing/GraphicDriverInformation.hpp>
-#include <RadonFramework/Drawing/GraphicMachineCommandBuffer.hpp>
-#include <RadonFramework/Drawing/GraphicMachineOpenGLConstants.hpp>
-#include <RadonFramework/Drawing/GraphicMachineOpenGLTypes.hpp>
 #include <RadonFramework/Drawing/ICanvas3D.hpp>
 #include <RadonFramework/Drawing/MeshGenerator2D.hpp>
-#include <RadonFramework/Drawing/NativeShape.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilitiesType.hpp>
-#include <RadonFramework/Drawing/OpenGLMachine.hpp>
-#include <RadonFramework/Drawing/Path2D.hpp>
 #include <RadonFramework/Drawing/PixelFormat.hpp>
 #include <RadonFramework/Drawing/PopupMenu.hpp>
 #include <RadonFramework/Drawing/SystemTray.hpp>
-#include <RadonFramework/Drawing/Text2D.hpp>
 #include <RadonFramework/Drawing/TrayIcon.hpp>
 #endif
 
@@ -301,6 +292,9 @@
 
 #ifndef RF_NO_TEXT
 
+#include <RadonFramework/Text/Grammar.hpp>
+#include <RadonFramework/Text/GrammarExpression.hpp>
+#include <RadonFramework/Text/LogicElement.hpp>
 #include <RadonFramework/Text/Regex.hpp>
 #include <RadonFramework/Text/StringBuilder.hpp>
 #include <RadonFramework/Text/StringProcessor/BruteForce.hpp>

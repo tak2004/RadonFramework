@@ -74,11 +74,12 @@ RF_Type::Bool Client::IsConnected()
     return m_Data->m_IsConnected;
 }
 
-void Client::Send(RF_Mem::AutoPointerArray<RF_Type::UInt8> Data)
+void Client::Send(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data)
 {
     if(m_Data->m_IsConnected)
     {
-        
+        RF_Type::UInt32 sendBytes = 0;
+        m_Data->m_Socket->Send(Data.Get(), Data.Size(), sendBytes);
     }
 }
 

@@ -42,7 +42,7 @@ void PacketStream::Enqueue(AutoPointerArray<UInt8>& packet)
             m_Data->MemoryStream.RemoveFirst();
             break;
         case StreamStatus::Dispatch:
-            bytes = m_Data->MemoryStream.Position() - 1;
+            bytes = m_Data->MemoryStream.Position();
             m_Data->MemoryStream.Seek(0, SeekOrigin::Begin);
             buffer = RF_Mem::AutoPointerArray<RF_Type::UInt8>(bytes);
             m_Data->MemoryStream.Read(buffer.Get(), 0, bytes);
@@ -63,7 +63,7 @@ StreamStatus PacketStream::Process(NetworkStream<IO::MemoryCollectionStream>& St
 
 void PacketStream::Dispatch(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet)
 {
-    
+
 }
 
 void PacketStream::MaxDataSize(const UInt32 NewSize)

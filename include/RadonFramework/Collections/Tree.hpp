@@ -51,10 +51,17 @@ void ArrayNode<T>::MoveFrom(ArrayNode<T>& Node, RF_Type::Size Start, RF_Type::Si
 {
     RF_Type::Size index = m_Children.Count();
     RF_Type::Size count = End - Start + 1;
-    m_Children.Resize(index + count);
-    Node.m_Children.Copy(Start, m_Children, index, count);
-    Node.m_Children.ConstrainedCopy(End + 1, Node.m_Children, Start, Node.m_Children.Count() - End - 1);
-    Node.m_Children.Resize(Node.m_Children.Count() - count);
+    if(count)
+    {
+        m_Children.Resize(index + count);
+        Node.m_Children.Copy(Start, m_Children, index, count);
+        Node.m_Children.ConstrainedCopy(End + 1, Node.m_Children, Start, Node.m_Children.Count() - End - 1);
+        Node.m_Children.Resize(Node.m_Children.Count() - count);
+        for(RF_Type::Size i = 0; i < m_Children.Count(); ++i)
+        {
+            m_Children(i).m_Parent = this;
+        }
+    }
 }
 
 template <class T, class Node = ArrayNode<T> >
