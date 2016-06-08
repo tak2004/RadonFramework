@@ -2,6 +2,7 @@
 #include "RadonFramework/Net/mDNS/ServiceResponder.hpp"
 #include "RadonFramework/Net/ServerConfig.hpp"
 #include "RadonFramework/Net/Socket.hpp"
+#include "RadonFramework/Net/mDNS/MessageWriter.hpp"
 
 namespace RadonFramework { namespace Net { namespace mDNS {
 
@@ -44,7 +45,25 @@ void ServiceResponder::Setup(const ServerConfig& NewConfiguration)
 
 void ServiceResponder::SendServiceInfo()
 {
-    
+    RF_Type::UInt32 sendBytes = 0;
+    IPAddress ip;
+    IPAddress::Resolve("224.0.0.251"_rfs, ip);
+    EndPoint destination;
+    destination.Address(ip);
+    destination.Port(5353);
+
+    MessageWriter writer;
+    writer.WriteQueryHeader(0);
+    writer.WriteQuestion(m_Service.Name, RecordType::SRV);
+    writer.Finalize();
+    this->GetSocket()->SendTo(writer.Data(), writer.DataSize(), destination, sendBytes);
+
+    writer.Reset();
+    writer.WriteQueryHeader(0);
+    writer.WriteAnswerServerSelection(m_Service.Name, m_Service.IPAddress.ToString(),
+        m_Service.Port);
+    writer.Finalize();
+    this->GetSocket()->SendTo(writer.Data(), writer.DataSize(), destination, sendBytes);
 }
 
 void ServiceResponder::Update()

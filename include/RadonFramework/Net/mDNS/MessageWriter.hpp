@@ -23,6 +23,11 @@ public:
     void WriteQuestion(const RF_Type::String& Name, RecordType Type,
         RecordClass Class = RecordClass::Internet);
 
+    void WriteAnswerServerSelection(const RF_Type::String& Name, 
+        const RF_Type::String& Target,
+        RF_Type::UInt16 Port,
+        RecordClass Class = RecordClass::Internet);
+
     RF_Type::Size DataSize()const;
 
     const RF_Type::UInt8* Data()const;

@@ -14,6 +14,8 @@ class NetworkServiceInfo
 public:
     RF_Type::String Name;// "servicename._tcp" or "servicename._udp"
     RF_Type::String Description;
+    RF_Net::IPAddress IPAddress;
+    RF_Type::UInt16 Port;
 };
 
 class ServiceResponder: public Server

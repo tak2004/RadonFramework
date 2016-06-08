@@ -53,6 +53,49 @@ void MessageWriter::WriteQuestion(const RF_Type::String& Name, RecordType Type,
     ++m_Header.QuestionCount;
 }
 
+void MessageWriter::WriteAnswerServerSelection(const RF_Type::String& Name, 
+    const RF_Type::String& Target, RF_Type::UInt16 Port, 
+    RecordClass Class /*= RecordClass::Internet*/)
+{
+    auto targets = Target.Split("."_rfs);
+    auto names = Name.Split("."_rfs);
+    for(RF_Type::Size i = 0; i < names.Count(); ++i)
+    {
+        m_Data.WriteType<RF_Type::UInt8>(names[i].Length());
+        m_Data.Write(reinterpret_cast<const RF_Type::UInt8*>(names[i].c_str()), 0, names[i].Length());
+    }
+    m_Data.WriteType<RF_Type::UInt8>(0);
+
+    RecordType type = RecordType::SRV;
+    m_Data.WriteType(type);
+    m_Data.WriteType(Class);
+
+    RF_Type::UInt32 ttl = 0;
+    m_Data.WriteType(ttl);
+
+    RF_Type::UInt16 payload = sizeof(RF_Type::UInt16) * 3 + targets.Count() + 1;
+    for(RF_Type::Size i = 0; i < targets.Count(); ++i)
+    {
+        payload += targets[i].Length();
+    }
+    m_Data.WriteType(payload);
+
+    RF_Type::UInt16 priority = 0;
+    m_Data.WriteType(priority);
+
+    RF_Type::UInt16 weight = 0;
+    m_Data.WriteType(weight);
+    m_Data.WriteType(Port);
+
+    for(RF_Type::Size i = 0; i < targets.Count(); ++i)
+    {
+        m_Data.WriteType<RF_Type::UInt8>(targets[i].Length());
+        m_Data.Write(reinterpret_cast<const RF_Type::UInt8*>(targets[i].c_str()), 0, targets[i].Length());
+    }
+    m_Data.WriteType<RF_Type::UInt8>(0);
+    ++m_Header.AnswerCount;
+}
+
 RF_Type::Size MessageWriter::DataSize() const
 {
     return m_Data.GetAbsolutePosition();
