@@ -17,7 +17,8 @@ public:
 
     GrammarExpression& Add(RF_Type::UInt16 Id);
 
-    RF_Mem::AutoPointerArray<RF_Type::UInt8> ByteCode();
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> GetByteCode();
+    const RF_Mem::AutoPointerArray<RF_Type::UInt8>& GetByteCode()const;
 
     void Compile();
 
@@ -27,6 +28,9 @@ public:
 protected:
     RF_Collect::Array<GrammarExpression> m_Expressions;
     RF_Collect::Tree<LogicElement> m_LogicTree;
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> m_ByteCode;
+private:
+    void GenerateByteCode();
 };
 
 } }

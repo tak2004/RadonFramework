@@ -1,32 +1,32 @@
+sudo: false
 language: c++
-compiler:
-  - clang
-  - gcc
-os:
-  - linux
-  - osx
 
 addons:
   apt:
     packages:
       - clang-3.8
-      - g++-5
-      - gcc-5
-    sources: &sources
-      - ubuntu-toolchain-r-test
+      - g++-6
+      - gcc-6
+      - cmake
+      - cmake-data
+    sources:
       - llvm-toolchain-precise-3.5
       - llvm-toolchain-precise-3.6
       - llvm-toolchain-precise-3.7
       - llvm-toolchain-precise-3.8
       - llvm-toolchain-precise
+      - george-edison55-precise-backports
       
 matrix:
   include:      
-    - os: linux
+    - compiler: clang
+      os: linux
       env: COMPILER=clang++-3.8
-    - os: linux
-      env: COMPILER=g++5    
-    - os: osx
+    - compiler: gcc
+      os: linux
+      env: COMPILER=g++6    
+    - compiler: clang
+      os: osx
       osx_image: xcode7
       env: COMPILER=clang++      
 
