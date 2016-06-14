@@ -15,7 +15,7 @@ WDMOpenGLCanvas3DService::~WDMOpenGLCanvas3DService()
 {
 }
 
-ICanvas3D* WDMOpenGLCanvas3DService::CreateCanvas3D()
+AbstractCanvas* WDMOpenGLCanvas3DService::CreateCanvas3D()
 {
     return new WDMOpenGLCanvas3D;
 }

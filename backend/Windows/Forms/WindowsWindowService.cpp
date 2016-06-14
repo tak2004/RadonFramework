@@ -27,12 +27,12 @@ WindowsWindowService::~WindowsWindowService()
 {
 }
 
-IWindow* WindowsWindowService::NewWindow()
+AbstractWindow* WindowsWindowService::NewWindow()
 {
   return new WindowsWindow(this);
 }
 
-IApplication* WindowsWindowService::Application()
+AbstractApplication* WindowsWindowService::Application()
 {
   if (!m_Application)
     m_Application=new WindowsApplication;

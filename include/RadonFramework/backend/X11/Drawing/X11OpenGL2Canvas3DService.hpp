@@ -10,7 +10,7 @@ class X11OpenGL2Canvas3DService:public Canvas3DService
 public:
     X11OpenGL2Canvas3DService(const RF_Type::String &Name);
     ~X11OpenGL2Canvas3DService();
-    ICanvas3D* CreateCanvas3D();
+    AbstractWindow* CreateCanvas3D();
 };
 
 } }

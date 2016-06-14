@@ -7,7 +7,7 @@
 #include <windows.h>
 
 namespace RadonFramework { namespace Forms {
-class IWindow;
+class AbstractWindow;
 } }
 
 namespace RadonFramework { namespace Drawing {
@@ -20,7 +20,7 @@ public:
 
     //ICanvas3D
     void Generate();
-    void SetWindowInfos(Forms::IWindow* Window);
+    void SetWindowInfos(Forms::AbstractWindow* Window);
     void Clear();
     void SwapBuffer();
     void UpdateRectangle(Math::Geometry::Rectangle<> &Rec);

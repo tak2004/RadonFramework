@@ -2,7 +2,7 @@
 #include <RadonFramework/System/Drawing/OpenGL.hpp>
 #include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL3Canvas3D.hpp>
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
@@ -139,7 +139,7 @@ void GDIOpenGL3Canvas3D::Generate()
     wglDeleteContext(TempContext);//Zerstöre den temporären Context, denn er wird nicht länger benötigt.
 }
 
-void GDIOpenGL3Canvas3D::SetWindowInfos(IWindow* Window)
+void GDIOpenGL3Canvas3D::SetWindowInfos(AbstractWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
     m_WndHandle = wnd->GetHandle();

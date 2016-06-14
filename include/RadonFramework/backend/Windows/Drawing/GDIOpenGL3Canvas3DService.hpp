@@ -15,7 +15,7 @@
               public:
                 GDIOpenGL3Canvas3DService(const RadonFramework::Core::Types::String &Name);
                 ~GDIOpenGL3Canvas3DService();
-                ICanvas3D* CreateCanvas3D();
+                AbstractCanvas* CreateCanvas3D();
             };
           }
         }

@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GL/glxew.h>
 #include <RadonFramework/backend/X11/Drawing/X11OpenGL3Canvas3D.hpp>
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/backend/X11/Forms/X11Application.hpp>
@@ -102,7 +102,7 @@ void X11OpenGL3Canvas3D::Generate()
     }
 }
 
-void X11OpenGL3Canvas3D::SetWindowInfos(IWindow* Window)
+void X11OpenGL3Canvas3D::SetWindowInfos(AbstractWindow* Window)
 {
     m_Window=Window;
 }

@@ -15,7 +15,7 @@ class Mutex;
 
 namespace RadonFramework { namespace Drawing {
 
-class ICanvas3D;
+class AbstractCanvas;
 class GraphicDriverInformation;
 
 class Canvas3D:public Forms::Control
@@ -30,11 +30,11 @@ public:
     const GraphicDriverInformation& GetGraphicDriverInformation();
     void MakeCurrent();
     System::Threading::Mutex& GetRenderLock();
-    ICanvas3D const* Backend()const;
+    AbstractCanvas const* Backend()const;
 
     RF_Draw::Draw2D Draw2D;
 protected:
-    ICanvas3D* m_Backend;
+    AbstractCanvas* m_Backend;
 };
 
 } }

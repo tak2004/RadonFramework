@@ -8,10 +8,10 @@
 
 namespace RadonFramework { namespace Forms {
 
-class IApplication
+class AbstractApplication
 {
 public:
-    virtual ~IApplication(){};
+    virtual ~AbstractApplication(){};
     virtual void Run(Form *MainForm)=0;
     virtual void End()=0;
     virtual RF_Type::Bool IsRunningOnDesktop()=0;

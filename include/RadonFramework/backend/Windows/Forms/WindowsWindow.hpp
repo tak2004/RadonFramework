@@ -3,13 +3,12 @@
 
 #include <RadonFramework/Defines.hpp>
 
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
-#include <vector>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <windows.h>
 
 namespace RadonFramework { namespace Forms {
 
-class WindowsWindow:public IWindow
+class WindowsWindow:public AbstractWindow
 {
 public:
     WindowsWindow(WindowService *Service);

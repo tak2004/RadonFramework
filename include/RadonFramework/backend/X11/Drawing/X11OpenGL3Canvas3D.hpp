@@ -12,7 +12,7 @@
 namespace RadonFramework {
 
 namespace Forms{
-    class IWindow;
+    class AbstractWindow;
 }
 
 namespace Drawing {
@@ -26,7 +26,7 @@ public:
 
     //ICanvas3D
     virtual void Generate();
-    virtual void SetWindowInfos(Forms::IWindow* Window);
+    virtual void SetWindowInfos(Forms::AbstractWindow* Window);
     virtual void Clear();
     virtual void SwapBuffer();
     virtual void UpdateRectangle(RF_Geo::Rectangle<RF_Type::Int32> &Rec);
@@ -35,7 +35,7 @@ public:
 
     virtual RF_Geo::Matrix4f& TexturecoordMatrix();
 protected:
-    Forms::IWindow* m_Window;
+    Forms::AbstractWindow* m_Window;
     GLXContext m_Context;
     RF_Type::Int32 m_Attr[11];
     RF_Geo::Matrix4f m_TexturecoordMatrix;

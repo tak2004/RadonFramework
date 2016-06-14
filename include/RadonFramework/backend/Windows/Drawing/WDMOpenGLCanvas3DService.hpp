@@ -13,7 +13,7 @@ class WDMOpenGLCanvas3DService : public Canvas3DService
 public:
     WDMOpenGLCanvas3DService(const RF_Type::String &Name);
     ~WDMOpenGLCanvas3DService();
-    ICanvas3D* CreateCanvas3D();
+    AbstractCanvas* CreateCanvas3D();
 };
 
 } }

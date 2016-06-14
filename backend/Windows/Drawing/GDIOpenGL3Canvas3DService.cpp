@@ -15,7 +15,7 @@
         {
         }
 
-        ICanvas3D* GDIOpenGL3Canvas3DService::CreateCanvas3D()
+        AbstractCanvas* GDIOpenGL3Canvas3DService::CreateCanvas3D()
         {
           return new GDIOpenGL3Canvas3D;
         }

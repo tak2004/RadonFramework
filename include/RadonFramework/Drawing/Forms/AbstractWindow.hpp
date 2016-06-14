@@ -16,10 +16,10 @@ namespace RadonFramework { namespace Forms {
 
 class WindowService;
 
-class IWindow
+class AbstractWindow
 {
 public:
-    virtual ~IWindow(){};
+    virtual ~AbstractWindow(){};
     virtual void* Handle()=0;
     virtual RF_Type::Bool Visible()=0;
     virtual void Visible(const RF_Type::Bool Value)=0;

@@ -17,7 +17,7 @@ class Mutex;
     
 namespace Forms{
     
-class IWindow;
+class AbstractWindow;
 
 }
 
@@ -27,11 +27,11 @@ class GraphicDriverInformation;
 class MeshGenerator2D;
 
 /// This is a abstract class which should be used as interface for the backend implementation.
-class ICanvas3D
+class AbstractCanvas
 {
 public:
     virtual void Generate()=0;
-    virtual void SetWindowInfos(Forms::IWindow* Window)=0;
+    virtual void SetWindowInfos(Forms::AbstractWindow* Window)=0;
     virtual void Clear()=0;
     virtual void SwapBuffer()=0;
     virtual void UpdateRectangle(Math::Geometry::Rectangle<RF_Type::Int32> &Rec)=0;

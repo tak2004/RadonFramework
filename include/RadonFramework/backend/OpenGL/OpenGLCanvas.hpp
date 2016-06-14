@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <RadonFramework/Drawing/ICanvas3D.hpp>
+#include <RadonFramework/Drawing/AbstractCanvas.hpp>
 #include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 
 namespace RadonFramework { namespace Drawing {
@@ -15,7 +15,7 @@ class GraphicDriverInformationOpenGL;
 /** This class implement common OpenGL stuff.
     * A specialized version, like OpenGL1,2..., should inherit from this class.
     */
-class OpenGLCanvas:public ICanvas3D
+class OpenGLCanvas:public AbstractCanvas
 {
 public:
     OpenGLCanvas();

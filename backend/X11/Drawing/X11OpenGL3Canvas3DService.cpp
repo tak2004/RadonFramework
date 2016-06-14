@@ -13,7 +13,7 @@ X11OpenGL3Canvas3DService::~X11OpenGL3Canvas3DService()
 {
 }
 
-ICanvas3D* X11OpenGL3Canvas3DService::CreateCanvas3D()
+AbstractCanvas* X11OpenGL3Canvas3DService::CreateCanvas3D()
 {
   return new X11OpenGL3Canvas3D;
 }

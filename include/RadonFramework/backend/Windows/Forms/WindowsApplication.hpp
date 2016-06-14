@@ -1,11 +1,11 @@
 #ifndef RF_WINDOWSAPPLICATION_HPP
 #define RF_WINDOWSAPPLICATION_HPP
 
-#include <RadonFramework/Drawing/Forms/IApplication.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractApplication.hpp>
 
 namespace RadonFramework { namespace Forms {
     
-class WindowsApplication:public IApplication
+class WindowsApplication:public AbstractApplication
 {
 public:
     WindowsApplication();

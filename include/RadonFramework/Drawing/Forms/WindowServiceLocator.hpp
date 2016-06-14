@@ -13,8 +13,8 @@ class NullWindowService:public WindowService
 {
 public:
     NullWindowService(const RF_Type::String &Name):WindowService(Name){}
-    IWindow* NewWindow(){return 0;}
-    IApplication* Application(){return 0;}
+    AbstractWindow* NewWindow(){return 0;}
+    AbstractApplication* Application(){return 0;}
                 
     RF_Collect::AutoVector<DisplayInformation> GetAllDisplays()
     {

@@ -29,7 +29,7 @@ IWindow* X11WindowService::NewWindow()
     return new X11Window(this);
 }
 
-IApplication* X11WindowService::Application()
+AbstractApplication* X11WindowService::Application()
 {
     if (!m_Application)
         m_Application=new X11Application;

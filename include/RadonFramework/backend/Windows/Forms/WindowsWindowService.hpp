@@ -8,12 +8,12 @@ namespace RadonFramework { namespace Forms {
 class WindowsWindowService:public WindowService
 {
 protected:
-	IApplication* m_Application;
+	AbstractApplication* m_Application;
 public:
 	WindowsWindowService(const RF_Type::String &Name);
 	~WindowsWindowService();
-	IWindow* NewWindow();
-	IApplication* Application();
+	AbstractWindow* NewWindow();
+	AbstractApplication* Application();
 
     Collections::AutoVector<DisplayInformation> GetAllDisplays();
     WindowServiceError ScreenResolution(const DisplayInformation& DisplayInfo,

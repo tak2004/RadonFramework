@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Core/Pattern/Event.hpp>
 #include <RadonFramework/Core/Pattern/Signal.hpp>
 #include <RadonFramework/Drawing/Forms/Control.hpp>
@@ -27,7 +27,7 @@ public:
     virtual void MouseButtonPressed(const IO::MouseEvent& Value);
     virtual void MouseButtonReleased(const IO::MouseEvent& Value);
     virtual void MouseMove(const IO::MouseEvent& Value);
-    virtual IWindow* Backend();
+    virtual AbstractWindow* Backend();
     virtual void Size(const Math::Geometry::Size2D<>& NewSize);
     virtual void Position(const Math::Geometry::Point2D<>& NewPosition);
     virtual void Border(const RF_Type::Bool Show);
@@ -52,7 +52,7 @@ public:
     RF_Pattern::Event<RF_Type::Int32> OnVerticalMouseWheelMoved;
     RF_Pattern::Event<RF_Type::Int32> OnHorizontalMouseWheelMoved;
 protected:
-    IWindow* m_Backend;
+    AbstractWindow* m_Backend;
     RF_Type::Bool m_HasFocus;
 };
 

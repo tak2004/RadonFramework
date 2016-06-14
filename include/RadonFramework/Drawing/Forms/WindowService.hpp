@@ -13,8 +13,8 @@
 
 namespace RadonFramework { namespace Forms {
 
-class IWindow;
-class IApplication;
+class AbstractWindow;
+class AbstractApplication;
 
 namespace WindowServiceErrors
 {
@@ -35,8 +35,8 @@ class WindowService:public RF_Pattern::Service
 public:
     WindowService(const RF_Type::String &Name);
     virtual ~WindowService() override;
-    virtual IWindow* NewWindow()=0;
-    virtual IApplication* Application()=0;
+    virtual AbstractWindow* NewWindow()=0;
+    virtual AbstractApplication* Application()=0;
     /// Get Information of all displays.
     virtual RF_Collect::AutoVector<DisplayInformation> GetAllDisplays()=0;
     /// Get current screen resolution.
@@ -48,7 +48,7 @@ public:
                                     const Resolution& NewResolution)=0;
     virtual RF_Type::Bool IsMouseButtonPressed(RF_IO::VirtualMouseButton::Type Which)=0;
 protected:
-    IApplication *m_Application;
+    AbstractApplication *m_Application;
 };
 
 } }

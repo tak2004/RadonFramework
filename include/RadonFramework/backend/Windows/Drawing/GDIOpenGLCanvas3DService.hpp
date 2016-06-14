@@ -13,7 +13,7 @@ class GDIOpenGLCanvas3DService : public Canvas3DService
 public:
     GDIOpenGLCanvas3DService(const RF_Type::String &Name);
     ~GDIOpenGLCanvas3DService();
-    ICanvas3D* CreateCanvas3D();
+    AbstractCanvas* CreateCanvas3D();
 };
 
 } }

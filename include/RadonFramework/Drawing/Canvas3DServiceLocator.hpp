@@ -13,7 +13,7 @@ class NullCanvas3DService:public Canvas3DService
 {
     public:
         NullCanvas3DService(const RF_Type::String &Name):Canvas3DService(Name){}
-        ICanvas3D* CreateCanvas3D(){return 0;}
+        AbstractCanvas* CreateCanvas3D(){return 0;}
 };
 
 typedef Core::Pattern::Locator<Canvas3DService,NullCanvas3DService> Canvas3DServiceLocator;

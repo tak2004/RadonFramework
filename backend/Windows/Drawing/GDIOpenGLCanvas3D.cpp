@@ -5,7 +5,7 @@
 #include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <windows.h>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3D.hpp>
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
@@ -136,7 +136,7 @@ void GDIOpenGLCanvas3D::Generate()
 //     }
 }
 
-void GDIOpenGLCanvas3D::SetWindowInfos(IWindow* Window)
+void GDIOpenGLCanvas3D::SetWindowInfos(AbstractWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
     m_WndHandle = wnd->GetHandle();

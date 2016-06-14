@@ -111,6 +111,7 @@
 #ifndef RF_NO_DRAWING
 
 #include <RadonFramework/Drawing/Camera.hpp>
+#include <RadonFramework/Drawing/AbstractCanvas.hpp>
 #include <RadonFramework/Drawing/Canvas3D.hpp>
 #include <RadonFramework/Drawing/Canvas3DService.hpp>
 #include <RadonFramework/Drawing/Canvas3DServiceConfig.hpp>
@@ -118,18 +119,17 @@
 #include <RadonFramework/Drawing/Color.hpp>
 #include <RadonFramework/Drawing/FontService.hpp>
 #include <RadonFramework/Drawing/FontServiceLocator.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractApplication.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 #include <RadonFramework/Drawing/Forms/DisplayInformation.hpp>
 #include <RadonFramework/Drawing/Forms/Form.hpp>
-#include <RadonFramework/Drawing/Forms/IApplication.hpp>
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
 #include <RadonFramework/Drawing/Forms/Label.hpp>
 #include <RadonFramework/Drawing/Forms/Resolution.hpp>
 #include <RadonFramework/Drawing/Forms/Screen.hpp>
 #include <RadonFramework/Drawing/Forms/WindowService.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/Drawing/GraphicDriverInformation.hpp>
-#include <RadonFramework/Drawing/ICanvas3D.hpp>
 #include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
 #include <RadonFramework/Drawing/OpenGLCapabilitiesType.hpp>

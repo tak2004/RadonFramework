@@ -5,7 +5,7 @@
 #endif
 
 #include <RadonFramework/Core/Pattern/Service.hpp>
-#include <RadonFramework/Drawing/ICanvas3D.hpp>
+#include <RadonFramework/Drawing/AbstractCanvas.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
@@ -14,7 +14,7 @@ class Canvas3DService:public Core::Pattern::Service
 public:
     Canvas3DService(const RF_Type::String &Name);
     ~Canvas3DService();
-    virtual ICanvas3D* CreateCanvas3D() = 0;
+    virtual AbstractCanvas* CreateCanvas3D() = 0;
 };
   
 } }

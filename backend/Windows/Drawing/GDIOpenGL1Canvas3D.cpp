@@ -2,7 +2,7 @@
 #include <RadonFramework/System/Drawing/OpenGL.hpp>
 #include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <RadonFramework/backend/Windows/Drawing/GDIOpenGL1Canvas3D.hpp>
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
@@ -69,7 +69,7 @@ void GDIOpenGL1Canvas3D::Generate()
 //         LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
 }
 
-void GDIOpenGL1Canvas3D::SetWindowInfos(IWindow* Window)
+void GDIOpenGL1Canvas3D::SetWindowInfos(AbstractWindow* Window)
 {
     WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
     m_WndHandle = wnd->GetHandle();

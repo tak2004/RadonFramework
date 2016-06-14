@@ -108,7 +108,7 @@ void Form::CursorVisible(const bool Value)
     m_Backend->CursorVisible(Value);
 }
 
-IWindow* Form::Backend()
+AbstractWindow* Form::Backend()
 {
     return m_Backend;
 }

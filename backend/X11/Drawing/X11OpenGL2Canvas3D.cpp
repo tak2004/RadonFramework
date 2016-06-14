@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include <GL/glew.h>
 #include <RadonFramework/backend/X11/Drawing/X11OpenGL2Canvas3D.hpp>
-#include <RadonFramework/Drawing/Forms/IWindow.hpp>
+#include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/backend/X11/Forms/X11Application.hpp>
 #include <RadonFramework/backend/X11/Forms/X11Window.hpp>
@@ -49,7 +49,7 @@ void X11OpenGL2Canvas3D::Generate()
         RF_IO::LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
 }
 
-void X11OpenGL2Canvas3D::SetWindowInfos(IWindow* Window)
+void X11OpenGL2Canvas3D::SetWindowInfos(AbstractWindow* Window)
 {
     m_Window=Window;
 }
