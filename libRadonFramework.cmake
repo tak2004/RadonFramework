@@ -271,59 +271,45 @@ AddSourceDirectoryRecursive(filelist "src/Util" "Sources\\Util")
 list(APPEND LIBSRCFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Reflection" "Includes\\Reflection")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})	
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Collections" "Includes\\Collections")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Core" "Includes\\Core")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Diagnostics" "Includes\\Diagnostics")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Math" "Includes\\Math")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/IO" "Includes\\IO")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Memory" "Includes\\Memory")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/System" "Includes\\System")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Threading" "Includes\\Threading")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Time" "Includes\\Time")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Net" "Includes\\Net")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Drawing" "Includes\\Drawing")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Text" "Includes\\Text")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Util" "Includes\\Util")
-list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
 list(APPEND LIBHDRFILES ${filelist})
 
 # custom CMake files
@@ -342,7 +328,11 @@ ADD_DEFINITIONS(-DURIPP_STATIC)
 
 set(SourceList ${LIBSRCFILES} ${LIBHDRFILES} ${LIBBACKENDHDRFILES} ${LIBBACKENDSRCFILES} 
 	${MODULES_SRC} ${MODULES_HDRS} "libRadonFramework.cmake")
-list(REMOVE_ITEM SourceList ${RADONFRAMEWORK_BLACKLIST})
+
+LIST(LENGTH RADONFRAMEWORK_BLACKLIST RADONFRAMEWORK_BLACKLISTCOUNT)
+if(${RADONFRAMEWORK_BLACKLISTCOUNT} GREATER 0)
+    list(REMOVE_ITEM SourceList ${RADONFRAMEWORK_BLACKLIST})
+endif()
 	
 set_source_files_properties(${LIBBACKENDHDRFILES} ${LIBHDRFILES} ${MODULES_HDRS} PROPERTIES HEADER_FILE_ONLY ON)
 
