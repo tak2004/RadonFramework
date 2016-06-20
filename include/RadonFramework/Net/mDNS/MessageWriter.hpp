@@ -18,7 +18,7 @@ public:
 
     void Finalize();
 
-    void WriteQueryHeader(RF_Type::UInt16 TransactionId);
+    void WriteQueryHeader(RF_Type::UInt16 TransactionId, RF_Type::UInt16 Flags = 0);
 
     void WriteQuestion(const RF_Type::String& Name, RecordType Type,
         RecordClass Class = RecordClass::Internet);

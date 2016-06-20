@@ -28,10 +28,11 @@ void MessageWriter::Finalize()
     m_Data.Seek(currentPosition, RF_IO::SeekOrigin::Begin);
 }
 
-void MessageWriter::WriteQueryHeader(RF_Type::UInt16 TransactionId)
+void MessageWriter::WriteQueryHeader(RF_Type::UInt16 TransactionId, 
+    RF_Type::UInt16 Flags /*= 0*/)
 {
     m_Data.WriteType(TransactionId);
-    m_Data.WriteType<RF_Type::UInt16>(0);
+    m_Data.WriteType(Flags);
     m_Data.WriteType(m_Header.QuestionCount);
     m_Data.WriteType(m_Header.AnswerCount);
     m_Data.WriteType(m_Header.AuthorityCount);

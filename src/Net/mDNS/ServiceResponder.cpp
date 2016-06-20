@@ -59,7 +59,7 @@ void ServiceResponder::SendServiceInfo()
     this->GetSocket()->SendTo(writer.Data(), writer.DataSize(), destination, sendBytes);
 
     writer.Reset();
-    writer.WriteQueryHeader(0);
+    writer.WriteQueryHeader(0, 1<<15);
     writer.WriteAnswerServerSelection(m_Service.Name, m_Service.IPAddress.ToString(),
         m_Service.Port);
     writer.Finalize();
