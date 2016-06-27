@@ -39,32 +39,32 @@ int main(int argc, char** argv)
     RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(progress);
     RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(debugger);
 
-    TestSuite* bitArrayTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitArray-Test");
+    TestSuite* bitArrayTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitArray-Test"_rfs);
     if (bitArrayTestSuite)
     {
-        bitArrayTestSuite->IgnoreTest("BitArrayTest::Constructor");
-        bitArrayTestSuite->IgnoreTest("BitArrayTest::Resize");
+        bitArrayTestSuite->IgnoreTest("BitArrayTest::Constructor"_rfs);
+        bitArrayTestSuite->IgnoreTest("BitArrayTest::Resize"_rfs);
     }
 
-    TestSuite* bitSetTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitSet-Test");
+    TestSuite* bitSetTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::BitSet-Test"_rfs);
     if (bitSetTestSuite)
     {
-        bitSetTestSuite->IgnoreTest("BitSetTest::UnequalCompareOperator");
+        bitSetTestSuite->IgnoreTest("BitSetTest::UnequalCompareOperator"_rfs);
     }
 
-    TestSuite* queueTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::Queue-Test");
+    TestSuite* queueTestSuite = RF_Pattern::Singleton<UnitTest>::GetInstance().GetSuite("RadonFramework::Collections::Queue-Test"_rfs);
     if (queueTestSuite)
     {
-        queueTestSuite->IgnoreTest("QueueTest::Dequeue");
+        queueTestSuite->IgnoreTest("QueueTest::Dequeue"_rfs);
     }
 
-    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Core::Types::StringBuilder-Test");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Core::Types::StringBuilder-Test"_rfs);
 
-    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::Directory-Test");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::Directory-Test"_rfs);
 
-    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::File-Test");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::IO::File-Test"_rfs);
 
-    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Memory");
+    RF_Pattern::Singleton<UnitTest>::GetInstance().IgnoreSuite("RadonFramework::Memory"_rfs);
 
     RF_Pattern::Singleton<UnitTest>::GetInstance().Run();
 

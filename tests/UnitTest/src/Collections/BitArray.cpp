@@ -15,40 +15,40 @@ class BitArrayTest:public TestSuite
 {
 public:
     BitArrayTest()
-    :TestSuite("RadonFramework::Collections::BitArray-Test")
+    :TestSuite("RadonFramework::Collections::BitArray-Test"_rfs)
     {        
         AddTest(MakeDelegate(this, &BitArrayTest::Constructor),
-            "BitArrayTest::Constructor",
-            "Constructor");
+            "BitArrayTest::Constructor"_rfs,
+            "Constructor"_rfs);
 
         AddTest(MakeDelegate(this, &BitArrayTest::CopyConstructor),
-            "BitArrayTest::CopyConstructor",
-            "Copy constructor");
+            "BitArrayTest::CopyConstructor"_rfs,
+            "Copy constructor"_rfs);
 
         AddTest(MakeDelegate(this, &BitArrayTest::Constructor1Dimension),
-            "BitArrayTest::Constructor1Dimension",
-            "Constructor which create a 1 dimensional BitArray.");
+            "BitArrayTest::Constructor1Dimension"_rfs,
+            "Constructor which create a 1 dimensional BitArray."_rfs);
 
         AddTest(MakeDelegate(this, &BitArrayTest::Constructor1DimensionC),
-            "BitArrayTest::Constructor1DimensionC",
-            "Constructor which copy from a 1 dimensional c BitArray.");
+            "BitArrayTest::Constructor1DimensionC"_rfs,
+            "Constructor which copy from a 1 dimensional c BitArray."_rfs);
 
         AddTest(MakeDelegate(this, &BitArrayTest::Resize),
-            "BitArrayTest::Resize",
-            "Changes the number of elements of an BitArray to the specified new size.");
+            "BitArrayTest::Resize"_rfs,
+            "Changes the number of elements of an BitArray to the specified new size."_rfs);
 
         AddTest(MakeDelegate(this, &BitArrayTest::Copy),
-            "BitArrayTest::Copy",
-            "Copies a range of elements from an BitArray to an other.");
+            "BitArrayTest::Copy"_rfs,
+            "Copies a range of elements from an BitArray to an other."_rfs);
 
         AddTest(MakeDelegate(this, &BitArrayTest::ConstrainedCopy),
-            "BitArrayTest::ConstrainedCopy",
+            "BitArrayTest::ConstrainedCopy"_rfs,
             "Copies a range of elements from an BitArray to an other if the \
-                        BitArrays have the same structure.");
+BitArrays have the same structure."_rfs);
 
         AddTest(MakeDelegate(this, &BitArrayTest::Clone),
-            "BitArrayTest::Clone",
-            "Creates a shallow copy of the BitArray.");
+            "BitArrayTest::Clone"_rfs,
+            "Creates a shallow copy of the BitArray."_rfs);
     }
 
     Bool Constructor()

@@ -25,45 +25,45 @@ public:
     denseType dense10;
 
     HashListTest()
-    :TestSuite("RadonFramework::Collections::HashList")
+    :TestSuite("RadonFramework::Collections::HashList"_rfs)
     {
         AddTest(MakeDelegate(this, &HashListTest::FetchSuccessfulTiming),
-            "HashListTest::FetchSuccessfulTiming", 
-            "Test successful access(100000x) on 5000 elements");
+            "HashListTest::FetchSuccessfulTiming"_rfs,
+            "Test successful access(100000x) on 5000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchMixedTiming),
-                "HashListTest::FetchMixedTiming",
-                "Test both success and failing access(100000x) on 5000 elements");
+                "HashListTest::FetchMixedTiming"_rfs,
+                "Test both success and failing access(100000x) on 5000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchSuccessfulTimingSparse),
-                "HashListTest::FetchSuccessfulTimingSparse",
-                "Test successful access(100000x) on 5000 elements");
+                "HashListTest::FetchSuccessfulTimingSparse"_rfs,
+                "Test successful access(100000x) on 5000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchMixedTimingSparse),
-                "HashListTest::FetchMixedTimingSparse",
-                "Test both success and failing access(100000x) on 5000 elements");
+                "HashListTest::FetchMixedTimingSparse"_rfs,
+                "Test both success and failing access(100000x) on 5000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchSuccessfulTimingDense),
-                "HashListTest::FetchSuccessfulTimingDense",
-                "Test successful access(100000x) on 5000 elements");
+                "HashListTest::FetchSuccessfulTimingDense"_rfs,
+                "Test successful access(100000x) on 5000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchMixedTimingDense),
-                "HashListTest::FetchMixedTimingDense",
-                "Test both success and failing access(100000x) on 5000 elements");
+                "HashListTest::FetchMixedTimingDense"_rfs,
+                "Test both success and failing access(100000x) on 5000 elements"_rfs);
 
         AddTest(MakeDelegate(this, &HashListTest::FetchSuccessfulTiming10),
-            "HashListTest::FetchSuccessfulTiming10",
-            "Test successful access(100000x) on 50000 elements");
+            "HashListTest::FetchSuccessfulTiming10"_rfs,
+            "Test successful access(100000x) on 50000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchMixedTiming10),
-            "HashListTest::FetchMixedTiming10",
-            "Test both success and failing access(100000x) on 50000 elements");
+            "HashListTest::FetchMixedTiming10"_rfs,
+            "Test both success and failing access(100000x) on 50000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchSuccessfulTimingSparse10),
-            "HashListTest::FetchSuccessfulTimingSparse10",
-            "Test successful access(100000x) on 50000 elements");
+            "HashListTest::FetchSuccessfulTimingSparse10"_rfs,
+            "Test successful access(100000x) on 50000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchMixedTimingSparse10),
-            "HashListTest::FetchMixedTimingSparse10",
-            "Test both success and failing access(100000x) on 50000 elements");
+            "HashListTest::FetchMixedTimingSparse10"_rfs,
+            "Test both success and failing access(100000x) on 50000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchSuccessfulTimingDense10),
-            "HashListTest::FetchSuccessfulTimingDense10",
-            "Test successful access(100000x) on 50000 elements");
+            "HashListTest::FetchSuccessfulTimingDense10"_rfs,
+            "Test successful access(100000x) on 50000 elements"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::FetchMixedTimingDense10),
-            "HashListTest::FetchMixedTimingDense10",
-            "Test both success and failing access(100000x) on 50000 elements");
+            "HashListTest::FetchMixedTimingDense10"_rfs,
+            "Test both success and failing access(100000x) on 50000 elements"_rfs);
     }
 
     void SetUp()

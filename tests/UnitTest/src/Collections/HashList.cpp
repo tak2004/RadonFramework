@@ -42,34 +42,34 @@ class HashListTest:public RF_Test::TestSuite
 {
 public:
     HashListTest()
-    :TestSuite("RadonFramework::Collections::HashList-Test")
+    :TestSuite("RadonFramework::Collections::HashList-Test"_rfs)
     {
         AddTest(MakeDelegate(this, &HashListTest::Constructor),
-            "HashListTest::Constructor", "Constructor");
+            "HashListTest::Constructor"_rfs, "Constructor"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Destructor),
-            "HashListTest::Destructor", "Destructor");
+            "HashListTest::Destructor"_rfs, "Destructor"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::ContainsKey),
-            "HashListTest::ContainsKey", "ContainsKey");
+            "HashListTest::ContainsKey"_rfs, "ContainsKey"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Clear),
-            "HashListTest::Clear", "Clear");
+            "HashListTest::Clear"_rfs, "Clear"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Count),
-            "HashListTest::Count", "Count");
+            "HashListTest::Count"_rfs, "Count"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Capacity),
-                "HashListTest::Capacity", "Capacity");
+                "HashListTest::Capacity"_rfs, "Capacity"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Get),
-            "HashListTest::Get", "Get");
+            "HashListTest::Get"_rfs, "Get"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Add),
-                "HashListTest::Add", "Add");
+                "HashListTest::Add"_rfs, "Add"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Erase),
-            "HashListTest::Erase", "Erase");
+            "HashListTest::Erase"_rfs, "Erase"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::GetEmptyKey),
-            "HashListTest::GetEmptyKey", "GetEmptyKey");
+            "HashListTest::GetEmptyKey"_rfs, "GetEmptyKey"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Clone),
-            "HashListTest::Clone", "Clone");
+            "HashListTest::Clone"_rfs, "Clone"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::Grow),
-                "HashListTest::Grow", "Grow");
+                "HashListTest::Grow"_rfs, "Grow"_rfs);
         AddTest(MakeDelegate(this, &HashListTest::EnsureCopyProtection),
-            "HashListTest::EnsureCopyProtection", "EnsureCopyProtection");
+            "HashListTest::EnsureCopyProtection"_rfs, "EnsureCopyProtection"_rfs);
     }
 
     RF_Type::Bool Constructor()

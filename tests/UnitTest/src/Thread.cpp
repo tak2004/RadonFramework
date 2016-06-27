@@ -23,12 +23,12 @@ class ThreadingThreadTest:public TestSuite
 {
 public:
     ThreadingThreadTest()
-    :TestSuite("RadonFramework::Threading::Thread-Test")
+    :TestSuite("RadonFramework::Threading::Thread-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&ThreadingThreadTest::Constructor),
-            "ThreadingThreadTest::Constructor", "Constructor");
+            "ThreadingThreadTest::Constructor"_rfs, "Constructor"_rfs);
         AddTest(MakeDelegate(this,&ThreadingThreadTest::Start),
-            "ThreadingThreadTest::Start", "Start");
+            "ThreadingThreadTest::Start"_rfs, "Start"_rfs);
     }
 
     Bool Constructor()

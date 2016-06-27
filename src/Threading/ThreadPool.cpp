@@ -60,10 +60,10 @@ public:
             WorkerThreads(i)=AutoPointer<PoolThread>(new PoolThread());
             WorkerThreads(i)->Pool = this;
             WorkerThreads(i)->shutdown = false;
-            WorkerThreads(i)->SetAffinityMask(mask);
-            WorkerThreads(i)->Start();
             mask.Reset();
             mask.Set(i % lps);
+            WorkerThreads(i)->SetAffinityMask(mask);
+            WorkerThreads(i)->Start();
         }
     }
 

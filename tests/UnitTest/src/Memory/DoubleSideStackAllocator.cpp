@@ -8,28 +8,28 @@ class DoubleSideStackAllocatorTest :public RF_Test::TestSuite
 {
 public:
     DoubleSideStackAllocatorTest()
-    :TestSuite("RadonFramework::Memory::DoubleSideStack-Test")
+    :TestSuite("RadonFramework::Memory::DoubleSideStack-Test"_rfs)
     {
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::Constructor),
-            "DoubleSideStackAllocatorTest::Constructor", "Constructor");
+            "DoubleSideStackAllocatorTest::Constructor"_rfs, "Constructor"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::ClearBoth),
-            "DoubleSideStackAllocatorTest::ClearBoth", "ClearBoth");
+            "DoubleSideStackAllocatorTest::ClearBoth"_rfs, "ClearBoth"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PushPersistant),
-            "DoubleSideStackAllocatorTest::PushPersistant", "PushPersistant");
+            "DoubleSideStackAllocatorTest::PushPersistant"_rfs, "PushPersistant"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PushTemporary),
-            "DoubleSideStackAllocatorTest::PushTemporary", "PushTemporary");
+            "DoubleSideStackAllocatorTest::PushTemporary"_rfs, "PushTemporary"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PopPersistant),
-            "DoubleSideStackAllocatorTest::PopPersistant", "PopPersistant");
+            "DoubleSideStackAllocatorTest::PopPersistant"_rfs, "PopPersistant"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PopTemporary),
-            "DoubleSideStackAllocatorTest::PopTemporary", "PopTemporary");
+            "DoubleSideStackAllocatorTest::PopTemporary"_rfs, "PopTemporary"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PeekPersistant),
-            "DoubleSideStackAllocatorTest::PeekPersistant", "PeekPersistant");
+            "DoubleSideStackAllocatorTest::PeekPersistant"_rfs, "PeekPersistant"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PeekTemporary),
-            "DoubleSideStackAllocatorTest::PeekTemporary", "PeekTemporary");
+            "DoubleSideStackAllocatorTest::PeekTemporary"_rfs, "PeekTemporary"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PeekSizePersistant),
-            "DoubleSideStackAllocatorTest::PeekSizePersistant", "PeekSizePersistant");
+            "DoubleSideStackAllocatorTest::PeekSizePersistant"_rfs, "PeekSizePersistant"_rfs);
         AddTest(MakeDelegate(this, &DoubleSideStackAllocatorTest::PeekSizeTemporary),
-            "DoubleSideStackAllocatorTest::PeekSizeTemporary", "PeekSizeTemporary");
+            "DoubleSideStackAllocatorTest::PeekSizeTemporary"_rfs, "PeekSizeTemporary"_rfs);
     }
 
     RF_Type::Bool Constructor()

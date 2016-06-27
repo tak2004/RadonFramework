@@ -13,10 +13,10 @@ class FileTest:public TestSuite
 {
 public:
     FileTest()
-    :TestSuite("RadonFramework::IO::File-Test")
+    :TestSuite("RadonFramework::IO::File-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&FileTest::CreateTempFile),
-            "FileTest::CreateTempFile", "CreateTempFile");
+            "FileTest::CreateTempFile"_rfs, "CreateTempFile"_rfs);
     }
 
     RadonFramework::Core::Types::Bool CreateTempFile()

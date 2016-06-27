@@ -13,7 +13,7 @@ enum class Logic
     CallRule,
     Or,
     And,
-    Return,
+    ReturnIfZero,
     Repeat,
     Assign,
     Variable,
@@ -27,6 +27,7 @@ class LogicElement
 {
 public:
     void Print(RF_Type::Size Depth);
+    RF_Type::String ToString()const;
 
     Logic What;
     RF_Type::UInt32 Number;

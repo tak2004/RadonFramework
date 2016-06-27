@@ -12,10 +12,10 @@ class BoolTest:public TestSuite
 {
 public:
     BoolTest()
-    :TestSuite("RadonFramework::Core::Types::Bool-Test")
+    :TestSuite("RadonFramework::Core::Types::Bool-Test"_rfs)
     {
         AddTest(MakeDelegate(this, &BoolTest::Assign),
-            "BoolTest::Assign", "Assign");
+            "BoolTest::Assign"_rfs, "Assign"_rfs);
     }
 
     Bool Assign()

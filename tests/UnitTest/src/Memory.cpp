@@ -12,29 +12,29 @@ class MemoryTest:public TestSuite
 {
 public:
     MemoryTest()
-    :TestSuite("RadonFramework::Memory")
+    :TestSuite("RadonFramework::Memory"_rfs)
     {
         AddTest(MakeDelegate(this,&MemoryTest::AllocatorConstructor),
-            "MemoryTest::AllocatorConstructor", 
-            "Allocator constructor");
+            "MemoryTest::AllocatorConstructor"_rfs,
+            "Allocator constructor"_rfs);
         AddTest(MakeDelegate(this,&MemoryTest::AllocatorCopyConstructor),
-            "MemoryTest::AllocatorCopyConstructor", 
-            "Allocator copy constructor");
+            "MemoryTest::AllocatorCopyConstructor"_rfs,
+            "Allocator copy constructor"_rfs);
         AddTest(MakeDelegate(this,&MemoryTest::AllocatorCopyConstructor1),
-            "MemoryTest::AllocatorCopyConstructor1", 
-            "Allocator copy constructor form other Allocator type");
+            "MemoryTest::AllocatorCopyConstructor1"_rfs,
+            "Allocator copy constructor form other Allocator type"_rfs);
         AddTest(MakeDelegate(this,&MemoryTest::AllocatorAllocation),
-            "MemoryTest::AllocatorAllocation",
-            "Allocator allocate and deallocate memory");
+            "MemoryTest::AllocatorAllocation"_rfs,
+            "Allocator allocate and deallocate memory"_rfs);
         AddTest(MakeDelegate(this,&MemoryTest::Compare),
-            "MemoryTest::Compare",
-            "Compare memory");
+            "MemoryTest::Compare"_rfs,
+            "Compare memory"_rfs);
         AddTest(MakeDelegate(this,&MemoryTest::Set),
-            "MemoryTest::Set",
-            "Set memory range");
+            "MemoryTest::Set"_rfs,
+            "Set memory range"_rfs);
         AddTest(MakeDelegate(this,&MemoryTest::Copy),
-            "MemoryTest::Copy",
-            "Copy a memory block to an other");
+            "MemoryTest::Copy"_rfs,
+            "Copy a memory block to an other"_rfs);
     }
 
     Bool AllocatorConstructor()

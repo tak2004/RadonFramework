@@ -25,9 +25,11 @@ public:
     Size reserveBytes;
 
     LinearAllocatorTest()
-    :TestSuite("RadonFramework::Memory::LinearAllocator")
+    :TestSuite("RadonFramework::Memory::LinearAllocator"_rfs)
     {
-        AddTest(MakeDelegate(this,&LinearAllocatorTest::AllocationThroughput), "LinearAllocatorTest::AllocationThroughput", "Test linear allocator allocation throughput(4MB)");
+        AddTest(MakeDelegate(this,&LinearAllocatorTest::AllocationThroughput), 
+            "LinearAllocatorTest::AllocationThroughput"_rfs, 
+            "Test linear allocator allocation throughput(4MB)"_rfs);
     }
 
     void SetUp()

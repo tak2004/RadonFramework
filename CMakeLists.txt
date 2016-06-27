@@ -2,7 +2,10 @@
 if(NOT CMAKE_PROJECT_NAME OR "${CMAKE_PROJECT_NAME}" MATCHES "^RadonFramework$")
     cmake_minimum_required(VERSION 2.8.11)
     project(RadonFramework C CXX)
-endif()
+    set(RADONFRAMEWORK_LOCATION ${CMAKE_SOURCE_DIR})
+    set(RADONFRAMEWORK_ADD_TESTS ON CACHE BOOL "" FORCE)
+    set(RADONFRAMEWORK_ADD_DOCUMENTATION ON CACHE BOOL "" FORCE)
+    endif()
 
 # Add additional CMake macros and functions.
 INCLUDE (CheckFunctionExists)

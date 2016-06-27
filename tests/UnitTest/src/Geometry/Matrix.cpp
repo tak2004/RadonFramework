@@ -12,203 +12,204 @@ class GeometryMatrixTest:public TestSuite
 {
 public:
     GeometryMatrixTest()
-    :TestSuite("RadonFramework::Math::Geometry::Matrix-Test")
+    :TestSuite("RadonFramework::Math::Geometry::Matrix-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fDefaultConstructor),
-            "GeometryMatrixTest::Matrix2fDefaultConstructor",
-            "DefaultConstructor2f");
+            "GeometryMatrixTest::Matrix2fDefaultConstructor"_rfs, 
+            "DefaultConstructor2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fDefaultConstructor),
-            "GeometryMatrixTest::Matrix3fDefaultConstructor",
-            "DefaultConstructor3f");
+            "GeometryMatrixTest::Matrix3fDefaultConstructor"_rfs, 
+            "DefaultConstructor3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fDefaultConstructor),
-            "GeometryMatrixTest::Matrix4fDefaultConstructor",
-            "DefaultConstructor4f");
+            "GeometryMatrixTest::Matrix4fDefaultConstructor"_rfs, 
+            "DefaultConstructor4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fCopyConstructor),
-            "GeometryMatrixTest::Matrix2fCopyConstructor",
-            "CopyConstructor2f");
+            "GeometryMatrixTest::Matrix2fCopyConstructor"_rfs, 
+            "CopyConstructor2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fCopyConstructor),
-            "GeometryMatrixTest::Matrix3fCopyConstructor",
-            "CopyConstructor3f");
+            "GeometryMatrixTest::Matrix3fCopyConstructor"_rfs, 
+            "CopyConstructor3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fCopyConstructor),
-            "GeometryMatrixTest::Matrix4fCopyConstructor",
-            "CopyConstructor4f");
+            "GeometryMatrixTest::Matrix4fCopyConstructor"_rfs, 
+            "CopyConstructor4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fAssignOperator),
-            "GeometryMatrixTest::Matrix2fAssignOperator",
-            "AssignOperator2f");
+            "GeometryMatrixTest::Matrix2fAssignOperator"_rfs, 
+            "AssignOperator2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fAssignOperator),
-            "GeometryMatrixTest::Matrix3fAssignOperator",
-            "AssignOperator3f");
+            "GeometryMatrixTest::Matrix3fAssignOperator"_rfs, 
+            "AssignOperator3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fAssignOperator),
-            "GeometryMatrixTest::Matrix4fAssignOperator",
-            "AssignOperator4f");
+            "GeometryMatrixTest::Matrix4fAssignOperator"_rfs, 
+            "AssignOperator4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fGetRow),
-            "GeometryMatrixTest::Matrix2fGetRow",
-            "GetRow2f");
+            "GeometryMatrixTest::Matrix2fGetRow"_rfs, 
+            "GetRow2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fGetRow),
-            "GeometryMatrixTest::Matrix3fGetRow",
-            "GetRow3f");
+            "GeometryMatrixTest::Matrix3fGetRow"_rfs, 
+            "GetRow3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fGetRow),
-            "GeometryMatrixTest::Matrix4fGetRow",
-            "GetRow4f");
+            "GeometryMatrixTest::Matrix4fGetRow"_rfs, 
+            "GetRow4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fGetColumn),
-            "GeometryMatrixTest::Matrix2fGetColumn",
-            "GetColumn2f");
+            "GeometryMatrixTest::Matrix2fGetColumn"_rfs, 
+            "GetColumn2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fGetColumn),
-            "GeometryMatrixTest::Matrix3fGetColumn",
-            "GetColumn3f");
+            "GeometryMatrixTest::Matrix3fGetColumn"_rfs, 
+            "GetColumn3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fGetColumn),
-            "GeometryMatrixTest::Matrix4fGetColumn",
-            "GetColumn4f");
+            "GeometryMatrixTest::Matrix4fGetColumn"_rfs, 
+            "GetColumn4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fSetColumn),
-            "GeometryMatrixTest::Matrix2fSetColumn",
-            "SetColumn2f");
+            "GeometryMatrixTest::Matrix2fSetColumn"_rfs, 
+            "SetColumn2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fSetColumn),
-            "GeometryMatrixTest::Matrix3fSetColumn",
-            "SetColumn3f");
+            "GeometryMatrixTest::Matrix3fSetColumn"_rfs, 
+            "SetColumn3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fSetColumn),
-            "GeometryMatrixTest::Matrix4fSetColumn",
-            "SetColumn4f");
+            "GeometryMatrixTest::Matrix4fSetColumn"_rfs, 
+            "SetColumn4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fTranspose),
-            "GeometryMatrixTest::Matrix2fTranspose",
-            "Transpose2f");
+            "GeometryMatrixTest::Matrix2fTranspose"_rfs, 
+            "Transpose2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fTranspose),
-            "GeometryMatrixTest::Matrix3fTranspose",
-            "Transpose3f");
+            "GeometryMatrixTest::Matrix3fTranspose"_rfs, 
+            "Transpose3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fTranspose),
-            "GeometryMatrixTest::Matrix4fTranspose",
-            "Transpose4f");
+            "GeometryMatrixTest::Matrix4fTranspose"_rfs, 
+            "Transpose4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fScale),
-            "GeometryMatrixTest::Matrix2fScale",
-            "Scale2f");
+            "GeometryMatrixTest::Matrix2fScale"_rfs, 
+            "Scale2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fScale),
-            "GeometryMatrixTest::Matrix3fScale",
-            "Scale3f");
+            "GeometryMatrixTest::Matrix3fScale"_rfs, 
+            "Scale3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fScale),
-            "GeometryMatrixTest::Matrix4fScale",
-            "Scale4f");
+            "GeometryMatrixTest::Matrix4fScale"_rfs, 
+            "Scale4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fFunctionOperator),
-            "GeometryMatrixTest::Matrix2fFunctionOperator",
-            "FunctionOperator2f");
+            "GeometryMatrixTest::Matrix2fFunctionOperator"_rfs, 
+            "FunctionOperator2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fFunctionOperator),
-            "GeometryMatrixTest::Matrix3fFunctionOperator",
-            "FunctionOperator3f");
+            "GeometryMatrixTest::Matrix3fFunctionOperator"_rfs, 
+            "FunctionOperator3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fFunctionOperator),
-            "GeometryMatrixTest::Matrix4fFunctionOperator",
-            "FunctionOperator4f");
+            "GeometryMatrixTest::Matrix4fFunctionOperator"_rfs, 
+            "FunctionOperator4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fArrayOperator),
-            "GeometryMatrixTest::Matrix2fArrayOperator",
-            "ArrayOperator2f");
+            "GeometryMatrixTest::Matrix2fArrayOperator"_rfs, 
+            "ArrayOperator2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fArrayOperator),
-            "GeometryMatrixTest::Matrix3fArrayOperator",
-            "ArrayOperator3f");
+            "GeometryMatrixTest::Matrix3fArrayOperator"_rfs, 
+            "ArrayOperator3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fArrayOperator),
-            "GeometryMatrixTest::Matrix4fArrayOperator",
-            "ArrayOperator4f");
+            "GeometryMatrixTest::Matrix4fArrayOperator"_rfs, 
+            "ArrayOperator4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fMultiplicationOperator),
-            "GeometryMatrixTest::Matrix2fMultiplicationOperator",
-            "MultiplicationOperator2f");
+            "GeometryMatrixTest::Matrix2fMultiplicationOperator"_rfs, 
+            "MultiplicationOperator2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fMultiplicationOperator),
-            "GeometryMatrixTest::Matrix3fMultiplicationOperator",
-            "MultiplicationOperator3f");
+            "GeometryMatrixTest::Matrix3fMultiplicationOperator"_rfs, 
+            "MultiplicationOperator3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fMultiplicationOperator),
-            "GeometryMatrixTest::Matrix4fMultiplicationOperator",
-            "MultiplicationOperator4f");
+            "GeometryMatrixTest::Matrix4fMultiplicationOperator"_rfs, 
+            "MultiplicationOperator4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fDivisionOperator),
-            "GeometryMatrixTest::Matrix2fDivisionOperator",
-            "DivisionOperator2f");
+            "GeometryMatrixTest::Matrix2fDivisionOperator"_rfs, 
+            "DivisionOperator2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fDivisionOperator),
-            "GeometryMatrixTest::Matrix3fDivisionOperator",
-            "DivisionOperator3f");
+            "GeometryMatrixTest::Matrix3fDivisionOperator"_rfs, 
+            "DivisionOperator3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fDivisionOperator),
-            "GeometryMatrixTest::Matrix4fDivisionOperator",
-            "DivisionOperator4f");
+            "GeometryMatrixTest::Matrix4fDivisionOperator"_rfs, 
+            "DivisionOperator4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fMultiplicationOperatorVector),
-            "GeometryMatrixTest::Matrix2fMultiplicationOperatorVector",
-            "MultiplicationOperatorVector2f");
+            "GeometryMatrixTest::Matrix2fMultiplicationOperatorVector"_rfs, 
+            "MultiplicationOperatorVector2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fMultiplicationOperatorVector),
-            "GeometryMatrixTest::Matrix3fMultiplicationOperatorVector",
-            "MultiplicationOperatorVector3f");
+            "GeometryMatrixTest::Matrix3fMultiplicationOperatorVector"_rfs, 
+            "MultiplicationOperatorVector3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fMultiplicationOperatorVector),
-            "GeometryMatrixTest::Matrix4fMultiplicationOperatorVector",
-            "MultiplicationOperatorVector4f");
+            "GeometryMatrixTest::Matrix4fMultiplicationOperatorVector"_rfs, 
+            "MultiplicationOperatorVector4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fMultiplicationAssignOperator),
-            "GeometryMatrixTest::Matrix2fMultiplicationAssignOperator",
-            "MultiplicationAssignOperator2f");
+            "GeometryMatrixTest::Matrix2fMultiplicationAssignOperator"_rfs, 
+            "MultiplicationAssignOperator2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fMultiplicationAssignOperator),
-            "GeometryMatrixTest::Matrix3fMultiplicationAssignOperator",
-            "MultiplicationAssignOperator3f");
+            "GeometryMatrixTest::Matrix3fMultiplicationAssignOperator"_rfs, 
+            "MultiplicationAssignOperator3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fMultiplicationAssignOperator),
-            "GeometryMatrixTest::Matrix4fMultiplicationAssignOperator",
-            "MultiplicationAssignOperator4f");
+            "GeometryMatrixTest::Matrix4fMultiplicationAssignOperator"_rfs, 
+            "MultiplicationAssignOperator4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fDivisionAssignOperator),
-            "GeometryMatrixTest::Matrix2fDivisionAssignOperator",
-            "DivisionAssignOperator2f");
+            "GeometryMatrixTest::Matrix2fDivisionAssignOperator"_rfs, 
+            "DivisionAssignOperator2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fDivisionAssignOperator),
-            "GeometryMatrixTest::Matrix3fDivisionAssignOperator",
-            "DivisionAssignOperator3f");
+            "GeometryMatrixTest::Matrix3fDivisionAssignOperator"_rfs, 
+            "DivisionAssignOperator3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fDivisionAssignOperator),
-            "GeometryMatrixTest::Matrix4fDivisionAssignOperator",
-            "DivisionAssignOperator4f");
+            "GeometryMatrixTest::Matrix4fDivisionAssignOperator"_rfs, 
+            "DivisionAssignOperator4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fScale),
-            "GeometryMatrixTest::Matrix2fScale",
-            "Scale2f");
+            "GeometryMatrixTest::Matrix2fScale"_rfs, 
+            "Scale2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fScale),
-            "GeometryMatrixTest::Matrix3fScale",
-            "Scale3f");
+            "GeometryMatrixTest::Matrix3fScale"_rfs, 
+            "Scale3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fScale),
-            "&GeometryMatrixTest::Matrix4fScale",
-            "Scale4f");
+            "&GeometryMatrixTest::Matrix4fScale"_rfs, 
+            "Scale4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fDeterminants),
-            "GeometryMatrixTest::Matrix2fDeterminants",
-            "Determinants2f");
+            "GeometryMatrixTest::Matrix2fDeterminants"_rfs, 
+            "Determinants2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fDeterminants),
-            "GeometryMatrixTest::Matrix3fDeterminants",
-            "Determinants3f");
+            "GeometryMatrixTest::Matrix3fDeterminants"_rfs, 
+            "Determinants3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fDeterminants),
-            "GeometryMatrixTest::Matrix4fDeterminants",
-            "Determinants4f");
+            "GeometryMatrixTest::Matrix4fDeterminants"_rfs, 
+            "Determinants4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fInverse),
-            "GeometryMatrixTest::Matrix2fInverse",
-            "Inverse2f");
+            "GeometryMatrixTest::Matrix2fInverse"_rfs, 
+            "Inverse2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fInverse),
-            "GeometryMatrixTest::Matrix3fInverse",
-            "Inverse3f");
+            "GeometryMatrixTest::Matrix3fInverse"_rfs, 
+            "Inverse3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fInverse),
-            "GeometryMatrixTest::Matrix4fInverse",
-            "Inverse4f");
+            "GeometryMatrixTest::Matrix4fInverse"_rfs, 
+            "Inverse4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fLoadIdentity),
-            "GeometryMatrixTest::Matrix2fLoadIdentity",
-            "LoadIdentity2f");
+            "GeometryMatrixTest::Matrix2fLoadIdentity"_rfs, 
+            "LoadIdentity2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fLoadIdentity),
-            "GeometryMatrixTest::Matrix3fLoadIdentity",
-            "LoadIdentity3f");
+            "GeometryMatrixTest::Matrix3fLoadIdentity"_rfs, 
+            "LoadIdentity3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fLoadIdentity),
-            "GeometryMatrixTest::Matrix4fLoadIdentity", "LoadIdentity4f");
+            "GeometryMatrixTest::Matrix4fLoadIdentity"_rfs,  
+            "LoadIdentity4f"_rfs);
 
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix2fLoadZero),
-            "GeometryMatrixTest::Matrix2fLoadZero", "LoadZero2f");
+            "GeometryMatrixTest::Matrix2fLoadZero"_rfs,  "LoadZero2f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix3fLoadZero),
-            "GeometryMatrixTest::Matrix3fLoadZero", "LoadZero3f");
+            "GeometryMatrixTest::Matrix3fLoadZero"_rfs,  "LoadZero3f"_rfs);
         AddTest(MakeDelegate(this,&GeometryMatrixTest::Matrix4fLoadZero),
-            "GeometryMatrixTest::Matrix4fLoadZero", "LoadZero4f");
+            "GeometryMatrixTest::Matrix4fLoadZero"_rfs,  "LoadZero4f"_rfs);
     }
 
     Bool Matrix2fDefaultConstructor()

@@ -9,25 +9,25 @@ class MemoryProtocolServiceTest:public RF_Test::TestSuite
 {
 public:
     MemoryProtocolServiceTest()
-    :TestSuite("RadonFramework::IO::MemoryProtocolService-Test")
+    :TestSuite("RadonFramework::IO::MemoryProtocolService-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&MemoryProtocolServiceTest::GenerateResource),
-            "MemoryProtocolServiceTest::GenerateResource", "GenerateResource");
+            "MemoryProtocolServiceTest::GenerateResource"_rfs, "GenerateResource"_rfs);
         AddTest(MakeDelegate(this, &MemoryProtocolServiceTest::GetResource),
-            "MemoryProtocolServiceTest::GetResource", "GetResource");
+            "MemoryProtocolServiceTest::GetResource"_rfs, "GetResource"_rfs);
         AddTest(MakeDelegate(this, &MemoryProtocolServiceTest::RemoveResource),
-            "MemoryProtocolServiceTest::RemoveResource", "RemoveResource");
+            "MemoryProtocolServiceTest::RemoveResource"_rfs, "RemoveResource"_rfs);
     }
 
     void SetUp()
     {
-        RF_IO::ProtocolServiceLocator::Register(RF_Mem::AutoPointer<RF_IO::ProtocolService>(new RF_IO::MemoryProtocolService("mem")));
+        RF_IO::ProtocolServiceLocator::Register(RF_Mem::AutoPointer<RF_IO::ProtocolService>(new RF_IO::MemoryProtocolService("mem"_rfs)));
     }
 
     RF_Type::Bool GenerateResource()
     {   
         RF_Type::Bool result = true;     
-        auto res=RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"));
+        auto res=RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"_rfs));
         result &= res;
         if(res)
         {
@@ -42,8 +42,8 @@ public:
 
     RF_Type::Bool GetResource()
     {
-        auto resA = RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"));
-        auto resB = RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"));
+        auto resA = RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"_rfs));
+        auto resB = RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"_rfs));
         RF_Type::Bool result = true;
         result &= resA;
         result &= resB;
@@ -58,13 +58,13 @@ public:
     {
         RF_Type::Bool result = true;
         {
-            auto resA = RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"));
+            auto resA = RF_IO::Resource::FromUri(RF_IO::Uri("mem://1"_rfs));
             result &= resA;
         }
-        auto& protocol = RF_IO::ProtocolServiceLocator::Find("mem");
+        auto& protocol = RF_IO::ProtocolServiceLocator::Find("mem"_rfs);
         if(!RF_IO::ProtocolServiceLocator::IsNullService(protocol))
         {
-            result &= protocol.Exists(RF_IO::Uri("mem://1")) == false;
+            result &= protocol.Exists(RF_IO::Uri("mem://1"_rfs)) == false;
         }
         else
         {

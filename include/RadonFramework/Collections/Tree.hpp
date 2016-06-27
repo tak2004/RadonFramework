@@ -24,6 +24,7 @@ public:
     void AddChilds(RF_Type::Size Count);
     void RemoveChild(ArrayNode<T>* Node);
     ArrayNode<T>* FirstChild();
+    const ArrayNode<T>* FirstChild()const;
     ArrayNode<T>* LastChild();
     void MoveFrom(ArrayNode<T>& Node, RF_Type::Size Start, RF_Type::Size End);
 
@@ -72,6 +73,7 @@ public:
     typedef T ValueType;
 
     NodeType& GetRootElement();
+    const NodeType& GetRootElement()const;
     void SetRootElement(NodeType& RootElement);
 protected:
     NodeType m_Root;
@@ -196,6 +198,19 @@ ArrayNode<T>* ArrayNode<T>::FirstChild()
 }
 
 template <class T>
+const ArrayNode<T>* ArrayNode<T>::FirstChild()const
+{
+    const ArrayNode<T>* result = 0;
+
+    if(m_Children.Count() > 0)
+    {
+        result = &m_Children(0);
+    }
+
+    return result;
+}
+
+template <class T>
 ArrayNode<T>* ArrayNode<T>::LastChild()
 {
     ArrayNode<T>* result = 0;
@@ -299,6 +314,12 @@ ArrayNode<T>& ArrayNode<T>::operator =(const ArrayNode<T>& Other)
 
 template <class T, class NodeInfo>
 typename Tree<T,NodeInfo>::NodeType& Tree<T,NodeInfo>::GetRootElement()
+{
+    return m_Root;
+}
+
+template <class T, class NodeInfo>
+const typename Tree<T, NodeInfo>::NodeType& Tree<T, NodeInfo>::GetRootElement()const
 {
     return m_Root;
 }

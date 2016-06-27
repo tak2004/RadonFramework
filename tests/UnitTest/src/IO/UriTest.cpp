@@ -13,12 +13,12 @@ class UriTest:public TestSuite
 {
 public:
     UriTest()
-    :TestSuite("RadonFramework::IO::Uri-Test")
+    :TestSuite("RadonFramework::IO::Uri-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&UriTest::DefaultConstructor),
-            "UriTest::DefaultConstructor", "");
+            "UriTest::DefaultConstructor"_rfs, ""_rfs);
         AddTest(MakeDelegate(this,&UriTest::Constructor),
-            "UriTest::Constructor", "");
+            "UriTest::Constructor"_rfs, ""_rfs);
     }
 
     Bool DefaultConstructor()
@@ -49,7 +49,7 @@ public:
 
     Bool Constructor()
     {
-        Uri testInstance("http://thomas@localhost:99/test/index.html?id=1&str=2#para1");
+        Uri testInstance("http://thomas@localhost:99/test/index.html?id=1&str=2#para1"_rfs);
         Bool result1 = testInstance.Path() == "test/index.html";
         Bool result2 = testInstance.Authority() == "thomas@localhost:99";
         Bool result3 = testInstance.Fragment() == "para1";

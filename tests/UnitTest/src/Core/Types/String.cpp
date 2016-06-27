@@ -13,166 +13,166 @@ class PortableStringTest:public TestSuite
 {
 public:
     PortableStringTest()
-    :TestSuite("RadonFramework::Core::Types::String-Test")
+    :TestSuite("RadonFramework::Core::Types::String-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&PortableStringTest::DefaultConstructor),
-            "PortableStringTest::DefaultConstructor", "StringDefaultConstructor");
+            "PortableStringTest::DefaultConstructor"_rfs, "StringDefaultConstructor"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::CopyConstructor),
-            "PortableStringTest::CopyConstructor", "StringCopyConstructor");
+            "PortableStringTest::CopyConstructor"_rfs, "StringCopyConstructor"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::LiteralConstructor),
-            "PortableStringTest::LiteralConstructor", "StringLiteralConstructor");
+            "PortableStringTest::LiteralConstructor"_rfs, "StringLiteralConstructor"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::CharWithLengthConstructor),
-            "PortableStringTest::CharWithLengthConstructor", "StringCharWithLengthConstructor");
+            "PortableStringTest::CharWithLengthConstructor"_rfs, "StringCharWithLengthConstructor"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ByteSizeConstructor),
-            "PortableStringTest::ByteSizeConstructor", "StringByteSizeConstructor");
+            "PortableStringTest::ByteSizeConstructor"_rfs, "StringByteSizeConstructor"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::UnsafeStringCreation),
-            "PortableStringTest::UnsafeStringCreation", "StringUnsafeStringCreation");
+            "PortableStringTest::UnsafeStringCreation"_rfs, "StringUnsafeStringCreation"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::Swap),
-            "PortableStringTest::Swap", "StringSwap");
+            "PortableStringTest::Swap"_rfs, "StringSwap"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::Length),
-            "PortableStringTest::Length", "StringLength");
+            "PortableStringTest::Length"_rfs, "StringLength"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::Contains),
-            "PortableStringTest::Contains", "StringContains");
+            "PortableStringTest::Contains"_rfs, "StringContains"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::EndsWithPChar),
-            "PortableStringTest::EndsWithPChar", "StringEndsWithPChar");
+            "PortableStringTest::EndsWithPChar"_rfs, "StringEndsWithPChar"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::EndsWithString),
-            "PortableStringTest::EndsWithString", "StringEndsWithString");
+            "PortableStringTest::EndsWithString"_rfs, "StringEndsWithString"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IndexOfString),
-            "PortableStringTest::IndexOfString", "StringIndexOfString");
+            "PortableStringTest::IndexOfString"_rfs, "StringIndexOfString"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IndexOfChar),
-            "PortableStringTest::IndexOfChar", "StringIndexOfChar");
+            "PortableStringTest::IndexOfChar"_rfs, "StringIndexOfChar"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IndexOfStringStart),
-            "PortableStringTest::IndexOfStringStart", "StringIndexOfStringStart");
+            "PortableStringTest::IndexOfStringStart"_rfs, "StringIndexOfStringStart"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IndexOfCharStart),
-            "PortableStringTest::IndexOfCharStart", "StringIndexOfCharStart");
+            "PortableStringTest::IndexOfCharStart"_rfs, "StringIndexOfCharStart"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IndexOfStringStartStop),
-            "PortableStringTest::IndexOfStringStartStop", "StringIndexOfStringStartStop");
+            "PortableStringTest::IndexOfStringStartStop"_rfs, "StringIndexOfStringStartStop"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IndexOfCharStartStop),
-            "PortableStringTest::IndexOfCharStartStop", "StringIndexOfCharStartStop");
+            "PortableStringTest::IndexOfCharStartStop"_rfs, "StringIndexOfCharStartStop"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::InsertString),
-            "PortableStringTest::InsertString", "StringInsertString");
+            "PortableStringTest::InsertString"_rfs, "StringInsertString"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::InsertPChar),
-            "PortableStringTest::InsertPChar", "StringInsertPChar");
+            "PortableStringTest::InsertPChar"_rfs, "StringInsertPChar"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::LastIndexOfString),
-            "PortableStringTest::LastIndexOfString", "StringLastIndexOfString");
+            "PortableStringTest::LastIndexOfString"_rfs, "StringLastIndexOfString"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::LastIndexOfChar),
-            "PortableStringTest::LastIndexOfChar", "StringLastIndexOfChar");
+            "PortableStringTest::LastIndexOfChar"_rfs, "StringLastIndexOfChar"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::LastIndexOfStringStart),
-            "PortableStringTest::LastIndexOfStringStart", "StringLastIndexOfStringStart");
+            "PortableStringTest::LastIndexOfStringStart"_rfs, "StringLastIndexOfStringStart"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::LastIndexOfCharStart),
-            "PortableStringTest::LastIndexOfCharStart", "StringLastIndexOfCharStart");
+            "PortableStringTest::LastIndexOfCharStart"_rfs, "StringLastIndexOfCharStart"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::LastIndexOfStringStartStop),
-            "PortableStringTest::LastIndexOfStringStartStop", "StringLastIndexOfStringStartStop");
+            "PortableStringTest::LastIndexOfStringStartStop"_rfs, "StringLastIndexOfStringStartStop"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::LastIndexOfCharStartStop),
-            "PortableStringTest::LastIndexOfCharStartStop", "StringLastIndexOfCharStartStop");
+            "PortableStringTest::LastIndexOfCharStartStop"_rfs, "StringLastIndexOfCharStartStop"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::PadLeft),
-            "PortableStringTest::PadLeft", "StringPadLeft");
+            "PortableStringTest::PadLeft"_rfs, "StringPadLeft"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::PadRight),
-            "PortableStringTest::PadRight", "StringPadRight");
+            "PortableStringTest::PadRight"_rfs, "StringPadRight"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::Remove),
-            "PortableStringTest::Remove", "StringRemove");
+            "PortableStringTest::Remove"_rfs, "StringRemove"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::RemoveCount),
-            "PortableStringTest::RemoveCount", "StringRemoveCount");
+            "PortableStringTest::RemoveCount"_rfs, "StringRemoveCount"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ReplaceChar),
-            "PortableStringTest::ReplaceChar", "StringReplaceChar");
+            "PortableStringTest::ReplaceChar"_rfs, "StringReplaceChar"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ReplaceString),
-            "PortableStringTest::ReplaceString", "StringReplaceString");
+            "PortableStringTest::ReplaceString"_rfs, "StringReplaceString"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::SplitByPChar),
-            "PortableStringTest::SplitByPChar", "StringSplitByPChar");
+            "PortableStringTest::SplitByPChar"_rfs, "StringSplitByPChar"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::SplitByString),
-            "PortableStringTest::SplitByString", "StringSplitByString");
+            "PortableStringTest::SplitByString"_rfs, "StringSplitByString"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::StartsWith),
-            "PortableStringTest::StartsWith", "StringStartsWith");
+            "PortableStringTest::StartsWith"_rfs, "StringStartsWith"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::SubString),
-            "PortableStringTest::SubString", "StringSubString");
+            "PortableStringTest::SubString"_rfs, "StringSubString"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::Trim),
-            "PortableStringTest::Trim", "StringTrim");
+            "PortableStringTest::Trim"_rfs, "StringTrim"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::TrimEnd),
-            "PortableStringTest::TrimEnd", "StringTrimEnd");
+            "PortableStringTest::TrimEnd"_rfs, "StringTrimEnd"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::TrimStart),
-            "PortableStringTest::TrimStart", "StringTrimStart");
+            "PortableStringTest::TrimStart"_rfs, "StringTrimStart"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ConstListOperator),
-            "PortableStringTest::ConstListOperator", "StringConstListOperator");
+            "PortableStringTest::ConstListOperator"_rfs, "StringConstListOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ReferenceListOperator),
-            "PortableStringTest::ReferenceListOperator", "StringReferenceListOperator");
+            "PortableStringTest::ReferenceListOperator"_rfs, "StringReferenceListOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::EqualStringOperator),
-            "PortableStringTest::EqualStringOperator", "StringEqualStringOperator");
+            "PortableStringTest::EqualStringOperator"_rfs, "StringEqualStringOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::EqualPCharOperator),
-            "PortableStringTest::EqualPCharOperator", "StringEqualPCharOperator");
+            "PortableStringTest::EqualPCharOperator"_rfs, "StringEqualPCharOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::UnequalStringOperator),
-            "PortableStringTest::UnequalStringOperator", "StringUnequalStringOperator");
+            "PortableStringTest::UnequalStringOperator"_rfs, "StringUnequalStringOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::UnequalPCharOperator),
-            "PortableStringTest::UnequalPCharOperator", "StringUnequalPCharOperator");
+            "PortableStringTest::UnequalPCharOperator"_rfs, "StringUnequalPCharOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddStringOperator),
-            "PortableStringTest::AddStringOperator", "StringAddStringOperator");
+            "PortableStringTest::AddStringOperator"_rfs, "StringAddStringOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddPCharOperator),
-            "PortableStringTest::AddPCharOperator", "StringAddPCharOperator");
+            "PortableStringTest::AddPCharOperator"_rfs, "StringAddPCharOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddCharOperator),
-            "PortableStringTest::AddCharOperator", "StringAddCharOperator");
+            "PortableStringTest::AddCharOperator"_rfs, "StringAddCharOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddBoolOperator),
-            "PortableStringTest::AddBoolOperator", "StringAddBoolOperator");
+            "PortableStringTest::AddBoolOperator"_rfs, "StringAddBoolOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddInt8Operator),
-            "PortableStringTest::AddInt8Operator", "StringAddInt8Operator");
+            "PortableStringTest::AddInt8Operator"_rfs, "StringAddInt8Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddInt16Operator),
-            "PortableStringTest::AddInt16Operator", "StringAddInt16Operator");
+            "PortableStringTest::AddInt16Operator"_rfs, "StringAddInt16Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddInt32Operator),
-            "PortableStringTest::AddInt32Operator", "StringAddInt32Operator");
+            "PortableStringTest::AddInt32Operator"_rfs, "StringAddInt32Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddInt64Operator),
-            "PortableStringTest::AddInt64Operator", "StringAddInt64Operator");
+            "PortableStringTest::AddInt64Operator"_rfs, "StringAddInt64Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddUInt8Operator),
-            "PortableStringTest::AddUInt8Operator", "StringAddUInt8Operator");
+            "PortableStringTest::AddUInt8Operator"_rfs, "StringAddUInt8Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddUInt16Operator),
-            "PortableStringTest::AddUInt16Operator", "StringAddUInt16Operator");
+            "PortableStringTest::AddUInt16Operator"_rfs, "StringAddUInt16Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddUInt32Operator),
-            "PortableStringTest::AddUInt32Operator", "StringAddUInt32Operator");
+            "PortableStringTest::AddUInt32Operator"_rfs, "StringAddUInt32Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddUInt64Operator),
-            "PortableStringTest::AddUInt64Operator", "StringAddUInt64Operator");
+            "PortableStringTest::AddUInt64Operator"_rfs, "StringAddUInt64Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignStringOperator),
-            "PortableStringTest::AddAssignStringOperator", "StringAddAssignStringOperator");
+            "PortableStringTest::AddAssignStringOperator"_rfs, "StringAddAssignStringOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignPCharOperator),
-            "PortableStringTest::AddAssignPCharOperator", "StringAddAssignPCharOperator");
+            "PortableStringTest::AddAssignPCharOperator"_rfs, "StringAddAssignPCharOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignCharOperator),
-            "PortableStringTest::AddAssignCharOperator", "StringAddAssignCharOperator");
+            "PortableStringTest::AddAssignCharOperator"_rfs, "StringAddAssignCharOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignBoolOperator),
-            "PortableStringTest::AddAssignBoolOperator", "StringAddAssignBoolOperator");
+            "PortableStringTest::AddAssignBoolOperator"_rfs, "StringAddAssignBoolOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignInt8Operator),
-            "PortableStringTest::AddAssignInt8Operator", "StringAddAssignInt8Operator");
+            "PortableStringTest::AddAssignInt8Operator"_rfs, "StringAddAssignInt8Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignInt16Operator),
-            "PortableStringTest::AddAssignInt16Operator", "StringAddAssignInt16Operator");
+            "PortableStringTest::AddAssignInt16Operator"_rfs, "StringAddAssignInt16Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignInt32Operator),
-            "PortableStringTest::AddAssignInt32Operator", "StringAddAssignInt32Operator");
+            "PortableStringTest::AddAssignInt32Operator"_rfs, "StringAddAssignInt32Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignInt64Operator),
-            "PortableStringTest::AddAssignInt64Operator", "StringAddAssignInt64Operator");
+            "PortableStringTest::AddAssignInt64Operator"_rfs, "StringAddAssignInt64Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignUInt8Operator),
-            "PortableStringTest::AddAssignUInt8Operator", "StringAddAssignUInt8Operator");
+            "PortableStringTest::AddAssignUInt8Operator"_rfs, "StringAddAssignUInt8Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignUInt16Operator),
-            "PortableStringTest::AddAssignUInt16Operator", "StringAddAssignUInt16Operator");
+            "PortableStringTest::AddAssignUInt16Operator"_rfs, "StringAddAssignUInt16Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignUInt32Operator),
-            "PortableStringTest::AddAssignUInt32Operator", "StringAddAssignUInt32Operator");
+            "PortableStringTest::AddAssignUInt32Operator"_rfs, "StringAddAssignUInt32Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AddAssignUInt64Operator),
-            "PortableStringTest::AddAssignUInt64Operator", "StringAddAssignUInt64Operator");
+            "PortableStringTest::AddAssignUInt64Operator"_rfs, "StringAddAssignUInt64Operator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::AssignStringOperator),
-            "PortableStringTest::AssignStringOperator", "StringAssignStringOperator");
+            "PortableStringTest::AssignStringOperator"_rfs, "StringAssignStringOperator"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ConvertToPChar),
-            "PortableStringTest::ConvertToPChar", "StringConvertToPChar");
+            "PortableStringTest::ConvertToPChar"_rfs, "StringConvertToPChar"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::HexToDec),
-            "PortableStringTest::HexToDec", "StringHexToDec");
+            "PortableStringTest::HexToDec"_rfs, "StringHexToDec"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ToUpper),
-            "PortableStringTest::ToUpper", "StringToUpper");
+            "PortableStringTest::ToUpper"_rfs, "StringToUpper"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::ToLower),
-            "PortableStringTest::ToLower", "StringToLower");
+            "PortableStringTest::ToLower"_rfs, "StringToLower"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::Compare),
-            "PortableStringTest::Compare", "StringCompare");
+            "PortableStringTest::Compare"_rfs, "StringCompare"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IsNumber),
-            "PortableStringTest::IsNumber", "StringIsNumber");
+            "PortableStringTest::IsNumber"_rfs, "StringIsNumber"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IsFloatingpointNumber),
-            "PortableStringTest::IsFloatingpointNumber", "StringIsFloatingpointNumber");
+            "PortableStringTest::IsFloatingpointNumber"_rfs, "StringIsFloatingpointNumber"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IsBoolean),
-            "PortableStringTest::IsBoolean", "StringIsBoolean");
+            "PortableStringTest::IsBoolean"_rfs, "StringIsBoolean"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::Size),
-            "PortableStringTest::Size", "StringSize");
+            "PortableStringTest::Size"_rfs, "StringSize"_rfs);
         AddTest(MakeDelegate(this,&PortableStringTest::IsEmpty),
-            "PortableStringTest::IsEmpty", "IsEmpty");
+            "PortableStringTest::IsEmpty"_rfs, "IsEmpty"_rfs);
     }
 
     RadonFramework::Core::Types::Bool DefaultConstructor()
@@ -269,7 +269,7 @@ public:
     RadonFramework::Core::Types::Bool EndsWithPChar()
     {
         String str("123test456");
-        return str.EndsWith("456")==true && str.EndsWith("45")==false;
+        return str.EndsWith("456"_rfs)==true && str.EndsWith("45"_rfs)==false;
     }
 
     RadonFramework::Core::Types::Bool EndsWithString()
@@ -296,9 +296,9 @@ public:
     {
         String str("test");
         String str3("123testtest456");
-        RadonFramework::Core::Types::Int32 res=str.IndexOf("test");
-        RadonFramework::Core::Types::Int32 res1=str.IndexOf("tset");
-        RadonFramework::Core::Types::Int32 res2=str3.IndexOf("test");
+        RadonFramework::Core::Types::Int32 res=str.IndexOf("test"_rfs);
+        RadonFramework::Core::Types::Int32 res1=str.IndexOf("tset"_rfs);
+        RadonFramework::Core::Types::Int32 res2=str3.IndexOf("test"_rfs);
         return res==0 && res1==-1 && res2==3;
     }
 
@@ -319,10 +319,10 @@ public:
     {
         String str("1test");
         String str3("123testtest456");
-        RadonFramework::Core::Types::Int32 res=str.IndexOf("test",1);
-        RadonFramework::Core::Types::Int32 res1=str.IndexOf("tset",1);
-        RadonFramework::Core::Types::Int32 res2=str3.IndexOf("test",2);
-        RadonFramework::Core::Types::Int32 res3=str3.IndexOf("test",8);
+        RadonFramework::Core::Types::Int32 res=str.IndexOf("test"_rfs,1);
+        RadonFramework::Core::Types::Int32 res1=str.IndexOf("tset"_rfs,1);
+        RadonFramework::Core::Types::Int32 res2=str3.IndexOf("test"_rfs,2);
+        RadonFramework::Core::Types::Int32 res3=str3.IndexOf("test"_rfs,8);
         return res==1 && res1==-1 && res2==3 && res3==-1;
     }
 
@@ -343,10 +343,10 @@ public:
     {
         String str("1test1");
         String str3("123testtest456");
-        RadonFramework::Core::Types::Int32 res=str.IndexOf("test",1,4);
-        RadonFramework::Core::Types::Int32 res1=str.IndexOf("tset",1,4);
-        RadonFramework::Core::Types::Int32 res2=str3.IndexOf("test",3,4);
-        RadonFramework::Core::Types::Int32 res3=str3.IndexOf("test",3,3);
+        RadonFramework::Core::Types::Int32 res=str.IndexOf("test"_rfs,1,4);
+        RadonFramework::Core::Types::Int32 res1=str.IndexOf("tset"_rfs,1,4);
+        RadonFramework::Core::Types::Int32 res2=str3.IndexOf("test"_rfs,3,4);
+        RadonFramework::Core::Types::Int32 res3=str3.IndexOf("test"_rfs,3,3);
         return res==1 && res1==-1 && res2==3 && res3==-1;
     }
 
@@ -369,9 +369,9 @@ public:
         String str2("test123456");
         String str3("123456");
         String str4("123456test");
-        Bool result1 = str3.Insert(3,"test")==str1;
-        Bool result2 = str3.Insert(0,"test")==str2;
-        Bool result3 = str3.Insert(6,"test")==str4;
+        Bool result1 = str3.Insert(3,"test"_rfs)==str1;
+        Bool result2 = str3.Insert(0,"test"_rfs)==str2;
+        Bool result3 = str3.Insert(6,"test"_rfs)==str4;
         return result1 && result2 && result3;
     }
 
@@ -391,9 +391,9 @@ public:
     {
         String str("test");
         String str3("123testtest456");
-        RadonFramework::Core::Types::Int32 res=str.LastIndexOf("test");
-        RadonFramework::Core::Types::Int32 res1=str.LastIndexOf("tset");
-        RadonFramework::Core::Types::Int32 res2=str3.LastIndexOf("test");
+        RadonFramework::Core::Types::Int32 res=str.LastIndexOf("test"_rfs);
+        RadonFramework::Core::Types::Int32 res1=str.LastIndexOf("tset"_rfs);
+        RadonFramework::Core::Types::Int32 res2=str3.LastIndexOf("test"_rfs);
         return res==0 && res1==-1 && res2==7;
     }
 
@@ -414,10 +414,10 @@ public:
     {
         String str("1test");
         String str3("123testtest456");
-        RadonFramework::Core::Types::Int32 res=str.LastIndexOf("test",1);
-        RadonFramework::Core::Types::Int32 res1=str.LastIndexOf("tset",1);
-        RadonFramework::Core::Types::Int32 res2=str3.LastIndexOf("test",2);
-        RadonFramework::Core::Types::Int32 res3=str3.LastIndexOf("test",8);
+        RadonFramework::Core::Types::Int32 res=str.LastIndexOf("test"_rfs,1);
+        RadonFramework::Core::Types::Int32 res1=str.LastIndexOf("tset"_rfs,1);
+        RadonFramework::Core::Types::Int32 res2=str3.LastIndexOf("test"_rfs,2);
+        RadonFramework::Core::Types::Int32 res3=str3.LastIndexOf("test"_rfs,8);
         return res==1 && res1==-1 && res2==7 && res3==-1;
     }
 
@@ -438,10 +438,10 @@ public:
     {
         String str("1test1");
         String str3("123testtest456");
-        RadonFramework::Core::Types::Int32 res=str.LastIndexOf("test",1,4);
-        RadonFramework::Core::Types::Int32 res1=str.LastIndexOf("tset",1,4);
-        RadonFramework::Core::Types::Int32 res2=str3.LastIndexOf("test",7,4);
-        RadonFramework::Core::Types::Int32 res3=str3.LastIndexOf("test",3,3);
+        RadonFramework::Core::Types::Int32 res=str.LastIndexOf("test"_rfs,1,4);
+        RadonFramework::Core::Types::Int32 res1=str.LastIndexOf("tset"_rfs,1,4);
+        RadonFramework::Core::Types::Int32 res2=str3.LastIndexOf("test"_rfs,7,4);
+        RadonFramework::Core::Types::Int32 res3=str3.LastIndexOf("test"_rfs,3,3);
         return res==1 && res1==-1 && res2==7 && res3==-1;
     }
 
@@ -526,18 +526,18 @@ public:
     RadonFramework::Core::Types::Bool SplitByPChar()
     {
         String str("a=b+c");
-        AutoPointerArray<String> list=str.Split("=+");
+        AutoPointerArray<String> list=str.Split("=+"_rfs);
         String empty;
         String notEmpty("foo/bar");
         String delimeterAtStart("/foo/bar");
         String delimeterAtEnd("foo/bar/");
         String delimiterAtStartAndEnd("/foo/bar/");
         RF_Type::Bool result = true;
-        result &= empty.Split("/").Count() == 0;
-        result &= notEmpty.Split("/").Count() == 2;
-        result &= delimeterAtStart.Split("/").Count() == 2;
-        result &= delimeterAtEnd.Split("/").Count() == 2;
-        result &= delimiterAtStartAndEnd.Split("/").Count() == 2;
+        result &= empty.Split("/"_rfs).Count() == 0;
+        result &= notEmpty.Split("/"_rfs).Count() == 2;
+        result &= delimeterAtStart.Split("/"_rfs).Count() == 2;
+        result &= delimeterAtEnd.Split("/"_rfs).Count() == 2;
+        result &= delimiterAtStartAndEnd.Split("/"_rfs).Count() == 2;
         result &= list.Count() == 3;
         result &= list[0] == "a" && list[1] == "b" && list[2] == "c";
         return result;
@@ -554,7 +554,7 @@ public:
     RadonFramework::Core::Types::Bool StartsWith()
     {
         String str("<b>This is bold text</b>");
-        return str.StartsWith("<") && str.StartsWith("<b>");
+        return str.StartsWith("<"_rfs) && str.StartsWith("<b>"_rfs);
     }
 
     RadonFramework::Core::Types::Bool SubString()
@@ -576,8 +576,8 @@ public:
         String str1("...Hello   ");
         String str2("Hello");
 
-        Bool result1 = str.Trim(" ")==str2;
-        Bool result2 = str1.Trim(" .")==str2;
+        Bool result1 = str.Trim(" "_rfs)==str2;
+        Bool result2 = str1.Trim(" ."_rfs)==str2;
         return result1 && result2;
     }
 
@@ -587,8 +587,8 @@ public:
         String str1(". . Hello");
         String str2("Hello");
 
-        Bool result1 = str.TrimStart(" ")==str2;
-        Bool result2 = str1.TrimStart(" .")==str2;
+        Bool result1 = str.TrimStart(" "_rfs)==str2;
+        Bool result2 = str1.TrimStart(" ."_rfs)==str2;
         return result1 && result2;
     }
 
@@ -598,8 +598,8 @@ public:
         String str1("Hello. . ");
         String str2("Hello");
 
-        Bool result1 = str.TrimEnd(" ")==str2;
-        Bool result2 = str1.TrimEnd(" .")==str2;
+        Bool result1 = str.TrimEnd(" "_rfs)==str2;
+        Bool result2 = str1.TrimEnd(" ."_rfs)==str2;
         return result1 && result2;
     }
 

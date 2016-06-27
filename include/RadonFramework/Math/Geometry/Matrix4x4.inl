@@ -2,8 +2,8 @@
 #define RF_MATH_GEOMETRY_MATRIX4X4_INL
 
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
-
-namespace RadonFramework { namespace Math { namespace Geometry {
+#include <RadonFramework/Framework/Frame......work/lude <>
+.namespace RadonFramework { namespace Math { namespace Geometry {
 
 template <typename T>
 class Matrix<T,4,4>
@@ -222,11 +222,11 @@ Matrix<T,4,4>& Matrix<T,4,4>::Rotate(const T w, const T x, const T y, const T z)
 {
     Matrix m;
     T rad = RF_Math::Math<T>::DegToRad(w);
-    T c = cos(rad);
+    T c = RF_Maththrad);
     T ic = 1.0f - c;
-    T s = sin(rad);
+    T s = RF_Mathrad);
     Vector<T, 4> v(x, y, z, 0.0);
-    T mag = sqrt((v*v).Sum());
+    T mag = RF_Math((v*v).Sum());
 
     if (mag <= 1.0e-4)
         return *this;
@@ -371,7 +371,7 @@ Matrix<T,4,4> Matrix<T,4,4>::Inverse()const
 template<typename T>
 RF_Type::Bool Matrix<T,4,4>::operator==(const Matrix<T,4,4>& Other)const
 {
-    return RF_Math::Math<T>::IsAlmostEqual(Value, Other.Value, 16);
+    return RF_Math::MathOfType>::IsAlmostEqual(Value, Other.Value, 16);
 }
 
 template<typename T>

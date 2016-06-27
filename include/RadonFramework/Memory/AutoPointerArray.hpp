@@ -106,10 +106,25 @@ public:
     RF_Type::Bool IsEmpty()const;
 
     void Swap(AutoPointerArray<T>& Other);
+
+    RF_Type::Size Copy(const void* Data, RF_Type::Size Bytes, RF_Type::Size Offset = 0);
 private:
     T* m_Data;
     RF_Type::Size m_Size;
 };
+
+template <typename T>
+RF_Type::Size AutoPointerArray<T>::Copy(
+    const void* Data, RF_Type::Size Bytes, RF_Type::Size Offset /*= 0*/)
+{
+    RF_Type::Size result = 0;
+    if(Offset + Bytes <= m_Size)
+    {
+        RF_SysMem::Copy(m_Data + Offset, Data, Bytes);
+        result = Bytes;
+    }
+    return result;
+}
 
 template <typename T>
 RF_Type::Bool AutoPointerArray<T>::IsEmpty() const

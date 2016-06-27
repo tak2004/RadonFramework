@@ -430,7 +430,8 @@ RF_Type::Bool BitArray<RB, MA, MO>::InitArray(const RF_Type::Size Length)
         m_ContainerInfo.elementCount = Length;
         m_Data = MA::template NewArray<RF_Type::UInt8>(m_ContainerInfo.ByteSize());
         if(m_Data == 0)
-            return false;        
+            return false;
+        Reset();
     }
     return true;
 }

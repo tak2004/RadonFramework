@@ -31,12 +31,12 @@ class ThreadingThreadTest:public TestSuite
 {
 public:
     ThreadingThreadTest()
-    :TestSuite("RadonFramework::Threading::Thread-Test")
+    :TestSuite("RadonFramework::Threading::Thread-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&ThreadingThreadTest::Create),
-            "ThreadingThreadTest::Create", "Create");
+            "ThreadingThreadTest::Create"_rfs, "Create"_rfs);
         AddTest(MakeDelegate(this,&ThreadingThreadTest::Destroy),
-            "ThreadingThreadTest::Destroy", "Destroy");
+            "ThreadingThreadTest::Destroy"_rfs, "Destroy"_rfs);
     }
 
     Bool Create()

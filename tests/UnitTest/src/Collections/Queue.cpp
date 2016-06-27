@@ -14,23 +14,23 @@ class QueueTest:public TestSuite
 {
 public:
     QueueTest()
-    :TestSuite("RadonFramework::Collections::Queue-Test")
+    :TestSuite("RadonFramework::Collections::Queue-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&QueueTest::Constructor),
-            "QueueTest::Constructor",
-            "Constructor");
+            "QueueTest::Constructor"_rfs,
+            "Constructor"_rfs);
 
         AddTest(MakeDelegate(this,&QueueTest::Clear),
-            "QueueTest::Clear",
-            "Clear Queue");
+            "QueueTest::Clear"_rfs,
+            "Clear Queue"_rfs);
 
         AddTest(MakeDelegate(this,&QueueTest::Dequeue),
-            "QueueTest::Dequeue",
-            "Remove the first element of the Queue.");
+            "QueueTest::Dequeue"_rfs,
+            "Remove the first element of the Queue."_rfs);
 
         AddTest(MakeDelegate(this,&QueueTest::Enqueue),
-            "QueueTest::Enqueue",
-            "Add an element to the Queue.");
+            "QueueTest::Enqueue"_rfs,
+            "Add an element to the Queue."_rfs);
     }
 
     Bool Constructor()

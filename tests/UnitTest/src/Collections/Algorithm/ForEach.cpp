@@ -26,14 +26,14 @@ class ForEachTest: public TestSuite
 {
 public:
     ForEachTest()
-    :TestSuite("RadonFramework::Collections::Algorithm::ForEach-Test")
+    :TestSuite("RadonFramework::Collections::Algorithm::ForEach-Test"_rfs)
     {
         AddTest(MakeDelegate(this, &ForEachTest::CustomCompareFunction),
-            "ForEachTest::CustomCompareFunction",
-            "Search on collection with custom compare function.");
+            "ForEachTest::CustomCompareFunction"_rfs,
+            "Search on collection with custom compare function."_rfs);
         AddTest(MakeDelegate(this, &ForEachTest::CustomCompareFunction2),
-            "ForEachTest::CustomCompareFunction2",
-            "Search on collection with custom compare function2.");
+            "ForEachTest::CustomCompareFunction2"_rfs,
+            "Search on collection with custom compare function2."_rfs);
     }
 
     bool CustomCompareFunction()

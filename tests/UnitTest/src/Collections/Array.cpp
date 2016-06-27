@@ -14,181 +14,181 @@ class ArrayTest:public TestSuite
 {
 public:
     ArrayTest()
-    :TestSuite("RadonFramework::Collections::Array-Test")
+    :TestSuite("RadonFramework::Collections::Array-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&ArrayTest::Constructor),
-            "ArrayTest::Constructor",
-            "Constructor");
+            "ArrayTest::Constructor"_rfs,
+            "Constructor"_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::CopyConstructor),
-            "ArrayTest::CopyConstructor",
-            "Copy constructor");
+            "ArrayTest::CopyConstructor"_rfs,
+            "Copy constructor"_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Constructor1Dimension),
-            "ArrayTest::Constructor1Dimension",
-            "Constructor which create a 1 dimensional array.");
+            "ArrayTest::Constructor1Dimension"_rfs,
+            "Constructor which create a 1 dimensional array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Constructor2Dimension),
-            "ArrayTest::Constructor2Dimension",
-            "Constructor which create a 2 dimensional array.");
+            "ArrayTest::Constructor2Dimension"_rfs,
+            "Constructor which create a 2 dimensional array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Constructor3Dimension),
-            "ArrayTest::Constructor3Dimension",
-            "Constructor which create a 3 dimensional array.");
+            "ArrayTest::Constructor3Dimension"_rfs,
+            "Constructor which create a 3 dimensional array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::ConstructorMultiDimension),
-            "ArrayTest::ConstructorMultiDimension",
-            "Constructor which create a multi dimensional array.");
+            "ArrayTest::ConstructorMultiDimension"_rfs,
+            "Constructor which create a multi dimensional array."_rfs);
             
         AddTest(MakeDelegate(this,&ArrayTest::Constructor1DimensionC),
-            "ArrayTest::Constructor1DimensionC",
-            "Constructor which copy from a 1 dimensional c array.");
+            "ArrayTest::Constructor1DimensionC"_rfs,
+            "Constructor which copy from a 1 dimensional c array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::ItemGet),
-            "ArrayTest::ItemGet",
-            "Get the item of a specific index.");
+            "ArrayTest::ItemGet"_rfs,
+            "Get the item of a specific index."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::ItemSet),
-            "ArrayTest::ItemSet",
-            "Set the value of a specific item.");
+            "ArrayTest::ItemSet"_rfs,
+            "Set the value of a specific item."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::BinarySearch),
-            "ArrayTest::BinarySearch",
-            "Search a value in the array with binary search algorithm.");
+            "ArrayTest::BinarySearch"_rfs,
+            "Search a value in the array with binary search algorithm."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::SortComparer),
-            "ArrayTest::SortComparer",
-            "Sort the elements of the array by a comparer.");
+            "ArrayTest::SortComparer"_rfs,
+            "Sort the elements of the array by a comparer."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::SortArraysComparer),
-            "ArrayTest::SortArraysComparer",
-            "Sort the elements of two coupled arrays by a comparer.");
+            "ArrayTest::SortArraysComparer"_rfs,
+            "Sort the elements of two coupled arrays by a comparer."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::TrueForAll),
-            "ArrayTest::TrueForAll",
+            "ArrayTest::TrueForAll"_rfs,
             "Go through all elements of the array and execute a user \
-            defined match algorithm.");
+            defined match algorithm."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::FunctionOperatorAccess1D),
-            "ArrayTest::FunctionOperatorAccess1D",
-            "Access an element of the array by the function operator.");
+            "ArrayTest::FunctionOperatorAccess1D"_rfs,
+            "Access an element of the array by the function operator."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::FunctionOperatorAccess2D),
-            "ArrayTest::FunctionOperatorAccess2D",
-            "Access an element of the 2 dimensional array by the function operator.");
+            "ArrayTest::FunctionOperatorAccess2D"_rfs,
+            "Access an element of the 2 dimensional array by the function operator."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::FunctionOperatorAccess3D),
-            "ArrayTest::FunctionOperatorAccess3D",
-            "Access an element of the 3 dimensional array by the function operator.");
+            "ArrayTest::FunctionOperatorAccess3D"_rfs,
+            "Access an element of the 3 dimensional array by the function operator."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValue1D),
-            "ArrayTest::SetValue1D",
-            "Set the value of an element of the 1D array.");
+            "ArrayTest::SetValue1D"_rfs,
+            "Set the value of an element of the 1D array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValue2D),
-            "ArrayTest::SetValue2D",
-            "Set the value of an element of the 2D array.");
+            "ArrayTest::SetValue2D"_rfs,
+            "Set the value of an element of the 2D array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValue3D),
-            "ArrayTest::SetValue3D",
-            "Set the value of an element of the 3D array.");
+            "ArrayTest::SetValue3D"_rfs,
+            "Set the value of an element of the 3D array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::SetValueVariableDimension),
-            "ArrayTest::SetValueVariableDimension",
-            "Set the value of an element of a multi dimension array.");
+            "ArrayTest::SetValueVariableDimension"_rfs,
+            "Set the value of an element of a multi dimension array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::GetLength),
-            "ArrayTest::GetLength",
-            "Return the number of elements in the specified dimension of the array.");
+            "ArrayTest::GetLength"_rfs,
+            "Return the number of elements in the specified dimension of the array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValue1D),
-            "ArrayTest::GetValue1D",
-            "Get the value of an element of the 1D array.");
+            "ArrayTest::GetValue1D"_rfs,
+            "Get the value of an element of the 1D array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValue2D),
-            "ArrayTest::GetValue2D",
-            "Get the value of an element of the 2D array.");
+            "ArrayTest::GetValue2D"_rfs,
+            "Get the value of an element of the 2D array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValue3D),
-            "ArrayTest::GetValue3D",
-            "Get the value of an element of the 3D array.");
+            "ArrayTest::GetValue3D"_rfs,
+            "Get the value of an element of the 3D array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::GetValueVariableDimension),
-            "ArrayTest::GetValueVariableDimension",
-            "Get the value of an element of a multi dimension array.");
+            "ArrayTest::GetValueVariableDimension"_rfs,
+            "Get the value of an element of a multi dimension array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Reverse),
-            "ArrayTest::Reverse",
-            "Reverses the sequence of the elements in the entire 1D Array.");
+            "ArrayTest::Reverse"_rfs,
+            "Reverses the sequence of the elements in the entire 1D Array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Resize),
-            "ArrayTest::Resize",
-            "Changes the number of elements of an array to the specified new size.");
+            "ArrayTest::Resize"_rfs,
+            "Changes the number of elements of an array to the specified new size."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::LastIndexOf),
-            "ArrayTest::LastIndexOf",
+            "ArrayTest::LastIndexOf"_rfs,
             "Searches for the specified object and returns the index of \
-            the last occurrence.");
+            the last occurrence."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::IndexOf),
-            "ArrayTest::IndexOf",
+            "ArrayTest::IndexOf"_rfs,
             "Searches for the specified object and returns the index of \
-            the first occurrence.");
+            the first occurrence."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::GetEnumerator),
-            "ArrayTest::GetEnumerator",
-            "Returns an IEnumerator for the Array.");
+            "ArrayTest::GetEnumerator"_rfs,
+            "Returns an IEnumerator for the Array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::ForEach),
-            "ArrayTest::ForEach",
-            "Execute a method for each element of the array");
+            "ArrayTest::ForEach"_rfs,
+            "Execute a method for each element of the array"_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::FindLastIndex),
-            "ArrayTest::FindLastIndex",
+            "ArrayTest::FindLastIndex"_rfs,
             "Searches for the element which pass the method and returns \
-            the index of the last occurrence.");
+            the index of the last occurrence."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::FindIndex),
-            "ArrayTest::FindIndex",
+            "ArrayTest::FindIndex"_rfs,
             "Searches for the element which pass the method and returns \
-            the index of the first occurrence.");
+            the index of the first occurrence."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::FindLast),
-            "ArrayTest::FindLast",
+            "ArrayTest::FindLast"_rfs,
             "Searches for the element which pass the method and returns \
-            the index of the last occurrence.");
+            the index of the last occurrence."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Find),
-            "ArrayTest::Find",
+            "ArrayTest::Find"_rfs,
             "Searches for the element which pass the method and returns \
-            the index of the first occurrence.");
+            the index of the first occurrence."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::FindAll),
-            "ArrayTest::FindAll",
+            "ArrayTest::FindAll"_rfs,
             "Retrieves all the elements that match the conditions defined \
-            by the specified predicate.");
+            by the specified predicate."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Exists),
-            "ArrayTest::Exists",
+            "ArrayTest::Exists"_rfs,
             "Determines whether the specified array contains elements that \
-            match the conditions defined by the specified predicate.");
+            match the conditions defined by the specified predicate."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Copy),
-            "ArrayTest::Copy",
-            "Copies a range of elements from an Array to an other.");
+            "ArrayTest::Copy"_rfs,
+            "Copies a range of elements from an Array to an other."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::ConvertAll),
-            "ArrayTest::ConvertAll",
-            "Converts an array of one type to an array of another type.");
+            "ArrayTest::ConvertAll"_rfs,
+            "Converts an array of one type to an array of another type."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::ConstrainedCopy),
-            "ArrayTest::ConstrainedCopy",
+            "ArrayTest::ConstrainedCopy"_rfs,
             "Copies a range of elements from an Array to an other if the \
-            Arrays have the same structure.");
+            Arrays have the same structure."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::Clone),
-            "ArrayTest::Clone",
-            "Creates a shallow copy of the Array.");
+            "ArrayTest::Clone"_rfs,
+            "Creates a shallow copy of the Array."_rfs);
     }
 
     Bool Constructor()

@@ -110,8 +110,8 @@
 
 #ifndef RF_NO_DRAWING
 
-#include <RadonFramework/Drawing/Camera.hpp>
 #include <RadonFramework/Drawing/AbstractCanvas.hpp>
+#include <RadonFramework/Drawing/Camera.hpp>
 #include <RadonFramework/Drawing/Canvas3D.hpp>
 #include <RadonFramework/Drawing/Canvas3DService.hpp>
 #include <RadonFramework/Drawing/Canvas3DServiceConfig.hpp>
@@ -292,9 +292,6 @@
 
 #ifndef RF_NO_TEXT
 
-#include <RadonFramework/Text/Grammar.hpp>
-#include <RadonFramework/Text/GrammarExpression.hpp>
-#include <RadonFramework/Text/LogicElement.hpp>
 #include <RadonFramework/Text/Regex.hpp>
 #include <RadonFramework/Text/StringBuilder.hpp>
 #include <RadonFramework/Text/StringProcessor/BruteForce.hpp>

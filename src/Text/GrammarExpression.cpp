@@ -9,19 +9,15 @@ GrammarExpression& GrammarExpression::Is(RF_Type::UInt16 TokenId,
 {
     decltype(Logic)::NodeType* node = nullptr;
     auto& root = Logic.GetRootElement();
-    if(root.Childs() > 0)
-    {
-        root.AddChild({Logic::And});
-    }
 
     switch(Quantity)
     {
     case Quantifier::Once:
-        root.AddChild({Logic::Return})->AddChild({Logic::CallRule, TokenId});
+        root.AddChild({Logic::Assign,0})->AddChild({Logic::CallRule, TokenId});
+        root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
         break;
     case Quantifier::ZeroOrMore:
         root.AddChild({Logic::Repeat})->AddChild({Logic::Condition})->AddChild({Logic::CallRule, TokenId});
-        root.AddChild({Logic::Return})->AddChild({Logic::Value,1});
         break;
     case Quantifier::OneOrMore:
         root.AddChild({Logic::Assign,0})->AddChild({Logic::Value, 0});
@@ -29,7 +25,7 @@ GrammarExpression& GrammarExpression::Is(RF_Type::UInt16 TokenId,
         node->AddChild({Logic::CallRule, TokenId});
         node = node->Parent();
         node->AddChild({Logic::Assign,0})->AddChild({Logic::Value, 1});
-        root.AddChild({Logic::Return})->AddChild({Logic::Variable, 0});
+        root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
         break;
     case Quantifier::ZeroOrOnce:
         break;
@@ -42,24 +38,24 @@ GrammarExpression& GrammarExpression::Is(const RF_Type::String& Text,
 {
     decltype(Logic)::NodeType* node = nullptr;
     auto& root = Logic.GetRootElement();
-    if(root.Childs() > 0)
-    {
-        root.AddChild({Logic::And});
-    }
 
     switch(Quantity)
     {
     case Quantifier::Once:
+        root.AddChild({Logic::Assign,0})->AddChild({Logic::Equal,0,Text, true});
+        root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
         break;
     case Quantifier::ZeroOrMore:
         break;
     case Quantifier::OneOrMore:
         break;
-    case Quantifier::ZeroOrOnce:// return !C && C;
-        node = root.AddChild({Logic::Return});
-        node = node->AddChild({Logic::And});
+    case Quantifier::ZeroOrOnce:// return !C || (C && !C);
+        node = root.AddChild({Logic::Assign,0})->AddChild({Logic::Or});
         node->AddChild({Logic::Unequal,0,Text, true});
+        node = node->AddChild({Logic::And});
         node->AddChild({Logic::Equal,0,Text, true});
+        node->AddChild({Logic::Unequal,0,Text, true});
+        root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
         break;
     }
     return *this;
@@ -70,10 +66,6 @@ GrammarExpression& GrammarExpression::Not(RF_Type::UInt16 TokenId,
 {
     decltype(Logic)::NodeType* node = nullptr;
     auto& root = Logic.GetRootElement();
-    if(root.Childs() > 0)
-    {
-        root.AddChild({Logic::And});
-    }
 
     switch(Quantity)
     {
@@ -81,16 +73,18 @@ GrammarExpression& GrammarExpression::Not(RF_Type::UInt16 TokenId,
 
         break;
     case Quantifier::ZeroOrMore:
-
+        root.AddChild({Logic::Repeat})->AddChild({Logic::Condition})->AddChild({Logic::Unequal, TokenId});
         break;
     case Quantifier::OneOrMore:
 
         break;
-    case Quantifier::ZeroOrOnce:// return !C && C
-        node = root.AddChild({Logic::Return});
-        node = node->AddChild({Logic::And});
+    case Quantifier::ZeroOrOnce:// return C || (C && !C)
+        node = root.AddChild({Logic::Assign,0})->AddChild({Logic::Or});
         node->AddChild({Logic::Unequal,TokenId});
+        node = node->AddChild({Logic::And});
         node->AddChild({Logic::Equal,TokenId});
+        node->AddChild({Logic::Unequal,TokenId});
+        root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
         break;
     }
     return *this;
@@ -101,22 +95,18 @@ GrammarExpression& GrammarExpression::Any(std::initializer_list<RF_Type::UInt16>
 {
     decltype(Logic)::NodeType* node = nullptr;
     auto& root = Logic.GetRootElement();
-    if(root.Childs() > 0)
-    {
-        root.AddChild({Logic::And});
-    }
 
     if(list.size() > 0)
     {
         switch(Quantity)
         {
         case Quantifier::Once:// return (C[0]||...||C[n-1]);
-            node = root.AddChild({Logic::Return});
-            node = node->AddChild({Logic::Or});
+            node = root.AddChild({Logic::Assign,0})->AddChild({Logic::Or});
             for(auto i : list)
             {
                 node->AddChild({Logic::CallRule,i});
             }
+            root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
             break;
         case Quantifier::OneOrMore:// 
             break;
@@ -127,12 +117,19 @@ GrammarExpression& GrammarExpression::Any(std::initializer_list<RF_Type::UInt16>
             {
                 node->AddChild({Logic::CallRule, i});
             }
-            root.AddChild({Logic::Return})->AddChild({Logic::Value,1});
             break;
         case Quantifier::ZeroOrOnce:// return (C[0]||...||C[n-1]) && (C[0]||...||C[n-1]);
-            node = root.AddChild({Logic::Return});
+//             node = root.AddChild({Logic::Assign,0})->AddChild({Logic::Or});
+//             node->AddChild({Logic::Unequal,TokenId});
+//             node = node->AddChild({Logic::And});
+//             node->AddChild({Logic::Equal,TokenId});
+//             node->AddChild({Logic::Unequal,TokenId});
+//             root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
+
+            node = root.AddChild({Logic::ReturnIfZero});
+            node = node->AddChild({Logic::Condition});
             node = node->AddChild({Logic::And});
-            node = node->AddChild({Logic::Or});
+            node->AddChild({Logic::Or});
             for(auto i : list)
             {
                 node->AddChild({Logic::CallRule,i});
@@ -154,18 +151,14 @@ GrammarExpression& GrammarExpression::Any(const RF_Type::String& Text,
 {
     decltype(Logic)::NodeType* node = nullptr;
     auto& root = Logic.GetRootElement();
-    if(root.Childs() > 0)
-    {
-        root.AddChild({Logic::And});
-    }
 
     if(Text.Length() > 0)
     {
         switch(Quantity)
         {
         case Quantifier::Once:
-            node = root.AddChild({Logic::Return});
-            node = node->AddChild({Logic::Or});
+            node = root.AddChild({Logic::ReturnIfZero});
+            node = node->AddChild({Logic::Condition})->AddChild({Logic::Or});
             for(RF_Type::Size i = 0; i < Text.Length(); ++i)
             {
                 node->AddChild({Logic::Equal, Text[i]});
@@ -183,7 +176,7 @@ GrammarExpression& GrammarExpression::Any(const RF_Type::String& Text,
             }
             node = node->Parent()->Parent();
             node->AddChild({Logic::Assign,0})->AddChild({Logic::Value, 1});
-            root.AddChild({Logic::Return})->AddChild({Logic::Variable, 0});
+            root.AddChild({Logic::ReturnIfZero})->AddChild({Logic::Variable, 0});
             break;
         case Quantifier::ZeroOrOnce:
             break;

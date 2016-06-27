@@ -50,14 +50,26 @@ public:
     Size reserveBytesForNoPODStack;
 
     StackAllocatorTest()
-        :TestSuite("RadonFramework::Memory::StackAllocator")
+    :TestSuite("RadonFramework::Memory::StackAllocator"_rfs)
     {
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocation), "StackAllocatorTest::DoCPlusPlusAllocation", "Allocate int with c++ new/delete 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocation),"StackAllocatorTest::DoStackAllocation","Allocate int from StackAllocator 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationPOD),"StackAllocatorTest::DoCPlusPlusAllocationPOD","Allocate POD struct with c++ new/delete 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationPOD),"StackAllocatorTest::DoStackAllocationPOD","Allocate POD struct from StackAllocator 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationNoPOD),"StackAllocatorTest::DoCPlusPlusAllocationNoPOD","Allocate a class with c++ new/delete 10000000x");
-        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationNoPOD),"StackAllocatorTest::DoStackAllocationNoPOD","Allocate a class from StackAllocator 10000000x");
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocation), 
+            "StackAllocatorTest::DoCPlusPlusAllocation"_rfs, 
+            "Allocate int with c++ new/delete 10000000x"_rfs);
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocation),
+            "StackAllocatorTest::DoStackAllocation"_rfs,
+            "Allocate int from StackAllocator 10000000x"_rfs);
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationPOD),
+            "StackAllocatorTest::DoCPlusPlusAllocationPOD"_rfs,
+            "Allocate POD struct with c++ new/delete 10000000x"_rfs);
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationPOD),
+            "StackAllocatorTest::DoStackAllocationPOD"_rfs,
+            "Allocate POD struct from StackAllocator 10000000x"_rfs);
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoCPlusPlusAllocationNoPOD),
+            "StackAllocatorTest::DoCPlusPlusAllocationNoPOD"_rfs,
+            "Allocate a class with c++ new/delete 10000000x"_rfs);
+        AddTest(MakeDelegate(this,&StackAllocatorTest::DoStackAllocationNoPOD),
+            "StackAllocatorTest::DoStackAllocationNoPOD"_rfs,
+            "Allocate a class from StackAllocator 10000000x"_rfs);
     }
 
     void SetUp()

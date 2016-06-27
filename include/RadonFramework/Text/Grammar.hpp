@@ -25,6 +25,8 @@ public:
     RF_Type::Size GetFunctionSymbol(RF_Type::UInt32);
 
     void Print();
+
+    RF_Type::String ToString()const;
 protected:
     RF_Collect::Array<GrammarExpression> m_Expressions;
     RF_Collect::Tree<LogicElement> m_LogicTree;

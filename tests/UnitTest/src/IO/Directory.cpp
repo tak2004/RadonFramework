@@ -13,16 +13,16 @@ class DirectoryTest:public TestSuite
 {
 public:
     DirectoryTest()
-    :TestSuite("RadonFramework::IO::Directory-Test")
+    :TestSuite("RadonFramework::IO::Directory-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&DirectoryTest::CheckName),
-            "DirectoryTest::CheckName", "Check directory name");
+            "DirectoryTest::CheckName"_rfs, "Check directory name"_rfs);
     }
 
     RF_Type::Bool CheckName()
     {
-        Uri pathWithSeperator("file:///test/");
-        Uri pathWithoutSeperator("file:///test");
+        Uri pathWithSeperator("file:///test/"_rfs);
+        Uri pathWithoutSeperator("file:///test"_rfs);
         Directory dirWithoutSeperator;
         dirWithoutSeperator.SetLocation(pathWithoutSeperator);
         Directory dirWithSeperator;
@@ -32,8 +32,8 @@ public:
 
     RF_Type::Bool CheckPath()
     {
-        Uri pathWithSeperator("file:///test/");
-        Uri pathWithoutSeperator("file:///test");
+        Uri pathWithSeperator("file:///test/"_rfs);
+        Uri pathWithoutSeperator("file:///test"_rfs);
         Directory dirWithoutSeperator;
         dirWithoutSeperator.SetLocation(pathWithoutSeperator);
         Directory dirWithSeperator;

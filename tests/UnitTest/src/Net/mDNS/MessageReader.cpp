@@ -8,10 +8,10 @@ class MessageReaderTest:public RF_Test::TestSuite
 {
 public:
     MessageReaderTest()
-    :TestSuite("RadonFramework::Net::mDNS::MessageReader-Test")
+    :TestSuite("RadonFramework::Net::mDNS::MessageReader-Test"_rfs)
     {
         AddTest(MakeDelegate(this,&MessageReaderTest::CreateTempFile),
-            "MessageReaderTest::CreateTempFile", "CreateTempFile");
+            "MessageReaderTest::CreateTempFile"_rfs, "CreateTempFile"_rfs);
     }
 
     RF_Type::Bool CreateTempFile()

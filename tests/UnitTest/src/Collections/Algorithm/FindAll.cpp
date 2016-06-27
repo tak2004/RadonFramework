@@ -27,11 +27,11 @@ class FindAllTest: public TestSuite
 {
 public:
     FindAllTest()
-    :TestSuite("RadonFramework::Collections::Algorithm::FindAll-Test")
+    :TestSuite("RadonFramework::Collections::Algorithm::FindAll-Test"_rfs)
     {
         AddTest(MakeDelegate(this, &FindAllTest::CustomCompareFunction),
-            "FindAllTest::CustomCompareFunction",
-            "Search on collection with custom compare function.");
+            "FindAllTest::CustomCompareFunction"_rfs,
+            "Search on collection with custom compare function."_rfs);
 
     }
 
