@@ -29,6 +29,7 @@ public:
     WindowService* GetService();
     RF_Type::Bool HasFocus()const;
     RF_Geo::Point2D<> GetCursorPosition()const;
+    virtual RF_Mem::AutoPointerArray<RF_Type::UInt8> CaptureClientRect() override;
 
     HWND GetHandle();
 

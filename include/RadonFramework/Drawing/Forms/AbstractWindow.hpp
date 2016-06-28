@@ -34,6 +34,7 @@ public:
     virtual void CloseButton(const RF_Type::Bool Show) = 0;
     virtual RF_Type::Bool HasFocus()const=0;
     virtual RF_Geo::Point2D<> GetCursorPosition()const=0;
+    virtual RF_Mem::AutoPointerArray<RF_Type::UInt8> CaptureClientRect()=0;
 
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;

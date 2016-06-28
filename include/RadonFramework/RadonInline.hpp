@@ -208,6 +208,7 @@
 #include <RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp>
 #include <RadonFramework/Math/Hash/IHashfunction.hpp>
 #include <RadonFramework/Math/Integer.hpp>
+#include <RadonFramework/Math/MathOfType.hpp>
 #include <RadonFramework/Math/Random.hpp>
 #endif
 

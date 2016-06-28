@@ -83,6 +83,8 @@ public:
 
     void Reset(AutoPointerArrayData<T> Data);
 
+    AutoPointerArray<T>& New(const RF_Type::Size ElementCount);
+
     AutoPointerArray Clone()const;
 
     template <typename T1>
@@ -107,20 +109,29 @@ public:
 
     void Swap(AutoPointerArray<T>& Other);
 
-    RF_Type::Size Copy(const void* Data, RF_Type::Size Bytes, RF_Type::Size Offset = 0);
+    RF_Type::Size Copy(const void* From, RF_Type::Size Bytes, RF_Type::Size Offset = 0);
 private:
     T* m_Data;
-    RF_Type::Size m_Size;
+    RF_Type::Size m_Elements;
 };
 
 template <typename T>
+AutoPointerArray<T>& AutoPointerArray<T>::New(const RF_Type::Size ElementCount)
+{
+    Reset();
+    m_Data = new T[ElementCount];
+    m_Elements = ElementCount;
+    return *this;
+}
+
+template <typename T>
 RF_Type::Size AutoPointerArray<T>::Copy(
-    const void* Data, RF_Type::Size Bytes, RF_Type::Size Offset /*= 0*/)
+    const void* From, RF_Type::Size Bytes, RF_Type::Size Offset /*= 0*/)
 {
     RF_Type::Size result = 0;
-    if(Offset + Bytes <= m_Size)
+    if(Offset + Bytes <= m_Elements)
     {
-        RF_SysMem::Copy(m_Data + Offset, Data, Bytes);
+        RF_SysMem::Copy(m_Data + Offset, From, Bytes);
         result = Bytes;
     }
     return result;
@@ -129,14 +140,14 @@ RF_Type::Size AutoPointerArray<T>::Copy(
 template <typename T>
 RF_Type::Bool AutoPointerArray<T>::IsEmpty() const
 {
-    return m_Data == 0 || m_Size == 0;
+    return m_Data == 0 || m_Elements == 0;
 }
 
 template <typename T>
-RadonFramework::Memory::AutoPointerArray<T>::AutoPointerArray(RF_Type::Size Count)
+AutoPointerArray<T>::AutoPointerArray(RF_Type::Size Count)
 {
     m_Data = new T[Count];
-    m_Size = Count;
+    m_Elements = Count;
 }
 
 template<typename T>
@@ -148,7 +159,7 @@ AutoPointerArrayReference<T>::AutoPointerArrayReference(AutoPointerArrayData<T> 
 template<typename T>
 AutoPointerArray<T>::AutoPointerArray()
 :m_Data(0)
-,m_Size(0)
+,m_Elements(0)
 {
 
 }
@@ -156,7 +167,7 @@ AutoPointerArray<T>::AutoPointerArray()
 template<typename T>
 AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RF_Type::Size Count)
 {
-    m_Size=Count;
+    m_Elements=Count;
     m_Data=Ptr;
 }
 
@@ -170,9 +181,9 @@ template<typename T>
 AutoPointerArray<T>::AutoPointerArray(AutoPointerArray<T>&& Move)
 {
     m_Data = Move.m_Data;
-    m_Size = Move.m_Size;
+    m_Elements = Move.m_Elements;
     Move.m_Data = 0;
-    Move.m_Size = 0;
+    Move.m_Elements = 0;
 }
 
 template<typename T>
@@ -180,14 +191,14 @@ template <typename T1>
 AutoPointerArray<T>::AutoPointerArray(AutoPointerArray<T1>& Ref)
 {
     AutoPointerArrayData<T1> data=Ref.Release();
-    m_Size=data.Count;
+    m_Elements=data.Count;
     m_Data=data.Ptr;
 }
 
 template<typename T>
 AutoPointerArray<T>::AutoPointerArray(AutoPointerArrayReference<ElementType> Ref)
 :m_Data(Ref.m_Data.Ptr)
-,m_Size(Ref.m_Data.Count)
+,m_Elements(Ref.m_Data.Count)
 {
 }
 
@@ -196,7 +207,7 @@ AutoPointerArray<T>::~AutoPointerArray()
 {
     delete[] m_Data;
     m_Data=0;
-    m_Size=0;
+    m_Elements=0;
 }
 
 template<typename T>
@@ -205,7 +216,7 @@ typename AutoPointerArray<T>::EnumeratorType AutoPointerArray<T>::GetEnumerator(
     EnumeratorType result;
     result.m_Start = m_Data;
     result.m_Current = m_Data;
-    result.m_Elements = m_Size;
+    result.m_Elements = m_Elements;
     return result;
 }
 
@@ -215,7 +226,7 @@ typename AutoPointerArray<T>::ConstEnumeratorType AutoPointerArray<T>::GetConstE
     ConstEnumeratorType result;
     result.m_Start = m_Data;
     result.m_Current = m_Data;
-    result.m_Elements = m_Size;
+    result.m_Elements = m_Elements;
     return result;
 }
 
@@ -228,13 +239,13 @@ T* AutoPointerArray<T>::Get()const
 template<typename T>
 RF_Type::Size AutoPointerArray<T>::Count()const
 {
-    return m_Size;
+    return m_Elements;
 }
 
 template<typename T>
 RF_Type::Size AutoPointerArray<T>::Size()const
 {
-    return m_Size*sizeof(T);
+    return m_Elements*sizeof(T);
 }
 
 template<typename T>
@@ -250,8 +261,8 @@ AutoPointerArray<T>& AutoPointerArray<T>::operator=(AutoPointerArray<T>&& Move)
     Reset();
     m_Data = Move.m_Data;
     Move.m_Data = 0;
-    m_Size = Move.m_Size;
-    Move.m_Size = 0;
+    m_Elements = Move.m_Elements;
+    Move.m_Elements = 0;
     return *this;
 }
 
@@ -271,7 +282,7 @@ AutoPointerArray<T>& AutoPointerArray<T>::operator=(const AutoPointerArrayRefere
     {
         delete[] m_Data;
         m_Data=Ref.m_Data.Ptr;
-        m_Size=Ref.m_Data.Count;
+        m_Elements=Ref.m_Data.Count;
     }
     return *this;
 }
@@ -281,9 +292,9 @@ AutoPointerArrayData<T> AutoPointerArray<T>::Release()
 {
     AutoPointerArrayData<T> arr;
     arr.Ptr=m_Data;
-    arr.Count=m_Size;
+    arr.Count=m_Elements;
     m_Data=0;
-    m_Size=0;
+    m_Elements=0;
     return arr;
 }
 
@@ -292,7 +303,7 @@ void AutoPointerArray<T>::Reset()
 {
     delete[] m_Data;
     m_Data=0;
-    m_Size=0;
+    m_Elements=0;
 }
 
 template<typename T>
@@ -302,7 +313,7 @@ void AutoPointerArray<T>::Reset(AutoPointerArrayData<T> Data)
     {
         delete[] m_Data;
         m_Data=Data.Ptr;
-        m_Size=Data.Count;
+        m_Elements=Data.Count;
     }
 }
 
@@ -310,11 +321,11 @@ template<typename T>
 AutoPointerArray<T> AutoPointerArray<T>::Clone()const
 {
     AutoPointerArray arr;
-    if(m_Size > 0)
+    if(m_Elements > 0)
     {
-        arr.m_Data = new ElementType[m_Size];
-        arr.m_Size = m_Size;
-        RF_SysMem::Copy(arr.m_Data, m_Data, m_Size*sizeof(T));
+        arr.m_Data = new ElementType[m_Elements];
+        arr.m_Elements = m_Elements;
+        RF_SysMem::Copy(arr.m_Data, m_Data, m_Elements*sizeof(T));
     }
     return arr;
 }
@@ -338,14 +349,14 @@ AutoPointerArray<T>::operator AutoPointerArray<T1>()
 template<typename T>
 T& AutoPointerArray<T>::operator [](const RF_Type::Size Index)
 {
-    Assert(Index<m_Size, "Out of bound.");
+    Assert(Index<m_Elements, "Out of bound.");
     return m_Data[Index];
 }
 
 template<typename T>
 const T& AutoPointerArray<T>::operator [](const RF_Type::Size Index)const
 {
-    Assert(Index<m_Size, "Out of bound.");
+    Assert(Index<m_Elements, "Out of bound.");
     return m_Data[Index];
 }
 
@@ -355,9 +366,9 @@ void AutoPointerArray<T>::Swap(AutoPointerArray<T>& Other)
     T* p=m_Data;
     m_Data=Other.m_Data;
     Other.m_Data=p;
-    RF_Type::Size s = m_Size;
-    m_Size=Other.m_Size;
-    Other.m_Size=s;
+    RF_Type::Size s = m_Elements;
+    m_Elements=Other.m_Elements;
+    Other.m_Elements =s;
 }
 
 template<typename T>

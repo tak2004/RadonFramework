@@ -2,8 +2,8 @@
 #define RF_MATH_GEOMETRY_MATRIX4X4_INL
 
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
-#include <RadonFramework/Framework/Frame......work/lude <>
-.namespace RadonFramework { namespace Math { namespace Geometry {
+#include <RadonFramework/Math/MathOfType.hpp>
+namespace RadonFramework { namespace Math { namespace Geometry {
 
 template <typename T>
 class Matrix<T,4,4>
@@ -221,12 +221,12 @@ template<typename T>
 Matrix<T,4,4>& Matrix<T,4,4>::Rotate(const T w, const T x, const T y, const T z)
 {
     Matrix m;
-    T rad = RF_Math::Math<T>::DegToRad(w);
-    T c = RF_Maththrad);
+    T rad = RF_Math::MathOfType<T>::DegToRad(w);
+    T c = RF_Math::MathOfType<T>::Cos(rad);
     T ic = 1.0f - c;
-    T s = RF_Mathrad);
+    T s = RF_Math::MathOfType<T>::Sin(rad);
     Vector<T, 4> v(x, y, z, 0.0);
-    T mag = RF_Math((v*v).Sum());
+    T mag = RF_Math::MathOfType<T>::Sqrt((v*v).Sum());
 
     if (mag <= 1.0e-4)
         return *this;
@@ -371,7 +371,7 @@ Matrix<T,4,4> Matrix<T,4,4>::Inverse()const
 template<typename T>
 RF_Type::Bool Matrix<T,4,4>::operator==(const Matrix<T,4,4>& Other)const
 {
-    return RF_Math::MathOfType>::IsAlmostEqual(Value, Other.Value, 16);
+    return RF_Math::MathOfType<T>::IsAlmostEqual(Value, Other.Value, 16);
 }
 
 template<typename T>
@@ -380,10 +380,10 @@ RF_Type::Bool Matrix<T,4,4>::operator!=(const Matrix<T,4,4>& Other)const
     return !(*this == Other);
 }
 
-typedef Matrix<RF_Type::Float32, 4, 4> Mat4f;
-typedef Matrix<RF_Type::Float64, 4, 4> Mat4d;
-typedef Matrix<RF_Type::Float32, 4, 4> Matrix4f;
-typedef Matrix<RF_Type::Float64, 4, 4> Matrix4d;
+using Mat4f = Matrix<RF_Type::Float32, 4, 4>;
+using Mat4d = Matrix<RF_Type::Float64, 4, 4>;
+using Matrix4f = Matrix<RF_Type::Float32, 4, 4>;
+using Matrix4d = Matrix<RF_Type::Float64, 4, 4>;
 
 } } }
 
