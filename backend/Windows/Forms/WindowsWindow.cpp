@@ -589,3 +589,45 @@ RF_Geo::Point2D<> WindowsWindow::GetCursorPosition() const
     
     return result;
 }
+
+RF_Mem::AutoPointerArray<RF_Type::UInt8> WindowsWindow::CaptureClientRect()
+{
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> result;
+    HDC hdc = GetDC(NULL); // get the desktop device context
+    HDC hDest = CreateCompatibleDC(hdc); // create a device context to use yourself
+    // get the height and width of the screen
+    int height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+    int width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+    // create a bitmap
+    HBITMAP hbDesktop = CreateCompatibleBitmap(hdc, width, height);
+    // use the previously created device context with the bitmap
+    SelectObject(hDest, hbDesktop);
+    // copy from the desktop device context to the bitmap device context
+    // call this once per 'frame'
+    BitBlt(hDest, 0, 0, width, height, hdc, 0, 0, SRCCOPY);
+    // release the desktop context you got..
+    ReleaseDC(NULL, hdc);
+    // ..and delete the context you created
+    DeleteDC(hDest);
+    // Retrieve the bitmap color format, width, and height.  
+    BITMAP bmp;
+    if(GetObject(hbDesktop, sizeof(BITMAP), (LPSTR)&bmp))
+    {
+        // Convert the color format to a count of bits.  
+        WORD cClrBits = (WORD)(bmp.bmPlanes * bmp.bmBitsPixel);
+        if(cClrBits == 1)
+            cClrBits = 1;
+        else if(cClrBits <= 4)
+            cClrBits = 4;
+        else if(cClrBits <= 8)
+            cClrBits = 8;
+        else if(cClrBits <= 16)
+            cClrBits = 16;
+        else if(cClrBits <= 24)
+            cClrBits = 24;
+        else cClrBits = 32;
+
+        result.New(bmp.bmWidthBytes*bmp.bmHeight).Copy(bmp.bmBits, bmp.bmWidthBytes*bmp.bmHeight);
+    }
+    return result;
+}
