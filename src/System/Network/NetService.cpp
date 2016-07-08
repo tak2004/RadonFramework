@@ -536,6 +536,7 @@ Error BindIPv4(const NetService::SocketHandler Handler, EndPoint &LocalEP)
         {
             IPAddress publicIP(addrIn.sin_addr.s_addr);
             LocalEP.Address(publicIP);
+            LocalEP.Port(ntohs(addrIn.sin_port));
         }
     }
     else

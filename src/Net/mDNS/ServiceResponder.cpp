@@ -58,10 +58,12 @@ void ServiceResponder::SendServiceInfo()
     writer.Finalize();
     this->GetSocket()->SendTo(writer.Data(), writer.DataSize(), destination, sendBytes);
 
+    auto hostname = RF_SysNet::NetService::GetHostname() + ".local"_rfs;
     writer.Reset();
     writer.WriteQueryHeader(0, 1<<15);
-    writer.WriteAnswerServerSelection(m_Service.Name, m_Service.IPAddress.ToString(),
+    writer.WriteAnswerServerSelection(m_Service.Name, hostname,
         m_Service.Port);
+
     writer.Finalize();
     this->GetSocket()->SendTo(writer.Data(), writer.DataSize(), destination, sendBytes);
 }
