@@ -153,7 +153,7 @@ void Swap_Std(void* P1, void* P2, Size Bytes)
     }
 }
 
-RF_Type::Size Fill_Std(void* Pointer, void* PatternData,
+RF_Type::Size Fill_Std(void* Pointer, const void* PatternData,
                        RF_Type::Size PatternSize, RF_Type::Size BufferSize)
 {
     void* cursor = Pointer;

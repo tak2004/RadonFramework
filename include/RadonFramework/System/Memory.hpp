@@ -51,7 +51,7 @@ using SetCallback = void(*)(void* Pointer, RF_Type::Int32 Value,
 
 using SwapCallback = void(*)(void* P1, void* P2, RF_Type::Size Bytes);
 
-using FillCallback = RF_Type::Size(*)(void* Pointer, void* PatternData,
+using FillCallback = RF_Type::Size(*)(void* Pointer, const void* PatternData,
                                       RF_Type::Size PatternSize, RF_Type::Size BufferSize);
 
 extern GetPageSizeCallback GetPageSize;

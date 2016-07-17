@@ -1,7 +1,8 @@
-rcf_addlocation(XXHASH "git" "https://github.com/Cyan4973/xxHash.git")
-
-rcf_obtain_project(XXHASH outdir "86011828f0fc77ad4d83ecfb1df88a91ebc37083")
-add_subdirectory("${outdir}/cmake_unofficial/" "${outdir}")
+if(RADONFRAMEWORK_EXPERIMENTAL_HASH)
+    rcf_addlocation(XXHASH "git" "https://github.com/Cyan4973/xxHash.git")
+    rcf_obtain_project(XXHASH outdir "86011828f0fc77ad4d83ecfb1df88a91ebc37083")
+    add_subdirectory("${outdir}/cmake_unofficial/" ${outdir})
+endif()
 
 if(RADONFRAMEWORK_EXPERIMENTAL_JIT)
     rcf_addlocation(ASMJIT "git" "https://github.com/kobalicek/asmjit.git")

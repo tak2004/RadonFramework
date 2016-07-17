@@ -86,10 +86,10 @@ void Swap_CPUDispatcher(void* P1, void* P2, Size Bytes)
     Swap(P1, P2, Bytes);
 }
 
-extern RF_Type::Size Fill_Std(void* Pointer, void* PatternData,
+extern RF_Type::Size Fill_Std(void* Pointer, const void* PatternData,
                               RF_Type::Size PatternSize, RF_Type::Size BufferSize);
 // Theres no SIMD implementation yet.
-RF_Type::Size Fill_CPUDispatcher(void* Pointer, void* PatternData,
+RF_Type::Size Fill_CPUDispatcher(void* Pointer, const void* PatternData,
                                  RF_Type::Size PatternSize, RF_Type::Size BufferSize)
 {
     RF_SysMem::Fill = Fill_Std;
