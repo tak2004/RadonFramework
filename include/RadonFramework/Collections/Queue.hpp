@@ -4,19 +4,18 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <RadonFramework/Collections/Array.hpp>
-#include <RadonFramework/Collections/IEnumerator.hpp>
-#include <RadonFramework/Collections/IEnumerable.hpp>
-#include <RadonFramework/Collections/LinkedEnumerator.hpp>
-
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
 #include <RadonFramework/Core/Types/AtomicPointer.hpp>
+#include <RadonFramework/System/Hardware/Hardware.hpp>
 
 namespace RadonFramework { namespace Collections {
 /** @brief This class is can grow and shrink.
 *
 * The Queue class supports the first-in-first-out(FIFO)
 * model for adding and removing elements.
+* It's implemented as multiple producer(MP) and multiple consumer(MC) container.
+* If you have single producer(SP)-MC, MP-single consumer(SC) or 
+* SP-CS then look for the specialized implementation.
 */
             
 template <typename T, 
@@ -26,7 +25,6 @@ class Queue
 {
 public:
     Queue();
-    ~Queue();
     Queue(const Queue& Copy) = delete;
     Queue& operator = (const Queue& Other) = delete;
 
@@ -45,79 +43,131 @@ public:
     void Enqueue(T& Item);
 
     RF_Type::Bool IsEmpty()const;
-protected:
-    struct Node
+private:
+    struct LPInfo
     {
-        Node* m_Next;
-        T m_Value;
+        RF_Type::AtomicInt32 Head;
+        RF_Type::AtomicInt32 Tail;
     };
-
-    RF_Type::AtomicPointer<Node> m_Head;
-    RF_Type::AtomicPointer<Node> m_Tail;
+    RF_Type::AtomicInt32 m_Head;
+    RF_Type::AtomicInt32 m_Tail;
+    RF_Type::AtomicInt32 m_LastHead;
+    RF_Type::AtomicInt32 m_LastTail;
+    // Used as ring buffer.
+    RF_Mem::AutoPointerArray<T> m_Array;
+    // An information set per logical processor.
+    RF_Mem::AutoPointerArray<LPInfo> m_LPInfos;
 };
             
 template<typename T, typename MA, typename MO>
 Queue<T,MA,MO>::Queue()
 :m_Tail(0)
 ,m_Head(0)
+,m_LastHead(0)
+,m_LastTail(0)
 {
-}
-
-template<typename T, typename MA, typename MO>
-Queue<T,MA,MO>::~Queue()
-{
-    Clear();
+    auto lpcount = RF_SysHardware::GetAvailableLogicalProcessorCount();
+    m_LPInfos = RF_Mem::AutoPointerArray<LPInfo>(lpcount);
+    RF_SysMem::Fill(m_LPInfos.Get(), &RF_Type::Int32Max, sizeof(RF_Type::Int32),
+        m_LPInfos.Size());
+    m_Array = RF_Mem::AutoPointerArray<T>(8);
 }
 
 template<typename T, typename MA, typename MO>
 void Queue<T,MA,MO>::Enqueue(const T& Item)
 {
-    Node* node;
-    node=MA::template New<Node>();
-    node->m_Next=0;
-    node->m_Value=Item;
-    
-    // replace tail pointer and get previous pointer
-    Node* old = m_Tail.FetchAndExchange(node);
-    // replace head with current pointer if it is 0 else there was already a value
-    // which m_Next pointer have to point to our new node
-    if(m_Head.CompareAndExchange(0, node) != 0)
-        old->m_Next = node;
+    auto lpId = RF_SysHardware::GetCurrentUniqueProcessorNumber();
+    m_LPInfos[lpId].Head = m_Head;
+    m_LPInfos[lpId].Head = m_Head.FetchAndAdd(1);
+
+    while(m_LPInfos[lpId].Head >= m_LastTail + m_Array.Count())
+    {
+        RF_Type::Int32 min = m_Tail;
+        for (RF_Type::Size i = 0; i < m_LPInfos.Count(); ++i)
+        {
+            volatile RF_Type::Int32 tmp = m_LPInfos[i].Tail;
+            if(tmp < min)
+            {
+                min = tmp;
+            }
+        }
+        m_LastTail = min;
+
+        if(m_LPInfos[lpId].Head < m_LastTail + m_Array.Count())
+        {
+            break;
+        }
+    }
+    m_Array[m_LPInfos[lpId].Head & (m_Array.Count() - 1)] = Item;
+    m_LPInfos[lpId].Head = RF_Type::Int32Max;
 }
 
 template<typename T, typename MA, typename MO>
 void Queue<T, MA, MO>::Enqueue(T& Item)
 {
-    Node* node;
-    node = MA::template New<Node>();
-    node->m_Next = 0;
-    node->m_Value = Item;
+    auto lpId = RF_SysHardware::GetCurrentUniqueProcessorNumber();
+    m_LPInfos[lpId].Head = m_Head;
+    m_LPInfos[lpId].Head = m_Head.FetchAndAdd(1);
 
-    // replace tail pointer and get previous pointer
-    Node* old = m_Tail.FetchAndExchange(node);
-    // replace head with current pointer if it is 0 else there was already a value
-    // which m_Next pointer have to point to our new node
-    if(m_Head.CompareAndExchange(0, node) != 0)
-        old->m_Next = node;
+    while(m_LPInfos[lpId].Head >= m_LastTail + m_Array.Count())
+    {
+        RF_Type::Int32 min = m_Tail;
+        for(RF_Type::Size i = 0; i < m_LPInfos.Count(); ++i)
+        {
+            volatile RF_Type::Int32 tmp = m_LPInfos[i].Tail;
+            if(tmp < min)
+            {
+                min = tmp;
+            }
+        }
+        m_LastTail = min;
+
+        if(m_LPInfos[lpId].Head < m_LastTail + m_Array.Count())
+        {
+            break;
+        }
+    }
+    m_Array[m_LPInfos[lpId].Head & (m_Array.Count() - 1)] = Item;
+    m_LPInfos[lpId].Head = RF_Type::Int32Max;
 }
 
 template<typename T, typename MA, typename MO>
 RF_Type::Bool Queue<T,MA,MO>::Dequeue(T& Item)
 {
     RF_Type::Bool result=false;
-    Node* parameter = 0;
-    // take head pointer and replace it temporary by 0 
-    parameter = m_Head.FetchAndExchange(0);
-    if(parameter)
+    auto lpId = RF_SysHardware::GetCurrentUniqueProcessorNumber();
+
+    m_LPInfos[lpId].Tail = m_Tail;
+    m_LPInfos[lpId].Tail = m_Tail.FetchAndAdd(1);
+
+    if (m_LPInfos[lpId].Tail < m_Head)
     {
-        // replace tail with 0 if head and tail are the same
-        m_Tail.CompareAndExchange(parameter, 0);
-        //if the result is a valid Node then replace the head
-        m_Head = parameter->m_Next;
-        Item = parameter->m_Value;
-        delete parameter;
+        while(m_LPInfos[lpId].Tail >= m_LastHead)
+        {
+            RF_Type::Int32 min = m_Head;
+            for(RF_Type::Size i = 0; i < m_LPInfos.Count(); ++i)
+            {
+                volatile RF_Type::Int32 tmp = m_LPInfos[lpId].Head;
+                if(tmp < min)
+                {
+                    min = tmp;
+                }
+            }
+            m_LastHead = min;
+
+            if(m_LPInfos[lpId].Tail < m_LastHead)
+            {
+                break;
+            }
+        }
+        Item = m_Array[m_LPInfos[lpId].Tail & (m_Array.Count() - 1)];
         result = true;
     }
+    else
+    {
+        m_Tail.Decrement();
+    }
+    m_LPInfos[lpId].Tail = RF_Type::Int32Max;
     return result;
 }
 
@@ -125,18 +175,33 @@ template<typename T, typename MA, typename MO>
 RF_Type::Bool Queue<T, MA, MO>::Dequeue()
 {
     RF_Type::Bool result = false;
-    Node* node = 0;
-    // take head pointer and replace it temporary by 0 
-    node = m_Head.FetchAndExchange(0);
-    if(node)
+    auto lpId = RF_SysHardware::GetCurrentUniqueProcessorNumber();
+    m_LPInfos[lpId].Tail = m_Tail;
+    m_LPInfos[lpId].Tail = m_Tail.FetchAndAdd(1);
+
+    if(m_LPInfos[lpId].Tail < m_Head)
     {
-        // replace tail with 0 if head and tail are the same
-        m_Tail.CompareAndExchange(node, 0);
-        //if the result is a valid Node then replace the head
-        m_Head = node->m_Next;
-        delete node;        
+        while(m_LPInfos[lpId].Tail >= m_LastHead)
+        {
+            RF_Type::Int32 min = m_Head;
+            for(RF_Type::Size i = 0; i < m_LPInfos.Count(); ++i)
+            {
+                volatile RF_Type::Int32 tmp = m_LPInfos[lpId].Head;
+                if(tmp < min)
+                {
+                    min = tmp;
+                }
+            }
+            m_LastHead = min;
+
+            if(m_LPInfos[lpId].Tail < m_LastHead)
+            {
+                break;
+            }
+        }
         result = true;
     }
+    m_LPInfos[lpId].Tail = RF_Type::Int32Max;
     return result;
 }
 
@@ -149,7 +214,7 @@ void Queue<T,MA,MO>::Clear()
 template<typename T, typename MA, typename MO>
 RF_Type::Bool Queue<T, MA, MO>::IsEmpty()const
 {
-    return m_Head == 0;
+    return m_Head == m_Tail;
 }
 
 } }

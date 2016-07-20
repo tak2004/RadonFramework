@@ -37,7 +37,7 @@ Int32 AtomicInt32::FetchAndExchange(Int32 Value)
 
 Int32 AtomicInt32::CompareAndExchange(Int32 Compare, Int32 Value)
 {
-    return Interlocked::InterlockedCompareExchange32(&m_Data,Compare,Value);
+    return Interlocked::InterlockedCompareExchange32(&m_Data, Value, Compare);
 }
 
 Int32 AtomicInt32::Add(Int32 Value)

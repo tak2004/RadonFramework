@@ -22,4 +22,9 @@ extern const MemoryRange MemoryRangeMax;
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_TYPE
+#define RF_SHORTHAND_NAMESPACE_TYPE
+namespace RF_Type = RadonFramework::Core::Types;
+#endif
+
 #endif // RF_CORE_TYPES_MEMORYRANGE_HPP

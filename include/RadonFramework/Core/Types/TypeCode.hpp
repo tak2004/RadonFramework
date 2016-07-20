@@ -39,4 +39,9 @@ namespace TypeCode
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_TYPE
+#define RF_SHORTHAND_NAMESPACE_TYPE
+namespace RF_Type = RadonFramework::Core::Types;
+#endif
+
 #endif // RF_CORE_TYPES_TYPECODE_HPP

@@ -27,4 +27,9 @@ extern const UInt64 UInt64Max;
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_TYPE
+#define RF_SHORTHAND_NAMESPACE_TYPE
+namespace RF_Type = RadonFramework::Core::Types;
+#endif
+
 #endif // RF_CORE_TYPES_UINT64_HPP

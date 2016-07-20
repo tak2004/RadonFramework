@@ -35,4 +35,9 @@ extern const UInt32 Vec64UInt32Max;
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_TYPE
+#define RF_SHORTHAND_NAMESPACE_TYPE
+namespace RF_Type = RadonFramework::Core::Types;
+#endif
+
 #endif // RF_CORE_TYPES_VEC64UINT_HPP

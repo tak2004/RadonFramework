@@ -28,13 +28,16 @@
 #include <RadonFramework/Core/Types/Float32.hpp>
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/AtomicInt32.hpp>
 // 8 byte size
 #include <RadonFramework/Core/Types/Float64.hpp>
 #include <RadonFramework/Core/Types/Int64.hpp>
 #include <RadonFramework/Core/Types/UInt64.hpp>
+#include <RadonFramework/Core/Types/AtomicInt64.hpp>
 
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
+#include <RadonFramework/Core/Types/AtomicPointer.hpp>
 
 // Information about types
 #include <RadonFramework/Core/Types/TypeCode.hpp>

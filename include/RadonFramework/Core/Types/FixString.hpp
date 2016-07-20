@@ -61,4 +61,9 @@ void FixString<LENGTH>::SetSize(const UInt8 NewSize)
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_TYPE
+#define RF_SHORTHAND_NAMESPACE_TYPE
+namespace RF_Type = RadonFramework::Core::Types;
+#endif
+
 #endif

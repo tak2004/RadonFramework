@@ -8,15 +8,18 @@
 
 namespace RadonFramework { namespace Memory {
 
+/** Push can be called from multiple threads at the same time but all other
+ methods are not synchronized. This mean you have to call only one at the time.
+**/
 class StackAllocator
 {
 public:
     StackAllocator(RF_Type::Size ReservedMemorySize);
-    void Clear();
+    void Clear();    
     void* Push(RF_Type::Size MemorySize);
     void Pop();
-    void* Peek()const;
-    RF_Type::Size PeekSize()const;
+    void* Peek();
+    RF_Type::Size PeekSize();
 
     void ZeroPopedMemory(RF_Type::Bool choice);
     void ZeroFreedMemory(RF_Type::Bool choice);
@@ -24,11 +27,14 @@ public:
     RF_Type::Bool ZeroPopedMemory()const;
 protected:
     Memory::AutoPointerArray<RF_Type::UInt8> m_ReservedMemory;
-    RF_Type::Size m_AllocatedMemorySize;
+    RF_Type::AtomicInt64 m_AllocatedMemorySize;
+    RF_Type::AtomicInt32 m_PushesInProgress;
     RF_Type::Bool m_ZeroFreedMemory;
     RF_Type::Bool m_ZeroPopedMemory;
 
     RF_Type::Size* GetSize()const;
+    void Lock();
+    void Unlock();
 };
 
 inline RF_Type::Bool StackAllocator::ZeroFreedMemory()const

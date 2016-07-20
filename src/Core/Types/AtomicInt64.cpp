@@ -38,7 +38,7 @@ Int64 AtomicInt64::FetchAndExchange(Int64 Value)
 
 Int64 AtomicInt64::CompareAndExchange(Int64 Compare, Int64 Value)
 {
-    return Interlocked::InterlockedCompareExchange64(&m_Data,Compare,Value);
+    return Interlocked::InterlockedCompareExchange64(&m_Data, Value, Compare);
 }
 
 Int64 AtomicInt64::Add(Int64 Value)
