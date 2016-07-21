@@ -29,23 +29,17 @@ public:
     using FreeCallback = void(*)(void* Data);
     static void DefaultFree(void* Data);
 
-    void GetMaxThreads(RF_Type::UInt32& WorkerThreads,
-                       RF_Type::UInt32& CompletionPortThreads);
+    void GetMaxThreads(RF_Type::UInt32& WorkerThreads);
 
-    RF_Type::Bool SetMaxThreads(RF_Type::UInt32 WorkerThreads,
-                               RF_Type::UInt32 CompletionPortThreads);
+    RF_Type::Bool SetMaxThreads(RF_Type::UInt32 WorkerThreads);
 
-    void GetMinThreads(RF_Type::UInt32& WorkerThreads,
-                       RF_Type::UInt32& CompletionPortThreads);
+    void GetMinThreads(RF_Type::UInt32& WorkerThreads);
 
-    RF_Type::Bool SetMinThreads(RF_Type::UInt32 WorkerThreads,
-                               RF_Type::UInt32 CompletionPortThreads);
+    RF_Type::Bool SetMinThreads(RF_Type::UInt32 WorkerThreads);
 
-    void GetAvailableThreads(RF_Type::UInt32& WorkerThreads,
-                             RF_Type::UInt32& CompletionPortThreads);
+    void GetAvailableThreads(RF_Type::UInt32& WorkerThreads);
 
-    void GetThreadCount(RF_Type::UInt32& WorkerThreads,
-                        RF_Type::UInt32& CompletionPortThreads);
+    void GetThreadCount(RF_Type::UInt32& WorkerThreads);
 
     RF_Type::Bool QueueUserWorkItem(WaitCallback Callback,
         TaskStrategy::Type Strategy=TaskStrategy::Concurrent,

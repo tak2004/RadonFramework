@@ -65,8 +65,8 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
 
     if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue())
     {
-        RF_Type::UInt32 worker, cport;
-        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker, cport);
+        RF_Type::UInt32 worker;
+        RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().GetThreadCount(worker);
         RF_Type::UInt32 jobsPerWorker = 0;    
         RF_Type::AtomicInt32 overallWork(elements);
         RF_Type::UInt32 extra = 1;

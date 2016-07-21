@@ -25,6 +25,7 @@ class Queue
 {
 public:
     Queue();
+    Queue(const RF_Type::Size ReserveElements);
     Queue(const Queue& Copy) = delete;
     Queue& operator = (const Queue& Other) = delete;
 
@@ -58,9 +59,11 @@ private:
     // An information set per logical processor.
     RF_Mem::AutoPointerArray<LPInfo> m_LPInfos;
 };
-            
-template<typename T, typename MA, typename MO>
-Queue<T,MA,MO>::Queue()
+
+template <typename T,
+    typename MA/*=Core::Policies::CPPAllocator*/,
+    typename MO/*=Core::Policies::CMemoryOperation*/>
+    Queue<T, MA, MO>::Queue(const RF_Type::Size ReserveElements)
 :m_Tail(0)
 ,m_Head(0)
 ,m_LastHead(0)
@@ -70,7 +73,14 @@ Queue<T,MA,MO>::Queue()
     m_LPInfos = RF_Mem::AutoPointerArray<LPInfo>(lpcount);
     RF_SysMem::Fill(m_LPInfos.Get(), &RF_Type::Int32Max, sizeof(RF_Type::Int32),
         m_LPInfos.Size());
-    m_Array = RF_Mem::AutoPointerArray<T>(8);
+    m_Array = RF_Mem::AutoPointerArray<T>(ReserveElements);
+}
+
+
+template<typename T, typename MA, typename MO>
+Queue<T,MA,MO>::Queue()
+:Queue(RF_SysHardware::GetAvailableLogicalProcessorCount()*8)
+{
 }
 
 template<typename T, typename MA, typename MO>

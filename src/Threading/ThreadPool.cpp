@@ -43,9 +43,7 @@ class PImpl<T>::Data
 public:
     Data()
     :MaxWorkerThreads(1)
-    ,MaxCompletionPortThreads(0)
     ,MinWorkerThreads(0)
-    ,MinCompletionPortThreads(0)
     ,Latency(10000)
     ,IsQueingAllowed(true)
     ,Running(true)
@@ -72,9 +70,7 @@ public:
         IsQueingAllowed=false;
         Running = false;
         MaxWorkerThreads = 0;
-        MaxCompletionPortThreads = 0;
         MinWorkerThreads = 0;
-        MinCompletionPortThreads = 0;
 
         // signal all threads to cancel
         for (UInt32 i=0; i < WorkerThreads.Count(); ++i)
@@ -116,23 +112,6 @@ public:
             WorkerThreads.Resize(MaxWorkerThreads);
         }
 
-        // shrink completion ports
-        if (MaxCompletionPortThreads > CompletionPortThreads.Count())
-        {
-            // trigger exit routine in specified thread
-            for (Size i = MaxCompletionPortThreads - 1; i < CompletionPortThreads.Count(); ++i)
-            {
-                CompletionPortThreads(i)->Interrupt();
-            }
-            // wait till each triggered thread is no longer working
-            for (Size i = MaxCompletionPortThreads - 1; i < CompletionPortThreads.Count(); ++i)
-            {
-                CompletionPortThreads(i)->Join();
-            }
-
-            CompletionPortThreads.Resize(MaxCompletionPortThreads);
-        }
-
         // grow worker threads
         if (MinWorkerThreads > WorkerThreads.Count())
         {
@@ -145,28 +124,13 @@ public:
                 WorkerThreads(i)->Start();
             }
         }
-
-        // grow completion port
-        if (MinCompletionPortThreads > CompletionPortThreads.Count())
-        {/*
-            Size currentSize = CompletionPortThreads.Count();
-            CompletionPortThreads.Resize(MinCompletionPortThreads);
-            for (Size i = currentSize - 1; i < MinCompletionPortThreads; ++i)
-            {
-                CompletionPortThreads(i)=AutoPointer<PoolThread>(new PoolThread());
-                CompletionPortThreads(i)->Start();
-            }*/
-        }
     }
 
     Array<AutoPointer<PoolThread> > WorkerThreads;
-    Array<AutoPointer<Thread> > CompletionPortThreads;
     Queue<PoolTask> ConcurrentTaskList;
     AutoPointerArray<Queue<PoolTask> > SerialTaskLists;
     UInt32 MaxWorkerThreads;
-    UInt32 MaxCompletionPortThreads;
     UInt32 MinWorkerThreads;
-    UInt32 MinCompletionPortThreads;
     RF_Time::TimeValue Latency;
     AtomicInt32 WorkingThreads;
     Bool IsQueingAllowed;
@@ -188,48 +152,41 @@ RF_Type::UInt32 ThreadPool::GetBestThreadAmountByProcessorCoreAmount(RF_Type::UI
     return Math::Integer<UInt32>::Max(Amount, 1) << 1;
 }
 
-void ThreadPool::GetMaxThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
+void ThreadPool::GetMaxThreads(UInt32& WorkerThreads)
 {
     WorkerThreads = m_PImpl->MaxWorkerThreads;
-    CompletionPortThreads = m_PImpl->MaxCompletionPortThreads;
 }
 
-Bool ThreadPool::SetMaxThreads(UInt32 WorkerThreads, UInt32 CompletionPortThreads)
+Bool ThreadPool::SetMaxThreads(UInt32 WorkerThreads)
 {
-    if (m_PImpl->MinWorkerThreads <= WorkerThreads &&
-        m_PImpl->MinCompletionPortThreads <= CompletionPortThreads)
+    if (m_PImpl->MinWorkerThreads <= WorkerThreads)
     {
         m_PImpl->MaxWorkerThreads = WorkerThreads;
-        m_PImpl->MaxCompletionPortThreads = CompletionPortThreads;
         m_PImpl->UpdatePoolSize();
         return true;
     }
     return false;
 }
 
-void ThreadPool::GetMinThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
+void ThreadPool::GetMinThreads(UInt32& WorkerThreads)
 {
     WorkerThreads = m_PImpl->MinWorkerThreads;
-    CompletionPortThreads = m_PImpl->MinCompletionPortThreads;
 }
 
-Bool ThreadPool::SetMinThreads(UInt32 WorkerThreads, UInt32 CompletionPortThreads)
+Bool ThreadPool::SetMinThreads(UInt32 WorkerThreads)
 {
-    if (m_PImpl->MaxWorkerThreads >= WorkerThreads &&
-        m_PImpl->MaxCompletionPortThreads >= CompletionPortThreads)
+    if (m_PImpl->MaxWorkerThreads >= WorkerThreads)
     {
         m_PImpl->MinWorkerThreads = WorkerThreads;
-        m_PImpl->MinCompletionPortThreads = CompletionPortThreads;
         m_PImpl->UpdatePoolSize();
         return true;
     }
     return false;
 }
 
-void ThreadPool::GetAvailableThreads(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
+void ThreadPool::GetAvailableThreads(UInt32& WorkerThreads)
 {
     WorkerThreads = m_PImpl->MaxWorkerThreads - m_PImpl->WorkerThreads.Count();
-    CompletionPortThreads = m_PImpl->MaxCompletionPortThreads - m_PImpl->CompletionPortThreads.Count();
 }
 
 Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, TaskStrategy::Type Strategy, 
@@ -308,10 +265,9 @@ void ThreadPool::WaitTillQueueIsEmpty()
     } while(!idle);
 }
 
-void ThreadPool::GetThreadCount(UInt32& WorkerThreads, UInt32& CompletionPortThreads)
+void ThreadPool::GetThreadCount(UInt32& WorkerThreads)
 {
     WorkerThreads = m_PImpl->WorkerThreads.Count();
-    CompletionPortThreads = m_PImpl->CompletionPortThreads.Count();
 }
 
 void ThreadPool::DefaultFree(void* Data)
