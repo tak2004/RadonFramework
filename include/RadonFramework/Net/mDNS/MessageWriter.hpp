@@ -7,6 +7,7 @@
 #include <RadonFramework/IO/MemoryStream.hpp>
 #include <RadonFramework/Net/NetworkStream.hpp>
 #include <RadonFramework/Net/mDNS/Message.hpp>
+#include <RadonFramework/Net/IPAddress.hpp>
 
 namespace RadonFramework { namespace Net { namespace mDNS {
 
@@ -26,11 +27,14 @@ public:
     void WriteAnswerServerSelection(const RF_Type::String& Name, 
         const RF_Type::String& Target,
         RF_Type::UInt16 Port,
-        RecordClass Class = RecordClass::Internet);
+        RecordClass Class = RecordClass::Internet,
+        RF_Type::Bool Flush = false);
 
     RF_Type::Size DataSize()const;
 
     const RF_Type::UInt8* Data()const;
+    void WriteAdditionalAnswer(const RF_Type::String& Name, const RF_Net::IPAddress& IP,
+        RecordClass Class = RecordClass::Internet, RF_Type::Bool Flush = false);
 protected:
     RF_Net::NetworkStream<RF_IO::MemoryStream> m_Data;
     Header m_Header;

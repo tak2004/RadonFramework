@@ -56,7 +56,7 @@ void MessageWriter::WriteQuestion(const RF_Type::String& Name, RecordType Type,
 
 void MessageWriter::WriteAnswerServerSelection(const RF_Type::String& Name, 
     const RF_Type::String& Target, RF_Type::UInt16 Port, 
-    RecordClass Class /*= RecordClass::Internet*/)
+    RecordClass Class /*= RecordClass::Internet*/, RF_Type::Bool Flush /*= false*/)
 {
     auto targets = Target.Split("."_rfs);
     auto names = Name.Split("."_rfs);
@@ -69,7 +69,12 @@ void MessageWriter::WriteAnswerServerSelection(const RF_Type::String& Name,
 
     RecordType type = RecordType::SRV;
     m_Data.WriteType(type);
-    m_Data.WriteType(Class);
+    RF_Type::UInt16 classAndFlag = static_cast<RF_Type::UInt16>(Class);
+    if(Flush)
+    {
+        classAndFlag |= 1 << 15;
+    }
+    m_Data.WriteType(classAndFlag);
 
     RF_Type::UInt32 ttl = 0;
     m_Data.WriteType(ttl);
@@ -105,6 +110,42 @@ RF_Type::Size MessageWriter::DataSize() const
 const RF_Type::UInt8* MessageWriter::Data() const
 {
     return m_Data.GetRawBuffer();
+}
+
+void MessageWriter::WriteAdditionalAnswer(const RF_Type::String& Name, 
+    const RF_Net::IPAddress& IP, RecordClass Class /*= RecordClass::Internet*/, 
+    RF_Type::Bool Flush /*= false*/)
+{
+    RecordType type = RecordType::A;
+    switch(IP.GetAddressFamily())
+    {
+    case AddressFamily::InterNetwork6: type = RecordType::A6; break;
+    case AddressFamily::InterNetwork: type = RecordType::A; break;
+    default:
+        return;
+    }
+
+    auto names = Name.Split("."_rfs);
+    for(RF_Type::Size i = 0; i < names.Count(); ++i)
+    {
+        m_Data.WriteType<RF_Type::UInt8>(names[i].Length());
+        m_Data.Write(reinterpret_cast<const RF_Type::UInt8*>(names[i].c_str()), 0, names[i].Length());
+    }
+    m_Data.WriteType<RF_Type::UInt8>(0);
+
+    m_Data.WriteType(static_cast<RF_Type::UInt16>(type));
+    RF_Type::UInt16 classAndFlag = static_cast<RF_Type::UInt16>(Class);
+    if(Flush)
+    {
+        classAndFlag |= 1 << 15;
+    }
+    m_Data.WriteType(classAndFlag);
+
+    RF_Type::UInt32 ttl = 120;
+    m_Data.WriteType(ttl);
+    m_Data.WriteType(static_cast<RF_Type::UInt16>(IP.GetByteArraySize()));
+    m_Data.Write(IP.AsByteArray(), 0, IP.GetByteArraySize());
+    ++m_Header.AdditionalCount;
 }
 
 } } }

@@ -233,7 +233,7 @@ void ServiceDiscovery::PreBindConfigureSocket(ServerEvent& Sender)
         error = Sender.Target->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MutlicastTimeToLive, RF_Type::UInt8(255));
         error = Sender.Target->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::IPTimeToLive, RF_Type::UInt8(255));
         // don't process own packets
-        error = Sender.Target->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastLoopback, false);
+        //error = Sender.Target->SetSocketOption(SocketOptionLevel::IPv4, SocketOptionName::MulticastLoopback, false);
     }
 }
 
@@ -244,94 +244,107 @@ void ServiceDiscovery::PacketReceived(ServerProcessPacketEvent& Sender)
     reader.ReadHeader();
     reader.ReadQuestions();
     reader.ReadAnswers();
+    reader.ReadAdditionals();
 
     if(reader.IsResponse())
     {
         for(RF_Type::Size i = 0; i < reader.Answers().Count(); ++i)
         {
-            if (reader.Answers()(i).Type == RecordType::SRV)
+            ProcessAnswers(reader.Answers()(i), reader);
+        }
+
+        for(RF_Type::Size i = 0; i < reader.Additionals().Count(); ++i)
+        {
+            ProcessAnswers(reader.Additionals()(i), reader);
+        }
+    }
+}
+
+void ServiceDiscovery::ProcessAnswers(const Answer& Instance, 
+    const MessageReader& Reader)
+{
+    if(Instance.Type == RecordType::SRV)
+    {
+        RF_Mem::AutoPointerArray<RF_Type::String> nameParts = Instance.Name.Split("."_rfs);
+
+        RF_Type::Size j;
+        for(j = 1; j < nameParts.Count(); ++j)
+        {
+            if(nameParts[j] == "_tcp" || nameParts[j] == "_udp")
             {
-                RF_Mem::AutoPointerArray<RF_Type::String> nameParts = reader.Answers()(i).Name.Split("."_rfs);
+                break;
+            }
+        }
 
-                RF_Type::Size j;
-                for(j = 1; j < nameParts.Count(); ++j)
+        if(nameParts.Count() > 2 && j < nameParts.Count())
+        {
+            RF_Type::String name = nameParts[j - 1] + "." + nameParts[j];
+            RF_Type::UInt32 hash = CalculateFNV(name);
+
+            NetworkService* service = 0;
+
+            if(!m_PImpl->m_KnownServiceDictionary.Get(hash, reinterpret_cast<void*&>(service)))
+            {
+                RF_Mem::AutoPointer<NetworkService> newService(new NetworkService);
+                newService->Name = name;
+                service = newService.Get();
+                m_PImpl->m_KnownServiceDictionary.Add(hash, service);
+                m_PImpl->m_KnownServices.PushBack(newService);
+                m_PImpl->m_DataChanged = true;
+            }
+
+            auto& info = Reader.ServiceInfos()(Instance.Index);
+            for(j = 0; j < service->Instances.Count(); ++j)
+            {
+                if(service->Instances[j]->Name == info.Target &&
+                    service->Instances[j]->Port == info.Port)
                 {
-                    if(nameParts[j] == "_tcp" || nameParts[j] == "_udp")
-                    {
-                        break;
-                    }
-                }
-
-                if(nameParts.Count() > 2 && j < nameParts.Count())
-                {
-                    RF_Type::String name = nameParts[j - 1] + "." + nameParts[j];
-                    RF_Type::UInt32 hash = CalculateFNV(name);
-
-                    NetworkService* service = 0;
-
-                    if(!m_PImpl->m_KnownServiceDictionary.Get(hash, reinterpret_cast<void*&>(service)))
-                    {
-                        RF_Mem::AutoPointer<NetworkService> newService(new NetworkService);
-                        newService->Name = name;
-                        service = newService.Get();
-                        m_PImpl->m_KnownServiceDictionary.Add(hash, service);
-                        m_PImpl->m_KnownServices.PushBack(newService);
-                        m_PImpl->m_DataChanged = true;
-                    }
-
-                    auto& info = reader.ServiceInfos()(reader.Answers()(i).Index);
-                    for(j = 0; j < service->Instances.Count(); ++j)
-                    {
-                        if(service->Instances[j]->Name == info.Target)
-                        {
-                            break;
-                        }
-                    }
-
-                    if(j == service->Instances.Count())
-                    {
-                        RF_Mem::AutoPointer<ServiceInstanceInfo> instance(new ServiceInstanceInfo);
-                        instance->Name = info.Target;
-                        instance->Port = info.Port;
-                        service->Instances.PushBack(instance);
-                        m_PImpl->m_DataChanged = true;
-                    }
+                    break;
                 }
             }
-            else
-            if(reader.Answers()(i).Type == RecordType::A)
-            {
-                RF_Type::String name = reader.Answers()(i).Name;
-                RF_Type::UInt32 ip = reader.IP4()(reader.Answers()(i).Index);
-                RF_Type::UInt32 hash = CalculateFNV(name);
-                
-                IPHostEntry* entry = 0;
-                if(!m_PImpl->m_KnownDomainNameDictionary.Get(hash, reinterpret_cast<void*&>(entry)))
-                {
-                    RF_Mem::AutoPointer<IPHostEntry> newEntry(new IPHostEntry(name));
-                    entry = newEntry.Get();
-                    m_PImpl->m_KnownDomainNameDictionary.Add(hash, entry);
-                    m_PImpl->m_KnownDomainNames.PushBack(newEntry);
-                    m_PImpl->m_DataChanged = true;
-                }
-                
-                RF_Type::Size j;
-                for(j = 0; j < entry->AddressList().Count(); ++j)
-                {
-                    if(entry->AddressList()[j].ToUInt32() == ip)
-                    {
-                        break;
-                    }
-                }
 
-                if(j == entry->AddressList().Count())
-                {
-                    entry->AddAddress(ip);
-                    m_PImpl->m_DataChanged = true;
-                }
+            if(j == service->Instances.Count())
+            {
+                RF_Mem::AutoPointer<ServiceInstanceInfo> instance(new ServiceInstanceInfo);
+                instance->Name = info.Target;
+                instance->Port = info.Port;
+                service->Instances.PushBack(instance);
+                m_PImpl->m_DataChanged = true;
             }
         }
     }
+    else
+        if(Instance.Type == RecordType::A)
+        {
+            RF_Type::String name = Instance.Name;
+            RF_Type::UInt32 ip = Reader.IP4()(Instance.Index);
+            RF_Type::UInt32 hash = CalculateFNV(name);
+
+            IPHostEntry* entry = 0;
+            if(!m_PImpl->m_KnownDomainNameDictionary.Get(hash, reinterpret_cast<void*&>(entry)))
+            {
+                RF_Mem::AutoPointer<IPHostEntry> newEntry(new IPHostEntry(name));
+                entry = newEntry.Get();
+                m_PImpl->m_KnownDomainNameDictionary.Add(hash, entry);
+                m_PImpl->m_KnownDomainNames.PushBack(newEntry);
+                m_PImpl->m_DataChanged = true;
+            }
+
+            RF_Type::Size j;
+            for(j = 0; j < entry->AddressList().Count(); ++j)
+            {
+                if(entry->AddressList()[j].ToUInt32() == ip)
+                {
+                    break;
+                }
+            }
+
+            if(j == entry->AddressList().Count())
+            {
+                entry->AddAddress(ip);
+                m_PImpl->m_DataChanged = true;
+            }
+        }
 }
 
 } } }

@@ -16,6 +16,8 @@ namespace RadonFramework { namespace Net { namespace mDNS {
 
 class NetworkService;
 class ServiceDiscoveryView;
+class MessageReader;
+class Answer;
 
 class ServiceDiscovery: public Service
 {
@@ -49,6 +51,7 @@ protected:
     virtual void PacketReceived(ServerProcessPacketEvent& Sender) override;
 private:
     RF_Idiom::PImpl<ServiceDiscovery> m_PImpl;
+    void ProcessAnswers(const Answer& Instance, const MessageReader& Reader);
 };
 
 } } }

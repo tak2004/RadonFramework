@@ -143,6 +143,11 @@ const RF_Collect::Array<Answer>& MessageReader::Answers() const
     return m_Answers;
 }
 
+const RF_Collect::Array<Answer>& MessageReader::Additionals() const
+{
+    return m_Additionals;
+}
+
 const RF_Collect::Array<Question>& MessageReader::Questions() const
 {
     return m_Questions;
@@ -226,6 +231,82 @@ RF_Type::Bool MessageReader::IsResponse()const
     const RF_Type::UInt16 DNS_RESPONSE = 1 << 15;
     const RF_Type::UInt16 DNS_QUERY = 0 << 15;
     return (m_Header.Flags & DNS_QR_BIT) == DNS_RESPONSE;
+}
+
+RF_Type::Bool MessageReader::ReadAdditionals()
+{
+    RF_Type::Bool result = false;
+    if(m_Data.Length() - m_Data.Position() > 0)
+    {
+        m_Additionals.Resize(m_Header.AdditionalCount);
+        for(RF_Type::UInt16 i = 0; i < m_Header.AdditionalCount; ++i)
+        {
+            m_Additionals(i).Name = ReadName();
+
+            const RF_Type::Size ExpectedData = sizeof(RecordType) +
+                sizeof(RecordClass) + sizeof(RF_Type::UInt32) + sizeof(RF_Type::UInt16);
+
+            RF_Type::UInt16 dataLength;
+
+            if(m_Data.Length() - m_Data.Position() >= ExpectedData)
+            {
+                m_Data.ReadType(m_Additionals(i).Type);
+                m_Data.ReadType(m_Additionals(i).Class);
+                m_Data.ReadType(m_Additionals(i).TTL);
+                m_Data.ReadType(dataLength);
+
+                if(m_Data.Length() - m_Data.Position() >= dataLength)
+                {
+                    switch(m_Additionals(i).Type)
+                    {
+                    case RecordType::A:
+                    {
+                        m_Address.Resize(m_Address.Count() + 1);
+                        RF_Type::UInt8 byte;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) = byte;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) |= byte << 8;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) |= byte << 16;
+                        m_Data.ReadType(byte);
+                        m_Address(m_Address.Count() - 1) |= byte << 24;
+                        m_Additionals(i).Index = m_Address.Count() - 1;
+                        break;
+                    }
+                    case RecordType::SRV:
+                    {
+                        m_ServiceInfo.Resize(m_ServiceInfo.Count() + 1);
+                        auto& svc = m_ServiceInfo(m_ServiceInfo.Count() - 1);
+                        m_Data.ReadType(svc.Priority);
+                        m_Data.ReadType(svc.Weight);
+                        m_Data.ReadType(svc.Port);
+                        svc.Target = ReadName();
+                        m_Additionals(i).Index = m_ServiceInfo.Count() - 1;
+                        break;
+                    }
+                    case RecordType::PTR:
+                        m_Domainname.Resize(m_Domainname.Count() + 1);
+                        m_Domainname(m_Domainname.Count() - 1) = ReadName();
+                        m_Additionals(i).Index = m_Domainname.Count() - 1;
+                        break;
+                    case RecordType::TXT:
+                        m_Text.Resize(m_Text.Count() + 1);
+                        m_Text(m_Text.Count() - 1) = ReadText();
+                        m_Additionals(i).Index = m_Text.Count() - 1;
+                        break;
+                    default:
+                        m_Data.Seek(dataLength, RF_IO::SeekOrigin::Current);
+                        m_Additionals(i).Index = ~0;
+                        break;
+                    }
+
+                    result = true;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 } } }

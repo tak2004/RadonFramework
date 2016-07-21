@@ -62,7 +62,10 @@ void ServiceResponder::SendServiceInfo()
     writer.Reset();
     writer.WriteQueryHeader(0, 1<<15);
     writer.WriteAnswerServerSelection(m_Service.Name, hostname,
-        m_Service.Port);
+        m_Service.Port, RF_mDNS::RecordClass::Internet, true);
+
+    writer.WriteAdditionalAnswer(hostname, m_Service.IPAddress, 
+        RF_mDNS::RecordClass::Internet, true);
 
     writer.Finalize();
     this->GetSocket()->SendTo(writer.Data(), writer.DataSize(), destination, sendBytes);
