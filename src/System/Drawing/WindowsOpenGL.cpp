@@ -17,3 +17,17 @@ HGLRC wglCreateContextAttribsARBDispatcher(HDC hDC, HGLRC hShareContext,
     return wglCreateContextAttribsARB(hDC, hShareContext, attribList);
 }
 wglCreateContextAttribsARBCallback wglCreateContextAttribsARB = wglCreateContextAttribsARBDispatcher;
+
+BOOL wglSwapIntervalEXTDispatcher(int interval)
+{
+    wglSwapIntervalEXT = reinterpret_cast<wglSwapIntervalEXTCallback>(OpenGLGetProcAddress("wglSwapIntervalEXT"));
+    return wglSwapIntervalEXT(interval);
+}
+wglSwapIntervalEXTCallback wglSwapIntervalEXT = wglSwapIntervalEXTDispatcher;
+
+const char* wglGetExtensionsStringARBDispatcher(HDC hDC)
+{
+    wglGetExtensionsStringARB = reinterpret_cast<wglGetExtensionsStringARBCallback>(OpenGLGetProcAddress("wglGetExtensionsStringARB"));
+    return wglGetExtensionsStringARB(hDC);
+}
+wglGetExtensionsStringARBCallback wglGetExtensionsStringARB = wglGetExtensionsStringARBDispatcher;

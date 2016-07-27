@@ -3,13 +3,13 @@
 #include <RadonFramework/backend/GL/OpenGLConstants.hpp>
 #include <RadonFramework/System/Drawing/OpenGL.hpp>
 #include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
-#include <windows.h>
 #include <RadonFramework/backend/Windows/Drawing/WDMOpenGLCanvas3D.hpp>
 #include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
 #include <RadonFramework/IO/Log.hpp>
+#include "RadonFramework/Collections/AutoVector.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::Math::Geometry;
@@ -18,21 +18,10 @@ using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::GL;
 
-WDMOpenGLCanvas3D::WDMOpenGLCanvas3D()
-{
-    m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
-    m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
-}
-
-WDMOpenGLCanvas3D::~WDMOpenGLCanvas3D()
-{
-    OpenGLExit();
-    ReleaseDC(m_WndHandle, m_DeviceContext);
-}
-
 void WDMOpenGLCanvas3D::Generate()
 {
     int iFormat=0;
+    m_MajorVersion = 1;
 
     static PIXELFORMATDESCRIPTOR pfd =
     {
@@ -93,25 +82,31 @@ void WDMOpenGLCanvas3D::Generate()
         0, 0
     };
 
-    // ask with the current context for gl 3.0 and higher functions
-    if (OpenGLGetProcAddress("wglChoosePixelFormatARB") != NULL)
+    // ask with the current context for OpenGL 3.0 and higher functions
+    if (OpenGLGetProcAddress("wglChoosePixelFormatARB") != nullptr)
     {
         if (wglChoosePixelFormatARB(m_DeviceContext, attribList, 0, 1, &iFormat, &numFormats) != 0 && numFormats > 0)
             SetPixelFormat(m_DeviceContext, iFormat, &m_PixelFormat);
     }
 
     // context version is something between 1.1 and 2.0 yet
-    if(OpenGLGetProcAddress("wglCreateContextAttribsARB") == NULL)
+    if(OpenGLGetProcAddress("wglCreateContextAttribsARB") == nullptr)
     {
-        // wglCreateContextAttribsARB is part of context creation for 3.0 and higher 
+        // wglCreateContextAttribsARB is part of context creation for OpenGL 3.0 and higher 
         m_Context = TempContext;
+        // glCreateShader is available since OpenGL 2.0
+        if(OpenGLGetProcAddress("glCreateShader") != nullptr)
+        {
+            m_MajorVersion = 2;
+        }
         return;
     }
 
-    // since 3.0 it's possible to ask for the version
+    // since OpenGL 3.0 it's possible to ask for the version
     GLint major, minor;
     glGetIntegerv(GL_MAJOR_VERSION, &major);
     glGetIntegerv(GL_MINOR_VERSION, &minor);
+    m_MajorVersion = major;
 
     const int attribs[] = {
         WGL_CONTEXT_MAJOR_VERSION_ARB, major,
@@ -121,7 +116,7 @@ void WDMOpenGLCanvas3D::Generate()
         0
     };
 
-    // request for a opengl 3.0 or higher context
+    // request for a OpenGL 3.0 or higher context
     if ((m_Context=wglCreateContextAttribsARB(m_DeviceContext,0, attribs))==0)
     {
         m_Context = TempContext;
@@ -133,34 +128,34 @@ void WDMOpenGLCanvas3D::Generate()
     wglDeleteContext(TempContext);
 }
 
-void WDMOpenGLCanvas3D::SetWindowInfos(AbstractWindow* Window)
+void WDMOpenGLCanvas3D::GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions)
 {
-    WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
-    m_WndHandle = wnd->GetHandle();
-    m_DeviceContext=GetDC(wnd->GetHandle());
-}
+    // since OpenGL 3.0 you have to iterate through each extension
+    if (m_MajorVersion >= 3)
+    {
+        GLint n, i;
+        glGetIntegerv(GL_NUM_EXTENSIONS, &n);
+        Extensions.Resize(n);
+        for(i = 0; i < n; i++)
+        {
+            Extensions(i)=RF_Type::String::UnsafeStringCreation(
+                reinterpret_cast<const char*>(glGetStringi(GL_EXTENSIONS, i)));
+        }
+    }
+    else
+    {
+        OpenGLCanvas::GetExtensions(Extensions);
+    }
 
-void WDMOpenGLCanvas3D::Clear()
-{
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-}
-
-void WDMOpenGLCanvas3D::SwapBuffer()
-{
-    SwapBuffers(m_DeviceContext);
-}
-
-void WDMOpenGLCanvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
-{
-    glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
-}
-
-Mat4f& WDMOpenGLCanvas3D::TexturecoordMatrix()
-{
-    return m_TexturecoordMatrix;
-}
-
-void WDMOpenGLCanvas3D::MakeCurrent()
-{
-    wglMakeCurrent(m_DeviceContext, m_Context);
+    // windows and X11 have their own extension function
+    const char* ext = wglGetExtensionsStringARB(m_DeviceContext);
+    if(glGetError() == GL_NO_ERROR)
+    {
+        RF_Type::String extstr = RF_Type::String::UnsafeStringCreation(ext);
+        RF_Mem::AutoPointerArray<RF_Type::String> vec(extstr.Split(RF_Type::String(" ")));
+        RF_Type::Size firstWGLEntry = Extensions.Count();
+        Extensions.Resize(firstWGLEntry +vec.Count());
+        for(RF_Type::Size i = 0; i < vec.Count(); ++i)
+            Extensions(i + firstWGLEntry) = vec[i];
+    }
 }

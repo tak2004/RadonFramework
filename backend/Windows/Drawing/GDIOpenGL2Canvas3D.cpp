@@ -14,18 +14,6 @@ using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
 
-GDIOpenGL2Canvas3D::GDIOpenGL2Canvas3D()
-{
-  m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
-  m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
-}
-
-GDIOpenGL2Canvas3D::~GDIOpenGL2Canvas3D()
-{
-    OpenGLExit();
-    ReleaseDC(m_WndHandle, m_DeviceContext);
-}
-
 void GDIOpenGL2Canvas3D::Generate()
 {
     int iFormat=0;
@@ -64,39 +52,4 @@ void GDIOpenGL2Canvas3D::Generate()
     wglMakeCurrent(m_DeviceContext,m_Context);
 
     OpenGLInit();
-  //GLenum err=glewInit();
-  //if (GLEW_OK!=err)
-    //    LogFatalError("Can't initialize Glew. The OpenGL services wouldn't work without.");
-}
-
-void GDIOpenGL2Canvas3D::SetWindowInfos(AbstractWindow* Window)
-{
-    WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
-    m_WndHandle = wnd->GetHandle();
-    m_DeviceContext=GetDC(wnd->GetHandle());
-}
-
-void GDIOpenGL2Canvas3D::Clear()
-{
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-}
-
-void GDIOpenGL2Canvas3D::SwapBuffer()
-{
-    SwapBuffers(m_DeviceContext);
-}
-
-void GDIOpenGL2Canvas3D::UpdateRectangle(Math::Geometry::Rectangle<> &Rec)
-{
-  glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
-}
-
-Mat4f& GDIOpenGL2Canvas3D::TexturecoordMatrix()
-{
-  return m_TexturecoordMatrix;
-}
-
-void GDIOpenGL2Canvas3D::MakeCurrent()
-{
-    wglMakeCurrent(m_DeviceContext, m_Context);
 }

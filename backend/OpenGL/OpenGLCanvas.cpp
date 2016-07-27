@@ -277,15 +277,8 @@ const GraphicDriverInformationOpenGL& OpenGLCanvas::GetContextRelatedGraphicDriv
             caps.IsAvaiable[i]=glGetError()==GL_NO_ERROR;
         }
 
-        AutoVector<String> ext;
-        const char* pext=(const char*)glGetString(GL_EXTENSIONS);
-        if (glGetError()==GL_NO_ERROR)
-        {
-            String extstr = String::UnsafeStringCreation(pext);
-            AutoPointerArray<String> vec(extstr.Split(String(" ")));
-            for (UInt32 i=0;i<vec.Count();++i)
-                ext.PushBack(AutoPointer<String>(new String(vec[i])));
-        }
+        Array<String> ext;
+        GetExtensions(ext);
 
         m_GraphicDriverInformationOpenGL=new GraphicDriverInformationOpenGL(ext,caps);
     }
@@ -297,7 +290,16 @@ System::Threading::Mutex& OpenGLCanvas::RenderLock()
     return *m_Lock;
 }
 
-MeshGenerator2D& RadonFramework::Drawing::OpenGLCanvas::GetMeshGenerator2D()
+void OpenGLCanvas::GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions)
 {
-    return m_MeshGenerator;
+    /// works from OpenGL 1 till 3
+    const char* pext = (const char*)glGetString(GL_EXTENSIONS);
+    if(glGetError() == GL_NO_ERROR)
+    {
+        String extstr = String::UnsafeStringCreation(pext);
+        AutoPointerArray<String> vec(extstr.Split(String(" ")));
+        Extensions.Resize(vec.Count());
+        for(UInt32 i = 0; i < vec.Count(); ++i)
+            Extensions(i) = vec[i];
+    }
 }

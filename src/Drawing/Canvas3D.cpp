@@ -21,7 +21,6 @@ Canvas3D::Canvas3D(Control* Parent)
   AbstractWindow* window=static_cast<Form*>(Root())->Backend();
   m_Backend->SetWindowInfos(window);
   m_Backend->Generate();
-  Draw2D.SetMeshGenerator(m_Backend->GetMeshGenerator2D());
 }
 
 void Canvas3D::Resize(const RF_Geo::Size2D<>& Value)
@@ -63,4 +62,10 @@ void Canvas3D::MakeCurrent()
 System::Threading::Mutex& Canvas3D::GetRenderLock()
 {
     return m_Backend->RenderLock();
+}
+
+void Canvas3D::SetVSync(const RF_Type::Bool Synchronize /*= true*/, 
+    const RF_Type::Bool ShouldContinue /*= true*/)
+{
+    m_Backend->SetVSync(Synchronize, ShouldContinue);
 }

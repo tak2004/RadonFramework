@@ -1,39 +1,19 @@
-#ifndef RF_GDIOPENGLCANVAS3D_HPP
-#define RF_GDIOPENGLCANVAS3D_HPP
+#ifndef RF_WDMOPENGLCANVAS3D_HPP
+#define RF_WDMOPENGLCANVAS3D_HPP
 
-#include <RadonFramework/backend/OpenGL/OpenGLCanvas.hpp>
-#include <RadonFramework/Math/Geometry/Matrix.hpp>
-#include <windows.h>
-
-namespace RadonFramework { namespace Forms {
-class AbstractWindow;
-} }
+#include <RadonFramework/backend/Windows/Drawing/WindowsOpenGLCanvas3D.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
-class WDMOpenGLCanvas3D : public OpenGLCanvas
+class WDMOpenGLCanvas3D : public WindowsOpenGLCanvas3D
 {
 public:
-    WDMOpenGLCanvas3D();
-    ~WDMOpenGLCanvas3D();
-
-    //ICanvas3D
     void Generate();
-    void SetWindowInfos(Forms::AbstractWindow* Window);
-    void Clear();
-    void SwapBuffer();
-    void UpdateRectangle(RF_Geo::Rectangle<> &Rec);
-    void MakeCurrent();
-
-    RF_Geo::Mat4f& TexturecoordMatrix();
 protected:
-    RF_Geo::Mat4f m_TexturecoordMatrix;
-    HWND m_WndHandle;
-    HDC m_DeviceContext;
-    PIXELFORMATDESCRIPTOR m_PixelFormat;
-    HGLRC m_Context;
+    virtual void GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions) override;
+    RF_Type::UInt32 m_MajorVersion;
 };
 
 } }
 
-#endif // RF_GDIOPENGLCANVAS3D_HPP
+#endif // RF_WDMOPENGLCANVAS3D_HPP

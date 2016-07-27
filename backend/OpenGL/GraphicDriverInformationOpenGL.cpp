@@ -8,14 +8,14 @@ using namespace RadonFramework::Collections;
 
 
 UInt32 OpenGLCapabilitySize[OpenGLCapabilitiesType::MAX]={
-        0,
-        sizeof(Float32),
-        sizeof(Float64),
-        sizeof(Int32),
-        sizeof(Int64),
-        sizeof(Bool),
-        sizeof(String)
-    };
+    0,
+    sizeof(Float32),
+    sizeof(Float64),
+    sizeof(Int32),
+    sizeof(Int64),
+    sizeof(Bool),
+    sizeof(String)
+};
 
 OpenGLCapability::OpenGLCapability()
 :m_Data(0)
@@ -141,8 +141,8 @@ const String& OpenGLCapability::Name()const
     return m_Name;
 }
 
-GraphicDriverInformationOpenGL::GraphicDriverInformationOpenGL(AutoVector<String>& Extensions,
-                                                               GraphicDriverCapabilitiesOpenGL& Capabilities)
+GraphicDriverInformationOpenGL::GraphicDriverInformationOpenGL(
+    Array<String>& Extensions, GraphicDriverCapabilitiesOpenGL& Capabilities)
 :m_Capabilities(Capabilities)
 ,m_Extensions(Extensions)
 {
@@ -162,7 +162,7 @@ GraphicDriverCapabilitiesOpenGL::GraphicDriverCapabilitiesOpenGL(const GraphicDr
 }
 
 
-const AutoVector<String>& GraphicDriverInformationOpenGL::Extensions()const
+const Array<String>& GraphicDriverInformationOpenGL::Extensions()const
 {
     return m_Extensions;
 }

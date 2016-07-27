@@ -13,5 +13,9 @@ extern wglChoosePixelFormatARBCallback wglChoosePixelFormatARB;
 using wglCreateContextAttribsARBCallback = HGLRC(*)(HDC hDC, HGLRC hShareContext,
     const int *attribList);
 extern wglCreateContextAttribsARBCallback wglCreateContextAttribsARB;
+using wglSwapIntervalEXTCallback = BOOL(*)(int interval);
+extern wglSwapIntervalEXTCallback wglSwapIntervalEXT;
+using wglGetExtensionsStringARBCallback = const char*(*)(HDC hDC);
+extern wglGetExtensionsStringARBCallback wglGetExtensionsStringARB;
 
 #endif // RF_SYSTEM_DRAWING_WINDOWSOPENGL_HPP

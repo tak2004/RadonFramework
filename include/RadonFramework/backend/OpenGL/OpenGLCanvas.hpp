@@ -5,8 +5,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <RadonFramework/Collections/AutoVector.hpp>
 #include <RadonFramework/Drawing/AbstractCanvas.hpp>
-#include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
@@ -23,14 +23,18 @@ public:
     /// This method return information about OpenGL capabilities.
     const GraphicDriverInformationOpenGL& GetContextRelatedGraphicDriverInformation();
     System::Threading::Mutex& RenderLock();
-    virtual MeshGenerator2D& GetMeshGenerator2D() final;
 protected:
     GraphicDriverInformation* m_GraphicDriverInformation;
     GraphicDriverInformationOpenGL* m_GraphicDriverInformationOpenGL;
     Memory::AutoPointer<System::Threading::Mutex> m_Lock;
-    MeshGenerator2D m_MeshGenerator;
+    virtual void GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions);
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_DRAW
+#define RF_SHORTHAND_NAMESPACE_DRAW
+namespace RF_Draw = RadonFramework::Drawing;
+#endif
 
 #endif // RF_OPENGLCANVAS_HPP

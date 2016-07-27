@@ -18,17 +18,6 @@ using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::GL;
 
-GDIOpenGLCanvas3D::GDIOpenGLCanvas3D()
-{
-    m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
-    m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
-}
-
-GDIOpenGLCanvas3D::~GDIOpenGLCanvas3D()
-{
-    ReleaseDC(m_WndHandle, m_DeviceContext);
-}
-
 void GDIOpenGLCanvas3D::Generate()
 {
     int iFormat=0;
@@ -127,43 +116,4 @@ void GDIOpenGLCanvas3D::Generate()
     // switch to the newest context and destroy the old one
     wglMakeCurrent(m_DeviceContext, m_Context);
     wglDeleteContext(TempContext);
-
-//     GLenum err = glewInit();
-//     if(GLEW_OK != err)
-//     {
-//         LogError("Couldn't init OpenGL extension wrangler.");
-//         return;
-//     }
-}
-
-void GDIOpenGLCanvas3D::SetWindowInfos(AbstractWindow* Window)
-{
-    WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
-    m_WndHandle = wnd->GetHandle();
-    m_DeviceContext=GetDC(wnd->GetHandle());
-}
-
-void GDIOpenGLCanvas3D::Clear()
-{
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-}
-
-void GDIOpenGLCanvas3D::SwapBuffer()
-{
-    SwapBuffers(m_DeviceContext);
-}
-
-void GDIOpenGLCanvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
-{
-    glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
-}
-
-Mat4f& GDIOpenGLCanvas3D::TexturecoordMatrix()
-{
-    return m_TexturecoordMatrix;
-}
-
-void GDIOpenGLCanvas3D::MakeCurrent()
-{
-    wglMakeCurrent(m_DeviceContext, m_Context);
 }

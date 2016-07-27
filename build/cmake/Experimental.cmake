@@ -28,7 +28,9 @@ if(NOT RADONFRAMEWORK_EXPERIMENTAL_OGLVM)
         ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/Draw2D.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Draw2D.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/CommandBuffer.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/CommandBuffer.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/MeshGenerator2D.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/CommandBuffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/MeshGenerator2D.cpp)
 endif()
 
 if(NOT RADONFRAMEWORK_EXPERIMENTAL_GRAMMAR)

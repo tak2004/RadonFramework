@@ -2132,7 +2132,7 @@ const GLubyte* glGetStringDispatcher(GLenum name){
 }
 glGetStringCallback glGetString = glGetStringDispatcher;
 
-GLubyte glGetStringiDispatcher(GLenum name,GLuint index){
+const GLubyte* glGetStringiDispatcher(GLenum name,GLuint index){
 	glGetStringi = reinterpret_cast<glGetStringiCallback>(OpenGLGetProcAddress("glGetStringi"));
 	return 	glGetStringi(name,index);
 }

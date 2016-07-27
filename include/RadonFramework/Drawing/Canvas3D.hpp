@@ -7,7 +7,6 @@
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
-#include <RadonFramework/Drawing/Draw2D.hpp>
 
 namespace RadonFramework { namespace System { namespace Threading {
 class Mutex;
@@ -30,9 +29,9 @@ public:
     const GraphicDriverInformation& GetGraphicDriverInformation();
     void MakeCurrent();
     System::Threading::Mutex& GetRenderLock();
+    void SetVSync(const RF_Type::Bool Synchronize = true,
+        const RF_Type::Bool ShouldContinue = true);
     AbstractCanvas const* Backend()const;
-
-    RF_Draw::Draw2D Draw2D;
 protected:
     AbstractCanvas* m_Backend;
 };

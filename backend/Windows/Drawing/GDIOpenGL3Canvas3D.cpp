@@ -14,18 +14,6 @@ using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
 
-GDIOpenGL3Canvas3D::GDIOpenGL3Canvas3D()
-{
-  m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
-  m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
-}
-
-GDIOpenGL3Canvas3D::~GDIOpenGL3Canvas3D()
-{
-    OpenGLExit();
-    ReleaseDC(m_WndHandle, m_DeviceContext);
-}
-
 void GDIOpenGL3Canvas3D::Generate()
 {
     int iFormat=0;
@@ -137,36 +125,4 @@ void GDIOpenGL3Canvas3D::Generate()
     }
     wglMakeCurrent(m_DeviceContext,m_Context);//wechsel auf den OpenGL3.x context
     wglDeleteContext(TempContext);//Zerstöre den temporären Context, denn er wird nicht länger benötigt.
-}
-
-void GDIOpenGL3Canvas3D::SetWindowInfos(AbstractWindow* Window)
-{
-    WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
-    m_WndHandle = wnd->GetHandle();
-    m_DeviceContext=GetDC(wnd->GetHandle());
-}
-
-void GDIOpenGL3Canvas3D::Clear()
-{
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-}
-
-void GDIOpenGL3Canvas3D::SwapBuffer()
-{
-    SwapBuffers(m_DeviceContext);
-}
-
-void GDIOpenGL3Canvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
-{
-    glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
-}
-
-Mat4f& GDIOpenGL3Canvas3D::TexturecoordMatrix()
-{
-    return m_TexturecoordMatrix;
-}
-
-void GDIOpenGL3Canvas3D::MakeCurrent()
-{
-    wglMakeCurrent(m_DeviceContext, m_Context);
 }

@@ -717,7 +717,7 @@ using glGetShaderivCallback = void (*)(GLuint shader,GLenum pname,GLint * params
 extern glGetShaderivCallback glGetShaderiv;
 using glGetStringCallback = const GLubyte* (*)(GLenum name);
 extern glGetStringCallback glGetString;
-using glGetStringiCallback = GLubyte (*)(GLenum name,GLuint index);
+using glGetStringiCallback = const GLubyte* (*)(GLenum name,GLuint index);
 extern glGetStringiCallback glGetStringi;
 using glGetSubroutineIndexCallback = GLuint (*)(GLuint program,GLenum shadertype,const GLchar * name);
 extern glGetSubroutineIndexCallback glGetSubroutineIndex;

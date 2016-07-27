@@ -1,7 +1,7 @@
 #ifndef RF_GDIOPENGL3CANVAS3D_HPP
 #define RF_GDIOPENGL3CANVAS3D_HPP
 
-#include <RadonFramework/backend/OpenGL/OpenGLCanvas.hpp>
+#include <RadonFramework/backend/Windows/Drawing/WindowsOpenGLCanvas3D.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 #include <windows.h>
@@ -12,27 +12,10 @@ class AbstractWindow;
 
 namespace RadonFramework { namespace Drawing {
 
-class GDIOpenGL3Canvas3D:public OpenGLCanvas
+class GDIOpenGL3Canvas3D:public WindowsOpenGLCanvas3D
 {
 public:
-    GDIOpenGL3Canvas3D();
-    ~GDIOpenGL3Canvas3D();
-
-    //ICanvas3D
     void Generate();
-    void SetWindowInfos(Forms::AbstractWindow* Window);
-    void Clear();
-    void SwapBuffer();
-    void UpdateRectangle(Math::Geometry::Rectangle<> &Rec);
-    void MakeCurrent();
-
-    RF_Geo::Mat4f& TexturecoordMatrix();
-protected:
-    RF_Geo::Mat4f m_TexturecoordMatrix;
-    HWND m_WndHandle;
-    HDC m_DeviceContext;
-    PIXELFORMATDESCRIPTOR m_PixelFormat;
-    HGLRC m_Context;
 };
 
 } }
