@@ -54,11 +54,16 @@ RF_Type::Bool SessionServer::ProcessPacket(RF_Net::Socket& Socket,
     if(m_Sessions.Get(Source.ToUInt32(), reinterpret_cast<void*&>(session)))
     {
         result = true;
-        session->Stream->Enqueue(In);
     }
     else
     {// check if the packet is a UDP session start/stop message 
 
+    }
+
+    if(session)
+    {
+        session->Stream->Enqueue(In);
+//        session->Stream->Dequeue();
     }
     return result;
 }

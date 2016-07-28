@@ -267,6 +267,18 @@ RF_Type::UInt64 MemoryCollectionStream::Peek(RF_Type::UInt8* Buffer,
     return result;
 }
 
+const RF_Type::UInt8* MemoryCollectionStream::Peek(RF_Type::Size& BytesLeft) const
+{
+    const RF_Type::UInt8* result = 0;
+    if(m_Position < m_Length &&
+       static_cast<UInt64>(m_Collection[static_cast<UInt32>(m_CursorIndex)].Size()) - m_CursorOffset > 0)
+    {
+        result = m_Collection[static_cast<UInt32>(m_CursorIndex)].Get() + m_CursorOffset;
+        BytesLeft = static_cast<UInt64>(m_Collection[static_cast<UInt32>(m_CursorIndex)].Size()) - m_CursorOffset;
+    }
+    return result;
+}
+
 RF_Type::Bool MemoryCollectionStream::CanPeek() const
 {
     return m_CanPeek;

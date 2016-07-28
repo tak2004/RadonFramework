@@ -66,6 +66,8 @@ public:
     virtual RF_Type::UInt64 Peek(RF_Type::UInt8* Buffer,
         const RF_Type::UInt64 Index, const RF_Type::UInt64 Count) override;
 
+    const RF_Type::UInt8* Peek(RF_Type::Size& BytesLeft)const;
+
     /// Return pointer to T if enough space left in current pointer.
     template<class T>
     T* Value();

@@ -31,10 +31,17 @@ public:
 
     void Enqueue(RF_Mem::AutoPointerArray<RF_Type::UInt8>& packet);
 
+
     void MaxDataSize(const RF_Type::UInt32 NewSize);
     RF_Type::UInt32 MaxDataSize()const;
 
+    /** Every incoming message will be processed by this method and depending on 
+    * the outcome Dispatch will be called or the packet will be discarded.
+    * If the protocol allows early validation you can run a short validation and
+    * do the heavy work in Dispatch.
+    **/
     virtual StreamStatus Process(NetworkStream<IO::MemoryCollectionStream>& Stream);
+    /// This method will be called if the Process method requested dispatching.
     virtual void Dispatch(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet);
 private:                
     RF_Mem::AutoPointer<PIMPL> m_Data;
