@@ -8,6 +8,7 @@
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Core/Types/UInt8.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
+#include <RadonFramework/Core/Pattern/Signal.hpp>
 
 class PIMPL;
 
@@ -30,7 +31,7 @@ public:
     PacketStream();
 
     void Enqueue(RF_Mem::AutoPointerArray<RF_Type::UInt8>& packet);
-
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> DequeueResponse();
 
     void MaxDataSize(const RF_Type::UInt32 NewSize);
     RF_Type::UInt32 MaxDataSize()const;
@@ -43,6 +44,10 @@ public:
     virtual StreamStatus Process(NetworkStream<IO::MemoryCollectionStream>& Stream);
     /// This method will be called if the Process method requested dispatching.
     virtual void Dispatch(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet);
+
+    RF_Pattern::Signal OnResponse;
+protected:
+    void SendResponse(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet);
 private:                
     RF_Mem::AutoPointer<PIMPL> m_Data;
 };

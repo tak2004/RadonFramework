@@ -4,6 +4,7 @@
 #include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/IO/Log.hpp"
 #include "RadonFramework/Net/NetworkStream.hpp"
+#include "RadonFramework/Net/SessionServer.hpp"
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Memory;
@@ -14,6 +15,7 @@ class PIMPL
 {
 public:
     RF_Net::NetworkStream<RF_IO::MemoryCollectionStream> MemoryStream;
+    RF_Collect::List<RF_Mem::AutoPointerArray<RF_Type::UInt8>> ResponseList;
     UInt32 MaxDataSize;
 };
 
@@ -55,6 +57,17 @@ void PacketStream::Enqueue(AutoPointerArray<UInt8>& packet)
         m_Data->MemoryStream.RemoveFirst();
 }
 
+RF_Mem::AutoPointerArray<RF_Type::UInt8> PacketStream::DequeueResponse()
+{
+    RF_Mem::AutoPointerArray<RF_Type::UInt8> result;
+    if(m_Data->ResponseList.IsEmpty() == false)
+    {
+        result = m_Data->ResponseList[0];
+        m_Data->ResponseList.RemoveFirst();
+    }
+    return result;
+}
+
 StreamStatus PacketStream::Process(NetworkStream<IO::MemoryCollectionStream>& Stream)
 {
     StreamStatus result = StreamStatus::ThrowAway;
@@ -64,6 +77,12 @@ StreamStatus PacketStream::Process(NetworkStream<IO::MemoryCollectionStream>& St
 void PacketStream::Dispatch(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet)
 {
 
+}
+
+void PacketStream::SendResponse(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Packet)
+{
+    m_Data->ResponseList.AddLast(Packet);
+    OnResponse();
 }
 
 void PacketStream::MaxDataSize(const UInt32 NewSize)

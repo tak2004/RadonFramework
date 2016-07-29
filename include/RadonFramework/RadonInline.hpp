@@ -231,6 +231,10 @@
 #include <RadonFramework/Net/EndPoint.hpp>
 #include <RadonFramework/Net/Error.hpp>
 #include <RadonFramework/Net/FixedLengthString.hpp>
+#include <RadonFramework/Net/HTTP/Field.hpp>
+#include <RadonFramework/Net/HTTP/Method.hpp>
+#include <RadonFramework/Net/HTTP/Request.hpp>
+#include <RadonFramework/Net/HTTP/Response.hpp>
 #include <RadonFramework/Net/IPAddress.hpp>
 #include <RadonFramework/Net/IPHostEntry.hpp>
 #include <RadonFramework/Net/mDNS/Message.hpp>

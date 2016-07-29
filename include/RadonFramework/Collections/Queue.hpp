@@ -7,6 +7,8 @@
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
 #include <RadonFramework/Core/Types/AtomicPointer.hpp>
 #include <RadonFramework/System/Hardware/Hardware.hpp>
+#include <RadonFramework/Core/Policies/CPPAllocator.hpp>
+#include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
 
 namespace RadonFramework { namespace Collections {
 /** @brief This class is can grow and shrink.

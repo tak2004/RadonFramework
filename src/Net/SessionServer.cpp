@@ -2,20 +2,48 @@
 #include "RadonFramework/Net/SessionServer.hpp"
 #include "RadonFramework/Net/Socket.hpp"
 #include "RadonFramework/Net/PacketStream.hpp"
+#include "RadonFramework/Core/Pattern/Signal.hpp"
 
 namespace RadonFramework { namespace Net {
 
-class Session
+class Session : public RF_Pattern::SignalReceiver
 {
 public:
     RF_Mem::AutoPointer<RF_Net::PacketStream> Stream;
     RF_Net::Socket* Socket;
+
+    void Response();
+    RF_Pattern::Event<RF_Type::UInt32> OnResponse;
 };
+
+void Session::Response()
+{
+    OnResponse(Socket->LocalEndPoint().Address().ToUInt32());
+}
+
+SessionServer::~SessionServer()
+{
+    Server::~Server();
+    IObserver::~IObserver();
+}
 
 void SessionServer::Update()
 {
     Server::Update();
-
+        
+    RF_Type::UInt32 sessionKey = m_Sessions.GetEmptyKey();
+    m_SessionsWithResponses.Dequeue(sessionKey);
+    if(sessionKey != m_Sessions.GetEmptyKey())
+    {
+        Session* session = 0;
+        m_Sessions.Get(sessionKey, reinterpret_cast<void*&>(session));
+        if(session)
+        {
+            RF_Type::UInt32 sendBytes = 0;
+            auto response = session->Stream->DequeueResponse();
+            session->Socket->Send(response.Get(), response.Size(), sendBytes);
+        }
+    }
 }
 
 void SessionServer::SetLogicFactory(RF_Mem::AutoPointer<PacketLogicFactory>& Factory)
@@ -32,6 +60,8 @@ void SessionServer::AddedSocket(RF_Net::Socket& Socket, IPAddress& Interface)
     {
         session->Socket = &Socket;
         session->Stream = m_Factory->Generate();
+        session->Stream->OnResponse += session->Connector<Session>(&Session::Response);
+        session->OnResponse += Connector<SessionServer, RF_Type::UInt32>(&SessionServer::SessionResponse);
     }
     else
     {
@@ -63,9 +93,13 @@ RF_Type::Bool SessionServer::ProcessPacket(RF_Net::Socket& Socket,
     if(session)
     {
         session->Stream->Enqueue(In);
-//        session->Stream->Dequeue();
     }
     return result;
+}
+
+void SessionServer::SessionResponse(RF_Type::UInt32 ASession)
+{
+    m_SessionsWithResponses.Enqueue(ASession);
 }
 
 } }
