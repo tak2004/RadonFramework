@@ -20,6 +20,12 @@ if(${RADONFRAMEWORK_BLACKLISTCOUNT} GREATER 0)
 endif()
 GenerateIncludes(INCLUDES_COLLECTIONS "${filelist}")
 
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Concurrency" "Includes\\Concurrency")
+if(${RADONFRAMEWORK_BLACKLISTCOUNT} GREATER 0)
+    list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
+endif()
+GenerateIncludes(INCLUDES_Concurrency "${filelist}")
+
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Core" "Includes\\Core")
 if(${RADONFRAMEWORK_BLACKLISTCOUNT} GREATER 0)
     list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})

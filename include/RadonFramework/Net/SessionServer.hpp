@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/Server.hpp>
 #include <RadonFramework/Net/PacketLogicFactory.hpp>
 #include <RadonFramework/Collections/HashList.hpp>
-#include <RadonFramework/Collections/Queue.hpp>
+#include <RadonFramework/Concurrency/DynamicQueueMPSC.hpp>
 
 namespace RadonFramework { namespace Net {
 
@@ -26,7 +26,7 @@ protected:
 private:
     RF_Collect::HashList m_Sessions;
     RF_Mem::AutoPointer<PacketLogicFactory> m_Factory;
-    RF_Collect::Queue<RF_Type::UInt32> m_SessionsWithResponses;
+    RF_Con::DynamicQueueMPSC<RF_Type::UInt32> m_SessionsWithResponses;
 };
 
 } }

@@ -26,14 +26,14 @@ void Request::AddField(const Field Which, const RF_Type::String& Value)
     m_Fields(lastSize).Second = Value;
 }
 
-const RF_IO::Uri& Request::GetUri() const
+const RF_Type::String& Request::GetLocation() const
 {
-    return m_Uri;
+    return m_Location;
 }
 
-void Request::SetUri(const RF_IO::Uri& NewUri)
+void Request::SetLocation(const RF_Type::String& NewLocation)
 {
-    m_Uri = NewUri;
+    m_Location = NewLocation;
 }
 
 } } }

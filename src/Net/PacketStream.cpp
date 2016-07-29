@@ -48,6 +48,7 @@ void PacketStream::Enqueue(AutoPointerArray<UInt8>& packet)
             m_Data->MemoryStream.Seek(0, SeekOrigin::Begin);
             buffer = RF_Mem::AutoPointerArray<RF_Type::UInt8>(bytes);
             m_Data->MemoryStream.Read(buffer.Get(), 0, bytes);
+            m_Data->MemoryStream.RemoveBefore();
             Dispatch(buffer);
             break;
         }

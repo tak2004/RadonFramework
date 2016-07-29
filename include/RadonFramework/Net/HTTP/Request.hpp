@@ -3,7 +3,6 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Collections/Pair.hpp>
-#include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/Net/HTTP/Field.hpp>
 #include <RadonFramework/Net/HTTP/Method.hpp>
 
@@ -18,12 +17,12 @@ public:
     void SetMethod(Method NewMethod);
     const FieldList& GetFields()const;
     void AddField(const Field Which, const RF_Type::String& Value);
-    const RF_IO::Uri& GetUri()const;
-    void SetUri(const RF_IO::Uri& NewUri);
+    const RF_Type::String& GetLocation()const;
+    void SetLocation(const RF_Type::String& NewLocation);
 private:
     Method m_Method;
     FieldList m_Fields;
-    RF_IO::Uri m_Uri;
+    RF_Type::String m_Location;
 };
 
 } } }

@@ -55,12 +55,16 @@ void DeleteArray(T* Ptr, ARENA& Arena)
     Arena.Free(as_size_t-1);
 }
 
-#define RF_New(Type, Arena) new ((Arena)->Allocate(sizeof(Type), __alignof(Type)))Type
+#define RF_NewHint(Type, Arena, Hint) ::new ((Arena).Allocate(sizeof(Type), __alignof(Type), Hint))Type
 
-#define RF_New_Array(Type, Arena, Elements) NewArray<Type>(Arena, Elements);
+#define RF_NewArrayHint(Type, Arena, Elements, Hint) NewArray<Type>(Arena, Elements, Hint);
+
+#define RF_New(Type, Arena) ::new ((Arena).Allocate(sizeof(Type), __alignof(Type)))Type
+
+#define RF_NewArray(Type, Arena, Elements) NewArray<Type>(Arena, Elements);
 
 #define RF_Delete(Ptr, Arena) Delete(Ptr, Arena);
 
-#define RF_Delete_Array(Ptr, Arena) DeleteArray(Ptr, Arena);
+#define RF_DeleteArray(Ptr, Arena) DeleteArray(Ptr, Arena);
 
 #endif // RF_MEMORY_ALLOCATOR_HPP

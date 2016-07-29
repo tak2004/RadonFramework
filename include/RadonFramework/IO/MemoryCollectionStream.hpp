@@ -50,6 +50,9 @@ public:
 
     Memory::AutoPointerArray<RF_Type::UInt8> RemoveAt(RF_Type::UInt32 Index);
 
+    /// Remove all packet befor the current position.
+    void RemoveBefore();
+
     RF_Type::UInt64 Count();
 
     virtual void Flush() override;

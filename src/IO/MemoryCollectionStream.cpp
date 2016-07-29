@@ -53,6 +53,10 @@ UInt64 MemoryCollectionStream::Read( UInt8* Buffer, const UInt64 Index,
         {
             CMemoryOperation::Copy(Buffer+Index,m_Collection[static_cast<UInt32>(m_CursorIndex)].Get()+m_CursorOffset,static_cast<UInt32>(Count));
             m_Position+=Count;
+            if (m_Position >= m_CursorOffset + m_Collection[static_cast<UInt32>(m_CursorIndex)].Size())
+            {
+                ++m_CursorIndex;
+            }
             m_CursorOffset+=Count;
             return Count;
         }
@@ -282,4 +286,15 @@ const RF_Type::UInt8* MemoryCollectionStream::Peek(RF_Type::Size& BytesLeft) con
 RF_Type::Bool MemoryCollectionStream::CanPeek() const
 {
     return m_CanPeek;
+}
+
+void RadonFramework::IO::MemoryCollectionStream::RemoveBefore()
+{
+    while(m_Position > m_CursorOffset)
+    {
+        m_Position -= m_Collection[0].Size();
+        m_Length -= m_Collection[0].Size();
+        m_Collection.RemoveFirst();
+    }
+    m_CursorIndex = 0;
 }

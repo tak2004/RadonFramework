@@ -169,4 +169,9 @@ struct Interlocked
 
 } } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_SYSTHREAD
+#define RF_SHORTHAND_NAMESPACE_SYSTHREAD
+namespace RF_SysThread = RadonFramework::System::Threading;
+#endif
+
 #endif // RF_SYSTEM_THREADING_INTERLOCKED_HPP

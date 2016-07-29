@@ -245,6 +245,8 @@ AddSourceDirectoryRecursive(filelist "src/Collections" "Sources\\Collections")
 list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Core" "Sources\\Core")
 list(APPEND LIBSRCFILES ${filelist})
+AddSourceDirectoryRecursive(filelist "src/Concurrency" "Sources\\Concurrency")
+list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Diagnostics" "Sources\\Diagnostics")
 list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Math" "Sources\\Math")
@@ -272,43 +274,32 @@ list(APPEND LIBSRCFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Reflection" "Includes\\Reflection")
 list(APPEND LIBHDRFILES ${filelist})	
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Collections" "Includes\\Collections")
 list(APPEND LIBHDRFILES ${filelist})
-
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Concurrency" "Includes\\Concurrency")
+list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Core" "Includes\\Core")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Diagnostics" "Includes\\Diagnostics")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Math" "Includes\\Math")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/IO" "Includes\\IO")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Memory" "Includes\\Memory")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/System" "Includes\\System")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Threading" "Includes\\Threading")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Time" "Includes\\Time")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Net" "Includes\\Net")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Drawing" "Includes\\Drawing")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Text" "Includes\\Text")
 list(APPEND LIBHDRFILES ${filelist})
-
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Util" "Includes\\Util")
 list(APPEND LIBHDRFILES ${filelist})
 
