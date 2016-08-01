@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Memory/PoolAllocator.hpp>
+
 // Forward declaration of the
 namespace RadonFramework { namespace Memory { struct AllocatorBase; } }
 
@@ -15,7 +17,7 @@ namespace RadonFramework { namespace Concurrency {
 * - multiple producer and single consumer(MPSC)
 * - dynamic size(link list)
 *
-* If you need other producer and/or consumer constellation then look for the 
+* If you need other producer and/or consumer combinations then look for the 
 * specialized implementation.
 */
 class TypelessDynamicQueueMPSC
@@ -47,10 +49,12 @@ public:
 
     RadonFramework::Memory::AllocatorBase& GetArena()const;
 private:
-    void* volatile m_Head;
-    void* m_Tail;
-    void* m_Stub;
-    RadonFramework::Memory::AllocatorBase* m_Arena;
+    RF_Mem::PoolAllocator m_NodeAllocator;
+    struct Node;
+    Node* volatile m_Head;
+    Node* m_Tail;
+    Node* m_Stub;
+    RadonFramework::Memory::AllocatorBase* m_Arena;    
 };
 
 } }

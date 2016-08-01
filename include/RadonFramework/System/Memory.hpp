@@ -31,7 +31,16 @@ void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 /// Return the granularity(in bytes) of memory allocation and validation.
 using GetPageSizeCallback = RF_Type::UInt32(*)();
 
+/// Return the granularity(in byteS) of minimal allocated chunks of the OS.
+using GetBlockSizeCallback = RF_Type::UInt32(*)();
+
 using EnableTerminationOnHeapCorruptionCallback = void(*)();
+
+using PageAllocationSizeCallback = RF_Type::Size (*)(const void* FirstPage);
+
+using PageAllocateCallback = void* (*)(RF_Type::Size& Bytes);
+
+using PageFreeCallback = void (*)(void* FirstPage);
 
 using AllocateCallback = void* (*)(const RF_Type::Size Bytes, const RF_Type::Size Alignment);
 
@@ -55,7 +64,11 @@ using FillCallback = RF_Type::Size(*)(void* Pointer, const void* PatternData,
                                       RF_Type::Size PatternSize, RF_Type::Size BufferSize);
 
 extern GetPageSizeCallback GetPageSize;
+extern GetBlockSizeCallback GetBlockSize;
 extern EnableTerminationOnHeapCorruptionCallback EnableTerminationOnHeapCorruption;
+extern PageAllocationSizeCallback PageAllocationSize;
+extern PageAllocateCallback PageAllocate;
+extern PageFreeCallback PageFree;
 extern AllocateCallback Allocate;
 extern FreeCallback Free;
 extern CompareCallback Compare;

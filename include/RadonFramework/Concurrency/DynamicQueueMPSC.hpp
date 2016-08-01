@@ -15,7 +15,7 @@ namespace RadonFramework { namespace Concurrency {
 * - multiple producer and single consumer(MPSC)
 * - dynamic size(link list)
 *
-* If you need other producer and/or consumer constellation then look for the 
+* If you need other producer and/or consumer combination then look for the 
 * specialized implementation.
 */
 template<typename T>
@@ -47,11 +47,13 @@ public:
     RF_Type::Bool IsEmpty()const;
 private:
     TypelessDynamicQueueMPSC m_RealQueue;
+    RF_Mem::PoolAllocator m_PayloadAllocator;
 };
 
 template<typename T>
 DynamicQueueMPSC<T>::DynamicQueueMPSC(RF_Mem::AllocatorBase* Arena /*= nullptr*/)
 :m_RealQueue(Arena)
+,m_PayloadAllocator(sizeof(T), alignof(T), Arena)
 {
 }
 
@@ -73,7 +75,7 @@ inline void DynamicQueueMPSC<T>::Clear()
     void* p = nullptr;
     while(p = (m_RealQueue.Dequeue()))
     {
-        RF_Delete(p, m_RealQueue.GetArena());
+        RF_Delete(p, m_PayloadAllocator);
     }
 }
 
@@ -85,7 +87,7 @@ inline RF_Type::Bool DynamicQueueMPSC<T>::Dequeue(T& Data)
     if(p)
     {
         Data = *p;
-        RF_Delete(p, m_RealQueue.GetArena());
+        RF_Delete(p, m_PayloadAllocator);
         result = true;
     }
     return result;
@@ -99,7 +101,7 @@ inline RF_Type::Bool DynamicQueueMPSC<T>::Dequeue()
     if(p)
     {
         result = true;
-        RF_Delete(p, m_RealQueue.GetArena());
+        RF_Delete(p, m_PayloadAllocator);
     }
     return result;
 }
@@ -107,14 +109,14 @@ inline RF_Type::Bool DynamicQueueMPSC<T>::Dequeue()
 template<typename T>
 inline void DynamicQueueMPSC<T>::Enqueue(T& Data)
 {
-    T* p = RF_New(T, m_RealQueue.GetArena())(Data);
+    T* p = RF_New(T, m_PayloadAllocator)(Data);
     m_RealQueue.Enqueue(p);
 }
 
 template<typename T>
 inline void DynamicQueueMPSC<T>::Enqueue(const T& Data)
 {
-    T* p = RF_New(T, m_RealQueue.GetArena())(Data);
+    T* p = RF_New(T, m_PayloadAllocator)(Data);
     m_RealQueue.Enqueue(p);
 }
 

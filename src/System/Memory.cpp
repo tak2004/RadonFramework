@@ -119,6 +119,16 @@ UInt32 GetPageSize_SystemAPIDispatcher()
     return GetPageSize();
 }
 
+UInt32 GetBlockSize_SystemAPIDispatcher()
+{
+    GetBlockSize = 0;
+    Dispatch();
+    Assert(GetBlockSize != GetBlockSize_SystemAPIDispatcher &&
+           GetBlockSize != 0,
+           "Funtion was called and couldn't be dispatched");
+    return GetBlockSize();
+}
+
 void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
 {
     EnableTerminationOnHeapCorruption = 0;
@@ -127,6 +137,36 @@ void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
            EnableTerminationOnHeapCorruption != 0,
            "Funtion was called and couldn't be dispatched");
     EnableTerminationOnHeapCorruption();
+}
+
+Size PageAllocationSize_SystemAPIDispatcher(const void* FirstPage)
+{
+    PageAllocationSize = 0;
+    Dispatch();
+    Assert(PageAllocationSize != PageAllocationSize_SystemAPIDispatcher &&
+           PageAllocationSize != 0,
+           "Funtion was called and couldn't be dispatched");
+    return PageAllocationSize(FirstPage);
+}
+
+void* PageAllocate_SystemAPIDispatcher(Size& Bytes)
+{
+    PageAllocate = 0;
+    Dispatch();
+    Assert(PageAllocate != PageAllocate_SystemAPIDispatcher &&
+           PageAllocate != 0,
+           "Funtion was called and couldn't be dispatched");
+    return PageAllocate(Bytes);
+}
+
+void PageFree_SystemAPIDispatcher(void* FirstPage)
+{
+    PageFree = 0;
+    Dispatch();
+    Assert(PageFree != PageFree_SystemAPIDispatcher&&
+           PageFree != 0,
+           "Funtion was called and couldn't be dispatched");
+    PageFree(FirstPage);
 }
 
 void* Allocate_SystemAPIDispatcher(const Size Bytes, const Size Alignment)
@@ -150,7 +190,11 @@ void Free_SystemAPIDispatcher(void* FirstPage)
 }
 
 GetPageSizeCallback RF_SysMem::GetPageSize = GetPageSize_SystemAPIDispatcher;
+GetBlockSizeCallback RF_SysMem::GetBlockSize = GetBlockSize_SystemAPIDispatcher;
 EnableTerminationOnHeapCorruptionCallback RF_SysMem::EnableTerminationOnHeapCorruption = EnableTerminationOnHeapCorruption_SystemAPIDispatcher;
+PageAllocationSizeCallback RF_SysMem::PageAllocationSize = PageAllocationSize_SystemAPIDispatcher;
+PageAllocateCallback RF_SysMem::PageAllocate = PageAllocate_SystemAPIDispatcher;
+PageFreeCallback RF_SysMem::PageFree = PageFree_SystemAPIDispatcher;
 AllocateCallback RF_SysMem::Allocate = Allocate_SystemAPIDispatcher;
 FreeCallback RF_SysMem::Free = Free_SystemAPIDispatcher;
 
@@ -158,8 +202,12 @@ Bool RF_SysMem::IsSuccessfullyDispatched()
 {
     Bool result = true;
     result = result && GetPageSize != GetPageSize_SystemAPIDispatcher && GetPageSize != 0;
+    result = result && GetBlockSize != GetBlockSize_SystemAPIDispatcher && GetBlockSize != 0;
     result = result && EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher
         && EnableTerminationOnHeapCorruption != 0;
+    result = result && PageAllocationSize != PageAllocationSize_SystemAPIDispatcher && PageAllocationSize != 0;
+    result = result && PageAllocate != PageAllocate_SystemAPIDispatcher && PageAllocate != 0;
+    result = result && PageFree != PageFree_SystemAPIDispatcher && PageFree != 0;
     result = result && Allocate != Allocate_SystemAPIDispatcher && Allocate != 0;
     result = result && Free != Free_SystemAPIDispatcher && Free != 0;
     return result;
@@ -169,9 +217,17 @@ void RF_SysMem::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
 {
     if(GetPageSize == GetPageSize_SystemAPIDispatcher || GetPageSize == 0)
         Result.AddLast("GetPageSize"_rfs);
+    if(GetBlockSize == GetBlockSize_SystemAPIDispatcher || GetBlockSize == 0)
+        Result.AddLast("GetBlockSize"_rfs);
     if(EnableTerminationOnHeapCorruption == EnableTerminationOnHeapCorruption_SystemAPIDispatcher
        || EnableTerminationOnHeapCorruption == 0)
        Result.AddLast("EnableTerminationOnHeapCorruption"_rfs);
+    if(PageAllocationSize == PageAllocationSize_SystemAPIDispatcher || PageAllocationSize == 0)
+        Result.AddLast("PageAllocationSize"_rfs);
+    if(PageAllocate == PageAllocate_SystemAPIDispatcher || PageAllocate == 0)
+        Result.AddLast("PageAllocate"_rfs);
+    if(PageFree == PageFree_SystemAPIDispatcher || PageFree == 0)
+        Result.AddLast("PageFree"_rfs);
     if(Allocate == Allocate_SystemAPIDispatcher || Allocate == 0)
         Result.AddLast("Allocate"_rfs);
     if(Free == Free_SystemAPIDispatcher || Free == 0)
