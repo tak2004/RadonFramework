@@ -234,7 +234,7 @@ RF_Type::Size GetPhysicalMemorySizeWindows()
     MEMORYSTATUSEX memInfo;
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
     GlobalMemoryStatusEx(&memInfo);
-    return memInfo.ullTotalPhys * 1024;
+    return memInfo.ullTotalPhys;
 }
 
 RF_Type::Size GetFreePhysicalMemorySizeWindows()
@@ -242,7 +242,7 @@ RF_Type::Size GetFreePhysicalMemorySizeWindows()
     MEMORYSTATUSEX memInfo;
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
     GlobalMemoryStatusEx(&memInfo);
-    return memInfo.ullAvailPhys * 1024;
+    return memInfo.ullAvailPhys;
 }
 
 }

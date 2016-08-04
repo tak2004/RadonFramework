@@ -28,4 +28,9 @@ protected:
 
 } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_SYS
+#define RF_SHORTHAND_NAMESPACE_SYS
+namespace RF_Sys = RadonFramework::System;
+#endif
+
 #endif // RF_SYSTEM_OPERATINGSYSTEM_HPP

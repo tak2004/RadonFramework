@@ -241,7 +241,7 @@ AutoPointerArray<String> Directory::Files()const
     List<String> tmp;
     for (Size i=0; i<content.Count(); ++i)
     {
-        if(!RF_SysFile::Stat(systemPath + RF_SysFile::PathSeperator() + content[i])->IsDirectory)
+        if(!RF_SysFile::Stat(systemPath + RF_SysFile::Seperator() + content[i])->IsDirectory)
         {
             tmp.AddLast(content[i]);
         }
@@ -264,13 +264,13 @@ AutoPointerArray<String> Directory::FilesIncludingSubdirectories()const
     List<String> tmp;
     for (Size i=0; i<content.Count(); ++i)
     {
-        if(RF_SysFile::Stat(systemPath + RF_SysFile::PathSeperator() + content[i])->IsDirectory)
+        if(RF_SysFile::Stat(systemPath + RF_SysFile::Seperator() + content[i])->IsDirectory)
         {
             Directory subdir;
-            subdir.SetLocation(systemPath + RF_SysFile::PathSeperator() + content[i]);
+            subdir.SetLocation(m_Uri.OriginalString() + content[i] + RF_SysFile::Seperator());
             AutoPointerArray<String> dirContent = subdir.FilesIncludingSubdirectories();
-            for(Size i = 0; i < dirContent.Size(); ++i)
-                tmp.AddLast(dirContent[i]);
+            for(Size j = 0; j < dirContent.Count(); ++j)
+                tmp.AddLast(content[i] + RF_SysFile::Seperator() + dirContent[j]);
         }
         else
             tmp.AddLast(content[i]);

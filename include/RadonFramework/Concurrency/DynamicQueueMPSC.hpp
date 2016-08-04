@@ -53,7 +53,7 @@ private:
 template<typename T>
 DynamicQueueMPSC<T>::DynamicQueueMPSC(RF_Mem::AllocatorBase* Arena /*= nullptr*/)
 :m_RealQueue(Arena)
-,m_PayloadAllocator(sizeof(T), alignof(T), Arena)
+,m_PayloadAllocator(sizeof(T), alignof(T), Arena ? Arena : RF_Pattern::Singleton<RF_Mem::SystemAllocator>::Instance())
 {
 }
 
