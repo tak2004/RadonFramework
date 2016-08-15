@@ -768,10 +768,24 @@ RF_Type::String& String::ToUpper()
     return *this;
 }
 
+RF_Type::String String::ToUpper() const
+{
+	auto result = *this;
+	RF_SysStr::ToUpper(result);
+	return result;
+}
+
 RF_Type::String& String::ToLower()
 {
     RF_SysStr::ToLower(*this);
     return *this;
+}
+
+RF_Type::String String::ToLower() const
+{
+	auto result = *this;
+	RF_SysStr::ToLower(result);
+	return result;
 }
 
 RF_Type::Bool String::IsNumber()const 

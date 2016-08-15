@@ -284,8 +284,14 @@ public:
     /// Convert all lower case to upper case chars.
     RF_Type::String& ToUpper();
 
+	/// Convert all lower case to upper case chars.
+	RF_Type::String ToUpper()const;
+
     /// Convert all upper case to lower case chars.
-    RF_Type::String& ToLower();
+    RF_Type::String ToLower()const;
+
+	/// Convert all upper case to lower case chars.
+	RF_Type::String& ToLower();
 
     /// Check if the String instance contain a number.
     Bool IsNumber()const;

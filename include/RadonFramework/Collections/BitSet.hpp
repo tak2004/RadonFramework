@@ -60,6 +60,8 @@ public:
     BitSet& Reset(RF_Type::Size Index);
     BitSet& Flip(RF_Type::Size Index);
 
+	RF_Type::Size NumberOfBitsSet()const;
+
     RF_Type::Size Size()const;
     RF_Type::Size Count()const;
     RF_Type::Bool Any()const;
@@ -474,6 +476,17 @@ BitSet<Bits> operator^(const BitSet<Bits>& A, const BitSet<Bits>& B)
     BitSet<Bits> result(A);
     result^=B;
     return result;
+}
+
+template<int Bits>
+RF_Type::Size BitSet<Bits>::NumberOfBitsSet() const
+{
+	RF_Type::Size result = 0;
+	for (RF_Type::Size i = 0; i < Count(); ++i)
+	{
+		result += Test(i) ? 1 : 0;
+	}
+	return result;
 }
 
 } }

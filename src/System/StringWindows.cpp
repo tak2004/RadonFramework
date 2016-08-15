@@ -29,12 +29,22 @@ const String& GetLocale()
 
 Bool ToUpper(String& Instance)
 {
-    return _strupr_s(const_cast<char*>(Instance.c_str()), Instance.Size()) == 0;
+	Bool result = false;
+	if (!Instance.IsEmpty())
+	{
+		result = _strupr_s(const_cast<char*>(Instance.c_str()), Instance.Size()) == 0;
+	}
+	return result;
 }
 
 Bool ToLower(String& Instance)
 {
-    return _strlwr_s(const_cast<char*>(Instance.c_str()), Instance.Size()) == 0;
+	Bool result = false;
+	if (!Instance.IsEmpty())
+	{
+		result = _strlwr_s(const_cast<char*>(Instance.c_str()), Instance.Size()) == 0;
+	}
+    return result;
 }
 
 Size StrSize(const UInt8* Buffer, const Size BufferSize)

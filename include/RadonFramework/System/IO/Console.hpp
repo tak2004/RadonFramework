@@ -62,6 +62,7 @@ public:
                     
     void NewLine();
     bool IsBusy();
+	RF_Type::String ReadLine();
 protected:
     friend class RF_Pattern::Singleton<Console>;
     Console();
@@ -104,5 +105,10 @@ void Console::WriteLine(const Net::FixedLengthString<T,Len>& Str)
 }
         
 } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_SYSIO
+#define RF_SHORTHAND_NAMESPACE_SYSIO
+namespace RF_SysIO = RadonFramework::System::IO;
+#endif
 
 #endif // RF_SYSTEM_IO_CONSOLE_HPP

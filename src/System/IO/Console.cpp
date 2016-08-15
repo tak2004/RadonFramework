@@ -60,6 +60,8 @@ void ImplementationResetColor()
     SetConsoleTextAttribute(RF_CONSOLE_HANDLE,RF_CONSOLE_OLDCOLORATTRS);
 }
 #endif
+#include <iostream>
+#include <string>
 
 #if defined(RF_UNIX)
 void ImplementationInit(ConsoleColor::Type& ForegroundColor, 
@@ -323,4 +325,13 @@ void RadonFramework::System::IO::Console::NewLine()
 bool RadonFramework::System::IO::Console::IsBusy()
 {
     return m_Busy.IsLocked();
+}
+
+RF_Type::String RadonFramework::System::IO::Console::ReadLine()
+{
+	RF_Type::String result;
+	std::string line;
+	getline(std::cin, line);
+	result = RF_Type::String(line.c_str(), line.size());
+	return result;
 }
