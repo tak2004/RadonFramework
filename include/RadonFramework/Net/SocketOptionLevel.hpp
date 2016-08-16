@@ -19,4 +19,9 @@ enum class SocketOptionLevel
 
 } }
 
+#ifndef RF_SHORTHAND_NAMESPACE_NET
+#define RF_SHORTHAND_NAMESPACE_NET
+namespace RF_Net = RadonFramework::Net;
+#endif
+
 #endif

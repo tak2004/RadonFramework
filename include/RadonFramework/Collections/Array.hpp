@@ -260,7 +260,7 @@ public:
     */
     template<typename Out>
     Memory::AutoPointer<Array<Out> > ConvertAll(
-        const Delegate1<Out(T)>& Converter);
+        const Delegate1<Out(T&)>& Converter);
 
     /**
     * \brief Copies a range of elements from an Array starting 
@@ -304,7 +304,7 @@ public:
     * \param Match The function that defines the conditions of
     *              the elements to search for.
     */
-    RF_Type::Bool Exists(const Delegate1<RF_Type::Bool(T)>& Match);
+    RF_Type::Bool Exists(const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -314,7 +314,7 @@ public:
     * \param Match The function that defines the conditions of 
     *              the element to search for.
     */
-    T* Find(const Delegate1<RF_Type::Bool(T)>& Match);
+    T* Find(const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Retrieves all the elements that match the conditions 
@@ -324,7 +324,7 @@ public:
     *              the elements to search for.
     */
     Memory::AutoPointer<Array<T,MA,MO> > FindAll(
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -336,7 +336,7 @@ public:
     *              the element to search for.
     */
     RF_Type::Size FindIndex(
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -349,7 +349,7 @@ public:
     *              the element to search for.
     */
     RF_Type::Size FindIndex(RF_Type::Size StartIndex,
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -364,7 +364,7 @@ public:
     */
     RF_Type::Size FindIndex(RF_Type::Size StartIndex,
         RF_Type::Size Count, 
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -374,7 +374,7 @@ public:
     * \param Match The function that defines the conditions of
     *              the element to search for.
     */
-    T* FindLast(const Delegate1<RF_Type::Bool(T)>& Match);
+    T* FindLast(const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -386,7 +386,7 @@ public:
     *              the element to search for.
     */
     RF_Type::Size FindLastIndex(
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -401,7 +401,7 @@ public:
     */
     RF_Type::Size FindLastIndex(
         RF_Type::Size StartIndex,
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Searches for an element that matches the conditions 
@@ -417,7 +417,7 @@ public:
     */
     RF_Type::Size FindLastIndex(
         RF_Type::Size StartIndex, RF_Type::Size Count, 
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     /**
     * \brief Performs the specified action for each element of 
@@ -768,7 +768,7 @@ public:
     *         value is true.
     */
     RF_Type::Bool TrueForAll(
-        const Delegate1<RF_Type::Bool(T)>& Match);
+        const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     void Swap(Array<T,MA,MO>& Other);
 // Operators
@@ -1026,7 +1026,7 @@ RF_Type::Bool Array<T,MA,MO>::ConstrainedCopy(
 template<typename T, typename MA, typename MO>
 template<typename Out>
 Memory::AutoPointer<Array<Out> > Array<T,MA,MO>::ConvertAll(
-    const Delegate1<Out(T)>& Converter)
+    const Delegate1<Out(T&)>& Converter)
 {
     Array<RF_Type::Size,MA,MO> lengths(m_Rank);
     for (RF_Type::Size i=0;i<m_Rank;++i)
@@ -1060,7 +1060,7 @@ void Array<T,MA,MO>::Copy(RF_Type::Size Index,
             
 template<typename T, typename MA, typename MO>
 RF_Type::Bool Array<T,MA,MO>::Exists(
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=0;i<end;++i)
@@ -1070,7 +1070,7 @@ RF_Type::Bool Array<T,MA,MO>::Exists(
 }
 
 template<typename T, typename MA, typename MO>
-T* Array<T,MA,MO>::Find(const Delegate1<RF_Type::Bool(T)>& Match)
+T* Array<T,MA,MO>::Find(const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=0;i<end;++i)
@@ -1080,7 +1080,7 @@ T* Array<T,MA,MO>::Find(const Delegate1<RF_Type::Bool(T)>& Match)
 }
 
 template<typename T, typename MA, typename MO>
-T* Array<T,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(T)>& Match)
+T* Array<T,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     RF_Type::Size end=m_ElementCount-1;
     for (RF_Type::Size i=end; i <= end;--i)
@@ -1091,7 +1091,7 @@ T* Array<T,MA,MO>::FindLast(const Delegate1<RF_Type::Bool(T)>& Match)
 
 template<typename T, typename MA, typename MO>
 Memory::AutoPointer<Array<T,MA,MO> > Array<T,MA,MO>::FindAll(
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     Memory::AutoPointer<Array<T,MA,MO> > result;
     // reserve memory with the size of pow
@@ -1123,7 +1123,7 @@ Memory::AutoPointer<Array<T,MA,MO> > Array<T,MA,MO>::FindAll(
 
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::FindIndex(
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindIndex(0,m_Length[0],Match);
@@ -1132,7 +1132,7 @@ RF_Type::Size Array<T,MA,MO>::FindIndex(
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::FindIndex(
     RF_Type::Size StartIndex,
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindIndex(StartIndex,m_Length[0]-StartIndex,Match);
@@ -1142,7 +1142,7 @@ template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::FindIndex(
     RF_Type::Size StartIndex,
     RF_Type::Size Count, 
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     RF_Type::Size end=StartIndex+Count;
@@ -1154,7 +1154,7 @@ RF_Type::Size Array<T,MA,MO>::FindIndex(
 
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::FindLastIndex(
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindLastIndex(m_Length[0]-1,m_Length[0],Match);
@@ -1163,7 +1163,7 @@ RF_Type::Size Array<T,MA,MO>::FindLastIndex(
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::FindLastIndex(
     RF_Type::Size StartIndex,
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return FindLastIndex(StartIndex,m_Length[0]-StartIndex,Match);
@@ -1172,7 +1172,7 @@ RF_Type::Size Array<T,MA,MO>::FindLastIndex(
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::FindLastIndex(
     RF_Type::Size StartIndex, RF_Type::Size Count, 
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     RF_Type::Int32 end = StartIndex - (Count - 1);
@@ -1603,7 +1603,7 @@ void Array<T,MA,MO>::Sort(Array<TKey,MA,MO>& Keys,
 
 template<typename T, typename MA, typename MO>
 RF_Type::Bool Array<T,MA,MO>::TrueForAll(
-    const Delegate1<RF_Type::Bool(T)>& Match)
+    const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
     for (RF_Type::Size i=0;i<m_ElementCount;++i)
         if (false==Match(m_Data[i]))

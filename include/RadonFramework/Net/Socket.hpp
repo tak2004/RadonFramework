@@ -66,6 +66,8 @@ public:
 
     void AssignSelectObjectCollector(
         System::Network::SelectObjectCollector& Collector)const;
+	void DetachFromSelectObjectCollector(
+		System::Network::SelectObjectCollector& Collector)const;
 
     SocketError Blocking(const RF_Type::Bool NewValue);
     RF_Type::Bool Blocking()const;

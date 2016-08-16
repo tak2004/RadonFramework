@@ -13,7 +13,7 @@ public:
     OpenGLCapability();
     OpenGLCapability(const OpenGLCapability& Copy);
     OpenGLCapability(OpenGLCapabilitiesType::Type Type,
-        RF_Type::String Name, RF_Type::UInt32 ElementCount = 1);
+        const RF_Type::String& Name, RF_Type::UInt32 ElementCount = 1);
     ~OpenGLCapability();
     OpenGLCapability& operator =(const OpenGLCapability& Other);
     const RF_Type::Int32 GLInt(const RF_Type::UInt32 Index=0)const;

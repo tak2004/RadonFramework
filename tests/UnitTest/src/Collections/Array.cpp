@@ -538,12 +538,12 @@ public:
         return 2==vec(0) && 3==vec(1) && 4==vec(2);
     }
 
-    Bool FindThree(UInt32 Value)
+    Bool FindThree(const UInt32& Value)
     {
         return Value==3;
     }
 
-    Bool FindZero(UInt32 Value)
+    Bool FindZero(const UInt32& Value)
     {
         return Value==0;
     }
@@ -631,7 +631,7 @@ public:
         return 1==vec2(0) && 2==vec2(1);
     }
 
-    Int32 ConvertSignSwitch(UInt32 Value)
+    Int32 ConvertSignSwitch(UInt32& Value)
     {
         return -static_cast<Int32>(Value);
     }

@@ -31,6 +31,7 @@ public:
     ~SelectObjectCollector();
     void Add(const NetService::SocketHandler& Handler);
     void Remove(const RF_Type::Size Index);
+	NetService::SocketHandler* Get(const RF_Type::Size Index)const;
                     
     RF_Type::Size Count()const;
     RF_Type::Bool IsSet(const RF_Type::Size Index)const;

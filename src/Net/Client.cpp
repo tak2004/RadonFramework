@@ -8,17 +8,13 @@ template<>
 struct PImpl<RF_Net::Client>::Data
 {
     Data()
-    :m_IsConnected(false)
-    {
-        m_Socket = RF_Net::Socket::Create(RF_Net::AddressFamily::InterNetwork, RF_Net::SocketType::Stream);
-    }
+    {}
 
     ~Data()
-    {
-    }
+    {}
 
-    RF_Mem::AutoPointer<RF_Net::Socket> m_Socket;
-    RF_Type::Bool m_IsConnected;
+	RF_Mem::AutoPointer<RF_Net::Socket> m_Socket;
+	RF_Type::Bool m_IsConnected;
 };
 
 } } }
@@ -81,6 +77,16 @@ void Client::Send(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data)
         RF_Type::UInt32 sendBytes = 0;
         m_Data->m_Socket->Send(Data.Get(), Data.Size(), sendBytes);
     }
+}
+
+Socket* Client::GetSocket()
+{
+	return m_Data->m_Socket.Get();
+}
+
+const Socket* Client::GetSocket() const
+{
+	return m_Data->m_Socket.Get();
 }
 
 RF_Type::Bool Client::ProcessPacket(Socket& Socket, const IPAddress& Source,

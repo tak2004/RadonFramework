@@ -176,6 +176,16 @@ void SelectObjectCollector::Remove(const Size Index)
     }    
 }
 
+NetService::SocketHandler* SelectObjectCollector::Get(const RF_Type::Size Index) const
+{
+	NetService::SocketHandler* result = nullptr;
+	if (Count() > Index)
+	{
+		result = reinterpret_cast<NetService::SocketHandler*>(&m_Data->Sockets(Index));
+	}
+	return result;
+}
+
 SelectObjectCollector& SelectObjectCollector::operator=(const SelectObjectCollector& Other)
 {
     return *this;

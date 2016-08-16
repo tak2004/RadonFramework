@@ -552,7 +552,7 @@ Bool Uri::NeedToEscapeDataChar[256]={
     1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1//240-255
 };
 
-RF_Type::String Uri::Escape( RF_Type::String str, const RF_Type::String& UriString )
+RF_Type::String Uri::Escape( RF_Type::String& str, const RF_Type::String& UriString )
 {
     return String();
 }

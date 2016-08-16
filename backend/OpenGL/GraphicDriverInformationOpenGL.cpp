@@ -30,7 +30,7 @@ OpenGLCapability::OpenGLCapability(const OpenGLCapability& Copy)
 }
 
 OpenGLCapability::OpenGLCapability(OpenGLCapabilitiesType::Type Type,
-                                   String Name,
+                                   const String& Name,
                                    UInt32 ElementCount)
 :m_Data(0)
 ,m_Type(Type)

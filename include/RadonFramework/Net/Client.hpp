@@ -27,6 +27,8 @@ public:
     virtual void Update();
     RF_Type::Bool IsConnected();
     virtual void Send(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
+	Socket* GetSocket();
+	const Socket* GetSocket()const;
 
     RF_Pattern::Event<ClientProcessPacketEvent&> OnPacketReceived;
     RF_Pattern::Signal OnDisconnect;

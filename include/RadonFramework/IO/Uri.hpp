@@ -178,7 +178,7 @@ protected:
     static RF_Type::Bool NeedToEscapeUriChar[256];
     static RF_Type::Bool NeedToEscapeDataChar[256];
 
-    RF_Type::String Escape( RF_Type::String str, const RF_Type::String& UriString );
+    RF_Type::String Escape( RF_Type::String& str, const RF_Type::String& UriString );
 };
 
 } }

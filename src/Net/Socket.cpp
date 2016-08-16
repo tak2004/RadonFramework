@@ -346,4 +346,16 @@ void Socket::AssignSelectObjectCollector(SelectObjectCollector& Collector)const
     Collector.Add(m_Data->Handler);
 }
 
+void Socket::DetachFromSelectObjectCollector(SelectObjectCollector& Collector)const
+{
+	for (RF_Type::Size i = 0; i < Collector.Count(); ++i)
+	{
+		if (*Collector.Get(i) == m_Data->Handler)
+		{
+			Collector.Remove(i);
+			break;
+		}
+	}	
+}
+
 } }
