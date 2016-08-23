@@ -97,16 +97,12 @@
 #ifndef _DENSE_HASH_MAP_H_
 #define _DENSE_HASH_MAP_H_
 
-    #include <RadonFramework/Defines.hpp>
-    #ifdef RF_WINDOWS
-        #ifdef RF_VISUALCPP
-        #include <RadonFramework/backend/google/sparsehash/sparseconfig_vsc.h>
-        #else
-        #include <RadonFramework/backend/google/sparsehash/sparseconfig_win.h>
-        #endif
-    #else
+#include <RadonFramework/Defines.hpp>
+#if defined(RF_VISUALCPP)
+    #include <RadonFramework/backend/google/sparsehash/sparseconfig_vsc.h>
+#else
     #include <RadonFramework/backend/google/sparsehash/sparseconfig.h>
-    #endif
+#endif
 
 #include <stdio.h>                   // for FILE * in read()/write()
 #include <algorithm>                 // for the default template args

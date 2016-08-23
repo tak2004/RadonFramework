@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Net/Service.hpp>
 
-namespace RadonFramework { namespace Time { class TimeSpan; } }
+namespace RadonFramework { namespace Time { struct TimeSpan; } }
 
 namespace RadonFramework { namespace Collections { template<class T> class AutoVector; } }
 
@@ -49,6 +49,7 @@ protected:
     virtual void PostBindConfigureSocket(ServerEvent& Sender) override;
     virtual void PreBindConfigureSocket(ServerEvent& Sender) override;
     virtual void PacketReceived(ServerProcessPacketEvent& Sender) override;
+    virtual void Setup(ServiceInterfaceBinding Binding, ServiceIPVersion Version) override;
 private:
     RF_Idiom::PImpl<ServiceDiscovery> m_PImpl;
     void ProcessAnswers(const Answer& Instance, const MessageReader& Reader);

@@ -13,6 +13,7 @@ TimeValue TimeSpan::TicksPerMillisecond=10000;
 TimeValue TimeSpan::TicksPerMicrosecond=10;
 
 TimeSpan TimeSpan::Zero = TimeSpan::CreateByTicks(0);
+TimeSpan TimeSpan::Max = TimeSpan::CreateByTicks(RF_Type::UInt64Max);
 
 TimeSpan TimeSpan::CreateByTicks(TimeValue Value)
 {

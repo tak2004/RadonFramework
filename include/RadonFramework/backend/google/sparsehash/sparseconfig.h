@@ -33,7 +33,7 @@
 #define HAVE_UINT16_T 1
 
 /* Define to 1 if the system has the type `u_int16_t'. */
-#define HAVE_U_INT16_T 1
+/* #define HAVE_U_INT16_T 1 */
 
 /* Define to 1 if the system has the type `__uint16'. */
 /* #undef HAVE___UINT16 */

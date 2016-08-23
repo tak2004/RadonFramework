@@ -31,7 +31,7 @@ Bool Form::Visible()
     return m_Backend->Visible();
 }
 
-void Form::Visible(const Bool Value)
+void Form::Visible(const Bool &Value)
 {
     m_Backend->Visible(Value);
 }

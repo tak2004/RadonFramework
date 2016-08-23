@@ -69,9 +69,14 @@ ServiceDiscovery::~ServiceDiscovery()
 
 void ServiceDiscovery::Setup()
 {
-    Service::Setup(ServiceInterfaceBinding::Private, ServiceIPVersion::All);
+    Setup(ServiceInterfaceBinding::Private, ServiceIPVersion::All);
     m_PImpl->m_EndpointIPv4 = EndPoint(IPAddress(224,0,0,251), 5353);
     m_PImpl->m_EndpointIPv6 = EndPoint(IPAddress(0xff02,0,0,0,0,0,0,0xFB), 5353);
+}
+
+void ServiceDiscovery::Setup(ServiceInterfaceBinding Binding, ServiceIPVersion Version)
+{
+    Service::Setup(Binding, Version);
 }
 
 const RF_Collect::AutoVector<NetworkService>& ServiceDiscovery::KnownServices() const

@@ -11,6 +11,7 @@ namespace RadonFramework { namespace IO {
 class Decoder
 {
 public:
+    virtual ~Decoder()=0;
     virtual void SetData(RF_Type::UInt8* ByteData, RF_Type::Size Bytes)=0;
     //on files it will load the header and on devices it will load device information
     virtual RF_Type::Size LoadInformation() = 0;

@@ -11,6 +11,7 @@ namespace RadonFramework { namespace IO {
 class Encoder
 {
 public:
+    virtual ~Encoder() = 0;
     virtual RF_Mem::AutoPointerArray<RF_Type::UInt8> GenerateData() = 0;
 };
     

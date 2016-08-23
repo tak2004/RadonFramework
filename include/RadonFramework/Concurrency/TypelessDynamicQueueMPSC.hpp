@@ -7,7 +7,7 @@
 #include <RadonFramework/Memory/PoolAllocator.hpp>
 
 // Forward declaration of the
-namespace RadonFramework { namespace Memory { struct AllocatorBase; } }
+namespace RadonFramework { namespace Memory { class AllocatorBase; } }
 
 namespace RadonFramework { namespace Concurrency {
 

@@ -16,7 +16,7 @@ class Form:public Control, public RF_Pattern::IObserver, public RF_Pattern::Sign
 public:
     Form();
     RF_Type::Bool Visible();
-    virtual void Visible(const RF_Type::Bool Value);
+    virtual void Visible(const RF_Type::Bool &Value);
     virtual RF_Type::String Title();
     virtual void Title(const RF_Type::String &Value);
     virtual void InitializeComponent();

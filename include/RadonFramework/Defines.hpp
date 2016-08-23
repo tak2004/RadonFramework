@@ -42,13 +42,18 @@
 //-------detect compiler---------//
 #if defined(RF_WINDOWS)          
     //Visual Studio C++ compiler
-    #if defined(_MSC_VER)       
+    #if defined(_MSC_VER) && !defined(__clang__)
         #define RF_VISUALCPP    
 		#if _MSC_VER <= 1600
 			#define RF_VISUALCPP_OLDER_2012
 		#endif
     #endif                      
 #endif                          
+
+//Clang compiler
+#if defined(__clang__)
+    #define RF_CLANG
+#endif
                                 
 //MinGW compiler                
 #if defined(__MINGW32__)        

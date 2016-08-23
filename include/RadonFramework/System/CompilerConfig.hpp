@@ -22,6 +22,11 @@ struct CompilerConfig
 namespace RF_Sys = RadonFramework::System;
 #endif
 
+/* Implement following macros.
+    RF_COMPILER_WARNING(X)
+    RF_FORCE_INLINE <- optional
+    RF_ALIGN(X) <- optional since c++11(alignas)
+*/
 #if defined(RF_VISUALCPP)
 // vsc++
 
@@ -41,6 +46,13 @@ namespace RF_Sys = RadonFramework::System;
 // error msg
 #define RF_COMPILER_WARNING(x) #warning x
 #else
+// clang
+#if defined(RF_CLANG)
+#define STR(X) #X
+#define DEFER(M,...) M(__VA_ARGS__)
+#define RF_COMPILER_WARNING(X) _Pragma(STR(GCC warning(X " at line " DEFER(STR,__LINE__))))
+#define RF_FORCE_INLINE __attribute__((always_inline))
+#else
 #if defined(RF_GCC)
 // gcc
 #define RF_FORCE_INLINE __attribute__((always_inline))
@@ -52,7 +64,8 @@ namespace RF_Sys = RadonFramework::System;
 #define RF_COMPILER_WARNING(x) RF_DO_PRAGMA(message ("warning: " x))
 #else
 static_assert(false, "There's no support, of compiler warnings, for your compiler at the moment.\
-                                                          Please insert the warning command for your compiler here or remove this info.");
+    Please insert the warning command for your compiler here or remove this info.");
+#endif
 #endif
 #endif
 #endif
@@ -140,7 +153,7 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #if defined(RF_VISUALCPP)
 #define RF_DEPRECATED_FUNC(msg) __declspec(deprecated(msg))
 #endif
-#define RF_DEPRECATED_HEADER(msg) RF_COMPILER_WARNING(msg);
+#define RF_DEPRECATED_HEADER(msg) RF_COMPILER_WARNING(msg)
 // it's not mandatory, warn about the lack of functionality and define the macro
 #ifndef RF_DEPRECATED_FUNC
 RF_COMPILER_WARNING("RF_DEPRECATED macro is not set you should implement it for this compiler!");

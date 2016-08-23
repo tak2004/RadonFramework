@@ -22,6 +22,7 @@ struct TimeSpan
     static TimeValue TicksPerMillisecond;
     static TimeValue TicksPerMicrosecond;
     static TimeSpan Zero;
+    static TimeSpan Max;
 
     static TimeSpan CreateByTicks(TimeValue Value);
     static TimeSpan CreateByTime(RF_Type::UInt32 Hours, RF_Type::UInt32 Minutes,

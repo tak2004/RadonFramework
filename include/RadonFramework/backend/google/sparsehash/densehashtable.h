@@ -96,16 +96,12 @@
 // Quadratic probing
 #define JUMP_(key, num_probes)    ( num_probes )
 
-    #include <RadonFramework/Defines.hpp>
-    #ifdef RF_WINDOWS
-        #ifdef RF_VISUALCPP
-        #include <RadonFramework/backend/google/sparsehash/sparseconfig_vsc.h>
-        #else
-        #include <RadonFramework/backend/google/sparsehash/sparseconfig_win.h>
-        #endif
-    #else
+#include <RadonFramework/Defines.hpp>
+#if defined(RF_VISUALCPP)
+    #include <RadonFramework/backend/google/sparsehash/sparseconfig_vsc.h>
+#else
     #include <RadonFramework/backend/google/sparsehash/sparseconfig.h>
-    #endif
+#endif
 	
 #include <assert.h>
 #include <stdio.h>

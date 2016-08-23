@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/Event.hpp>
 #include <RadonFramework/Collections/AutoVector.hpp>
 
-namespace RadonFramework { namespace Time { class TimeSpan; } }
+namespace RadonFramework { namespace Time { struct TimeSpan; } }
 
 namespace RadonFramework { namespace Net {
 
