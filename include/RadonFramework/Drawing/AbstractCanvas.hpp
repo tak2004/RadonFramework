@@ -30,7 +30,7 @@ class AbstractCanvas
 {
 public:
     virtual void Generate()=0;
-    virtual void SetWindowInfos(Forms::AbstractWindow* Window)=0;
+    virtual void SetWindowInfos(const Forms::AbstractWindow& Window)=0;
     virtual void Clear()=0;
     virtual void SwapBuffer()=0;
     virtual void UpdateRectangle(Math::Geometry::Rectangle<RF_Type::Int32> &Rec)=0;
@@ -38,9 +38,7 @@ public:
     * This is necessary if you use two or more canvas in one process.
     **/
     virtual void MakeCurrent()=0;
-    virtual System::Threading::Mutex& RenderLock() = 0;
 
-    virtual RF_Geo::Mat4f& TexturecoordMatrix()=0;
     virtual const GraphicDriverInformation& GetGraphicDriverInformation()=0;
     /** Synchronize specifies VSync On or Off and ShouldContinue hint to 
     * continue or wait till the buffer was swapped.

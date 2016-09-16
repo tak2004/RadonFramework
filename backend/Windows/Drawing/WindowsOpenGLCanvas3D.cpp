@@ -21,8 +21,7 @@ using namespace RadonFramework::GL;
 
 WindowsOpenGLCanvas3D::WindowsOpenGLCanvas3D()
 {
-    m_TexturecoordMatrix.Scale(1.0,-1.0,1.0);
-    m_TexturecoordMatrix.Translate(0.0,1.0,0.0);
+
 }
 
 WindowsOpenGLCanvas3D::~WindowsOpenGLCanvas3D()
@@ -31,11 +30,11 @@ WindowsOpenGLCanvas3D::~WindowsOpenGLCanvas3D()
     ReleaseDC(m_WndHandle, m_DeviceContext);
 }
 
-void WindowsOpenGLCanvas3D::SetWindowInfos(AbstractWindow* Window)
+void WindowsOpenGLCanvas3D::SetWindowInfos(const AbstractWindow& Window)
 {
-    WindowsWindow* wnd=static_cast<WindowsWindow*>(Window);
-    m_WndHandle = wnd->GetHandle();
-    m_DeviceContext=GetDC(wnd->GetHandle());
+    const WindowsWindow& wnd=static_cast<const WindowsWindow&>(Window);
+    m_WndHandle = wnd.GetHandle();
+    m_DeviceContext=GetDC(wnd.GetHandle());
 }
 
 void WindowsOpenGLCanvas3D::Clear()
@@ -51,11 +50,6 @@ void WindowsOpenGLCanvas3D::SwapBuffer()
 void WindowsOpenGLCanvas3D::UpdateRectangle(Math::Geometry::Rectangle<>& Rec)
 {
     glViewport(Rec.Left(),Rec.Top(),Rec.Width(),Rec.Height());
-}
-
-Mat4f& WindowsOpenGLCanvas3D::TexturecoordMatrix()
-{
-    return m_TexturecoordMatrix;
 }
 
 void WindowsOpenGLCanvas3D::MakeCurrent()

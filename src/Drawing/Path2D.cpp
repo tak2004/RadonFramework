@@ -51,18 +51,17 @@ void Path2D::LineTo(const RF_Geo::Point2Df& Position)
 
 void Path2D::BezierTo(const RF_Geo::Point2Df& ControlPoint1, const RF_Geo::Point2Df& ControlPoint2, const RF_Geo::Point2Df& Position)
 {
-/*    m_CommandBuffer.AddLast(Command::BezierTo);*/
+
 }
 
 void Path2D::QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint, const RF_Geo::Point2Df& Position)
 {
-/*    m_CommandBuffer.AddLast(Command::QuadraticBezierTo);*/
+
 }
 
 void Path2D::ArcTo(const RF_Geo::Point2Df& Position1, const RF_Geo::Point2Df& Position2, RF_Type::Float32 Radius)
 {
-//     m_CommandBuffer.AddLast(Command::LineTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
+
 }
 
 void Path2D::Close()
@@ -77,15 +76,7 @@ void Path2D::Close()
 
 void Path2D::AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius, RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop)
 {
-//     m_CommandBuffer.AddLast(Command::MoveTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     if(Radius> 90.0f)
-//         m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     if(Radius> 180.0f)
-//         m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     if(Radius> 270.0f)
-//         m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::Close);
+
 }
 
 void Path2D::AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension)
@@ -104,42 +95,19 @@ void Path2D::AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2D
 
 void Path2D::AddRoundRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Radius)
 {
-//     m_CommandBuffer.AddLast(Command::MoveTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::LineTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::LineTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::LineTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::Close);
+
 }
 
 void Path2D::AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)
 {
-//     m_CommandBuffer.AddLast(Command::MoveTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::Close);
+
 }
 
 void Path2D::AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius)
 {
-//     m_CommandBuffer.AddLast(Command::MoveTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::QuadraticBezierTo);
-//     m_CommandBuffer.AddLast(Command::Close);
+
 }
 
-Stroke& Path2D::StrokeProperties()
-{
-    return m_StrokeProperties;
-}
-
-Fill& Path2D::FillProperties()
-{
-    return m_FillProperties;
-}
 
 void Path2D::Finalize()
 {

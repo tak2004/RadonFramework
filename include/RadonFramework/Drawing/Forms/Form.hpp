@@ -11,7 +11,8 @@
 
 namespace RadonFramework { namespace Forms {
 
-class Form:public Control, public RF_Pattern::IObserver, public RF_Pattern::SignalReceiver
+class Form:public Control, public RF_Pattern::IObserver, 
+    public RF_Pattern::SignalReceiver
 {
 public:
     Form();
@@ -27,7 +28,7 @@ public:
     virtual void MouseButtonPressed(const IO::MouseEvent& Value);
     virtual void MouseButtonReleased(const IO::MouseEvent& Value);
     virtual void MouseMove(const IO::MouseEvent& Value);
-    virtual AbstractWindow* Backend();
+    virtual const AbstractWindow* Backend()const;
     virtual void Size(const Math::Geometry::Size2D<>& NewSize);
     virtual void Position(const Math::Geometry::Point2D<>& NewPosition);
     virtual void Border(const RF_Type::Bool Show);

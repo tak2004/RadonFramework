@@ -13,18 +13,15 @@ public:
     WindowsOpenGLCanvas3D();
     ~WindowsOpenGLCanvas3D();
 
-    void SetWindowInfos(Forms::AbstractWindow* Window);
-    void Clear();
-    void SwapBuffer();
-    void UpdateRectangle(RF_Geo::Rectangle<> &Rec);
-    void MakeCurrent();
-
-    RF_Geo::Mat4f& TexturecoordMatrix();
+    virtual void SetWindowInfos(const Forms::AbstractWindow& Window) final;
+    virtual void Clear() final;
+    virtual void SwapBuffer() final;
+    virtual void UpdateRectangle(RF_Geo::Rectangle<> &Rec) final;
+    virtual void MakeCurrent() final;
 
     virtual void SetVSync(const RF_Type::Bool Synchronize = true,
         const RF_Type::Bool ShouldContinue = true) final;
 protected:
-    RF_Geo::Mat4f m_TexturecoordMatrix;
     HWND m_WndHandle;
     HDC m_DeviceContext;
     PIXELFORMATDESCRIPTOR m_PixelFormat;

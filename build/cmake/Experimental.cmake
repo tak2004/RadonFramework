@@ -15,21 +15,7 @@ if(NOT RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR)
     list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Memory/Allocator.hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Memory/Allocator.cpp)
 endif()
 if(NOT RADONFRAMEWORK_EXPERIMENTAL_OGLVM)
-    
-    list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/OpenGLMachine.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/OpenGLMachine.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/Text2D.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/Path2D.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Path2D.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/NativeShape.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/NativeShape.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Forms/Label.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Forms/Label.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/Draw2D.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/Draw2D.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/CommandBuffer.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/MeshGenerator2D.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/CommandBuffer.cpp
+    list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/Drawing/MeshGenerator2D.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Drawing/MeshGenerator2D.cpp)
 endif()
 

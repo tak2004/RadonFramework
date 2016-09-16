@@ -2,7 +2,6 @@
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
-#include <RadonFramework/IO/Log.hpp>
 
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::Forms;
@@ -10,13 +9,12 @@ using namespace RadonFramework::Math::Geometry;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::IO;
 
-void ControlCollection::Add(Control *Obj)
+void ControlCollection::AddChild(Control& Obj)
 {
-  Obj->Parent(m_Parent);
-  m_List.AddLast(Obj);
+  m_List.AddLast(&Obj);
 }
 
-Control* ControlCollection::Get(const Size Index)
+Control* ControlCollection::GetChild(const Size Index)
 {
     Assert(Index < m_List.Count(), "Index out of bounds.");
 
@@ -27,27 +25,59 @@ Control* ControlCollection::Get(const Size Index)
     return *it;
 }
 
-Size ControlCollection::Count()
+Size ControlCollection::GetChildCount()const
 {
     return m_List.Count();
 }
 
-List<Control*>::Iterator ControlCollection::Begin()
+List<Control*>::ConstIterator ControlCollection::ConstBegin()const
+{
+    return m_List.ConstBegin();
+}
+
+List<Control*>::ConstIterator ControlCollection::ConstEnd()const
+{
+    return m_List.ConstEnd();
+}
+
+List<Control*>::Iterator ControlCollection::Begin()const
 {
   return m_List.Begin();
 }
 
-List<Control*>::Iterator ControlCollection::End()
+List<Control*>::Iterator ControlCollection::End()const
 {
   return m_List.End();
 }
 
-Control::Control()
+Bool ControlCollection::HasChildren()const
+{
+    return GetChildCount() > 0 ? true : false;
+}
+
+const Control* ControlCollection::GetParent()const
+{
+    return m_Parent;
+}
+
+Control* ControlCollection::GetParent()
+{
+    return m_Parent;
+}
+
+void ControlCollection::SetParent(Control& Value)
+{
+    m_Parent = &Value;
+}
+
+Control::Control(Control* Parent /*= nullptr*/)
 :m_ClientRectangle(Point2D<>(0,0)
 ,Point2D<>(1,1))
-,m_Parent(0)
 {
-  Controls.m_Parent=this;
+    if(Parent)
+    {
+        Parent->AddChild(*this);
+    }
 }
 
 Control::~Control()
@@ -58,39 +88,16 @@ void Control::Resize(const RF_Geo::Size2D<>& Value)
 {
     m_ClientRectangle.Width(Value.Width);
     m_ClientRectangle.Height(Value.Height);
-    for (List<Control*>::Iterator it=Controls.Begin(); it!=Controls.End(); ++it)
+    for (List<Control*>::Iterator it=Begin(); it!=End(); ++it)
         (*it)->Resize(Value);
     OnResize(Value);
 }
 
 void Control::Reposition(const RF_Geo::Point2D<>& Value)
 {
-    for (List<Control*>::Iterator it = Controls.Begin(); it != Controls.End(); ++it)
+    for (List<Control*>::Iterator it = Begin(); it != End(); ++it)
         (*it)->Reposition(Value);
     OnReposition(Value);
-}
-
-Bool Control::HasChildren()
-{
-    return Controls.Count()>0 ? true:false;
-}
-
-Control* Control::Parent()
-{
-  return m_Parent;
-}
-
-void Control::Parent(const Control* Value)
-{
-  m_Parent=const_cast<Control*>(Value);
-}
-
-Control* Control::Root()
-{
-  Control* ctrl=this;
-  while (ctrl->Parent())
-    ctrl=ctrl->Parent();
-  return ctrl;
 }
 
 Int32 Control::Top()
@@ -151,4 +158,31 @@ Bool Control::Visible()
 void Control::Visible(const Bool &Value)
 {
     m_Visible=Value;
+}
+
+const Control& Control::GetRoot()const
+{
+    const Control* ctrl = this;
+    while(ctrl->GetParent())
+        ctrl = ctrl->GetParent();
+    return *ctrl;
+}
+
+Control& Control::GetRoot()
+{
+    Control* ctrl = this;
+    while(ctrl->GetParent())
+        ctrl = ctrl->GetParent();
+    return *ctrl;
+}
+
+void Control::AddChild(Control& Obj)
+{
+    ControlCollection::AddChild(Obj);
+    Obj.SetParent(*this);
+}
+
+const RF_Draw::Path2D& Control::GetPath() const
+{
+    return m_Path;
 }

@@ -1,20 +1,21 @@
 # Define a project if this file wasn't included.
 if(NOT CMAKE_PROJECT_NAME OR "${CMAKE_PROJECT_NAME}" MATCHES "^RadonFramework$")
     cmake_minimum_required(VERSION 2.8.11)
-    project(RadonFramework C CXX)
+    project(RadonFramework)
     set(RADONFRAMEWORK_LOCATION ${CMAKE_SOURCE_DIR})
     set(RADONFRAMEWORK_ADD_TESTS ON CACHE BOOL "" FORCE)
     set(RADONFRAMEWORK_ADD_DOCUMENTATION ON CACHE BOOL "" FORCE)
-    endif()
+endif()
 
 # Add additional CMake macros and functions.
-INCLUDE (CheckFunctionExists)
+INCLUDE(CheckFunctionExists)
 include("Integrate.cmake")
 
 # General framework options.
 OPTION(RADONFRAMEWORK_ADD_DOCUMENTATION "Add the framework documentation generation to the build." OFF)
 OPTION(RADONFRAMEWORK_ADD_TESTS "Add the framework specific tests." OFF)
 OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL canvas support" ON)
+OPTION(RADONFRAMEWORK_ADD_EXAMPLES "Add the framework examples." OFF)
 
 # Advanced framework options.
 OPTION(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE "Enable code which is still in development." OFF)
@@ -30,6 +31,10 @@ if(RADONFRAMEWORK_ADD_TESTS)
     mark_as_advanced(RADONFRAMEWORK_BUILD_RESOURCETEST)
     OPTION(RADONFRAMEWORK_BUILD_SYSTEMTEST "Enable the system test" ON)
     mark_as_advanced(RADONFRAMEWORK_BUILD_SYSTEMTEST)
+endif()
+if(RADONFRAMEWORK_ADD_EXAMPLES)
+    rcf_addlocation(CONSOLE "git" "https://github.com/tak2004/RadonFrameworkExample.git")
+    Integrate(CONSOLE "Radon Examples" "RADONEXAMPLES_HOME")
 endif()
 
 # Radon version

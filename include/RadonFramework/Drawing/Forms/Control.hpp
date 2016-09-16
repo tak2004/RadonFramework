@@ -4,11 +4,11 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Core/Pattern/Event.hpp>
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
+#include <RadonFramework/Drawing/Path2D.hpp>
 
 namespace RadonFramework { namespace Forms {
 
@@ -16,28 +16,31 @@ class Control;
 
 class ControlCollection
 {
-friend class Control;
 public:
-    void Add(Control *Obj);
-    Control* Get(const RF_Type::Size Index);
-    RF_Type::Size Count();
-    RF_Collect::List<Control*>::Iterator Begin();
-    RF_Collect::List<Control*>::Iterator End();
-protected:
+    virtual void AddChild(Control& Obj);
+    Control* GetChild(const RF_Type::Size Index);
+    RF_Type::Size GetChildCount()const;
+    RF_Collect::List<Control*>::Iterator Begin()const;
+    RF_Collect::List<Control*>::Iterator End()const;
+    RF_Collect::List<Control*>::ConstIterator ConstBegin()const;
+    RF_Collect::List<Control*>::ConstIterator ConstEnd()const;
+    
+    RF_Type::Bool HasChildren()const;
+    const Control* GetParent()const;
+    Control* GetParent();
+    void SetParent(Control& Value);
+private:
     RF_Collect::List<Control*> m_List;
     Control* m_Parent;
 };
 
-class Control
+class Control: public ControlCollection
 {
 public:
-    Control();
+    Control(Control* Parent = nullptr);
     virtual ~Control();
-    virtual RF_Type::Bool HasChildren();
-    virtual Control* Parent();
-    virtual void Parent(const Control* Value);
-    virtual Control* Root();
 
+    virtual void AddChild(Control& Obj)override;
     virtual RF_Type::Int32 Top();
     virtual void Top(const RF_Type::Int32 &Value);
     virtual RF_Type::Int32 Left();
@@ -55,12 +58,16 @@ public:
     virtual RF_Type::Bool Visible();
     virtual void Visible(const RF_Type::Bool &Value);
 
+    virtual const Drawing::Path2D& GetPath()const;
+    virtual const Control& GetRoot()const;
+    virtual Control& GetRoot();
+
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
-    ControlCollection Controls;
 protected:
     RF_Geo::Rectangle<> m_ClientRectangle;
-    Control* m_Parent;
+    RF_Draw::Path2D m_Path;
+private:
     RF_Type::Bool m_Visible;
 };
 

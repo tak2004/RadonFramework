@@ -8,6 +8,7 @@ namespace RadonFramework { namespace Forms {
 class Label: public Control
 {
 public:
+    Label(Control* Parent = nullptr);
     void SetText(const RF_Type::String& NewText);
     const RF_Type::String& GetText()const;
 protected:

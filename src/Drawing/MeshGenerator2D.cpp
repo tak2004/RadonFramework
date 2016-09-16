@@ -1,6 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/MeshGenerator2D.hpp"
-#include "RadonFramework/Drawing/NativeShape.hpp"
 #include "RadonFramework/Drawing/Path2D.hpp"
 #include "RadonFramework/Math/Geometry/Vector.hpp"
 

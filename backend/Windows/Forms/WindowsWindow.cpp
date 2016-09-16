@@ -552,7 +552,7 @@ WindowsWindow* WindowsWindow::GetObjectByIndex(const UInt32 Index)
     return m_Objects[Index];
 }
 
-HWND WindowsWindow::GetHandle()
+HWND WindowsWindow::GetHandle()const
 {
     return m_Handle;
 }

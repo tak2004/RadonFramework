@@ -22,11 +22,9 @@ public:
     virtual const GraphicDriverInformation& GetGraphicDriverInformation() final;
     /// This method return information about OpenGL capabilities.
     const GraphicDriverInformationOpenGL& GetContextRelatedGraphicDriverInformation();
-    System::Threading::Mutex& RenderLock();
 protected:
     GraphicDriverInformation* m_GraphicDriverInformation;
     GraphicDriverInformationOpenGL* m_GraphicDriverInformationOpenGL;
-    Memory::AutoPointer<System::Threading::Mutex> m_Lock;
     virtual void GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions);
 };
 

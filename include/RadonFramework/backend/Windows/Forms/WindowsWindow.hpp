@@ -31,7 +31,7 @@ public:
     RF_Geo::Point2D<> GetCursorPosition()const;
     virtual RF_Mem::AutoPointerArray<RF_Type::UInt8> CaptureClientRect() override;
 
-    HWND GetHandle();
+    HWND GetHandle()const;
 
     static WindowsWindow* GetObjectByHandle(const HWND Handle);
     static RF_Type::UInt32 GetObjectCount();

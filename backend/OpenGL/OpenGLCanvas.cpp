@@ -160,7 +160,6 @@ OpenGLCanvas::OpenGLCanvas()
 :m_GraphicDriverInformation(0)
 ,m_GraphicDriverInformationOpenGL(0)
 {
-    m_Lock = AutoPointer<System::Threading::Mutex>(new System::Threading::Mutex());
 }
 
 const GraphicDriverInformation& OpenGLCanvas::GetGraphicDriverInformation()
@@ -283,11 +282,6 @@ const GraphicDriverInformationOpenGL& OpenGLCanvas::GetContextRelatedGraphicDriv
         m_GraphicDriverInformationOpenGL=new GraphicDriverInformationOpenGL(ext,caps);
     }
     return *m_GraphicDriverInformationOpenGL;
-}
-
-System::Threading::Mutex& OpenGLCanvas::RenderLock()
-{
-    return *m_Lock;
 }
 
 void OpenGLCanvas::GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions)

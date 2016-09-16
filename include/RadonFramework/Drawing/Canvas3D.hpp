@@ -7,33 +7,38 @@
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
+#include <RadonFramework/Core/Pattern/Signal.hpp>
 
 namespace RadonFramework { namespace System { namespace Threading {
 class Mutex;
 } } }
 
+namespace RadonFramework { namespace Forms { class Form; } }
+
 namespace RadonFramework { namespace Drawing {
 
 class AbstractCanvas;
+class AbstractRenderer;
 class GraphicDriverInformation;
 
-class Canvas3D:public Forms::Control
+class Canvas3D:public Forms::Control, public RF_Pattern::SignalReceiver
 {
 public:
-    Canvas3D(Control* Parent);
+    Canvas3D(Forms::Form& Window, Control* Parent = nullptr);
     virtual void Resize(const Math::Geometry::Size2D<>& Value);
 
     void Clear();
     void SwapBuffer();
-    RF_Geo::Mat4f& TexturecoordMatrix();
     const GraphicDriverInformation& GetGraphicDriverInformation();
     void MakeCurrent();
-    System::Threading::Mutex& GetRenderLock();
     void SetVSync(const RF_Type::Bool Synchronize = true,
         const RF_Type::Bool ShouldContinue = true);
     AbstractCanvas const* Backend()const;
+    void Draw();
+    void SetRenderer(AbstractRenderer& NewRenderer);
 protected:
     AbstractCanvas* m_Backend;
+    AbstractRenderer* m_Renderer;
 };
 
 } }

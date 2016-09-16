@@ -66,15 +66,11 @@ public:
     void AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
                     RF_Type::Float32 Angle);
     void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius);
-    Stroke& StrokeProperties();
-    Fill& FillProperties();
 
     void Finalize();
     const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data()const;
 protected:
     RF_Geo::Point2Df m_CurrentPosition;
-    Stroke m_StrokeProperties;
-    Fill m_FillProperties;
     
     RF_IO::MemoryCollectionStream m_ScratchPad;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Final;
