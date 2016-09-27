@@ -66,3 +66,17 @@ IHashfunction* MurmurHashHashfunctionService::Create()
 {
   return static_cast<IHashfunction*>(new MurmurHashHashfunction);
 }
+
+void MurmurHashHashfunctionService::Free(IHashfunction*& Instance)
+{
+    if(Instance)
+    {
+        delete Instance;
+        Instance = 0;
+    }
+}
+
+RF_Type::Size MurmurHashHashfunctionService::BitLength() const
+{
+    return 64;
+}

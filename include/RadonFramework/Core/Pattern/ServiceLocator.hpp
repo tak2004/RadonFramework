@@ -72,10 +72,10 @@ struct Locator
         if(Locator::m_Services.Count() == 0)
             return;
 
-        for (Iterator it=Locator::m_Services.begin();it!=Locator::m_Services.end();++it)
+        for (Iterator it=Locator::m_Services.Begin();it!=Locator::m_Services.End();++it)
             if ((*it)->Name()==Name)
             {
-                if (*it->Name()==Locator::m_Services[Locator::m_Default]->Name())
+                if ((*it)->Name()==Locator::m_Services[Locator::m_Default]->Name())
                     Locator::m_Default=0;
                 Locator::m_Services.Erase(it);
                 return;

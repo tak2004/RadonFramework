@@ -4,10 +4,6 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/UInt8.hpp>
-#include <RadonFramework/Core/Types/UInt32.hpp>
-#include <RadonFramework/Core/Types/String.hpp>
-
 namespace RadonFramework { namespace Math { namespace Hash {
 
 class IHashfunction

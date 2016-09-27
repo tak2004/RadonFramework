@@ -11,49 +11,49 @@ using namespace RadonFramework::Core::Types;
 
 class HashlibMD5Hashfunction:public IHashfunction
 {
-    protected:
-        MD5 m_md5;
-        HL_MD5_CTX m_ctx;
-        UInt8 m_buf[16];
-    public:
-        void Reset()
-        {
-            m_md5.MD5Init(&m_ctx);
-            RF_SysMem::Set(m_buf,0,16);
-        }
+protected:
+    MD5 m_md5;
+    HL_MD5_CTX m_ctx;
+    UInt8 m_buf[16];
+public:
+    void Reset()
+    {
+        m_md5.MD5Init(&m_ctx);
+        RF_SysMem::Set(m_buf, 0, 16);
+    }
 
-        void Update(UInt8 Input)
-        {
-            m_md5.MD5Update(&m_ctx,&Input,1);
-        }
+    void Update(UInt8 Input)
+    {
+        m_md5.MD5Update(&m_ctx, &Input, 1);
+    }
 
-        void Update(const UInt8* Data, UInt32 Size)
-        {
-            m_md5.MD5Update(&m_ctx,const_cast<unsigned char*>(Data),Size);
-        }
+    void Update(const UInt8* Data, UInt32 Size)
+    {
+        m_md5.MD5Update(&m_ctx, const_cast<unsigned char*>(Data), Size);
+    }
 
-        void Final()
-        {
-            m_md5.MD5Final(m_buf,&m_ctx);
-        }
+    void Final()
+    {
+        m_md5.MD5Final(m_buf, &m_ctx);
+    }
 
-        String ToString()
-        {
-            String result;
-            for(int i=0; i<8; ++i)
-                result+=String::Format("%02X"_rfs, m_buf[i]);
-            return result;
-        }
+    String ToString()
+    {
+        String result;
+        for(int i = 0; i < 8; ++i)
+            result += String::Format("%02X"_rfs, m_buf[i]);
+        return result;
+    }
 
-        UInt32 GetDigestLength()
-        {
-            return 16;
-        }
+    UInt32 GetDigestLength()
+    {
+        return 16;
+    }
 
-        UInt8* Digest()
-        {
-            return m_buf;
-        }
+    UInt8* Digest()
+    {
+        return m_buf;
+    }
 };
 
 HashlibMD5HashfunctionService::HashlibMD5HashfunctionService(const String &Name)
@@ -66,52 +66,65 @@ IHashfunction* HashlibMD5HashfunctionService::Create()
   return new HashlibMD5Hashfunction;
 }
 
+void HashlibMD5HashfunctionService::Free(IHashfunction*& Instance)
+{
+    if (Instance)
+    {
+        delete Instance;
+        Instance = 0;
+    }
+}
+
+RF_Type::Size RadonFramework::Math::Hash::HashlibMD5HashfunctionService::BitLength() const
+{
+    return 128;
+}
 
 class HashlibSHA1Hashfunction:public IHashfunction
 {
-    protected:
-        SHA1 m_sha1;
-        HL_SHA1_CTX m_ctx;
-        UInt8 m_buf[20];
-    public:
-        void Reset()
-        {
-            m_sha1.SHA1Reset(&m_ctx);
-            RF_SysMem::Set(m_buf,0,20);
-        }
+protected:
+    SHA1 m_sha1;
+    HL_SHA1_CTX m_ctx;
+    UInt8 m_buf[20];
+public:
+    void Reset()
+    {
+        m_sha1.SHA1Reset(&m_ctx);
+        RF_SysMem::Set(m_buf, 0, 20);
+    }
 
-        void Update(UInt8 Input)
-        {
-            m_sha1.SHA1Input(&m_ctx,&Input,1);
-        }
+    void Update(UInt8 Input)
+    {
+        m_sha1.SHA1Input(&m_ctx, &Input, 1);
+    }
 
-        void Update(const UInt8 * Data, UInt32 Size)
-        {
-            m_sha1.SHA1Input(&m_ctx,Data,Size);
-        }
+    void Update(const UInt8 * Data, UInt32 Size)
+    {
+        m_sha1.SHA1Input(&m_ctx, Data, Size);
+    }
 
-        void Final()
-        {
-            m_sha1.SHA1Result(&m_ctx,m_buf);
-        }
+    void Final()
+    {
+        m_sha1.SHA1Result(&m_ctx, m_buf);
+    }
 
-        String ToString()
-        {
-            String result;
-            for(int i=0; i<8; ++i)
-                result+=String::Format("%02X"_rfs, m_buf[i]);
-            return result;
-        }
+    String ToString()
+    {
+        String result;
+        for(int i = 0; i < 8; ++i)
+            result += String::Format("%02X"_rfs, m_buf[i]);
+        return result;
+    }
 
-        UInt32 GetDigestLength()
-        {
-            return 20;
-        }
+    UInt32 GetDigestLength()
+    {
+        return 20;
+    }
 
-        UInt8* Digest()
-        {
-            return m_buf;
-        }
+    UInt8* Digest()
+    {
+        return m_buf;
+    }
 };
 
 HashlibSHA1HashfunctionService::HashlibSHA1HashfunctionService(const String &Name)
@@ -124,52 +137,65 @@ IHashfunction* HashlibSHA1HashfunctionService::Create()
     return new HashlibSHA1Hashfunction;
 }
 
+void HashlibSHA1HashfunctionService::Free(IHashfunction*& Instance)
+{
+    if(Instance)
+    {
+        delete Instance;
+        Instance = 0;
+    }
+}
+
+RF_Type::Size RadonFramework::Math::Hash::HashlibSHA1HashfunctionService::BitLength() const
+{
+    return 160;
+}
 
 class HashlibSHA256Hashfunction:public IHashfunction
 {
-    protected:
-        SHA256 m_sha256;
-        HL_SHA256_CTX m_ctx;
-        UInt8 m_buf[65];
-    public:
-        void Reset()
-        {
-            m_sha256.SHA256_Init(&m_ctx);
-            RF_SysMem::Set(m_buf,0,65);
-        }
+protected:
+    SHA256 m_sha256;
+    HL_SHA256_CTX m_ctx;
+    UInt8 m_buf[65];
+public:
+    void Reset()
+    {
+        m_sha256.SHA256_Init(&m_ctx);
+        RF_SysMem::Set(m_buf, 0, 65);
+    }
 
-        void Update(UInt8 Input)
-        {
-            m_sha256.SHA256_Update(&m_ctx,&Input,1);
-        }
+    void Update(UInt8 Input)
+    {
+        m_sha256.SHA256_Update(&m_ctx, &Input, 1);
+    }
 
-        void Update(const UInt8* Data, UInt32 Size)
-        {
-            m_sha256.SHA256_Update(&m_ctx,Data,Size);
-        }
+    void Update(const UInt8* Data, UInt32 Size)
+    {
+        m_sha256.SHA256_Update(&m_ctx, Data, Size);
+    }
 
-        void Final()
-        {
-            m_sha256.SHA256_End(&m_ctx,reinterpret_cast<char*>(m_buf));
-        }
+    void Final()
+    {
+        m_sha256.SHA256_End(&m_ctx, reinterpret_cast<char*>(m_buf));
+    }
 
-        String ToString()
-        {
-            String result;
-            for(int i=0; i<8; ++i)
-                result+=String::Format("%02X"_rfs, m_buf[i]);
-            return result;
-        }
+    String ToString()
+    {
+        String result;
+        for(int i = 0; i < 8; ++i)
+            result += String::Format("%02X"_rfs, m_buf[i]);
+        return result;
+    }
 
-        UInt32 GetDigestLength()
-        {
-            return 64;
-        }
+    UInt32 GetDigestLength()
+    {
+        return 64;
+    }
 
-        UInt8* Digest()
-        {
-            return m_buf;
-        }
+    UInt8* Digest()
+    {
+        return m_buf;
+    }
 };
 
 HashlibSHA256HashfunctionService::HashlibSHA256HashfunctionService(const String &Name)
@@ -182,52 +208,65 @@ IHashfunction* HashlibSHA256HashfunctionService::Create()
     return new HashlibSHA256Hashfunction;
 }
 
+void HashlibSHA256HashfunctionService::Free(IHashfunction*& Instance)
+{
+    if(Instance)
+    {
+        delete Instance;
+        Instance = 0;
+    }
+}
+
+RF_Type::Size RadonFramework::Math::Hash::HashlibSHA256HashfunctionService::BitLength() const
+{
+    return 256;
+}
 
 class HashlibSHA384Hashfunction:public IHashfunction
 {
-    protected:
-        SHA2ext m_sha384;
-        HL_SHA_384_CTX m_ctx;
-        UInt8 m_buf[97];
-    public:
-        void Reset()
-        {
-            m_sha384.SHA384_Init(&m_ctx);
-            RF_SysMem::Set(m_buf,0,97);
-        }
+protected:
+    SHA2ext m_sha384;
+    HL_SHA_384_CTX m_ctx;
+    UInt8 m_buf[97];
+public:
+    void Reset()
+    {
+        m_sha384.SHA384_Init(&m_ctx);
+        RF_SysMem::Set(m_buf, 0, 97);
+    }
 
-        void Update(UInt8 Input)
-        {
-            m_sha384.SHA384_Update(&m_ctx,&Input,1);
-        }
+    void Update(UInt8 Input)
+    {
+        m_sha384.SHA384_Update(&m_ctx, &Input, 1);
+    }
 
-        void Update(const UInt8 * Data, UInt32 Size)
-        {
-            m_sha384.SHA384_Update(&m_ctx,Data,Size);
-        }
+    void Update(const UInt8 * Data, UInt32 Size)
+    {
+        m_sha384.SHA384_Update(&m_ctx, Data, Size);
+    }
 
-        void Final()
-        {
-            m_sha384.SHA384_End(&m_ctx,reinterpret_cast<char*>(m_buf));
-        }
+    void Final()
+    {
+        m_sha384.SHA384_End(&m_ctx, reinterpret_cast<char*>(m_buf));
+    }
 
-        String ToString()
-        {
-            String result;
-            for(int i=0; i<8; ++i)
-                result+=String::Format("%02X"_rfs, m_buf[i]);
-            return result;
-        }
+    String ToString()
+    {
+        String result;
+        for(int i = 0; i < 8; ++i)
+            result += String::Format("%02X"_rfs, m_buf[i]);
+        return result;
+    }
 
-        UInt32 GetDigestLength()
-        {
-            return 96;
-        }
+    UInt32 GetDigestLength()
+    {
+        return 96;
+    }
 
-        UInt8* Digest()
-        {
-            return m_buf;
-        }
+    UInt8* Digest()
+    {
+        return m_buf;
+    }
 };
 
 HashlibSHA384HashfunctionService::HashlibSHA384HashfunctionService(const String &Name)
@@ -240,51 +279,64 @@ IHashfunction* HashlibSHA384HashfunctionService::Create()
     return new HashlibSHA384Hashfunction;
 }
 
+void HashlibSHA384HashfunctionService::Free(IHashfunction*& Instance)
+{
+    if(Instance)
+    {
+        delete Instance;
+        Instance = 0;
+    }
+}
+
+RF_Type::Size RadonFramework::Math::Hash::HashlibSHA384HashfunctionService::BitLength() const
+{
+    return 384;
+}
 
 class HashlibSHA512Hashfunction:public IHashfunction
 {
-    protected:
-        SHA2ext m_sha512;
-        HL_SHA512_CTX m_ctx;
-        UInt8 m_buf[129];
-    public:
-        void Reset()
-        {
-            m_sha512.SHA512_Init(&m_ctx);
-            RF_SysMem::Set(m_buf,0,129);
-        }
+protected:
+    SHA2ext m_sha512;
+    HL_SHA512_CTX m_ctx;
+    UInt8 m_buf[129];
+public:
+    void Reset()
+    {
+        m_sha512.SHA512_Init(&m_ctx);
+        RF_SysMem::Set(m_buf,0,129);
+    }
 
-        void Update(UInt8 Input)
-        {
-            m_sha512.SHA512_Update(&m_ctx,&Input,1);
-        }
+    void Update(UInt8 Input)
+    {
+        m_sha512.SHA512_Update(&m_ctx,&Input,1);
+    }
 
-        void Update(const UInt8* Data, UInt32 Size)
-        {
-            m_sha512.SHA512_Update(&m_ctx,Data,Size);
-        }
+    void Update(const UInt8* Data, UInt32 Size)
+    {
+        m_sha512.SHA512_Update(&m_ctx,Data,Size);
+    }
 
-        void Final()
-        {
-            m_sha512.SHA512_End(&m_ctx,reinterpret_cast<char*>(m_buf));
-        }
+    void Final()
+    {
+        m_sha512.SHA512_End(&m_ctx,reinterpret_cast<char*>(m_buf));
+    }
 
-        String ToString()
-        {
-            String result;
-            for(int i=0; i<8; ++i)
-                result+=String::Format("%02X"_rfs, m_buf[i]);
-            return result;
-        }
+    String ToString()
+    {
+        String result;
+        for(int i=0; i<8; ++i)
+            result+=String::Format("%02X"_rfs, m_buf[i]);
+        return result;
+    }
 
-        UInt32 GetDigestLength()
-        {
-            return 128;
-        }
-        UInt8* Digest()
-        {
-            return m_buf;
-        }
+    UInt32 GetDigestLength()
+    {
+        return 128;
+    }
+    UInt8* Digest()
+    {
+        return m_buf;
+    }
 };
 
 HashlibSHA512HashfunctionService::HashlibSHA512HashfunctionService(const String &Name)
@@ -295,4 +347,18 @@ HashlibSHA512HashfunctionService::HashlibSHA512HashfunctionService(const String 
 IHashfunction* HashlibSHA512HashfunctionService::Create()
 {
     return new HashlibSHA512Hashfunction;
+}
+
+void HashlibSHA512HashfunctionService::Free(IHashfunction*& Instance)
+{
+    if(Instance)
+    {
+        delete Instance;
+        Instance = 0;
+    }
+}
+
+RF_Type::Size RadonFramework::Math::Hash::HashlibSHA512HashfunctionService::BitLength() const
+{
+    return 512;
 }

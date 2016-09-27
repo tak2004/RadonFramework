@@ -724,6 +724,11 @@ char const* String::c_str()const
     return reinterpret_cast<char const*>(GetBuffer());
 }
 
+const RF_Type::UInt8* String::ByteData() const
+{
+    return GetBuffer();
+}
+
 RF_Type::Int32 String::HexToDec()const
 {
     Int64 val;

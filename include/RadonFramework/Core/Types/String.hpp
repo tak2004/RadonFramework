@@ -114,12 +114,14 @@ public:
      *
      * \return This function return the pointer of the string in this class.
      *
-     * Attemption: Don't change the Data of this pointer and don't typecast it to "char*".
-     *             Because this data point on the buffer of this String class and isn't a copy.
-     *             The reason for this function is to provide a very fast interface to C based
-     *             libraries like Operating System API's.
+     * Attention: Don't change the Data of this pointer and don't typecast it to "char*".
+     *            Because this data point on the buffer of this String class and isn't a copy.
+     *            The reason for this function is to provide a very fast interface to C based
+     *            libraries like Operating System API's.
      **/
     char const* c_str()const;
+
+    const RF_Type::UInt8* ByteData()const;
 
     /// UTF-8 can consists of multiple bytes for a character. 
     /// Use this to get the size instead of the character amount.

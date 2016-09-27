@@ -153,8 +153,15 @@ RF_Type::Bool HashList::Add(const KeyType Key, void* DataStart)
 
 RF_Type::Bool HashList::ContainsKey(const KeyType Key) const
 {
-    RF_Type::Size index = FindBucket(Key);
-    return RF_SysHardware::Vec128IntFindInt32(reinterpret_cast<const RF_Type::Vec128Int32*>(&m_Keys[index]), Key) != 0;
+    if(m_Count > 0)
+    {
+        RF_Type::Size index = FindBucket(Key);
+        return RF_SysHardware::Vec128IntFindInt32(reinterpret_cast<const RF_Type::Vec128Int32*>(&m_Keys[index]), Key) != 0;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 RF_Type::Size HashList::Count() const

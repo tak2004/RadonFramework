@@ -9,7 +9,10 @@ class MurmurHashHashfunctionService:public HashfunctionService
 {
 public:
     MurmurHashHashfunctionService(const Core::Types::String &Name);
-    IHashfunction* Create();
+    virtual IHashfunction* Create() override;
+    virtual void Free(IHashfunction*& Instance) override;
+    virtual RF_Type::Size BitLength() const override;
+
 };
 
 } } }
