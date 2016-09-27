@@ -18,6 +18,7 @@ void Label::SetText(const RF_Type::String& NewText)
     RF_Geo::Size2Df dimension(m_ClientRectangle.Width(), m_ClientRectangle.Height());
     m_Path.Clear();
     m_Path.AddRectangle(position, dimension);
+    m_Path.Finalize();
 }
 
 const RF_Type::String& Label::GetText() const

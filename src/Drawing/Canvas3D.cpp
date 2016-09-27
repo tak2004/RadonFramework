@@ -62,8 +62,8 @@ void RecursiveVisit(const RF_Form::Control& Ctrl, T Func)
 {
     for(auto it = Ctrl.ConstBegin(); it != Ctrl.ConstEnd(); ++it)
     {
-        Func(*it);
-        RecursiveVisit(*it, Func);
+        Func(**it);
+        RecursiveVisit(**it, Func);
     }
 }
 

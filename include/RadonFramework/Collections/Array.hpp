@@ -1360,6 +1360,7 @@ void Array<T,MA,MO>::Resize(RF_Type::Size NewSize)
         if(std::is_trivially_copyable<T>::value == false)
         {
         #endif
+            
             for(RF_Type::Size i = 0, end = RF_Math::Integer<RF_Type::Size>::Min(m_Length[0], NewSize); i < end; ++i)
             {
                 data[i] = m_Data[i];

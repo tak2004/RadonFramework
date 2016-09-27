@@ -28,52 +28,65 @@ public:
 class Path2D
 {
 public:
-    struct Command {
-        enum Type:RF_Type::UInt8
-        {
-            MoveTo,
-            LineTo,
-            BezierTo,
-            QuadraticBezierTo,
-            Close,
-            SetStroke,
-            SetFill
-        };
-    };
-
     Path2D();
     ~Path2D();
 
     void Clear();
 
-    void MoveTo(const RF_Geo::Point2Df& Position);
-    void LineTo(const RF_Geo::Point2Df& Position);
-    void BezierTo(const RF_Geo::Point2Df& ControlPoint1, 
+    Path2D& MoveTo(const RF_Geo::Point2Df& Position);
+    Path2D& LineTo(const RF_Geo::Point2Df& Position);
+    Path2D& BezierTo(const RF_Geo::Point2Df& ControlPoint1,
                   const RF_Geo::Point2Df& ControlPoint2,
                   const RF_Geo::Point2Df& Position);
-    void QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint, 
+    Path2D& QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint,
                            const RF_Geo::Point2Df& Position);
-    void ArcTo(const RF_Geo::Point2Df& Position1, const RF_Geo::Point2Df& Position2,
+    Path2D& ArcTo(const RF_Geo::Point2Df& Position1, const RF_Geo::Point2Df& Position2,
                RF_Type::Float32 Radius);
-    void Close();
+    Path2D& Close();
 
-    void AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius,
+    Path2D& AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius,
                 RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop);
-    void AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension);
-    void AddRoundRectangle(const RF_Geo::Point2Df& Position, 
+    Path2D& AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension);
+    Path2D& AddRoundRectangle(const RF_Geo::Point2Df& Position,
                            const RF_Geo::Size2Df& Dimension, 
                            RF_Type::Float32 Radius);
-    void AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
+    Path2D& AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
                     RF_Type::Float32 Angle);
-    void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius);
+    Path2D& AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius);
 
-    void Finalize();
-    const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data()const;
+    Path2D& Finalize();
+
+    class Visitor
+    {
+    public:
+        virtual void Initialize()=0;
+        virtual void Finalize()=0;
+        virtual void MoveTo(const RF_Geo::Point2Df& Position)=0;
+        virtual void LineTo(const RF_Geo::Point2Df& Position)=0;
+        virtual void Close()=0;
+        virtual void BezierTo(const RF_Geo::Point2Df& ControlPoint1,
+                              const RF_Geo::Point2Df& ControlPoint2,
+                              const RF_Geo::Point2Df& Position)=0;
+        virtual void QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint, const RF_Geo::Point2Df& Position)=0;
+        virtual void AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius, 
+            RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop)=0;
+        virtual void AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension)=0;
+        virtual void AddRoundRectangle(const RF_Geo::Point2Df& Position, 
+            const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Radius)=0;
+        virtual void AddEllipse(const RF_Geo::Point2Df& Position, 
+            const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)=0;
+        virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius)=0;
+        virtual void Error()=0;
+    };
+
+    void Visit(Visitor& PathVisitor)const;
+    RF_Type::UInt32 GetHash()const;
 protected:
     RF_Geo::Point2Df m_CurrentPosition;
     
     RF_IO::MemoryCollectionStream m_ScratchPad;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Final;
+    RF_Type::UInt32 m_Hash;
 };
 
 } }

@@ -3,7 +3,6 @@
 
 #include <RadonFramework/backend/Windows/Drawing/WindowsOpenGLCanvas3D.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
-#include <RadonFramework/Drawing/MeshGenerator2D.hpp>
 #include <windows.h>
 
 namespace RadonFramework { namespace Forms {

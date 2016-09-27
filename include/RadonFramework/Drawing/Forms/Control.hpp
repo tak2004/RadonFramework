@@ -17,13 +17,15 @@ class Control;
 class ControlCollection
 {
 public:
+    typedef RF_Collect::List<Control*>::Iterator Iterator;
+    typedef RF_Collect::List<Control*>::ConstIterator ConstIterator;
     virtual void AddChild(Control& Obj);
     Control* GetChild(const RF_Type::Size Index);
     RF_Type::Size GetChildCount()const;
-    RF_Collect::List<Control*>::Iterator Begin()const;
-    RF_Collect::List<Control*>::Iterator End()const;
-    RF_Collect::List<Control*>::ConstIterator ConstBegin()const;
-    RF_Collect::List<Control*>::ConstIterator ConstEnd()const;
+    Iterator Begin()const;
+    Iterator End()const;
+    ConstIterator ConstBegin()const;
+    ConstIterator ConstEnd()const;
     
     RF_Type::Bool HasChildren()const;
     const Control* GetParent()const;
