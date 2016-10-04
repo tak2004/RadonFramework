@@ -6,8 +6,8 @@ namespace RadonFramework { namespace Forms {
 Label::Label(Control* Parent /*= nullptr*/)
 :Control(Parent)
 {
-    m_ClientRectangle.Width(10);
-    m_ClientRectangle.Height(10);
+    m_ClientRectangle.Width(100);
+    m_ClientRectangle.Height(100);
 }
 
 void Label::SetText(const RF_Type::String& NewText)

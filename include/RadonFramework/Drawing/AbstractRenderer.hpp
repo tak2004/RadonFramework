@@ -13,8 +13,9 @@ class AbstractRenderer
 public:
     virtual void StartFrame()=0;
     virtual void EndFrame()=0;
-    virtual void Process(const Path2D& Path)=0;
-    virtual void Draw(const Path2D& Path)=0;
+    virtual RF_Type::UInt32 Process(RF_Type::UInt32 EntityId, const Path2D& Path)=0;
+    virtual void Draw()=0;
+    virtual void ResizedViewport()=0;
 };
 
 } }

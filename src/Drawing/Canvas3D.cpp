@@ -15,15 +15,8 @@ namespace RadonFramework { namespace Drawing {
 
 Canvas3D::Canvas3D(RF_Form::Form& Window, RF_Form::Control* Parent)
 :m_Renderer(0)
+,Control(Parent != nullptr ? Parent : &Window)
 {
-    if(Parent)
-    {
-        Control(Parent);
-    }
-    else
-    {
-        Control(Window);
-    }
     m_Backend = Canvas3DServiceLocator::Default().CreateCanvas3D();
     m_Backend->SetWindowInfos(*Window.Backend());
     m_Backend->Generate();
@@ -32,9 +25,15 @@ Canvas3D::Canvas3D(RF_Form::Form& Window, RF_Form::Control* Parent)
 
 void Canvas3D::Resize(const RF_Geo::Size2D<>& Value)
 {
+    Control::Resize(Value);
     Math::Geometry::Rectangle<> rec(RF_Geo::Point2D<>(0, 0), 
         RF_Geo::Point2D<>(Value.Width, Value.Height));
+    m_Backend->MakeCurrent();
     m_Backend->UpdateRectangle(rec);
+    if(m_Renderer)
+    {
+        m_Renderer->ResizedViewport();
+    }
 }
 
 void Canvas3D::Clear()
@@ -58,9 +57,9 @@ AbstractCanvas const* Canvas3D::Backend()const
 }
 
 template<typename T>
-void RecursiveVisit(const RF_Form::Control& Ctrl, T Func)
+void RecursiveVisit(RF_Form::Control& Ctrl, T Func)
 {
-    for(auto it = Ctrl.ConstBegin(); it != Ctrl.ConstEnd(); ++it)
+    for(auto it = Ctrl.Begin(); it != Ctrl.End(); ++it)
     {
         Func(**it);
         RecursiveVisit(**it, Func);
@@ -71,17 +70,27 @@ void Canvas3D::Draw()
 {
     if(m_Renderer)
     {
+        m_Backend->MakeCurrent();
         m_Renderer->StartFrame();
         // inform the renderer about the existing controls
-        RecursiveVisit(*this, [=](const RF_Form::Control& Ctrl) 
+        RecursiveVisit(*this, [=](RF_Form::Control& Ctrl) 
         {
-            m_Renderer->Process(Ctrl.GetPath()); 
+            if(Ctrl.Visible())
+            {
+                RF_Type::UInt32 entityId = Ctrl.GetVisualId();
+                if(entityId != 0)
+                {
+                    m_Renderer->Process(entityId, Ctrl.GetPath());
+                }
+                else
+                {
+                    entityId = m_Renderer->Process(entityId, Ctrl.GetPath());
+                    Ctrl.SetVisualId(entityId);
+                }
+            }
         });
         // request to draw the visible controls
-        RecursiveVisit(*this, [=](const RF_Form::Control& Ctrl) 
-        {
-            m_Renderer->Draw(Ctrl.GetPath()); 
-        });
+        m_Renderer->Draw();
         m_Renderer->EndFrame();
     }
 }

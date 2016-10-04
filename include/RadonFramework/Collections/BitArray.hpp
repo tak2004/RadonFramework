@@ -377,6 +377,24 @@ template<typename RB, typename MA, typename MO>
 RF_Mem::AutoPointerArray<RF_Type::Size> BitArray<RB, MA, MO>::GetSetIndices() const
 {
     RF_Mem::AutoPointerArray<RF_Type::Size> result;
+    RF_Type::Size hits = 0;
+    for(RF_Type::Size i = 0, end = m_ContainerInfo.elementCount; i < end; ++i)
+    {
+        if (Test(i))
+        {
+            ++hits;
+        }
+    }
+    result.New(hits);
+    hits = 0;
+    for (RF_Type::Size i = 0, end = m_ContainerInfo.elementCount; i < end; ++i)
+    {
+        if (Test(i))
+        {
+            result[hits] = i;
+            ++hits;
+        }
+    }
     return result;
 }
 
@@ -384,6 +402,24 @@ template<typename RB, typename MA, typename MO>
 RF_Mem::AutoPointerArray<RF_Type::Size> BitArray<RB, MA, MO>::GetUnsetIndices() const
 {
     RF_Mem::AutoPointerArray<RF_Type::Size> result;
+    RF_Type::Size hits = 0;
+    for(RF_Type::Size i = 0, end = m_ContainerInfo.elementCount; i < end; ++i)
+    {
+        if(!Test(i))
+        {
+            ++hits;
+        }
+    }
+    result.New(hits);
+    hits = 0;
+    for(RF_Type::Size i = 0, end = m_ContainerInfo.elementCount; i < end; ++i)
+    {
+        if(!Test(i))
+        {
+            result[hits] = i;
+            ++hits;
+        }
+    }
     return result;
 }
 

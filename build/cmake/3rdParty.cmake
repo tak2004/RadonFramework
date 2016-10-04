@@ -1,7 +1,11 @@
-if(RADONFRAMEWORK_EXPERIMENTAL_HASH)
+if(RADONFRAMEWORK_ADD_XXHASH)
     rcf_addlocation(XXHASH "git" "https://github.com/Cyan4973/xxHash.git")
     rcf_obtain_project(XXHASH outdir "86011828f0fc77ad4d83ecfb1df88a91ebc37083")
     add_subdirectory("${outdir}/cmake_unofficial/" ${outdir})
+    AddPublicInclude(XXHASH ${outdir}/)
+else()
+    list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/System/Math/Hash/xxHashService.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/System/Math/Hash/xxHashService.cpp)
 endif()
 
 if(RADONFRAMEWORK_EXPERIMENTAL_JIT)

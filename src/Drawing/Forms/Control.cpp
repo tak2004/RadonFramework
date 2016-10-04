@@ -73,6 +73,7 @@ void ControlCollection::SetParent(Control& Value)
 Control::Control(Control* Parent /*= nullptr*/)
 :m_ClientRectangle(Point2D<>(0,0)
 ,Point2D<>(1,1))
+,m_VisualId(0)
 {
     if(Parent)
     {
@@ -150,7 +151,7 @@ void Control::SetSize(const Size2D<>& Value)
     return m_ClientRectangle.SetSize(Value);
 }
 
-Bool Control::Visible()
+Bool Control::Visible()const
 {
     return m_Visible;
 }
@@ -185,4 +186,20 @@ void Control::AddChild(Control& Obj)
 const RF_Draw::Path2D& Control::GetPath() const
 {
     return m_Path;
+}
+
+void Control::Animate()
+{
+    for(List<Control*>::Iterator it = Begin(); it != End(); ++it)
+        (*it)->Animate();
+}
+
+RF_Type::UInt32 Control::GetVisualId() const
+{
+    return m_VisualId;
+}
+
+void Control::SetVisualId(RF_Type::UInt32 NewId)
+{
+    m_VisualId = NewId;
 }

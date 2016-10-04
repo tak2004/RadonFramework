@@ -147,3 +147,16 @@ Bool DynamicLibrary::IsDefault()
 {
     return m_ImplementationData==0;
 }
+
+AutoPointer<DynamicLibrary> DynamicLibrary::LoadSystemLibrary(const RF_Type::String& Name)
+{
+    void* data;
+    AutoPointer<DynamicLibrary> result;
+    data = LoadLib(Name);
+    if(data)
+    {
+        result = AutoPointer<DynamicLibrary>(new DynamicLibrary());
+        result->m_ImplementationData = data;
+    }
+    return result;
+}

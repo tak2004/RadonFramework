@@ -9,10 +9,6 @@
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Core/Pattern/Signal.hpp>
 
-namespace RadonFramework { namespace System { namespace Threading {
-class Mutex;
-} } }
-
 namespace RadonFramework { namespace Forms { class Form; } }
 
 namespace RadonFramework { namespace Drawing {
@@ -25,7 +21,7 @@ class Canvas3D:public Forms::Control, public RF_Pattern::SignalReceiver
 {
 public:
     Canvas3D(Forms::Form& Window, Control* Parent = nullptr);
-    virtual void Resize(const Math::Geometry::Size2D<>& Value);
+    virtual void Resize(const RF_Geo::Size2D<>& Value) override;
 
     void Clear();
     void SwapBuffer();

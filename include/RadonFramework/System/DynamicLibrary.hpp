@@ -15,6 +15,7 @@ class DynamicLibrary
 {
 public:
     static RF_Mem::AutoPointer<DynamicLibrary> Load(const RF_IO::Uri& Name);
+    static RF_Mem::AutoPointer<DynamicLibrary> LoadSystemLibrary(const RF_Type::String& Name);
 
     /** 
     * @brief Unload the specified dynamic library.

@@ -16,8 +16,8 @@ class Form:public Control, public RF_Pattern::IObserver,
 {
 public:
     Form();
-    RF_Type::Bool Visible();
-    virtual void Visible(const RF_Type::Bool &Value);
+    virtual RF_Type::Bool Visible()const override;
+    virtual void Visible(const RF_Type::Bool &Value) override;
     virtual RF_Type::String Title();
     virtual void Title(const RF_Type::String &Value);
     virtual void InitializeComponent();
@@ -55,6 +55,9 @@ public:
 protected:
     AbstractWindow* m_Backend;
     RF_Type::Bool m_HasFocus;
+    RF_Type::UInt64 m_NextAnimation;
+    RF_Type::UInt64 m_Now;
+    RF_Type::UInt64 m_AnimationStep;
 };
 
 } }

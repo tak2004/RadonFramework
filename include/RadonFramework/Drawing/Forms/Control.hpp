@@ -57,12 +57,17 @@ public:
     virtual void Resize(const RF_Geo::Size2D<>& Value);
     virtual void Reposition(const RF_Geo::Point2D<>& Value);
 
-    virtual RF_Type::Bool Visible();
+    virtual RF_Type::Bool Visible()const;
     virtual void Visible(const RF_Type::Bool &Value);
 
     virtual const Drawing::Path2D& GetPath()const;
     virtual const Control& GetRoot()const;
     virtual Control& GetRoot();
+
+    RF_Type::UInt32 GetVisualId()const;
+    void SetVisualId(RF_Type::UInt32 NewId);
+
+    virtual void Animate();
 
     RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
@@ -71,6 +76,7 @@ protected:
     RF_Draw::Path2D m_Path;
 private:
     RF_Type::Bool m_Visible;
+    RF_Type::UInt32 m_VisualId;
 };
 
 } }

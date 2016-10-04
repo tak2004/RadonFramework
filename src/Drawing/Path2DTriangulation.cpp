@@ -3,10 +3,10 @@
 
 namespace RadonFramework { namespace Drawing {
 
-void AddEdge(RF_Collect::List<RF_Geo::Vec3f> &Triangles,
+void AddEdge(RF_Collect::List<RF_Geo::Vec2f> &Triangles,
              RF_Geo::Point2Df& Point0, RF_Geo::Point2Df& Point1)
 {
-    RF_Geo::Vec3f vertex;
+    RF_Geo::Vec2f vertex;
     vertex[0] = Point0.X;
     vertex[1] = Point0.Y;
     if(Triangles.Count() % 3 == 0)
@@ -18,13 +18,13 @@ void AddEdge(RF_Collect::List<RF_Geo::Vec3f> &Triangles,
     Triangles.AddLast(vertex);
 }
 
-void EndPath(RF_Collect::List<RF_Geo::Vec3f> &Triangles, RF_Geo::Point2Df& SegmentStart,
+void EndPath(RF_Collect::List<RF_Geo::Vec2f> &Triangles, RF_Geo::Point2Df& SegmentStart,
              RF_Geo::Point2Df& CurrentPosition)
 {
     RF_Draw::AddEdge(Triangles, SegmentStart, CurrentPosition);
 }
 
-void LineTo(RF_Collect::List<RF_Geo::Vec3f> &Triangles,
+void LineTo(RF_Collect::List<RF_Geo::Vec2f> &Triangles,
             RF_Geo::Point2Df& SegmentStart, RF_Geo::Point2Df& CurrentPosition)
 {
     RF_Draw::AddEdge(Triangles, SegmentStart, CurrentPosition);
@@ -40,12 +40,10 @@ void Path2DTriangulation::Initialize()
 
 void Path2DTriangulation::Finalize()
 {
-    m_VertexColors.Resize(m_Triangles.Count());
     m_Vertices.Resize(m_Triangles.Count());
     for (RF_Type::Size i = 0; i < m_Triangles.Count(); ++i)
     {
         m_Vertices(i) = m_Triangles[i];
-        m_VertexColors(i) = RF_Geo::Vec3f(1,1,1);
     }
     m_Triangles.Clear();
 }
@@ -80,37 +78,43 @@ void Path2DTriangulation::Close()
     m_IsLastSegmentClose = true;
 }
 
-void Path2DTriangulation::BezierTo(const RF_Geo::Point2Df& ControlPoint1, const RF_Geo::Point2Df& ControlPoint2, const RF_Geo::Point2Df& Position)
+void Path2DTriangulation::BezierTo(const RF_Geo::Point2Df& ControlPoint1, 
+    const RF_Geo::Point2Df& ControlPoint2, const RF_Geo::Point2Df& Position)
 {
     m_IsLastSegmentMoveTo = false;
     m_IsLastSegmentClose = false;
 }
 
-void Path2DTriangulation::QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint, const RF_Geo::Point2Df& Position)
+void Path2DTriangulation::QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint, 
+    const RF_Geo::Point2Df& Position)
 {
     m_IsLastSegmentMoveTo = false;
     m_IsLastSegmentClose = false;
 }
 
-void Path2DTriangulation::AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius, RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop)
+void Path2DTriangulation::AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius, 
+    RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop)
 {
     m_IsLastSegmentMoveTo = false;
     m_IsLastSegmentClose = false;
 }
 
-void Path2DTriangulation::AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension)
+void Path2DTriangulation::AddRectangle(const RF_Geo::Point2Df& Position, const 
+    RF_Geo::Size2Df& Dimension)
 {
     m_IsLastSegmentMoveTo = false;
     m_IsLastSegmentClose = false;
 }
 
-void Path2DTriangulation::AddRoundRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Radius)
+void Path2DTriangulation::AddRoundRectangle(const RF_Geo::Point2Df& Position, 
+    const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Radius)
 {
     m_IsLastSegmentMoveTo = false;
     m_IsLastSegmentClose = false;
 }
 
-void Path2DTriangulation::AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)
+void Path2DTriangulation::AddEllipse(const RF_Geo::Point2Df& Position, 
+    const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)
 {
     m_IsLastSegmentMoveTo = false;
     m_IsLastSegmentClose = false;
@@ -127,14 +131,9 @@ void Path2DTriangulation::Error()
     
 }
 
-const RF_Collect::Array<RF_Geo::Vec3f>& Path2DTriangulation::GetVertices() const
+const RF_Collect::Array<RF_Geo::Vec2f>& Path2DTriangulation::GetVertices() const
 {
     return m_Vertices;
-}
-
-const RF_Collect::Array<RF_Geo::Vec3f>& Path2DTriangulation::GetVertexColors() const
-{
-    return m_VertexColors;
 }
 
 } }

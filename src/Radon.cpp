@@ -20,6 +20,9 @@
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
+#ifdef RF_USE_XXHASH
+#include "RadonFramework/System/Math/Hash/xxHashService.hpp"
+#endif
 
 using namespace RadonFramework;
 using namespace RadonFramework::Core::Common;
@@ -144,6 +147,16 @@ void Radon::InitSubSystem(UInt32 Flags)
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA256HashfunctionService("SHA256"_rfs)));
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA384HashfunctionService("SHA384"_rfs)));
         HashfunctionServiceLocator::Register(AutoPointer<HashfunctionService>(new HashlibSHA512HashfunctionService("SHA512"_rfs)));
+
+        #ifdef RF_USE_XXHASH
+        RF_Mem::AutoPointer<RF_Hash::HashfunctionService> xxHash64Service(new RF_SysHash::xxHash64HashfunctionService("xxHash64"_rfs));
+        RF_Hash::HashfunctionServiceLocator::Register(xxHash64Service);
+        RF_Hash::HashfunctionServiceLocator::SetDefault64("xxHash64"_rfs);
+        RF_Mem::AutoPointer<RF_Hash::HashfunctionService> xxHash32Service(new RF_SysHash::xxHash32HashfunctionService("xxHash32"_rfs));
+        RF_Hash::HashfunctionServiceLocator::Register(xxHash32Service);
+        RF_Hash::HashfunctionServiceLocator::SetDefault32("xxHash32"_rfs);
+        #endif
+
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Hashing;
     }
 

@@ -31,12 +31,10 @@ public:
         const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle) override;
     virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius) override;
     virtual void Error() override;
-    const RF_Collect::Array<RF_Geo::Vec3f>& GetVertices()const;
-    const RF_Collect::Array<RF_Geo::Vec3f>& GetVertexColors()const;
+    const RF_Collect::Array<RF_Geo::Vec2f>& GetVertices()const;
 private:
-    RF_Collect::List<RF_Geo::Vec3f> m_Triangles;
-    RF_Collect::Array<RF_Geo::Vec3f> m_Vertices;
-    RF_Collect::Array<RF_Geo::Vec3f> m_VertexColors;
+    RF_Collect::List<RF_Geo::Vec2f> m_Triangles;
+    RF_Collect::Array<RF_Geo::Vec2f> m_Vertices;
     RF_Geo::Point2Df m_CurrentPosition, m_LastPositionOfPreviousSegment, 
         m_FirstPositionOfSegment;
     RF_Type::Bool m_IsLastSegmentMoveTo;
@@ -44,5 +42,10 @@ private:
 };
 
 } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_DRAW
+#define RF_SHORTHAND_NAMESPACE_DRAW
+namespace RF_Draw = RadonFramework::Drawing;
+#endif // RF_SHORTHAND_NAMESPACE_DRAW
 
 #endif // !RF_DRAWING_PATH2DTRIANGULATION_HPP

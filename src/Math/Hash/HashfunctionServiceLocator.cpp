@@ -3,6 +3,9 @@
 
 namespace RadonFramework { namespace Math { namespace Hash {
 
+RF_Type::UInt32 HashfunctionServiceLocator::m_Default32 = 0;
+RF_Type::UInt32 HashfunctionServiceLocator::m_Default64 = 0;
+
 NullHashfunctionService::NullHashfunctionService(const RF_Type::String &Name)
 :HashfunctionService(Name)
 {

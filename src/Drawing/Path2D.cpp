@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Path2D.hpp"
+#include "RadonFramework/Math/Hash/Hash32.hpp"
 
 struct Command
 {
@@ -174,8 +175,9 @@ Path2D& Path2D::Finalize()
     m_ScratchPad.Seek(0, RF_IO::SeekOrigin::Begin);
     m_ScratchPad.Read(m_Final.Get(), 0, m_Final.Size());
     m_ScratchPad.Clear();
-    RF_Mem::PointerID id = RF_Mem::PointerID::GenerateFromPointer(m_Final.Get());
-    m_Hash = id.GetID();
+    RF_Hash::Hash32 hash;
+    hash.FromMemory(m_Final);
+    m_Hash = hash.GetHash();
     return *this;
 }
 
@@ -183,6 +185,7 @@ void Path2D::Visit(Visitor& PathVisitor)const
 {
     if(m_Final.Count() > 0)
     {
+        PathVisitor.Initialize();
         RF_Type::UInt8* cursor = m_Final.Get();
         RF_Type::UInt8* lastByte = m_Final.Get() + m_Final.Count();
         RF_Geo::Point2Df currentPosition;
@@ -218,6 +221,7 @@ void Path2D::Visit(Visitor& PathVisitor)const
                 return;
             }
         } while (cursor != lastByte);
+        PathVisitor.Finalize();
     }
 }
 

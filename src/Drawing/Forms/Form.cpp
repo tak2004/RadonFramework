@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include <RadonFramework/Drawing/Forms/Form.hpp>
+#include "RadonFramework/Time/DateTime.hpp"
 
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::IO;
@@ -9,6 +10,9 @@ using namespace RadonFramework::Math::Geometry;
 
 Form::Form()
 {
+    m_AnimationStep = RF_Time::TimeSpan::TicksPerSecond/24;
+    m_Now = RF_Time::DateTime::UtcNow().Ticks();
+    m_NextAnimation = m_Now + m_AnimationStep;
     m_Backend = WindowServiceLocator::Default().NewWindow();
     m_Backend->OnIdle += SignalReceiver::Connector<Form>(&Form::Idle);
     m_Backend->OnResize += IObserver::Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
@@ -26,7 +30,7 @@ Form::Form()
     InitializeComponent();
 }
 
-Bool Form::Visible()
+Bool Form::Visible()const 
 {
     return m_Backend->Visible();
 }
@@ -55,6 +59,12 @@ void Form::InitializeComponent()
 
 void Form::Idle()
 {
+    m_Now = RF_Time::DateTime::UtcNow().Ticks();
+    if(m_NextAnimation < m_Now)
+    {
+        m_NextAnimation = m_NextAnimation + m_AnimationStep;
+        Animate();
+    }
     OnIdle();
 }
 

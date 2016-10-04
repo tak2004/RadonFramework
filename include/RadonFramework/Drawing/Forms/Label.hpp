@@ -1,5 +1,8 @@
 #ifndef RF_DRAWING_FORMS_LABEL_HPP
 #define RF_DRAWING_FORMS_LABEL_HPP
+#if _MSC_VER > 1000
+#pragma once
+#endif
 
 #include <RadonFramework/Drawing/Forms/Control.hpp> 
 

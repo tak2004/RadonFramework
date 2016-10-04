@@ -40,7 +40,7 @@ public:
     String ToString()
     {
         String result;
-        for(int i = 0; i < 8; ++i)
+        for(int i = 0; i < 16; ++i)
             result += String::Format("%02X"_rfs, m_buf[i]);
         return result;
     }
@@ -71,7 +71,7 @@ void HashlibMD5HashfunctionService::Free(IHashfunction*& Instance)
     if (Instance)
     {
         delete Instance;
-        Instance = 0;
+        Instance = nullptr;
     }
 }
 
@@ -111,7 +111,7 @@ public:
     String ToString()
     {
         String result;
-        for(int i = 0; i < 8; ++i)
+        for(int i = 0; i < 20; ++i)
             result += String::Format("%02X"_rfs, m_buf[i]);
         return result;
     }
@@ -142,7 +142,7 @@ void HashlibSHA1HashfunctionService::Free(IHashfunction*& Instance)
     if(Instance)
     {
         delete Instance;
-        Instance = 0;
+        Instance = nullptr;
     }
 }
 
@@ -156,12 +156,12 @@ class HashlibSHA256Hashfunction:public IHashfunction
 protected:
     SHA256 m_sha256;
     HL_SHA256_CTX m_ctx;
-    UInt8 m_buf[65];
+    UInt8 m_buf[64];
 public:
     void Reset()
     {
         m_sha256.SHA256_Init(&m_ctx);
-        RF_SysMem::Set(m_buf, 0, 65);
+        RF_SysMem::Set(m_buf, 0, 64);
     }
 
     void Update(UInt8 Input)
@@ -182,7 +182,7 @@ public:
     String ToString()
     {
         String result;
-        for(int i = 0; i < 8; ++i)
+        for(int i = 0; i < 64; ++i)
             result += String::Format("%02X"_rfs, m_buf[i]);
         return result;
     }
@@ -213,7 +213,7 @@ void HashlibSHA256HashfunctionService::Free(IHashfunction*& Instance)
     if(Instance)
     {
         delete Instance;
-        Instance = 0;
+        Instance = nullptr;
     }
 }
 
@@ -227,12 +227,12 @@ class HashlibSHA384Hashfunction:public IHashfunction
 protected:
     SHA2ext m_sha384;
     HL_SHA_384_CTX m_ctx;
-    UInt8 m_buf[97];
+    UInt8 m_buf[96];
 public:
     void Reset()
     {
         m_sha384.SHA384_Init(&m_ctx);
-        RF_SysMem::Set(m_buf, 0, 97);
+        RF_SysMem::Set(m_buf, 0, 96);
     }
 
     void Update(UInt8 Input)
@@ -253,7 +253,7 @@ public:
     String ToString()
     {
         String result;
-        for(int i = 0; i < 8; ++i)
+        for(int i = 0; i < 96; ++i)
             result += String::Format("%02X"_rfs, m_buf[i]);
         return result;
     }
@@ -284,7 +284,7 @@ void HashlibSHA384HashfunctionService::Free(IHashfunction*& Instance)
     if(Instance)
     {
         delete Instance;
-        Instance = 0;
+        Instance = nullptr;
     }
 }
 
@@ -298,12 +298,12 @@ class HashlibSHA512Hashfunction:public IHashfunction
 protected:
     SHA2ext m_sha512;
     HL_SHA512_CTX m_ctx;
-    UInt8 m_buf[129];
+    UInt8 m_buf[128];
 public:
     void Reset()
     {
         m_sha512.SHA512_Init(&m_ctx);
-        RF_SysMem::Set(m_buf,0,129);
+        RF_SysMem::Set(m_buf,0,128);
     }
 
     void Update(UInt8 Input)
@@ -324,7 +324,7 @@ public:
     String ToString()
     {
         String result;
-        for(int i=0; i<8; ++i)
+        for(int i=0; i<128; ++i)
             result+=String::Format("%02X"_rfs, m_buf[i]);
         return result;
     }
@@ -354,7 +354,7 @@ void HashlibSHA512HashfunctionService::Free(IHashfunction*& Instance)
     if(Instance)
     {
         delete Instance;
-        Instance = 0;
+        Instance = nullptr;
     }
 }
 

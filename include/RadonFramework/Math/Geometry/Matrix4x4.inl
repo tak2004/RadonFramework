@@ -22,7 +22,7 @@ class Matrix<T,4,4>
     Matrix& LoadIdentity();
     Matrix& LoadZero();
 
-    Matrix Transpose();
+    Matrix Transpose()const;
     Matrix& Scale(const Vector<T, 4> &Other);
     Matrix& Translate(T x, T y, T z);
     Matrix& Rotate(const T w, const T x, const T y, const T z);
@@ -99,7 +99,7 @@ Matrix<T,4,4>& Matrix<T,4,4>::LoadZero()
 }
 
 template<typename T>
-Matrix<T,4,4> Matrix<T,4,4>::Transpose()
+Matrix<T,4,4> Matrix<T,4,4>::Transpose()const
 {
     Matrix out;
     for (RF_Type::Size i = 0; i < 4; i++)

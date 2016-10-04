@@ -4,14 +4,14 @@
 
 using namespace RadonFramework::Memory;
 
-PointerID PointerID::GenerateFromPointer(void* Ptr)
+PointerID PointerID::GenerateFromPointer(const void* Ptr)
 {
     PointerID result;
     result.m_PtrID.ID=0;
     #if defined(RF_32BIT)
         result.m_PtrID.Pointer32Bit.Ptr32=Ptr;
     #elif defined(RF_64BIT)
-        result.m_PtrID.Ptr=Ptr;
+        result.m_PtrID.Ptr=const_cast<void*>(Ptr);
     #else
         #error Unknown Bit-Arch
     #endif
