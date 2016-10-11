@@ -1,6 +1,6 @@
 AddSourceDirectoryRecursive(filelist "src" "Source")
 CreatePrecompiledHeader(RADONFRAMEWORK_UNITTEST "precompiled.hpp" "src/precompiled.cpp" filelist)
-set(RADONFRAMEWORK_UNITTEST_FILES ${filelist})
+set(RADONFRAMEWORK_UNITTEST_FILES ${filelist} "../../work/Radon.rc")
 Generate(EXECUTABLE RADONFRAMEWORK_UNITTEST UnitTest "Framework")
 target_include_directories(UnitTest PRIVATE src/)
 AddDependency(RADONFRAMEWORK_UNITTEST RadonFramework)

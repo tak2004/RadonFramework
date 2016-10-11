@@ -15,10 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="iconf.svg"
-   inkscape:export-filename="C:\Users\thomas\Desktop\radonframework2.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="C:\pts\git\RadonFramework\devdoc\rf_icon.png"
+   inkscape:export-xdpi="90.050529"
+   inkscape:export-ydpi="90.050529">
   <sodipodi:namedview
      id="base"
      pagecolor="#000000"
@@ -27,7 +27,7 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.65833997"
-     inkscape:cx="188.75023"
+     inkscape:cx="-161.37282"
      inkscape:cy="186.59654"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
@@ -114,7 +114,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -125,7 +125,7 @@
      style="display:inline"
      transform="translate(-21.09579,-23.327278)">
     <path
-       transform="matrix(0.42222278,0,0,0.42222278,17.112885,69.441228)"
+       transform="matrix(0.48231824,0,0,0.48231824,3.125826,62.078673)"
        inkscape:export-ydpi="62.298199"
        inkscape:export-xdpi="62.298199"
        inkscape:export-filename="C:\Users\Thomas\Desktop\rn.png"
@@ -138,9 +138,9 @@
        style="fill:url(#linearGradient3911);fill-opacity:1;fill-rule:evenodd;stroke:none;filter:url(#filter5386-9)" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:15.30498123px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#7cff93;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="64.075554"
-       y="147.94048"
+       style="font-style:normal;font-weight:normal;font-size:17.48335648px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#7cff93;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="56.772751"
+       y="151.75081"
        id="text4193"
        sodipodi:linespacing="125%"
        inkscape:export-filename="C:\Users\Thomas\Desktop\rn.png"
@@ -148,9 +148,9 @@
        inkscape:export-ydpi="62.298199"><tspan
          sodipodi:role="line"
          id="tspan4195"
-         x="64.075554"
-         y="147.94048"
-         style="font-size:68.87242126px;fill:#7cff93;fill-opacity:1">RN</tspan></text>
+         x="56.772751"
+         y="151.75081"
+         style="font-size:78.67511749px;fill:#7cff93;fill-opacity:1">RN</tspan></text>
   </g>
   <g
      style="display:inline"
