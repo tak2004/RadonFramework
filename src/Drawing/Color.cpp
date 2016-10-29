@@ -12,6 +12,37 @@ Color4f::Color4f(RF_Type::Float32 Red, RF_Type::Float32 Green,
     BGRA[3] = Alpha;
 }
 
+Color4f::Color4f()
+{
+    BGRA[0] = 1.0f;
+    BGRA[1] = 1.0f;
+    BGRA[2] = 1.0f;
+    BGRA[3] = 1.0f;
+}
+
+Color4f::Color4f(const Color4f& CopyFrom)
+{
+    *this = CopyFrom;
+}
+
+Color4f& Color4f::operator=(const Color4f& AssignThis)
+{
+    RF_SysMem::Copy(BGRA, AssignThis.BGRA, sizeof(BGRA));
+    return *this;
+}
+
+const Color4f& Color4f::White()
+{
+    static Color4f white = {1,1,1,1};
+    return white;
+}
+
+const Color4f& Color4f::Gray()
+{
+    static Color4f gray = {0.5,0.5,0.5,1};
+    return gray;
+}
+
 RF_Type::Float32& Color4f::operator[](RF_Type::Size Index)
 {
     Assert(Index >= 4, "Index out of Bound!");

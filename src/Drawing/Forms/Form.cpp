@@ -9,6 +9,7 @@ using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Math::Geometry;
 
 Form::Form()
+:Control()
 {
     m_AnimationStep = RF_Time::TimeSpan::TicksPerSecond/24;
     m_Now = RF_Time::DateTime::UtcNow().Ticks();
@@ -16,17 +17,17 @@ Form::Form()
     m_Backend = WindowServiceLocator::Default().NewWindow();
     m_Backend->OnIdle += SignalReceiver::Connector<Form>(&Form::Idle);
     m_Backend->OnResize += IObserver::Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
-    m_Backend->OnReposition += IObserver::Connector<Form, const Math::Geometry::Point2D<>&>(&Form::Reposition);
     m_Backend->OnKeyPress += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyPressed);
     m_Backend->OnPrintableKeyPressed += IObserver::Connector<Form, const KeyboardEvent&>(&Form::PrintableKeyPressed);
     m_Backend->OnKeyRelease += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyReleased);
     m_Backend->OnMouseButtonPressed += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonPressed);
     m_Backend->OnMouseButtonReleased += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonReleased);
-    m_Backend->OnMouseMove += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseMove);
+    m_Backend->OnMouseMove += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseMoved);
     m_Backend->OnLostFocus += SignalReceiver::Connector<Form>(&Form::LostFocus);
     m_Backend->OnGotFocus += SignalReceiver::Connector<Form>(&Form::GotFocus);
     m_Backend->OnVerticalMouseWheelMoved += IObserver::Connector<Form>(&Form::VerticalMouseWheelMoved);
     m_Backend->OnHorizontalMouseWheelMoved += IObserver::Connector<Form>(&Form::HorizontalMouseWheelMoved);
+    m_Backend->OnDPIChanged += IObserver::Connector<Form>(&Form::DPIChanged);
     InitializeComponent();
 }
 
@@ -52,8 +53,11 @@ void Form::Title(const String &Value)
 
 void Form::InitializeComponent()
 {
-    this->m_ClientRectangle.SetSize(Size2D<>(640, 480));
-    m_Backend->ClientRectSize(m_ClientRectangle.GetSize());
+    SetSize({640, 480});
+    RF_Geo::Size2D<> size;
+    size.Width = GetSize().Width;
+    size.Height = GetSize().Height;
+    m_Backend->ClientRectSize(size);
     m_Backend->Visible(true);
 }
 
@@ -63,7 +67,8 @@ void Form::Idle()
     if(m_NextAnimation < m_Now)
     {
         m_NextAnimation = m_NextAnimation + m_AnimationStep;
-        Animate();
+        Animate(m_Now);
+        RebuildVisuals();
     }
     OnIdle();
 }
@@ -78,27 +83,20 @@ void Form::KeyReleased(const KeyboardEvent& Value)
     OnKeyRelease(Value);
 }
 
-void Form::MouseButtonPressed(const MouseEvent& Value)
+void Form::SetWindowSize(const RF_Geo::Size2D<>& NewSize)
 {
-    OnMouseButtonPressed(Value);
-}
+    RF_Geo::Size2Df size;
+    size.Width = NewSize.Width;
+    size.Height = NewSize.Height;
 
-void Form::MouseButtonReleased(const MouseEvent& Value)
-{
-    OnMouseButtonReleased(Value);
-}
-
-void Form::MouseMove(const MouseEvent& Value)
-{
-    OnMouseMove(Value);
-}
-
-void Form::Size(const RF_Geo::Size2D<>& NewSize)
-{
+    Rectanglef contentRectangle;
+    contentRectangle.SetSize(size);
+    contentRectangle.SetPosition(GetPosition());
+    ChangeContentRectangle(contentRectangle, GetClientRectangle());
     m_Backend->Size(NewSize);
 }
 
-void Form::Position(const RF_Geo::Point2D<>& NewPosition)
+void Form::SetWindowPosition(const RF_Geo::Point2D<>& NewPosition)
 {
     m_Backend->Position(NewPosition);
 }
@@ -156,4 +154,38 @@ void Form::HorizontalMouseWheelMoved(RF_Type::Int32 Value)
 void Form::PrintableKeyPressed(const KeyboardEvent& Value)
 {
     OnPrintableKeyPressed(Value);
+}
+
+RF_Type::Float32 Form::GetHorizontalScale() const
+{
+    return m_HorizontalScale;
+}
+
+RF_Type::Float32 Form::GetVerticalScale() const
+{
+    return m_VerticalScale;
+}
+
+void Form::DPIChanged(const RF_Geo::Point2D<>& DPI)
+{
+    m_HorizontalScale = DPI.X / 96.0f;
+    m_VerticalScale = DPI.Y / 96.0f;
+    Control::RebuildVisuals();
+}
+
+void Form::ChangeCursor(const Cursor& NewCursor)
+{
+    m_Backend->ChangeCursor(NewCursor);
+}
+
+void Form::Resize(const RF_Geo::Size2D<>& Value)
+{
+    RF_Geo::Size2Df size;
+    size.Width = Value.Width;
+    size.Height = Value.Height;
+
+    Rectanglef contentRectangle;
+    contentRectangle.SetSize(size);
+    contentRectangle.SetPosition(GetPosition());
+    Control::ChangeContentRectangle(contentRectangle, GetClientRectangle());
 }

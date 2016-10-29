@@ -326,7 +326,7 @@ Matrix<T,4,4> Matrix<T,4,4>::Inverse()const
     T b4 = Value[9] * Value[15] - Value[11] * Value[13];
     T b5 = Value[10] * Value[15] - Value[11] * Value[14];
     T det = a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
-    if (RF_Math::Math<T>::FAbs(det) > RF_Math::Math<T>::EPSILION)
+    if (RF_Math::MathOfType<T>::FAbs(det) > RF_Math::MathOfType<T>::EPSILION)
     {
         inverse.Value[0] = +Value[5] * b5 - Value[6] * b4 + Value[7] * b3;
         inverse.Value[4] = -Value[4] * b5 + Value[6] * b2 - Value[7] * b1;

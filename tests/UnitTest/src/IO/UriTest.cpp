@@ -50,21 +50,21 @@ public:
     Bool Constructor()
     {
         Uri testInstance("http://thomas@localhost:99/test/index.html?id=1&str=2#para1"_rfs);
-        Bool result1 = testInstance.Path() == "test/index.html";
-        Bool result2 = testInstance.Authority() == "thomas@localhost:99";
-        Bool result3 = testInstance.Fragment() == "para1";
-        Bool result4 = testInstance.Host() == "localhost";
+        Bool result1 = testInstance.Path() == "/test/index.html"_rfs;
+        Bool result2 = testInstance.Authority() == "thomas@localhost:99"_rfs;
+        Bool result3 = testInstance.Fragment() == "para1"_rfs;
+        Bool result4 = testInstance.Host() == "localhost"_rfs;
         Bool result5 = testInstance.HostNameType() == UriHostNameType::DomainName;
         Bool result6 = testInstance.IsAbsolute() == true;
         Bool result7 = testInstance.IsDefaultPort() == false;
         Bool result8 = testInstance.IsDefaultUser() == false;
-        Bool result9 = testInstance.OriginalString() == "http://thomas@localhost:99/test/index.html?id=1&str=2#para1";
+        Bool result9 = testInstance.OriginalString() == "http://thomas@localhost:99/test/index.html?id=1&str=2#para1"_rfs;
         Bool result10 = testInstance.Port() == 99;
-        Bool result11 = testInstance.Query() == "id=1&str=2";
-        Bool result12 = testInstance.Scheme() == "http";
-        Bool result13 = testInstance.SchemeSpecificPart() == "//thomas@localhost:99/test/index.html?id=1&str=2";
+        Bool result11 = testInstance.Query() == "id=1&str=2"_rfs;
+        Bool result12 = testInstance.Scheme() == "http"_rfs;
+        Bool result13 = testInstance.SchemeSpecificPart() == "//thomas@localhost:99/test/index.html?id=1&str=2"_rfs;
         Bool result14 = testInstance.UserEscaped() == true;
-        Bool result15 = testInstance.UserInfo() == "thomas";
+        Bool result15 = testInstance.UserInfo() == "thomas"_rfs;
         Bool result16 = testInstance.IsOpaque() == false;
 
         return result1 && result2 && result3 && result4 && result5 &&

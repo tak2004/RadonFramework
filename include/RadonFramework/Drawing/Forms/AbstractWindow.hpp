@@ -15,6 +15,8 @@
 namespace RadonFramework { namespace Forms {
 
 class WindowService;
+class Screen;
+class Cursor;
 
 class AbstractWindow
 {
@@ -30,6 +32,7 @@ public:
     virtual void ClientRectSize(const Math::Geometry::Size2D<>& NewSize)=0;
     virtual void Border(const RF_Type::Bool Value)=0;
     virtual void CursorVisible(const RF_Type::Bool Value)=0;
+    virtual void ChangeCursor(const Cursor& NewCursor)=0;
     virtual WindowService* GetService()=0;
     virtual void CloseButton(const RF_Type::Bool Show) = 0;
     virtual RF_Type::Bool HasFocus()const=0;
@@ -49,6 +52,7 @@ public:
     RF_Pattern::Signal OnGotFocus;
     RF_Pattern::Event<RF_Type::Int32> OnVerticalMouseWheelMoved;
     RF_Pattern::Event<RF_Type::Int32> OnHorizontalMouseWheelMoved;
+    RF_Pattern::Event<const RF_Geo::Point2D<>&> OnDPIChanged;
 };
 
 } }

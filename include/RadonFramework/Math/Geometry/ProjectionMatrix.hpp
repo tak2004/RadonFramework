@@ -23,27 +23,27 @@ class ProjectionMatrix
 {
 public:
     ProjectionMatrix();
-    void SetPosition(const Point2D<> &Position);
-    void SetSize(const Size2D<> &size);
+    void SetPosition(const Point2D<RF_Type::Float32> &Position);
+    void SetSize(const Size2D<RF_Type::Float32> &size);
     Size2D<> GetSize();
-    float FieldOfView();
-    void FieldOfView(const float FOV);
-    float Far();
-    void Far(const float Far);
-    float Near();
-    void Near(const float Near);
+    RF_Type::Float32 FieldOfView();
+    void FieldOfView(const RF_Type::Float32 FOV);
+    RF_Type::Float32 Far();
+    void Far(const RF_Type::Float32 Far);
+    RF_Type::Float32 Near();
+    void Near(const RF_Type::Float32 Near);
     const Mat4f& GetMatrix(const Viewtype::Type Type);
 protected:
     Mat4f m_ProjectionMatrix;
     Mat4f m_OrthoMatrix;
-    float m_FieldOfView;
-    float m_Far;
-    float m_Near;
-    float m_AspectRatio;
+    RF_Type::Float32 m_FieldOfView;
+    RF_Type::Float32 m_Far;
+    RF_Type::Float32 m_Near;
+    RF_Type::Float32 m_AspectRatio;
     void SetDefaultProjectionMatrix();
     void SetDefaultOrthoMatrix();
-    unsigned int m_Width, m_Height;
-    int m_Left, m_Top;
+    RF_Type::Float32 m_Width, m_Height;
+    RF_Type::Float32 m_Left, m_Top;
 };
         
 } } }

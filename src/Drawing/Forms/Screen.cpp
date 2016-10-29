@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/Drawing/Forms/Screen.hpp>
-#include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
+#include "RadonFramework/Drawing/Forms/Screen.hpp"
+#include "RadonFramework/Drawing/Forms/WindowServiceLocator.hpp"
+#include "RadonFramework/Drawing/Forms/Form.hpp"
 
 using namespace RadonFramework::Forms;
 using namespace RadonFramework::Collections;

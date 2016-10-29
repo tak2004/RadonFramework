@@ -22,8 +22,13 @@ public:
     virtual void GetUnicodeCharRanges(const RF_Type::String& Text, 
         RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out) override
     {
-
     }
+
+    virtual void LoadGlyphs(const FontDescription& FromFont, 
+        RF_Collect::Array<RF_Draw::Path2D>& Out) override
+    {
+    }
+
 };
 
 typedef Core::Pattern::Locator<FontService, NullFontService> FontServiceLocator;

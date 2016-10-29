@@ -1,16 +1,26 @@
 #include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
+#include "RadonFramework/System/DynamicLibrary.hpp"
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 #include <windows.h>
 #include <tlhelp32.h>
+
+#include <ShellScalingApi.h>
+typedef BOOL(*SetProcessDpiAwarenessFunction)(PROCESS_DPI_AWARENESS value);
 
 using namespace RadonFramework::Forms;
 
 WindowsApplication::WindowsApplication()
 :m_Active(false)
 {
+    auto lib = RF_Sys::DynamicLibrary::LoadSystemLibrary("user32.dll"_rfs);
+    if(lib)
+    {
+        auto SetProcessDpiAwareness = (SetProcessDpiAwarenessFunction)lib->GetFunctionAddress("SetProcessDpiAwarenessInternal"_rfs);
+        SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+    }
 }
 
 WindowsApplication::~WindowsApplication()

@@ -9,19 +9,26 @@
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Drawing/Path2D.hpp>
+#include <RadonFramework/IO/MouseEvent.hpp>
 
 namespace RadonFramework { namespace Forms {
 
 class Control;
+class Cursor;
+class Layouter;
 
 class ControlCollection
 {
 public:
     typedef RF_Collect::List<Control*>::Iterator Iterator;
     typedef RF_Collect::List<Control*>::ConstIterator ConstIterator;
+    ControlCollection();
     virtual void AddChild(Control& Obj);
+    virtual void RemoveChild(Control& Obj);
     Control* GetChild(const RF_Type::Size Index);
     RF_Type::Size GetChildCount()const;
+    RF_Type::Int32 IndexOfChild(const Control& Obj)const;
+
     Iterator Begin()const;
     Iterator End()const;
     ConstIterator ConstBegin()const;
@@ -43,19 +50,30 @@ public:
     virtual ~Control();
 
     virtual void AddChild(Control& Obj)override;
-    virtual RF_Type::Int32 Top();
-    virtual void Top(const RF_Type::Int32 &Value);
-    virtual RF_Type::Int32 Left();
-    virtual void Left(const RF_Type::Int32 &Value);
-    virtual RF_Type::UInt32 Width();
-    virtual void Width(const RF_Type::UInt32 &Value);
-    virtual RF_Type::UInt32 Height();
-    virtual void Height(const RF_Type::UInt32 &Value);
-    virtual RF_Geo::Size2D<> GetSize();
-    virtual void SetSize(const RF_Geo::Size2D<> &Value);
+    virtual RF_Type::Float32 Top()const;
+    virtual void Top(const RF_Type::Float32 &Value);
+    virtual RF_Type::Float32 Left()const;
+    virtual void Left(const RF_Type::Float32 &Value);
+    virtual RF_Type::Float32 Width()const;
+    virtual void Width(const RF_Type::Float32 &Value);
+    virtual RF_Type::Float32 Height()const;
+    virtual void Height(const RF_Type::Float32 &Value);
+    virtual RF_Geo::Size2Df GetSize()const;
+    virtual void SetSize(const RF_Geo::Size2Df &Value);
+    virtual RF_Geo::Point2Df GetPosition()const;
+    virtual const RF_Geo::Rectanglef& GetClientRectangle()const;
 
-    virtual void Resize(const RF_Geo::Size2D<>& Value);
-    virtual void Reposition(const RF_Geo::Point2D<>& Value);
+    /// The parent ask for reposition and resize the Control.
+    virtual void ChangeContentRectangle(const RF_Geo::Rectanglef& NewContent,
+                                        const RF_Geo::Rectanglef& OldContent);
+    /// Mouse were moving over this control.
+    virtual void MouseMoved(const RF_IO::MouseEvent& Value);
+    /// Mouse was pressed on this Control.
+    virtual void MouseButtonPressed(const RF_IO::MouseEvent& Value);
+    /// Mouse was released on this Control.
+    virtual void MouseButtonReleased(const RF_IO::MouseEvent& Value);
+
+    virtual void RebuildVisuals();
 
     virtual RF_Type::Bool Visible()const;
     virtual void Visible(const RF_Type::Bool &Value);
@@ -67,16 +85,26 @@ public:
     RF_Type::UInt32 GetVisualId()const;
     void SetVisualId(RF_Type::UInt32 NewId);
 
-    virtual void Animate();
+    virtual void Animate(const RF_Type::UInt64 Now);
 
-    RF_Pattern::Event<const RF_Geo::Size2D<>&> OnResize;
-    RF_Pattern::Event<const RF_Geo::Point2D<>&> OnReposition;
+    void SetLayouter(const Layouter& Layout);
+
+    RF_Pattern::Event<const RF_Geo::Rectanglef&> OnChangeContentRectangle;
+    RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonPressed;
+    RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseButtonReleased;
+    RF_Pattern::Event<const RF_IO::MouseEvent&> OnMouseMove;
 protected:
-    RF_Geo::Rectangle<> m_ClientRectangle;
     RF_Draw::Path2D m_Path;
+
+    RF_Type::Bool IsMouseOver();
+    RF_Type::Float32 ScaleHorizontal(RF_Type::Float32 Pixels);
+    RF_Type::Float32 ScaleVertical(RF_Type::Float32 Pixels);
+    void SetCursor(const Cursor& NewCursor);
 private:
-    RF_Type::Bool m_Visible;
+    RF_Geo::Rectanglef m_ClientRectangle;
     RF_Type::UInt32 m_VisualId;
+    const Layouter* m_Layouter;
+    RF_Type::Bool m_Visible;
 };
 
 } }

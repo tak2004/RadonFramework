@@ -4,12 +4,8 @@
 #pragma once
 #endif
 
-RF_DEPRECATED_HEADER("Will be replaced by a none template, code generated version")
-
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
-
-#include <math.h>
 
 namespace RadonFramework { namespace Math { namespace Geometry {
 
@@ -17,6 +13,10 @@ template <typename T,RF_Type::Size SIZE>
 class Vector
 {
 public:
+    typedef T ArrayType[SIZE];
+    typedef T Type;
+    static const RF_Type::Size Count = SIZE;
+
     Vector()
     {
         for (RF_Type::Size i=0;i<SIZE;++i)
@@ -28,7 +28,7 @@ public:
         RadonFramework::System::Memory::Copy(Value, Val.Value, sizeof(T)*SIZE);
     }
 
-    Vector(const T Values[SIZE])
+    Vector(const ArrayType& Values)
     {
         RadonFramework::System::Memory::Copy(Value, Values, sizeof(T)*SIZE);
     }
@@ -75,9 +75,7 @@ public:
             Value[i]=0;
     }
 
-    typedef T Type;
-    static const RF_Type::Size Count = SIZE;
-    T Value[SIZE];
+    ArrayType Value;
 
     Vector& operator =(const Vector& op)
     {
@@ -112,7 +110,7 @@ public:
     Operation(/)
     #undef Operation
 
-    //Vector asign operation with a vector
+    //Vector assign operation with a vector
     #define AssignOperator(_A_)\
         const Vector& operator _A_(const Vector& op){\
         for (RF_Type::Size i=0;i<SIZE;++i)\
@@ -139,7 +137,7 @@ public:
     Operation(/)
     #undef Operation
 
-    //Vector asign operation with single value
+    //Vector assign operation with single value
     #define AssignOperator(_A_)\
         const Vector& operator _A_(const T op){\
         for (RF_Type::Size i=0;i<SIZE;++i)\
@@ -176,7 +174,7 @@ public:
         T out=0;
         for (RF_Type::Size i=0;i<SIZE;++i)
         out+=(Value[i]*Value[i]);
-        return sqrt(out);
+        return RF_Math::MathOfType<T>::Sqrt(out);
     }
 
     T Distance(const Vector &Other)const

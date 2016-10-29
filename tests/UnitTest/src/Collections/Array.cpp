@@ -275,7 +275,7 @@ public:
                 16==index3; // case 4                
     }
 
-    Size Int32LargestFirst(const Int32& A, const Int32& B)
+    Int32 Int32LargestFirst(const Int32& A, const Int32& B)
     {
         if (A==B)
             return 0;
@@ -320,7 +320,7 @@ public:
         return result1 && result2 && result3 && result3;
     }
 
-    Bool OnlyEvenNumbers(UInt32 value)
+    Bool OnlyEvenNumbers(const UInt32& value)
     {
         return value%2==0;
     }
@@ -554,8 +554,8 @@ public:
         vec.Item(0,3);
         vec.Item(1,2);
         vec.Item(2,3);
-        Delegate1<Bool(UInt32)> three = MakeDelegate(this, &ArrayTest::FindThree);
-        Delegate1<Bool(UInt32)> zero = MakeDelegate(this, &ArrayTest::FindZero);
+        Delegate1<Bool(const UInt32&)> three = MakeDelegate(this, &ArrayTest::FindThree);
+        Delegate1<Bool(const UInt32&)> zero = MakeDelegate(this, &ArrayTest::FindZero);
 
         Bool result1 = 2==vec.FindLastIndex(three);
         Bool result2 = -1==vec.FindLastIndex(1,1,three);
@@ -571,8 +571,8 @@ public:
         vec.Item(0,3);
         vec.Item(1,2);
         vec.Item(2,3);
-        Delegate1<Bool(UInt32)> three = MakeDelegate(this, &ArrayTest::FindThree);
-        Delegate1<Bool(UInt32)> zero = MakeDelegate(this, &ArrayTest::FindZero);
+        Delegate1<Bool(const UInt32&)> three = MakeDelegate(this, &ArrayTest::FindThree);
+        Delegate1<Bool(const UInt32&)> zero = MakeDelegate(this, &ArrayTest::FindZero);
         return 0==vec.FindIndex(three) && -1==vec.FindIndex(1,1,three) &&
                 -1==vec.FindIndex(zero) && 2==vec.FindIndex(1,2,three) &&
                 2==vec.FindIndex(1,three);
@@ -584,8 +584,8 @@ public:
         vec.Item(0,3);
         vec.Item(1,2);
         vec.Item(2,3);
-        Delegate1<Bool(UInt32)> three = MakeDelegate(this, &ArrayTest::FindThree);
-        Delegate1<Bool(UInt32)> zero = MakeDelegate(this, &ArrayTest::FindZero);
+        Delegate1<Bool(const UInt32&)> three = MakeDelegate(this, &ArrayTest::FindThree);
+        Delegate1<Bool(const UInt32&)> zero = MakeDelegate(this, &ArrayTest::FindZero);
         return 0!=vec.Find(three) && 0==vec.Find(zero);
     }
 
@@ -595,8 +595,8 @@ public:
         vec.Item(0,3);
         vec.Item(1,2);
         vec.Item(2,3);
-        Delegate1<Bool(UInt32)> three = MakeDelegate(this, &ArrayTest::FindThree);
-        Delegate1<Bool(UInt32)> zero = MakeDelegate(this, &ArrayTest::FindZero);
+        Delegate1<Bool(const UInt32&)> three = MakeDelegate(this, &ArrayTest::FindThree);
+        Delegate1<Bool(const UInt32&)> zero = MakeDelegate(this, &ArrayTest::FindZero);
         return 0!=vec.FindLast(three) && 0==vec.FindLast(zero);
     }
          
@@ -616,8 +616,8 @@ public:
         vec.Item(0,3);
         vec.Item(1,2);
         vec.Item(2,3);
-        Delegate1<Bool(UInt32)> three=MakeDelegate(this,&ArrayTest::FindThree);
-        Delegate1<Bool(UInt32)> zero=MakeDelegate(this,&ArrayTest::FindZero);
+        Delegate1<Bool(const UInt32&)> three=MakeDelegate(this,&ArrayTest::FindThree);
+        Delegate1<Bool(const UInt32&)> zero=MakeDelegate(this,&ArrayTest::FindZero);
         return true==vec.Exists(three) && false==vec.Exists(zero);
     }
 

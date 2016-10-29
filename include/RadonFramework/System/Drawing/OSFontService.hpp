@@ -16,7 +16,8 @@ public:
     virtual void Update() override;
     virtual void GetUnicodeCharRanges(const RF_Type::String& Text, 
         RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out) override;
-
+    virtual void LoadGlyphs(const RF_Draw::FontDescription& FromFont,
+        RF_Collect::Array<RF_Draw::Path2D>& Out) override;
 };
 
 } } }

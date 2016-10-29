@@ -14,6 +14,7 @@ public:
     Label(Control* Parent = nullptr);
     void SetText(const RF_Type::String& NewText);
     const RF_Type::String& GetText()const;
+    virtual void RebuildVisuals() override;
 protected:
     RF_Type::String m_Text;
 };

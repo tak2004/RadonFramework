@@ -14,6 +14,8 @@
 
 namespace RadonFramework { namespace Forms {
 
+class Form;
+
 namespace ScreenError
 {
     enum Type
@@ -40,9 +42,9 @@ public:
     /// return the dots per inch on y-axis.
     RF_Type::UInt32 DPIY()const;
     /// Return the left start position of the screen on the whole desktop.
-    RF_Type::UInt32 Left()const;
+    RF_Type::Int32 Left()const;
     /// Return the top start position of the screen on the whole desktop.
-    RF_Type::UInt32 Top()const;
+    RF_Type::Int32 Top()const;
     /// Return the start position of the screen on the whole desktop.
     RF_Geo::Point2D<> Position()const;
     /// Return the bits per pixel of the current resolution.
@@ -96,12 +98,12 @@ inline RF_Type::UInt32 Screen::Height()const
     return m_DisplayInfos->AvaiableResolution(m_CurrentResolution).Height;
 }
 
-inline RF_Type::UInt32 Screen::Left()const
+inline RF_Type::Int32 Screen::Left()const
 {
     return m_DisplayInfos->Left;
 }
 
-inline RF_Type::UInt32 Screen::Top()const
+inline RF_Type::Int32 Screen::Top()const
 {
     return m_DisplayInfos->Top;
 }

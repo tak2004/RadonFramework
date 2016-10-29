@@ -12,6 +12,8 @@ class Point2D
 public:
     Point2D();
     Point2D(const T x, const T y);
+    template<typename OtherType>
+    Point2D(const Point2D<OtherType>& CopyFrom);
     T X;
     T Y;
 
@@ -46,18 +48,36 @@ public:
     Operation(*)
     Operation(/)
     #undef Operation
+
+    #define Operation(_A_)\
+    inline RF_Type::Bool operator _A_(const Point2D<T>& op)const{\
+    return X _A_ op.X &&  Y _A_ op.Y;\
+    }
+
+    Operation(>)
+    Operation(<)
+    Operation(>=)
+    Operation(<=)
+    #undef Operation
 };
 
 template<class T>
+template<typename OtherType>
+Point2D<T>::Point2D(const Point2D<OtherType>& CopyFrom)
+:X(CopyFrom.X)
+,Y(CopyFrom.Y)
+{}
+
+template<class T>
 Point2D<T>::Point2D()
-    :X(0)
-    , Y(0)
+:X(0)
+,Y(0)
 {}
 
 template<class T>
 Point2D<T>::Point2D(const T x, const T y)
-    : X(x)
-    , Y(y)
+:X(x)
+,Y(y)
 {}
 
 template<class T>

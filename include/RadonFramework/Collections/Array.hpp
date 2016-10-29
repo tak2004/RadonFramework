@@ -698,7 +698,7 @@ public:
     * \param Comparer The method which will be called for each
     *                 element of the Array.
     */
-    void Sort(const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
+    void Sort(const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer);
 
     /**
     * \brief Sorts the elements in a range of elements in an 
@@ -710,7 +710,7 @@ public:
     *                 element of the Array.
     */
     void Sort(RF_Type::Size Index, RF_Type::Size LastIndex,
-        const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
+        const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer);
 
     /**
     * \brief Sorts a pair of Array objects (one contains the 
@@ -730,7 +730,7 @@ public:
     */
     template <typename TKey, typename TValue>
     static void Sort(Array<TKey,MA,MO>& Keys, Array<TValue,MA,MO>& Items,
-        const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
+        const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer);
 
     /**
     * \brief Sorts a range of elements in a pair of Array 
@@ -754,7 +754,7 @@ public:
     template <typename TKey, typename TValue>
     static void Sort(Array<TKey,MA,MO>& Keys, Array<TValue,MA,MO>& Items,
                      RF_Type::Size Index, RF_Type::Size LastIndex,
-                     const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer);
+                     const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer);
 
     /**
     * \brief Determines whether every element in the array matches 
@@ -1450,7 +1450,7 @@ void Array<T,MA,MO>::SetValue(const T& Value,
 }
 
 template<typename T, typename MA, typename MO>
-void Array<T, MA, MO>::Sort(const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
+void Array<T, MA, MO>::Sort(const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer)
 {
     Sort(0,m_ElementCount-1,Comparer);
 }
@@ -1458,7 +1458,7 @@ void Array<T, MA, MO>::Sort(const Delegate2<RF_Type::Size(const T&, const T&)>& 
 template<typename T, typename MA, typename MO>
 void Array<T,MA,MO>::Sort(RF_Type::Size Index, 
     RF_Type::Size LastIndex,
-    const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
+    const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer)
 {
     Assert(LastIndex < m_ElementCount,"Index out of bound.");
     if (LastIndex <= Index)
@@ -1524,7 +1524,7 @@ template<typename T, typename MA, typename MO>
 template<typename TKey, typename TValue>
 void Array<T,MA,MO>::Sort(Array<TKey,MA,MO>& Keys, 
     Array<TValue,MA,MO>& Items,
-    const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
+    const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer)
 {
     Sort(Keys,Items,0,Keys.m_ElementCount-1,Comparer);
 }
@@ -1533,7 +1533,7 @@ template<typename T, typename MA, typename MO>
 template <typename TKey, typename TValue>
 void Array<T,MA,MO>::Sort(Array<TKey,MA,MO>& Keys,
     Array<TValue,MA,MO>& Items, RF_Type::Size Index, RF_Type::Size LastIndex,
-    const Delegate2<RF_Type::Size(const T&, const T&)>& Comparer)
+    const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer)
 {
     Assert(Keys.m_ElementCount==Items.m_ElementCount,"Invalid parameter.");
     Assert(LastIndex<Keys.m_ElementCount,"Index out of bound.");

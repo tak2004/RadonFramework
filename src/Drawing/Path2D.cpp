@@ -11,7 +11,8 @@ struct Command
         BezierTo,
         QuadraticBezierTo,
         Close,
-        ArcTo
+        ArcTo,
+        SetFill
     };
 };
 
@@ -26,6 +27,13 @@ Path2D::Path2D()
 :m_Hash(0)
 {
 
+}
+
+Path2D::Path2D(const Path2D& CopyFrom)
+{
+    m_ScratchPad.Clear();
+    m_Final = CopyFrom.m_Final.Clone();
+    m_Hash = CopyFrom.m_Hash;
 }
 
 Path2D::~Path2D()
@@ -169,26 +177,48 @@ Path2D& Path2D::AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Rad
 }
 
 
+Path2D& Path2D::AddText(const RF_Type::String& Text, const RF_Geo::Point2Df& Position)
+{
+    MoveTo(Position);
+    return *this;
+}
+
 Path2D& Path2D::Finalize()
 {
     m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(m_ScratchPad.Position());
     m_ScratchPad.Seek(0, RF_IO::SeekOrigin::Begin);
     m_ScratchPad.Read(m_Final.Get(), 0, m_Final.Size());
     m_ScratchPad.Clear();
+    m_CurrentPosition.X = 0;
+    m_CurrentPosition.Y = 0;
     RF_Hash::Hash32 hash;
     hash.FromMemory(m_Final);
     m_Hash = hash.GetHash();
     return *this;
 }
 
+Path2D& Path2D::SetFill(const Fill& NewFill)
+{
+    RF_Type::Size neededByteCount = sizeof(RF_Draw::Color4f) + sizeof(Command);
+    if(m_ScratchPad.Length() - m_ScratchPad.Position() < neededByteCount)
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
+        m_ScratchPad.AddLast(newMemoryBlock);
+    }
+    m_ScratchPad.WriteType(Command::SetFill);
+    m_ScratchPad.WriteType(NewFill.Color);    
+    return *this;
+}
+
 void Path2D::Visit(Visitor& PathVisitor)const
 {
+    PathVisitor.Initialize();
     if(m_Final.Count() > 0)
     {
-        PathVisitor.Initialize();
         RF_Type::UInt8* cursor = m_Final.Get();
         RF_Type::UInt8* lastByte = m_Final.Get() + m_Final.Count();
         RF_Geo::Point2Df currentPosition;
+        Fill fill;
 
         do 
         {
@@ -216,13 +246,21 @@ void Path2D::Visit(Visitor& PathVisitor)const
                 PathVisitor.Close();
                 break;
             }
+            case Command::SetFill:
+            {
+                ++cursor;
+                fill.Color = *reinterpret_cast<RF_Draw::Color4f*>(cursor);
+                cursor += sizeof(RF_Draw::Color4f);
+                PathVisitor.SetFill(fill);
+                break;
+            }
             default:
                 PathVisitor.Error();
                 return;
             }
         } while (cursor != lastByte);
-        PathVisitor.Finalize();
     }
+    PathVisitor.Finalize();
 }
 
 RF_Type::UInt32 Path2D::GetHash() const

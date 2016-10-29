@@ -213,6 +213,10 @@ RF_Type::Bool Queue<T, MA, MO>::Dequeue()
         }
         result = true;
     }
+    else
+    {
+        m_Tail.Decrement();
+    }
     m_LPInfos[lpId].Tail = RF_Type::Int32Max;
     return result;
 }

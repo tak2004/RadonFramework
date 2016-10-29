@@ -25,29 +25,33 @@ public:
     virtual void KeyPressed(const IO::KeyboardEvent& Value);
     virtual void KeyReleased(const IO::KeyboardEvent& Value);
     virtual void PrintableKeyPressed(const IO::KeyboardEvent& Value);
-    virtual void MouseButtonPressed(const IO::MouseEvent& Value);
-    virtual void MouseButtonReleased(const IO::MouseEvent& Value);
-    virtual void MouseMove(const IO::MouseEvent& Value);
     virtual const AbstractWindow* Backend()const;
-    virtual void Size(const Math::Geometry::Size2D<>& NewSize);
-    virtual void Position(const Math::Geometry::Point2D<>& NewPosition);
+    /// 
+    virtual void SetWindowSize(const RF_Geo::Size2D<>& NewSize);
+    /// 
+    virtual void SetWindowPosition(const RF_Geo::Point2D<>& NewPosition);
     virtual void Border(const RF_Type::Bool Show);
     virtual void CloseButton(const RF_Type::Bool Show);
     virtual void CursorVisible(const bool Value);
+    virtual void ChangeCursor(const Cursor& NewCursor);
     virtual void LostFocus();
     virtual void GotFocus();
     virtual void VerticalMouseWheelMoved(RF_Type::Int32 Value);
     virtual void HorizontalMouseWheelMoved(RF_Type::Int32 Value);
+    virtual void DPIChanged(const RF_Geo::Point2D<>& DPI);
+    
+    /// Window was resized from outside.
+    void Resize(const RF_Geo::Size2D<>& Value);
+    
     RF_Type::Bool HasFocus()const;
     RF_Geo::Point2D<> GetCursorPosition()const;
+    RF_Type::Float32 GetHorizontalScale()const;
+    RF_Type::Float32 GetVerticalScale()const;
 
     RF_Pattern::Signal OnIdle;
     RF_Pattern::Event<const IO::KeyboardEvent&> OnKeyPress;
     RF_Pattern::Event<const IO::KeyboardEvent&> OnKeyRelease;
     RF_Pattern::Event<const IO::KeyboardEvent&> OnPrintableKeyPressed;
-    RF_Pattern::Event<const IO::MouseEvent&> OnMouseButtonPressed;
-    RF_Pattern::Event<const IO::MouseEvent&> OnMouseButtonReleased;
-    RF_Pattern::Event<const IO::MouseEvent&> OnMouseMove;
     RF_Pattern::Signal OnLostFocus;
     RF_Pattern::Signal OnGotFocus;
     RF_Pattern::Event<RF_Type::Int32> OnVerticalMouseWheelMoved;
@@ -58,6 +62,8 @@ protected:
     RF_Type::UInt64 m_NextAnimation;
     RF_Type::UInt64 m_Now;
     RF_Type::UInt64 m_AnimationStep;
+    RF_Type::Float32 m_HorizontalScale;
+    RF_Type::Float32 m_VerticalScale;
 };
 
 } }

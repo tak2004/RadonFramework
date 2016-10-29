@@ -78,6 +78,8 @@ public:
     typedef ListIterator<T,Node> Iterator;
     typedef ListIterator<T,Node,const T*, const T&> ConstIterator;
     typedef T Type;
+    friend Iterator;
+    friend ConstIterator;
 
     List();
     List(const List& Copy);
@@ -251,7 +253,14 @@ ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::o
 template<typename T,class Node,class Pointer,class Reference>
 ListIterator<T,Node,Pointer,Reference>& ListIterator<T,Node,Pointer,Reference>::operator--()
 {
-    m_Node=m_Node->GetPrev();
+    if(m_Node == nullptr)
+    {
+        m_Node = m_Owner->m_Last;
+    }
+    else
+    {
+        m_Node = m_Node->GetPrev();
+    }
     return *this;
 }
 
@@ -259,7 +268,14 @@ template<typename T,class Node,class Pointer,class Reference>
 ListIterator<T,Node,Pointer,Reference> ListIterator<T,Node,Pointer,Reference>::operator--(int)
 {
     ListIterator tmp(m_Node,m_Owner);
-    m_Node=m_Node->GetPrev();
+    if(m_Node == nullptr)
+    {
+        m_Node = m_Owner->m_Last;
+    }
+    else
+    {
+        m_Node = m_Node->GetPrev();
+    }
     return tmp;
 }
 
@@ -333,7 +349,12 @@ template<typename T,class Node,class Pointer,class Reference>
 RF_Type::Size ListIterator<T, Node, Pointer, Reference>::Distance(
     ListIterator Start, ListIterator Stop)
 {
-    return (ptrdiff_t)(Stop.m_Element-Start.m_Element);
+    RF_Type::Size i = 0;
+    auto it = Start;
+    for (; it != Stop; ++it, ++i)
+    {
+    }
+    return i;
 }
 
 template<typename T,class Node,class Pointer,class Reference>

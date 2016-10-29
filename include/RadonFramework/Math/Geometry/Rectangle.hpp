@@ -9,184 +9,210 @@
 
 namespace RadonFramework { namespace Math { namespace Geometry {
 
-template<class T=RF_Type::Int32>
+template<class PT=RF_Type::Int32, class ST = RF_Type::UInt32>
 class Rectangle
 {
 public:
     Rectangle();
-    Rectangle(const T Left,const T Top,const T Right, const T Bottom);
-    Rectangle(const Point2D<T> &Point1, const Point2D<T> &Point2);
-    Rectangle(const Rectangle<T>& Copy);
+    Rectangle(const PT Left,const PT Top,const PT Right, const PT Bottom);
+    Rectangle(const Point2D<PT> &Point1, const Point2D<PT> &Point2);
+    Rectangle(const Point2D<PT> &Position, const Size2D<ST> &Size);
+    Rectangle(const Rectangle<PT,ST>& Copy);
 
-    T Width()const;
-    void Width(const T Value);
-    T Height()const;
-    void Height(const T Value);
-    Size2D<T> GetSize()const;
-    void SetSize(const Size2D<T>& Size);
-    Point2D<T> GetPosition()const;
-    void SetPosition(const Point2D<T>& Point);
-    T Left()const;
-    T Top()const;
-    T Bottom()const;
-    T Right()const;
+    ST Width()const;
+    void Width(const ST Value);
+    ST Height()const;
+    void Height(const ST Value);
+    Size2D<ST> GetSize()const;
+    void SetSize(const Size2D<ST>& Size);
+    Point2D<PT> GetPosition()const;
+    void SetPosition(const Point2D<PT>& Point);
+    PT Left()const;
+    void Left(const PT Value);
+    PT Top()const;
+    void Top(const PT Value);
+    PT Bottom()const;
+    PT Right()const;
 
-    RF_Type::Bool Equals(const Rectangle<T> &Other)const;
-    RF_Type::Bool IsIntersect(const Rectangle<T> &Other)const;
-    RF_Type::Bool IsIntersect(const Point2D<T> &Other)const;
+    RF_Type::Bool Equals(const Rectangle<PT,ST> &Other)const;
+    RF_Type::Bool IsIntersect(const Rectangle<PT,ST> &Other)const;
+    RF_Type::Bool IsIntersect(const Point2D<PT> &Other)const;
+    void Flip();
 protected:
-    T m_Left;
-    T m_Top;
-    T m_Bottom;
-    T m_Right;
+    Point2D<PT> m_Position;
+    Size2D<ST> m_Size;
 };
 
-template<class T>
-Rectangle<T>::Rectangle()
-:m_Left(0)
-,m_Top(0)
-,m_Bottom(0)
-,m_Right(0)
+template<class PT/*=RF_Type::Int32*/, class ST /*= RF_Type::UInt32*/>
+void Rectangle<PT, ST>::Top(const PT Value)
+{
+    m_Position.Y = Value;
+}
+
+template<class PT/*=RF_Type::Int32*/, class ST /*= RF_Type::UInt32*/>
+void Rectangle<PT, ST>::Left(const PT Value)
+{
+    m_Position.X = Value;
+}
+
+template<class PT, class ST>
+Rectangle<PT,ST>::Rectangle(const Point2D<PT> &Position, const Size2D<ST> &Size)
+:m_Position(Position.X, Position.Y)
+,m_Size(Size.Width, Size.Height)
 {
 }
 
-template<class T>
-Rectangle<T>::Rectangle(const T Left,const T Top,const T Right, const T Bottom)
-:m_Left(Left)
-,m_Top(Top)
-,m_Bottom(Bottom)
-,m_Right(Right)
+template<class PT, class ST>
+Rectangle<PT,ST>::Rectangle()
 {
 }
 
-template<class T>
-Rectangle<T>::Rectangle(const Point2D<T>& Point1, const Point2D<T>& Point2)
+template<class PT, class ST>
+Rectangle<PT,ST>::Rectangle(const PT Left,const PT Top,const PT Right, const PT Bottom)
+:m_Position(Left, Top)
+,m_Size(Right-Left, Bottom-Top)
+{
+}
+
+template<class PT, class ST>
+Rectangle<PT,ST>::Rectangle(const Point2D<PT>& Point1, const Point2D<PT>& Point2)
 {
     if (Point1.X<Point2.X)
     {
-        m_Left=Point1.X;
-        m_Right=Point2.X;
+        m_Position.X = Point1.X;
+        m_Size.Width = Point2.X - Point1.X;
     }
     else
     {
-        m_Left=Point2.X;
-        m_Right=Point1.X;
+        m_Position.X = Point2.X;
+        m_Size.Width = Point1.X - Point2.X;
     }
 
     if (Point1.Y<Point2.Y)
     {
-        m_Top=Point1.Y;
-        m_Bottom=Point2.Y;
+        m_Position.Y = Point1.Y;
+        m_Size.Height = Point2.Y - Point1.Y;
     }
     else
     {
-        m_Top=Point2.Y;
-        m_Bottom=Point1.Y;
+        m_Position.Y = Point2.Y;
+        m_Size.Height = Point1.Y - Point2.Y;
     }
 }
 
-template<class T>
-Rectangle<T>::Rectangle(const Rectangle<T>& Copy)
+template<class PT, class ST>
+Rectangle<PT,ST>::Rectangle(const Rectangle<PT,ST>& Copy)
 {
-    m_Left=Copy.m_Left;
-    m_Top=Copy.m_Top;
-    m_Right=Copy.m_Right;
-    m_Bottom=Copy.m_Bottom;
+    m_Position = Copy.m_Position;
+    m_Size = Copy.m_Size;
 }
 
-template<class T>
-T Rectangle<T>::Width()const
+template<class PT, class ST>
+ST Rectangle<PT,ST>::Width()const
 {
-  return m_Right-m_Left;
+  return m_Size.Width;
 }
 
-template<class T>
-void Rectangle<T>::Width(const T Value)
+template<class PT, class ST>
+void Rectangle<PT,ST>::Width(const ST Value)
 {
-    m_Right=m_Left+Value;
+    m_Size.Width = Value;
 }
 
-template<class T>
-T Rectangle<T>::Height()const
+template<class PT, class ST>
+ST Rectangle<PT,ST>::Height()const
 {
-    return m_Bottom-m_Top;
+    return m_Size.Height;
 }
 
-template<class T>
-void Rectangle<T>::Height(const T Value)
+template<class PT, class ST>
+void Rectangle<PT,ST>::Height(const ST Value)
 {
-    m_Bottom=m_Top+Value;
+    m_Size.Height = Value;
 }
 
-template<class T>
-Size2D<T> Rectangle<T>::GetSize()const
+template<class PT, class ST>
+Size2D<ST> Rectangle<PT,ST>::GetSize()const
 {
-    return Size2D<T>(Width(),Height());
+    return m_Size;
 }
 
-template<class T>
-void Rectangle<T>::SetSize(const Size2D<T>& Size)
+template<class PT, class ST>
+void Rectangle<PT,ST>::SetSize(const Size2D<ST>& Size)
 {
-    m_Bottom=m_Top+Size.Height;
-    m_Right=m_Left+Size.Width;
+    m_Size = Size;
 }
 
-template<class T>
-Point2D<T> Rectangle<T>::GetPosition()const
+template<class PT, class ST>
+Point2D<PT> Rectangle<PT,ST>::GetPosition()const
 {
-    return Point2D<T>(m_Left,m_Top);
+    return m_Position;
 }
 
-template<class T>
-void Rectangle<T>::SetPosition(const Point2D<T>& Point)
+template<class PT, class ST>
+void Rectangle<PT,ST>::SetPosition(const Point2D<PT>& Point)
 {
-    m_Bottom=Point.X+Height();
-    m_Right=Point.X+Width();
-    m_Left=Point.X;
-    m_Top=Point.Y;
+    m_Position = Point;
 }
 
-template<class T>
-RF_Type::Bool Rectangle<T>::Equals(const Rectangle<T>& Other)const
+template<class PT, class ST>
+RF_Type::Bool Rectangle<PT,ST>::Equals(const Rectangle<PT,ST>& Other)const
 {
-  return m_Left==Other.m_Left && m_Top==Other.m_Top && m_Right==Other.m_Right && m_Bottom==Other.m_Bottom;
+  return m_Position == Other.m_Position && m_Size == Other.m_Size;
 }
 
-template<class T>
-RF_Type::Bool Rectangle<T>::IsIntersect(const Rectangle<T> &Other)const
+template<class PT, class ST>
+RF_Type::Bool Rectangle<PT,ST>::IsIntersect(const Rectangle<PT,ST> &Other)const
 {
-  return !(Other.m_Left>m_Right || Other.m_Right<m_Left || Other.m_Top>m_Bottom || Other.m_Bottom<m_Top);
+    auto tmp(m_Position);
+    tmp.X += m_Size.Width;
+    tmp.Y += m_Size.Height;
+    auto tmp2(Other.m_Position);
+    tmp.X += Other.m_Size.Width;
+    tmp.Y += Other.m_Size.Height;
+    return tmp >= Other.m_Position || tmp2 <= m_Position;
 }
 
-template<class T>
-RF_Type::Bool Rectangle<T>::IsIntersect(const Point2D<T>& Other)const
+template<class PT, class ST>
+RF_Type::Bool Rectangle<PT,ST>::IsIntersect(const Point2D<PT>& Other)const
 {
-  return Other.X>=m_Left && Other.X<=m_Right && Other.Y>=m_Bottom && Other.Y<=m_Top;
+    auto tmp(m_Position);
+    tmp.X += m_Size.Width;
+    tmp.Y += m_Size.Height;
+    return m_Position <= Other && Other <= tmp;
 }
 
-template<class T>
-T Rectangle<T>::Left()const
+template<class PT, class ST>
+PT Rectangle<PT,ST>::Left()const
 {
-    return m_Left;
+    return m_Position.X;
 }
 
-template<class T>
-T Rectangle<T>::Top()const
+template<class PT, class ST>
+PT Rectangle<PT,ST>::Top()const
 {
-    return m_Top;
+    return m_Position.Y;
 }
 
-template<class T>
-T Rectangle<T>::Bottom()const
+template<class PT, class ST>
+PT Rectangle<PT,ST>::Bottom()const
 {
-    return m_Bottom;
+    return m_Position.Y + m_Size.Height;
 }
 
-template<class T>
-T Rectangle<T>::Right()const
+template<class PT, class ST>
+PT Rectangle<PT,ST>::Right()const
 {
-    return m_Right;
+    return m_Position.X + m_Size.Width;
 }
+
+template<class PT/*=RF_Type::Int32*/, class ST /*= RF_Type::UInt32*/>
+void Rectangle<PT, ST>::Flip()
+{
+    m_Size.Flip();
+}
+
+typedef Rectangle<RF_Type::Float32, RF_Type::Float32> Rectanglef;
 
 } } }
 

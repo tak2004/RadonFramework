@@ -29,6 +29,7 @@ class Path2D
 {
 public:
     Path2D();
+    Path2D(const Path2D& CopyFrom);
     ~Path2D();
 
     void Clear();
@@ -53,8 +54,11 @@ public:
     Path2D& AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
                     RF_Type::Float32 Angle);
     Path2D& AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius);
+    Path2D& AddText(const RF_Type::String& Text, const RF_Geo::Point2Df& Position);
 
     Path2D& Finalize();
+
+    Path2D& SetFill(const Fill& NewFill);
 
     class Visitor
     {
@@ -76,6 +80,7 @@ public:
         virtual void AddEllipse(const RF_Geo::Point2Df& Position, 
             const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)=0;
         virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius)=0;
+        virtual void SetFill(const Fill& NewFill)=0;
         virtual void Error()=0;
     };
 

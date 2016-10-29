@@ -7,11 +7,16 @@
 #include <RadonFramework/Drawing/Path2D.hpp>
 #include <RadonFramework/Math/Geometry/Vector.hpp>
 
+struct TESSalloc;
+struct TESStesselator;
+
 namespace RadonFramework { namespace Drawing {
 
 class Path2DTriangulation: public Path2D::Visitor
 {
 public:
+    Path2DTriangulation();
+    virtual ~Path2DTriangulation();
     virtual void Initialize() override;
     virtual void Finalize() override;
     virtual void MoveTo(const RF_Geo::Point2Df& Position) override;
@@ -32,13 +37,22 @@ public:
     virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius) override;
     virtual void Error() override;
     const RF_Collect::Array<RF_Geo::Vec2f>& GetVertices()const;
+    const RF_Collect::Array<RF_Draw::Color4f>& GetColors()const;
+
+    virtual void SetFill(const Fill& NewFill) override;
+
 private:
+    RF_Draw::Fill m_Fill;
     RF_Collect::List<RF_Geo::Vec2f> m_Triangles;
     RF_Collect::Array<RF_Geo::Vec2f> m_Vertices;
+    RF_Collect::Array<RF_Draw::Color4f> m_Colors;
     RF_Geo::Point2Df m_CurrentPosition, m_LastPositionOfPreviousSegment, 
         m_FirstPositionOfSegment;
     RF_Type::Bool m_IsLastSegmentMoveTo;
     RF_Type::Bool m_IsLastSegmentClose;
+    RF_Type::Bool m_SubPathHashGeometry;    
+    TESSalloc* m_Alloc;
+    TESStesselator* m_Tesselator;
 };
 
 } }

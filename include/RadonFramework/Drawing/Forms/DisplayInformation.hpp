@@ -25,8 +25,8 @@ public:
     RF_Type::Bool IsMirroring;
     RF_Type::UInt32 HorizontalLengthInMilimeter;
     RF_Type::UInt32 VerticalLengthInMilimeter;
-    RF_Type::UInt32 Left;
-    RF_Type::UInt32 Top;
+    RF_Type::Int32 Left;
+    RF_Type::Int32 Top;
     RF_Collect::Array<Resolution> AvaiableResolution;
 
     DisplayInformation& operator=(const DisplayInformation& Other);

@@ -15,27 +15,29 @@ public:
     virtual ~WindowsWindow();
 
     //IWindow
-    void* Handle();
-    RF_Type::Bool Visible();
-    void Visible(const RF_Type::Bool Value);
-    RF_Type::String Title();
-    void Title(const RF_Type::String &Value);
-    void Size(const Math::Geometry::Size2D<>& NewSize);
-    void Position(const Math::Geometry::Point2D<>& NewPosition);
-    void ClientRectSize(const Math::Geometry::Size2D<>& NewSize);
-    void Border(const RF_Type::Bool Value);
-    void CursorVisible(const RF_Type::Bool Value);
-    void CloseButton(const RF_Type::Bool Show);
-    WindowService* GetService();
-    RF_Type::Bool HasFocus()const;
-    RF_Geo::Point2D<> GetCursorPosition()const;
+    virtual void* Handle() override;
+    virtual RF_Type::Bool Visible() override;
+    virtual void Visible(const RF_Type::Bool Value) override;
+    virtual RF_Type::String Title() override;
+    virtual void Title(const RF_Type::String &Value) override;
+    virtual void Size(const Math::Geometry::Size2D<>& NewSize) override;
+    virtual void Position(const Math::Geometry::Point2D<>& NewPosition) override;
+    virtual void ClientRectSize(const Math::Geometry::Size2D<>& NewSize) override;
+    virtual void Border(const RF_Type::Bool Value) override;
+    virtual void CursorVisible(const RF_Type::Bool Value) override;
+    virtual void CloseButton(const RF_Type::Bool Show) override;
+    virtual WindowService* GetService() override;
+    virtual RF_Type::Bool HasFocus()const;
+    virtual RF_Geo::Point2D<> GetCursorPosition()const;
     virtual RF_Mem::AutoPointerArray<RF_Type::UInt8> CaptureClientRect() override;
+    virtual void ChangeCursor(const Cursor& NewCursor) override;
 
     HWND GetHandle()const;
 
     static WindowsWindow* GetObjectByHandle(const HWND Handle);
     static RF_Type::UInt32 GetObjectCount();
     static WindowsWindow* GetObjectByIndex(const RF_Type::UInt32 Index);
+
 protected:
     WindowService *m_Service;
     RF_Type::String m_Title;

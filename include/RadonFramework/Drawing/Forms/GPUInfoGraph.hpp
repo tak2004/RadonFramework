@@ -15,13 +15,17 @@ public:
     GPUInfoGraph(Control* Parent = nullptr);
     void SetInfo(RF_Prof::GPUService::ValueSymbol Which);
     RF_Prof::GPUService::ValueSymbol GetInfo()const;
-    virtual void Animate()override;
+    virtual void Animate(const RF_Type::UInt64 Now)override;
+    virtual void RebuildVisuals() override;
 protected:
     RF_Type::String m_Text;
     RF_Prof::GPUService* m_Service;
     RF_Prof::GPUService::ValueSymbol m_Info;
     RF_Collect::Array<RF_Type::Float32> m_DataPoints;
     RF_Type::Size m_DataOffset;
+    RF_Type::UInt64 m_NextUpdate;
+    RF_Draw::Fill m_TextFill;
+    RF_Draw::Fill m_GraphFill;
 };
 
 } }

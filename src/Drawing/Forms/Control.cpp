@@ -1,7 +1,10 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/Drawing/Forms/Control.hpp>
-#include <RadonFramework/Math/Geometry/Point2D.hpp>
-#include <RadonFramework/Math/Geometry/Size2D.hpp>
+#include "RadonFramework/Drawing/Forms/Control.hpp"
+#include "RadonFramework/Math/Geometry/Point2D.hpp"
+#include "RadonFramework/Math/Geometry/Size2D.hpp"
+#include "RadonFramework/Drawing/Forms/Form.hpp"
+#include "RadonFramework/Drawing/Forms/Cursor.hpp"
+#include "RadonFramework/Drawing/Forms/Layouter.hpp"
 
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::Forms;
@@ -70,10 +73,44 @@ void ControlCollection::SetParent(Control& Value)
     m_Parent = &Value;
 }
 
+ControlCollection::ControlCollection()
+:m_Parent(nullptr)
+{
+}
+
+RF_Type::Int32 ControlCollection::IndexOfChild(const Control& Obj) const
+{
+    auto result = -1;
+    RF_Type::Size index = 0;
+    List<Control*>::Iterator it = m_List.Begin();
+    for(; it != m_List.End(); ++it, ++index)
+    {
+        if(*it == &Obj)
+        {
+            result = index;
+            break;
+        }
+    }
+    return result;
+}
+
+void ControlCollection::RemoveChild(Control& Obj)
+{
+    List<Control*>::Iterator it = m_List.Begin();
+    for(; it != m_List.End(); ++it)
+    {
+        if(*it == &Obj)
+        {
+            m_List.Remove(it);
+            break;
+        }
+    }    
+}
+
 Control::Control(Control* Parent /*= nullptr*/)
-:m_ClientRectangle(Point2D<>(0,0)
-,Point2D<>(1,1))
+:m_ClientRectangle(Point2D<>(0,0) ,Point2D<>(1,1))
 ,m_VisualId(0)
+,m_Layouter(nullptr)
 {
     if(Parent)
     {
@@ -85,70 +122,64 @@ Control::~Control()
 {
 }
 
-void Control::Resize(const RF_Geo::Size2D<>& Value)
-{
-    m_ClientRectangle.Width(Value.Width);
-    m_ClientRectangle.Height(Value.Height);
-    for (List<Control*>::Iterator it=Begin(); it!=End(); ++it)
-        (*it)->Resize(Value);
-    OnResize(Value);
-}
-
-void Control::Reposition(const RF_Geo::Point2D<>& Value)
-{
-    for (List<Control*>::Iterator it = Begin(); it != End(); ++it)
-        (*it)->Reposition(Value);
-    OnReposition(Value);
-}
-
-Int32 Control::Top()
+RF_Type::Float32 Control::Top()const
 {
     return m_ClientRectangle.Top();
 }
 
-void Control::Top(const Int32 &Value)
+void Control::Top(const RF_Type::Float32 &Value)
 {
-    m_ClientRectangle.SetPosition(Point2D<>(m_ClientRectangle.Left(),Value));
+    Rectanglef contentRectangle(m_ClientRectangle);
+    contentRectangle.Top(Value);
+    ChangeContentRectangle(contentRectangle, m_ClientRectangle);
 }
 
-Int32 Control::Left()
+RF_Type::Float32 Control::Left()const
 {
     return m_ClientRectangle.Left();
 }
 
-void Control::Left(const Int32 &Value)
+void Control::Left(const RF_Type::Float32 &Value)
 {
-    m_ClientRectangle.SetPosition(Point2D<>(Value,m_ClientRectangle.Top()));
+    Rectanglef contentRectangle(m_ClientRectangle);
+    contentRectangle.Left(Value);
+    ChangeContentRectangle(contentRectangle, m_ClientRectangle);
 }
 
-UInt32 Control::Width()
+RF_Type::Float32 Control::Width()const
 {
     return m_ClientRectangle.Width();
 }
 
-void Control::Width(const UInt32 &Value)
+void Control::Width(const RF_Type::Float32 &Value)
 {
-    m_ClientRectangle.Width(Value);
+    Rectanglef contentRectangle(m_ClientRectangle);
+    contentRectangle.Width(Value);
+    ChangeContentRectangle(contentRectangle,m_ClientRectangle);
 }
 
-UInt32 Control::Height()
+RF_Type::Float32 Control::Height()const
 {
     return m_ClientRectangle.Height();
 }
 
-void Control::Height(const UInt32 &Value)
+void Control::Height(const RF_Type::Float32 &Value)
 {
-    m_ClientRectangle.Height(Value);
+    Rectanglef contentRectangle(m_ClientRectangle);
+    contentRectangle.Height(Value);
+    ChangeContentRectangle(contentRectangle,m_ClientRectangle);
 }
 
-Size2D<> Control::GetSize()
+Size2Df Control::GetSize()const
 {
     return m_ClientRectangle.GetSize();
 }
 
-void Control::SetSize(const Size2D<>& Value)
+void Control::SetSize(const Size2Df& Value)
 {
-    return m_ClientRectangle.SetSize(Value);
+    Rectanglef contentRectangle(m_ClientRectangle);
+    contentRectangle.SetSize(Value);
+    ChangeContentRectangle(contentRectangle,m_ClientRectangle);
 }
 
 Bool Control::Visible()const
@@ -181,6 +212,7 @@ void Control::AddChild(Control& Obj)
 {
     ControlCollection::AddChild(Obj);
     Obj.SetParent(*this);
+    Obj.ChangeContentRectangle(m_ClientRectangle, m_ClientRectangle);
 }
 
 const RF_Draw::Path2D& Control::GetPath() const
@@ -188,10 +220,10 @@ const RF_Draw::Path2D& Control::GetPath() const
     return m_Path;
 }
 
-void Control::Animate()
+void Control::Animate(const RF_Type::UInt64 Now)
 {
     for(List<Control*>::Iterator it = Begin(); it != End(); ++it)
-        (*it)->Animate();
+        (*it)->Animate(Now);
 }
 
 RF_Type::UInt32 Control::GetVisualId() const
@@ -202,4 +234,108 @@ RF_Type::UInt32 Control::GetVisualId() const
 void Control::SetVisualId(RF_Type::UInt32 NewId)
 {
     m_VisualId = NewId;
+}
+
+RF_Type::Bool Control::IsMouseOver()
+{
+    Form& window = static_cast<Form&>(GetRoot());
+    auto cursorPosition = window.GetCursorPosition();
+    return m_ClientRectangle.IsIntersect(cursorPosition);
+}
+
+RF_Type::Float32 Control::ScaleHorizontal(RF_Type::Float32 Pixels)
+{
+    Form& window = static_cast<Form&>(GetRoot());
+    return window.GetHorizontalScale() * Pixels;
+}
+
+RF_Type::Float32 Control::ScaleVertical(RF_Type::Float32 Pixels)
+{
+    Form& window = static_cast<Form&>(GetRoot());
+    return window.GetVerticalScale() * Pixels;
+}
+
+void Control::MouseMoved(const RF_IO::MouseEvent& Value)
+{
+    for(List<Control*>::Iterator it = Begin(); it != End(); ++it)
+    {
+        if((*it)->IsMouseOver())
+        {
+            (*it)->MouseMoved(Value);
+        }
+    }
+    OnMouseMove(Value);
+}
+
+void Control::SetCursor(const Cursor& NewCursor)
+{
+    Form& window = static_cast<Form&>(GetRoot());
+    window.ChangeCursor(NewCursor);
+}
+
+void Control::RebuildVisuals()
+{
+    for(List<Control*>::Iterator it = Begin(); it != End(); ++it)
+    {
+        (*it)->RebuildVisuals();
+    }
+}
+
+void Control::MouseButtonPressed(const RF_IO::MouseEvent& Value)
+{
+    for(List<Control*>::Iterator it = Begin(); it != End(); ++it)
+    {
+        if((*it)->IsMouseOver())
+        {
+            (*it)->MouseButtonPressed(Value);
+        }
+    }
+    OnMouseButtonPressed(Value);
+}
+
+void Control::MouseButtonReleased(const RF_IO::MouseEvent& Value)
+{
+    for(List<Control*>::Iterator it = Begin(); it != End(); ++it)
+    {
+        if((*it)->IsMouseOver())
+        {
+            (*it)->MouseButtonReleased(Value);
+        }
+    }    
+    OnMouseButtonReleased(Value);
+}
+
+RF_Geo::Point2Df Control::GetPosition() const
+{
+    return m_ClientRectangle.GetPosition();
+}
+
+void Control::SetLayouter(const Layouter& Layout)
+{
+    m_Layouter = &Layout;
+}
+
+void Control::ChangeContentRectangle(const RF_Geo::Rectanglef& NewContent,
+                                     const RF_Geo::Rectanglef& OldContent)
+{
+    // Take the size and position from the parent by default.
+    Rectanglef newContentRectangle(NewContent);
+    if(m_Layouter)
+    {// This Control have to ask the parent for the content rectangle.
+        newContentRectangle = m_Layouter->GetContentRect(*this);
+    }
+    m_ClientRectangle = newContentRectangle;
+    Rectanglef oldContentRectangle(m_ClientRectangle);
+    // Inform the child's of the new content rectangle.
+    // Update the content rectangle after to allow the child look for the current one.
+    for(List<Control*>::Iterator it = Begin(); it != End(); ++it)
+    {
+        (*it)->ChangeContentRectangle(newContentRectangle, oldContentRectangle);
+    }
+    OnChangeContentRectangle(newContentRectangle);
+}
+
+const RF_Geo::Rectanglef& Control::GetClientRectangle() const
+{
+    return m_ClientRectangle;
 }

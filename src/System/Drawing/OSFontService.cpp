@@ -372,6 +372,18 @@ void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>&
         }
     }
 }
+
+void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
+                              RF_Collect::Array<RF_Draw::Path2D>& Out)
+{
+    HDC hdc = GetDC(0);
+    GLYPHMETRICS gm;
+    UINT glyph='A';
+    const MAT2 identity = {{0,1},{0,0},{0,0},{0,1}};
+    DWORD needed;
+
+    needed = GetGlyphOutline(hdc, glyph, GGO_NATIVE, &gm, 0, nullptr, &identity);
+}
 #else
 void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>& fonts)
 {
@@ -381,14 +393,17 @@ void ImplementationGetUnicodeCharRanges(const RF_Type::String& Text,
                                         RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out)
 {
 }
+
+void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
+                              RF_Collect::Array<RF_Draw::Path2D>& Out)
+{
+}
 #endif
 
-namespace RadonFramework {
-namespace System {
-namespace Drawing {
+namespace RadonFramework { namespace System { namespace Drawing {
 
 OSFontService::OSFontService(const RF_Type::String &Name)
-    :FontService(Name)
+:FontService(Name)
 {
 }
 
@@ -448,6 +463,12 @@ void OSFontService::GetUnicodeCharRanges(const RF_Type::String& Text,
     RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out)
 {
     ImplementationGetUnicodeCharRanges(Text, Out);
+}
+
+void OSFontService::LoadGlyphs(const RF_Draw::FontDescription& FromFont,
+                               RF_Collect::Array<RF_Draw::Path2D>& Out)
+{
+    ImplementationLoadGlyphs(FromFont, Out);
 }
 
 } } }

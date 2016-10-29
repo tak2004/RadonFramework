@@ -31,9 +31,18 @@ struct Enumerator
 
     Enumerator& MoveBy(const RF_Type::Size Steps);
 
+    RF_Type::Size Distance(const Enumerator& To);
+
     RF_Type::Size Size()const;
 };
-    
+
+template<typename T, class ENUMERATORTYPE /*= GenericEnumeratorType*/>
+RF_Type::Size Enumerator<T, ENUMERATORTYPE>::Distance(const Enumerator& To)
+{
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
+}
+
+
 template<typename T, class ENUMERATORTYPE>
 Enumerator<T, ENUMERATORTYPE> Enumerator<T, ENUMERATORTYPE>::operator++(int)
 {

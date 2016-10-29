@@ -1,0 +1,30 @@
+#ifndef RF_DRAWING_FORMS_VERTICALLAYOUTER_HPP
+#define RF_DRAWING_FORMS_VERTICALLAYOUTER_HPP
+#if _MSC_VER > 1000
+#pragma once
+#endif
+
+#include <RadonFramework/Drawing/Forms/Control.hpp>
+#include <RadonFramework/Drawing/Forms/Layouter.hpp> 
+
+namespace RadonFramework { namespace Forms {
+
+class VerticalLayouter: public Control, public Layouter
+{
+public:
+    VerticalLayouter(Control* Parent = nullptr);
+    void SetGap(const RF_Geo::Size2Df& Gap);
+    virtual void AddChild(Control& Obj)override;
+    virtual RF_Geo::Rectanglef GetContentRect(const Control& Child) const override;
+protected:
+    RF_Geo::Size2Df m_CellGap;
+};
+
+} }
+
+#ifndef RF_SHORTHAND_NAMESPACE_FORM
+#define RF_SHORTHAND_NAMESPACE_FORM
+namespace RF_Form = RadonFramework::Forms;
+#endif // RF_SHORTHAND_NAMESPACE_FORM
+
+#endif // RF_DRAWING_FORMS_VERTICALLAYOUTER_HPP

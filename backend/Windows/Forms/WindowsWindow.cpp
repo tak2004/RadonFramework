@@ -4,6 +4,7 @@
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsWindowService.hpp>
 #include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
+#include "RadonFramework/Drawing/Forms/Cursor.hpp"
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 #include <Windowsx.h>
@@ -395,6 +396,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         wnd->OnLostFocus();
         break;
     }
+    case WM_DPICHANGED:
+    {
+        wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
+        RF_Geo::Point2D<> dpi;
+        dpi.Y = HIWORD(wParam);
+        dpi.X = LOWORD(wParam);
+
+        RECT* const prcNewWindow = (RECT*)lParam;
+        SetWindowPos(hWnd,
+                     NULL,
+                     prcNewWindow->left,
+                     prcNewWindow->top,
+                     prcNewWindow->right - prcNewWindow->left,
+                     prcNewWindow->bottom - prcNewWindow->top,
+                     SWP_NOZORDER | SWP_NOACTIVATE);
+
+        wnd->OnDPIChanged(dpi);
+        break;
+    }
     //case WM_MOUSEWHEEL:
         case WM_DESTROY:
             return 0;
@@ -630,4 +650,33 @@ RF_Mem::AutoPointerArray<RF_Type::UInt8> WindowsWindow::CaptureClientRect()
         result.New(bmp.bmWidthBytes*bmp.bmHeight).Copy(bmp.bmBits, bmp.bmWidthBytes*bmp.bmHeight);
     }
     return result;
+}
+
+void WindowsWindow::ChangeCursor(const Cursor& NewCursor)
+{
+    HCURSOR cursorHandle = LoadCursor(NULL, IDC_ARROW);
+    RF_Type::Int32 which = NewCursor.GetType();
+    switch(which)
+    {
+        case Cursor::NorthWestResize:
+        case Cursor::SouthEastResize:
+            cursorHandle = LoadCursor(NULL, IDC_SIZENWSE);
+            break;
+        case Cursor::NorthEastResize:
+        case Cursor::SouthWestResize:
+            cursorHandle = LoadCursor(NULL, IDC_SIZENESW);
+            break;
+        case Cursor::NorthResize:
+        case Cursor::SouthResize:
+            cursorHandle = LoadCursor(NULL, IDC_SIZENS);
+            break;
+        case Cursor::EastResize:
+        case Cursor::WestResize:
+            cursorHandle = LoadCursor(NULL, IDC_SIZEWE);
+            break;
+        case Cursor::Move:
+            cursorHandle = LoadCursor(NULL, IDC_SIZEALL);
+            break;
+    }
+    SetCursor(cursorHandle);
 }

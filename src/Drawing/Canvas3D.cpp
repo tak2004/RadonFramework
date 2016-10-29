@@ -23,11 +23,15 @@ Canvas3D::Canvas3D(RF_Form::Form& Window, RF_Form::Control* Parent)
     Window.OnIdle += SignalReceiver::Connector<Canvas3D>(&Canvas3D::Draw);
 }
 
-void Canvas3D::Resize(const RF_Geo::Size2D<>& Value)
+void Canvas3D::ChangeContentRectangle(const RF_Geo::Rectanglef& NewContent,
+                                      const RF_Geo::Rectanglef& OldContent)
 {
-    Control::Resize(Value);
-    Math::Geometry::Rectangle<> rec(RF_Geo::Point2D<>(0, 0), 
-        RF_Geo::Point2D<>(Value.Width, Value.Height));
+    Control::ChangeContentRectangle(NewContent, OldContent);
+    Math::Geometry::Rectangle<> rec;
+    rec.Left(NewContent.Left());
+    rec.Top(NewContent.Top());
+    rec.Height(NewContent.Height());
+    rec.Width(NewContent.Width());
     m_Backend->MakeCurrent();
     m_Backend->UpdateRectangle(rec);
     if(m_Renderer)

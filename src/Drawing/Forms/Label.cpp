@@ -6,24 +6,32 @@ namespace RadonFramework { namespace Forms {
 Label::Label(Control* Parent /*= nullptr*/)
 :Control(Parent)
 {
-    m_ClientRectangle.Width(100);
-    m_ClientRectangle.Height(100);
+    SetSize({100,100});
 }
 
 void Label::SetText(const RF_Type::String& NewText)
 {
     m_Text = NewText;
-    
-    RF_Geo::Point2Df position(m_ClientRectangle.Left(), m_ClientRectangle.Top());
-    RF_Geo::Size2Df dimension(m_ClientRectangle.Width(), m_ClientRectangle.Height());
-    m_Path.Clear();
-    m_Path.AddRectangle(position, dimension);
-    m_Path.Finalize();
+    RebuildVisuals();
 }
 
 const RF_Type::String& Label::GetText() const
 {
     return m_Text;
+}
+
+void Label::RebuildVisuals()
+{
+    Control::RebuildVisuals();
+    
+    RF_Geo::Point2Df position(Left(), Top());
+    RF_Geo::Size2Df dimension(Width(), Height());
+    RF_Draw::Fill red;
+    red.Color = {1,0,0,1};
+    m_Path.SetFill(red);
+    m_Path.Clear();
+    m_Path.AddRectangle(position, dimension);
+    m_Path.Finalize();
 }
 
 } }

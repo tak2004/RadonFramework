@@ -16,7 +16,7 @@ OPTION(RADONFRAMEWORK_ADD_DOCUMENTATION "Add the framework documentation generat
 OPTION(RADONFRAMEWORK_ADD_TESTS "Add the framework specific tests." OFF)
 OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL canvas support" ON)
 OPTION(RADONFRAMEWORK_ADD_EXAMPLES "Add the framework examples." OFF)
-OPTION(RADONFRAMEWORK_ADD_XXHASH "Add the xxhash library and services." OFF)
+OPTION(RADONFRAMEWORK_ADD_XXHASH "Add the xxhash library and services." ON)
 
 # Advanced framework options.
 OPTION(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE "Enable code which is still in development." OFF)
@@ -75,8 +75,6 @@ include(build/code_templates/CMakeLists.txt)
 include(libRadonFramework.cmake)
 
 Generate(MODULE RADONFRAMEWORK RadonFramework "Framework")
-
-
 AddPublicInclude(RADONFRAMEWORK ${RADONFRAMEWORK_LOCATION}/include/)
 target_include_directories(RadonFramework PRIVATE ${RADONFRAMEWORK_LOCATION}/include/RadonFramework/backend/)
 target_include_directories(RadonFramework PRIVATE ${RADONFRAMEWORK_LOCATION}/include/RadonFramework/backend/uripp/)
@@ -84,6 +82,7 @@ if(RADONFRAMEWORK_ADD_XXHASH)
     AddPublicDefine(RADONFRAMEWORK RF_USE_XXHASH XXH_PRIVATE_API)
     AddDependency(RADONFRAMEWORK xxhashstatic)
 endif()
+AddDependency(RADONFRAMEWORK libtess2)
 Finalize(RADONFRAMEWORK)
 
 if(RADONFRAMEWORK_BUILD_UNITTEST)

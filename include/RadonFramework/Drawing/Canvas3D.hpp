@@ -21,7 +21,8 @@ class Canvas3D:public Forms::Control, public RF_Pattern::SignalReceiver
 {
 public:
     Canvas3D(Forms::Form& Window, Control* Parent = nullptr);
-    virtual void Resize(const RF_Geo::Size2D<>& Value) override;
+    virtual void ChangeContentRectangle(const RF_Geo::Rectanglef& NewContent,
+                                        const RF_Geo::Rectanglef& OldContent) override;
 
     void Clear();
     void SwapBuffer();
