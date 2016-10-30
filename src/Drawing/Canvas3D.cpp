@@ -79,7 +79,7 @@ void Canvas3D::Draw()
         // inform the renderer about the existing controls
         RecursiveVisit(*this, [=](RF_Form::Control& Ctrl) 
         {
-            if(Ctrl.Visible())
+            if(Ctrl.Visible() && Ctrl.GetPath().GetHash() != 0)
             {
                 RF_Type::UInt32 entityId = Ctrl.GetVisualId();
                 if(entityId != 0)

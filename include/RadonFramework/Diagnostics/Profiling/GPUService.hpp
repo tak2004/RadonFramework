@@ -17,13 +17,12 @@ public:
     enum ValueSymbol
     {
         FanSpeedPercentage = 0,
-        Temperature = 1,
+        GPUTemperature = 1,
         CoreClock = 2,
         MemoryClock = 3,
         Lanes = 4,
         BusSpeed = 5,
-        Activity = 6,
-        PowerControl = 7,
+        GPUActivity = 6,
         FanSpeedRPM = 8
     };
 

@@ -12,7 +12,8 @@ struct Command
         QuadraticBezierTo,
         Close,
         ArcTo,
-        SetFill
+        SetFill,
+        SetStroke
     };
 };
 
@@ -210,6 +211,20 @@ Path2D& Path2D::SetFill(const Fill& NewFill)
     return *this;
 }
 
+Path2D& Path2D::SetStroke(const Stroke& NewStroke)
+{
+    RF_Type::Size neededByteCount = sizeof(RF_Draw::Color4f) + sizeof(RF_Type::Float32) + sizeof(Command);
+    if(m_ScratchPad.Length() - m_ScratchPad.Position() < neededByteCount)
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
+        m_ScratchPad.AddLast(newMemoryBlock);
+    }
+    m_ScratchPad.WriteType(Command::SetStroke);
+    m_ScratchPad.WriteType(NewStroke.Color);
+    m_ScratchPad.WriteType(NewStroke.Width);
+    return *this;
+}
+
 void Path2D::Visit(Visitor& PathVisitor)const
 {
     PathVisitor.Initialize();
@@ -219,6 +234,7 @@ void Path2D::Visit(Visitor& PathVisitor)const
         RF_Type::UInt8* lastByte = m_Final.Get() + m_Final.Count();
         RF_Geo::Point2Df currentPosition;
         Fill fill;
+        Stroke stroke;
 
         do 
         {
@@ -254,6 +270,16 @@ void Path2D::Visit(Visitor& PathVisitor)const
                 PathVisitor.SetFill(fill);
                 break;
             }
+            case Command::SetStroke:
+            {
+                ++cursor;
+                stroke.Color = *reinterpret_cast<RF_Draw::Color4f*>(cursor);
+                cursor += sizeof(RF_Draw::Color4f);
+                stroke.Width = *reinterpret_cast<RF_Type::Float32*>(cursor);
+                cursor += sizeof(RF_Type::Float32);
+                PathVisitor.SetStroke(stroke);
+                break;
+            }
             default:
                 PathVisitor.Error();
                 return;
@@ -276,6 +302,7 @@ Fill::Fill()
 
 Stroke::Stroke()
 :Color(1,1,1,1)
+,Width(1)
 {
 
 }

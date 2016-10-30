@@ -59,6 +59,7 @@ public:
     Path2D& Finalize();
 
     Path2D& SetFill(const Fill& NewFill);
+    Path2D& SetStroke(const Stroke& NewStroke);
 
     class Visitor
     {
@@ -81,6 +82,7 @@ public:
             const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)=0;
         virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius)=0;
         virtual void SetFill(const Fill& NewFill)=0;
+        virtual void SetStroke(const Stroke& NewStroke) = 0;
         virtual void Error()=0;
     };
 

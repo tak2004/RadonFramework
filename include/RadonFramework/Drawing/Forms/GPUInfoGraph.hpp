@@ -26,6 +26,8 @@ protected:
     RF_Type::UInt64 m_NextUpdate;
     RF_Draw::Fill m_TextFill;
     RF_Draw::Fill m_GraphFill;
+    RF_Draw::Fill m_GraphBackgroundFill;
+    RF_Draw::Stroke m_GraphBackgroundStroke;
 };
 
 } }

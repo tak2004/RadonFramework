@@ -31,6 +31,12 @@ Color4f& Color4f::operator=(const Color4f& AssignThis)
     return *this;
 }
 
+const Color4f& Color4f::Black()
+{
+    static Color4f black = {0,0,0,1};
+    return black;
+}
+
 const Color4f& Color4f::White()
 {
     static Color4f white = {1,1,1,1};

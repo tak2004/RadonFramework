@@ -5,6 +5,7 @@ namespace RadonFramework { namespace Drawing {
 
 struct Color4f
 {
+    static const Color4f& Black();
     static const Color4f& White();
     static const Color4f& Gray();
 

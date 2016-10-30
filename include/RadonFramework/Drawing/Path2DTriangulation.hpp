@@ -40,11 +40,15 @@ public:
     const RF_Collect::Array<RF_Draw::Color4f>& GetColors()const;
 
     virtual void SetFill(const Fill& NewFill) override;
-
+    virtual void SetStroke(const Stroke& NewStroke) override;
 private:
     RF_Draw::Fill m_Fill;
-    RF_Collect::List<RF_Geo::Vec2f> m_Triangles;
+    RF_Draw::Stroke m_Stroke;
+    RF_Collect::List<RF_Geo::Vec2f> m_ShapeTriangles;
+    RF_Collect::List<RF_Draw::Color4f> m_ShapeColors;
     RF_Collect::Array<RF_Geo::Vec2f> m_Vertices;
+    RF_Collect::List<RF_Geo::Vec2f> m_StrokeTriangles;
+    RF_Collect::List<RF_Draw::Color4f> m_StrokeColors;
     RF_Collect::Array<RF_Draw::Color4f> m_Colors;
     RF_Geo::Point2Df m_CurrentPosition, m_LastPositionOfPreviousSegment, 
         m_FirstPositionOfSegment;

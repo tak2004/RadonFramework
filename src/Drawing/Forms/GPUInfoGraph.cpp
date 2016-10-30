@@ -8,8 +8,10 @@ GPUInfoGraph::GPUInfoGraph(Control* Parent /*= nullptr*/)
 ,m_DataOffset(0)
 ,m_NextUpdate(0)
 {
-    m_TextFill.Color = RF_Draw::Color4f::White();
+    m_TextFill.Color = RF_Draw::Color4f::Black();
     m_GraphFill.Color = RF_Draw::Color4f::Gray();
+    m_GraphBackgroundFill.Color = RF_Draw::Color4f::White();
+    m_GraphBackgroundStroke.Color = RF_Draw::Color4f::Black();
     m_DataPoints.Resize(100);
     for (auto i = 0; i < m_DataPoints.Count(); ++i)
     {
@@ -18,7 +20,7 @@ GPUInfoGraph::GPUInfoGraph(Control* Parent /*= nullptr*/)
     SetSize({100,100});
 
     m_Service = &RF_Prof::GPUServiceLocator::Default();
-    m_Info = RF_Prof::GPUService::Temperature;
+    m_Info = RF_Prof::GPUService::GPUActivity;
 }
 
 void GPUInfoGraph::SetInfo(RF_Prof::GPUService::ValueSymbol Which)
@@ -63,13 +65,16 @@ void GPUInfoGraph::RebuildVisuals()
     // generate graph
     RF_Geo::Point2Df position(Left(), Top()+Height());
     m_Path.Clear();
+    m_Path.SetFill(m_GraphBackgroundFill);
+    m_Path.SetStroke(m_GraphBackgroundStroke);
+    m_Path.AddRectangle(GetPosition(), GetSize());
     m_Path.SetFill(m_GraphFill);
     m_Path.MoveTo(position);
     position.X += Width();
     m_Path.LineTo(position);
     for(auto i = 0; i < m_DataPoints.Count(); ++i)
     {
-        position.Y = Top()+Height() - m_DataPoints(i) * Height();
+        position.Y = Top()+Height() - m_DataPoints((i+ m_DataOffset)%m_DataPoints.Count()) * Height();
         m_Path.LineTo(position);
         position.X -= Width() / (m_DataPoints.Count() - 1);
     }
