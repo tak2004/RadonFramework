@@ -181,6 +181,7 @@ Path2D& Path2D::AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Rad
 Path2D& Path2D::AddText(const RF_Type::String& Text, const RF_Geo::Point2Df& Position)
 {
     MoveTo(Position);
+    
     return *this;
 }
 

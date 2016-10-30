@@ -6,6 +6,7 @@
 
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Math/MathOfType.hpp>
 
 namespace RadonFramework { namespace Math { namespace Geometry {
 

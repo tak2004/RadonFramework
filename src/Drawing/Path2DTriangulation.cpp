@@ -107,14 +107,7 @@ void Path2DTriangulation::Finalize()
 {
     if(!m_IsLastSegmentMoveTo && !m_IsLastSegmentClose)
     {
-        RF_Draw::EndPath(m_ShapeTriangles, m_LastPositionOfPreviousSegment, m_FirstPositionOfSegment, m_SubPathHashGeometry);
-        m_Vertices.Resize(m_ShapeTriangles.Count() / 2);
-        for(auto i = 0; i < m_Vertices.Count(); ++i)
-        {
-            m_Vertices(i) = m_ShapeTriangles[i * 2];
-            m_ShapeColors.AddLast(m_Fill.Color);
-        }
-        tessAddContour(m_Tesselator, 2, &m_Vertices(0), sizeof(RF_Geo::Vec2f), m_Vertices.Count());
+        Close();
     }
 
     // tessellate shape
@@ -164,15 +157,7 @@ void Path2DTriangulation::MoveTo(const RF_Geo::Point2Df& Position)
 {
     if(!m_IsLastSegmentMoveTo && !m_IsLastSegmentClose)
     {
-        RF_Draw::EndPath(m_ShapeTriangles, m_LastPositionOfPreviousSegment, m_FirstPositionOfSegment, m_SubPathHashGeometry);
-        m_Vertices.Resize(m_ShapeTriangles.Count() / 2);
-        for(auto i = 0; i < m_Vertices.Count(); ++i)
-        {
-            m_Vertices(i) = m_ShapeTriangles[i * 2];
-            m_ShapeColors.AddLast(m_Fill.Color);
-        }
-        tessAddContour(m_Tesselator, 2, &m_Vertices(0), sizeof(RF_Geo::Vec2f), m_Vertices.Count());
-        m_ShapeTriangles.Clear();
+        Close();
     }
     m_CurrentPosition = Position;
     m_FirstPositionOfSegment = m_CurrentPosition;
@@ -188,16 +173,14 @@ void Path2DTriangulation::LineTo(const RF_Geo::Point2Df& Position)
     // shape
     tesselatedVertices = 0;
     RF_Draw::LineTo(m_ShapeTriangles, m_LastPositionOfPreviousSegment, m_CurrentPosition);
-    m_LastPositionOfPreviousSegment = m_CurrentPosition;
-    m_IsLastSegmentMoveTo = false;
-    m_IsLastSegmentClose = false;
-    m_SubPathHashGeometry = true;
     // stroke
     if(!m_LastPositionOfPreviousSegment.Equals(m_CurrentPosition))
     {
         RF_Geo::Vec2f start(m_LastPositionOfPreviousSegment.X, m_LastPositionOfPreviousSegment.Y);
         RF_Geo::Vec2f stop(m_CurrentPosition.X, m_CurrentPosition.Y);
-        auto normal = start.CrossProduct(stop);
+        auto line = stop - start;
+        RF_Geo::Vec2f normal(-line[1], line[0]);
+        normal.Normalize();
         m_StrokeTriangles.AddLast(start + (normal * m_Stroke.Width));
         m_StrokeColors.AddLast(m_Stroke.Color);
         m_StrokeTriangles.AddLast(start + (normal * -m_Stroke.Width));
@@ -211,16 +194,17 @@ void Path2DTriangulation::LineTo(const RF_Geo::Point2Df& Position)
         m_StrokeTriangles.AddLast(start + (normal * m_Stroke.Width));
         m_StrokeColors.AddLast(m_Stroke.Color);
     }
+
+    m_LastPositionOfPreviousSegment = m_CurrentPosition;
+    m_IsLastSegmentMoveTo = false;
+    m_IsLastSegmentClose = false;
+    m_SubPathHashGeometry = true;
 }
 
 void Path2DTriangulation::Close()
 {
+    // shape
     RF_Draw::EndPath(m_ShapeTriangles, m_LastPositionOfPreviousSegment, m_FirstPositionOfSegment, m_SubPathHashGeometry);
-    m_LastPositionOfPreviousSegment = m_FirstPositionOfSegment;
-    m_IsLastSegmentMoveTo = false;
-    m_IsLastSegmentClose = true;
-    m_SubPathHashGeometry = false;
-
     m_Vertices.Resize(m_ShapeTriangles.Count() / 2);
     for(auto i = 0; i < m_Vertices.Count(); ++i)
     {
@@ -229,6 +213,32 @@ void Path2DTriangulation::Close()
     }
     tessAddContour(m_Tesselator, 2, &m_Vertices(0), sizeof(RF_Geo::Vec2f), m_Vertices.Count());
     m_ShapeTriangles.Clear();
+    // stroke
+    if(!m_LastPositionOfPreviousSegment.Equals(m_FirstPositionOfSegment))
+    {
+        RF_Geo::Vec2f start(m_LastPositionOfPreviousSegment.X, m_LastPositionOfPreviousSegment.Y);
+        RF_Geo::Vec2f stop(m_FirstPositionOfSegment.X, m_FirstPositionOfSegment.Y);
+        auto line = stop - start;
+        RF_Geo::Vec2f normal(-line[1], line[0]);
+        normal.Normalize();
+        m_StrokeTriangles.AddLast(start + (normal * m_Stroke.Width));
+        m_StrokeColors.AddLast(m_Stroke.Color);
+        m_StrokeTriangles.AddLast(start + (normal * -m_Stroke.Width));
+        m_StrokeColors.AddLast(m_Stroke.Color);
+        m_StrokeTriangles.AddLast(stop + (normal * -m_Stroke.Width));
+        m_StrokeColors.AddLast(m_Stroke.Color);
+        m_StrokeTriangles.AddLast(stop + (normal * -m_Stroke.Width));
+        m_StrokeColors.AddLast(m_Stroke.Color);
+        m_StrokeTriangles.AddLast(stop + (normal * m_Stroke.Width));
+        m_StrokeColors.AddLast(m_Stroke.Color);
+        m_StrokeTriangles.AddLast(start + (normal * m_Stroke.Width));
+        m_StrokeColors.AddLast(m_Stroke.Color);
+    }
+
+    m_LastPositionOfPreviousSegment = m_FirstPositionOfSegment;
+    m_IsLastSegmentMoveTo = false;
+    m_IsLastSegmentClose = true;
+    m_SubPathHashGeometry = false;
 }
 
 void Path2DTriangulation::BezierTo(const RF_Geo::Point2Df& ControlPoint1, 

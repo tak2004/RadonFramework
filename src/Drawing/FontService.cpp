@@ -6,6 +6,10 @@ namespace RadonFramework { namespace Drawing {
 
 FontService::FontService(const RadonFramework::Core::Types::String &Name)
 :Service(Name)
+,m_HorizontalOrientation(true)
+,m_EnableStyleFilter(false)
+,m_EnableOrientationFilter(true)
+,m_EnableCharRangeFilter(false)
 {
 }
 
