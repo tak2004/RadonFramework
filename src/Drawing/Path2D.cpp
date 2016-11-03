@@ -13,7 +13,8 @@ struct Command
         Close,
         ArcTo,
         SetFill,
-        SetStroke
+        SetStroke,
+        Text
     };
 };
 
@@ -180,8 +181,18 @@ Path2D& Path2D::AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Rad
 
 Path2D& Path2D::AddText(const RF_Type::String& Text, const RF_Geo::Point2Df& Position)
 {
-    MoveTo(Position);
-    
+    RF_Type::Size neededByteCount = sizeof(RF_Geo::Point2Df) + 
+        sizeof(RF_Type::UInt32) + Text.Size() - 1 + sizeof(Command);
+
+    if(m_ScratchPad.Length() - m_ScratchPad.Position() < neededByteCount)
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
+        m_ScratchPad.AddLast(newMemoryBlock);
+    }
+    m_ScratchPad.WriteType(Command::Text);
+    m_ScratchPad.WriteType(Position);
+    m_ScratchPad.WriteType((RF_Type::UInt32)Text.Size());
+    m_ScratchPad.WriteText(Text);
     return *this;
 }
 
@@ -279,6 +290,18 @@ void Path2D::Visit(Visitor& PathVisitor)const
                 stroke.Width = *reinterpret_cast<RF_Type::Float32*>(cursor);
                 cursor += sizeof(RF_Type::Float32);
                 PathVisitor.SetStroke(stroke);
+                break;
+            }
+            case Command::Text:
+            {
+                ++cursor;
+                currentPosition = *reinterpret_cast<RF_Geo::Point2Df*>(cursor);
+                cursor += sizeof(RF_Geo::Point2Df);
+                auto strSize = *reinterpret_cast<RF_Type::UInt32*>(cursor);
+                cursor += sizeof(RF_Type::UInt32);
+                RF_Type::String text((const char*)cursor, strSize);
+                cursor += strSize;
+                PathVisitor.AddText(currentPosition, text);
                 break;
             }
             default:

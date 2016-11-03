@@ -314,4 +314,11 @@ void Path2DTriangulation::SetStroke(const Stroke& NewStroke)
     m_Stroke = NewStroke;
 }
 
+void Path2DTriangulation::AddText(const RF_Geo::Point2Df& Position, 
+    const RF_Type::String& Text)
+{
+    m_IsLastSegmentMoveTo = false;
+    m_IsLastSegmentClose = false;
+}
+
 } }

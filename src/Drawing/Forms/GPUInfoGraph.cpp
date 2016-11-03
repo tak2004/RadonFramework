@@ -82,7 +82,7 @@ void GPUInfoGraph::RebuildVisuals()
     m_Path.SetFill(m_TextFill);
     position.Y = Top()+Height();
     position.X = Left();
-    m_Path.AddText("Fan"_rfs, position);
+    //m_Path.AddText("Fan"_rfs, position);
     m_Path.Finalize();
 }
 

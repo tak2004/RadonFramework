@@ -374,7 +374,8 @@ void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>&
 }
 
 void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
-                              RF_Collect::Array<RF_Draw::Path2D>& Out)
+    const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+    RF_Collect::Array<RF_Draw::Path2D>& Out)
 {
     HDC hdc = GetDC(0);
     GLYPHMETRICS gm;
@@ -383,6 +384,33 @@ void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
     DWORD needed;
 
     needed = GetGlyphOutline(hdc, glyph, GGO_NATIVE, &gm, 0, nullptr, &identity);
+    if(needed != GDI_ERROR)
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> buffer(needed);
+        if(GetGlyphOutline(hdc, glyph, GGO_NATIVE, &gm, needed, buffer.Get(), &identity) != GDI_ERROR)
+        {
+        }
+    }
+}
+
+void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
+    const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+    RF_Collect::Array<RF_Draw::Image>& Out)
+{
+    HDC hdc = GetDC(0);
+    GLYPHMETRICS gm;
+    UINT glyph = 'A';
+    const MAT2 identity = {{0,1},{0,0},{0,0},{0,1}};
+    DWORD needed;
+
+    needed = GetGlyphOutline(hdc, glyph, GGO_NATIVE, &gm, 0, nullptr, &identity);
+    if(needed != GDI_ERROR)
+    {
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> buffer(needed);
+        if(GetGlyphOutline(hdc, glyph, GGO_NATIVE, &gm, needed, buffer.Get(), &identity) != GDI_ERROR)
+        {
+        }
+    }
 }
 #else
 void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>& fonts)
@@ -466,9 +494,17 @@ void OSFontService::GetUnicodeCharRanges(const RF_Type::String& Text,
 }
 
 void OSFontService::LoadGlyphs(const RF_Draw::FontDescription& FromFont,
-                               RF_Collect::Array<RF_Draw::Path2D>& Out)
+    const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+    RF_Collect::Array<RF_Draw::Path2D>& Out)
 {
-    ImplementationLoadGlyphs(FromFont, Out);
+    ImplementationLoadGlyphs(FromFont, GlyphsUtf32, Out);
+}
+
+void OSFontService::LoadGlyphs(const RF_Draw::FontDescription& FromFont,
+    const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+    RF_Collect::Array<RF_Draw::Image>& Out)
+{
+    ImplementationLoadGlyphs(FromFont, GlyphsUtf32, Out);
 }
 
 } } }

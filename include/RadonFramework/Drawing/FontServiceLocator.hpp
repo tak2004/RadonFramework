@@ -25,10 +25,16 @@ public:
     }
 
     virtual void LoadGlyphs(const FontDescription& FromFont, 
+        const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
         RF_Collect::Array<RF_Draw::Path2D>& Out) override
     {
     }
 
+    virtual void LoadGlyphs(const FontDescription& FromFont,
+        const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+        RF_Collect::Array<RF_Draw::Image>& Out) override
+    {
+    }
 };
 
 typedef Core::Pattern::Locator<FontService, NullFontService> FontServiceLocator;

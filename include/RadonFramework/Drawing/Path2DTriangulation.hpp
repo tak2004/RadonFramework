@@ -35,6 +35,7 @@ public:
     virtual void AddEllipse(const RF_Geo::Point2Df& Position, 
         const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle) override;
     virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius) override;
+    virtual void AddText(const RF_Geo::Point2Df& Position, const RF_Type::String& Text) override;
     virtual void Error() override;
     const RF_Collect::Array<RF_Geo::Vec2f>& GetVertices()const;
     const RF_Collect::Array<RF_Draw::Color4f>& GetColors()const;

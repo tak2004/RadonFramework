@@ -8,6 +8,7 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
 #include <RadonFramework/Drawing/Path2D.hpp>
+#include <RadonFramework/Drawing/Image.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
@@ -71,7 +72,11 @@ public:
     void EnableCharRangeFilter(const RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Filter);
     void DisableCharRangeFilter();
     virtual void LoadGlyphs(const FontDescription& FromFont, 
-                            RF_Collect::Array<RF_Draw::Path2D>& Out)=0;
+        const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+        RF_Collect::Array<RF_Draw::Path2D>& Out) = 0;
+    virtual void LoadGlyphs(const FontDescription& FromFont,
+        const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+        RF_Collect::Array<RF_Draw::Image>& Out) = 0;
 protected:
     RF_Type::Bool MatchFilter(const FontVariation& Variation);
 

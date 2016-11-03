@@ -28,8 +28,8 @@ void Label::RebuildVisuals()
     RF_Geo::Size2Df dimension(Width(), Height());
     RF_Draw::Fill red;
     red.Color = {1,0,0,1};
-    m_Path.SetFill(red);
     m_Path.Clear();
+    m_Path.SetFill(red);
     m_Path.AddRectangle(position, dimension);
     m_Path.Finalize();
 }
