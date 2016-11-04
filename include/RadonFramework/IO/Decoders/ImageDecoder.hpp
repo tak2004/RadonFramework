@@ -8,6 +8,11 @@
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Drawing/PixelFormat.hpp>
 
+
+namespace RadonFramework { namespace Drawing { 
+class Image;
+} }
+
 namespace RadonFramework { namespace IO { namespace Decoders {
 
 class ImageDecoder:public Decoder
@@ -20,6 +25,7 @@ public:
     const RF_Type::UInt32 Layers()const;
 
     virtual RF_Mem::AutoPointerArray<RF_Type::UInt8> LoadLayer(RF_Type::UInt32 Layer)=0;
+    const RF_Type::Bool ConvertToImage(RF_Draw::Image& Destination);
 protected:
     RF_Draw::PixelFormat m_PixelFormat;
     RF_Type::UInt32 m_Width;

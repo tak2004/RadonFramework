@@ -10,6 +10,24 @@ Image::Image()
 {
 }
 
+RF_Type::Bool Image::Initialize(const RF_Type::UInt32 Width, 
+    const RF_Type::UInt32 Height, const RF_Type::UInt32 Layers, 
+    const RF_Draw::PixelFormat& Format, RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data)
+{
+    RF_Type::Bool result = false;
+    if(Width > 0 && Height > 0 && Layers > 0 && Format.BitPerPixel > 0 &&
+        Data.IsEmpty() == false)
+    {
+        m_Width = Width;
+        m_Height = Height;
+        m_Layers = Layers;
+        m_PixelFormat = Format;
+        m_Data = Data;
+        result = true;
+    }
+    return result;
+}
+
 const RF_Draw::PixelFormat& Image::PixelFormat() const
 {
     return m_PixelFormat;

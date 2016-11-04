@@ -38,10 +38,6 @@ if(RADONFRAMEWORK_ADD_EXAMPLES)
     rcf_addlocation(CONSOLE "git" "https://github.com/tak2004/RadonFrameworkExample.git")
     Integrate(CONSOLE "Radon Examples" "RADONEXAMPLES_HOME")
 endif()
-if(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS)
-    rcf_addlocation(INTERMEDIATEFORMATS "git" "https://github.com/tak2004/RadonIntermediateConverter.git")
-    Integrate(INTERMEDIATEFORMATS "Radon intermediate format converter" "RADONINTERMEDIATE_HOME")
-endif()
 
 # Radon version
 GIT_GET_REVISION(${RADONFRAMEWORK_LOCATION} ProjectRevision)
@@ -89,6 +85,11 @@ if(RADONFRAMEWORK_ADD_XXHASH)
 endif()
 AddDependency(RADONFRAMEWORK libtess2)
 Finalize(RADONFRAMEWORK)
+
+if(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS)
+    rcf_addlocation(INTERMEDIATEFORMATS "git" "https://github.com/tak2004/RadonIntermediateConverter.git")
+    Integrate(INTERMEDIATEFORMATS "Radon intermediate format converter" "RADONINTERMEDIATE_HOME")
+endif()
 
 if(RADONFRAMEWORK_BUILD_UNITTEST)
 	add_subdirectory(tests/UnitTest)

@@ -13,6 +13,10 @@ class Image
 {
 public:
     Image();
+    RF_Type::Bool Initialize(const RF_Type::UInt32 Width, const RF_Type::UInt32 Height,
+        const RF_Type::UInt32 Layers, const RF_Draw::PixelFormat& Format,
+        RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
+
     const RF_Draw::PixelFormat& PixelFormat()const;
     const RF_Type::UInt32 Width()const;
     const RF_Type::UInt32 Height()const;

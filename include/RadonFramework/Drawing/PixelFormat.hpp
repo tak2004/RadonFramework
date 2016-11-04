@@ -27,7 +27,15 @@ class PixelFormat
 public:
     RF_Type::UInt32 BitPerPixel;
     RF_Collect::Array<ChannelFormat> Channels;
+    PixelFormat& operator = (const PixelFormat& CopyFrom);
 };
+
+inline PixelFormat& PixelFormat::operator=(const PixelFormat& CopyFrom)
+{
+    BitPerPixel = CopyFrom.BitPerPixel;
+    Channels = CopyFrom.Channels;
+    return *this;
+}
 
 } }
 

@@ -75,7 +75,7 @@ public:
     *
     * \param Length1 The size of the Array to create.
     */
-    Array(const RF_Type::Size Length1);
+    explicit Array(const RF_Type::Size Length1);
 
     /**
     * Create a 2D Array.
@@ -85,7 +85,7 @@ public:
     * \param Length2 The size of the second dimension of the 
     *                Array to create.
     */
-    Array(const RF_Type::Size Length1,
+    explicit Array(const RF_Type::Size Length1,
         const RF_Type::Size Length2);
 
     /**
@@ -98,7 +98,7 @@ public:
     * \param Length3 The size of the third dimension of the 
     *                Array to create.
     */
-    Array(const RF_Type::Size Length1,
+    explicit Array(const RF_Type::Size Length1,
         const RF_Type::Size Length2,
         const RF_Type::Size Length3);
 

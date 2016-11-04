@@ -89,9 +89,11 @@ Bool FileStream::CanTimeout() const
 
 UInt64 FileStream::Length() const
 {
-    File file;
-    file.SetLocation(m_Location);
-    return file.Size();
+    auto currentPosition = TellFile(m_Handle);
+    SeekFile(m_Handle, 0, RF_IO::SeekOrigin::End);
+    auto result = TellFile(m_Handle);
+    SeekFile(m_Handle, currentPosition, RF_IO::SeekOrigin::Begin);
+    return result;
 }
 
 UInt64 FileStream::Position() const
