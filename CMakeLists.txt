@@ -16,6 +16,7 @@ OPTION(RADONFRAMEWORK_ADD_DOCUMENTATION "Add the framework documentation generat
 OPTION(RADONFRAMEWORK_ADD_TESTS "Add the framework specific tests." OFF)
 OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL canvas support" ON)
 OPTION(RADONFRAMEWORK_ADD_EXAMPLES "Add the framework examples." OFF)
+OPTION(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS "Add support for the standard intermediate formats." OFF)
 OPTION(RADONFRAMEWORK_ADD_XXHASH "Add the xxhash library and services." ON)
 
 # Advanced framework options.
@@ -36,6 +37,10 @@ endif()
 if(RADONFRAMEWORK_ADD_EXAMPLES)
     rcf_addlocation(CONSOLE "git" "https://github.com/tak2004/RadonFrameworkExample.git")
     Integrate(CONSOLE "Radon Examples" "RADONEXAMPLES_HOME")
+endif()
+if(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS)
+    rcf_addlocation(INTERMEDIATEFORMATS "git" "https://github.com/tak2004/RadonIntermediateConverter.git")
+    Integrate(INTERMEDIATEFORMATS "Radon intermediate format converter" "RADONINTERMEDIATE_HOME")
 endif()
 
 # Radon version
