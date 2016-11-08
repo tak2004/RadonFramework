@@ -110,10 +110,22 @@ public:
     void Swap(AutoPointerArray<T>& Other);
 
     RF_Type::Size Copy(const void* From, RF_Type::Size Bytes, RF_Type::Size Offset = 0);
+
+    RF_Type::Bool operator==(const AutoPointerArray& Other)const;
 private:
     T* m_Data;
     RF_Type::Size m_Elements;
 };
+
+template <typename T>
+RF_Type::Bool AutoPointerArray<T>::operator==(const AutoPointerArray& Other) const
+{
+    RF_Type::Bool result = true;
+    result &= m_Elements == Other.m_Elements;
+    if (result)
+        result &= RF_SysMem::Compare(m_Data, Other.m_Data, m_Elements) == 0;
+    return result;
+}
 
 template <typename T>
 AutoPointerArray<T>& AutoPointerArray<T>::New(const RF_Type::Size ElementCount)

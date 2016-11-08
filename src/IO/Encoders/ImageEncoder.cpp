@@ -31,7 +31,7 @@ const RF_Type::UInt32 ImageEncoder::Layers() const
     return m_Layers;
 }
 
-void ImageEncoder::SetPixelFormat(RF_Draw::PixelFormat& NewPixelFormat)
+void ImageEncoder::SetPixelFormat(const RF_Draw::PixelFormat& NewPixelFormat)
 {
     m_PixelFormat = NewPixelFormat;
 }

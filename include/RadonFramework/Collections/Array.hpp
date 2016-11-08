@@ -523,7 +523,7 @@ public:
     *         value within the entire array, if found; 
     *         otherwise, –1.
     */
-    RF_Type::Size IndexOf(const T& Value);
+    RF_Type::Size IndexOf(const T& Value)const;
 
     /**
     * \brief Searches for the specified object and returns the 
@@ -539,7 +539,7 @@ public:
     *         otherwise, –1.
     */
     RF_Type::Size IndexOf(const T& Value, 
-        const RF_Type::Size StartIndex);
+        const RF_Type::Size StartIndex)const;
 
     /**
     * \brief Searches for the specified object and returns the 
@@ -557,7 +557,7 @@ public:
     */
     RF_Type::Size IndexOf(const T& Value, 
         const RF_Type::Size StartIndex,
-        const RF_Type::Size Count);
+        const RF_Type::Size Count)const;
                     
     /**
     * \brief Searches for the specified object and returns the 
@@ -569,7 +569,7 @@ public:
     *         contains the number of elements specified in count 
     *         and ends at startIndex, if found; otherwise, –1.
     */
-    RF_Type::Size LastIndexOf(const T& Value);
+    RF_Type::Size LastIndexOf(const T& Value)const;
 
     /**
     * \brief Searches for the specified object and returns the 
@@ -586,7 +586,7 @@ public:
     *         and ends at startIndex, if found; otherwise, –1.
     */
     RF_Type::Size LastIndexOf(const T& Value, 
-        const RF_Type::Size StartIndex);
+        const RF_Type::Size StartIndex)const;
 
     /**
     * \brief Searches for the specified object and returns the 
@@ -605,7 +605,7 @@ public:
     */
     RF_Type::Size LastIndexOf(const T& Value, 
         const RF_Type::Size StartIndex,
-        const RF_Type::Size Count);
+        const RF_Type::Size Count)const;
 
     /**
     * \brief Changes the number of elements of an array to the 
@@ -1282,7 +1282,7 @@ const T& Array<T,MA,MO>::GetValue(Array<RF_Type::Size>& Index)
 }
 
 template<typename T, typename MA, typename MO>
-RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value)
+RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value)const
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return IndexOf(Value,0,m_Length[0]);
@@ -1290,7 +1290,7 @@ RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value)
 
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value,
-    const RF_Type::Size StartIndex)
+    const RF_Type::Size StartIndex)const
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return IndexOf(Value,StartIndex,m_Length[0]-StartIndex);
@@ -1299,7 +1299,7 @@ RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value,
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value,
     const RF_Type::Size StartIndex, 
-    const RF_Type::Size Count)
+    const RF_Type::Size Count)const
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     RF_Type::Size end=StartIndex+Count;
@@ -1311,7 +1311,7 @@ RF_Type::Size Array<T,MA,MO>::IndexOf(const T& Value,
 }
 
 template<typename T, typename MA, typename MO>
-RF_Type::Size Array<T,MA,MO>::LastIndexOf(const T& Value)
+RF_Type::Size Array<T,MA,MO>::LastIndexOf(const T& Value)const
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return LastIndexOf(Value,m_Length[0]-1,m_Length[0]);
@@ -1319,7 +1319,7 @@ RF_Type::Size Array<T,MA,MO>::LastIndexOf(const T& Value)
 
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::LastIndexOf(const T& Value, 
-    const RF_Type::Size StartIndex)
+    const RF_Type::Size StartIndex)const
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     return LastIndexOf(Value,StartIndex,m_Length[0]-StartIndex);
@@ -1328,7 +1328,7 @@ RF_Type::Size Array<T,MA,MO>::LastIndexOf(const T& Value,
 template<typename T, typename MA, typename MO>
 RF_Type::Size Array<T,MA,MO>::LastIndexOf(
     const T& Value, const RF_Type::Size StartIndex,
-    const RF_Type::Size Count)
+    const RF_Type::Size Count)const
 {
     Assert(m_Rank==1,"Unexpected dimension of array.");
     RF_Type::Int32 end=StartIndex-(Count-1);

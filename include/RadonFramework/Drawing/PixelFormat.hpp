@@ -16,6 +16,13 @@ enum class ChannelType:RF_Type::UInt8
     ChromaRed
 };
 
+enum class PixelType:RF_Type::UInt8
+{
+    Unsigned,
+    Signed,
+    Float
+};
+
 struct ChannelFormat
 {
     ChannelType Type;
@@ -26,15 +33,41 @@ class PixelFormat
 {
 public:
     RF_Type::UInt32 BitPerPixel;
+    PixelType Type;
     RF_Collect::Array<ChannelFormat> Channels;
     PixelFormat& operator = (const PixelFormat& CopyFrom);
+    RF_Type::Bool operator ==(const PixelFormat& Other)const;
+    RF_Type::Bool operator !=(const PixelFormat& Other)const;
 };
 
 inline PixelFormat& PixelFormat::operator=(const PixelFormat& CopyFrom)
 {
+    Type = CopyFrom.Type;
     BitPerPixel = CopyFrom.BitPerPixel;
     Channels = CopyFrom.Channels;
     return *this;
+}
+
+inline RF_Type::Bool PixelFormat::operator==(const PixelFormat& Other)const
+{
+    RF_Type::Bool result = true;
+    result &= Type == Other.Type;
+    result &= BitPerPixel == Other.BitPerPixel;
+    result &= Channels.Count() == Other.Channels.Count();
+    if(result)
+    {
+        for(auto i = 0; i < Channels.Count(); ++i)
+        {
+            result &= Channels(i).Type == Other.Channels(i).Type;
+            result &= Channels(i).Bits == Other.Channels(i).Bits;
+        }
+    }
+    return result;
+}
+
+inline RF_Type::Bool PixelFormat::operator!=(const PixelFormat& Other)const
+{
+    return !(*this == Other);
 }
 
 } }

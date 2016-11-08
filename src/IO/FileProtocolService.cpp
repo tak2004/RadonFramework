@@ -5,6 +5,8 @@
 #include "RadonFramework/Collections/HashList.hpp"
 #include "RadonFramework/Collections/AutoVector.hpp"
 #include "RadonFramework/IO/FileStream.hpp"
+#include "RadonFramework/Threading/Scopelock.hpp"
+#include "RadonFramework/System/Threading/Mutex.hpp"
 
 namespace RadonFramework { namespace Core { namespace Idioms {
 
@@ -32,6 +34,7 @@ public:
 
     RF_Collect::HashList m_StreamLookup;
     RF_Collect::AutoVector<RF_IO::FileStream> m_FileStreams;
+    RF_SysThread::Mutex m_WriteData;
 };
 
 } } }
@@ -86,8 +89,11 @@ Stream* FileProtocolService::GenerateInterface(const Uri& URI)
         RF_IO::Uri fileSystem(URI.OriginalString().Replace(URI.Scheme(), "file"_rfs));
         stream->Open(fileSystem, RF_SysFile::FileAccessMode::ReadWrite, RF_SysFile::FileAccessPriority::ReadThroughput);
         result = stream.Get();
-        m_PImpl->m_StreamLookup.Add(key, result);
-        m_PImpl->m_FileStreams.PushBack(stream);
+        {
+            RF_Thread::Scopelock lock(m_PImpl->m_WriteData);
+            m_PImpl->m_StreamLookup.Add(key, result);
+            m_PImpl->m_FileStreams.PushBack(stream);
+        }
     }
     return result;
 }

@@ -50,13 +50,39 @@ const RF_Type::UInt32 Image::Layers() const
 
 RF_Type::UInt8* Image::UnsafeAccess() const
 {
-    return nullptr;
+    return m_Data.Get();
 }
 
 RF_Mem::AutoPointerArray<RF_Type::UInt8> Image::GetCopyOfLayer(RF_Type::UInt32 Layer) const
 {
     RF_Mem::AutoPointerArray<RF_Type::UInt8> result;
+    if(Layer < m_Layers)
+    {
+        result.New(m_Width*m_Height*m_PixelFormat.BitPerPixel/8);
+        RF_SysMem::Copy(result.Get(), m_Data.Get()+(result.Size() * Layer), result.Size());
+    }
     return result;
+}
+
+RF_Type::Bool Image::operator==(const Image& Other) const
+{
+    RF_Type::Bool result = true;
+    result &= m_Width == Other.m_Width;
+    result &= m_Height == Other.m_Height;
+    result &= m_Layers == Other.m_Layers;
+    result &= m_PixelFormat == Other.m_PixelFormat;
+    result &= m_Data == Other.m_Data;
+    return result;
+}
+
+RadonFramework::Drawing::Image& Image::operator=(const Image& Copy)
+{
+    m_Width = Copy.Width();
+    m_Height = Copy.Height();
+    m_Layers = Copy.Layers();
+    m_PixelFormat = Copy.PixelFormat();
+    m_Data = Copy.m_Data.Clone();
+    return *this;
 }
 
 } }

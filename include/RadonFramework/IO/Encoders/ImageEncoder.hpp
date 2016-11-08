@@ -19,7 +19,7 @@ public:
     const RF_Type::UInt32 Height()const;
     const RF_Type::UInt32 Layers()const;
 
-    virtual void SetPixelFormat(RF_Draw::PixelFormat& NewPixelFormat);
+    virtual void SetPixelFormat(const RF_Draw::PixelFormat& NewPixelFormat);
     virtual void SetWidth(RF_Type::UInt32 NewWidth);
     virtual void SetHeight(RF_Type::UInt32 NewHeight);
     virtual void SetLayers(RF_Type::UInt32 NewLayerCount);
