@@ -64,6 +64,108 @@ RF_Mem::AutoPointerArray<RF_Type::UInt8> Image::GetCopyOfLayer(RF_Type::UInt32 L
     return result;
 }
 
+RF_Type::Bool NotImplemented(RF_Draw::Image& Target, const RF_Draw::Image& Source)
+{
+    return false;
+}
+
+RF_Type::Bool Unsigned2Float(RF_Draw::Image& Target, const RF_Draw::Image& Source)
+{
+    RF_Type::Size bitOffsetIn, bitOffsetOut;
+    for(RF_Type::Size p = 0; p < Source.Width()*Source.Height(); ++p)
+    {
+        bitOffsetIn = 0;
+        bitOffsetOut = 0;
+        for(RF_Type::Size i = 0; i < Source.PixelFormat().Channels.Count(); ++i)
+        {
+            RF_Type::Float32 tmp;
+            RF_Type::UInt32 valueIn = 0;
+
+            valueIn = *reinterpret_cast<RF_Type::UInt32*>(Source.UnsafeAccess() + ((p * Source.PixelFormat().BitPerPixel + bitOffsetIn) / 8));
+            valueIn = valueIn >> (32 - Source.PixelFormat().Channels(i).Bits);
+            tmp = valueIn;
+            tmp /= 255.0f;
+
+            *reinterpret_cast<RF_Type::Float32*>(Target.UnsafeAccess() + ((p * Target.PixelFormat().BitPerPixel + bitOffsetOut) / 8)) = tmp;
+
+            bitOffsetIn += Source.PixelFormat().Channels(i).Bits;
+            bitOffsetOut += Target.PixelFormat().Channels(i).Bits;
+        }
+    }
+    return true;
+}
+
+RF_Type::Bool Float2Unsigned(RF_Draw::Image& Target, const RF_Draw::Image& Source)
+{
+    RF_Type::Size bitOffsetIn, bitOffsetOut;
+    for(RF_Type::Size p = 0; p < Source.Width()*Source.Height(); ++p)
+    {
+        bitOffsetIn = 0;
+        bitOffsetOut = 0;
+        for(RF_Type::Size i = 0; i < Source.PixelFormat().Channels.Count(); ++i)
+        {
+            RF_Type::Float32 valueIn = 0;
+            RF_Type::UInt8 tmp;
+
+            valueIn = *reinterpret_cast<RF_Type::Float32*>(Source.UnsafeAccess() + ((p * Source.PixelFormat().BitPerPixel + bitOffsetIn) / 8));
+            tmp = valueIn * 255.0f;
+
+            *reinterpret_cast<RF_Type::UInt8*>(Target.UnsafeAccess() + ((p * Target.PixelFormat().BitPerPixel + bitOffsetOut) / 8)) = tmp;
+
+            bitOffsetIn += Source.PixelFormat().Channels(i).Bits;
+            bitOffsetOut += Target.PixelFormat().Channels(i).Bits;
+        }
+    }
+    return true;
+}
+
+RF_Type::Bool Image::ConvertTo(Image& Target, const RF_Draw::PixelFormat& NewFormat)
+{
+    RF_Type::Bool result = false;
+    if(PixelFormat() != NewFormat)
+    {
+        RF_Draw::Image tmp;
+        RF_Mem::AutoPointerArray<RF_Type::UInt8> empty((NewFormat.BitPerPixel*Width()*Height()*Layers()) / 8);
+        tmp.Initialize(Width(), Height(), Layers(), NewFormat, empty);
+
+        RF_Type::Size offset = 0;
+        switch(PixelFormat().Type)
+        {
+        case RF_Draw::PixelType::Float:
+            break;
+        case RF_Draw::PixelType::Unsigned:
+            offset += 1;
+            break;
+        case RF_Draw::PixelType::Signed:
+            offset += 2;
+            break;
+        }
+        switch(NewFormat.Type)
+        {
+        case RF_Draw::PixelType::Float:
+            break;
+        case RF_Draw::PixelType::Unsigned:
+            offset += 3;
+            break;
+        case RF_Draw::PixelType::Signed:
+            offset += 6;
+            break;
+        }
+        /* Float->Float, Unsigned->Float, Signed->Float,
+           Float->Unsigned, Unsigned->Unsigned, Signed->Unsigned,
+           Float->Signed, Unsigned->Signed, Signed,Signed
+        */
+        typedef RF_Type::Bool(*Conversion)(RF_Draw::Image&, const RF_Draw::Image&);
+        Conversion conversionFunctions[9] = {NotImplemented, Unsigned2Float,
+            NotImplemented, Float2Unsigned, NotImplemented, NotImplemented,
+            NotImplemented, NotImplemented, NotImplemented};
+
+        result = conversionFunctions[offset](tmp, *this);
+        Target = tmp;
+    }
+    return result;
+}
+
 RF_Type::Bool Image::operator==(const Image& Other) const
 {
     RF_Type::Bool result = true;
