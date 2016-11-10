@@ -1,10 +1,14 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/Decoders/ImageDecoder.hpp"
 #include "RadonFramework/Drawing/Image.hpp"
+#include "RadonFramework/IO/Log.hpp"
 
 namespace RadonFramework { namespace IO { namespace Decoders {
 
 ImageDecoder::ImageDecoder()
+:m_Height(0)
+,m_Width(0)
+,m_Layers(0)
 {
 
 }
@@ -32,6 +36,7 @@ const RF_Type::UInt32 ImageDecoder::Layers() const
 const RF_Type::Bool ImageDecoder::ConvertToImage(RF_Draw::Image& Destination)
 {
     RF_Mem::AutoPointerArray<RF_Type::UInt8> data;
+    LoadInformation();
     for (auto i = 0; i < m_Layers; ++i)
     {
         auto layerData = LoadLayer(i);
