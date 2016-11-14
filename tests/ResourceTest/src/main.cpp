@@ -41,7 +41,7 @@ int main(int argc, const char **argv)
     AutoPointer<Appender> console(new LogConsole);
     Log::AddAppender(console);
 
-    TestResultCollector results;
+    RF_Test::TestResultCollector results;
     BriefProgressCollector progress;
     RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(results);
     RF_Pattern::Singleton<UnitTest>::GetInstance().AddCollector(progress);

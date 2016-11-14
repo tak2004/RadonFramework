@@ -6,7 +6,7 @@
 
 namespace RadonFramework { namespace Math { namespace Geometry {
 
-class Ray32Test:public RF_Test::TestSuite
+class Ray32Test:public RF_UnitTest::TestSuite
 {
 public:
     Ray32Test()

@@ -6,7 +6,7 @@
 
 namespace RadonFramework { namespace Math { namespace Geometry {
 
-class PackRectangleTest:public RF_Test::TestSuite
+class PackRectangleTest:public RF_UnitTest::TestSuite
 {
 public:
     PackRectangleTest()

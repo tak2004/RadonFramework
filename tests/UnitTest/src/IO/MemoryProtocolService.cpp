@@ -5,7 +5,7 @@
 #include <RadonFramework/IO/MemoryProtocolService.hpp>
 #include <RadonFramework/IO/ProtocolServiceLocator.hpp>
 
-class MemoryProtocolServiceTest:public RF_Test::TestSuite
+class MemoryProtocolServiceTest:public RF_UnitTest::TestSuite
 {
 public:
     MemoryProtocolServiceTest()

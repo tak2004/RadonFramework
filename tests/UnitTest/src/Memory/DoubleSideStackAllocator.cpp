@@ -4,7 +4,7 @@
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Memory/DoubleSideStackAllocator.hpp>
 
-class DoubleSideStackAllocatorTest :public RF_Test::TestSuite
+class DoubleSideStackAllocatorTest :public RF_UnitTest::TestSuite
 {
 public:
     DoubleSideStackAllocatorTest()

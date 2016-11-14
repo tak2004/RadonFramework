@@ -4,7 +4,7 @@
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Net/mDNS/MessageReader.hpp>
 
-class MessageReaderTest:public RF_Test::TestSuite
+class MessageReaderTest:public RF_UnitTest::TestSuite
 {
 public:
     MessageReaderTest()

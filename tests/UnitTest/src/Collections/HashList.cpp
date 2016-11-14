@@ -38,7 +38,7 @@ public:
     RF_Collect::AutoVector<RF_Type::UInt8> memory;
 };
 
-class HashListTest:public RF_Test::TestSuite
+class HashListTest:public RF_UnitTest::TestSuite
 {
 public:
     HashListTest()
