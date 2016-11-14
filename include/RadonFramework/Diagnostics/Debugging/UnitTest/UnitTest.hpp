@@ -35,9 +35,9 @@ private:
 
 } } } }
 
-#ifndef RF_SHORTHAND_NAMESPACE_TEST
-#define RF_SHORTHAND_NAMESPACE_TEST
-namespace RF_Test = RadonFramework::Diagnostics::Debugging::UnitTest;
+#ifndef RF_SHORTHAND_NAMESPACE_UNITTEST
+#define RF_SHORTHAND_NAMESPACE_UNITTEST
+namespace RF_UnitTest = RadonFramework::Diagnostics::Debugging::UnitTest;
 #endif
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_UNITTEST_HPP

@@ -5,15 +5,14 @@
 #endif
 
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
-#include <RadonFramework/Collections/List.hpp>
 
 namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
 
 class DebugCollector:public Collector
 {
 public:
-    virtual void CreateSuite(const RF_Type::String& Name);
-    virtual void ProcessResult(const UnitTestResult& Result);
+    virtual void CreateSuite(const RF_Type::String& Name) override;
+    virtual void ProcessResult(const Test::TestResult& Result) override;
 protected:
     RF_Type::String m_CurrentSuite;
 };

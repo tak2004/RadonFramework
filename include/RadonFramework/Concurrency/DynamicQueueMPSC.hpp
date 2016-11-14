@@ -6,6 +6,7 @@
 
 #include <RadonFramework/Concurrency/TypelessDynamicQueueMPSC.hpp>
 #include <RadonFramework/Memory/AllocatorBase.hpp>
+#include <RadonFramework/Memory/SystemAllocator.hpp>
 
 namespace RadonFramework { namespace Concurrency {
 
@@ -53,7 +54,8 @@ private:
 template<typename T>
 DynamicQueueMPSC<T>::DynamicQueueMPSC(RF_Mem::AllocatorBase* Arena /*= nullptr*/)
 :m_RealQueue(Arena)
-,m_PayloadAllocator(sizeof(T), alignof(T), Arena ? Arena : RF_Pattern::Singleton<RF_Mem::SystemAllocator>::Instance())
+,m_PayloadAllocator(sizeof(T), alignof(T), 
+	Arena ? Arena : RF_Pattern::Singleton<RF_Mem::SystemAllocator>::Instance())
 {
 }
 

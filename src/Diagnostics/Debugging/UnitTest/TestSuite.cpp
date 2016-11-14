@@ -1,27 +1,24 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
-#include <RadonFramework/Time/ScopeTimer.hpp>
-#include <memory>
+#include "RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp"
+#include "RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp"
+#include "RadonFramework/Diagnostics/Test/TestResult.hpp"
+#include "RadonFramework/Time/ScopeTimer.hpp"
 
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
-using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::Collections;
-using namespace RadonFramework::Memory;
-using namespace RadonFramework::Time;
+namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
 
-TestSuite::TestSuite( const String& Name ) 
+TestSuite::TestSuite( const RF_Type::String& Name ) 
 :m_Name(Name)
 {
     RF_Pattern::Singleton<UnitTest>::GetInstance().RegisterTestSuite(this);
 }
 
-String TestSuite::Name() const
+const RF_Type::String& TestSuite::Name() const
 {
     return m_Name;
 }
 
-void TestSuite::AddTest( TestMethod Test, const String& TestName, const String& Description )
+void TestSuite::AddTest( TestMethod Test, const RF_Type::String& TestName, 
+	const RF_Type::String& Description )
 {
     Callback cb;
     cb.Method = Test;
@@ -30,17 +27,17 @@ void TestSuite::AddTest( TestMethod Test, const String& TestName, const String& 
     m_TestMethods.AddLast(cb);
 }
 
-AutoPointer<UnitTestResult> TestSuite::ProcessTest( const UInt32 Number )
+RF_Mem::AutoPointer<RF_Test::TestResult> TestSuite::ProcessTest( const RF_Type::UInt32 Number )
 {
     register RF_Type::Bool passed;
-    AutoPointer<UnitTestResult> result;
     Assert(Number<m_TestMethods.Count(), "Out of bound.");
-    result = AutoPointer<UnitTestResult>(new UnitTestResult(m_TestMethods[Number].Name));
+	RF_Mem::AutoPointer<RF_Test::TestResult> result(new RF_Test::TestResult);
+	result->SetName(m_TestMethods[Number].Name);
     {
-        ScopeTimer scopetime(result->TimeRequired());
+        RF_Time::ScopeTimer scopetime(result->GetTimeRequired());
         passed = m_TestMethods[Number].Method();
     }
-    result->Passed(passed);
+    result->SetPassed(passed);
     return result;
 }
 
@@ -59,7 +56,7 @@ void TestSuite::IgnoreTest( const RF_Type::String& Testname )
     m_IgnoreTest.AddLast(Testname);
 }
 
-List<AutoPointer<UnitTestResult> >& TestSuite::GetResults()
+RF_Collect::List<RF_Mem::AutoPointer<RF_Test::TestResult>>& TestSuite::GetResults()
 {
     return m_TestResults;
 }
@@ -67,13 +64,13 @@ List<AutoPointer<UnitTestResult> >& TestSuite::GetResults()
 void TestSuite::Run()
 {
     m_TestResults.Clear();
-    for(UInt32 i = 0; i < m_TestMethods.Count(); ++i)
+    for(RF_Type::Size i = 0; i < m_TestMethods.Count(); ++i)
     {
         if (!m_IgnoreTest.Find(m_TestMethods[i].Name))
         {
-            for(UInt32 k = 0; k < m_TestProbes; ++k)
+            for(RF_Type::Size k = 0; k < m_TestProbes; ++k)
             {
-                AutoPointer<UnitTestResult> res;
+                RF_Mem::AutoPointer<RF_Test::TestResult> res;
                 res = ProcessTest(i);
                 m_TestResults.AddLast(res);
             }
@@ -85,3 +82,5 @@ void TestSuite::SetTestProbes( const RF_Type::Size Probes )
 {
     m_TestProbes = Probes;
 }
+
+} } } }

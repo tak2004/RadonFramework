@@ -1,26 +1,29 @@
 #include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/BriefProgressCollector.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTestResult.hpp>
-#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Diagnostics/Test/TestResult.hpp>
 #include <RadonFramework/IO/Log.hpp>
 
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
-using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::IO;
+namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
 
-void BriefProgressCollector::ProcessResult(const UnitTestResult& Result)
+void BriefProgressCollector::ProcessResult(const RF_Test::TestResult& Result)
 {
-	if (Result.Passed())
+	if (Result.GetPassed())
     {
-        LogInfo("-The test \"%s\" was successful and take %u cycles.", Result.Name().c_str(), UInt64(Result.TimeRequired().Ticks()));
+        RF_IO::LogInfo("-The test \"%s\" was successful and take %u cycles.", 
+			Result.GetName().c_str(), 
+			RF_Type::UInt64(Result.GetTimeRequired().Ticks()));
     }
 	else
     {
-		LogError("-The test \"%s\" failed and take %u cycles.",Result.Name().c_str(),UInt64(Result.TimeRequired().Ticks()));
+		RF_IO::LogError("-The test \"%s\" failed and take %u cycles.",
+			Result.GetName().c_str(), 
+			RF_Type::UInt64(Result.GetTimeRequired().Ticks()));
     }
 }
 
-void BriefProgressCollector::CreateSuite( const RadonFramework::Core::Types::String& Name )
+void BriefProgressCollector::CreateSuite( const RF_Type::String& Name )
 {
-	LogInfo("Next Test-Suite: %s",Name.c_str());
+	RF_IO::LogInfo("Next Test-Suite: %s", Name.c_str());
 }
+
+} } } }

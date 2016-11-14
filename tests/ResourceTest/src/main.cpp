@@ -1,9 +1,9 @@
 #include "precompiled.hpp"
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestResultCollector.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/BriefProgressCollector.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/JUnitOutput.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTestResult.hpp>
+#include <RadonFramework/Diagnostics/Test/TestResultCollector.hpp>
+#include <RadonFramework/Diagnostics/Test/TestResult.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/IO/LogConsole.hpp>
 #include <RadonFramework/Diagnostics/Appender.hpp>

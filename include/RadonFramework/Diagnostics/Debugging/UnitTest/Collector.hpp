@@ -4,20 +4,24 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/String.hpp>
-#include <RadonFramework/Memory/AutoPointer.hpp>
+namespace RadonFramework { namespace Diagnostics { namespace Test {
+class TestResult;
+} } }
 
 namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
-
-class UnitTestResult;
 
 class Collector
 {
 public:
     virtual void CreateSuite(const RF_Type::String& Name)=0;
-    virtual void ProcessResult(const UnitTestResult& Result)=0;
+    virtual void ProcessResult(const Test::TestResult& Result)=0;
 };
 
 } } } }
+
+#ifndef RF_SHORTHAND_NAMESPACE_UNITTEST
+#define RF_SHORTHAND_NAMESPACE_UNITTEST
+namespace RF_UnitTest = RadonFramework::Diagnostics::Debugging::UnitTest;
+#endif
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_COLLECTOR_HPP
