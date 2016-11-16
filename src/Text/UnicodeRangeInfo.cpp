@@ -3,8 +3,8 @@
 
 namespace RadonFramework { namespace Text {
 
-UnicodeRangeInfo::UnicodeRangeInfo(UnicodeRangeIdentifier Identifier, 
-    RF_Type::UInt32 Start, RF_Type::UInt32 End)
+UnicodeRangeInfo::UnicodeRangeInfo(const UnicodeRangeIdentifier Identifier, 
+    const RF_Type::UInt32 Start, const RF_Type::UInt32 End)
 :m_Identifier(Identifier)
 ,m_Start(Start)
 ,m_End(End)

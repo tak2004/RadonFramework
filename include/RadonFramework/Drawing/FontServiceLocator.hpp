@@ -16,11 +16,13 @@ public:
     :FontService(Name)
     {
     }
+
     virtual void Update() override
     {
     }
+
     virtual void GetUnicodeCharRanges(const RF_Type::String& Text, 
-        RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out) override
+        RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Out) override
     {
     }
 
@@ -34,6 +36,11 @@ public:
         const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
         RF_Collect::Array<RF_Draw::Image>& Out) override
     {
+    }
+
+    virtual void GetUnicodeCharRange(const RF_Text::UnicodeRangeIdentifier Identifier, 
+        RF_Text::UnicodeRangeInfo& Out) override
+    {     
     }
 };
 

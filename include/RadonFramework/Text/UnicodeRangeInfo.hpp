@@ -12,8 +12,8 @@ class UnicodeRangeInfo
 {
 public:
     UnicodeRangeInfo();
-    UnicodeRangeInfo(UnicodeRangeIdentifier Identifier, RF_Type::UInt32 Start,
-        RF_Type::UInt32 End);
+    UnicodeRangeInfo(const UnicodeRangeIdentifier Identifier, const RF_Type::UInt32 Start,
+        const RF_Type::UInt32 End);
     const UnicodeRangeIdentifier Identifier()const;
     const RF_Type::UInt32 Start()const;
     const RF_Type::UInt32 End()const;

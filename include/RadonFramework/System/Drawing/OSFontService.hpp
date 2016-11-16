@@ -15,7 +15,9 @@ public:
     virtual ~OSFontService() override;
     virtual void Update() override;
     virtual void GetUnicodeCharRanges(const RF_Type::String& Text, 
-        RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out) override;
+        RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Out) override;
+    virtual void GetUnicodeCharRange(const RF_Text::UnicodeRangeIdentifier Identifier, 
+        RF_Text::UnicodeRangeInfo& Out) override;
     virtual void LoadGlyphs(const RF_Draw::FontDescription& FromFont,
         const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
         RF_Collect::Array<RF_Draw::Path2D>& Out) override;

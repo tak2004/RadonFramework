@@ -49,7 +49,7 @@ void FontService::DisableOrientationFilter()
     m_EnableOrientationFilter = false;
 }
 
-void FontService::EnableCharRangeFilter(const RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Filter)
+void FontService::EnableCharRangeFilter(const RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Filter)
 {
     m_EnableCharRangeFilter = true;
     m_RangeFilter = Filter;
@@ -83,7 +83,7 @@ RF_Type::Bool FontService::MatchFilter(const FontVariation& Variation)
         {
             for(l = 0; l < Variation.SupportedUnicodeSubranges.Count(); ++l)
             {
-                if(m_RangeFilter(k) == Variation.SupportedUnicodeSubranges(l))
+                if(m_RangeFilter(k).Identifier() == Variation.SupportedUnicodeSubranges(l))
                 {
                     break;
                 }

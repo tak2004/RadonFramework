@@ -64,12 +64,14 @@ public:
     const RF_Collect::Array<FontDescription>& Fonts()const;
     /// Return a list of UnicodeRangeInfo which is used by the specified language definition.
     virtual void GetUnicodeCharRanges(const RF_Type::String& Text,
-            RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out)=0;
+            RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Out)=0;
+    virtual void GetUnicodeCharRange(const RF_Text::UnicodeRangeIdentifier Identifier,
+            RF_Text::UnicodeRangeInfo& Out) = 0;
     void EnableStyleFilter(const FontStyle StyleFilter);
     void DisableStyleFilter();
     void EnableOrientationFilter(RF_Type::Bool Horizontal);
     void DisableOrientationFilter();
-    void EnableCharRangeFilter(const RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Filter);
+    void EnableCharRangeFilter(const RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Filter);
     void DisableCharRangeFilter();
     virtual void LoadGlyphs(const FontDescription& FromFont, 
         const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
@@ -82,7 +84,7 @@ protected:
 
     RF_Collect::Array<FontDescription> m_Fonts;
     FontStyle m_StyleFilter;
-    RF_Collect::Array<RF_Text::UnicodeRangeIdentifier> m_RangeFilter;
+    RF_Collect::Array<RF_Text::UnicodeRangeInfo> m_RangeFilter;
     RF_Type::Bool m_HorizontalOrientation;
     RF_Type::Bool m_EnableStyleFilter;
     RF_Type::Bool m_EnableOrientationFilter;
