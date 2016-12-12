@@ -295,6 +295,16 @@ RF_Type::String ApplicationDataDirectory_SystemAPIDispatcher()
     return ApplicationDataDirectory();
 }
 
+RF_Type::String TemporaryDirectory_SystemAPIDispatcher()
+{
+    TemporaryDirectory = 0;
+    Dispatch();
+    Assert(TemporaryDirectory != TemporaryDirectory_SystemAPIDispatcher &&
+        TemporaryDirectory != 0,
+        "Funtion was called and couldn't be dispatched");
+    return TemporaryDirectory();
+}
+
 RF_Type::Bool ChangeDirectory_SystemAPIDispatcher(const RF_Type::String& Destination)
 {
     ChangeDirectory = 0;
@@ -435,6 +445,7 @@ HomeDirectoryCallback RFFILE::HomeDirectory = HomeDirectory_SystemAPIDispatcher;
 ApplicationDirectoryCallback RFFILE::ApplicationDirectory = ApplicationDirectory_SystemAPIDispatcher;
 ApplicationDataDirectoryCallback RFFILE::UserApplicationDataDirectory = UserApplicationDataDirectory_SystemAPIDispatcher;
 UserApplicationDataDirectoryCallback RFFILE::ApplicationDataDirectory = ApplicationDataDirectory_SystemAPIDispatcher;
+TemporaryDirectoryCallback RFFILE::TemporaryDirectory = TemporaryDirectory_SystemAPIDispatcher;
 ChangeDirectoryCallback RFFILE::ChangeDirectory = ChangeDirectory_SystemAPIDispatcher;
 /// Every directory created by this function will use the permissions of the parent directory.
 CreateDirectoryCallback RFFILE::CreateDirectory = CreateDirectory_SystemAPIDispatcher;

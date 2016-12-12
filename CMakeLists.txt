@@ -47,6 +47,7 @@ set(RADONFRAMEWORK_REVISIONNUMBER "${ProjectRevision}")
 set(RADONFRAMEWORK_BUILDNUMBER "0")
 
 # Set default destination directory for all binaries.
+if(NOT CMAKE_PROJECT_NAME OR "${CMAKE_PROJECT_NAME}" MATCHES "^RadonFramework$")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${RADONFRAMEWORK_LOCATION}/dist CACHE PATH
    "Single Directory for all Libraries")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RADONFRAMEWORK_LOCATION}/dist CACHE PATH
@@ -63,6 +64,7 @@ FOREACH(i IN LISTS CMAKE_CONFIGURATION_TYPES ITEMS ${CMAKE_BUILD_TYPE})
         "Single Directory for all Libraries")
 ENDFOREACH()   
 link_directories(${RadonFramework_BINARY_DIR}/dist/)
+endif()
 
 if(RADONFRAMEWORK_USE_OPENGL)
     include(build/cmake/OpenGL.cmake)

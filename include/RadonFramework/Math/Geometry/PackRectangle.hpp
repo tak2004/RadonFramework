@@ -18,6 +18,8 @@ public:
         void* UserData;
         RF_Type::Bool Fliped;
     };
+    typedef RF_Collect::Array<RectangleInfo> Bin;
+
     PackRectangle(const RF_Type::Size EdgeSize);
     PackRectangle(const RF_Type::Size MaxWidth, const RF_Type::Size MaxHeight);
     PackRectangle(const RF_Geo::Size2D<>& MaxSize);
@@ -35,12 +37,16 @@ public:
     void SetDimension(const RF_Geo::Size2D<>& MaxSize);
     const RF_Geo::Size2D<>& GetDimension()const;
 
-    const RF_Collect::Array<RF_Collect::Array<RectangleInfo>>& GetBins()const;
+    const RF_Collect::List<Bin>& GetBins()const;
     RF_Type::Bool NeedProcessing()const;
 private:
+    struct Node;
+    RF_Collect::List<RF_Collect::List<Node>> m_Root;
     RF_Collect::List<RF_Collect::Pair<RF_Geo::Size2D<>, void*> > m_NotProcessedRectangles;
-    RF_Collect::Array<RF_Collect::Array<RectangleInfo>> m_Bins;
+    RF_Collect::List<Bin> m_Bins;
     RF_Geo::Size2D<> m_Dimension;
+
+    void Insert(RF_Collect::Pair<RF_Geo::Size2D<>, void*>& RectangleData);
 };
 
 } } }

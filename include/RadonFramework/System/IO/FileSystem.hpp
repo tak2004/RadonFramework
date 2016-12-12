@@ -188,6 +188,8 @@ using UserApplicationDataDirectoryCallback = RF_Type::String(*)();
 
 using ApplicationDataDirectoryCallback = RF_Type::String(*)();
 
+using TemporaryDirectoryCallback = RF_Type::String(*)();
+
 using ChangeDirectoryCallback = RF_Type::Bool (*)(const RF_Type::String& Destination);
 
 using CreateDirectoryCallback = RF_Type::Bool(*)(const RF_Type::String& Path);
@@ -244,6 +246,7 @@ extern HomeDirectoryCallback HomeDirectory;
 extern ApplicationDirectoryCallback ApplicationDirectory;
 extern UserApplicationDataDirectoryCallback UserApplicationDataDirectory;
 extern ApplicationDataDirectoryCallback ApplicationDataDirectory;
+extern TemporaryDirectoryCallback TemporaryDirectory;
 extern ChangeDirectoryCallback ChangeDirectory;
 extern CreateDirectoryCallback CreateDirectory;
 extern DirectoryContentCallback DirectoryContent;

@@ -24,7 +24,10 @@ public:
 
     RF_Type::UInt8* UnsafeAccess()const;
     RF_Mem::AutoPointerArray<RF_Type::UInt8> GetCopyOfLayer(RF_Type::UInt32 Layer)const;
-    RF_Type::Bool ConvertTo(Image& Target, const RF_Draw::PixelFormat& NewFormat);
+    RF_Type::Bool ConvertTo(Image& Target, const RF_Draw::PixelType NewChannelType,
+        const RF_Type::Size ChannelBitSize);
+    RF_Type::Bool CopyRegionOfInterestFrom(const Image& Source, RF_Type::Size X,
+        RF_Type::Size Y, RF_Type::Size Width, RF_Type::Size Height);
 
     Image& operator = (const Image& Copy);
     RF_Type::Bool operator ==(const Image& Other)const;

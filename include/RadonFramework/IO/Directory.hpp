@@ -27,6 +27,8 @@ public:
     static Memory::AutoPointer<Directory> UserApplicationDataDirectory();
     /// Return the data directory for 'all user' which belongs to the running application.
     static Memory::AutoPointer<Directory> ApplicationDataDirectory();
+    /// Return the temporary directory of the system.
+    static Memory::AutoPointer<Directory> TemporaryDirectory();
     /// This is a util function which create a Directory object and set the location.
     static Memory::AutoPointer<Directory> GenerateDirectory(const Uri& Location);
 

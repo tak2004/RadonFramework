@@ -29,6 +29,16 @@ namespace RadonFramework
 				this->Availability=Availability;
             }
 
+            inline void Init(const char* ShortName, const char* LongName,
+                const char* Description, Type Availability)
+            {
+                this->ShortName = ShortName;
+                this->LongName = LongName;
+                this->ValueCheck = nullptr;
+                this->Description = Description;
+                this->Availability = Availability;
+            }
+
             const char* ShortName;
             const char* LongName;
             ValueCheckCallback ValueCheck;

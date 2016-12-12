@@ -64,6 +64,13 @@ AutoPointer<Directory> Directory::ApplicationDataDirectory()
     return GenerateDirectory(uri);
 }
 
+RF_Mem::AutoPointer<Directory> Directory::TemporaryDirectory()
+{
+    RF_IO::Uri uri;
+    RF_SysFile::SystemPathToUri(RF_SysFile::TemporaryDirectory(), uri);
+    return GenerateDirectory(uri);
+}
+
 AutoPointer<Directory> Directory::GenerateDirectory( const Uri& Location )
 {
     AutoPointer<Directory> result(new Directory());

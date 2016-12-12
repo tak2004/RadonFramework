@@ -378,6 +378,15 @@ RF_Type::String ApplicationDataDirectory()
     return result;
 }
 
+RF_Type::String TemporaryDirectory()
+{
+    RF_Type::String result;
+    char buf[MAX_PATH];
+    if(::GetTempPath(MAX_PATH, buf) > 0)
+        result = RF_Type::String(buf, MAX_PATH);
+    return result;
+}
+
 RF_Type::Bool ChangeDirectory( const RF_Type::String& Destination )
 {
     return SetCurrentDirectory(Destination.c_str())==0;
@@ -637,6 +646,7 @@ void Dispatch()
     ApplicationDirectory= Windows::ApplicationDirectory;
     UserApplicationDataDirectory = Windows::UserApplicationDataDirectory;
     ApplicationDataDirectory = Windows::ApplicationDataDirectory;
+    TemporaryDirectory = Windows::TemporaryDirectory;
     ChangeDirectory= Windows::ChangeDirectory;
     CreateDirectory= Windows::CreateDirectory;
     DirectoryContent= Windows::DirectoryContent;
