@@ -9,7 +9,6 @@
 #include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
 #include "WindowsApplication.hpp"
-#include "WindowsWindow.hpp"
 #include <RadonFramework/IO/Log.hpp>
 #include "RadonFramework/Collections/AutoVector.hpp"
 #include "RadonFramework/Collections/Algorithm/Exists.hpp"
@@ -454,9 +453,8 @@ void WDMOpenGLCanvas3D::GetExtensionsLegacy(RF_Collect::Array<RF_Type::String>& 
 
 void WDMOpenGLCanvas3D::SetWindowInfos(const AbstractWindow& Window)
 {
-    const WindowsWindow& wnd = static_cast<const WindowsWindow&>(Window);
-    m_WndHandle = wnd.GetHandle();
-    m_DeviceContext = GetDC(wnd.GetHandle());
+    m_WndHandle = *(HWND*)Window.Handle();
+    m_DeviceContext = GetDC(m_WndHandle);
 }
 
 void WDMOpenGLCanvas3D::Clear()

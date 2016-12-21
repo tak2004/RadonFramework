@@ -15,7 +15,7 @@ public:
     virtual ~WindowsWindow();
 
     //IWindow
-    virtual void* Handle() override;
+    virtual void* Handle()const override;
     virtual RF_Type::Bool Visible() override;
     virtual void Visible(const RF_Type::Bool Value) override;
     virtual RF_Type::String Title() override;

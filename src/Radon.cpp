@@ -20,6 +20,7 @@
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
+#include "RadonFramework/System/DynamicLibrary.hpp"
 #ifdef RF_USE_XXHASH
 #include "RadonFramework/System/Math/Hash/xxHashService.hpp"
 #endif
@@ -126,6 +127,26 @@ void Radon::InitSubSystem(UInt32 Flags)
     if (Flags & RadonFramework::Init::Forms)
     {
         WindowServiceLocator::Initialize();
+        auto dir = RF_IO::Directory::ApplicationDirectory();
+        auto files = dir->Files();
+        for (RF_Type::Size i = 0; i < files.Count(); ++i)
+        {
+            if(files[i].EndsWith(RF_Sys::DynamicLibrary::LineEnding()))
+            {
+                auto libfile = dir->Location().OriginalString() + files[i];
+                auto lib = RF_Sys::DynamicLibrary::Load(libfile);
+                if(lib)
+                {
+                    using RegisterService = void(*)();
+                    RegisterService function = (RegisterService)lib->GetFunctionAddress("RF_RegisterService"_rfs);
+                    if(function != nullptr)
+                    {
+                        function();
+                    }
+                }
+            }
+        }        
+
         #ifdef RF_USE_X11
         WindowServiceLocator::Register(AutoPointer<WindowService>(new X11WindowService("Linux_X11"_rfs)));
         #endif

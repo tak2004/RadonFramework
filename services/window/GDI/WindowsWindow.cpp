@@ -453,9 +453,9 @@ WindowsWindow::~WindowsWindow()
     DestroyWindow(m_Handle);
 }
 
-void* WindowsWindow::Handle()
+void* WindowsWindow::Handle()const
 {
-    return (void*)0;
+    return (void*)&m_Handle;
 }
 
 Bool WindowsWindow::Visible()
