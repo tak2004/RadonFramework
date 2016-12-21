@@ -33,6 +33,7 @@ public:
     AbstractCanvas const* Backend()const;
     void Draw();
     void SetRenderer(AbstractRenderer& NewRenderer);
+    AbstractRenderer* GetRenderer()const;
 protected:
     AbstractCanvas* m_Backend;
     AbstractRenderer* m_Renderer;

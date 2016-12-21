@@ -1,8 +1,8 @@
 #include "RadonFramework/precompiled.hpp"
 #ifdef RF_USE_GDI
 #ifdef RF_USE_OPENGL
-#include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3DService.hpp>
-#include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3D.hpp>
+#include "GDIOpenGLCanvas3DService.hpp"
+#include "GDIOpenGLCanvas3D.hpp"
 
 using namespace RadonFramework::Drawing;
 

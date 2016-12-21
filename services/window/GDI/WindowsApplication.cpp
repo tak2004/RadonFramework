@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
-#include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
+#include "WindowsApplication.hpp"
+#include "WindowsWindow.hpp"
 #include "RadonFramework/System/DynamicLibrary.hpp"
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN

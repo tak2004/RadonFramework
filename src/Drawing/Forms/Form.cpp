@@ -15,19 +15,22 @@ Form::Form()
     m_Now = RF_Time::DateTime::UtcNow().Ticks();
     m_NextAnimation = m_Now + m_AnimationStep;
     m_Backend = WindowServiceLocator::Default().NewWindow();
-    m_Backend->OnIdle += SignalReceiver::Connector<Form>(&Form::Idle);
-    m_Backend->OnResize += IObserver::Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
-    m_Backend->OnKeyPress += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyPressed);
-    m_Backend->OnPrintableKeyPressed += IObserver::Connector<Form, const KeyboardEvent&>(&Form::PrintableKeyPressed);
-    m_Backend->OnKeyRelease += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyReleased);
-    m_Backend->OnMouseButtonPressed += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonPressed);
-    m_Backend->OnMouseButtonReleased += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonReleased);
-    m_Backend->OnMouseMove += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseMoved);
-    m_Backend->OnLostFocus += SignalReceiver::Connector<Form>(&Form::LostFocus);
-    m_Backend->OnGotFocus += SignalReceiver::Connector<Form>(&Form::GotFocus);
-    m_Backend->OnVerticalMouseWheelMoved += IObserver::Connector<Form>(&Form::VerticalMouseWheelMoved);
-    m_Backend->OnHorizontalMouseWheelMoved += IObserver::Connector<Form>(&Form::HorizontalMouseWheelMoved);
-    m_Backend->OnDPIChanged += IObserver::Connector<Form>(&Form::DPIChanged);
+    if(m_Backend != nullptr)
+    {
+        m_Backend->OnIdle += SignalReceiver::Connector<Form>(&Form::Idle);
+        m_Backend->OnResize += IObserver::Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
+        m_Backend->OnKeyPress += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyPressed);
+        m_Backend->OnPrintableKeyPressed += IObserver::Connector<Form, const KeyboardEvent&>(&Form::PrintableKeyPressed);
+        m_Backend->OnKeyRelease += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyReleased);
+        m_Backend->OnMouseButtonPressed += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonPressed);
+        m_Backend->OnMouseButtonReleased += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseButtonReleased);
+        m_Backend->OnMouseMove += IObserver::Connector<Form, const IO::MouseEvent&>(&Form::MouseMoved);
+        m_Backend->OnLostFocus += SignalReceiver::Connector<Form>(&Form::LostFocus);
+        m_Backend->OnGotFocus += SignalReceiver::Connector<Form>(&Form::GotFocus);
+        m_Backend->OnVerticalMouseWheelMoved += IObserver::Connector<Form>(&Form::VerticalMouseWheelMoved);
+        m_Backend->OnHorizontalMouseWheelMoved += IObserver::Connector<Form>(&Form::HorizontalMouseWheelMoved);
+        m_Backend->OnDPIChanged += IObserver::Connector<Form>(&Form::DPIChanged);
+    }
     InitializeComponent();
 }
 
@@ -57,8 +60,11 @@ void Form::InitializeComponent()
     RF_Geo::Size2D<> size;
     size.Width = GetSize().Width;
     size.Height = GetSize().Height;
-    m_Backend->ClientRectSize(size);
-    m_Backend->Visible(true);
+    if (m_Backend != nullptr)
+    {
+        m_Backend->ClientRectSize(size);
+        m_Backend->Visible(true);
+    }
 }
 
 void Form::Idle()

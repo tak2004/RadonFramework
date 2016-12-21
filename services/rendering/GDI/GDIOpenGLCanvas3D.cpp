@@ -4,11 +4,11 @@
 #include <RadonFramework/System/Drawing/OpenGL.hpp>
 #include <RadonFramework/System/Drawing/OpenGLSystem.hpp>
 #include <windows.h>
-#include <RadonFramework/backend/Windows/Drawing/GDIOpenGLCanvas3D.hpp>
+#include "GDIOpenGLCanvas3D.hpp"
 #include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <RadonFramework/Drawing/Forms/WindowServiceLocator.hpp>
-#include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
-#include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
+#include "WindowsApplication.hpp"
+#include "WindowsWindow.hpp"
 #include <RadonFramework/IO/Log.hpp>
 
 using namespace RadonFramework;

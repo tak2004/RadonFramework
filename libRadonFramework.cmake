@@ -81,44 +81,7 @@ set_source_files_properties(${SRC_BACKEND_STRINGCODERS} PROPERTIES LANGUAGE CXX)
 AddHeaderDirectory(filelist "include/RadonFramework/backend/stringcoders" "Includes\\backend\\stringcoders")
 set(HDRS_BACKEND_STRINGCODERS ${filelist})
 	
-if(RADONFRAMEWORK_USE_OPENGL AND WIN32)
-    # OpenGL Windows GDI/WDM
-    AddSourceDirectoryRecursive(filelist "backend/Windows/Drawing" "Backend\\Windows\\Drawing")
-    list(APPEND SRC_BACKEND_WINDOWS_DRAWING ${filelist})	
-        
-    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Drawing" "Includes\\Backend\\Windows\\Drawing")
-    list(APPEND HDRS_BACKEND_WINDOWS_DRAWING ${filelist})	
-endif()
-
-if(RADONFRAMEWORK_USE_X11)
-    # OpenGL X11
-    AddSourceDirectoryRecursive(filelist "backend/X11/Drawing" "Backend\\X11\\Drawing")
-    list(APPEND SRC_BACKEND_X11_DRAWING ${filelist})	
-        
-    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Drawing" "Includes\\Backend\\X11\\Drawing")
-    list(APPEND HDRS_BACKEND_X11_DRAWING ${filelist})		
-endif()
-
-if(RADONFRAMEWORK_USE_OPENGL AND WIN32)
-    # Windows window managment
-    AddSourceDirectoryRecursive(filelist "backend/Windows/Forms" "Backend\\Windows\\Forms")
-    list(APPEND SRC_BACKEND_WINDOWS_FORMS ${filelist})	
-        
-    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/Windows/Forms" "Includes\\Backend\\Windows\\Forms")
-    list(APPEND HDRS_BACKEND_WINDOWS_FORMS ${filelist})		
-endif()
-
-if(RADONFRAMEWORK_USE_X11)
-    # X11 window managment
-    AddSourceDirectoryRecursive(filelist "backend/X11/Forms" "Backend\\X11\\Forms")
-    list(APPEND SRC_BACKEND_X11_FORMS ${filelist})	
-        
-    AddHeaderDirectoryRecursive(filelist "include/RadonFramework/backend/X11/Forms" "Includes\\Backend\\X11\\Forms")
-    list(APPEND HDRS_BACKEND_X11_FORMS ${filelist})		
-endif()
-
 set(LIBBACKENDGENERALSRCFILES
-    ${SRC_BACKEND_GLEW}
     ${SRC_BACKEND_HASHLIBPP}
     ${SRC_BACKEND_MURMURHASH}
     ${SRC_BACKEND_OPENGL}
@@ -131,33 +94,19 @@ set(LIBBACKENDGENERALHDRFILES
     ${HDRS_BACKEND_GOOGLE}
     ${HDRS_BACKEND_GOOGLE_SPARSEHASH}
     ${HDRS_BACKEND_HASHLIBPP}
-    ${HDRS_BACKEND_LIBPNG}
-    ${HDRS_BACKEND_LIBTIFF}
     ${HDRS_BACKEND_MURMURHASH}
     ${HDRS_BACKEND_OPENGL}
     ${HDRS_BACKEND_RADONDDS}
     ${HDRS_BACKEND_STRINGCODERS}
 	)
 
-set(LIBBACKENDSRCFILES_WINDOWS
-    ${SRC_BACKEND_WINDOWS}
-    ${SRC_BACKEND_WINDOWS_DRAWING}
-    ${SRC_BACKEND_WINDOWS_FORMS})
-
-set(LIBBACKENDHDRFILES_WINDOWS
-    ${HDRS_BACKEND_WINDOWS}
-    ${HDRS_BACKEND_WINDOWS_DRAWING}
-    ${HDRS_BACKEND_WINDOWS_FORMS})
-
 set(LIBBACKENDSRCFILES_LINUX
     ${SRC_BACKEND_LINUX}
-    ${SRC_BACKEND_X11_DRAWING}
-    ${SRC_BACKEND_X11_FORMS})
+    ${SRC_BACKEND_X11_DRAWING})
 
 set(LIBBACKENDHDRFILES_LINUX
     ${HDRS_BACKEND_LINUX}
-    ${HDRS_BACKEND_X11_DRAWING}
-    ${HDRS_BACKEND_X11_FORMS})
+    ${HDRS_BACKEND_X11_DRAWING})
 	
 # these files are excluded on other platforms
 set(LIBSRCFILES_WINDOW
@@ -223,23 +172,11 @@ source_group("Includes\\backend\\MurmurHash" FILES ${HDRS_BACKEND_MURMURHASH})
 source_group("Includes\\backend\\OpenGL" FILES ${HDRS_BACKEND_OPENGL})
 source_group("Includes\\backend\\StringCoders" FILES ${HDRS_BACKEND_STRINGCODERS})
 
-# Windows specific source code
-source_group("Sources\\backend\\Windows" FILES ${SRC_BACKEND_WINDOWS})
-source_group("Sources\\backend\\Windows\\Drawing" FILES ${SRC_BACKEND_WINDOWS_DRAWING})
-source_group("Sources\\backend\\Windows\\Forms" FILES ${SRC_BACKEND_WINDOWS_FORMS})
-
-# Windows specific headers
-source_group("Includes\\backend\\Windows" FILES ${HDRS_BACKEND_WINDOWS})
-source_group("Includes\\backend\\Windows\\Drawing" FILES ${HDRS_BACKEND_WINDOWS_DRAWING})
-source_group("Includes\\backend\\Windows\\Forms" FILES ${HDRS_BACKEND_WINDOWS_FORMS})
-
 # Linux specific source code
 source_group("Sources\\backend\\Linux" FILES ${SRC_BACKEND_LINUX})
-source_group("Sources\\backend\\X11\\Forms" FILES ${SRC_BACKEND_X11_FORMS})
 
 # Linux specific headers
 source_group("Includes\\backend\\Linux" FILES ${HDRS_BACKEND_LINUX})
-source_group("Includes\\backend\\X11\\Forms" FILES ${HDRS_BACKEND_X11_FORMS})
 
 AddSourceDirectoryRecursive(filelist "src/Collections" "Sources\\Collections")
 list(APPEND LIBSRCFILES ${filelist})

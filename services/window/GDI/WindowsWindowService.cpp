@@ -1,7 +1,8 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/backend/Windows/Forms/WindowsWindowService.hpp>
-#include <RadonFramework/backend/Windows/Forms/WindowsWindow.hpp>
-#include <RadonFramework/backend/Windows/Forms/WindowsApplication.hpp>
+#include "RadonFramework/Drawing/Forms/WindowServiceLocator.hpp"
+#include "WindowsWindowService.hpp"
+#include "WindowsWindow.hpp"
+#include "WindowsApplication.hpp"
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <SetupApi.h>
@@ -237,4 +238,10 @@ RF_Type::Bool WindowsWindowService::IsMouseButtonPressed(RF_IO::VirtualMouseButt
 {
     int mapping[RF_IO::VirtualMouseButton::MAX] = {VK_LBUTTON, VK_RBUTTON, VK_MBUTTON};
     return GetAsyncKeyState(mapping[Which]) & 0x8000;
+}
+
+void WindowsWindowService::Register()
+{
+    RF_Mem::AutoPointer<WindowService> gdi(new WindowsWindowService("Windows_GDI"_rfs));
+    WindowServiceLocator::Register(gdi);
 }

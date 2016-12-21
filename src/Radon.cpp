@@ -110,17 +110,6 @@ void Radon::InitSubSystem(UInt32 Flags)
             Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new X11OpenGL3Canvas3DService("OpenGL3.x"_rfs)));
             Canvas3DServiceLocator::SetDefault("OpenGL3.x"_rfs);
             #endif
-            #ifdef RF_USE_GDI
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL1Canvas3DService("OpenGL1.x"_rfs)));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL2Canvas3DService("OpenGL2.x"_rfs)));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGL3Canvas3DService("OpenGL3.x"_rfs)));
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new GDIOpenGLCanvas3DService("Newest OpenGL Version with GDI"_rfs)));
-            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version with GDI"_rfs);
-            #endif
-            #ifdef RF_USE_WDM
-            Canvas3DServiceLocator::Register(AutoPointer<Canvas3DService>((Canvas3DService*)new WDMOpenGLCanvas3DService("Newest OpenGL Version without GDI"_rfs)));
-            Canvas3DServiceLocator::SetDefault("Newest OpenGL Version without GDI"_rfs);
-            #endif
         #endif
         RF_SysDraw::SystemTrayServiceLocator::Initialize();
         #if defined(RF_WINDOWS)
@@ -139,9 +128,6 @@ void Radon::InitSubSystem(UInt32 Flags)
         WindowServiceLocator::Initialize();
         #ifdef RF_USE_X11
         WindowServiceLocator::Register(AutoPointer<WindowService>(new X11WindowService("Linux_X11"_rfs)));
-        #endif
-        #ifdef RF_USE_GDI
-        WindowServiceLocator::Register(AutoPointer<WindowService>(new WindowsWindowService("Windows_GDI"_rfs)));
         #endif
         m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Forms;
     }

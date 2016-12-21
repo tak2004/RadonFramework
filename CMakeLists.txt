@@ -105,6 +105,14 @@ if(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS)
     Integrate(INTERMEDIATEFORMATS "Radon intermediate format converter" "RADONINTERMEDIATE_HOME")
 endif()
 
+# Radon Framework use the service pattern alot to provide window, rendering, sound and other services.
+# This cmake script will be automatically add all containing cmake files.
+file(GLOB_RECURSE services ${RADONFRAMEWORK_LOCATION}/services/*.cmake)
+foreach(includeFile IN ITEMS ${services})
+    message(STATUS "Include ${includeFile}")
+    include(${includeFile})
+endforeach()
+
 if(RADONFRAMEWORK_BUILD_UNITTEST)
 	add_subdirectory(tests/UnitTest)
 endif()

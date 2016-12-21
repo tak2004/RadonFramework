@@ -18,8 +18,11 @@ Canvas3D::Canvas3D(RF_Form::Form& Window, RF_Form::Control* Parent)
 ,Control(Parent != nullptr ? Parent : &Window)
 {
     m_Backend = Canvas3DServiceLocator::Default().CreateCanvas3D();
-    m_Backend->SetWindowInfos(*Window.Backend());
-    m_Backend->Generate();
+    if (m_Backend != nullptr)
+    {
+        m_Backend->SetWindowInfos(*Window.Backend());
+        m_Backend->Generate();
+    }
     Window.OnIdle += SignalReceiver::Connector<Canvas3D>(&Canvas3D::Draw);
 }
 
@@ -102,6 +105,11 @@ void Canvas3D::Draw()
 void Canvas3D::SetRenderer(AbstractRenderer& NewRenderer)
 {
     m_Renderer = &NewRenderer;
+}
+
+RadonFramework::Drawing::AbstractRenderer* Canvas3D::GetRenderer() const
+{
+    return m_Renderer;
 }
 
 void Canvas3D::MakeCurrent()

@@ -4,6 +4,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <RadonFramework/Collections/CommandBucket.hpp>
+
 namespace RadonFramework { namespace Drawing {
 
 class Path2D;
@@ -16,6 +18,8 @@ public:
     virtual RF_Type::UInt32 Process(RF_Type::UInt32 EntityId, const Path2D& Path)=0;
     virtual void Draw()=0;
     virtual void ResizedViewport()=0;
+protected:
+    RF_Collect::Array<RF_Collect::CommandBucket<>> m_Buckets;
 };
 
 } }
