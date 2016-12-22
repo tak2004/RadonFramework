@@ -304,6 +304,32 @@ const RF_Collect::Array<RF_Draw::Color4f>& Path2DTriangulation::GetColors() cons
     return m_Colors;
 }
 
+const RF_Type::Size Path2DTriangulation::GetFaceCount() const
+{
+    return m_Faces.Count();
+}
+
+void Path2DTriangulation::GetFaceData(const RF_Type::Size Index, RF_Type::Size& Start, 
+    RF_Type::Size& Count, RF_Type::Int32& ImageIndex) const
+{
+    if(Index < m_Faces.Count())
+    {
+        Start = m_Faces(Index).Start;
+        Count = m_Faces(Index).Count;
+        ImageIndex = m_Faces(Index).ImageIndex;
+    }
+}
+
+const RF_Draw::Image* Path2DTriangulation::GetImage(const RF_Type::Int32 Index) const
+{
+    const RF_Draw::Image* result = 0;
+    if(Index < m_Images.Count())
+    {
+        result = &m_Images[Index];
+    }
+    return result;
+}
+
 void Path2DTriangulation::SetFill(const Fill& NewFill)
 {
     m_Fill = NewFill;
@@ -319,6 +345,28 @@ void Path2DTriangulation::AddText(const RF_Geo::Point2Df& Position,
 {
     m_IsLastSegmentMoveTo = false;
     m_IsLastSegmentClose = false;
+}
+
+void Path2DTriangulation::AddImage(const RF_Geo::Point2Df& Position, 
+    const RF_Geo::Size2Df& Dimension, const RF_Draw::Image& Source)
+{
+    RF_Type::Size i;
+    for (i = 0; i < m_Images.Count(); ++i)
+    {
+        if(m_Images[i] == Source)
+        {
+            break;
+        }
+    }
+    
+    if(i < m_Images.Count())
+    {
+        m_Images.AddLast(Source);
+    }
+
+    m_IsLastSegmentMoveTo = false;
+    m_IsLastSegmentClose = false;
+    AddRectangle(Position, Dimension);
 }
 
 } }

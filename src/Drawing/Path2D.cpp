@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Path2D.hpp"
 #include "RadonFramework/Math/Hash/Hash32.hpp"
+#include "RadonFramework/Drawing/Image.hpp"
 
 struct Command
 {
@@ -14,7 +15,8 @@ struct Command
         ArcTo,
         SetFill,
         SetStroke,
-        Text
+        Text,
+        Image
     };
 };
 
@@ -196,6 +198,31 @@ Path2D& Path2D::AddText(const RF_Type::String& Text, const RF_Geo::Point2Df& Pos
     return *this;
 }
 
+Path2D& Path2D::AddImage(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
+    const RF_Draw::Image& Source)
+{
+    RF_Type::UInt32 imgSize = (Source.PixelFormat().BitPerPixel * Source.Width() * Source.Height() / 8);
+    if (imgSize > 0)
+    {
+        RF_Type::Size neededByteCount = sizeof(RF_Geo::Point2Df) + sizeof(RF_Geo::Size2Df) +
+            (sizeof(RF_Type::UInt32) * 3) +imgSize + sizeof(Command);
+
+        if(m_ScratchPad.Length() - m_ScratchPad.Position() < neededByteCount)
+        {
+            RF_Mem::AutoPointerArray<RF_Type::UInt8> newMemoryBlock(CHUNKSIZE);
+            m_ScratchPad.AddLast(newMemoryBlock);
+        }
+        m_ScratchPad.WriteType(Command::Image);
+        m_ScratchPad.WriteType(Position);
+        m_ScratchPad.WriteType(Dimension);
+        m_ScratchPad.WriteType(Source.Width());
+        m_ScratchPad.WriteType(Source.Height());
+        m_ScratchPad.WriteType(imgSize);
+        m_ScratchPad.Write(Source.UnsafeAccess(), 0, imgSize);
+    }
+    return *this;
+}
+
 Path2D& Path2D::Finalize()
 {
     m_Final = RF_Mem::AutoPointerArray<RF_Type::UInt8>(m_ScratchPad.Position());
@@ -302,6 +329,41 @@ void Path2D::Visit(Visitor& PathVisitor)const
                 RF_Type::String text((const char*)cursor, strSize);
                 cursor += strSize;
                 PathVisitor.AddText(currentPosition, text);
+                break;
+            }
+            case Command::Image:
+            {
+                ++cursor;
+                currentPosition = *reinterpret_cast<RF_Geo::Point2Df*>(cursor);
+                cursor += sizeof(RF_Geo::Point2Df);
+                auto dimension = *reinterpret_cast<RF_Geo::Size2Df*>(cursor);
+                cursor += sizeof(RF_Geo::Size2Df);
+                auto width = *reinterpret_cast<RF_Type::UInt32*>(cursor);
+                cursor += sizeof(RF_Type::UInt32);
+                auto height = *reinterpret_cast<RF_Type::UInt32*>(cursor);
+                cursor += sizeof(RF_Type::UInt32);
+                auto bytes = *reinterpret_cast<RF_Type::UInt32*>(cursor);
+                cursor += sizeof(RF_Type::UInt32);
+                RF_Mem::AutoPointerArray<RF_Type::UInt8> data(bytes);
+                RF_SysMem::Copy(data.Get(), cursor, bytes);
+                cursor += bytes;
+                RF_Draw::PixelFormat format;
+                format.BitPerPixel = (bytes * 8) / (width * height);
+                format.Channels.Resize(format.BitPerPixel / 8);
+                if (format.BitPerPixel <= 32)
+                {
+                    RF_Draw::ChannelType typeMapper[] = {RF_Draw::ChannelType::Luminocity,
+                                        RF_Draw::ChannelType::Red, RF_Draw::ChannelType::Green,
+                                        RF_Draw::ChannelType::Blue, RF_Draw::ChannelType::Alpha};
+                    for(auto i = 0; i < format.Channels.Count(); ++i)
+                    {
+                        format.Channels(i).Bits = 8;
+                        format.Channels(i).Type = typeMapper[i + (format.BitPerPixel == 8 ? 0 : 1)];
+                    }
+                    RF_Draw::Image img;
+                    img.Initialize(width, height, 1, format, data);
+                    PathVisitor.AddImage(currentPosition, dimension, img);
+                }
                 break;
             }
             default:

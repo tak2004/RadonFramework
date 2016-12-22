@@ -30,7 +30,7 @@ public:
         RF_Type::Size Y, RF_Type::Size Width, RF_Type::Size Height);
 
     Image& operator = (const Image& Copy);
-    RF_Type::Bool operator ==(const Image& Other)const;
+    bool operator ==(const Image& Other)const;
 protected:
     RF_Mem::AutoPointerArray<RF_Type::UInt8> m_Data;
     RF_Draw::PixelFormat m_PixelFormat;

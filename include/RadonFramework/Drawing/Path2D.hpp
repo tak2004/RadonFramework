@@ -6,8 +6,11 @@
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/IO/MemoryCollectionStream.hpp>
+#include <RadonFramework/Drawing/Image.hpp>
 
 namespace RadonFramework { namespace Drawing {
+
+class Image;
 
 class Stroke
 {
@@ -37,24 +40,26 @@ public:
     Path2D& MoveTo(const RF_Geo::Point2Df& Position);
     Path2D& LineTo(const RF_Geo::Point2Df& Position);
     Path2D& BezierTo(const RF_Geo::Point2Df& ControlPoint1,
-                  const RF_Geo::Point2Df& ControlPoint2,
-                  const RF_Geo::Point2Df& Position);
+                     const RF_Geo::Point2Df& ControlPoint2,
+                     const RF_Geo::Point2Df& Position);
     Path2D& QuadraticBezierTo(const RF_Geo::Point2Df& ControlPoint,
-                           const RF_Geo::Point2Df& Position);
+                              const RF_Geo::Point2Df& Position);
     Path2D& ArcTo(const RF_Geo::Point2Df& Position1, const RF_Geo::Point2Df& Position2,
-               RF_Type::Float32 Radius);
+                  RF_Type::Float32 Radius);
     Path2D& Close();
 
     Path2D& AddArc(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius,
                 RF_Type::Float32 AngleStart, RF_Type::Float32 AngleStop);
     Path2D& AddRectangle(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension);
     Path2D& AddRoundRectangle(const RF_Geo::Point2Df& Position,
-                           const RF_Geo::Size2Df& Dimension, 
-                           RF_Type::Float32 Radius);
+                              const RF_Geo::Size2Df& Dimension, 
+                              RF_Type::Float32 Radius);
     Path2D& AddEllipse(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
-                    RF_Type::Float32 Angle);
+                       RF_Type::Float32 Angle);
     Path2D& AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius);
     Path2D& AddText(const RF_Type::String& Text, const RF_Geo::Point2Df& Position);
+    Path2D& AddImage(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
+                     const RF_Draw::Image& Source);
 
     Path2D& Finalize();
 
@@ -82,6 +87,8 @@ public:
             const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle)=0;
         virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius)=0;
         virtual void AddText(const RF_Geo::Point2Df& Position, const RF_Type::String& Text) = 0;
+        virtual void AddImage(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension,
+                              const RF_Draw::Image& Source) = 0;
         virtual void SetFill(const Fill& NewFill)=0;
         virtual void SetStroke(const Stroke& NewStroke) = 0;
         virtual void Error()=0;

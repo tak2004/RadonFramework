@@ -72,9 +72,9 @@ void Form::Idle()
     m_Now = RF_Time::DateTime::UtcNow().Ticks();
     if(m_NextAnimation < m_Now)
     {
-        m_NextAnimation = m_NextAnimation + m_AnimationStep;
-        Animate(m_Now);
+        Animate(m_NextAnimation);
         RebuildVisuals();
+        m_NextAnimation = m_NextAnimation + m_AnimationStep;
     }
     OnIdle();
 }

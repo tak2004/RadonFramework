@@ -36,21 +36,32 @@ public:
         const RF_Geo::Size2Df& Dimension, RF_Type::Float32 Angle) override;
     virtual void AddCircle(const RF_Geo::Point2Df& Position, RF_Type::Float32 Radius) override;
     virtual void AddText(const RF_Geo::Point2Df& Position, const RF_Type::String& Text) override;
+    virtual void AddImage(const RF_Geo::Point2Df& Position, const RF_Geo::Size2Df& Dimension, 
+        const RF_Draw::Image& Source) override;
     virtual void Error() override;
+
     const RF_Collect::Array<RF_Geo::Vec2f>& GetVertices()const;
     const RF_Collect::Array<RF_Draw::Color4f>& GetColors()const;
+    const RF_Type::Size GetFaceCount()const;
+    void GetFaceData(const RF_Type::Size Index, RF_Type::Size& Start,
+        RF_Type::Size& Count, RF_Type::Int32& ImageIndex)const;
+    const RF_Draw::Image* GetImage(const RF_Type::Int32 Index)const;
 
     virtual void SetFill(const Fill& NewFill) override;
     virtual void SetStroke(const Stroke& NewStroke) override;
 private:
+    struct FaceData
+    {
+        RF_Type::Size Start;
+        RF_Type::Size Count;
+        RF_Type::Int32 ImageIndex;
+    };
     RF_Draw::Fill m_Fill;
     RF_Draw::Stroke m_Stroke;
     RF_Collect::List<RF_Geo::Vec2f> m_ShapeTriangles;
     RF_Collect::List<RF_Draw::Color4f> m_ShapeColors;
-    RF_Collect::Array<RF_Geo::Vec2f> m_Vertices;
     RF_Collect::List<RF_Geo::Vec2f> m_StrokeTriangles;
     RF_Collect::List<RF_Draw::Color4f> m_StrokeColors;
-    RF_Collect::Array<RF_Draw::Color4f> m_Colors;
     RF_Geo::Point2Df m_CurrentPosition, m_LastPositionOfPreviousSegment, 
         m_FirstPositionOfSegment;
     RF_Type::Bool m_IsLastSegmentMoveTo;
@@ -58,6 +69,11 @@ private:
     RF_Type::Bool m_SubPathHashGeometry;    
     TESSalloc* m_Alloc;
     TESStesselator* m_Tesselator;
+
+    RF_Collect::Array<RF_Geo::Vec2f> m_Vertices;
+    RF_Collect::Array<RF_Draw::Color4f> m_Colors;
+    RF_Collect::List<RF_Draw::Image> m_Images;
+    RF_Collect::Array<FaceData> m_Faces;
 };
 
 } }
