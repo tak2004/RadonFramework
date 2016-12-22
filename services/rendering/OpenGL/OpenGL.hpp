@@ -4,8 +4,8 @@
 #pragma once
 #endif
 
-#include <RadonFramework/System/Drawing/OpenGLTypes.hpp>
-#include <RadonFramework/System/Drawing/OpenGLConstants.hpp>
+#include <OpenGLTypes.hpp>
+#include <OpenGLConstants.hpp>
 
 using glAccumCallback = void (*)(GLenum op,GLfloat value);
 extern glAccumCallback glAccum;

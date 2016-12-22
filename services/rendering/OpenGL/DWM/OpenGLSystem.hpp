@@ -5,7 +5,7 @@
 #endif
 
 #if defined(RF_WINDOWS)
-#include <RadonFramework/System/Drawing/WindowsOpenGL.hpp>
+#include <WindowsOpenGL.hpp>
 #elif defined(RF_LINUX) || defined(RF_OSX)
 #include <RadonFramework/OpenGLX.hpp>
 #endif

@@ -47,10 +47,13 @@ public:
     */
     RF_Type::Bool IsDefault();                
 
+    const RF_Type::String& GetName()const;
+
     DynamicLibrary& operator=(DynamicLibrary& Move);
     DynamicLibrary& operator=(DynamicLibrary&& Move);
 protected:
     void* m_ImplementationData;
+    RF_Type::String m_Name;
 
     DynamicLibrary(const DynamicLibrary& NoCopy) = delete;
     DynamicLibrary& operator=(const DynamicLibrary& NoCopy) = delete;

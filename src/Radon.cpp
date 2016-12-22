@@ -55,6 +55,21 @@ class Radon::PIMPL
         :m_IsSubSystemInitialized(0)
         {}
         RF_Type::UInt32 m_IsSubSystemInitialized;
+        RF_Collect::List<RF_Mem::AutoPointer<RF_Sys::DynamicLibrary>> m_Libs;
+
+        RF_Type::Bool IsAlreadyLoaded(const RF_Type::String& Libname)
+        {
+            RF_Type::Bool result = false;
+            for (RF_Type::Size i = 0; i < m_Libs.Count(); ++i)
+            {
+                if(m_Libs[i]->GetName() == Libname)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
 };
 
 Bool Radon::m_IsInitialized=false;
@@ -86,19 +101,19 @@ void Radon::InitSubSystem(UInt32 Flags)
     if (Flags & RadonFramework::Init::Memory)
     {
         RF_SysMem::Dispatch();
-        m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Memory;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Memory;
     }
 
     if(Flags & RadonFramework::Init::Threading)
     {
         RF_SysThread::Dispatch();
-        m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Threading;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Threading;
     }
 
     if (Flags & RadonFramework::Init::Time)
     {
         RF_SysTime::Dispatch();
-        m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Time;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Time;
     }
 
     if (Flags & RadonFramework::Init::Drawing)
@@ -112,6 +127,31 @@ void Radon::InitSubSystem(UInt32 Flags)
             Canvas3DServiceLocator::SetDefault("OpenGL3.x"_rfs);
             #endif
         #endif
+        auto dir = RF_IO::Directory::ApplicationDirectory();
+        auto files = dir->Files();
+        for(RF_Type::Size i = 0; i < files.Count(); ++i)
+        {
+            if(files[i].EndsWith(RF_Sys::DynamicLibrary::LineEnding()))
+            {
+                auto libfile = dir->Location().OriginalString() + files[i];
+                if (!m_PIMPL->IsAlreadyLoaded(libfile))
+                {
+                    auto lib = RF_Sys::DynamicLibrary::Load(libfile);
+                    if(lib)
+                    {
+                        using RegisterService = void(*)(RF_Mem::AutoPointer<RF_Draw::Canvas3DService>&);
+                        RegisterService function = (RegisterService)lib->GetFunctionAddress("RF_CreateCanvasService"_rfs);
+                        if(function != nullptr)
+                        {
+                            RF_Mem::AutoPointer<RF_Draw::Canvas3DService> service;
+                            function(service);
+                            Canvas3DServiceLocator::Register(service);
+                            m_PIMPL->m_Libs.AddLast(lib);
+                        }
+                    }
+                }
+            }
+        }
         RF_SysDraw::SystemTrayServiceLocator::Initialize();
         #if defined(RF_WINDOWS)
         RF_SysDraw::SystemTrayServiceLocator::Register(AutoPointer<RF_SysDraw::SystemTrayService>((RF_SysDraw::SystemTrayService*)new RF_SysDraw::SystemTrayServiceWindows("Windows system tray"_rfs)));
@@ -121,7 +161,7 @@ void Radon::InitSubSystem(UInt32 Flags)
         #if defined(RF_WINDOWS)        
             FontServiceLocator::Register(AutoPointer<FontService>((FontService*)new RF_SysDraw::OSFontService("OS Fonts"_rfs)));
         #endif
-        m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Drawing;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Drawing;
     }
 
     if (Flags & RadonFramework::Init::Forms)
@@ -134,14 +174,20 @@ void Radon::InitSubSystem(UInt32 Flags)
             if(files[i].EndsWith(RF_Sys::DynamicLibrary::LineEnding()))
             {
                 auto libfile = dir->Location().OriginalString() + files[i];
-                auto lib = RF_Sys::DynamicLibrary::Load(libfile);
-                if(lib)
+                if(!m_PIMPL->IsAlreadyLoaded(libfile))
                 {
-                    using RegisterService = void(*)();
-                    RegisterService function = (RegisterService)lib->GetFunctionAddress("RF_RegisterService"_rfs);
-                    if(function != nullptr)
+                    auto lib = RF_Sys::DynamicLibrary::Load(libfile);
+                    if(lib)
                     {
-                        function();
+                        using RegisterService = void(*)(RF_Mem::AutoPointer<RF_Form::WindowService>&);
+                        RegisterService function = (RegisterService)lib->GetFunctionAddress("RF_CreateWindowService"_rfs);
+                        if(function != nullptr)
+                        {
+                            RF_Mem::AutoPointer<RF_Form::WindowService> service;
+                            function(service);
+                            WindowServiceLocator::Register(service);
+                            m_PIMPL->m_Libs.AddLast(lib);
+                        }
                     }
                 }
             }
@@ -150,7 +196,7 @@ void Radon::InitSubSystem(UInt32 Flags)
         #ifdef RF_USE_X11
         WindowServiceLocator::Register(AutoPointer<WindowService>(new X11WindowService("Linux_X11"_rfs)));
         #endif
-        m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Forms;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Forms;
     }
 
     if (Flags & RadonFramework::Init::Hashing)
@@ -172,7 +218,7 @@ void Radon::InitSubSystem(UInt32 Flags)
         RF_Hash::HashfunctionServiceLocator::SetDefault32("xxHash32"_rfs);
         #endif
 
-        m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Hashing;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Hashing;
     }
 
     if (Flags & RadonFramework::Init::IO)
@@ -182,32 +228,32 @@ void Radon::InitSubSystem(UInt32 Flags)
         ProtocolServiceLocator::Initialize();
         ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService("file"_rfs)));
         ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new MemoryProtocolService("mem"_rfs)));
-        m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::IO;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::IO;
     }
 
     if (Flags & RadonFramework::Init::Net)
     {
         Network::NetService::Initialize();
-        m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Net;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Net;
     }
     
     if (Flags & RadonFramework::Init::Diagnostics)
     {
         RF_SysHardware::Dispatch();
-        m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Diagnostics;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Diagnostics;
     }
 
     if (Flags & RadonFramework::Init::Core)
     {
         RF_SysStr::Dispatch();
         RF_SysEnv::Dispatch();
-        m_PIMPL->m_IsSubSystemInitialized&=RadonFramework::Init::Core;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Core;
     }
 
     if (Flags & RadonFramework::Init::Process)
     {
         RFPROC::Dispatch();
-        m_PIMPL->m_IsSubSystemInitialized &= RadonFramework::Init::Process;
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Process;
     }
 }
 

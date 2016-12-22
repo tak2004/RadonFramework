@@ -23,5 +23,4 @@ void WDMOpenGLCanvas3DService::Register()
 {
     RF_Mem::AutoPointer<Canvas3DService> service((Canvas3DService*)new WDMOpenGLCanvas3DService("OpenGL_DWM"_rfs));
     Canvas3DServiceLocator::Register(service);
-    Canvas3DServiceLocator::SetDefault("OpenGL_DWM"_rfs);
 }

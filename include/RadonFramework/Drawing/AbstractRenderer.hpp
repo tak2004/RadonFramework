@@ -5,6 +5,7 @@
 #endif // _MSC_VER > 1000
 
 #include <RadonFramework/Collections/CommandBucket.hpp>
+#include <RadonFramework/Math/Geometry/Size2D.hpp>
 
 namespace RadonFramework { namespace Drawing {
 
@@ -13,11 +14,12 @@ class Path2D;
 class AbstractRenderer
 {
 public:
+    virtual void Generate() = 0;
     virtual void StartFrame()=0;
     virtual void EndFrame()=0;
     virtual RF_Type::UInt32 Process(RF_Type::UInt32 EntityId, const Path2D& Path)=0;
     virtual void Draw()=0;
-    virtual void ResizedViewport()=0;
+    virtual void ResizedViewport(const RF_Geo::Size2D<>& NewSize)=0;
 protected:
     RF_Collect::Array<RF_Collect::CommandBucket<>> m_Buckets;
 };

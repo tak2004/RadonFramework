@@ -78,6 +78,7 @@ AutoPointer<DynamicLibrary> DynamicLibrary::Load(const Uri& Name)
     {
         result=AutoPointer<DynamicLibrary>(new DynamicLibrary());
         result->m_ImplementationData=data;
+        result->m_Name = Name.OriginalString();
     }
     return result;
 }
@@ -157,6 +158,12 @@ AutoPointer<DynamicLibrary> DynamicLibrary::LoadSystemLibrary(const RF_Type::Str
     {
         result = AutoPointer<DynamicLibrary>(new DynamicLibrary());
         result->m_ImplementationData = data;
+        result->m_Name = Name;
     }
     return result;
+}
+
+const RF_Type::String& DynamicLibrary::GetName() const
+{
+    return m_Name;
 }

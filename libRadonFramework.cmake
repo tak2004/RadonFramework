@@ -64,16 +64,6 @@ set(SRC_BACKEND_MURMURHASH
 set(HDRS_BACKEND_MURMURHASH
     include/RadonFramework/backend/MurmurHash/MurmurHashHashfunctionService.hpp)
 
-if(RADONFRAMEWORK_USE_OPENGL)
-	set(SRC_BACKEND_OPENGL
-		backend/OpenGL/OpenGLCanvas.cpp
-		backend/OpenGL/GraphicDriverInformationOpenGL.cpp)
-
-	set(HDRS_BACKEND_OPENGL
-		include/RadonFramework/backend/OpenGL/OpenGLCanvas.hpp
-		include/RadonFramework/backend/OpenGL/GraphicDriverInformationOpenGL.hpp)
-endif()
-
 AddSourceDirectory(filelist "backend/stringcoders" "Sources\\backend\\stringcoders")
 set(SRC_BACKEND_STRINGCODERS ${filelist})
 set_source_files_properties(${SRC_BACKEND_STRINGCODERS} PROPERTIES LANGUAGE CXX)
@@ -90,12 +80,10 @@ set(LIBBACKENDGENERALSRCFILES
 
 set(LIBBACKENDGENERALHDRFILES
     ${HDRS_BACKEND}
-    ${HDRS_BACKEND_GL}
     ${HDRS_BACKEND_GOOGLE}
     ${HDRS_BACKEND_GOOGLE_SPARSEHASH}
     ${HDRS_BACKEND_HASHLIBPP}
     ${HDRS_BACKEND_MURMURHASH}
-    ${HDRS_BACKEND_OPENGL}
     ${HDRS_BACKEND_RADONDDS}
     ${HDRS_BACKEND_STRINGCODERS}
 	)

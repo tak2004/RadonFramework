@@ -32,7 +32,6 @@ public:
         const RF_Type::Bool ShouldContinue = true);
     AbstractCanvas const* Backend()const;
     void Draw();
-    void SetRenderer(AbstractRenderer& NewRenderer);
     AbstractRenderer* GetRenderer()const;
 protected:
     AbstractCanvas* m_Backend;

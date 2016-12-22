@@ -22,6 +22,7 @@ Canvas3D::Canvas3D(RF_Form::Form& Window, RF_Form::Control* Parent)
     {
         m_Backend->SetWindowInfos(*Window.Backend());
         m_Backend->Generate();
+        m_Renderer = m_Backend->GetRenderer();
     }
     Window.OnIdle += SignalReceiver::Connector<Canvas3D>(&Canvas3D::Draw);
 }
@@ -37,10 +38,6 @@ void Canvas3D::ChangeContentRectangle(const RF_Geo::Rectanglef& NewContent,
     rec.Width(NewContent.Width());
     m_Backend->MakeCurrent();
     m_Backend->UpdateRectangle(rec);
-    if(m_Renderer)
-    {
-        m_Renderer->ResizedViewport();
-    }
 }
 
 void Canvas3D::Clear()
@@ -77,6 +74,7 @@ void Canvas3D::Draw()
 {
     if(m_Renderer)
     {
+        // Switch to the current context to support multiple windows.
         m_Backend->MakeCurrent();
         m_Renderer->StartFrame();
         // inform the renderer about the existing controls
@@ -100,11 +98,6 @@ void Canvas3D::Draw()
         m_Renderer->Draw();
         m_Renderer->EndFrame();
     }
-}
-
-void Canvas3D::SetRenderer(AbstractRenderer& NewRenderer)
-{
-    m_Renderer = &NewRenderer;
 }
 
 RadonFramework::Drawing::AbstractRenderer* Canvas3D::GetRenderer() const

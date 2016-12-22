@@ -1,5 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/backend/OpenGL/GraphicDriverInformationOpenGL.hpp>
+#include <GraphicDriverInformationOpenGL.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
 using namespace RadonFramework::Drawing;

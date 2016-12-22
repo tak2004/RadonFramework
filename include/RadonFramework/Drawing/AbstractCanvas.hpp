@@ -24,6 +24,7 @@ class AbstractWindow;
 namespace Drawing {
 
 class GraphicDriverInformation;
+class AbstractRenderer;
 
 /// This is a abstract class which should be used as interface for the backend implementation.
 class AbstractCanvas
@@ -45,6 +46,8 @@ public:
     **/
     virtual void SetVSync(const RF_Type::Bool Synchronize = true, 
         const RF_Type::Bool ShouldContinue = true)=0;
+
+    virtual AbstractRenderer* GetRenderer()const=0;
 };
 
 } }

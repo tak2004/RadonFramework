@@ -34,6 +34,10 @@ if(RADONFRAMEWORK_ADD_TESTS)
     OPTION(RADONFRAMEWORK_BUILD_SYSTEMTEST "Enable the system test" ON)
     mark_as_advanced(RADONFRAMEWORK_BUILD_SYSTEMTEST)
 endif()
+
+#set(RADONFRAMEWORK_DYNAMIC_SERVICE_TARGETS "" CACHE INTERNAL "Contains the target names of the runtime linkable services.")
+#set(RADONFRAMEWORK_STATIC_SERVICE_TARGETS "" CACHE INTERNAL "Contains the target id of the compiletime linkable services.")
+
 if(RADONFRAMEWORK_ADD_EXAMPLES)
     rcf_addlocation(CONSOLE "git" "https://github.com/tak2004/RadonFrameworkExample.git")
     Integrate(CONSOLE "Radon Examples" "RADONEXAMPLES_HOME")
@@ -66,9 +70,9 @@ ENDFOREACH()
 link_directories(${RadonFramework_BINARY_DIR}/dist/)
 endif()
 
-if(RADONFRAMEWORK_USE_OPENGL)
-    include(build/cmake/OpenGL.cmake)
-endif()
+#if(RADONFRAMEWORK_USE_OPENGL)
+#    include(build/cmake/OpenGL.cmake)
+#endif()
 
 if(RADONFRAMEWORK_ADD_DOCUMENTATION)
     find_package(Doxygen)

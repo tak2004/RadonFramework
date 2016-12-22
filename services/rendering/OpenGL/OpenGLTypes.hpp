@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <stddef.h>
+
 typedef unsigned int GLenum;
 typedef unsigned int GLbitfield;
 typedef unsigned int GLuint;

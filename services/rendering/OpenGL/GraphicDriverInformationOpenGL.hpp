@@ -2,8 +2,8 @@
 #define RF_GRAPHICDRIVERINFORMATIONOPENGL_HPP
 
 #include <RadonFramework/Collections/Array.hpp>
-#include <RadonFramework/Drawing/OpenGLCapabilities.hpp>
-#include <RadonFramework/Drawing/OpenGLCapabilitiesType.hpp>
+#include <OpenGLCapabilities.hpp>
+#include <OpenGLCapabilitiesType.hpp>
 
 namespace RadonFramework { namespace Drawing {
 

@@ -1,6 +1,7 @@
 #ifndef RF_WDMOPENGLCANVAS3D_HPP
 #define RF_WDMOPENGLCANVAS3D_HPP
 
+#include <OpenGLRenderer.hpp>
 #include <RadonFramework/Drawing/AbstractCanvas.hpp>
 #include <windows.h>
 
@@ -14,7 +15,7 @@ class WDMOpenGLCanvas3D : public AbstractCanvas
 public:
     WDMOpenGLCanvas3D();
     ~WDMOpenGLCanvas3D();
-    void Generate();
+    virtual void Generate() final;
     virtual void SetWindowInfos(const Forms::AbstractWindow& Window) final;
     virtual void Clear() final;
     virtual void SwapBuffer() final;
@@ -25,6 +26,7 @@ public:
     const GraphicDriverInformationOpenGL& GetContextRelatedGraphicDriverInformation();
     virtual void SetVSync(const RF_Type::Bool Synchronize = true,
         const RF_Type::Bool ShouldContinue = true) final;
+    virtual AbstractRenderer* GetRenderer()const final;
 protected:
     void GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions);
     void GetExtensionsLegacy(RF_Collect::Array<RF_Type::String>& Extensions);
@@ -34,7 +36,8 @@ protected:
     HWND m_WndHandle;
     HDC m_DeviceContext;
     PIXELFORMATDESCRIPTOR m_PixelFormat;
-    HGLRC m_Context;
+    HGLRC m_Context; 
+    OpenGLRenderer m_OpenGLRenderer;
 };
 
 } }
