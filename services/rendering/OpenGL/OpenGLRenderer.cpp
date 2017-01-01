@@ -1,7 +1,8 @@
 #include <RadonFramework/precompiled.hpp>
 #include "OpenGLRenderer.hpp"
-#include <OpenGL.hpp>
-#include <RadonFramework/Drawing/AbstractCanvas.hpp>
+#include "OpenGL.hpp"
+#include "RadonFramework/Drawing/AbstractCanvas.hpp"
+#include "RadonFramework/Drawing/BasicRenderFunction.hpp"
 
 namespace RadonFramework { namespace Drawing {
 
@@ -11,13 +12,15 @@ OpenGLRenderer::OpenGLRenderer()
 
 }
 
-void OpenGLRenderer::Generate()
+void OpenGLRenderer::Generate(const RF_Geo::Size2Df& FrameSize)
 {
     m_ShaderPool.Resize(1);
     m_ShaderPool(0).Generate();
 
     glCreateBuffers(1, &m_SharedUBO);
     glNamedBufferData(m_SharedUBO, sizeof(SharedTransformUniforms), &m_SharedTransformUniforms, GL_STREAM_DRAW);
+
+    ResizedViewport(FrameSize);
 }
 
 void OpenGLRenderer::StartFrame()
@@ -80,6 +83,10 @@ RF_Type::UInt32 OpenGLRenderer::Process(RF_Type::UInt32 EntityId, const RF_Draw:
 
 void OpenGLRenderer::Draw()
 {
+    for(RF_Type::Size i = 0; i < m_Buckets.Count(); ++i)
+    {
+        m_Buckets(i).Submit();
+    }
     for(RF_Type::Size i = 0; i < m_ObjectPool.Count(); ++i)
     {   
         OpenGLModel* obj = 0;
@@ -94,14 +101,72 @@ void OpenGLRenderer::SetCanvas(RF_Draw::AbstractCanvas& Canvas)
     m_Canvas = &Canvas;
 }
 
-void OpenGLRenderer::ResizedViewport(const RF_Geo::Size2D<>& NewSize)
+void OpenGLRenderer::ResizedViewport(const RF_Geo::Size2Df& NewSize)
 {
-    m_Projection.SetSize({(RF_Type::Float32)NewSize.Width, (RF_Type::Float32)NewSize.Height});
+    m_Projection.SetSize(NewSize);
     m_SharedTransformUniforms.ModelView = m_Camera.GetMatrix();
     m_SharedTransformUniforms.ModelViewProjection = m_Projection.GetMatrix(RF_Geo::Viewtype::View3D) * m_SharedTransformUniforms.ModelView;
     m_SharedTransformUniforms.UIProjection = m_Projection.GetMatrix(RF_Geo::Viewtype::View2D);
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_SharedUBO);
     glNamedBufferSubData(m_SharedUBO, 0, sizeof(SharedTransformUniforms), &m_SharedTransformUniforms);
+}
+
+void GL45GenerateBuffer(void* Command)
+{    
+    GenerateBuffer* cmd = reinterpret_cast<GenerateBuffer*>(Command);
+    glCreateBuffers(1, cmd->Buffer);
+    glBufferData(GL_ARRAY_BUFFER, cmd->ByteSize, nullptr, GL_STREAM_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, cmd->ByteSize, cmd->Data);
+}
+
+void GLDestroyBuffer(void* Command)
+{
+    DestroyBuffer* cmd = reinterpret_cast<DestroyBuffer*>(Command);
+    glDeleteBuffers(1, cmd->Buffer);
+    *cmd->Buffer = 0;
+}
+
+void GLUpdateBuffer(void* Command)
+{
+    UpdateBuffer* cmd = reinterpret_cast<UpdateBuffer*>(Command);
+    glBindBuffer(GL_ARRAY_BUFFER, cmd->Buffer);
+    glBufferData(GL_ARRAY_BUFFER, cmd->ByteSize, nullptr, GL_STREAM_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, cmd->ByteSize, cmd->Data);
+}
+
+AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const BasicRenderFunctionType Identifier) const
+{
+    AbstractRenderer::Dispatcher result = nullptr;
+    switch(Identifier)
+    {
+        case BasicRenderFunctionType::GenerateObject:
+        break;
+        case BasicRenderFunctionType::DestroyObject:
+        break;
+        case BasicRenderFunctionType::RenderObject:
+        break;
+        case BasicRenderFunctionType::GenerateBuffer:
+            result = GL45GenerateBuffer;
+            break;
+        case BasicRenderFunctionType::DestroyBuffer:
+            result = GLDestroyBuffer;
+            break;
+        case BasicRenderFunctionType::UpdateBuffer:
+            result = GLUpdateBuffer;
+            break;
+        case BasicRenderFunctionType::AssignBufferToObject:
+        break;
+        case BasicRenderFunctionType::GenerateMaterial:
+        break;
+        case BasicRenderFunctionType::DestroyMaterial:
+        break;
+    }
+    return result;
+}
+
+AbstractRenderer::Dispatcher OpenGLRenderer::GetCustomDispatcher(const RF_Type::UInt32 Identifier) const
+{
+    return nullptr;
 }
 
 } }

@@ -166,7 +166,7 @@ GLConstantData GLConstantWrapper[OpenGLCapabilities::MAX] = {
     {GLCONSTANDNAME(GL_IMPLEMENTATION_COLOR_READ_FORMAT),OpenGLCapabilitiesType::GLINT,1}
 };
 
-void WDMOpenGLCanvas3D::Generate()
+void WDMOpenGLCanvas3D::Generate(const RF_Geo::Size2Df& FrameSize)
 {
     int iFormat=0;
     m_MajorVersion = 1;
@@ -276,7 +276,7 @@ void WDMOpenGLCanvas3D::Generate()
     wglDeleteContext(TempContext);
     
     m_OpenGLRenderer.SetCanvas(*this);
-    m_OpenGLRenderer.Generate();
+    m_OpenGLRenderer.Generate(FrameSize);
 }
 
 void WDMOpenGLCanvas3D::GetExtensions(RF_Collect::Array<RF_Type::String>& Extensions)

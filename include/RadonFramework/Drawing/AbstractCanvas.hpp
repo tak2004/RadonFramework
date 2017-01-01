@@ -30,7 +30,7 @@ class AbstractRenderer;
 class AbstractCanvas
 {
 public:
-    virtual void Generate()=0;
+    virtual void Generate(const RF_Geo::Size2Df& FrameSize)=0;
     virtual void SetWindowInfos(const Forms::AbstractWindow& Window)=0;
     virtual void Clear()=0;
     virtual void SwapBuffer()=0;

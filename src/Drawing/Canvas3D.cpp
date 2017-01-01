@@ -21,7 +21,7 @@ Canvas3D::Canvas3D(RF_Form::Form& Window, RF_Form::Control* Parent)
     if (m_Backend != nullptr)
     {
         m_Backend->SetWindowInfos(*Window.Backend());
-        m_Backend->Generate();
+        m_Backend->Generate(GetSize());
         m_Renderer = m_Backend->GetRenderer();
     }
     Window.OnIdle += SignalReceiver::Connector<Canvas3D>(&Canvas3D::Draw);

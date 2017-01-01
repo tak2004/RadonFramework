@@ -19,7 +19,7 @@ class OpenGLRenderer: public RF_Draw::AbstractRenderer
 {
 public:
     OpenGLRenderer();
-    virtual void Generate() override;
+    virtual void Generate(const RF_Geo::Size2Df& FrameSize) override;
     virtual void StartFrame() override;
     virtual void EndFrame() override;
     virtual RF_Type::UInt32 Process(RF_Type::UInt32 EntityId, const RF_Draw::Path2D& Path) override;
@@ -29,7 +29,9 @@ public:
     {
         return *this;
     }
-    virtual void ResizedViewport(const RF_Geo::Size2D<>& NewSize) override;
+    virtual void ResizedViewport(const RF_Geo::Size2Df& NewSize) override;
+    virtual Dispatcher GetGeneralPurposeDispatcher(const BasicRenderFunctionType Identifier) const override;
+    virtual Dispatcher GetCustomDispatcher(const RF_Type::UInt32 Identifier) const override;
 private:
     RF_Draw::AbstractCanvas* m_Canvas;
     RF_Draw::Path2DTriangulation m_Tesselator;

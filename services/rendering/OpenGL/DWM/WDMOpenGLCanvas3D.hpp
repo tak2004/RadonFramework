@@ -15,7 +15,7 @@ class WDMOpenGLCanvas3D : public AbstractCanvas
 public:
     WDMOpenGLCanvas3D();
     ~WDMOpenGLCanvas3D();
-    virtual void Generate() final;
+    virtual void Generate(const RF_Geo::Size2Df& FrameSize) final;
     virtual void SetWindowInfos(const Forms::AbstractWindow& Window) final;
     virtual void Clear() final;
     virtual void SwapBuffer() final;
