@@ -99,6 +99,7 @@ void CommandBucket<K>::Submit()
     {
         ExecuteCommandChain(m_Commands[i]);
     }
+    m_Commands.Clear();
 }
 
 template<typename K/*=RF_Type::UInt32*/>

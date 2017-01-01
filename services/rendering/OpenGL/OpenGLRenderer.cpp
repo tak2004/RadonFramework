@@ -129,9 +129,15 @@ void GLDestroyBuffer(void* Command)
 void GLUpdateBuffer(void* Command)
 {
     UpdateBuffer* cmd = reinterpret_cast<UpdateBuffer*>(Command);
-    glBindBuffer(GL_ARRAY_BUFFER, cmd->Buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, *cmd->Buffer);
     glBufferData(GL_ARRAY_BUFFER, cmd->ByteSize, nullptr, GL_STREAM_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, cmd->ByteSize, cmd->Data);
+}
+
+void GLRenderObject(void* Command)
+{
+    RenderObject* cmd = reinterpret_cast<RenderObject*>(Command);
+    glDrawArrays(GL_POINTS, 0, cmd->Elements);
 }
 
 AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const BasicRenderFunctionType Identifier) const
@@ -144,7 +150,8 @@ AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const B
         case BasicRenderFunctionType::DestroyObject:
         break;
         case BasicRenderFunctionType::RenderObject:
-        break;
+            result = GLRenderObject;
+            break;
         case BasicRenderFunctionType::GenerateBuffer:
             result = GL45GenerateBuffer;
             break;

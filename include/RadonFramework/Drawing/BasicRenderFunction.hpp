@@ -8,20 +8,20 @@
 
 namespace RadonFramework { namespace Drawing {
 
-typedef RF_Type::UInt32 BufferHandle;
+typedef RF_Type::UInt32 GraphicHandle;
 
 struct UpdateBuffer
 {
     static AbstractRenderer::Dispatcher DispatchFunction;
     RF_Type::UInt8* Data;
     RF_Type::Size ByteSize;
-    BufferHandle Buffer;
+    GraphicHandle* Buffer;
 };
 
 struct GenerateBuffer
 {
     static AbstractRenderer::Dispatcher DispatchFunction;
-    BufferHandle* Buffer;
+    GraphicHandle* Buffer;
     RF_Type::UInt8* Data;
     RF_Type::Size ByteSize;
 };
@@ -29,7 +29,7 @@ struct GenerateBuffer
 struct DestroyBuffer
 {
     static AbstractRenderer::Dispatcher DispatchFunction;
-    BufferHandle* Buffer;
+    GraphicHandle* Buffer;
 };
 
 struct RenderObject
@@ -42,7 +42,13 @@ struct RenderObject
     static AbstractRenderer::Dispatcher DispatchFunction;
     RF_Type::Size Elements;
     RF_Type::UInt32 ElementType;
-    BufferHandle Buffer;
+    GraphicHandle* Buffer;
+};
+
+struct GenerateMaterial
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Material;
 };
 
 } }
