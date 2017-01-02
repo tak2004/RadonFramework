@@ -134,10 +134,100 @@ void GLUpdateBuffer(void* Command)
     glBufferSubData(GL_ARRAY_BUFFER, 0, cmd->ByteSize, cmd->Data);
 }
 
+void BindMaterial(RF_Type::UInt32 Id)
+{
+    glUseProgram(Id);
+}
+
 void GLRenderObject(void* Command)
 {
     RenderObject* cmd = reinterpret_cast<RenderObject*>(Command);
+
+    BindMaterial(*cmd->Material);
+    glBindBuffer(GL_ARRAY_BUFFER,*cmd->Buffer);
     glDrawArrays(GL_POINTS, 0, cmd->Elements);
+}
+
+void GLGenerateMaterial(void* Command)
+{
+    GenerateMaterial* cmd = reinterpret_cast<GenerateMaterial*>(Command);
+    *cmd->Material = *cmd->Program;
+}
+
+void GLDestroyMaterial(void* Command)
+{
+
+}
+
+void GLGenerateProgram(void* Command)
+{
+    GenerateProgram* cmd = reinterpret_cast<GenerateProgram*>(Command);
+    *cmd->Program = 0;
+    if (cmd->FragmentData != nullptr && cmd->VertexData != nullptr)
+    {
+        GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vs, 1, &cmd->VertexData, nullptr);
+        glCompileShader(vs);
+        GLint isCompiled = 0;
+        glGetShaderiv(vs, GL_COMPILE_STATUS, &isCompiled);
+        if(isCompiled == GL_FALSE)
+        {
+            GLint maxLength = 0;
+            glGetShaderiv(vs, GL_INFO_LOG_LENGTH, &maxLength);
+            RF_Collect::Array<GLchar> errorLog(maxLength);
+            glGetShaderInfoLog(vs, maxLength, &maxLength, &errorLog(0));
+            RF_IO::LogError("Vertex-Shader:%s\n", &errorLog(0));
+            glDeleteShader(vs);
+            return;
+        }
+
+        GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fs, 1, &cmd->FragmentData, NULL);
+        glCompileShader(fs);
+        glGetShaderiv(fs, GL_COMPILE_STATUS, &isCompiled);
+        if(isCompiled == GL_FALSE)
+        {
+            GLint maxLength = 0;
+            glGetShaderiv(fs, GL_INFO_LOG_LENGTH, &maxLength);
+            RF_Collect::Array<GLchar> errorLog(maxLength);
+            glGetShaderInfoLog(fs, maxLength, &maxLength, &errorLog(0));
+            RF_IO::LogError("Fragment-Shader:%s\n", &errorLog(0));
+            glDeleteShader(fs);
+            glDeleteShader(vs);
+            return;
+        }
+
+        GLuint program = glCreateProgram();
+        glAttachShader(program, fs);
+        glAttachShader(program, vs);
+        glLinkProgram(program);
+        GLint isLinked = 0;
+        glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
+        if(isLinked == GL_FALSE)
+        {
+            GLint maxLength = 0;
+            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+            RF_Collect::Array<GLchar> infoLog(maxLength);
+            glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog(0));
+            RF_IO::LogError("Fragment-Shader:%s\n", &infoLog(0));
+            glDeleteProgram(program);
+            glDeleteShader(vs);
+            glDeleteShader(fs);
+            return;
+        }
+        glDetachShader(program, vs);
+        glDetachShader(program, fs);
+        glDeleteShader(vs);
+        glDeleteShader(fs);
+        *cmd->Program = program;
+    }
+}
+
+void GLDestroyProgram(void* Command)
+{
+    DestroyProgram* cmd = reinterpret_cast<DestroyProgram*>(Command);
+    glDeleteProgram(*cmd->Program);
+    *cmd->Program = 0;
 }
 
 AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const BasicRenderFunctionType Identifier) const
@@ -145,10 +235,6 @@ AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const B
     AbstractRenderer::Dispatcher result = nullptr;
     switch(Identifier)
     {
-        case BasicRenderFunctionType::GenerateObject:
-        break;
-        case BasicRenderFunctionType::DestroyObject:
-        break;
         case BasicRenderFunctionType::RenderObject:
             result = GLRenderObject;
             break;
@@ -161,12 +247,18 @@ AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const B
         case BasicRenderFunctionType::UpdateBuffer:
             result = GLUpdateBuffer;
             break;
-        case BasicRenderFunctionType::AssignBufferToObject:
-        break;
         case BasicRenderFunctionType::GenerateMaterial:
-        break;
+            result = GLGenerateMaterial;
+            break;
         case BasicRenderFunctionType::DestroyMaterial:
-        break;
+            result = GLDestroyMaterial;
+            break;
+        case BasicRenderFunctionType::GenerateProgram:
+            result = GLGenerateProgram;
+            break;
+        case BasicRenderFunctionType::DestroyProgram:
+            result = GLDestroyProgram;
+            break;
     }
     return result;
 }

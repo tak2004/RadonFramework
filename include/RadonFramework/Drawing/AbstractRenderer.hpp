@@ -14,15 +14,14 @@ class Path2D;
 
 enum class BasicRenderFunctionType: RF_Type::UInt32
 {
-    GenerateObject,
-    DestroyObject,
     RenderObject,
     GenerateBuffer,
     DestroyBuffer,
     UpdateBuffer,
-    AssignBufferToObject,
     GenerateMaterial,
-    DestroyMaterial
+    DestroyMaterial,
+    GenerateProgram,
+    DestroyProgram
 };
 
 class AbstractRenderer

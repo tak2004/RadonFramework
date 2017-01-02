@@ -43,12 +43,32 @@ struct RenderObject
     RF_Type::Size Elements;
     RF_Type::UInt32 ElementType;
     GraphicHandle* Buffer;
+    GraphicHandle* Material;
+};
+
+struct GenerateProgram
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Program;
+    const char* VertexData;
+    const char* FragmentData;
+    const char* GeometryData;
+    RF_Type::UInt32 VertexByteSize;
+    RF_Type::UInt32 FragmentByteSize;
+    RF_Type::UInt32 GeometryByteSize;
+};
+
+struct DestroyProgram
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Program;
 };
 
 struct GenerateMaterial
 {
     static AbstractRenderer::Dispatcher DispatchFunction;
     GraphicHandle* Material;
+    GraphicHandle* Program;
 };
 
 } }
