@@ -87,6 +87,8 @@ void OpenGLRenderer::Draw()
     {
         m_Buckets(i).Submit();
     }
+    // ui
+    m_ShaderPool(0).Bind();
     for(RF_Type::Size i = 0; i < m_ObjectPool.Count(); ++i)
     {   
         OpenGLModel* obj = 0;
@@ -105,7 +107,7 @@ void OpenGLRenderer::ResizedViewport(const RF_Geo::Size2Df& NewSize)
 {
     m_Projection.SetSize(NewSize);
     m_SharedTransformUniforms.ModelView = m_Camera.GetMatrix();
-    m_SharedTransformUniforms.ModelViewProjection = m_Projection.GetMatrix(RF_Geo::Viewtype::View3D) * m_SharedTransformUniforms.ModelView;
+    m_SharedTransformUniforms.ModelViewProjection = m_Projection.GetMatrix(RF_Geo::Viewtype::View3D) *m_SharedTransformUniforms.ModelView;
     m_SharedTransformUniforms.UIProjection = m_Projection.GetMatrix(RF_Geo::Viewtype::View2D);
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_SharedUBO);
     glNamedBufferSubData(m_SharedUBO, 0, sizeof(SharedTransformUniforms), &m_SharedTransformUniforms);
@@ -115,6 +117,7 @@ void GL45GenerateBuffer(void* Command)
 {    
     GenerateBuffer* cmd = reinterpret_cast<GenerateBuffer*>(Command);
     glCreateBuffers(1, cmd->Buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, *cmd->Buffer);
     glBufferData(GL_ARRAY_BUFFER, cmd->ByteSize, nullptr, GL_STREAM_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, cmd->ByteSize, cmd->Data);
 }
@@ -134,17 +137,104 @@ void GLUpdateBuffer(void* Command)
     glBufferSubData(GL_ARRAY_BUFFER, 0, cmd->ByteSize, cmd->Data);
 }
 
-void BindMaterial(RF_Type::UInt32 Id)
+struct GLObject
 {
-    glUseProgram(Id);
+    RF_Type::UInt32 MaterialId;
+    RF_Type::UInt32 VAO;
+    RF_Type::UInt32 Buffers;
+};
+
+union ObjectSlot
+{
+    GLObject UsedObject;
+    ObjectSlot* FreeObject;
+};
+
+class GLObjectFactory
+{
+public:
+    static GLObject* Get(RF_Type::UInt32 ID)
+    {
+        GLObject* result = nullptr;
+        if(ID < ObjectCount)
+        {
+            result = reinterpret_cast<GLObject*>(Objects + ID);
+        }
+        return result;
+    }
+    static RF_Type::UInt32 Create()
+    {
+        RF_Type::UInt32 obj;
+        if(Free == nullptr)
+        {
+            // resize pool
+            RF_Type::UInt32 newSize = ObjectCount == 0 ? 512 : ObjectCount * 2;
+            ObjectSlot* newPool = new ObjectSlot[newSize];
+            RF_SysMem::Copy(newPool, Objects, sizeof(ObjectSlot)*ObjectCount);
+            delete[] Objects;
+            Objects = newPool;
+            for (RF_Type::UInt32 i = ObjectCount; i < newSize; ++i)
+            {
+                Objects[i].FreeObject = Free;
+                Free = Objects + i;
+            }
+            ObjectCount = newSize;
+        }
+        obj = Free - Objects;
+        Free = Free->FreeObject;
+        return obj;
+    }
+    static void Destroy(RF_Type::UInt32 ID)
+    {
+        if(ID < ObjectCount)
+        {
+            Objects[ID].FreeObject = Free;
+            Free = Objects + ID;
+        }
+    }
+private:
+    static ObjectSlot* Objects;
+    static RF_Type::UInt32 ObjectCount;
+    static ObjectSlot* Free;
+};
+
+ObjectSlot* GLObjectFactory::Objects = nullptr;
+ObjectSlot* GLObjectFactory::Free = nullptr;
+RF_Type::UInt32 GLObjectFactory::ObjectCount = 0;
+
+void GLAssignBufferToObject(void* Command)
+{
+    AssignBufferToObject* cmd = reinterpret_cast<AssignBufferToObject*>(Command);
+    GLObject* obj = GLObjectFactory::Get(*cmd->Object);
+
+    glBindVertexArray(obj->VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, *cmd->Buffer);
+    glVertexAttribPointer(obj->Buffers, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    glEnableVertexAttribArray(obj->Buffers);
+    ++obj->Buffers;
+}
+
+void GLGenerateObject(void* Command)
+{
+    GenerateObject* cmd = reinterpret_cast<GenerateObject*>(Command);
+    *cmd->Object = GLObjectFactory::Create();
+    GLObject* obj = GLObjectFactory::Get(*cmd->Object);
+    obj->MaterialId = *cmd->Material;
+    obj->Buffers = 0;
+    obj->VAO = 0;
+    glGenVertexArrays(1, &obj->VAO);
+}
+
+void GLDestroyObject(void* Command)
+{
 }
 
 void GLRenderObject(void* Command)
 {
     RenderObject* cmd = reinterpret_cast<RenderObject*>(Command);
-
-    BindMaterial(*cmd->Material);
-    glBindBuffer(GL_ARRAY_BUFFER,*cmd->Buffer);
+    GLObject* obj = GLObjectFactory::Get(*cmd->Object);
+    glUseProgram(obj->MaterialId);
+    glBindVertexArray(obj->VAO);
     glDrawArrays(GL_POINTS, 0, cmd->Elements);
 }
 
@@ -235,6 +325,12 @@ AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const B
     AbstractRenderer::Dispatcher result = nullptr;
     switch(Identifier)
     {
+        case BasicRenderFunctionType::DestroyObject:
+            result = GLDestroyObject;
+            break;
+        case BasicRenderFunctionType::GenerateObject:
+            result = GLGenerateObject;
+            break;
         case BasicRenderFunctionType::RenderObject:
             result = GLRenderObject;
             break;
@@ -246,6 +342,9 @@ AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const B
             break;
         case BasicRenderFunctionType::UpdateBuffer:
             result = GLUpdateBuffer;
+            break;
+        case BasicRenderFunctionType::AssignBufferToObject:
+            result = GLAssignBufferToObject;
             break;
         case BasicRenderFunctionType::GenerateMaterial:
             result = GLGenerateMaterial;

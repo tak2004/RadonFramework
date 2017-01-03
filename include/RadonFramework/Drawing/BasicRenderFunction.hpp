@@ -32,6 +32,26 @@ struct DestroyBuffer
     GraphicHandle* Buffer;
 };
 
+struct AssignBufferToObject
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Buffer;
+    GraphicHandle* Object;
+};
+
+struct GenerateObject
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Object;
+    GraphicHandle* Material;    
+};
+
+struct DestroyObject
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Object;
+};
+
 struct RenderObject
 {
     enum ElementType:RF_Type::UInt8
@@ -42,8 +62,7 @@ struct RenderObject
     static AbstractRenderer::Dispatcher DispatchFunction;
     RF_Type::Size Elements;
     RF_Type::UInt32 ElementType;
-    GraphicHandle* Buffer;
-    GraphicHandle* Material;
+    GraphicHandle* Object;
 };
 
 struct GenerateProgram

@@ -40,10 +40,11 @@ template<class T, class CMD>
 T* CommandBucket<K>::AppendCommand(const CMD& Command, 
     const RF_Type::Size AdditionalCommandMemory /*= 0*/)
 {
+    static_assert(std::is_pointer<CMD>::value == false, "CMD must be an object reference!");
     static_assert(std::is_pod<T>::value == true, "T have to be a POD structure!");
 
     // find tail
-    CommandHeader* tail = reinterpret_cast<CommandHeader*>(const_cast<CMD*>(&Command) - 1);
+    CommandHeader* tail = reinterpret_cast<CommandHeader*>(const_cast<CMD*>(&Command)) - 1;
     while(tail->Child != nullptr)
     {
         tail = reinterpret_cast<CommandHeader*>(tail->Child->Get());

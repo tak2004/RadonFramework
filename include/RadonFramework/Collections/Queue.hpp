@@ -52,14 +52,15 @@ private:
         RF_Type::AtomicInt32 Head;
         RF_Type::AtomicInt32 Tail;
     };
-    RF_Type::AtomicInt32 m_Head;
-    RF_Type::AtomicInt32 m_Tail;
-    RF_Type::AtomicInt32 m_LastHead;
-    RF_Type::AtomicInt32 m_LastTail;
     // Used as ring buffer.
     RF_Mem::AutoPointerArray<T> m_Array;
     // An information set per logical processor.
     RF_Mem::AutoPointerArray<LPInfo> m_LPInfos;
+
+    RF_ALIGN(32) RF_Type::AtomicInt32 m_Head;
+    RF_ALIGN(32) RF_Type::AtomicInt32 m_Tail;
+    RF_ALIGN(32) RF_Type::AtomicInt32 m_LastHead;
+    RF_ALIGN(32) RF_Type::AtomicInt32 m_LastTail;
 };
 
 template <typename T,
