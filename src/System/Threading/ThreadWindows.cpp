@@ -260,6 +260,11 @@ void PostConfigurationComplete(void* Data)
     p->postConfigurationComplete = true;
 }
 
+void ShortestPause()
+{
+    YieldProcessor();
+}
+
 }
 
 void Dispatch()
@@ -277,6 +282,7 @@ void Dispatch()
     SetAffinityMask = Windows::SetAffinityMask;
     GetAffinityMask = Windows::GetAffinityMask;
     PostConfigurationComplete = Windows::PostConfigurationComplete;
+    ShortestPause = Windows::ShortestPause;
 }
 
 } } }

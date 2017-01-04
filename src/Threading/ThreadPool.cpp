@@ -21,6 +21,7 @@ public:
              ThreadPool::FreeCallback CustomFree);
     PoolTask(const PoolTask& Copy) = delete;
     PoolTask& operator=(PoolTask& Other);
+    PoolTask& operator=(const PoolTask& Other)=delete;
 
     ThreadPool::WaitCallback Callback;
     void* Data;
@@ -50,7 +51,7 @@ public:
     {
         UInt32 lps = Hardware::GetAvailableLogicalProcessorCount();
         MaxWorkerThreads = lps;//ThreadPool::GetBestThreadAmountByProcessorCoreAmount(lps);
-        SerialTaskLists = AutoPointerArray<Queue<PoolTask*> >(MaxWorkerThreads);
+        SerialTaskLists = AutoPointerArray<Queue<PoolTask> >(MaxWorkerThreads);
         WorkerThreads.Resize(MaxWorkerThreads);
         BitArray<> mask(lps);
         for (UInt32 i=0; i < WorkerThreads.Count(); ++i)
@@ -127,8 +128,8 @@ public:
     }
 
     Array<AutoPointer<PoolThread> > WorkerThreads;
-    Queue<PoolTask*> ConcurrentTaskList;
-    AutoPointerArray<Queue<PoolTask*> > SerialTaskLists;
+    Queue<PoolTask> ConcurrentTaskList;
+    AutoPointerArray<Queue<PoolTask> > SerialTaskLists;
     UInt32 MaxWorkerThreads;
     UInt32 MinWorkerThreads;
     RF_Time::TimeValue Latency;
@@ -200,7 +201,7 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback, void* State,
 {
     if (m_PImpl->IsQueingAllowed)
     {
-        PoolTask* task = new PoolTask(Callback, State, FreeData);
+        PoolTask task(Callback, State, FreeData);
         if (Strategy==TaskStrategy::Concurrent)
         {
             m_PImpl->ConcurrentTaskList.Enqueue(task); 
@@ -303,11 +304,12 @@ void RadonFramework::Threading::ThreadPool::WaitTillDoneWithInactiveQueue()
 
 void PoolThread::Run()
 {
-    PoolTask* task;
+    PoolTask task;
     Bool result=false;
     Int64 serialGrp = RF_SysHardware::GetCurrentUniqueProcessorNumber() % Pool->WorkerThreads.Count();
     while(!shutdown)
     {
+        result = false;
         Pool->WorkingThreads.Increment();
         result = Pool->SerialTaskLists[static_cast<UInt32>(serialGrp)].Dequeue(task);
         if (false == result)
@@ -324,15 +326,14 @@ void PoolThread::Run()
 
         if (result)
         {
-            task->Callback(task->Data);
+            task.Callback(task.Data);
 
-            if (task->Data && task->FreeData)
+            if (task.Data && task.FreeData)
             {
-                task->FreeData(task->Data);
-                task->Data=nullptr;
+                task.FreeData(task.Data);
+                task.Data = nullptr;
+                task.FreeData = nullptr;
             }
-            delete task;
-            task = nullptr;
         }
         Pool->WorkingThreads.Decrement();
 
@@ -371,7 +372,8 @@ PoolTask& PoolTask::operator=(PoolTask& Other)
 {
     Callback=Other.Callback;
     Data=Other.Data;
-    Other.Data=0;
+    Other.Data=nullptr;
     FreeData=Other.FreeData;
+    Other.FreeData = nullptr;
     return *this;
 }

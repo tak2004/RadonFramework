@@ -37,6 +37,7 @@ using GetPriorityCallback = RF_Thread::ThreadPriority::Type(*)(void* Data);
 using SetAffinityMaskCallback = RF_Type::Bool(*)(void* Data, const RF_Collect::BitArray<>& NewMask);
 using GetAffinityMaskCallback = RF_Type::Bool(*)(void* Data, RF_Collect::BitArray<>& Mask);
 using PostConfigurationCompleteCallback = void(*)(void* Data);
+using ShortestPauseCallback = void(*)();
 
 extern IsAliveCallback IsAlive;
 extern IsRunningCallback IsRunning;
@@ -67,7 +68,8 @@ extern GetAffinityMaskCallback GetAffinityMask;
 * the internal thread function will wait till this function was called.
 */
 extern PostConfigurationCompleteCallback PostConfigurationComplete;
-
+/// 
+extern ShortestPauseCallback ShortestPause;
 } } }
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSTHREAD

@@ -132,6 +132,15 @@ void PostConfigurationComplete_SystemAPIDispatcher(void* Data)
     PostConfigurationComplete(Data);
 }
 
+void ShortestPause_SystemAPIDispatcher()
+{
+    ShortestPause = nullptr;
+    Dispatch();
+    Assert(ShortestPause != ShortestPause_SystemAPIDispatcher &&
+           ShortestPause != 0, "Funtion was called and couldn't be dispatched");
+    ShortestPause();
+}
+
 IsAliveCallback IsAlive = IsAlive_SystemAPIDispatcher;
 IsRunningCallback IsRunning = IsRunning_SystemAPIDispatcher;
 CreateCallback Create = Create_SystemAPIDispatcher;
@@ -146,6 +155,7 @@ GetPriorityCallback GetPriority = GetPriority_SystemAPIDispatcher;
 SetAffinityMaskCallback SetAffinityMask = SetAffinityMask_SystemAPIDispatcher;
 GetAffinityMaskCallback GetAffinityMask = GetAffinityMask_SystemAPIDispatcher;
 PostConfigurationCompleteCallback PostConfigurationComplete = PostConfigurationComplete_SystemAPIDispatcher;
+ShortestPauseCallback ShortestPause = ShortestPause_SystemAPIDispatcher;
 
 RF_Type::Bool IsSuccessfullyDispatched()
 {
@@ -163,6 +173,7 @@ RF_Type::Bool IsSuccessfullyDispatched()
     result = result && SetAffinityMask != SetAffinityMask_SystemAPIDispatcher && SetAffinityMask != 0;
     result = result && GetAffinityMask != GetAffinityMask_SystemAPIDispatcher && GetAffinityMask != 0;
     result = result && PostConfigurationComplete != PostConfigurationComplete_SystemAPIDispatcher && PostConfigurationComplete != 0;
+    result = result && ShortestPause != ShortestPause_SystemAPIDispatcher && ShortestPause != nullptr;
     return result;
 }
 
@@ -194,6 +205,8 @@ void GetNotDispatchedFunctions(RF_Collect::List<RF_Type::String>& Result)
         Result.AddLast("GetAffinityMask"_rfs);
     if(PostConfigurationComplete == PostConfigurationComplete_SystemAPIDispatcher || PostConfigurationComplete == 0)
         Result.AddLast("PostConfigurationComplete"_rfs);
+    if(ShortestPause == ShortestPause_SystemAPIDispatcher || ShortestPause == nullptr)
+        Result.AddLast("ShortestPause"_rfs);
 }
 
 } } }
