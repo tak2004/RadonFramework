@@ -99,8 +99,9 @@ void CommandBucket<K>::Submit()
     for (RF_Type::Size i = 0; i < m_Commands.Count(); ++i)
     {
         ExecuteCommandChain(m_Commands[i]);
-    }
+    } 
     m_Commands.Clear();
+    m_ManagedSubCommands.Clear();
 }
 
 template<typename K/*=RF_Type::UInt32*/>
