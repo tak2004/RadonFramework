@@ -5,8 +5,8 @@
 #endif
 
 #include <RadonFramework/Concurrency/TypelessDynamicQueueMPSC.hpp>
-#include <RadonFramework/Memory/AllocatorBase.hpp>
-#include <RadonFramework/Memory/SystemAllocator.hpp>
+#include <RadonFramework/Memory/HeapAllocator.hpp>
+#include <RadonFramework/Memory/FreeListAllocator.hpp>
 
 namespace RadonFramework { namespace Concurrency {
 
@@ -19,18 +19,18 @@ namespace RadonFramework { namespace Concurrency {
 * If you need other producer and/or consumer combination then look for the 
 * specialized implementation.
 */
-template<typename T>
+template<typename T, typename ALLOCATOR = RF_Mem::HeapAllocator>
 class DynamicQueueMPSC
 {
 public:
     /// You can pass a custom Allocator instance to exchange the standard
     /// memory allocation. The specified instance will not be destroyed on destruction.
-    DynamicQueueMPSC(RF_Mem::AllocatorBase* Arena = nullptr);
+    DynamicQueueMPSC(ALLOCATOR* Arena = nullptr);
     ~DynamicQueueMPSC();
 
     // Disable copy and assign for this class.
-    DynamicQueueMPSC(const DynamicQueueMPSC<T>& Copy) = delete;
-    DynamicQueueMPSC& operator = (const DynamicQueueMPSC<T>& Other) = delete;
+    DynamicQueueMPSC(const DynamicQueueMPSC& Copy) = delete;
+    DynamicQueueMPSC& operator = (const DynamicQueueMPSC& Other) = delete;
 
     /// Removes all objects from the queue.
     void Clear();
@@ -48,77 +48,79 @@ public:
     RF_Type::Bool IsEmpty()const;
 private:
     TypelessDynamicQueueMPSC m_RealQueue;
-    RF_Mem::PoolAllocator m_PayloadAllocator;
+    RF_Mem::FreeListAllocator<ALLOCATOR, sizeof(T), alignof(T)> m_PayloadAllocator;
 };
 
-template<typename T>
-DynamicQueueMPSC<T>::DynamicQueueMPSC(RF_Mem::AllocatorBase* Arena /*= nullptr*/)
-:m_RealQueue(Arena)
-,m_PayloadAllocator(sizeof(T), alignof(T), 
-	Arena ? Arena : RF_Pattern::Singleton<RF_Mem::SystemAllocator>::Instance())
+template<typename T, typename ALLOCATOR>
+DynamicQueueMPSC<T, ALLOCATOR>::DynamicQueueMPSC(ALLOCATOR* Arena /*= nullptr*/)
+:m_RealQueue(Arena ? Arena : RF_Pattern::Singleton<ALLOCATOR>::Instance())
+,m_PayloadAllocator(Arena ? Arena : RF_Pattern::Singleton<ALLOCATOR>::Instance())
 {
 }
 
-template<typename T>
-DynamicQueueMPSC<T>::~DynamicQueueMPSC()
+template<typename T, typename ALLOCATOR>
+DynamicQueueMPSC<T, ALLOCATOR>::~DynamicQueueMPSC()
 {
     Clear();
 }
 
-template<typename T>
-inline RF_Type::Bool DynamicQueueMPSC<T>::IsEmpty()const
+template<typename T, typename ALLOCATOR>
+inline RF_Type::Bool DynamicQueueMPSC<T, ALLOCATOR>::IsEmpty()const
 {
     return m_RealQueue.IsEmpty();
 }
 
-template<typename T>
-inline void DynamicQueueMPSC<T>::Clear()
+template<typename T, typename ALLOCATOR>
+inline void DynamicQueueMPSC<T, ALLOCATOR>::Clear()
 {
     void* p = nullptr;
     while(p = (m_RealQueue.Dequeue()))
     {
-        RF_Delete(p, m_PayloadAllocator);
+        reinterpret_cast<T*>(p)->~T();
+        m_PayloadAllocator.Deallocate({reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)});
     }
 }
 
-template<typename T>
-inline RF_Type::Bool DynamicQueueMPSC<T>::Dequeue(T& Data)
+template<typename T, typename ALLOCATOR>
+inline RF_Type::Bool DynamicQueueMPSC<T, ALLOCATOR>::Dequeue(T& Data)
 {    
     RF_Type::Bool result = false;
     T* p = reinterpret_cast<T*>(m_RealQueue.Dequeue());
     if(p)
     {
         Data = *p;
-        RF_Delete(p, m_PayloadAllocator);
+        p->~T();
+        m_PayloadAllocator.Deallocate({reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)});
         result = true;
     }
     return result;
 }
 
-template<typename T>
-inline RF_Type::Bool DynamicQueueMPSC<T>::Dequeue()
+template<typename T, typename ALLOCATOR>
+inline RF_Type::Bool DynamicQueueMPSC<T, ALLOCATOR>::Dequeue()
 {
     RF_Type::Bool result = false;
     T* p = m_RealQueue.Dequeue();
     if(p)
     {
         result = true;
-        RF_Delete(p, m_PayloadAllocator);
+        p->~T();
+        m_PayloadAllocator.Deallocate({reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)});
     }
     return result;
 }
 
-template<typename T>
-inline void DynamicQueueMPSC<T>::Enqueue(T& Data)
-{
-    T* p = RF_New(T, m_PayloadAllocator)(Data);
+template<typename T, typename ALLOCATOR>
+inline void DynamicQueueMPSC<T, ALLOCATOR>::Enqueue(T& Data)
+{    
+    T* p = ::new(m_PayloadAllocator.Allocate(sizeof(T)).Data)T(Data);
     m_RealQueue.Enqueue(p);
 }
 
-template<typename T>
-inline void DynamicQueueMPSC<T>::Enqueue(const T& Data)
+template<typename T, typename ALLOCATOR>
+inline void DynamicQueueMPSC<T, ALLOCATOR>::Enqueue(const T& Data)
 {
-    T* p = RF_New(T, m_PayloadAllocator)(Data);
+    T* p = ::new(m_PayloadAllocator.Allocate(sizeof(T)).Data)T(Data);
     m_RealQueue.Enqueue(p);
 }
 

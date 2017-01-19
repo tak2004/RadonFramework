@@ -34,7 +34,13 @@ public:
     virtual Dispatcher GetCustomDispatcher(const RF_Type::UInt32 Identifier) const override;
 private:
     RF_Draw::AbstractCanvas* m_Canvas;
-    RF_Draw::Path2DTriangulation m_Tesselator;
+    class OpenGLPath2DTriangulation: public RF_Draw::Path2DTriangulation
+    {
+    public:
+        virtual void AddText(const RF_Geo::Point2Df& Position, const RF_Type::String& Text)override;
+    protected:
+//        RF_Type::List<RF_Type::String> m_Bla;
+    } m_Tesselator;
     RF_Collect::Array<RF_Type::UInt32> m_ObjectPool;
     RF_Collect::Array<OpenGLShader> m_ShaderPool;
     RF_Collect::HashList m_Objects;

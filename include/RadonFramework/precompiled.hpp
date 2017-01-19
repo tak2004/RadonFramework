@@ -44,8 +44,6 @@
 
 #include <RadonFramework/Core/Common/DataManagment.hpp>
 
-#include <RadonFramework/Memory/Allocator.hpp>
-
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 

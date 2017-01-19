@@ -367,4 +367,10 @@ AbstractRenderer::Dispatcher OpenGLRenderer::GetCustomDispatcher(const RF_Type::
     return nullptr;
 }
 
+void OpenGLRenderer::OpenGLPath2DTriangulation::AddText(
+    const RF_Geo::Point2Df& Position, const RF_Type::String& Text)
+{
+    
+}
+
 } }

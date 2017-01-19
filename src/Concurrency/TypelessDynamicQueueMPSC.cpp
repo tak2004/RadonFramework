@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Concurrency/TypelessDynamicQueueMPSC.hpp"
-#include "RadonFramework/Memory/SystemAllocator.hpp"
 #include "RadonFramework/System/Threading/Interlocked.hpp"
+#include "RadonFramework/Memory/Allocators.hpp"
 
 namespace RadonFramework { namespace Concurrency {
 
@@ -11,18 +11,31 @@ struct TypelessDynamicQueueMPSC::Node
     void* m_Data;
 };
 
-TypelessDynamicQueueMPSC::TypelessDynamicQueueMPSC(
-    RadonFramework::Memory::AllocatorBase* Arena /*= nullptr*/)
-:m_Arena(Arena ? Arena : RF_Pattern::Singleton<RF_Mem::SystemAllocator>::Instance())
-,m_NodeAllocator(sizeof(Node), alignof(Node), Arena ? Arena : RF_Pattern::Singleton<RF_Mem::SystemAllocator>::Instance())
+struct TypelessDynamicQueueMPSC::AllocatorTraits
 {
-    m_Stub = RF_New(Node, m_NodeAllocator);
+    enum
+    {
+        StackSize = 1024,
+        BlockSize = sizeof(Node),
+        AlignSize = alignof(Node),
+        HeapAllocation = true,
+        FixedBlockCount = false
+    };
+};
+
+typedef RF_Mem::AllocatorSelector<TypelessDynamicQueueMPSC>::Type Allocator;
+Allocator* NodeAllocator = nullptr;
+
+TypelessDynamicQueueMPSC::TypelessDynamicQueueMPSC()
+{
+    NodeAllocator = &RF_Pattern::Singleton<Allocator>::GetInstance();
+    m_Stub = reinterpret_cast<Node*>(NodeAllocator->Allocate(sizeof(Node)).Data);
     Clear();
 }
 
 TypelessDynamicQueueMPSC::~TypelessDynamicQueueMPSC()
 {
-    RF_Delete(m_Stub, m_NodeAllocator);
+    NodeAllocator->Deallocate({reinterpret_cast<RF_Type::UInt8*>(m_Stub),sizeof(Node)});
 }
 
 void TypelessDynamicQueueMPSC::Clear()
@@ -34,7 +47,7 @@ void TypelessDynamicQueueMPSC::Clear()
 
 void TypelessDynamicQueueMPSC::Enqueue(void* Data)
 {
-    Node* node = RF_New(Node, m_NodeAllocator);
+    Node* node = reinterpret_cast<Node*>(NodeAllocator->Allocate(sizeof(Node)).Data);
     node->m_Data = Data;
     node->m_Next = nullptr;
     Node* prev = reinterpret_cast<Node*>(RF_SysThread::Interlocked::InterlockedExchangePointer(
@@ -61,7 +74,7 @@ void* TypelessDynamicQueueMPSC::Dequeue()
     {
         m_Tail = next;
         void* result = tail->m_Data;
-        RF_Delete(tail, m_NodeAllocator);
+        NodeAllocator->Deallocate({reinterpret_cast<RF_Type::UInt8*>(tail),sizeof(Node)});
         return result;
     }
 
@@ -81,7 +94,7 @@ void* TypelessDynamicQueueMPSC::Dequeue()
     {
         m_Tail = next;
         void* result = tail->m_Data;
-        RF_Delete(tail, m_NodeAllocator);
+        NodeAllocator->Deallocate({reinterpret_cast<RF_Type::UInt8*>(tail),sizeof(Node)});
         return result;
     }
     return nullptr;
@@ -90,11 +103,6 @@ void* TypelessDynamicQueueMPSC::Dequeue()
 RF_Type::Bool TypelessDynamicQueueMPSC::IsEmpty()const
 {
     return m_Head == m_Tail;
-}
-
-RadonFramework::Memory::AllocatorBase& TypelessDynamicQueueMPSC::GetArena() const
-{
-    return *m_Arena; 
 }
 
 } }
