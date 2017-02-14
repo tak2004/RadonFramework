@@ -245,7 +245,7 @@ void Queue<T,MA,MO>::Clear()
 template<typename T, typename MA, typename MO>
 RF_Type::Bool Queue<T, MA, MO>::IsEmpty()const
 {
-    return m_Head == m_Tail;
+    return m_LastHead < m_Tail;
 }
 
 } }

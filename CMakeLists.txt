@@ -14,6 +14,7 @@ include("Integrate.cmake")
 # General framework options.
 OPTION(RADONFRAMEWORK_ADD_DOCUMENTATION "Add the framework documentation generation to the build." OFF)
 OPTION(RADONFRAMEWORK_ADD_TESTS "Add the framework specific tests." OFF)
+OPTION(RADONFRAMEWORK_USE_FORMS "Activate window and UI support" ON)
 OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL canvas support" ON)
 OPTION(RADONFRAMEWORK_ADD_EXAMPLES "Add the framework examples." OFF)
 OPTION(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS "Add support for the standard intermediate formats." OFF)
