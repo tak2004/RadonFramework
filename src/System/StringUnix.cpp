@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/String.hpp"
-#include "RadonFramework/Math/Math.hpp"
+#include <math.h>
 #include <locale.h>
 #include <string.h>
 #include <stdlib.h>
@@ -79,10 +79,10 @@ Bool ToUInt64Unix(const String& Instance, Int32 Base, UInt64& Out)
 Bool ToFloat64Unix(const String& Instance, Float64& Out)
 {
     Out = strtod(Instance.c_str(), 0);
-    return Out > Math::Math<Float64>::EPSILION &&
+    return Out > Math::Float64::EPSILION &&
            !(errno == ERANGE && (
-           Math::Math<Float64>::FAbs(Out + HUGE_VAL) < Math::Math<Float64>::EPSILION ||
-           Math::Math<Float64>::FAbs(Out - HUGE_VAL) < Math::Math<Float64>::EPSILION));
+           Math::Float64::FAbs(Out + HUGE_VAL) < Math::Float64::EPSILION ||
+           Math::Float64::FAbs(Out - HUGE_VAL) < Math::Float64::EPSILION));
 }
 
 Int32 FormatUnix(RF_Type::UInt8* Buffer, RF_Type::Size BufferSize, const String& Format, va_list arg)

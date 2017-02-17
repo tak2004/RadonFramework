@@ -28,7 +28,7 @@ typedef union
 struct PointerID
 {
     static const PointerID& Zero();
-    static PointerID GenerateFromPointer(const void* Ptr);
+    static PointerID GenerateFromPointer(void* Ptr);
     static PointerID GenerateFromID(PtrID ID);
 
     PtrID GetID()const;

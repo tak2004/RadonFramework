@@ -4,7 +4,7 @@
 
 using namespace RadonFramework::Memory;
 
-PointerID PointerID::GenerateFromPointer(const void* Ptr)
+PointerID PointerID::GenerateFromPointer(void* Ptr)
 {
     PointerID result;
     result.m_PtrID.ID=0;

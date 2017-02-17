@@ -544,12 +544,25 @@ void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>&
 }
 
 void ImplementationGetUnicodeCharRanges(const RF_Type::String& Text,
-                                        RF_Collect::Array<RF_Text::UnicodeRangeIdentifier>& Out)
+                                        RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Out)
+{
+}
+
+void ImplementationGetUnicodeCharRange(const RF_Text::UnicodeRangeIdentifier Identifier,
+    RF_Text::UnicodeRangeInfo& Out)
+{
+
+}
+
+void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
+    const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+    RF_Collect::Array<RF_Draw::Image>& Out)
 {
 }
 
 void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
-                              RF_Collect::Array<RF_Draw::Path2D>& Out)
+    const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+    RF_Collect::Array<RF_Draw::Path2D>& Out)
 {
 }
 #endif

@@ -103,7 +103,7 @@ RF_Type::Bool ArrayNode<T>::IndexOf(const ArrayNode<T>& Object, RF_Type::Size& I
 {
     RF_Type::Bool result = false;
 
-    auto hits = RF_Algo::FindAll(m_Children, [&](decltype(m_Children)::ConstEnumeratorType& Element) {
+    auto hits = RF_Algo::FindAll(m_Children, [&](typename Array<ArrayNode<T>>::ConstEnumeratorType& Element) {
         RF_Type::Bool result = false;
         if(&(*Element) == &Object)
         {
@@ -128,7 +128,7 @@ void ArrayNode<T>::AddChilds(RF_Type::Size Count)
         m_Children = Array<ArrayNode<T> >(Count);
     else
         m_Children.Resize(m_Children.Count() + Count);
-    RF_Algo::ForEach(m_Children, [=](Array<ArrayNode<T>>::EnumeratorType& Element) {
+    RF_Algo::ForEach(m_Children, [=](typename Array<ArrayNode<T>>::EnumeratorType& Element) {
         Element->m_Parent = this;
         Element->m_Data = T();
     });

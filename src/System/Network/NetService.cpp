@@ -554,28 +554,15 @@ Error BindIPv6(const NetService::SocketHandler Handler, EndPoint &LocalEP)
     RF_SysMem::Set(&addrIn, 0, addrSize);
     addrIn.sin6_family = SocketAddressFamily[static_cast<RF_Type::Size>(LocalEP.Address().GetAddressFamily())];
     addrIn.sin6_port = htons(LocalEP.Port());
-    const UInt16* addr = reinterpret_cast<const UInt16*>(LocalEP.Address().AsByteArray());
-    addrIn.sin6_addr.u.Word[0] = htons(addr[0]);
-    addrIn.sin6_addr.u.Word[1] = htons(addr[1]);
-    addrIn.sin6_addr.u.Word[2] = htons(addr[2]);
-    addrIn.sin6_addr.u.Word[3] = htons(addr[3]);
-    addrIn.sin6_addr.u.Word[4] = htons(addr[4]);
-    addrIn.sin6_addr.u.Word[5] = htons(addr[5]);
-    addrIn.sin6_addr.u.Word[6] = htons(addr[6]);
-    addrIn.sin6_addr.u.Word[7] = htons(addr[7]);
+    RF_SysMem::Copy(addrIn.sin6_addr.s6_addr, LocalEP.Address().AsByteArray(), 16);
 
     if(bind(Handler, reinterpret_cast<sockaddr*>(&addrIn), addrSize) != SOCKET_ERROR)
     {
         if(getsockname(Handler, reinterpret_cast<sockaddr*>(&addrIn), &addrSize) == 0)
         {
-            IPAddress publicIP(ntohs(addrIn.sin6_addr.u.Word[0]),
-                ntohs(addrIn.sin6_addr.u.Word[1]),
-                ntohs(addrIn.sin6_addr.u.Word[2]),
-                ntohs(addrIn.sin6_addr.u.Word[3]),
-                ntohs(addrIn.sin6_addr.u.Word[4]),
-                ntohs(addrIn.sin6_addr.u.Word[5]),
-                ntohs(addrIn.sin6_addr.u.Word[6]),
-                ntohs(addrIn.sin6_addr.u.Word[7]));
+            RF_Collect::Array<RF_Type::UInt8> address(16);
+            RF_SysMem::Copy(&address(0), addrIn.sin6_addr.s6_addr, 16);
+            IPAddress publicIP(address);
             LocalEP.Address(publicIP);
         }
     }
@@ -665,7 +652,7 @@ Error NetService::ReceiveFrom(const NetService::SocketHandler Handler,
     RF_SysMem::Set(&src, 0, sizeof(src));
     int addrSize = sizeof(src);
 
-    int ret=recvfrom(Handler,Buffer,2048,0,(sockaddr*)&src,&addrSize);
+    int ret=recvfrom(Handler,Buffer,2048,0,(sockaddr*)&src,reinterpret_cast<socklen_t*>(&addrSize));
     if (ret>0)
     {
         Data=AutoPointerArray<UInt8>(ret);
@@ -703,7 +690,6 @@ Error NetService::SendTo(const NetService::SocketHandler Handler,
     sockaddr_in dstV4;
     sockaddr_in6 dstV6;
     const UInt8* addrV4 = 0;
-    const UInt16* addrV6 = 0;
     const char* data = reinterpret_cast<const char*>(Data);
     sockaddr* addr = 0;
     int addrSize = 0;
@@ -724,15 +710,7 @@ Error NetService::SendTo(const NetService::SocketHandler Handler,
     case AddressFamily::InterNetwork6:
         dstV6.sin6_family = SocketAddressFamily[static_cast<RF_Type::Size>(RemoteEP.Address().GetAddressFamily())];
         dstV6.sin6_port = htons(RemoteEP.Port());
-        addrV6 = reinterpret_cast<const UInt16*>(RemoteEP.Address().AsByteArray());
-        dstV6.sin6_addr.u.Word[0] = htons(addrV6[0]);
-        dstV6.sin6_addr.u.Word[1] = htons(addrV6[1]);
-        dstV6.sin6_addr.u.Word[2] = htons(addrV6[2]);
-        dstV6.sin6_addr.u.Word[3] = htons(addrV6[3]);
-        dstV6.sin6_addr.u.Word[4] = htons(addrV6[4]);
-        dstV6.sin6_addr.u.Word[5] = htons(addrV6[5]);
-        dstV6.sin6_addr.u.Word[6] = htons(addrV6[6]);
-        dstV6.sin6_addr.u.Word[7] = htons(addrV6[7]);
+        RF_SysMem::Copy(dstV6.sin6_addr.s6_addr, RemoteEP.Address().AsByteArray(), 16);        
         addr = reinterpret_cast<sockaddr*>(&dstV6);
         addrSize = sizeof(dstV6);
         break;

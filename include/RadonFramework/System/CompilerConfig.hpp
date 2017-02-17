@@ -39,6 +39,9 @@ namespace RF_Sys = RadonFramework::System;
 
 // memory alignment
 #define RF_ALIGN(X) __declspec(align(X))
+
+// shared libraries
+#define RF_EXPORT __declspec(dllexport)
 #else
 #if defined(RF_MINGW32)
 // mingw
@@ -52,6 +55,8 @@ namespace RF_Sys = RadonFramework::System;
 #define DEFER(M,...) M(__VA_ARGS__)
 #define RF_COMPILER_WARNING(X) _Pragma(STR(GCC warning(X " at line " DEFER(STR,__LINE__))))
 #define RF_FORCE_INLINE __attribute__((always_inline))
+
+#define RF_EXPORT __attribute__ ((visibility("default")))
 #else
 #if defined(RF_GCC)
 // gcc
@@ -62,6 +67,8 @@ namespace RF_Sys = RadonFramework::System;
 // really bad solution but this is allready the best on gcc
 #define RF_DO_PRAGMA(x) _Pragma (#x)
 #define RF_COMPILER_WARNING(x) RF_DO_PRAGMA(message ("warning: " x))
+
+#define RF_EXPORT __attribute__ ((visibility("default")))
 #else
 static_assert(false, "There's no support, of compiler warnings, for your compiler at the moment.\
     Please insert the warning command for your compiler here or remove this info.");

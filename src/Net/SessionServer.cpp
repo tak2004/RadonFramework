@@ -23,8 +23,7 @@ void Session::Response()
 
 SessionServer::~SessionServer()
 {
-    Server::~Server();
-    IObserver::~IObserver();
+
 }
 
 void SessionServer::Update()

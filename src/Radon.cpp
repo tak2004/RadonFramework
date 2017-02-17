@@ -44,8 +44,8 @@ extern "C"
 {
     // NV and AMD driver are looking for this symbols and if they are present and
     // the value is 1 then they will assign the strongest GPU to the render context.
-    __declspec(dllexport) RF_Type::UInt32 NvOptimusEnablement = 1;
-    __declspec(dllexport) RF_Type::Int32  AmdPowerXpressRequestHighPerformance = 1;
+    RF_EXPORT RF_Type::UInt32 NvOptimusEnablement = 1;
+    RF_EXPORT RF_Type::Int32  AmdPowerXpressRequestHighPerformance = 1;
 }
 
 class Radon::PIMPL

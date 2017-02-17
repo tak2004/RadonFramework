@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Float32.hpp"
 #include <limits>
+#include <cmath>
 
 namespace RadonFramework { namespace Math {
 
@@ -114,7 +115,7 @@ RF_Type::Float32 Float32::Sqrt(const RF_Type::Float32 X)
 
 RF_Type::Float32 Float32::Sign(const RF_Type::Float32 X)
 {
-    return signbit(X);
+    return std::signbit(X);
 }
 
 RF_Type::Float32 Float32::FastSin0(const RF_Type::Float32 Angle)
