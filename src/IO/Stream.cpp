@@ -10,7 +10,10 @@ Stream::~Stream()
 
 RF_Type::UInt64 Stream::WriteText(const RF_Type::String& ByValue)
 {
-    return Write(reinterpret_cast<const RF_Type::UInt8*>(ByValue.c_str()), 0, ByValue.Size()-1);
+    if (ByValue.Size() > 0)
+        return Write(reinterpret_cast<const RF_Type::UInt8*>(ByValue.c_str()), 0, ByValue.Size()-1);
+    else
+        return 0;
 }
 
 RF_Mem::AutoPointerArray<RF_Type::UInt8> Stream::ReadBytes(RF_Type::Size Bytes)

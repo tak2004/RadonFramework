@@ -235,7 +235,10 @@ void GLRenderObject(void* Command)
     GLObject* obj = GLObjectFactory::Get(*cmd->Object);
     glUseProgram(obj->MaterialId);
     glBindVertexArray(obj->VAO);
-    glDrawArrays(GL_POINTS, 0, cmd->Elements);
+    if (cmd->ElementType == RF_Draw::RenderObject::PointSprites)
+        glDrawArrays(GL_POINTS, 0, cmd->Elements);
+    else
+        glDrawArrays(GL_TRIANGLES, 0, cmd->Elements);
 }
 
 void GLGenerateMaterial(void* Command)

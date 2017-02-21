@@ -71,10 +71,6 @@ ENDFOREACH()
 link_directories(${RadonFramework_BINARY_DIR}/dist/)
 endif()
 
-#if(RADONFRAMEWORK_USE_OPENGL)
-#    include(build/cmake/OpenGL.cmake)
-#endif()
-
 if(RADONFRAMEWORK_ADD_DOCUMENTATION)
     find_package(Doxygen)
     if (DOXYGEN_FOUND)
