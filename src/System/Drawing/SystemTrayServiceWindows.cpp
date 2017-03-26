@@ -3,11 +3,13 @@
 #include "RadonFramework/Collections/HashMap.hpp"
 #include "RadonFramework/Collections/Array.hpp"
 #include "RadonFramework/IO/File.hpp"
+#include "RadonFramework/System/IO/FileSystem.hpp"
 #include <windows.h>
 #include <Windowsx.h>
 #include <Strsafe.h>
 
 namespace RadonFramework { namespace Core { namespace Idioms {
+
 template<>
 struct RF_Idiom::PImpl<RF_SysDraw::SystemTrayServiceWindows>::Data
 {
@@ -234,18 +236,30 @@ SystemTrayService::Handle SystemTrayServiceWindows::AddIcon(const RF_Draw::TrayI
         StringCchCopyA(notifyData->szTip, ARRAYSIZE(notifyData->szTip), Settings.Tooltip.c_str());
     }
 
-    RF_IO::File icon;
-    icon.SetLocation(Settings.Icon);
-    if(icon.Exists())
-    {
-        RF_Type::String systemPath = Settings.Icon.GetComponents(RF_IO::UriComponents::Path);        
-        int min = GetSystemMetrics(SM_CXSMICON);
-        notifyData->hIcon = (HICON)LoadImage(NULL, systemPath.c_str(), IMAGE_ICON, 
-                                             min, min, LR_LOADFROMFILE);
-        if(notifyData->hIcon != 0)
+    // search in the resource file
+    HINSTANCE hinstance = GetModuleHandle(NULL);
+    notifyData->hIcon = LoadIcon(hinstance, Settings.Icon.c_str());
+
+    if(notifyData->hIcon == 0)
+    {// search for the file on disc
+        RF_IO::File icon;
+        RF_Type::String systemPath;
+
+        RF_IO::Uri uri(Settings.Icon);
+        RF_SysFile::UriToSystemPath(uri,systemPath);
+        RF_SysFile::RealPath(systemPath, systemPath);
+        icon.SetLocation(uri);
+        if(icon.Exists())
         {
-            notifyData->uFlags |= NIF_ICON;
+            int min = GetSystemMetrics(SM_CXSMICON);
+            notifyData->hIcon = (HICON)LoadImage(NULL, systemPath.c_str(), IMAGE_ICON,
+                                                 min, min, LR_LOADFROMFILE);
         }
+    }
+
+    if(notifyData->hIcon != 0)
+    {// set icon visible
+        notifyData->uFlags |= NIF_ICON;
     }
 
     Handle handle = 0;

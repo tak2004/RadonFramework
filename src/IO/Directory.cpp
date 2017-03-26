@@ -298,7 +298,8 @@ AutoPointerArray<Directory> Directory::Directories()const
     List<Directory> tmp;
     for (Size i=0; i<content.Count(); ++i)
     {
-        if(RF_SysFile::Stat(systemPath + RF_SysFile::Seperator() + content[i])->IsDirectory)
+        auto stats = RF_SysFile::Stat(systemPath + RF_SysFile::Seperator() + content[i]);
+        if(stats && stats->IsDirectory)
         {
             Directory dir;
             RF_IO::Uri dirPath;
@@ -320,7 +321,7 @@ AutoPointer<File> Directory::SubFile(const RF_Type::String& Filename) const
     if(Exists())
     {
         result = AutoPointer<File>(new File);
-        auto location = Uri(Location().OriginalString()+Filename);
+        auto location = Uri(Location().OriginalString() + RF_SysFile::Seperator() + Filename);
         result->SetLocation(location);
     }
     return result;
