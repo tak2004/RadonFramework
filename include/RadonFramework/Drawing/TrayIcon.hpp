@@ -15,7 +15,7 @@ class TrayIcon
 public:
     RF_Type::String Tooltip;
     RF_Type::String Notification;
-    RF_IO::Uri Icon;
+    RF_Type::String Icon;
     PopupMenu Menu;
     RF_Pattern::Event<RF_Type::UInt32> OnAction;
 };

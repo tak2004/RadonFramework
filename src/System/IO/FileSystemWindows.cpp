@@ -217,7 +217,7 @@ RF_Mem::AutoPointer<RF_IO::FileStatus> Stat(const RF_Type::String& Path)
     RF_Mem::AutoPointer<RF_IO::FileStatus> result;
     BY_HANDLE_FILE_INFORMATION info;
     HANDLE fHndl = CreateFileA(Path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-    if (0 != fHndl)
+    if (INVALID_HANDLE_VALUE != fHndl)
     {
         if (0 != GetFileInformationByHandle(fHndl, &info))
         {
