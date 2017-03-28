@@ -282,6 +282,9 @@ public:
     static String Format(const String Str, ...);
     /// Like Format method but restrict the formatting to a specified variadic list.
     static String FormatStrict(const String &Str, va_list ArgumentList);
+    /// Like the Format method but instead of a String object you pass a string literal.
+    template<int N>
+    static String Format(char const (&CString)[N], ...);
 
     /// Convert all lower case to upper case chars.
     RF_Type::String& ToUpper();
@@ -379,6 +382,16 @@ String& String::operator+=(char const (&Other)[N])
     String tmp(Other, N);
     *this+=tmp;
     return *this;
+}
+
+template<int N>
+String String::Format(char const (&CString)[N], ...)
+{
+    va_list argp;
+    va_start(argp, CString);
+    auto result = String::FormatStrict(String(CString), argp);
+    va_end(argp);
+    return result;
 }
 
 template<int N>

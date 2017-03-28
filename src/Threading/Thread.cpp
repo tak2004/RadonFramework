@@ -34,7 +34,8 @@ void Thread::Start()
 
 void Thread::Exit()
 {
-
+    RF_SysThread::Stop(m_ImplData);
+    RF_SysThread::Join(m_ImplData);
 }
 
 void Thread::Interrupt()

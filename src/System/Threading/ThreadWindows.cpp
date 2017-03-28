@@ -265,6 +265,12 @@ void ShortestPause()
     YieldProcessor();
 }
 
+void Stop(void* Data)
+{
+    ThreadHelper* p = static_cast<ThreadHelper*>(Data);
+    p->cancel = true;
+}
+
 }
 
 void Dispatch()
@@ -283,6 +289,7 @@ void Dispatch()
     GetAffinityMask = Windows::GetAffinityMask;
     PostConfigurationComplete = Windows::PostConfigurationComplete;
     ShortestPause = Windows::ShortestPause;
+    Stop = Windows::Stop;
 }
 
 } } }

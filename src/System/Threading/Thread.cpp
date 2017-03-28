@@ -141,6 +141,14 @@ void ShortestPause_SystemAPIDispatcher()
     ShortestPause();
 }
 
+void Stop_SystemAPIDispatcher(void* Data)
+{
+    Stop = nullptr;
+    Dispatch();
+    Assert(Stop != Stop_SystemAPIDispatcher &&
+           Stop != 0, "Funtion was called and couldn't be dispatched");
+}
+
 IsAliveCallback IsAlive = IsAlive_SystemAPIDispatcher;
 IsRunningCallback IsRunning = IsRunning_SystemAPIDispatcher;
 CreateCallback Create = Create_SystemAPIDispatcher;
@@ -156,57 +164,61 @@ SetAffinityMaskCallback SetAffinityMask = SetAffinityMask_SystemAPIDispatcher;
 GetAffinityMaskCallback GetAffinityMask = GetAffinityMask_SystemAPIDispatcher;
 PostConfigurationCompleteCallback PostConfigurationComplete = PostConfigurationComplete_SystemAPIDispatcher;
 ShortestPauseCallback ShortestPause = ShortestPause_SystemAPIDispatcher;
+StopCallback Stop = Stop_SystemAPIDispatcher;
 
 RF_Type::Bool IsSuccessfullyDispatched()
 {
     RF_Type::Bool result = true;
-    result = result && IsAlive != IsAlive_SystemAPIDispatcher && IsAlive != 0;
-    result = result && IsRunning != IsRunning_SystemAPIDispatcher && IsRunning != 0;
-    result = result && Create != Create_SystemAPIDispatcher && Create != 0;
-    result = result && Rename != Rename_SystemAPIDispatcher && Rename != 0;
-    result = result && Sleep != Sleep_SystemAPIDispatcher && Sleep != 0;
-    result = result && GetProcessId != GetProcessId_SystemAPIDispatcher && GetProcessId != 0;
-    result = result && Wait != Wait_SystemAPIDispatcher && Wait != 0;
-    result = result && Join != Join_SystemAPIDispatcher && Join != 0;
-    result = result && SetPriority != SetPriority_SystemAPIDispatcher && SetPriority != 0;
-    result = result && GetPriority != GetPriority_SystemAPIDispatcher && GetPriority != 0;
-    result = result && SetAffinityMask != SetAffinityMask_SystemAPIDispatcher && SetAffinityMask != 0;
-    result = result && GetAffinityMask != GetAffinityMask_SystemAPIDispatcher && GetAffinityMask != 0;
-    result = result && PostConfigurationComplete != PostConfigurationComplete_SystemAPIDispatcher && PostConfigurationComplete != 0;
+    result = result && IsAlive != IsAlive_SystemAPIDispatcher && IsAlive != nullptr;
+    result = result && IsRunning != IsRunning_SystemAPIDispatcher && IsRunning != nullptr;
+    result = result && Create != Create_SystemAPIDispatcher && Create != nullptr;
+    result = result && Rename != Rename_SystemAPIDispatcher && Rename != nullptr;
+    result = result && Sleep != Sleep_SystemAPIDispatcher && Sleep != nullptr;
+    result = result && GetProcessId != GetProcessId_SystemAPIDispatcher && GetProcessId != nullptr;
+    result = result && Wait != Wait_SystemAPIDispatcher && Wait != nullptr;
+    result = result && Join != Join_SystemAPIDispatcher && Join != nullptr;
+    result = result && SetPriority != SetPriority_SystemAPIDispatcher && SetPriority != nullptr;
+    result = result && GetPriority != GetPriority_SystemAPIDispatcher && GetPriority != nullptr;
+    result = result && SetAffinityMask != SetAffinityMask_SystemAPIDispatcher && SetAffinityMask != nullptr;
+    result = result && GetAffinityMask != GetAffinityMask_SystemAPIDispatcher && GetAffinityMask != nullptr;
+    result = result && PostConfigurationComplete != PostConfigurationComplete_SystemAPIDispatcher && PostConfigurationComplete != nullptr;
     result = result && ShortestPause != ShortestPause_SystemAPIDispatcher && ShortestPause != nullptr;
+    result = result && Stop != Stop_SystemAPIDispatcher && Stop != nullptr;
     return result;
 }
 
 void GetNotDispatchedFunctions(RF_Collect::List<RF_Type::String>& Result)
 {
-    if(IsAlive == IsAlive_SystemAPIDispatcher || IsAlive == 0)
+    if(IsAlive == IsAlive_SystemAPIDispatcher || IsAlive == nullptr)
         Result.AddLast("IsAlive"_rfs);
-    if(IsRunning == IsRunning_SystemAPIDispatcher || IsRunning == 0)
+    if(IsRunning == IsRunning_SystemAPIDispatcher || IsRunning == nullptr)
         Result.AddLast("IsRunning"_rfs);
-    if(Create == Create_SystemAPIDispatcher || Create == 0)
+    if(Create == Create_SystemAPIDispatcher || Create == nullptr)
         Result.AddLast("Create"_rfs);
-    if(Rename == Rename_SystemAPIDispatcher || Rename == 0)
+    if(Rename == Rename_SystemAPIDispatcher || Rename == nullptr)
         Result.AddLast("Rename"_rfs);
-    if(Sleep == Sleep_SystemAPIDispatcher || Sleep == 0)
+    if(Sleep == Sleep_SystemAPIDispatcher || Sleep == nullptr)
         Result.AddLast("Sleep"_rfs);
-    if(GetProcessId == GetProcessId_SystemAPIDispatcher || GetProcessId == 0)
+    if(GetProcessId == GetProcessId_SystemAPIDispatcher || GetProcessId == nullptr)
         Result.AddLast("GetProcessId"_rfs);
-    if(Wait == Wait_SystemAPIDispatcher || Wait == 0)
+    if(Wait == Wait_SystemAPIDispatcher || Wait == nullptr)
         Result.AddLast("Wait"_rfs);
-    if(Join == Join_SystemAPIDispatcher || Join == 0)
+    if(Join == Join_SystemAPIDispatcher || Join == nullptr)
         Result.AddLast("Join"_rfs);
-    if(SetPriority == SetPriority_SystemAPIDispatcher || SetPriority == 0)
+    if(SetPriority == SetPriority_SystemAPIDispatcher || SetPriority == nullptr)
         Result.AddLast("SetPriority"_rfs);
-    if(GetPriority == GetPriority_SystemAPIDispatcher || GetPriority == 0)
+    if(GetPriority == GetPriority_SystemAPIDispatcher || GetPriority == nullptr)
         Result.AddLast("GetPriority"_rfs);
-    if(SetAffinityMask == SetAffinityMask_SystemAPIDispatcher || SetAffinityMask == 0)
+    if(SetAffinityMask == SetAffinityMask_SystemAPIDispatcher || SetAffinityMask == nullptr)
         Result.AddLast("SetAffinityMask"_rfs);
-    if(GetAffinityMask == GetAffinityMask_SystemAPIDispatcher || GetAffinityMask == 0)
+    if(GetAffinityMask == GetAffinityMask_SystemAPIDispatcher || GetAffinityMask == nullptr)
         Result.AddLast("GetAffinityMask"_rfs);
-    if(PostConfigurationComplete == PostConfigurationComplete_SystemAPIDispatcher || PostConfigurationComplete == 0)
+    if(PostConfigurationComplete == PostConfigurationComplete_SystemAPIDispatcher || PostConfigurationComplete == nullptr)
         Result.AddLast("PostConfigurationComplete"_rfs);
     if(ShortestPause == ShortestPause_SystemAPIDispatcher || ShortestPause == nullptr)
         Result.AddLast("ShortestPause"_rfs);
+    if(Stop == Stop_SystemAPIDispatcher || Stop == nullptr)
+        Result.AddLast("Stop"_rfs);
 }
 
 } } }

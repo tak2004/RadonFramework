@@ -38,9 +38,12 @@ using SetAffinityMaskCallback = RF_Type::Bool(*)(void* Data, const RF_Collect::B
 using GetAffinityMaskCallback = RF_Type::Bool(*)(void* Data, RF_Collect::BitArray<>& Mask);
 using PostConfigurationCompleteCallback = void(*)(void* Data);
 using ShortestPauseCallback = void(*)();
+using StopCallback = void(*)(void* Data);
 
 extern IsAliveCallback IsAlive;
 extern IsRunningCallback IsRunning;
+/// Will signal IsRunning() to return false.
+extern StopCallback Stop;
 /**
 * If the function succeed then Data will be unequal 0 else it will be set to 0.
 * The function creates a new sub-process, execute the Instance->Run() function and
