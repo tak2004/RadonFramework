@@ -193,7 +193,7 @@ RF_Type::String MessageReader::ReadName()
         RF_Type::UInt8 buffer[256];
         RF_Type::UInt64 offset = 0;
         m_Data.ReadType(byte);
-        while(byte > 0 && byte < 192)
+        while(byte > 0 && byte < 192 && offset < 256)
         {
             m_Data.Read(buffer, offset, byte);
             offset += byte;
@@ -202,8 +202,16 @@ RF_Type::String MessageReader::ReadName()
             ++offset;
         }
 
-        buffer[offset - 1] = 0;
-        result = RF_Type::String(reinterpret_cast<char*>(buffer), offset + 1);
+        if(offset > 256)
+        {
+            return ""_rfs;
+        }
+
+        if(offset > 0)
+        {
+            buffer[offset - 1] = 0;
+            result = RF_Type::String(reinterpret_cast<char*>(buffer), offset + 1);
+        }
 
         if(byte >= 192)
         {            
