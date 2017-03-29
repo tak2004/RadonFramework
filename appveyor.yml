@@ -30,8 +30,6 @@ init:
 
 before_build:
 - cmd: >-
-    mkdir build
-    
     cd build
     
     cmake --version
