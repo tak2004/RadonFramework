@@ -1,5 +1,8 @@
 #ifndef RF_MEMORY_FREELISTALLOCATOR_HPP
 #define RF_MEMORY_FREELISTALLOCATOR_HPP
+#if _MSC_VER > 1000
+#pragma once
+#endif
 
 #include <RadonFramework/Memory/MemoryBlock.hpp>
 
@@ -75,4 +78,4 @@ FreeListAllocator<ALLOCATOR, BLOCK_SIZE, BLOCK_ALIGN_SIZE>::FreeListAllocator()
 namespace RF_Mem = RadonFramework::Memory;
 #endif
 
-#endif // RF_MEMORY_FREELISTALLOCATOR_HPP
+#endif // ! RF_MEMORY_FREELISTALLOCATOR_HPP
