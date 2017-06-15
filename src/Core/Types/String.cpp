@@ -672,14 +672,28 @@ String String::operator+(const String& Str)const
     const int TERMINATION = 1;
     if (Length() + Str.Length())
     {
-        RF_Type::Size bytes = Size() + Str.Size() - TERMINATION;
+        RF_Type::Size bytes = Size() + Str.Size();
+
+        if(Str.Length() > 0 && Length() > 0)
+        {// we only need one termination symbol
+            --bytes;
+        }
+
         String str(bytes);
 
         if (Length() > 0)
+        {
             RF_SysMem::Copy(const_cast<char*>(str.c_str()), c_str(), Size());
+        }
 
-        if (Str.Length() > 0)
+        if(Str.Length() > 0 && Length() > 0)
+        {
             RF_SysMem::Copy(const_cast<char*>(str.c_str() + Size() - TERMINATION), Str.c_str(), Str.Size());
+        }
+        else
+        {
+            RF_SysMem::Copy(const_cast<char*>(str.c_str()), Str.c_str(), Str.Size());
+        }
 
         return str;
     }

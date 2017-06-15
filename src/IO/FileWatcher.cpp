@@ -40,7 +40,7 @@ const String& FileWatcher::Filter()
     return m_Filter;
 }
 
-Bool FileWatcher::WaitForEvent(FileWatcherEvent& Event)
+Bool FileWatcher::WaitForEvent(RF_SysFile::FileWatcherEvent& Event)
 {
     return WaitForFileWatcher(m_Handle, Event);
 }
@@ -52,20 +52,25 @@ void FileWatcher::Start()
 
 void FileWatcher::ProcessBuffer()
 {
-    FileWatcherEvent event;
-    while(GetFileWatcherEvent(m_Handle, event))
-        switch (event.ChangeType)
+    RF_SysFile::FileWatcherEvent internalEvent;
+    FileWatcherEvent publicEvent;
+    publicEvent.Sender = this;
+    while(GetFileWatcherEvent(m_Handle, internalEvent))
+    {
+        publicEvent.Filename = &internalEvent.Name;
+        switch (internalEvent.ChangeType)
         {
-            case WatcherChangeTypes::Created:
-                OnCreated(event.Name);
+            case WatcherChangeTypes::Created:                
+                OnCreated(publicEvent);
                 break;
             case WatcherChangeTypes::Deleted:
-                OnDeleted(event.Name);
+                OnDeleted(publicEvent);
                 break;
             case WatcherChangeTypes::Changed:
-                OnChanged(event.Name);
+                OnChanged(publicEvent);
                 break;
         }
+    }
 }
 
 void FileWatcher::Stop()

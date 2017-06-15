@@ -188,18 +188,40 @@ RF_Type::String GenerateTempFilename(const RF_Type::String& Path)
 
 RF_Type::Bool Access(const RF_Type::String& Path, const RF_IO::AccessMode::Type Mode)
 {
+    RF_Type::Bool result = true;
+
     if(Mode != RF_IO::AccessMode::None)
     {
-        int result = 0;
-        if(Mode & RF_IO::AccessMode::Exists)
-            result |= _access(Path.c_str(), 0);
-        if(Mode & RF_IO::AccessMode::Read)
-            result |= _access(Path.c_str(), 4);
-        if(Mode & RF_IO::AccessMode::Write)
-            result |= _access(Path.c_str(), 2);
-        return result == 0;
+        int mask = 0;
+        
+        if(!Path.IsEmpty())
+        {// a path on a drive
+            if(Mode & RF_IO::AccessMode::Exists)
+            {
+                mask |= _access(Path.c_str(), 0);
+            }
+
+            if(Mode & RF_IO::AccessMode::Read)
+            {
+                mask |= _access(Path.c_str(), 4);
+            }
+
+            if(Mode & RF_IO::AccessMode::Write)
+            {
+                mask |= _access(Path.c_str(), 2);
+            }
+
+            result = mask == 0;
+        }
+        else
+        {// root path list all drives
+            if(Mode & (RF_IO::AccessMode::Read | RF_IO::AccessMode::Write))
+            {// the root path exists but isn't readable or writable
+                result = false;
+            }
+        }
     }
-    return true;
+    return result;
 }
 
 RF_Type::String PathSeperator()
@@ -404,19 +426,44 @@ RF_Mem::AutoPointerArray<RF_Type::String> DirectoryContent(const RF_Type::String
     WIN32_FIND_DATA findFileData;
     HANDLE hFind;    
     RF_Type::String winPath=Path+"\\*";// search for everything
-    hFind=FindFirstFile(winPath.c_str(),&findFileData);    
-    if (hFind!=INVALID_HANDLE_VALUE)
-    {
-        do
+
+    if(Path.IsEmpty())
+    {// list all drives
+        RF_Type::Char driveSymbol[] = ("A:");
+        RF_Type::UInt32 driveMask = _getdrives();
+        static const RF_Type::UInt32 CURRENT_DRIVE_MASK = 1;
+        static const RF_Type::UInt32 NEXT_DRIVE = 1;
+        static const RF_Type::UInt32 EMPTY_MASK = 0;
+
+        while(driveMask != EMPTY_MASK)
         {
-            if (strcmp(findFileData.cFileName,".")!=0 && strcmp(findFileData.cFileName,"..")!=0)
-                list.AddLast(RF_Type::String(findFileData.cFileName, MAX_PATH));
-        }while(FindNextFile(hFind,&findFileData)!=0);
-        FindClose(hFind);
-        result = RF_Mem::AutoPointerArray<RF_Type::String>(list.Count());
-        for (RF_Type::UInt32 i=0;i<result.Count();++i)
-            result[i].Swap(list[i]);
-    }    
+            if(driveMask & CURRENT_DRIVE_MASK)
+            {
+                list.AddLast(RF_Type::String(driveSymbol));
+            }
+
+            ++driveSymbol[0];
+            driveMask >>= NEXT_DRIVE;
+        }        
+    }
+    else
+    {// just a normal directory listing
+        hFind = FindFirstFile(winPath.c_str(), &findFileData);
+        if(hFind != INVALID_HANDLE_VALUE)
+        {
+            do
+            {
+                if(strcmp(findFileData.cFileName, ".") != 0 && strcmp(findFileData.cFileName, "..") != 0)
+                    list.AddLast(RF_Type::String(findFileData.cFileName, MAX_PATH));
+            } while(FindNextFile(hFind, &findFileData) != 0);
+            FindClose(hFind);
+        }
+    }
+
+    result = RF_Mem::AutoPointerArray<RF_Type::String>(list.Count());
+    for(RF_Type::UInt32 i = 0; i < result.Count(); ++i)
+        result[i].Swap(list[i]);
+
     return result;
 }
 
@@ -426,9 +473,11 @@ class FileWatcherObject
         HANDLE m_FileHandle;
         HANDLE m_AsyncHandle;
         OVERLAPPED m_Overlapped;
-        RF_Type::UInt8 m_Buf[8096];
+        RF_Type::UInt8 m_FrontBuffer[8096];
+        RF_Type::UInt8 m_BackBuffer[8096];
         RF_Collect::Queue<FileWatcherEvent> m_Events;
         RF_Type::String m_Path;
+        RF_Type::String m_LastModifiedEvent;
 
         void Process(const RF_Type::UInt32 Bytes);
 };
@@ -444,7 +493,7 @@ void FileWatcherObject::Process(const RF_Type::UInt32 Bytes)
         FileWatcherEvent args;
         do
         {
-            pNotify = (PFILE_NOTIFY_INFORMATION) &m_Buf[offset];
+            pNotify = (PFILE_NOTIFY_INFORMATION) &m_FrontBuffer[offset];
             offset += pNotify->NextEntryOffset;
             count = WideCharToMultiByte(CP_ACP, 0, pNotify->FileName,
                                         pNotify->FileNameLength / sizeof(WCHAR),
@@ -458,16 +507,30 @@ void FileWatcherObject::Process(const RF_Type::UInt32 Bytes)
                 case FILE_ACTION_RENAMED_NEW_NAME:
                 case FILE_ACTION_ADDED:
                     args.ChangeType=WatcherChangeTypes::Created;
+                    m_LastModifiedEvent = ""_rfs;
+                    m_Events.Enqueue(args);
                     break;
                 case FILE_ACTION_RENAMED_OLD_NAME:
                 case FILE_ACTION_REMOVED:
                     args.ChangeType=WatcherChangeTypes::Deleted;
+                    m_LastModifiedEvent = ""_rfs;
+                    m_Events.Enqueue(args);
                     break;
                 case FILE_ACTION_MODIFIED:
                     args.ChangeType=WatcherChangeTypes::Changed;
+                    // windows generates this message twice for each file change
+                    // because of changing the last write and time stamp
+                    if(m_LastModifiedEvent != args.Name)
+                    {
+                        m_Events.Enqueue(args);
+                        m_LastModifiedEvent = args.Name;
+                    }
+                    else
+                    {
+                        m_LastModifiedEvent = ""_rfs;
+                    }
                     break;
             };
-            m_Events.Enqueue(args);
         }
         while(pNotify->NextEntryOffset != 0);
     }
@@ -478,9 +541,12 @@ FileWatcherHandle CreateFileWatcher(const RF_Type::String& Path)
     FileWatcherObject* pimpl=new FileWatcherObject();
     FileWatcherHandle result=FileWatcherHandle::GenerateFromPointer(pimpl);
     pimpl->m_Path = Path;
-    pimpl->m_FileHandle = CreateFileA(pimpl->m_Path.c_str(), FILE_LIST_DIRECTORY,
+    WCHAR directory[MAX_PATH];
+    MultiByteToWideChar(CP_ACP, 0, pimpl->m_Path.c_str(), pimpl->m_Path.Size(),
+        directory, MAX_PATH * sizeof(WCHAR));
+    pimpl->m_FileHandle = CreateFileW(directory, FILE_LIST_DIRECTORY,
             FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-            NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+            NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
     return result;
 }
 
@@ -500,12 +566,17 @@ void CALLBACK NotificationCompletion(DWORD errorCode, DWORD tferred, LPOVERLAPPE
     if (errorCode == ERROR_SUCCESS)
     {
         FileWatcherObject* data = reinterpret_cast<FileWatcherObject*>(over->hEvent);
-        data->Process(tferred);
-        RF_Type::Size bufSize = sizeof(data->m_Buf);
-        RF_Type::Bool result=ReadDirectoryChangesW(data->m_AsyncHandle,data->m_Buf, bufSize,true,
-            FILE_NOTIFY_CHANGE_FILE_NAME|FILE_NOTIFY_CHANGE_DIR_NAME|
-            FILE_NOTIFY_CHANGE_LAST_WRITE|FILE_NOTIFY_CHANGE_CREATION,
-            0,&data->m_Overlapped,NotificationCompletion)!=0?true:false;
+        RF_Type::Size bufSize = sizeof(data->m_BackBuffer);
+        DWORD bytes=0;
+
+        RF_SysMem::Copy(data->m_FrontBuffer, data->m_BackBuffer, bufSize);
+
+        RF_Type::Bool result = ReadDirectoryChangesW(data->m_AsyncHandle,
+            data->m_BackBuffer, bufSize, true,
+            FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME |
+            FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION,
+            &bytes, &data->m_Overlapped, NotificationCompletion) != 0 ? true : false;
+
         if (!result)
         {
             DWORD   dwLastError = ::GetLastError();
@@ -522,6 +593,8 @@ void CALLBACK NotificationCompletion(DWORD errorCode, DWORD tferred, LPOVERLAPPE
                 NULL);
             RF_IO::LogError((char*)lpBuffer);
         }
+
+        data->Process(tferred);
     }
 }
 
@@ -538,10 +611,11 @@ RF_Type::Bool WaitForFileWatcher(const FileWatcherHandle& Handle, FileWatcherEve
         }
         else
         {
-            result=ReadDirectoryChangesW(pimpl->m_FileHandle, pimpl->m_Buf,sizeof(pimpl->m_Buf),true,
-                FILE_NOTIFY_CHANGE_FILE_NAME|FILE_NOTIFY_CHANGE_DIR_NAME|
-                FILE_NOTIFY_CHANGE_LAST_WRITE|FILE_NOTIFY_CHANGE_CREATION,
-                &dwBytes,0,0)==TRUE?true:false;
+            result=ReadDirectoryChangesW(pimpl->m_FileHandle, pimpl->m_BackBuffer,
+                sizeof(pimpl->m_BackBuffer), true,
+                FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME |
+                FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION,
+                &dwBytes, 0, 0) == TRUE ? true : false;
             if (result)
             {
                 pimpl->Process(dwBytes);
@@ -578,10 +652,11 @@ void StopFileWatcher(const FileWatcherHandle& Handle)
     if (pimpl!=0 && pimpl->m_AsyncHandle!=INVALID_HANDLE_VALUE)
     {
         CancelIo(pimpl->m_AsyncHandle);
-        ReadDirectoryChangesW(pimpl->m_AsyncHandle, pimpl->m_Buf, sizeof(pimpl->m_Buf),true,
-                FILE_NOTIFY_CHANGE_FILE_NAME|FILE_NOTIFY_CHANGE_DIR_NAME|
-                FILE_NOTIFY_CHANGE_LAST_WRITE|FILE_NOTIFY_CHANGE_CREATION,
-                0,&pimpl->m_Overlapped,0);
+        ReadDirectoryChangesW(pimpl->m_AsyncHandle, pimpl->m_BackBuffer, 
+            sizeof(pimpl->m_BackBuffer), true,
+            FILE_NOTIFY_CHANGE_FILE_NAME|FILE_NOTIFY_CHANGE_DIR_NAME|
+            FILE_NOTIFY_CHANGE_LAST_WRITE|FILE_NOTIFY_CHANGE_CREATION,
+            0, &pimpl->m_Overlapped, 0);
         CloseHandle(pimpl->m_AsyncHandle);
         pimpl->m_AsyncHandle=INVALID_HANDLE_VALUE;
     }
@@ -591,7 +666,7 @@ RF_Type::Bool GetFileWatcherEvent(const FileWatcherHandle& Handle, FileWatcherEv
 {
     RF_Type::Bool result=false;
     FileWatcherObject* pimpl=reinterpret_cast<FileWatcherObject*>(Handle.GetPointer());
-    if (pimpl!=0 && !pimpl->m_Events.IsEmpty())
+    if (pimpl!=0)
         result = pimpl->m_Events.Dequeue(Event);
     return result;
 }

@@ -9,6 +9,14 @@
 #include <RadonFramework/System/IO/FileSystem.hpp>
 
 namespace RadonFramework { namespace IO {
+    
+class FileWatcher;
+
+struct FileWatcherEvent
+{
+    FileWatcher* Sender;
+    RF_Type::String* Filename;
+};
         
 class FileWatcher: RF_Pattern::IObserver
 {
@@ -31,10 +39,11 @@ public:
     void Stop();
 
     FileWatcher& operator=(const FileWatcher& Other);
+       
 
-    RF_Pattern::Event<const RF_Type::String&> OnCreated;
-    RF_Pattern::Event<const RF_Type::String&> OnChanged;
-    RF_Pattern::Event<const RF_Type::String&> OnDeleted;
+    RF_Pattern::Event<const FileWatcherEvent&> OnCreated;
+    RF_Pattern::Event<const FileWatcherEvent&> OnChanged;
+    RF_Pattern::Event<const FileWatcherEvent&> OnDeleted;
 private:
     System::IO::FileSystem::FileWatcherHandle m_Handle;
     RF_Type::String m_Filter;

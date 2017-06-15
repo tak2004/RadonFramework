@@ -34,7 +34,9 @@ void WindowsApplication::Run(Form *MainForm)
 
     while (m_Active==true && (MainForm == 0 || (MainForm != 0 && MainForm->Visible())))
     {
-        SleepEx(0, true);// necessary for completion port api
+        // process Asynchronous Procedure Call(APC) messages
+        SleepEx(0, true);
+
         while (PeekMessageW(&msg,0,0,0,PM_REMOVE))
         {
             TranslateMessage(&msg);

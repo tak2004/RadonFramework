@@ -45,6 +45,7 @@ public:
     Uri Location()const;
     RF_Type::Bool IsHidden()const;
     RF_Type::Bool IsDirectory()const;
+    RF_Type::Bool HasParent()const;
     RF_Type::UInt64 LastModified()const;
     RF_Type::UInt64 CreatedAt()const;
     RF_Type::UInt64 LastAccess()const;

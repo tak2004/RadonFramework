@@ -66,12 +66,12 @@ namespace WatcherChangeTypes
 
 class FileWatcherEvent
 {
-    public:
-        FileWatcherEvent():ChangeType(WatcherChangeTypes::Invalid){}
-        FileWatcherEvent(const FileWatcherEvent& Args):ChangeType(Args.ChangeType),Name(Args.Name){}
-        FileWatcherEvent& operator=(const FileWatcherEvent& Args){ChangeType=Args.ChangeType;Name=Args.Name;return *this;}
-        WatcherChangeTypes::Type ChangeType;
-        RF_Type::String Name;//name of file or path
+public:
+    FileWatcherEvent():ChangeType(WatcherChangeTypes::Invalid){}
+    FileWatcherEvent(const FileWatcherEvent& Args):ChangeType(Args.ChangeType),Name(Args.Name){}
+    FileWatcherEvent& operator=(const FileWatcherEvent& Args){ChangeType=Args.ChangeType;Name=Args.Name;return *this;}
+    WatcherChangeTypes::Type ChangeType;
+    RF_Type::String Name;//name of file or path
 };
 
 /// This function will be called by RadonFramework_Init function.

@@ -163,6 +163,11 @@ Bool Directory::IsDirectory() const
     return stat && stat->IsDirectory;
 }
 
+RF_Type::Bool Directory::HasParent() const
+{
+    return m_Uri.Path().IndexOf("/"_rfs) != m_Uri.Path().LastIndexOf("/"_rfs);
+}
+
 UInt64 Directory::LastModified() const
 {
     RF_Type::String systemPath;
@@ -296,14 +301,20 @@ AutoPointerArray<Directory> Directory::Directories()const
     AutoPointerArray<String> content= RF_SysFile::DirectoryContent(systemPath);
     AutoPointerArray<Directory> result;
     List<Directory> tmp;
+
+    if(HasParent())
+    {// root path don't need a separator
+        systemPath += RF_SysFile::Seperator();
+    }
+
     for (Size i=0; i<content.Count(); ++i)
     {
-        auto stats = RF_SysFile::Stat(systemPath + RF_SysFile::Seperator() + content[i]);
+        auto stats = RF_SysFile::Stat(systemPath + content[i]);
         if(stats && stats->IsDirectory)
         {
             Directory dir;
             RF_IO::Uri dirPath;
-            RF_SysFile::SystemPathToUri(systemPath + RF_SysFile::Seperator() + content[i], dirPath);
+            RF_SysFile::SystemPathToUri(systemPath + content[i], dirPath);
             dir.SetLocation(dirPath);
             tmp.AddLast(dir);
         }
