@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Drawing/Forms/Control.hpp> 
 
-namespace RadonFramework { namespace Forms { 
+namespace RadonFramework::Forms { 
 
 class Label: public Control
 {
@@ -19,7 +19,7 @@ protected:
     RF_Type::String m_Text;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

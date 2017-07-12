@@ -9,7 +9,7 @@
 #include <RadonFramework/IO/Resource.hpp>
 #include <RadonFramework/IO/Uri.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class NullProtocolService:public ProtocolService
 {
@@ -25,6 +25,6 @@ struct ProtocolServiceLocator:public RF_Pattern::Locator<ProtocolService, NullPr
     ProtocolServiceLocator() = delete;
 };
 
-} }
+}
 
 #endif // RF_PROTOCOLSERVICELOCATOR_HPP

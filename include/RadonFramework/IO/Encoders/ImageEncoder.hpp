@@ -8,7 +8,7 @@
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Drawing/PixelFormat.hpp>
 
-namespace RadonFramework { namespace IO { namespace Encoders {
+namespace RadonFramework::IO::Encoders {
 
 class ImageEncoder:public Encoder
 {
@@ -33,7 +33,7 @@ protected:
     RF_Type::UInt32 m_Layers;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_ENCODERS
 #define RF_SHORTHAND_NAMESPACE_ENCODERS

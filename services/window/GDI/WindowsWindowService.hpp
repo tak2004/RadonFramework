@@ -3,7 +3,7 @@
 
 #include <RadonFramework/Drawing/Forms/WindowService.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class WindowsWindowService:public WindowService
 {
@@ -24,6 +24,6 @@ public:
     static void Register();
 };
 
-} }
+}
 
 #endif //namespace

@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
 
-namespace RadonFramework { namespace Math {
+namespace RadonFramework::Math {
 
 /** @brief This class represent a number generator, which produce a sequence of random numbers.
 *
@@ -38,7 +38,7 @@ protected:
     RF_Type::Int32 m_Index;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MATH
 #define RF_SHORTHAND_NAMESPACE_MATH

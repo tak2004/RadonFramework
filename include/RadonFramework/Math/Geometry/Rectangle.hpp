@@ -7,7 +7,7 @@
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 template<class PT=RF_Type::Int32, class ST = RF_Type::UInt32>
 class Rectangle
@@ -214,7 +214,7 @@ void Rectangle<PT, ST>::Flip()
 
 typedef Rectangle<RF_Type::Float32, RF_Type::Float32> Rectanglef;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

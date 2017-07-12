@@ -6,7 +6,7 @@
 
 #include <RadonFramework/System/Threading/Interlocked.hpp>
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 template<typename T>
 struct AtomicPointer
@@ -99,7 +99,7 @@ Bool AtomicPointer<T>::operator ==(T* Value)const
     return m_Data==Value;
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

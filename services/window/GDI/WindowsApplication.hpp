@@ -3,7 +3,7 @@
 
 #include <RadonFramework/Drawing/Forms/AbstractApplication.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
     
 class WindowsApplication:public AbstractApplication
 {
@@ -20,6 +20,6 @@ protected:
     RF_Type::Bool m_Active;
 };
 
-} }
+}
 
 #endif

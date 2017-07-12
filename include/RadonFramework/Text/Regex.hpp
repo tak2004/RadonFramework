@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 class Regex
 {
@@ -38,7 +38,7 @@ private:
     RF_Idiom::PImpl<Regex> m_PImpl;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TEXT
 #define RF_SHORTHAND_NAMESPACE_TEXT

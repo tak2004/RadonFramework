@@ -7,7 +7,7 @@
 #include <RadonFramework/Math/Float32.hpp>
 #include <RadonFramework/Math/Float64.hpp>
 
-namespace RadonFramework { namespace Math {
+namespace RadonFramework::Math {
 
 template<class T>
 struct MathOfType
@@ -22,7 +22,7 @@ template<>
 struct MathOfType<RF_Type::Float64>: public Float64
 {};
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MATH
 #define RF_SHORTHAND_NAMESPACE_MATH

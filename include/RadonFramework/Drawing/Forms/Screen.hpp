@@ -12,7 +12,7 @@
 #include <RadonFramework/Drawing/Forms/DisplayInformation.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class Form;
 
@@ -143,7 +143,7 @@ inline const Resolution& RadonFramework::Forms::Screen::CurrentResolution()const
     return m_DisplayInfos->AvaiableResolution(m_CurrentResolution);
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

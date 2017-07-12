@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace Hardware {
+namespace RadonFramework::System::Hardware {
 
 /// This function will be called by RadonFramework_Init function.
 void DispatchVec128Int();
@@ -39,7 +39,7 @@ extern Vec128IntCompareInt32Callback Vec128IntCompareInt32;
 extern Vec128IntMaskInt8Callback Vec128IntMaskInt8;
 extern Vec128IntFindInt32Callback Vec128IntFindInt32;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSHARDWARE
 #define RF_SHORTHAND_NAMESPACE_SYSHARDWARE

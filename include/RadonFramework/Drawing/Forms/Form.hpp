@@ -9,7 +9,7 @@
 #include <RadonFramework/Core/Pattern/Signal.hpp>
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class Form:public Control, public RF_Pattern::IObserver, 
     public RF_Pattern::SignalReceiver
@@ -66,7 +66,7 @@ protected:
     RF_Type::Float32 m_VerticalScale;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

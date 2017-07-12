@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Drawing/FontService.hpp>
 
-namespace RadonFramework { namespace System { namespace Drawing {
+namespace RadonFramework::System::Drawing {
 
 class OSFontService:public RF_Draw::FontService
 {
@@ -26,7 +26,7 @@ public:
         RF_Collect::Array<RF_Draw::Image>& Out) override;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSDRAW
 #define RF_SHORTHAND_NAMESPACE_SYSDRAW

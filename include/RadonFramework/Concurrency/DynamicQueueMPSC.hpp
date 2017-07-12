@@ -8,7 +8,7 @@
 #include <RadonFramework/Memory/HeapAllocator.hpp>
 #include <RadonFramework/Memory/FreeListAllocator.hpp>
 
-namespace RadonFramework { namespace Concurrency {
+namespace RadonFramework::Concurrency {
 
 /** @brief This class is a lock free queue which can grow and shrink.
 *
@@ -122,7 +122,7 @@ inline void DynamicQueueMPSC<T, ALLOCATOR>::Enqueue(const T& Data)
     m_RealQueue.Enqueue(p);
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_CON
 #define RF_SHORTHAND_NAMESPACE_CON

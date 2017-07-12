@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/Math/Hash/HashfunctionService.hpp>
 
-namespace RadonFramework { namespace Math { namespace Hash {
+namespace RadonFramework::Math::Hash {
 
 class IHashfunction;
 
@@ -33,7 +33,7 @@ private:
     static RF_Type::UInt32 m_Default32;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_HASH
 #define RF_SHORTHAND_NAMESPACE_HASH

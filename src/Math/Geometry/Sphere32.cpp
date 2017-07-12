@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Geometry/Sphere32.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 Sphere32::Sphere32(const Vec3f& Position, const RF_Type::Float32 Radius)
 :m_Position(Position)
@@ -37,4 +37,4 @@ Sphere32& Sphere32::operator=(const Sphere32& AssignThis)
     return *this;
 }
 
-} } }
+}

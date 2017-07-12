@@ -4,7 +4,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /// A UInt8 have always the size of 8 byte and represent a unsigned number.
 #ifdef RF_HAVE_LONG_LONG
@@ -25,7 +25,7 @@ extern const UInt64 UInt64Min;
 /// The maximum value which can be contained by a UInt64.
 extern const UInt64 UInt64Max;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

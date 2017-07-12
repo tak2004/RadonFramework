@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Forms/DisplayInformation.hpp"
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 DisplayInformation::DisplayInformation()
 :IsPrimary(false)
@@ -30,4 +30,4 @@ DisplayInformation& DisplayInformation::operator=(const DisplayInformation& Othe
     return *this;
 }
 
-} }
+}

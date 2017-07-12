@@ -7,7 +7,7 @@
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class MenuItem
 {
@@ -33,7 +33,7 @@ public:
     RF_Collect::Array<PopupMenu> Items;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

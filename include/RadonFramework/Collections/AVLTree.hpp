@@ -57,7 +57,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 template<class KeyType, class ItemType>
 class AVLNode
@@ -527,7 +527,7 @@ void AVLTree<KeyType, ItemType>::RotateRight(AVLNode<KeyType, ItemType>*& root)
     ComputeBalance(root);
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

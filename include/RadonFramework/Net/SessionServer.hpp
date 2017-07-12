@@ -9,7 +9,7 @@
 #include <RadonFramework/Collections/HashList.hpp>
 #include <RadonFramework/Concurrency/DynamicQueueMPSC.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class SessionServer : public Server, public RF_Pattern::IObserver
 {
@@ -29,7 +29,7 @@ private:
     RF_Con::DynamicQueueMPSC<RF_Type::UInt32> m_SessionsWithResponses;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

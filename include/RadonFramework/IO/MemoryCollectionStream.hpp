@@ -7,8 +7,7 @@
 #include <RadonFramework/IO/Stream.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace IO {
-
+namespace RadonFramework::IO {
 
 /// This class allow to work like MemoryStream but on multiple memory chunks.
 class MemoryCollectionStream:public Stream
@@ -111,6 +110,6 @@ T* MemoryCollectionStream::Value()
         return 0;
 }
 
-} }
+}
 
 #endif // RF_IO_MEMORYCOLLECTIONSTREAM_HPP

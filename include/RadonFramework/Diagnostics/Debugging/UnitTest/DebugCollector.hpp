@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 class DebugCollector:public Collector
 {
@@ -17,6 +17,6 @@ protected:
     RF_Type::String m_CurrentSuite;
 };
 
-} } } }
+}
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_DEBUGCOLLECTOR_HPP

@@ -13,9 +13,7 @@ using namespace RadonFramework::System;
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace RadonFramework { namespace System { namespace Environment {
-
-namespace OSX {
+namespace RadonFramework::System::Environment::OSX {
 
 PlatformID::Type Platform()
 {
@@ -29,10 +27,12 @@ OperatingSystemFamily::Type OSFamily()
 
 }
 
+namespace RadonFramework::System::Environment {
+
 void Dispatch_OSX()
 {
     Platform=OSX::Platform;
     OSFamily=OSX::OSFamily;
 }
 
-} } }
+}

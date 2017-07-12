@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/Drawing/AbstractCanvas.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class Canvas3DService:public Core::Pattern::Service
 {
@@ -17,7 +17,7 @@ public:
     virtual AbstractCanvas* CreateCanvas3D() = 0;
 };
   
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

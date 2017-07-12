@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Forms/Label.hpp"
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 Label::Label(Control* Parent /*= nullptr*/)
 :Control(Parent)
@@ -34,4 +34,4 @@ void Label::RebuildVisuals()
     m_Path.Finalize();
 }
 
-} }
+}

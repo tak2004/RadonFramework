@@ -8,7 +8,7 @@
 #include <RadonFramework/Time/DateTime.hpp>
 #include <RadonFramework/Collections/AutoVector.hpp>
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 class ServiceInstanceInfo
 {
@@ -34,7 +34,7 @@ public:
     RF_Collect::AutoVector<ServiceInstanceInfo> Instances;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MDNS
 #define RF_SHORTHAND_NAMESPACE_MDNS

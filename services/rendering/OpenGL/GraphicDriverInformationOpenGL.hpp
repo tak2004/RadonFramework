@@ -5,7 +5,7 @@
 #include <OpenGLCapabilities.hpp>
 #include <OpenGLCapabilitiesType.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class OpenGLCapability
 {
@@ -55,7 +55,7 @@ protected:
     RF_Collect::Array<RF_Type::String> m_Extensions;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

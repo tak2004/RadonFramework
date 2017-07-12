@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Math/Geometry/Vector.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 class Sphere32
 {
@@ -24,7 +24,7 @@ protected:
     RF_Type::Float32 m_Radius;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

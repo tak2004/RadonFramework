@@ -4,7 +4,7 @@
 #include "RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp"
 #include <xxhash.h>
 
-namespace RadonFramework { namespace System { namespace Math { namespace Hash { 
+namespace RadonFramework::System::Math::Hash { 
 
 class xxHash32Hashfunction: public RF_Hash::IHashfunction
 {
@@ -178,4 +178,4 @@ RF_Type::Size xxHash64HashfunctionService::BitLength() const
     return 64;
 }
 
-} } } }
+}

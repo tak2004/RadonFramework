@@ -1,7 +1,7 @@
 #ifndef RF_DRAWING_COLOR_HPP
 #define RF_DRAWING_COLOR_HPP
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 struct Color4f
 {
@@ -18,7 +18,7 @@ struct Color4f
     Color4f& operator = (const Color4f& AssignThis);
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

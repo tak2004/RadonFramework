@@ -7,11 +7,11 @@
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Test {
+namespace RadonFramework::Diagnostics::Test {
 class TestResult;
-} } }
+}
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 class TestSuite
 {
@@ -43,7 +43,7 @@ protected:
     RF_Mem::AutoPointer<Test::TestResult> ProcessTest(const RF_Type::UInt32 Number);
 };
 
-} } } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_UNITTEST
 #define RF_SHORTHAND_NAMESPACE_UNITTEST

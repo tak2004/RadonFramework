@@ -9,7 +9,7 @@
 #include <RadonFramework/Net/NetworkStream.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 class Answer
 {
@@ -73,7 +73,7 @@ protected:
     RF_Type::String ReadText();
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MDNS
 #define RF_SHORTHAND_NAMESPACE_MDNS

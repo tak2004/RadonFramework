@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Diagnostics/Appender.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 /** @brief This class relay the log messages to the IDE debug output window.
 *
@@ -24,6 +24,6 @@ public:
     void WriteDebug(const RF_Type::String& Text);
 };
 
-} }
+}
 
 #endif // RF_IO_LOGDEBUGGEROUTPUT_HPP

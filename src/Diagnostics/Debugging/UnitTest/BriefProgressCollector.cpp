@@ -3,7 +3,7 @@
 #include <RadonFramework/Diagnostics/Test/TestResult.hpp>
 #include <RadonFramework/IO/Log.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 void BriefProgressCollector::ProcessResult(const RF_Test::TestResult& Result)
 {
@@ -26,4 +26,4 @@ void BriefProgressCollector::CreateSuite( const RF_Type::String& Name )
 	RF_IO::LogInfo("Next Test-Suite: %s", Name.c_str());
 }
 
-} } } }
+}

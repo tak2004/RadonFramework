@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 template <typename _Header,typename _Data>
 class PacketWithHeader
@@ -43,7 +43,7 @@ protected:
     RF_Mem::AutoPointerArray<char> m_Data;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

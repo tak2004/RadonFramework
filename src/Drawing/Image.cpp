@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Image.hpp"
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 Image::Image()
 :m_Width(0)
@@ -219,4 +219,4 @@ RadonFramework::Drawing::Image& Image::operator=(const Image& Copy)
     return *this;
 }
 
-} }
+}

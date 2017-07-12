@@ -2,7 +2,7 @@
 #include <RadonFramework/IO/DecoderService.hpp>
 #include <RadonFramework/IO/DecoderServiceLocator.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 DecoderService::DecoderService(const RF_Type::String &Name)
 :Service(Name),
@@ -27,4 +27,4 @@ RF_Type::Bool DecoderService::IsDecoderInterface(const RF_Type::UInt32 FourCC,
     return false;
 }
 
-} }
+}

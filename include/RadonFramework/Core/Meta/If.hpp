@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Meta { 
+namespace RadonFramework::Core::Meta { 
 
 template<bool V, typename A, typename B>
 struct If;
@@ -15,7 +15,7 @@ struct If<true, A,B>{ typedef A Value; };
 template<class A, class B>
 struct If<false, A,B>{ typedef B Value; };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_META
 #define RF_SHORTHAND_NAMESPACE_META

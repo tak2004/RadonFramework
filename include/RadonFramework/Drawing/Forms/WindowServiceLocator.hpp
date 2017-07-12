@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/Drawing/Forms/WindowService.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class NullWindowService:public WindowService
 {
@@ -37,7 +37,7 @@ public:
 
 typedef RF_Pattern::Locator<WindowService,NullWindowService> WindowServiceLocator;
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

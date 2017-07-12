@@ -5,7 +5,7 @@
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
-namespace RadonFramework { namespace System { namespace Hardware { namespace SSE2 {
+namespace RadonFramework::System::Hardware::SSE2 {
 
 void Vec128IntLoad(RF_Type::Vec128Int32* Destination,
     const RF_Type::Vec128Int32* Source, const RF_Type::Size Elements)
@@ -47,6 +47,8 @@ RF_Type::Int32 Vec128IntFindInt32(const RF_Type::Vec128Int32* Source, RF_Type::I
 
 } 
 
+namespace RadonFramework::System::Hardware {
+
 void DispatchSSE2()
 {
     Vec128IntLoad = SSE2::Vec128IntLoad;
@@ -56,6 +58,6 @@ void DispatchSSE2()
     Vec128IntFindInt32 = SSE2::Vec128IntFindInt32;
 }
 
-} } }
+}
 
 #endif

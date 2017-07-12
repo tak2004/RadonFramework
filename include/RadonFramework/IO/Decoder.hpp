@@ -6,7 +6,7 @@
 
 #include <RadonFramework/IO/Decoders/Interface.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Decoder
 {
@@ -23,6 +23,6 @@ public:
     virtual RF_Type::Size TellData() = 0;
 };
     
-} }
+}
 
 #endif // RF_IO_DECODER_HPP

@@ -8,7 +8,7 @@
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Text { namespace StringProcessors {
+namespace RadonFramework::Text::StringProcessors {
 
 /** This policy search a String in an other String by comparing
 * the word of the first String with the characters of the second.
@@ -53,6 +53,6 @@ struct Horspool
         RF_Type::String& Text, StorageType* Storage);
 };
             
-} } }
+}
 
 #endif // RF_TEXT_STRINGPROCESSORS_HORSPOOL_HPP

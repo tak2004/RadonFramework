@@ -8,9 +8,9 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Net/mDNS/NetworkService.hpp>
 
-namespace RadonFramework { namespace Net { class IPHostEntry; } }
+namespace RadonFramework::Net { class IPHostEntry; }
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 class ServiceDiscoveryView
 {
@@ -31,7 +31,7 @@ protected:
     void UpdateHash();
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MDNS
 #define RF_SHORTHAND_NAMESPACE_MDNS

@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 enum class RecordType: RF_Type::UInt16
 {
@@ -36,7 +36,7 @@ struct Header
     RF_Type::UInt16 AdditionalCount;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MDNS
 #define RF_SHORTHAND_NAMESPACE_MDNS

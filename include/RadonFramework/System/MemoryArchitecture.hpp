@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace MemoryArchitecture {
+namespace RadonFramework::System::MemoryArchitecture {
 
 enum Type
 {
@@ -13,6 +13,6 @@ enum Type
     _64Bit
 };
 
-} } }
+}
 
 #endif // RF_SYSTEM_MEMORYARCHITECTURE_HPP

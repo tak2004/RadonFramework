@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Pattern/Service.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Uri;
 class Stream;
@@ -24,7 +24,7 @@ public:
     virtual void FreeInterface(const Uri& URI) = 0;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

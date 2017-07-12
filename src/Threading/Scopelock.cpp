@@ -4,7 +4,7 @@
 
 using namespace RadonFramework::System::Threading;
 
-namespace RadonFramework { namespace Threading {
+namespace RadonFramework::Threading {
 
 Scopelock::Scopelock(){}
 
@@ -26,4 +26,4 @@ Scopelock& Scopelock::operator=(const Scopelock& Other)
     return *this;
 }
 
-} }
+}

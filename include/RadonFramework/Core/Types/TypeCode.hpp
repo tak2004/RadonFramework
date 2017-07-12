@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 namespace TypeCode
 {
@@ -37,7 +37,7 @@ namespace TypeCode
     };
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

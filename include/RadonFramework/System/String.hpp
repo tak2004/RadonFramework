@@ -6,17 +6,20 @@
 
 #include <cstdarg>
 
-namespace RadonFramework {
-// forward declarations
-namespace Collections {
-    template<class T>
-    class List;
+namespace RadonFramework::Collections {
+
+template<class T>
+class List;
+
 }
-namespace Core { namespace Types {
-    class String;
-} }
+
+namespace RadonFramework::Core::Types {
+
+class String;
+
+}
     
-namespace System { namespace String {
+namespace RadonFramework::System::String {
 
 /// This function will be called by RadonFramework_Init function.
 void Dispatch();
@@ -107,7 +110,7 @@ extern FormatCallback Format;
 ///
 extern FindCallback Find;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSSTR
 #define RF_SHORTHAND_NAMESPACE_SYSSTR

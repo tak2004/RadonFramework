@@ -2,7 +2,7 @@
 #include "RadonFramework/Net/IPAddress.hpp"
 #include "RadonFramework/Net/ServerConfig.hpp"
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 void ServerConfig::AssignIPAsHostname(ServerConfig& Config, const IPAddress IP)
 {
@@ -13,4 +13,4 @@ void ServerConfig::AssignIPAsHostname(ServerConfig& Config, const IPAddress IP)
     }
 }
 
-} }
+}

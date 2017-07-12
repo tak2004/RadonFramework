@@ -1,10 +1,10 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/String.hpp"
 
-namespace RadonFramework { namespace System { namespace String {
+namespace RadonFramework::System::String {
 
 void DispatchLinux()
 {
 }
 
-} } }
+}

@@ -2,7 +2,7 @@
 #include "RadonFramework/Memory/HeapAllocator.hpp"
 #include "RadonFramework/System/Memory.hpp"
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 HeapAllocator::HeapAllocator()
 {
@@ -32,4 +32,4 @@ void HeapAllocator::DeallocateAll()
 
 RF_Type::Size HeapAllocator::m_PageSize = 0;
 
-} }
+}

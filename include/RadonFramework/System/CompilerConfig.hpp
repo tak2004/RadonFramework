@@ -7,7 +7,7 @@
 #include <RadonFramework/System/MemoryArchitecture.hpp>
 #include <RadonFramework/System/Endian.hpp>
 
-namespace RadonFramework { namespace System {
+namespace RadonFramework::System {
 
 struct CompilerConfig
 {
@@ -15,7 +15,7 @@ struct CompilerConfig
     static const MemoryArchitecture::Type CompiledForArchitecture;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYS
 #define RF_SHORTHAND_NAMESPACE_SYS

@@ -4,7 +4,7 @@
 #if RF_BUILD_INTRINSIC_NEON
 #include <arm_neon.h>
 
-namespace RadonFramework { namespace System { namespace Hardware { namespace NEON {
+namespace RadonFramework::System::Hardware::NEON {
 
 void Vec128IntLoad(RF_Type::Vec128Int32* Destination,
     const RF_Type::Vec128Int32* Source, const RF_Type::Size Elements)
@@ -85,6 +85,8 @@ RF_Type::Int32 Vec128IntFindInt32(const RF_Type::Vec128Int32* Source, RF_Type::I
 
 }
 
+namespace RadonFramework::System::Hardware {
+
 void DispatchNEON()
 {
     Vec128IntLoad = NEON::Vec128IntLoad;
@@ -94,6 +96,6 @@ void DispatchNEON()
     Vec128IntFindInt32 = NEON::Vec128IntFindInt32;
 }
 
-} } }
+}
 
 #endif

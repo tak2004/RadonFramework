@@ -4,7 +4,7 @@
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::System::IO::FileSystem;
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 FileWatcher::FileWatcher()
 {
@@ -83,4 +83,4 @@ FileWatcher& FileWatcher::operator=(const FileWatcher& Other)
     return *this;
 }
 
-} }
+}

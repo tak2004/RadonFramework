@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 struct AtomicUInt32
 {
@@ -33,7 +33,7 @@ protected:
     UInt32 m_Data;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

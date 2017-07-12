@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 
 /** This template simplify the usage of the PImpl pattern.
   * Implement a template<class T> class PImpl<T>::Data in the private unit.
@@ -27,7 +27,7 @@ private:
     Data* impl_;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IDIOM
 #define RF_SHORTHAND_NAMESPACE_IDIOM

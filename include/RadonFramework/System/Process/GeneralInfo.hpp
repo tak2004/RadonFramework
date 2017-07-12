@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace Process {
+namespace RadonFramework::System::Process {
 
 // This is no POD structure because of the String class.
 class GeneralInfo
@@ -15,7 +15,7 @@ public:
     RF_Type::String Name;
 };
 
-} } }
+}
 
 namespace RFPROC = RadonFramework::System::Process;
 

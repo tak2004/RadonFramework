@@ -3,7 +3,7 @@
 #include "RadonFramework/System/Threading/Interlocked.hpp"
 #include "RadonFramework/Memory/Allocators.hpp"
 
-namespace RadonFramework { namespace Concurrency {
+namespace RadonFramework::Concurrency {
 
 struct TypelessDynamicQueueMPSC::Node
 {
@@ -105,4 +105,4 @@ RF_Type::Bool TypelessDynamicQueueMPSC::IsEmpty()const
     return m_Head == m_Tail;
 }
 
-} }
+}

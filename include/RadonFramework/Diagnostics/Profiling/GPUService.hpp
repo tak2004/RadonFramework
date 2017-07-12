@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Profiling {
+namespace RadonFramework::Diagnostics::Profiling {
 
 class GPUService:public RF_Pattern::Service
 {
@@ -35,7 +35,7 @@ public:
     virtual void Update(const RF_Type::Size GPUIndex) = 0;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PROF
 #define RF_SHORTHAND_NAMESPACE_PROF

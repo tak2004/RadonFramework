@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/Encoders/ImageEncoder.hpp"
 
-namespace RadonFramework { namespace IO { namespace Encoders {
+namespace RadonFramework::IO::Encoders {
 
 ImageEncoder::ImageEncoder()
 :m_Width(0)
@@ -51,4 +51,4 @@ void ImageEncoder::SetLayers(RF_Type::UInt32 NewLayerCount)
     m_Layers = NewLayerCount;
 }
 
-} } }
+}

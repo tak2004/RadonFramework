@@ -5,7 +5,7 @@
 #include <RadonFramework/System/IO/FileSystem.hpp>
 #include <RadonFramework/IO/Uri.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class FileStream: public Stream
 {
@@ -57,7 +57,7 @@ protected:
     System::IO::FileSystem::FileAccessPriority::Type m_AccessPriority;
 };
     
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define  RF_SHORTHAND_NAMESPACE_IO

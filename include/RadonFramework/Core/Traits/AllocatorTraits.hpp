@@ -3,7 +3,7 @@
 
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
 
-namespace RadonFramework { namespace Core { namespace Traits {
+namespace RadonFramework::Core::Traits {
 
 template <class T>
 struct AllocatorTraits
@@ -27,7 +27,7 @@ struct AllocatorTraits<void>
     typedef RF_Type::MemoryRange DifferenceType;
 };
         
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TRAIT
 #define RF_SHORTHAND_NAMESPACE_TRAIT

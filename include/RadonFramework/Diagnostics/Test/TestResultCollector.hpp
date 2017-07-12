@@ -8,7 +8,7 @@
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Test {
+namespace RadonFramework::Diagnostics::Test {
 
 struct SuiteResult
 {
@@ -32,7 +32,7 @@ protected:
     RF_Type::Bool m_Successful;
 };
             
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TEST
 #define RF_SHORTHAND_NAMESPACE_TEST

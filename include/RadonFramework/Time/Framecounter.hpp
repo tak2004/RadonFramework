@@ -8,7 +8,7 @@
 #include <RadonFramework/Time/TimeSpan.hpp>
 #include <RadonFramework/Core/Pattern/Event.hpp>
 
-namespace RadonFramework { namespace Time {
+namespace RadonFramework::Time {
 
 class Framecounter:public RF_Pattern::IObserver
 {
@@ -28,7 +28,7 @@ protected:
     RF_Type::Size m_LastFPS;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TIME
 #define RF_SHORTHAND_NAMESPACE_TIME

@@ -4,7 +4,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework { namespace Core { namespace Common {
+namespace RadonFramework::Core::Common {
 
 enum class DataManagment
 {
@@ -18,7 +18,7 @@ enum class DataManagment
     TransfereOwnership
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COMMON
 #define RF_SHORTHAND_NAMESPACE_COMMON

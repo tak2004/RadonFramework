@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Common {
+namespace RadonFramework::Core::Common {
 
 namespace StringCache
 {
@@ -12,7 +12,7 @@ namespace StringCache
     const char* Find(const RF_Type::String& Value);
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COMMON
 #define RF_SHORTHAND_NAMESPACE_COMMON

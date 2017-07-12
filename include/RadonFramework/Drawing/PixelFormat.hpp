@@ -3,7 +3,7 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 enum class ChannelType:RF_Type::UInt8
 {
@@ -70,7 +70,7 @@ inline RF_Type::Bool PixelFormat::operator!=(const PixelFormat& Other)const
     return !(*this == Other);
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

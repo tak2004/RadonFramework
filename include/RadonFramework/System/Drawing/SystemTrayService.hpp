@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/Drawing/TrayIcon.hpp>
 
-namespace RadonFramework { namespace System { namespace Drawing {
+namespace RadonFramework::System::Drawing {
 
 class SystemTrayService:public RF_Pattern::Service
 {
@@ -27,7 +27,7 @@ public:
     void(*OnAction)(RF_Type::UInt32);
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSDRAW
 #define RF_SHORTHAND_NAMESPACE_SYSDRAW

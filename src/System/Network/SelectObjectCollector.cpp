@@ -12,7 +12,7 @@ using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace System { namespace Network {
+namespace RadonFramework::System::Network {
 
 #if defined(RF_WINDOWS)
     /** Define WINVER and NT Version to WIN_VERSION_XP.
@@ -191,4 +191,4 @@ SelectObjectCollector& SelectObjectCollector::operator=(const SelectObjectCollec
     return *this;
 }
 
- } } }
+}

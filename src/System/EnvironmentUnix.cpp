@@ -13,9 +13,7 @@ using namespace RadonFramework::System;
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace RadonFramework { namespace System { namespace Environment {
-
-namespace Unix {
+namespace RadonFramework::System::Environment::Unix {
 
 PlatformID::Type Platform()
 {
@@ -63,6 +61,8 @@ OperatingSystemFamily::Type OSFamily()
 
 }
 
+namespace RadonFramework::System::Environment {
+
 void Dispatch()
 {
     MemoryArchitectureOfOS = Unix::MemoryArchitectureOfOS;
@@ -83,4 +83,4 @@ void Dispatch()
 
 }
 
-} } }
+}

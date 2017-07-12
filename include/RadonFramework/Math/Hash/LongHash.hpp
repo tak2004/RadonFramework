@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Math { namespace Hash {
+namespace RadonFramework::Math::Hash {
             
 struct LongHash
 {
@@ -17,7 +17,7 @@ private:
     Memory::AutoPointerArray<RF_Type::UInt8> m_Hash;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_HASH
 #define RF_SHORTHAND_NAMESPACE_HASH

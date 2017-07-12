@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Text { namespace StringUtils {
+namespace RadonFramework::Text::StringUtils {
 
 class URL
 {
@@ -17,6 +17,6 @@ public:
     static RF_Type::String DecodeMinimal(const RF_Type::String &Source);
 };
 
-} } }
+}
 
 #endif // RF_TEXT_STRINGUTILS_URL_HPP

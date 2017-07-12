@@ -11,7 +11,7 @@
 #include <RadonFramework/Drawing/Path2D.hpp>
 #include <RadonFramework/IO/MouseEvent.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class Control;
 class Cursor;
@@ -107,7 +107,7 @@ private:
     RF_Type::Bool m_Visible;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

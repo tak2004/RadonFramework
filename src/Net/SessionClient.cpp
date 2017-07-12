@@ -3,7 +3,7 @@
 #include "RadonFramework/Net/Socket.hpp"
 #include "RadonFramework/Net/PacketStream.hpp"
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 RF_Type::Bool SessionClient::ProcessPacket(Socket& Socket, const IPAddress& Source,
     RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)
@@ -38,4 +38,4 @@ void SessionClient::Connect(const IPAddress& IP, const RF_Type::UInt16 Port)
     }
 }
 
-} }
+}

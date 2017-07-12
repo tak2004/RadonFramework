@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp"
 
-namespace RadonFramework { namespace Math { namespace Hash {
+namespace RadonFramework::Math::Hash {
 
 RF_Type::UInt32 HashfunctionServiceLocator::m_Default32 = 0;
 RF_Type::UInt32 HashfunctionServiceLocator::m_Default64 = 0;
@@ -76,6 +76,4 @@ void HashfunctionServiceLocator::Remove(const RF_Type::String& Name)
     RF_Pattern::Locator<HashfunctionService, NullHashfunctionService>::Remove(Name);
 }
 
-}
-}
 }

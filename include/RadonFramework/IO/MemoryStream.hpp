@@ -3,7 +3,7 @@
 
 #include <RadonFramework/IO/Stream.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class MemoryStream: public Stream
 {
@@ -83,7 +83,7 @@ protected:
     RF_Type::Bool m_Expandable;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

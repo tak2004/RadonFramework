@@ -9,9 +9,7 @@ using namespace RadonFramework;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace System { namespace Hardware {
-
-namespace Windows {
+namespace RadonFramework::System::Hardware::Windows {
 
 RF_Type::UInt32 GetAvailableLogicalProcessorCount()
 {
@@ -247,6 +245,8 @@ RF_Type::Size GetFreePhysicalMemorySizeWindows()
 
 }
 
+namespace RadonFramework::System::Hardware {
+
 void Dispatch_Windows()
 {
     GetAvailableLogicalProcessorCount = Windows::GetAvailableLogicalProcessorCount;
@@ -258,4 +258,4 @@ void Dispatch_Windows()
     GetFreePhysicalMemorySize = Windows::GetFreePhysicalMemorySizeWindows;
 }
 
-} } }
+}

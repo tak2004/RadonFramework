@@ -4,21 +4,16 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework::IO::UriFormat {
+
+enum Type
 {
-    namespace IO
-    {
-        namespace UriFormat
-        {
-            enum Type
-            {
-                // Escaping is performed according to the rules in RFC-2396.
-                UriEscaped,
-                // No escaping is performed.
-                Unescaped
-            };
-        }
-    }
+    // Escaping is performed according to the rules in RFC-2396.
+    UriEscaped,
+    // No escaping is performed.
+    Unescaped
+};
+
 }
 
 #endif // RF_IO_URIFORMAT_HPP

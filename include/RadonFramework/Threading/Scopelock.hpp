@@ -4,13 +4,13 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace Threading {
+namespace RadonFramework::System::Threading {
 
 class Mutex;
 
-} } }
+}
 
-namespace RadonFramework { namespace Threading {
+namespace RadonFramework::Threading {
 
 class Scopelock
 {
@@ -24,7 +24,7 @@ protected:
     Scopelock& operator=(const Scopelock& Other);
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_THREAD
 #define RF_SHORTHAND_NAMESPACE_THREAD

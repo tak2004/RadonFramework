@@ -8,9 +8,7 @@ using namespace RadonFramework;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace System { namespace Hardware {
-
-namespace CPUID {
+namespace RadonFramework::System::Hardware::CPUID {
 #if RF_BUILD_INTRINSIC_CPUID
 
 #ifdef RF_WINDOWS
@@ -460,6 +458,8 @@ RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
 
 }
 
+namespace RadonFramework::System::Hardware {
+
 #if RF_IS_RASPI2B
 #include "RadonFramework/System/HostConfig/RaspberryPi2b.inl"
 #endif
@@ -493,4 +493,4 @@ void Dispatch()
     Dispatch_HardwareSpecificHost();
 }
 
-} } }
+}

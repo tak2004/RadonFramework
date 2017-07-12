@@ -6,7 +6,7 @@
 
 #include <RadonFramework/IO/Stream.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 template<typename CLASS>
 class NetworkStream:public CLASS
@@ -60,7 +60,7 @@ T NetworkStream<CLASS>::Convert(const T& Value)
     return result;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

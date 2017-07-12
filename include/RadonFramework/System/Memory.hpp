@@ -4,18 +4,20 @@
 #pragma once
 #endif
 
-namespace RadonFramework {
+namespace RadonFramework::Collections {
 
-// forward declarations
-namespace Collections {
-    template<class T>
-    class List;
+template<class T>
+class List;
+
 }
-namespace Core { namespace Types {
-    class String;
-} }
 
-namespace System { namespace Memory {
+namespace RadonFramework::Core::Types {
+
+class String;
+
+}
+
+namespace RadonFramework::System::Memory {
 
 /// This function will be called by RadonFramework_Init function.
 void Dispatch();
@@ -78,7 +80,7 @@ extern SetCallback Set;
 extern SwapCallback Swap;
 extern FillCallback Fill;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSMEM
 #define RF_SHORTHAND_NAMESPACE_SYSMEM

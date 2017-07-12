@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Diagnostics {
+namespace RadonFramework::Diagnostics {
 
 class Appender
 {
@@ -16,7 +16,7 @@ public:
 protected:
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DIAG
 #define RF_SHORTHAND_NAMESPACE_DIAG

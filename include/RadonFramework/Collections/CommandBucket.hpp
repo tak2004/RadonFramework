@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 template<typename K=RF_Type::UInt32>
 class CommandBucket
@@ -116,7 +116,7 @@ void CommandBucket<K>::ExecuteCommandChain(RF_Mem::AutoPointerArray<RF_Type::UIn
     }
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

@@ -8,7 +8,7 @@
 #include <RadonFramework/Drawing/PopupMenu.hpp>
 #include <RadonFramework/Core/Pattern/Event.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class TrayIcon
 {
@@ -20,7 +20,7 @@ public:
     RF_Pattern::Event<RF_Type::UInt32> OnAction;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

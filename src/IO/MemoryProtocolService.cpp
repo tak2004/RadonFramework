@@ -5,7 +5,7 @@
 #include "RadonFramework/Collections/AutoVector.hpp"
 #include "RadonFramework/IO/MemoryStream.hpp"
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 
 template<class T>
 class PImpl<T>::Data
@@ -33,9 +33,9 @@ public:
     RF_Collect::AutoVector<RF_IO::MemoryStream> m_MemoryStreams;
 };
 
-} } }
+}
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 MemoryProtocolService::MemoryProtocolService(const RF_Type::String &Name)
 :ProtocolService(Name)
@@ -89,4 +89,4 @@ Stream* MemoryProtocolService::GenerateInterface(const Uri& URI)
     return result;
 }
 
-} }
+}

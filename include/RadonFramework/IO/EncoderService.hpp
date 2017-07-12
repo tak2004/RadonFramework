@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/IO/Encoders/Interface.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Encoder;
 
@@ -57,7 +57,7 @@ public:
     }
 };
   
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

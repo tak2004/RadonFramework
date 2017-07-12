@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 struct ArrayEnumeratorType
 {};
@@ -123,7 +123,7 @@ RF_Type::Size Enumerator<T, ArrayEnumeratorType>::Size() const
     return m_Elements;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

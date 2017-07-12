@@ -6,13 +6,13 @@
 
 #include <RadonFramework/Net/Service.hpp>
 
-namespace RadonFramework { namespace Time { struct TimeSpan; } }
+namespace RadonFramework::Time { struct TimeSpan; }
 
-namespace RadonFramework { namespace Collections { template<class T> class AutoVector; } }
+namespace RadonFramework::Collections { template<class T> class AutoVector; }
 
-namespace RadonFramework { namespace Net { class IPHostEntry; } }
+namespace RadonFramework::Net { class IPHostEntry; }
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 class NetworkService;
 class ServiceDiscoveryView;
@@ -55,7 +55,7 @@ private:
     void ProcessAnswers(const Answer& Instance, const MessageReader& Reader);
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MDNS
 #define RF_SHORTHAND_NAMESPACE_MDNS

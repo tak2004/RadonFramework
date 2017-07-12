@@ -8,7 +8,7 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <stdarg.h>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Log
 {
@@ -99,7 +99,7 @@ inline void LogDebugBuild(const char* Str, ...)
 #endif
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

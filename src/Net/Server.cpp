@@ -6,7 +6,7 @@
 #include "RadonFramework/Time/TimeSpan.hpp"
 #include <RadonFramework/System/Network/SelectObjectCollector.hpp>
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 template<>
 struct PImpl<RF_Net::Server>::Data
 {
@@ -22,9 +22,9 @@ struct PImpl<RF_Net::Server>::Data
     RF_Net::IPAddress m_IP;
     RF_Net::EndPoint m_RemoteEndpoint;
 };
-} } }
+}
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 Server::Server()
 {
@@ -235,4 +235,4 @@ void Server::RemoveSocket(Socket& Socket, IPAddress& Interface)
     OnRemoveSocket(event);
 }
 
-} }
+}

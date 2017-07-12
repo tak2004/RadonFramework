@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/StringBuilder.hpp"
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 StringBuilder::StringBuilder()
 :m_Data(0)
@@ -79,4 +79,4 @@ RF_Type::Char* StringBuilder::AsCString() const
     return m_Data;
 }
 
-} }
+}

@@ -7,7 +7,7 @@
 #include <RadonFramework/Drawing/Forms/Control.hpp> 
 #include <RadonFramework/Diagnostics/Profiling/GPUServiceLocator.hpp>
 
-namespace RadonFramework { namespace Forms { 
+namespace RadonFramework::Forms { 
 
 class GPUInfoGraph: public Control
 {
@@ -30,7 +30,7 @@ protected:
     RF_Draw::Stroke m_GraphBackgroundStroke;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

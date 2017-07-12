@@ -4,21 +4,19 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net::SelectMode {
 
-namespace SelectMode {
-	enum Type {
-		Read,
-		Write,
-		Error,
-		ReadWrite,
-		ReadError,
-		WriteError,
-        ReadWriteError
-    };
+enum Type {
+	Read,
+	Write,
+	Error,
+	ReadWrite,
+	ReadError,
+	WriteError,
+    ReadWriteError
+};
+
 }
-
-} }
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

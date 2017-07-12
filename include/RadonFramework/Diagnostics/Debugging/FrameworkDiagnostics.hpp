@@ -6,14 +6,14 @@
 
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging {
+namespace RadonFramework::Diagnostics::Debugging {
 
 struct FrameworkDiagnostics 
 {
     static void GetAllMissingSystemFunctions(RF_Collect::List<RF_Type::String>& Result);
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DEBUG
 #define RF_SHORTHAND_NAMESPACE_DEBUG

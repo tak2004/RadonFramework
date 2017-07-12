@@ -9,7 +9,7 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/Vec.hpp>
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /// A Vec128Int8 have always the size of 16 byte and represent 16 signed numbers.
 typedef Vec<Int8,16> Vec128Int8;
@@ -38,7 +38,7 @@ extern const Int32 Vec128Int32Min;
 /// The maximum value which can be contained by a Vec128Int32.
 extern const Int32 Vec128Int32Max;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

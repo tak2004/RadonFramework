@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 namespace SocketShutdown
 {
@@ -17,7 +17,7 @@ namespace SocketShutdown
 	};
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

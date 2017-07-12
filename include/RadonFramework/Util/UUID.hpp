@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Util {
+namespace RadonFramework::Util {
 
 /// UUID Version 5
 struct RF_ALIGN(16) UUID
@@ -47,7 +47,7 @@ bool operator>(UUID const& lhs, UUID const& rhs);
 bool operator<=(UUID const& lhs, UUID const& rhs);
 bool operator>=(UUID const& lhs, UUID const& rhs);
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_UTIL
 #define RF_SHORTHAND_NAMESPACE_UTIL

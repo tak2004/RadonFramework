@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /// A Vec128UInt8 have always the size of 8 byte and represent 8 unsigned numbers.
 typedef Vec<UInt8,8> Vec64UInt8;
@@ -33,7 +33,7 @@ extern const UInt32 Vec64UInt32Min;
 /// The maximum value which can be contained by a Vec64UInt32.
 extern const UInt32 Vec64UInt32Max;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

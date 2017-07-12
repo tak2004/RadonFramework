@@ -7,7 +7,7 @@
 #include <RadonFramework/Drawing/Forms/Control.hpp>
 #include <RadonFramework/Drawing/Forms/Layouter.hpp> 
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class HorizontalLayouter: public Control, public Layouter
 {
@@ -20,7 +20,7 @@ protected:
     RF_Geo::Size2Df m_CellGap;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

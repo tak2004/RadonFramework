@@ -7,7 +7,7 @@
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 template <typename T,RF_Type::Size SIZE>
 class Normal
@@ -177,7 +177,7 @@ typedef Normal<RF_Type::Float32,2> Norm2f;
 typedef Normal<RF_Type::Float32,3> Norm3f;
 typedef Normal<RF_Type::Float32,4> Norm4f;
       
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

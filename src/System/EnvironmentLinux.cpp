@@ -13,7 +13,7 @@ using namespace RadonFramework::System;
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace RadonFramework { namespace System { namespace Environment {
+namespace RadonFramework::System::Environment {
 
 namespace Linux {
 
@@ -98,4 +98,4 @@ void Dispatch_Linux()
     OSFamily=Linux::OSFamily;
 }
 
-} } }
+}

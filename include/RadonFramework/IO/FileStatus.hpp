@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 struct FileStatus
 {
@@ -16,7 +16,7 @@ struct FileStatus
     RF_Type::Bool IsHidden;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

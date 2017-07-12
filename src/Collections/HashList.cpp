@@ -5,7 +5,7 @@
 #include "RadonFramework/System/Hardware/Vec128Int.hpp"
 #include "RadonFramework/Math/Integer.hpp"
 
-namespace RadonFramework { namespace Core { namespace Policies {
+namespace RadonFramework::Core::Policies {
 
 class DefaultValueAllocator:public ValueAllocator
 {
@@ -24,11 +24,11 @@ public:
     }
 };
 
-} } }
+}
 
 RadonFramework::Core::Policies::DefaultValueAllocator defaultAllocator;
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 HashList::HashList()
 :HashList(0)
@@ -249,4 +249,4 @@ void HashList::Reserve(const RF_Type::Size ElementCount)
     Grow(ElementCount*4/3);
 }
 
-} }
+}

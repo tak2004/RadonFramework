@@ -11,7 +11,7 @@
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Collections/ArrayEnumerator.hpp>
 
-namespace RadonFramework { namespace Collections { namespace Algorithm {
+namespace RadonFramework::Collections::Algorithm {
 
 /**
 * \brief Searches an entire one-dimensional sorted Array 
@@ -79,7 +79,7 @@ RF_Type::Size BinarySearch(ArrayEnumerator<T>& Range, const T& Value,
     return static_cast<RF_Type::MemoryRange>(current.Current() - Range.Current());
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_ALGO
 #define RF_SHORTHAND_NAMESPACE_ALGO

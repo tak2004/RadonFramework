@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/Server.hpp>
 #include <RadonFramework/Net/mDNS/NetworkService.hpp>
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 class NetworkServiceInfo
 {
@@ -38,6 +38,6 @@ protected:
     void SendServiceInfo();
 };
 
-} } }
+}
 
 #endif // RF_NET_MDNS_SERVICERESPONDER_HPP

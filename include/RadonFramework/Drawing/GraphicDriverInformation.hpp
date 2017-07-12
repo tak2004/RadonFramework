@@ -8,7 +8,7 @@
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
         
 struct GraphicDriverCapabilities
 {
@@ -36,7 +36,7 @@ inline const GraphicDriverCapabilities& GraphicDriverInformation::Capabilities()
     return m_Capabilities;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

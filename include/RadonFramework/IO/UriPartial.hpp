@@ -4,25 +4,20 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework::IO::UriPartial {
+
+enum Type
 {
-    namespace IO
-    {
-        namespace UriPartial
-        {
-            enum Type
-            {
-                // The scheme segment of the URI.
-                Scheme,
-                // The scheme and authority segments of the URI.
-                Authority,
-                // The scheme, authority, and path segments of the URI.
-                Path,
-                // The scheme, authority, path, and query segments of the URI.
-                Query
-            };
-        }
-    }
+    // The scheme segment of the URI.
+    Scheme,
+    // The scheme and authority segments of the URI.
+    Authority,
+    // The scheme, authority, and path segments of the URI.
+    Path,
+    // The scheme, authority, path, and query segments of the URI.
+    Query
+};
+
 }
 
 #endif // RF_IO_URIPARTIAL

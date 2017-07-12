@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /// The size of Size can vary by compiler and system but it's always unsigned.
 typedef size_t Size;
@@ -17,7 +17,7 @@ extern const Size SizeMax;
 /// The minimum value which can be contained by a Size.
 extern const Size SizeMin;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

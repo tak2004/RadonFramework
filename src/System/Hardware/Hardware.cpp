@@ -7,7 +7,7 @@
 
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace System { namespace Hardware {
+namespace RadonFramework::System::Hardware {
 
 RF_Type::UInt32 GetAvailableLogicalProcessorCount_SystemAPIDispatcher()
 {
@@ -221,4 +221,4 @@ CacheInfo& GetLevel2DataCache()
     return SharedCacheInfo.L2Data;
 }
 
-} } }
+}

@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Drawing/Forms/Form.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class AbstractApplication
 {
@@ -20,7 +20,7 @@ public:
     virtual void SetClipboardText(const RF_Type::String& NewText)=0;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

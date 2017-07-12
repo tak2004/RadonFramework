@@ -1,7 +1,7 @@
 #ifndef RF_IO_DECODERS_INTERFACE_HPP
 #define RF_IO_DECODERS_INTERFACE_HPP
 
-namespace RadonFramework { namespace IO { namespace Decoders {
+namespace RadonFramework::IO::Decoders {
 
 enum class Interface
 {
@@ -9,7 +9,7 @@ enum class Interface
     Image
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DECODERS
 #define RF_SHORTHAND_NAMESPACE_DECODERS

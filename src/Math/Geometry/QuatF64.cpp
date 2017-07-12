@@ -7,7 +7,7 @@
 #include "RadonFramework/Math/Geometry/QuatF64.hpp"
 #include "RadonFramework/Math/Float64.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 const QuatF64 QuatF64::Identity;
 
@@ -492,4 +492,4 @@ const RF_Type::Float64 QuatF64::operator[](const RF_Type::UInt32 Index)const
     return m_Vec[Index];
 }
 
-} } }
+}

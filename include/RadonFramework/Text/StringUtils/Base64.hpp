@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Text { namespace StringUtils {
+namespace RadonFramework::Text::StringUtils {
 
 class Base64Converter
 {
@@ -15,6 +15,6 @@ public:
     static RF_Type::String Decode(const RF_Type::String &Source);
 };
 
-} } }
+}
 
 #endif // RF_CORE_TYPES_STRINGUTILS_BASE64_HPP

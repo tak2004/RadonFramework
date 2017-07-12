@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 /** This class can be used to build strings without generating 
 * garbage because this class use an own memory allocator to build all Strings.
@@ -52,7 +52,7 @@ protected:
     RF_Type::Size m_Length;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TEXT
 #define RF_SHORTHAND_NAMESPACE_TEXT

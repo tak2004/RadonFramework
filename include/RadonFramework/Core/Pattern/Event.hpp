@@ -7,7 +7,7 @@
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
-namespace RadonFramework { namespace Core { namespace Pattern {
+namespace RadonFramework::Core::Pattern {
 
 class IObserver;
 template<typename _ARGU=const IObserver*>
@@ -192,7 +192,7 @@ Event<_ARGU>& Event<_ARGU>::operator-=(EventConnection<_ARGU> *Con)
     return *this;
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PATTERN
 #define RF_SHORTHAND_NAMESPACE_PATTERN

@@ -7,7 +7,7 @@
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/IO/AccessMode.hpp>
 
-namespace RadonFramework { namespace IO { 
+namespace RadonFramework::IO { 
 
 class File
 {
@@ -48,6 +48,6 @@ protected:
     Uri m_Location;
 };
   
-} }
+}
 
 #endif // RF_IO_FILE_HPP

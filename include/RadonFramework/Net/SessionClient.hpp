@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/Client.hpp>
 #include <RadonFramework/Net/PacketLogicFactory.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class SessionClient: public Client
 {
@@ -22,7 +22,7 @@ private:
     RF_Mem::AutoPointer<PacketStream> m_PacketStream;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

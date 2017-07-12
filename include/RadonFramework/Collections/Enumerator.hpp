@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 struct GenericEnumeratorType{};
 
@@ -103,7 +103,7 @@ RF_Type::Size Enumerator<T, ENUMERATORTYPE>::Size() const
     static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Math {
+namespace RadonFramework::Math {
 
 template <typename T>
 struct Integer
@@ -67,7 +67,7 @@ T Integer<T>::Abs(const T Value)
     return Value < 0 ? -Value : Value;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MATH
 #define RF_SHORTHAND_NAMESPACE_MATH

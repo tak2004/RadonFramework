@@ -4,7 +4,7 @@
 #include "RadonFramework/Net/Socket.hpp"
 #include "RadonFramework/Net/mDNS/MessageWriter.hpp"
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 ServiceResponder::ServiceResponder()
 :Server()
@@ -112,4 +112,4 @@ RF_Type::Bool ServiceResponder::Start()
     return result;
 }
 
-} } }
+}

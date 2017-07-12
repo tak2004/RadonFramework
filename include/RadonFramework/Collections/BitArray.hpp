@@ -11,7 +11,7 @@
 #include <RadonFramework/Core/Policies/CPPAllocator.hpp>
 #include <RadonFramework/Math/Integer.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 /** \brief This is a policy based template for BitArrays.
  *
@@ -473,7 +473,7 @@ RF_Type::Bool BitArray<RB, MA, MO>::InitArray(const RF_Type::Size Length)
 }
 #pragma endregion
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

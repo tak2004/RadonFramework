@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 struct StandardRuleChecker
 {
@@ -24,6 +24,6 @@ struct StandardRuleChecker
     }
 };
 
-} }
+}
 
 #endif // RF_IO_STANDARDRULECHECKER_HPP

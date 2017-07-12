@@ -6,7 +6,7 @@
 
 #include <stddef.h>
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /** MemoryRange can have different size, it's depend on the size of a pointer.
   * It should be used instead of pointer to be sure that you use the right
@@ -20,7 +20,7 @@ extern const MemoryRange MemoryRangeMin;
 /// The minimum value which can be contained by MemoryRange.
 extern const MemoryRange MemoryRangeMax;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

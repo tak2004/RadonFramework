@@ -12,7 +12,7 @@
 #include <RadonFramework/IO/MouseEvent.hpp>
 #include <RadonFramework/IO/KeyboardEvent.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class WindowService;
 class Screen;
@@ -55,7 +55,7 @@ public:
     RF_Pattern::Event<const RF_Geo::Point2D<>&> OnDPIChanged;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

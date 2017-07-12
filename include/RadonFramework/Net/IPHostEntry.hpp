@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/IPAddress.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class IPHostEntry
 {
@@ -28,7 +28,7 @@ protected:
     Collections::List<IPAddress> m_AddressList;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

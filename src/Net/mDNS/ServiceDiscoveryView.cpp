@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Net/mDNS/ServiceDiscoveryView.hpp"
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 ServiceDiscoveryView::ServiceDiscoveryView()
 :m_Hash(0)
@@ -78,4 +78,4 @@ void ServiceDiscoveryView::UpdateHash()
     }
 }
 
-} } }
+}

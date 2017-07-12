@@ -9,9 +9,13 @@
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Core/Pattern/Signal.hpp>
 
-namespace RadonFramework { namespace Forms { class Form; } }
+namespace RadonFramework::Forms {
 
-namespace RadonFramework { namespace Drawing {
+class Form;
+
+}
+
+namespace RadonFramework::Drawing {
 
 class AbstractCanvas;
 class AbstractRenderer;
@@ -38,7 +42,7 @@ protected:
     AbstractRenderer* m_Renderer;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

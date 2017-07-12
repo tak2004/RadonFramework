@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/StringProcessor/SkipSearch.hpp"
 
-namespace RadonFramework { namespace Text { namespace StringProcessors {
+namespace RadonFramework::Text::StringProcessors {
 
 SkipSearch::StorageType::StorageType()
 :Position(0)
@@ -91,4 +91,4 @@ RF_Type::Int32 SkipSearch::DoAll(RF_Type::String& Text,
     return hit;
 }
 
-} } }
+}

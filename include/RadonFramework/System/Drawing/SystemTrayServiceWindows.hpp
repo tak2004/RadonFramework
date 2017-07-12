@@ -7,7 +7,7 @@
 #include <RadonFramework/System/Drawing/SystemTrayService.hpp>
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 
-namespace RadonFramework { namespace System { namespace Drawing {
+namespace RadonFramework::System::Drawing {
 
 class SystemTrayServiceWindows:public SystemTrayService
 {
@@ -24,7 +24,7 @@ protected:
     RF_Idiom::PImpl<SystemTrayServiceWindows> m_PImpl;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSDRAW
 #define RF_SHORTHAND_NAMESPACE_SYSDRAW

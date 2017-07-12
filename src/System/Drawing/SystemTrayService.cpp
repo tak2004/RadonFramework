@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Drawing/SystemTrayService.hpp"
 
-namespace RadonFramework { namespace System { namespace Drawing {
+namespace RadonFramework::System::Drawing {
 
 SystemTrayService::SystemTrayService(const RF_Type::String &Name)
 :Service(Name)
@@ -13,4 +13,4 @@ SystemTrayService::~SystemTrayService()
 {
 }
 
-} } }
+}

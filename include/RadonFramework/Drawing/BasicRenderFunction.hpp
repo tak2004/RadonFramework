@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Drawing/AbstractRenderer.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 typedef RF_Type::UInt32 GraphicHandle;
 
@@ -90,7 +90,7 @@ struct GenerateMaterial
     GraphicHandle* Program;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

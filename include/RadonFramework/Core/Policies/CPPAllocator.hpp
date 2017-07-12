@@ -6,44 +6,38 @@
 
 #include <new>
 
-namespace RadonFramework
+namespace RadonFramework::Core::Policies {
+struct CPPAllocator
 {
-    namespace Core
-    {
-        namespace Policies
-        {
-            struct CPPAllocator
-            {
-                template <typename T>
-                static T* New()
-                {
-                    return new (std::nothrow) T;
-                }
+	template <typename T>
+	static T* New()
+	{
+		return new (std::nothrow) T;
+	}
 
-                template <typename T>
-                static T* NewArray(RF_Type::Size Length)
-                {
-                    if (Length==0)
-                        return 0;
-                    return new (std::nothrow) T[Length];
-                }
+	template <typename T>
+	static T* NewArray(RF_Type::Size Length)
+	{
+		if (Length == 0)
+			return 0;
+		return new (std::nothrow) T[Length];
+	}
 
-                template <typename T>
-                static void Free(T* p)
-                {
-                    if (p)
-                        delete p;
-                }
+	template <typename T>
+	static void Free(T* p)
+	{
+		if (p)
+			delete p;
+	}
 
-                template <typename T>
-                static void FreeArray(T* p)
-                {
-                    if (p)
-                        delete[] p;
-                }
-            };
-        }
-    }
+	template <typename T>
+	static void FreeArray(T* p)
+	{
+		if (p)
+			delete[] p;
+	}
+};
+
 }
 
 #endif // RF_CORE_POLICIES_CPPALLOCATOR_HPP

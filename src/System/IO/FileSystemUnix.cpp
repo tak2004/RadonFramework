@@ -25,9 +25,7 @@ using namespace RadonFramework::System::IO::FileSystem;
 #include <sys/mman.h>
 #include <errno.h>
 
-namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
-
-namespace Unix {
+namespace RadonFramework::System::IO::FileSystem::Unix {
 
 inline RF_Type::Bool Access(const RF_Type::String& Path, const AccessMode::Type Mode)
 { 
@@ -368,6 +366,8 @@ RF_Type::Bool UriToSystemPath(const RF_IO::Uri& Uri,
 
 }
 
+namespace RadonFramework::System::IO::FileSystem {
+
 void Dispatch()
 {
     OpenFile = Unix::OpenFile;
@@ -412,4 +412,4 @@ void Dispatch()
 #endif
 }
 
-} } } }
+}

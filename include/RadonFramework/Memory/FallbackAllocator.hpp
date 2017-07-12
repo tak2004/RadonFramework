@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Memory/MemoryBlock.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 template<class PRIMARY, class FALLBACK>
 class FallbackAllocator: private PRIMARY, private FALLBACK
@@ -55,7 +55,7 @@ inline MemoryBlock FallbackAllocator<PRIMARY, FALLBACK>::Allocate(const RF_Type:
     return result;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

@@ -12,7 +12,7 @@
 #include "RadonFramework/Net/ServerConfig.hpp"
 #include "RadonFramework/Net/mDNS/ServiceDiscoveryView.hpp"
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 
 template<>
 struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
@@ -42,7 +42,7 @@ struct RF_Idiom::PImpl<RF_mDNS::ServiceDiscovery>::Data
     RF_Type::Bool m_DataChanged;
 };
 
-} } }
+}
 
 RF_Type::UInt32 CalculateFNV(const RF_Type::String& Value)
 {
@@ -56,7 +56,7 @@ RF_Type::UInt32 CalculateFNV(const RF_Type::String& Value)
     return hash;
 }
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 ServiceDiscovery::ServiceDiscovery()
 {
@@ -352,4 +352,4 @@ void ServiceDiscovery::ProcessAnswers(const Answer& Instance,
         }
 }
 
-} } }
+}

@@ -5,7 +5,7 @@
 #include <RadonFramework/Memory/FixSizeStackAllocator.hpp>
 #include <RadonFramework/Memory/HeapAllocator.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 template<class TRAITCLASS>
 struct AllocatorSelector
@@ -16,7 +16,7 @@ struct AllocatorSelector
     typedef BaseAllocator Type;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

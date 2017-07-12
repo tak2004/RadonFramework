@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
         
 template<int Bits>
 class BitSet;
@@ -489,7 +489,7 @@ RF_Type::Size BitSet<Bits>::NumberOfBitsSet() const
 	return result;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

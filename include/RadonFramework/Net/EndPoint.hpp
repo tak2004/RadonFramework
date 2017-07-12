@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/IPAddress.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class EndPoint
 {
@@ -25,7 +25,7 @@ protected:
     RF_Type::UInt16 m_Port;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

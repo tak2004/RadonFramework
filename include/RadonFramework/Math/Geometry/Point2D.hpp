@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
             
 template<class T=RF_Type::Int32>
 class Point2D
@@ -108,7 +108,7 @@ RF_Type::Float32 Point2D<T>::SquareDistance(const Point2D<T> &Other)const
 typedef Point2D<RF_Type::Float32> Point2Df;
 typedef Point2D<RF_Type::Float64> Point2Dd;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace SIMD {
+namespace RadonFramework::System::SIMD {
 
 /// This function will be called by RadonFramework_Init function.
 void Dispatch();
@@ -17,6 +17,6 @@ RFTYPE::Bool IsSuccessfullyDispatched();
 /// This function is for debugging purpose and return all unassigned functions.
 void GetNotDispatchedFunctions(Collections::List<RFTYPE::String>& Result);
 
-} } }
+}
 
 #endif // RF_SYSTEM_SIMD_HPP

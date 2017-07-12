@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/IO/DecoderService.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class NullDecoderService:public DecoderService
 {
@@ -32,7 +32,7 @@ struct DecoderServiceLocator:public RF_Pattern::Locator<DecoderService, NullDeco
         const RF_Type::String& Name, const RF_Type::UInt32 FCC);
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

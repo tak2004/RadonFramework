@@ -37,7 +37,7 @@ RF_Type::Size GetFreePhysicalMemorySizeOSX()
     return result;
 }
 
-namespace RadonFramework { namespace System { namespace Hardware {
+namespace RadonFramework::System::Hardware {
 
 void Dispatch_OSX()
 {
@@ -45,4 +45,4 @@ void Dispatch_OSX()
     GetFreePhysicalMemorySize = GetFreePhysicalMemorySizeOSX;
 }
 
-} } }
+}

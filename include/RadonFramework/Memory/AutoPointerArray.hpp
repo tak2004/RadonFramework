@@ -8,7 +8,7 @@
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 template <typename T>
 struct AutoPointerArrayData{T* Ptr; RF_Type::Size Count;};
@@ -395,7 +395,7 @@ AutoPointerArray<T>::operator RF_Type::Bool()
     return 0!=m_Data;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

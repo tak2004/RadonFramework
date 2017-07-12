@@ -9,7 +9,7 @@
 #include <RadonFramework/Collections/AutoVector.hpp>
 #include <RadonFramework/IO/Log.hpp>
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 class Token
 {
@@ -99,7 +99,7 @@ private:
         RF_Collect::List<RF_Mem::AutoPointer<ASTCommand>>& Todo);
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TEXT
 #define RF_SHORTHAND_NAMESPACE_TEXT

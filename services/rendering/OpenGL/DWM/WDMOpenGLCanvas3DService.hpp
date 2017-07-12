@@ -3,7 +3,7 @@
 
 #include <RadonFramework/Drawing/Canvas3DService.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class WDMOpenGLCanvas3DService : public Canvas3DService
 {
@@ -14,6 +14,6 @@ public:
     static void Register();
 };
 
-} }
+}
 
 #endif // RF_WDMOPENGLCANVAS3DSERVICE_HPP

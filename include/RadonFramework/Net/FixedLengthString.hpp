@@ -8,7 +8,7 @@
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/System/Memory.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 template<typename T, unsigned long Len>
 class FixedLengthString
@@ -76,7 +76,7 @@ protected:
     char m_Data[Len+1];
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

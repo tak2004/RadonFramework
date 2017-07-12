@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Pattern/Service.hpp>
 
-namespace RadonFramework { namespace Math { namespace Hash {
+namespace RadonFramework::Math::Hash {
 // forward declaration
 class IHashfunction;
 
@@ -20,7 +20,7 @@ class HashfunctionService:public Core::Pattern::Service
         virtual RF_Type::Size BitLength()const = 0;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_HASH
 #define RF_SHORTHAND_NAMESPACE_HASH

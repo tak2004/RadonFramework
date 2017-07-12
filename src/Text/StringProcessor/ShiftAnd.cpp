@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/StringProcessor/ShiftAnd.hpp"
 
-namespace RadonFramework { namespace Text { namespace StringProcessors {
+namespace RadonFramework::Text::StringProcessors {
 
 ShiftAnd::StorageType::StorageType()
 :Position(0)
@@ -76,4 +76,4 @@ RF_Type::Int32 ShiftAnd::DoAll(RF_Type::String& Text,
     return hit;
 }
 
-} } }
+}

@@ -2,7 +2,7 @@
 #include "RadonFramework/Text/StringProcessor/Horspool.hpp"
 #include "RadonFramework/Core/Policies/CMemoryOperation.hpp"
 
-namespace RadonFramework { namespace Text { namespace StringProcessors {
+namespace RadonFramework::Text::StringProcessors {
 
 Horspool::StorageType::StorageType()
 :Position(0)
@@ -120,4 +120,4 @@ RF_Type::Size Horspool::DoAll(RF_Mem::AutoPointerArray<RF_Type::Size>& Indices,
     return hit;
 }
 
-} } }
+}

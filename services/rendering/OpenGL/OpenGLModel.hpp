@@ -1,7 +1,7 @@
 #ifndef RF_OPENGLMODEL_HPP
 #define RF_OPENGLMODEL_HPP
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class OpenGLModel
 {
@@ -24,6 +24,6 @@ private:
     RF_Type::Size m_VertexCount;
 };
 
-} }
+}
 
 #endif // ! RE_OPENGLMODEL_HPP

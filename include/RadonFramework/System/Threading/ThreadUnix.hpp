@@ -4,7 +4,7 @@
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <pthread.h>
 
-namespace RadonFramework { namespace System { namespace Threading { namespace Unix {
+namespace RadonFramework::System::Threading::Unix {
 
 struct ThreadHelper
 {
@@ -21,6 +21,6 @@ struct ThreadHelper
     RF_Type::Bool postConfigurationComplete;
 };
 
-} } } }
+}
 
 #endif // !RF_SYSTEM_THREADING_THREADUNIX_HPP

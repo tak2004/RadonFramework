@@ -8,7 +8,7 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Defines.hpp>
 
-namespace RadonFramework { namespace System { namespace Network {
+namespace RadonFramework::System::Network {
 
 struct OSSocketError
 {
@@ -33,6 +33,6 @@ struct OSSocketError
     static void InitializeLookupTable();
 };
         
-} } }
+}
 
 #endif // RF_SYSTEM_NETWORK_OSSOCKETERROR_HPP

@@ -6,7 +6,7 @@
 
 #include <RadonFramework/IO/VirtualKey.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class KeyboardEvent
 {
@@ -19,7 +19,7 @@ public:
     RF_Type::Bool Shift;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

@@ -2,7 +2,7 @@
 #include "RadonFramework/Text/StringUtils/Base2.hpp"
 #include "RadonFramework/backend/stringcoders/modp_b2.h"
 
-namespace RadonFramework { namespace Text { namespace StringUtils {
+namespace RadonFramework::Text::StringUtils {
 
 RF_Type::String Base2Converter::Encode(const RF_Type::String &Source)
 {
@@ -20,4 +20,4 @@ RF_Type::String Base2Converter::Decode(const RF_Type::String &Source)
     return result;
 }
 
-} } }
+}

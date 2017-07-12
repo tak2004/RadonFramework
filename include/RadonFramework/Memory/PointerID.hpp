@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 typedef RF_Type::UInt64 PtrID;
 typedef union
@@ -40,7 +40,7 @@ private:
     PointerIDHolder m_PtrID;
 };
     
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

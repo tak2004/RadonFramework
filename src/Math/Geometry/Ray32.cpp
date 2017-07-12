@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Geometry/Ray32.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 Ray32::Ray32()
 {
@@ -50,4 +50,4 @@ const Norm3f& Ray32::GetDirection()const
     return m_Direction;
 }
 
-} } }
+}

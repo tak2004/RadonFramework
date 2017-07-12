@@ -3,7 +3,7 @@
 #include "RadonFramework/Math/Geometry/Normal.hpp"
 #include "tesselator.h"
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 RF_Type::Size tesselatedVertices = 0;
 
@@ -369,4 +369,4 @@ void Path2DTriangulation::AddImage(const RF_Geo::Point2Df& Position,
     AddRectangle(Position, Dimension);
 }
 
-} }
+}

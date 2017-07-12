@@ -4,7 +4,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 #ifdef RF_HAVE_LONG_LONG
     /// A Int64 have always the size of 8 byte and represent a signed number.
@@ -25,7 +25,7 @@ extern const Int64 Int64Max;
 /// The minimum value which can be contained by a Int64.
 extern const Int64 Int64Min;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Types { 
+namespace RadonFramework::Core::Types { 
 
 template <typename T, int C>
 struct RF_ALIGN(16) Vec
@@ -26,7 +26,7 @@ struct RF_ALIGN(16) Vec
     typedef T ValueType;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

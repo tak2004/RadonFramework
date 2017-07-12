@@ -13,7 +13,7 @@
 #include <RadonFramework/Collections/Queue.hpp>
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 
-namespace RadonFramework { namespace Threading {
+namespace RadonFramework::Threading {
 
 class ThreadPool
 {
@@ -87,7 +87,7 @@ private:
     RF_Idiom::PImpl<ThreadPool> m_PImpl;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_THREAD
 #define RF_SHORTHAND_NAMESPACE_THREAD

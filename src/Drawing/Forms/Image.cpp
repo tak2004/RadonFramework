@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Forms/Image.hpp"
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 Image::Image(Control* Parent /*= nullptr*/)
 :Control(Parent)
@@ -31,5 +31,4 @@ void Image::RebuildVisuals()
     m_Path.Finalize();
 }
 
-}
 }

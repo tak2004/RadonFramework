@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Directory;
 
@@ -28,7 +28,7 @@ private:
     Core::Idioms::PImpl<Settings> m_PImpl;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

@@ -8,7 +8,7 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Collections/Pair.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 struct Canvas3DServiceConfig
 {
@@ -21,7 +21,7 @@ struct Canvas3DServiceConfig
         RF_Type::Size,RF_Type::String> > FallbackDriver;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

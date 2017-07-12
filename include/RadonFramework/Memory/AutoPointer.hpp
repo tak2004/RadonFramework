@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/Bool.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 template <typename T>
 struct AutoPointerReference
@@ -207,7 +207,7 @@ AutoPointer<T>::operator RF_Type::Bool()const
     return 0!=m_Data;
 }
     
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

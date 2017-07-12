@@ -7,9 +7,9 @@
 #include <RadonFramework/Core/Pattern/Event.hpp>
 #include <RadonFramework/Collections/AutoVector.hpp>
 
-namespace RadonFramework { namespace Time { struct TimeSpan; } }
+namespace RadonFramework::Time { struct TimeSpan; }
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class EndPoint;
 struct ServerEvent;
@@ -52,7 +52,7 @@ protected:
     virtual void PacketReceived(ServerProcessPacketEvent& Sender);
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

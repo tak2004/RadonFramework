@@ -4,7 +4,7 @@
 #include "RadonFramework/System/Drawing/SystemTrayServiceLocator.hpp"
 #include "RadonFramework/Collections/HashMap.hpp"
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 template<>
 class RF_Idiom::PImpl<RF_Draw::SystemTray>::Data
 {
@@ -13,9 +13,9 @@ public:
     RF_Collect::HashMap<RF_SysDraw::SystemTrayService::Handle, RF_Draw::TrayIcon*> m_Lookup;
     RF_SysDraw::SystemTrayService* m_Backend;
 };
-} } }
+}
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 SystemTray::Handle SystemTray::Add(RF_Mem::AutoPointer<TrayIcon>& NewTrayIcon)
 {
@@ -96,4 +96,4 @@ void SystemTray::OnAction(RF_Type::UInt32 ActionId)
     }
 }
 
-} }
+}

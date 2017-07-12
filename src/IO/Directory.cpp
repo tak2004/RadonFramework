@@ -9,7 +9,7 @@ using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 Directory::Directory()
 {
@@ -338,4 +338,4 @@ AutoPointer<File> Directory::SubFile(const RF_Type::String& Filename) const
     return result;
 }
 
-} }
+}

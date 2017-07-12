@@ -2,7 +2,7 @@
 #include <RadonFramework/Drawing/FontService.hpp>
 #include <RadonFramework/Drawing/FontServiceLocator.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 FontService::FontService(const RadonFramework::Core::Types::String &Name)
 :Service(Name)
@@ -103,4 +103,4 @@ RF_Type::Bool FontService::MatchFilter(const FontVariation& Variation)
     return result;
 }
 
-} }
+}

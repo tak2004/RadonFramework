@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Memory/MemoryBlock.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 template<RF_Type::Size SIZE, RF_Type::Size ALIGN_SIZE = 16>
 class FixSizeStackAllocator
@@ -78,7 +78,7 @@ FixSizeStackAllocator<SIZE, ALIGN_SIZE>::FixSizeStackAllocator()
 {
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

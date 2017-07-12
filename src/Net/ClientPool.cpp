@@ -4,7 +4,7 @@
 #include "RadonFramework/System/Network/SelectObjectCollector.hpp"
 
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 void ClientPool::AttachClient(RF_Mem::AutoPointer<RF_Net::Client>& NewClient)
 {
@@ -26,4 +26,4 @@ void ClientPool::Update()
 	
 }
 
-} }
+}

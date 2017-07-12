@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace IO {
+namespace RadonFramework::System::IO {
 
 class Debugger:public RF_Pattern::Singleton<Debugger>
 {
@@ -15,6 +15,6 @@ protected:
     Debugger();
 };
 
-} } }
+}
 
 #endif // RF_SYSTEM_IO_DEBUGGER_HPP

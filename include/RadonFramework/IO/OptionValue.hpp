@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class OptionValue
 {
@@ -29,6 +29,6 @@ protected:
     RF_Type::Bool m_ValueSet;
 };
 
-} }
+}
 
 #endif

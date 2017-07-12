@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Core { namespace Pattern {
+namespace RadonFramework::Core::Pattern {
 
 class Service
 {
@@ -18,7 +18,7 @@ protected:
     RF_Type::String m_Name;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PATTERN
 #define RF_SHORTHAND_NAMESPACE_PATTERN

@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Net/IPAddress.hpp>
 
-namespace RadonFramework { namespace Net { 
+namespace RadonFramework::Net { 
 
 struct MulticastRequest
 {
@@ -14,7 +14,7 @@ struct MulticastRequest
     IPAddress Interface;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

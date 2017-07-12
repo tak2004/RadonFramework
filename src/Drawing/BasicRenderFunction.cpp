@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/BasicRenderFunction.hpp"
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 AbstractRenderer::Dispatcher UpdateBuffer::DispatchFunction = nullptr;
 AbstractRenderer::Dispatcher GenerateBuffer::DispatchFunction = nullptr;
@@ -14,4 +14,4 @@ AbstractRenderer::Dispatcher GenerateObject::DispatchFunction = nullptr;
 AbstractRenderer::Dispatcher DestroyObject::DispatchFunction = nullptr;
 AbstractRenderer::Dispatcher AssignBufferToObject::DispatchFunction = nullptr;
 
-} }
+}

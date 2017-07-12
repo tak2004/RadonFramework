@@ -7,7 +7,7 @@
 #include "RadonFramework/Net/ServerConfig.hpp"
 #include "RadonFramework/Net/Socket.hpp"
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 
 template<>
 struct RF_Idiom::PImpl<RF_Net::Service>::Data
@@ -26,9 +26,9 @@ struct RF_Idiom::PImpl<RF_Net::Service>::Data
     RF_Collect::AutoVector<RF_Net::Server> m_ServerInstances;
 };
 
-} } }
+}
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 Service::Service()
 {
@@ -132,4 +132,4 @@ const RF_Collect::AutoVector<RF_Net::Server>& Service::GetServerList() const
     return m_PImpl->m_ServerInstances;
 }
 
-} }
+}

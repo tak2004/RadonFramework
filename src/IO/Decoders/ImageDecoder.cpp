@@ -3,7 +3,7 @@
 #include "RadonFramework/Drawing/Image.hpp"
 #include "RadonFramework/IO/Log.hpp"
 
-namespace RadonFramework { namespace IO { namespace Decoders {
+namespace RadonFramework::IO::Decoders {
 
 ImageDecoder::ImageDecoder()
 :m_Height(0)
@@ -47,4 +47,4 @@ const RF_Type::Bool ImageDecoder::ConvertToImage(RF_Draw::Image& Destination)
     return Destination.Initialize(m_Width, m_Height, m_Layers, m_PixelFormat, data);
 }
 
-} } }
+}

@@ -4,25 +4,20 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework::Drawing::OpenGLCapabilitiesType {
+
+enum Type
 {
-    namespace Drawing
-    {
-        namespace OpenGLCapabilitiesType
-        {
-            enum Type
-            {
-                NOTSET,
-                GLFLOAT,
-                GLDOUBLE,
-                GLINT,
-                GLINT64,
-                GLBOOLEAN,
-                GLSTRING,
-                MAX
-            };
-        }
-    }
+    NOTSET,
+    GLFLOAT,
+    GLDOUBLE,
+    GLINT,
+    GLINT64,
+    GLBOOLEAN,
+    GLSTRING,
+    MAX
+};
+
 }
 
 #endif // RF_DRAWING_OPENGLCAPABILITIESTYPE_HPP

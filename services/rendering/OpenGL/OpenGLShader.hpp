@@ -1,7 +1,7 @@
 #ifndef RF_OPENGLSHADER_HPP
 #define RF_OPENGLSHADER_HPP
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class OpenGLShader
 {
@@ -13,6 +13,6 @@ private:
     RF_Type::UInt32 shader_programme = 0;
 };
 
-} }
+}
 
 #endif //!RF_OPENGLSHADER_HPP

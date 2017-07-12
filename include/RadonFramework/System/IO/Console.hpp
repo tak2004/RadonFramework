@@ -19,11 +19,13 @@
 #include <RadonFramework/Core/Pattern/Event.hpp>
 #include <RadonFramework/IO/ConsoleColor.hpp>
 
-namespace RadonFramework { namespace IO {
-    class LogChannel;
-} }
+namespace RadonFramework::IO {
 
-namespace RadonFramework { namespace System { namespace IO {
+class LogChannel;
+
+}
+
+namespace RadonFramework::System::IO {
 
 enum ConsoleCommand
 {
@@ -104,7 +106,7 @@ void Console::WriteLine(const Net::FixedLengthString<T,Len>& Str)
     WriteLine(Str.Str());
 }
         
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSIO
 #define RF_SHORTHAND_NAMESPACE_SYSIO

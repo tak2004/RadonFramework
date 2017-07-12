@@ -4,32 +4,29 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework::Time {
+
+struct TimeSpan;
+
+}
+
+namespace RadonFramework::System::Threading {
+	        
+class Mutex;
+
+class Condition
 {
-	namespace Time{
-		struct TimeSpan;
-	}
+public:
+    Condition();
+    ~Condition();
+    void Wait(Mutex& Lock);
+    void TimedWait(Mutex& Lock, const RadonFramework::Time::TimeSpan& Delta);
+    void Notify();
+    void NotifyAll();
+protected:
+    void* m_ImplData;
+};
 
-    namespace System
-    {
-	    namespace Threading
-	    {
-	        class Mutex;
-
-	        class Condition
-	        {
-                public:
-                    Condition();
-                    ~Condition();
-                    void Wait(Mutex& Lock);
-                    void TimedWait(Mutex& Lock, const RadonFramework::Time::TimeSpan& Delta);
-                    void Notify();
-                    void NotifyAll();
-                protected:
-                    void* m_ImplData;
-	        };
-	    }
-    }
 }
 
 #endif // RF_SYSTEM_THREADING_CONDITION_HPP

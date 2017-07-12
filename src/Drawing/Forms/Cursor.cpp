@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Forms/Cursor.hpp"
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 Cursor::Cursor(RF_Type::Int32 Type)
 :m_Type(Type)
@@ -19,4 +19,4 @@ RF_Type::Int32 Cursor::GetType()const
     return m_Type;
 }
 
-} }
+}

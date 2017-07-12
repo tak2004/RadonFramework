@@ -3,7 +3,7 @@
 #include "RadonFramework/Threading/Scopelock.hpp"
 #include "RadonFramework/System/Hardware/Hardware.hpp"
 
-namespace RadonFramework { namespace Threading {
+namespace RadonFramework::Threading {
 
 Thread::Thread()
 :m_Priority(ThreadPriority::Normal)
@@ -160,4 +160,4 @@ RF_Type::Bool Thread::ShouldRunning()
     return RF_SysThread::IsRunning(m_ImplData);
 }
 
-} }
+}

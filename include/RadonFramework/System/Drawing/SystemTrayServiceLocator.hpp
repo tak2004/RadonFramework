@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/System/Drawing/SystemTrayService.hpp>
 
-namespace RadonFramework { namespace System { namespace Drawing {
+namespace RadonFramework::System::Drawing {
 
 class NullSystemTrayService:public SystemTrayService
 {
@@ -25,7 +25,7 @@ public:
 
 typedef RF_Pattern::Locator<SystemTrayService, NullSystemTrayService> SystemTrayServiceLocator;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSDRAW
 #define RF_SHORTHAND_NAMESPACE_SYSDRAW

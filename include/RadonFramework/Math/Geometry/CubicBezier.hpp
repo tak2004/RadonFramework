@@ -9,7 +9,7 @@
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
             
 namespace Curve
 {
@@ -28,29 +28,29 @@ namespace Curve
 template<class TIN=RF_Type::Float32, class TOUT=RF_Type::Float32>
 class CubicBezier
 {
-    public:
-        CubicBezier();
-        CubicBezier(const Point2D<TIN>& Start, const Point2D<TIN>& StartControl,
-            const Point2D<TIN>& EndControl, const Point2D<TIN>& End);
+public:
+    CubicBezier();
+    CubicBezier(const Point2D<TIN>& Start, const Point2D<TIN>& StartControl,
+        const Point2D<TIN>& EndControl, const Point2D<TIN>& End);
 
-        Point2D<TIN> StartPoint;
-        Point2D<TIN> StartPointControl;
-        Point2D<TIN> EndPointControl;
-        Point2D<TIN> EndPoint;
+    Point2D<TIN> StartPoint;
+    Point2D<TIN> StartPointControl;
+    Point2D<TIN> EndPointControl;
+    Point2D<TIN> EndPoint;
 
-        static RF_Type::Bool IsClockwise(const Point2D<TIN>& A,
-                const Point2D<TIN>& B, const Point2D<TIN>& C);
-        static RF_Type::Bool IsInsideCircle(
-                const Point2D<TIN>& A, const Point2D<TIN>& B, 
-                const Point2D<TIN>& C, const Point2D<TIN>& D);
+    static RF_Type::Bool IsClockwise(const Point2D<TIN>& A,
+            const Point2D<TIN>& B, const Point2D<TIN>& C);
+    static RF_Type::Bool IsInsideCircle(
+            const Point2D<TIN>& A, const Point2D<TIN>& B, 
+            const Point2D<TIN>& C, const Point2D<TIN>& D);
 
-        Curve::Type GetType(TOUT& Det1, TOUT& Det2, TOUT& Det3, TOUT& Det4)const;
-        void GenerateTriangles(
-            RF_Collect::List<Vector<TOUT,4> >& Vertice,
-            RF_Collect::List<Vector<TOUT,4> >& UVs);
+    Curve::Type GetType(TOUT& Det1, TOUT& Det2, TOUT& Det3, TOUT& Det4)const;
+    void GenerateTriangles(
+        RF_Collect::List<Vector<TOUT,4> >& Vertice,
+        RF_Collect::List<Vector<TOUT,4> >& UVs);
 
-        void GeneratePoints(RF_Collect::List<Point2D<TOUT> >& points,
-                            RF_Type::UInt32 Steps);
+    void GeneratePoints(RF_Collect::List<Point2D<TOUT> >& points,
+                        RF_Type::UInt32 Steps);
 };
 
 template<class TIN, class TOUT>
@@ -356,7 +356,7 @@ void CubicBezier<TIN, TOUT>::GeneratePoints(RF_Collect::List<Point2D<TOUT> >& po
     }
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

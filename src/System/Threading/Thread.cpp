@@ -2,7 +2,7 @@
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/Collections/List.hpp"
 
-namespace RadonFramework { namespace System { namespace Threading {
+namespace RadonFramework::System::Threading {
 
 RF_Type::Bool IsAlive_SystemAPIDispatcher(void* Data)
 {
@@ -221,4 +221,4 @@ void GetNotDispatchedFunctions(RF_Collect::List<RF_Type::String>& Result)
         Result.AddLast("Stop"_rfs);
 }
 
-} } }
+}

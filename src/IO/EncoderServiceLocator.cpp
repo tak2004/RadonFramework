@@ -5,7 +5,7 @@ using namespace RadonFramework::Collections;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Memory;
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 EncoderServiceLocator::Iterator EncoderServiceLocator::FindCodec(
     const RF_Type::UInt32 FCC, RF_Encoders::Interface Target)
@@ -31,4 +31,4 @@ EncoderServiceLocator::Iterator EncoderServiceLocator::FindByNameOrFourCC(
     return EncoderServiceLocator::m_Services.End();
 }
 
-} }
+}

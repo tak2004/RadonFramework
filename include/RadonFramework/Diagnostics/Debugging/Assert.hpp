@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging {
+namespace RadonFramework::Diagnostics::Debugging {
 
 #ifndef NDEBUG
     #ifdef RF_DEBUG
@@ -37,7 +37,7 @@ namespace RadonFramework { namespace Diagnostics { namespace Debugging {
     ASSERT_IMPL(test,msg)\
 }
 
-} } }
+}
 
 namespace RF_Debug = ::RadonFramework::Diagnostics::Debugging;
 

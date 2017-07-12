@@ -4,7 +4,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /** A Float32 have always the size of 4 byte and represent a signed
   * floating point value.
@@ -17,7 +17,7 @@ extern const Float32 Float32Min;
 /// The maximum value which can be contained by a Float32.
 extern const Float32 Float32Max;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

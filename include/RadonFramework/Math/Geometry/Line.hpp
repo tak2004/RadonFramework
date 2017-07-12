@@ -10,7 +10,7 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 class Line2D
 {
@@ -40,7 +40,7 @@ protected:
     Point2D<> m_Point2;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

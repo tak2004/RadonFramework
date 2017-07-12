@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class Cursor
 {
@@ -34,7 +34,7 @@ protected:
     RF_Type::Int32 m_Type;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

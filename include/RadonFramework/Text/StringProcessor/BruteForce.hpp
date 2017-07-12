@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Text { namespace StringProcessors {
+namespace RadonFramework::Text::StringProcessors {
 
 /** This policy search a String in an other String by comparing
 * the word of the first String with the characters of the second.
@@ -42,6 +42,6 @@ struct BruteForce
     static RF_Type::Int32 DoAll(RF_Type::String& Text, StorageType* Storage);
 };
             
-} } }
+}
 
 #endif // RF_TEXT_STRINGPROCESSORS_BRUTEFORCE_HPP

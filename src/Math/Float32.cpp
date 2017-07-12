@@ -3,7 +3,7 @@
 #include <limits>
 #include <cmath>
 
-namespace RadonFramework { namespace Math {
+namespace RadonFramework::Math {
 
 const RF_Type::Float32 Float32::TWO_PI = static_cast<RF_Type::Float32>(8.0*atan(1.0));
 const RF_Type::Float32 Float32::PI = static_cast<RF_Type::Float32>(4.0*atan(1.0));
@@ -235,4 +235,4 @@ void Float32::Init()
     WasInitialized = true;
 }
 
-} }
+}

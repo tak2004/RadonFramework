@@ -4,7 +4,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 template <typename T>
 class ArrayEnumerator
@@ -107,7 +107,7 @@ Memory::AutoPointer<ArrayEnumerator<T> > ArrayEnumerator<T>::End()const
     return result;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

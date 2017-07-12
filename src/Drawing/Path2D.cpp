@@ -20,7 +20,7 @@ struct Command
     };
 };
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 enum
 {
@@ -393,4 +393,4 @@ Stroke::Stroke()
 
 }
 
-} }
+}

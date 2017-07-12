@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <RadonFramework/System/Memory.hpp>
 
-namespace RadonFramework { namespace Core { namespace Policies {
+namespace RadonFramework::Core::Policies {
 
 struct CMemoryOperation
 {
@@ -70,7 +70,7 @@ struct CMemoryOperation
     }
 };
         
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_POLICY
 #define RF_SHORTHAND_NAMESPACE_POLICY

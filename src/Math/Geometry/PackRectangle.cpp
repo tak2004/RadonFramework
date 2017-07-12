@@ -2,7 +2,7 @@
 #include "RadonFramework/Math/Geometry/PackRectangle.hpp"
 #include "RadonFramework/Collections/Algorithm/QuickSort.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 struct PackRectangle::Node
 {
@@ -184,4 +184,4 @@ RF_Type::Bool PackRectangle::NeedProcessing() const
     return m_NotProcessedRectangles.IsEmpty() == false;
 }
 
-} } }
+}

@@ -9,7 +9,7 @@ using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::System::Network;
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class PIMPL
 {
@@ -358,4 +358,4 @@ void Socket::DetachFromSelectObjectCollector(SelectObjectCollector& Collector)co
 	}	
 }
 
-} }
+}

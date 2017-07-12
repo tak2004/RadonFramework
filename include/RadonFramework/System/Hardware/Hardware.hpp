@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace Hardware {
+namespace RadonFramework::System::Hardware {
 
 // forward decleration
 struct CacheInfo;
@@ -88,7 +88,7 @@ CacheInfo& GetLevel1DataCache();
 CacheInfo& GetLevel1InstructionCache();
 CacheInfo& GetLevel2DataCache();
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSHARDWARE
 #define RF_SHORTHAND_NAMESPACE_SYSHARDWARE

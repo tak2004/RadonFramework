@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/Event.hpp>
 #include <RadonFramework/Core/Pattern/Signal.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class IPAddress;
 class Socket;
@@ -39,7 +39,7 @@ private:
     RF_Idiom::PImpl<Client> m_Data;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

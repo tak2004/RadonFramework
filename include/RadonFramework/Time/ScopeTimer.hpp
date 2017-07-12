@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
 
-namespace RadonFramework { namespace Time {
+namespace RadonFramework::Time {
 
 class ScopeTimer
 {
@@ -19,7 +19,7 @@ protected:
     RF_Type::UInt64 m_Start;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TIME
 #define RF_SHORTHAND_NAMESPACE_TIME

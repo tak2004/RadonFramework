@@ -11,7 +11,7 @@
 #include "RadonFramework/Drawing/Forms/Form.hpp"
 #include "RadonFramework/Drawing/AbstractRenderer.hpp"
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 Canvas3D::Canvas3D(RF_Form::Form& Window, RF_Form::Control* Parent)
 :m_Renderer(0)
@@ -116,4 +116,4 @@ void Canvas3D::SetVSync(const RF_Type::Bool Synchronize /*= true*/,
     m_Backend->SetVSync(Synchronize, ShouldContinue);
 }
 
-} }
+}

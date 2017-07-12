@@ -2,7 +2,7 @@
 #include "RadonFramework/Net/Client.hpp"
 #include "RadonFramework/Net/Socket.hpp"
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 
 template<>
 struct PImpl<RF_Net::Client>::Data
@@ -17,9 +17,9 @@ struct PImpl<RF_Net::Client>::Data
 	RF_Type::Bool m_IsConnected;
 };
 
-} } }
+}
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 Client::Client()
 {
@@ -101,4 +101,4 @@ RF_Type::Bool Client::ProcessPacket(Socket& Socket, const IPAddress& Source,
     return result;
 }
 
-} }
+}

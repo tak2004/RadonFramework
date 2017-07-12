@@ -2,7 +2,7 @@
 #include "RadonFramework/Text/Tokenizer.hpp"
 #include "RadonFramework/Collections/Algorithm/FindAll.hpp"
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 class DeleteTokenCommand: public ASTCommand
 {
@@ -321,4 +321,4 @@ void ASTCommand::Execute(RF_Collect::Tree<RF_Mem::AutoPointer<Token>>::NodeType&
 
 }
 
-} }
+}

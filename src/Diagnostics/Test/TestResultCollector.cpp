@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Diagnostics/Test/TestResultCollector.hpp"
 
-namespace RadonFramework { namespace Diagnostics { namespace Test {
+namespace RadonFramework::Diagnostics::Test {
 
 TestResultCollector::TestResultCollector()
 :m_Successful(true)
@@ -39,4 +39,4 @@ const RF_Collect::List<RF_Test::SuiteResult>& TestResultCollector::TestResults()
 	return m_TestResults;
 }
 
-} } }
+}

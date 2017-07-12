@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace Process {
+namespace RadonFramework::System::Process {
 
 struct IOInfo
 {
@@ -16,7 +16,7 @@ struct IOInfo
     RF_Type::UInt64 OtherTransferedBytes;
 };
 
-} } }
+}
 
 namespace RFPROC = RadonFramework::System::Process;
 

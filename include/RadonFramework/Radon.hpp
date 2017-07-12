@@ -8,27 +8,27 @@
 
 // If you change this enum then do it in RadonFramework_Init and RadonFramework_Quit
 // function too and don't forget to adjust the Type::All value.
-namespace RadonFramework
-{
+namespace RadonFramework::Init {
 
-namespace Init
+enum Type
 {
-	enum Type
-	{
-		All = 0x7FF,
-		Core = 1,
-		Drawing = 2,
-		Forms = 4,
-		Hashing = 8,
-		IO = 0x10,
-		Net = 0x20,
-		Diagnostics = 0x40,
-		Time = 0x80,
-		Memory = 0x100,
-		Process= 0x200,
-        Threading = 0x400
-	};
+	All = 0x7FF,
+	Core = 1,
+	Drawing = 2,
+	Forms = 4,
+	Hashing = 8,
+	IO = 0x10,
+	Net = 0x20,
+	Diagnostics = 0x40,
+	Time = 0x80,
+	Memory = 0x100,
+	Process= 0x200,
+    Threading = 0x400
+};
+
 }
+
+namespace RadonFramework {
 
 /** This class take care of one time initialized objects and modules.
   * It allows to dispatch, initialize, shutdown and register at a specific

@@ -10,7 +10,7 @@
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 template <class StringProcessingPolicy>
 class StringProcessor
@@ -149,7 +149,7 @@ typename StringProcessor<StringProcessorPolicy>::ProcessorStorage& StringProcess
     return m_Storage;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TEXT
 #define RF_SHORTHAND_NAMESPACE_TEXT

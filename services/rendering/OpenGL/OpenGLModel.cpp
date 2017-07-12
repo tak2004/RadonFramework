@@ -2,7 +2,7 @@
 #include "OpenGLModel.hpp"
 #include <OpenGL.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 void OpenGLModel::Generate(RF_Type::Float32* Vertices, RF_Type::Size VertexCount,
                            RF_Type::Size ElementsPerVertex)
@@ -115,4 +115,4 @@ void OpenGLModel::Update(RF_Type::Float32* Vertices, RF_Type::Float32* Colors,
     }
 }
 
-} }
+}

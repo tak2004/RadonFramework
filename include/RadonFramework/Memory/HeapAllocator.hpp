@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Memory/MemoryBlock.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 class HeapAllocator
 {
@@ -20,7 +20,7 @@ private:
     static RF_Type::Size m_PageSize;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

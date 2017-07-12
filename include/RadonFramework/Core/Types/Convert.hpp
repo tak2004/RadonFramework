@@ -15,7 +15,7 @@
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 struct Convert
 {
@@ -138,7 +138,7 @@ struct Convert
     #undef STRING_TO
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

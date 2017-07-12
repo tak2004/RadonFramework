@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 enum class UnicodeRangeIdentifier;
 
@@ -196,7 +196,7 @@ enum class UnicodeRangeIdentifier
     DominoTiles
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TEXT
 #define RF_SHORTHAND_NAMESPACE_TEXT

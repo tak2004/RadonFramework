@@ -9,7 +9,7 @@
 #include <RadonFramework/Net/mDNS/Message.hpp>
 #include <RadonFramework/Net/IPAddress.hpp>
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 class MessageWriter
 {
@@ -40,7 +40,7 @@ protected:
     Header m_Header;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MDNS
 #define RF_SHORTHAND_NAMESPACE_MDNS

@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 namespace SeekOrigin
 {
@@ -17,7 +17,7 @@ namespace SeekOrigin
     };
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

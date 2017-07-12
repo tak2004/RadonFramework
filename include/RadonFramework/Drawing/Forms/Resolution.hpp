@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/UInt32.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 struct Resolution
 {
@@ -16,7 +16,7 @@ struct Resolution
     RF_Type::UInt32 Frequency;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

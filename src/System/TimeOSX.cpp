@@ -21,7 +21,7 @@ RF_Type::Bool IsHighResolutionCounterSupportedOSX()
     return true;
 }
 
-namespace RadonFramework { namespace System { namespace Time {
+namespace RadonFramework::System::Time {
 
 void Dispatch_OSX()
 {
@@ -29,4 +29,4 @@ void Dispatch_OSX()
     IsHighResolutionCounterSupported = IsHighResolutionCounterSupportedOSX;
 }
 
-} } }
+}

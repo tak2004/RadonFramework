@@ -12,9 +12,9 @@
 
 class PIMPL;
 
-namespace RadonFramework { namespace IO { class MemoryCollectionStream; } }
+namespace RadonFramework::IO { class MemoryCollectionStream; }
 
-namespace RadonFramework { namespace Net { 
+namespace RadonFramework::Net { 
 
 template<typename T>
 class NetworkStream;
@@ -52,7 +52,7 @@ private:
     RF_Mem::AutoPointer<PIMPL> m_Data;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

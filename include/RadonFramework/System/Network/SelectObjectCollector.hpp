@@ -11,11 +11,13 @@
 #include <RadonFramework/Net/SelectMode.hpp>
 #include <RadonFramework/Net/Error.hpp>
 
-namespace RadonFramework { namespace Time {
-class TimeSpan;
-} }
+namespace RadonFramework::Time {
 
-namespace RadonFramework { namespace System { namespace Network {
+class TimeSpan;
+
+}
+
+namespace RadonFramework::System::Network {
 
 class SelectObjectCollector
 {
@@ -43,7 +45,7 @@ private:
     SelectObjectCollector& operator=(const SelectObjectCollector& Other);
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYS_NET
 #define RF_SHORTHAND_NAMESPACE_SYS_NET

@@ -4,7 +4,7 @@
 #include "RadonFramework/Net/PacketStream.hpp"
 #include "RadonFramework/Core/Pattern/Signal.hpp"
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class Session : public RF_Pattern::SignalReceiver
 {
@@ -101,4 +101,4 @@ void SessionServer::SessionResponse(RF_Type::UInt32 ASession)
     m_SessionsWithResponses.Enqueue(ASession);
 }
 
-} }
+}

@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 class BriefProgressCollector:public Collector
 {
@@ -15,6 +15,6 @@ public:
     void ProcessResult(const Test::TestResult& Result)override;
 };
  
-} } } }
+}
 
 #endif // RF_DIAGNOSTICS_DEBUGGING_BRIEFPROGRESSCOLLECTOR_HPP

@@ -11,7 +11,7 @@
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Stream
 {
@@ -81,7 +81,7 @@ RF_Type::UInt64 Stream::PeekType(T& ByValue)
     return Peek(reinterpret_cast<RF_Type::UInt8*>(&ByValue),0,sizeof(T));
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define  RF_SHORTHAND_NAMESPACE_IO

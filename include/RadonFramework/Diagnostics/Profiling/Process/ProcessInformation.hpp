@@ -13,7 +13,7 @@
 #include <RadonFramework/System/Process/ModuleInfo.hpp>
 #include <RadonFramework/System/Process/ThreadInfo.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Profiling { namespace Process {
+namespace RadonFramework::Diagnostics::Profiling::Process {
 
 class ProcessInformation
 {
@@ -68,7 +68,7 @@ inline const RadonFramework::System::Process::ThreadInfoList& ProcessInformation
     return this->m_Threads;
 }
 
-} } } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PROF
 #define RF_SHORTHAND_NAMESPACE_PROF

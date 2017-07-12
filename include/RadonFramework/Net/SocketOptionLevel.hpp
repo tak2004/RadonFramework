@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 enum class SocketOptionLevel
 {
@@ -17,7 +17,7 @@ enum class SocketOptionLevel
     MAX
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

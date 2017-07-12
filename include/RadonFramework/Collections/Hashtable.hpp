@@ -4,10 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework
-{
-  namespace Collections
-  {
+namespace RadonFramework::Collections {
 // TODO (Thomas#1#): improve the performance by changing the hashing
     //simple hashtable
     class Hashtable
@@ -54,7 +51,6 @@ namespace RadonFramework
         unsigned int Count();
         Object* Item(const unsigned int Index);*/
     };
-  }
 }
 
 #endif

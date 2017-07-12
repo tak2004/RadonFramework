@@ -8,7 +8,7 @@
 #include <Windowsx.h>
 #include <Strsafe.h>
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 
 template<>
 struct RF_Idiom::PImpl<RF_SysDraw::SystemTrayServiceWindows>::Data
@@ -130,7 +130,7 @@ struct RF_Idiom::PImpl<RF_SysDraw::SystemTrayServiceWindows>::Data
     RF_Collect::Array<TrayIconItem> m_IconData;
     HWND m_HWND;
 };
-} } }
+}
 
 RF_SysDraw::SystemTrayServiceWindows* SYSTEMTRAYSERVICE = 0;
 RF_Idiom::PImpl<RF_SysDraw::SystemTrayServiceWindows>::Data* SYSTEMTRAYSERVICEDATA = 0;
@@ -171,7 +171,7 @@ LRESULT CALLBACK WindowMessageProcessor(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
     return 0;
 }
 
-namespace RadonFramework { namespace System { namespace Drawing {
+namespace RadonFramework::System::Drawing {
 
 // http://blogs.msdn.com/b/oldnewthing/archive/2004/10/25/247180.aspx
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
@@ -310,4 +310,4 @@ RF_Type::Bool SystemTrayServiceWindows::IsSupported()
     return true;
 }
 
-} } }
+}

@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Diagnostics/Profiling/GPUServiceLocator.hpp"
 
-namespace RadonFramework { namespace Diagnostics { namespace Profiling {
+namespace RadonFramework::Diagnostics::Profiling {
 
 NullGPUService::NullGPUService(const RF_Type::String& Name)
 :GPUService(Name)
@@ -42,4 +42,4 @@ void NullGPUService::Update(const RF_Type::Size GPUIndex)
 {
 }
 
-} } }
+}

@@ -10,13 +10,13 @@
 #include <RadonFramework/Net/SocketError.hpp>
 #include <RadonFramework/System/Network/NetService.hpp>
 
-namespace RadonFramework { namespace System { namespace Network {
+namespace RadonFramework::System::Network {
 
 class SelectObjectCollector;
 
-} } }
+}
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
         
 class PIMPL;
 struct MulticastRequest;
@@ -91,7 +91,7 @@ private:
     Socket();
 };
     
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

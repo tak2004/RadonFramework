@@ -8,7 +8,7 @@
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 /** @brief The AutoVector class is designed to work more safety with pointer.
 *
@@ -342,7 +342,7 @@ AutoVector<T>::operator AutoVectorReference()
     return AutoVectorReference(m_Pointer);
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

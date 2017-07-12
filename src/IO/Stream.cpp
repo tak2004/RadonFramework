@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/Stream.hpp"
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 Stream::~Stream()
 {
@@ -47,4 +47,4 @@ RF_Mem::AutoPointerArray<RF_Type::UInt8> Stream::PeekBytes(RF_Type::Size Bytes)
     return result;
 }
 
-} }
+}

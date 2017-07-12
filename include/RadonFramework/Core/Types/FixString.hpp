@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Types{
+namespace RadonFramework::Core::Types{
 
 template<int LENGTH>
 struct FixString
@@ -59,7 +59,7 @@ void FixString<LENGTH>::SetSize(const UInt8 NewSize)
     m_Size = NewSize;
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

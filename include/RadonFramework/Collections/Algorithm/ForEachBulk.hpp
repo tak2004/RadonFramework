@@ -8,7 +8,7 @@
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/Time/ScopeTimer.hpp>
 
-namespace RadonFramework { namespace Collections { namespace Algorithm {
+namespace RadonFramework::Collections::Algorithm {
 
 template <class C, typename FUNCTION>
 struct ForEachBulkEnumeratorTaskData
@@ -87,7 +87,7 @@ void ForEachBulk(const C& Enumerable, FUNCTION Function)
     }
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_ALGO
 #define RF_SHORTHAND_NAMESPACE_ALGO

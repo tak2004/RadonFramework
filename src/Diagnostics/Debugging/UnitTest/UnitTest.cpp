@@ -5,7 +5,7 @@
 #include "RadonFramework/Diagnostics/Test/TestResult.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 UnitTest::UnitTest()
 :m_TestProbes(1)
@@ -96,4 +96,4 @@ TestSuite* UnitTest::GetSuite( const RF_Type::String& Suitename )
     return result;
 }
 
-} } } }
+}

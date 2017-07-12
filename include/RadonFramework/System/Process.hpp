@@ -7,7 +7,7 @@
 #include <RadonFramework/System/Process/ModuleInfo.hpp>
 #include <RadonFramework/System/Process/ThreadInfo.hpp>
 
-namespace RadonFramework { namespace System { namespace Process {
+namespace RadonFramework::System::Process {
 
 // forward declaration
 class GeneralInfo;
@@ -58,7 +58,7 @@ extern GetThreadInfoCallback GetThreadInfo;
 extern ExecuteProgramCallback ExecuteProgram;
 extern OpenWithDefaultApplicationCallback OpenWithDefaultApplication;
 
-} } }
+}
 
 namespace RFPROC = RadonFramework::System::Process;
 

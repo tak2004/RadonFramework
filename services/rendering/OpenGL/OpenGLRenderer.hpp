@@ -11,7 +11,7 @@
 #include "OpenGLModel.hpp"
 #include "OpenGLShader.hpp"
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class AbstractCanvas;
 
@@ -56,6 +56,6 @@ private:
     RF_Type::UInt32 m_NextId;
 };
 
-} }
+}
 
 #endif //!RF_OPENGLRENDERER_HPP

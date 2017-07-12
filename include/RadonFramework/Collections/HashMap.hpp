@@ -12,7 +12,7 @@ using SPARSEHASH_HASH;
 //using ext::hash;
 //using __gnu_cxx::hash;
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 template <class A, class B, class C, class D>
 struct HashMapMemoryEfficient
@@ -78,7 +78,7 @@ protected:
 template<class K, class T>
 using SparseHashMap = HashMap<K, T, SPARSEHASH_HASH<K>, STL_NAMESPACE::equal_to<K>, HashMapOperationEfficient<K, T, SPARSEHASH_HASH<K>, STL_NAMESPACE::equal_to<K> > >;
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System {
+namespace RadonFramework::System {
 
 enum class Endian
 { 
@@ -13,7 +13,7 @@ enum class Endian
     Both 
 }; 
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYS
 #define RF_SHORTHAND_NAMESPACE_SYS

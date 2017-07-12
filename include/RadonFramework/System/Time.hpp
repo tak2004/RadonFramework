@@ -6,10 +6,15 @@
 
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Time { struct DateTime; } }
+namespace RadonFramework::Time { 
+
+struct DateTime; 
+
+}
+
 namespace RF_Time = RadonFramework::Time;
 
-namespace RadonFramework { namespace System { namespace Time {
+namespace RadonFramework::System::Time {
 
 typedef RF_Mem::PointerID TimerHandle;
 
@@ -57,7 +62,7 @@ extern GetStringFormattedTimeCallback GetStringFormattedTime;
 extern GetHighResolutionCounterCallback GetHighResolutionCounter;
 extern IsHighResolutionCounterSupportedCallback IsHighResolutionCounterSupported;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSTIME
 #define RF_SHORTHAND_NAMESPACE_SYSTIME

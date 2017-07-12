@@ -2,7 +2,7 @@
 #include <RadonFramework/IO/EncoderService.hpp>
 #include <RadonFramework/IO/EncoderServiceLocator.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 EncoderService::EncoderService(const RF_Type::String &Name)
 :Service(Name),
@@ -27,4 +27,4 @@ RF_Type::Bool EncoderService::IsEncoderInterface(const RF_Type::UInt32 FourCC,
     return false;
 }
 
-} }
+}

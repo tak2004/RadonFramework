@@ -6,7 +6,7 @@
 #include <RadonFramework/Drawing/Forms/AbstractWindow.hpp>
 #include <windows.h>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class WindowsWindow:public AbstractWindow
 {
@@ -55,6 +55,6 @@ protected:
     static Collections::List<WindowsWindow*>m_Objects;
 };
     
-} }
+}
 
 #endif

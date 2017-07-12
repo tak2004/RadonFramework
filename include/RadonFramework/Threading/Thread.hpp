@@ -16,13 +16,13 @@
 #include <RadonFramework/Collections/BitArray.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
 
-namespace RadonFramework { namespace Time {
+namespace RadonFramework::Time {
 
 struct TimeSpan;
 
-} }
+}
 
-namespace RadonFramework { namespace Threading {
+namespace RadonFramework::Threading {
             
 class Thread
 {
@@ -105,7 +105,7 @@ protected:
     RF_Type::Bool m_Alive;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_THREADING
 #define RF_SHORTHAND_NAMESPACE_THREADING

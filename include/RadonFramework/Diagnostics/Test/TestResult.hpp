@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Time/TimeSpan.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Test {
+namespace RadonFramework::Diagnostics::Test {
 
 class TestResult
 {
@@ -31,7 +31,7 @@ protected:
 	RF_Type::Bool m_Error;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TEST
 #define RF_SHORTHAND_NAMESPACE_TEST

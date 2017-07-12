@@ -4,11 +4,11 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Diagnostics { namespace Test {
+namespace RadonFramework::Diagnostics::Test {
 class TestResult;
-} } }
+}
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 class Collector
 {
@@ -17,7 +17,7 @@ public:
     virtual void ProcessResult(const Test::TestResult& Result)=0;
 };
 
-} } } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_UNITTEST
 #define RF_SHORTHAND_NAMESPACE_UNITTEST

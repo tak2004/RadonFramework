@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Net/mDNS/NetworkService.hpp"
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 NetworkService::NetworkService()
 {
@@ -53,4 +53,4 @@ ServiceInstanceInfo& ServiceInstanceInfo::operator=(const ServiceInstanceInfo& C
     return *this;
 }
 
-} } }
+}

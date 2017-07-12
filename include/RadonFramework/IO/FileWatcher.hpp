@@ -8,7 +8,7 @@
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/System/IO/FileSystem.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
     
 class FileWatcher;
 
@@ -50,7 +50,7 @@ private:
     Uri m_Path;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

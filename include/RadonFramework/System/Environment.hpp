@@ -11,9 +11,13 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
 
-namespace RadonFramework { namespace Util { struct UUID; } }
+namespace RadonFramework::Util { 
 
-namespace RadonFramework {  namespace System { namespace Environment {
+struct UUID; 
+
+}
+
+namespace RadonFramework::System::Environment {
 
 /// This function will be called by RadonFramework_Init function.
 void Dispatch();
@@ -75,7 +79,7 @@ extern SystemLanguageCallback ActiveLanguageLocation;
 /// Return the current active user language location in native language e.g. Deutschland.
 extern SystemLanguageCallback ActiveNativeLanguageLocation;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSENV
 #define RF_SHORTHAND_NAMESPACE_SYSENV

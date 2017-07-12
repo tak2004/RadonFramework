@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 template<class T=RF_Type::UInt32, class FLOAT=RF_Type::Float32>
 class Size2D
@@ -41,7 +41,7 @@ typedef Size2D<RF_Type::UInt32> Size2Du;
 typedef Size2D<RF_Type::Float32> Size2Df;
 typedef Size2D<RF_Type::Float64, RF_Type::Float64> Size2Dd;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

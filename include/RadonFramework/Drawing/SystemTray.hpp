@@ -8,7 +8,7 @@
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/System/Drawing/SystemTrayService.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class TrayIcon;
 
@@ -39,7 +39,7 @@ private:
     RF_Idiom::PImpl<SystemTray> m_PImpl;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

@@ -9,7 +9,7 @@
 #include <RadonFramework/Core/Types/Float64.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Time {
+namespace RadonFramework::Time {
 
 typedef RF_Type::UInt64 TimeValue;
 
@@ -64,17 +64,18 @@ protected:
     TimeValue m_TimeValue;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TIME
 #define RF_SHORTHAND_NAMESPACE_TIME
 namespace RF_Time = RadonFramework::Time;
 #endif
 
-namespace RadonFramework { namespace System { namespace IO {
-    // forward decleration
-    class Console;
-} } }
+namespace RadonFramework::System::IO {
+
+class Console;
+
+}
 
 RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
                                                 const RF_Time::TimeSpan& Other);

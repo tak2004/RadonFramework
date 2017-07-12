@@ -7,21 +7,19 @@
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 
-namespace RadonFramework {
-    
-namespace System { namespace Threading {
+namespace RadonFramework::System::Threading {
 
 class Mutex;
 
-} }
+}
     
-namespace Forms{
+namespace RadonFramework::Forms{
     
 class AbstractWindow;
 
 }
 
-namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class GraphicDriverInformation;
 class AbstractRenderer;
@@ -50,7 +48,7 @@ public:
     virtual AbstractRenderer* GetRenderer()const=0;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

@@ -24,18 +24,18 @@
 #define REGISTER_REFLECTION_CLASS(__CLASS,__NAME)\
     RF_Reflect::ReflectionClass __CLASS::DescriptionClass(__NAME,&__CLASS::ConfigureDescriptionClass##__CLASS,&RF_Reflect::CreateInstance<__CLASS>);
 
-namespace RadonFramework { namespace Reflection {
+namespace RadonFramework::Reflection {
 
 //forward declaration
 class ReflectionClass;
 
 class ReflectionManager:public RF_Pattern::Singleton<ReflectionManager>
 {
-    public:
-        RF_Collect::List<ReflectionClass*> Classes;
+public:
+    RF_Collect::List<ReflectionClass*> Classes;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_REFLECT
 #define RF_SHORTHAND_NAMESPACE_REFLECT

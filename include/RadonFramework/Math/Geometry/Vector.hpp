@@ -8,7 +8,7 @@
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/Math/MathOfType.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 template <typename T,RF_Type::Size SIZE>
 class Vector
@@ -245,7 +245,7 @@ typedef Vector<float,2> Vec2f;
 typedef Vector<float,3> Vec3f;
 typedef Vector<float,4> Vec4f;
       
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

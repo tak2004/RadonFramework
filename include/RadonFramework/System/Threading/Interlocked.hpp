@@ -9,7 +9,7 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/Int64.hpp>
 
-namespace RadonFramework { namespace System { namespace Threading {
+namespace RadonFramework::System::Threading {
 
 struct Interlocked
 {
@@ -167,7 +167,7 @@ struct Interlocked
         void* volatile* Target, void* Value);
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSTHREAD
 #define RF_SHORTHAND_NAMESPACE_SYSTHREAD

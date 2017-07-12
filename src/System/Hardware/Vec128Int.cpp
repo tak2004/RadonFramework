@@ -2,7 +2,7 @@
 #include "RadonFramework/System/Hardware/Vec128Int.hpp"
 #include "RadonFramework/Collections/List.hpp"
 
-namespace RadonFramework { namespace System { namespace Hardware {
+namespace RadonFramework::System::Hardware {
 
 void Vec128Load_SystemAPIDispatcher(RF_Type::Vec128Int32* Destination,
     const RF_Type::Vec128Int32* Source, const RF_Type::Size Elements)
@@ -98,4 +98,4 @@ void GetNotDispatchedVec128IntFunctions(RF_Collect::List<RF_Type::String>& Resul
         Result.AddLast("Vec128IntFindInt32"_rfs);
 }
 
-} } }
+}

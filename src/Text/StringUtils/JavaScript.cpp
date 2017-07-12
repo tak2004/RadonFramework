@@ -2,7 +2,7 @@
 #include "RadonFramework/Text/StringUtils/JavaScript.hpp"
 #include "RadonFramework/backend/stringcoders/modp_bjavascript.h"
 
-namespace RadonFramework { namespace Text { namespace StringUtils {
+namespace RadonFramework::Text::StringUtils {
 
 RF_Type::String JavaScriptConverter::Encode(const RF_Type::String &Source)
 {
@@ -11,4 +11,4 @@ RF_Type::String JavaScriptConverter::Encode(const RF_Type::String &Source)
     return result;
 }
 
-} } }
+}

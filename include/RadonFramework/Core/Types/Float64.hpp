@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /** A Float64 have always the size of 8 byte and represent a signed
   * floating point value.
@@ -17,7 +17,7 @@ extern const Float64 Float64Max;
 /// The minimum value which can be contained by a Float64.
 extern const Float64 Float64Min;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

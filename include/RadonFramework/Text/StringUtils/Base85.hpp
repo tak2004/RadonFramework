@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Text { namespace StringUtils {
+namespace RadonFramework::Text::StringUtils {
 
 class Base85Converter
 {
@@ -15,6 +15,6 @@ public:
     static RF_Type::String Decode(const RF_Type::String &Source);
 };
 
-} } }
+}
 
 #endif // RF_TEXT_STRINGUTILS_BASE85_HPP

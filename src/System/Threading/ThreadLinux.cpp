@@ -10,9 +10,7 @@
 #include <pthread.h>
 #include <sys/prctl.h>
 
-namespace RadonFramework { namespace System { namespace Threading {
-
-namespace Linux {
+namespace RadonFramework::System::Threading::Linux {
 
 void Rename(void* Data, const RF_Type::String& Name)
 {
@@ -54,6 +52,8 @@ RF_Type::Bool SetAffinityMask(void* Data, const RF_Collect::BitArray<>& NewValue
 
 }
 
+namespace RadonFramework::System::Threading {
+
 void Dispatch_Linux()
 {
     Rename = Linux::Rename;
@@ -61,4 +61,4 @@ void Dispatch_Linux()
     SetAffinityMask = Linux::SetAffinityMask;
 }
 
-} } }
+}

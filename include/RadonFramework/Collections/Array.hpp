@@ -14,7 +14,7 @@
 
 #include <stdlib.h>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 /** 
 * This class allow to store many elements of the same type.
@@ -1741,7 +1741,7 @@ RF_Type::Bool Array<T,MA,MO>::InitArray(
     return true;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

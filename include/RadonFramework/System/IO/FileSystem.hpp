@@ -10,13 +10,13 @@
 #include <RadonFramework/IO/SeekOrigin.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Uri;
 
-} }
+}
 
-namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
+namespace RadonFramework::System::IO::FileSystem {
 
 typedef RF_Mem::PointerID FileHandle;
 typedef RF_Mem::PointerID MemoryMappingHandle;
@@ -260,7 +260,7 @@ extern SystemPathToUriCallback SystemPathToUri;
 extern UriToSystemPathCallback UriToSystemPath;
 extern DeleteDirectoryCallback DeleteDirectory;
 
-} } } }
+}
 
 namespace RFFILE = RadonFramework::System::IO::FileSystem;
 

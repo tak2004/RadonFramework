@@ -12,7 +12,7 @@
 #include <RadonFramework/IO/UriKind.hpp>
 #include <RadonFramework/IO/UriPartial.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 /*
     foo://example.com:8042/over/there?name=ferret#nose
     \_/   \______________/\_________/ \_________/ \__/
@@ -181,7 +181,7 @@ protected:
     RF_Type::String Escape( RF_Type::String& str, const RF_Type::String& UriString );
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

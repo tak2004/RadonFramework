@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Net/IPAddress.hpp>
 
-namespace RadonFramework { namespace Net { 
+namespace RadonFramework::Net { 
 
 struct NetworkAdapter
 {
@@ -14,7 +14,7 @@ struct NetworkAdapter
     IPAddress Netmask;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

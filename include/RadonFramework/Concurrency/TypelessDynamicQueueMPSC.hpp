@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Memory/FreeListAllocator.hpp>
 
-namespace RadonFramework { namespace Concurrency {
+namespace RadonFramework::Concurrency {
 
 /** @brief This class is a lock free queue which can grow and shrink.
 *
@@ -48,7 +48,7 @@ private:
     Node* m_Stub;    
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_CON
 #define RF_SHORTHAND_NAMESPACE_CON

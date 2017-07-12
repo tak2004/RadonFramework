@@ -8,7 +8,7 @@
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Point2D.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
             
 namespace Viewtype
 {
@@ -46,7 +46,7 @@ protected:
     RF_Type::Float32 m_Left, m_Top;
 };
         
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

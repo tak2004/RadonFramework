@@ -10,7 +10,7 @@
 #include <RadonFramework/Time/TimeSpan.hpp>
 #include <RadonFramework/Collections/BitArray.hpp>
 
-namespace RadonFramework { namespace System { namespace Threading {
+namespace RadonFramework::System::Threading {
 
 /// This function will be called by RadonFramework_Init function.
 void Dispatch();
@@ -73,7 +73,7 @@ extern GetAffinityMaskCallback GetAffinityMask;
 extern PostConfigurationCompleteCallback PostConfigurationComplete;
 /// 
 extern ShortestPauseCallback ShortestPause;
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSTHREAD
 #define RF_SHORTHAND_NAMESPACE_SYSTHREAD

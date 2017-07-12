@@ -9,7 +9,7 @@ using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 IPAddress IPAddress::IPv4Any=IPAddress(0,0,0,0);
 IPAddress IPAddress::IPv4Loopback=IPAddress(127,0,0,1);
@@ -418,4 +418,4 @@ Bool IPAddress::IsPrivateNetworkAddress( IPAddress IP )
     return res;
 }
 
-} }
+}

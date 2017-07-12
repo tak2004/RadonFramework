@@ -6,7 +6,7 @@
 #include "RadonFramework/IO/File.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 void JUnitOutput::WriteToFile(const RF_IO::Uri& URI,
 	const RF_Test::TestResultCollector& Results)
@@ -81,4 +81,4 @@ void JUnitOutput::WriteToFile(const RF_IO::Uri& URI,
 	}
 }
 
-} } } }
+}

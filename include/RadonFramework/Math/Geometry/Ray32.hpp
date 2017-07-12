@@ -9,7 +9,7 @@
 #include <RadonFramework/Math/Geometry/Vector.hpp>
 #include <RadonFramework/Math/Geometry/Normal.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 template<typename T>
 class Sphere;
@@ -35,7 +35,7 @@ protected:
     Norm3f m_Direction;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

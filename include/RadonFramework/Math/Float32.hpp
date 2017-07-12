@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Math {
+namespace RadonFramework::Math {
 
 /** @brief This class support basic math functions.
 *
@@ -84,7 +84,7 @@ protected:
     static RF_Type::Bool WasInitialized;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MATH
 #define RF_SHORTHAND_NAMESPACE_MATH

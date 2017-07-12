@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 namespace AccessMode
 {
@@ -33,7 +33,7 @@ namespace AccessMode
 AccessMode::Type operator |(const AccessMode::Type A, const AccessMode::Type B);
 AccessMode::Type& operator |=(AccessMode::Type& A, const AccessMode::Type B);
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

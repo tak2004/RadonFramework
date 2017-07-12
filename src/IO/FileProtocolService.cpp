@@ -8,7 +8,7 @@
 #include "RadonFramework/Threading/Scopelock.hpp"
 #include "RadonFramework/System/Threading/Mutex.hpp"
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 
 template<class T>
 class PImpl<T>::Data
@@ -37,9 +37,9 @@ public:
     RF_SysThread::Mutex m_WriteData;
 };
 
-} } }
+}
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 FileProtocolService::FileProtocolService(const RF_Type::String &Name)
 :ProtocolService(Name)
@@ -98,4 +98,4 @@ Stream* FileProtocolService::GenerateInterface(const Uri& URI)
     return result;
 }
 
-} }
+}

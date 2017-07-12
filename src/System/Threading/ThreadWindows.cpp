@@ -6,9 +6,7 @@
 #include <process.h>
 #include <errno.h>
 
-namespace RadonFramework { namespace System { namespace Threading {
-
-namespace Windows {
+namespace RadonFramework::System::Threading::Windows {
 
 struct ThreadHelper
 {
@@ -273,6 +271,8 @@ void Stop(void* Data)
 
 }
 
+namespace RadonFramework::System::Threading {
+
 void Dispatch()
 {
     IsAlive = Windows::IsAlive;
@@ -292,4 +292,4 @@ void Dispatch()
     Stop = Windows::Stop;
 }
 
-} } }
+} 

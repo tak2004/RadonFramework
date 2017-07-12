@@ -9,7 +9,7 @@
 #include <RadonFramework/Collections/Algorithm/ForEach.hpp>
 #include <RadonFramework/Collections/Algorithm/FindAll.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 template<class T,class NodeInfo> class Node;
 
@@ -330,7 +330,7 @@ void Tree<T,NodeInfo>::SetRootElement(typename Tree<T,NodeInfo>::NodeType& RootE
     m_Root=RootElement;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

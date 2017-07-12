@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/UnicodeRangeInfo.hpp"
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 UnicodeRangeInfo::UnicodeRangeInfo(const UnicodeRangeIdentifier Identifier, 
     const RF_Type::UInt32 Start, const RF_Type::UInt32 End)
@@ -35,4 +35,4 @@ const RF_Type::UInt32 UnicodeRangeInfo::End() const
     return m_End;
 }
 
-} }
+}

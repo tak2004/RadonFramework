@@ -8,9 +8,7 @@
 #include <signal.h>
 #include <pthread.h>
 
-namespace RadonFramework { namespace System { namespace Threading {
-
-namespace OSX {
+namespace RadonFramework::System::Threading::OSX {
 
 void Rename(void* Data, const RF_Type::String& Name)
 {
@@ -22,9 +20,11 @@ void Rename(void* Data, const RF_Type::String& Name)
 
 }
 
+namespace RadonFramework::System::Threading {
+
 void Dispatch_OSX()
 {
     Rename = OSX::Rename;
 }
 
-} } }
+}

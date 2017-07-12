@@ -2,7 +2,7 @@
 #include "RadonFramework/Text/StringUtils/Base85.hpp"
 #include "RadonFramework/backend/stringcoders/modp_b85.h"
 
-namespace RadonFramework { namespace Text { namespace StringUtils {
+namespace RadonFramework::Text::StringUtils {
 
 RF_Type::String Base85Converter::Encode(const RF_Type::String &Source)
 {
@@ -18,4 +18,4 @@ RF_Type::String Base85Converter::Decode(const RF_Type::String &Source)
     return result;
 }
 
-} } }
+}

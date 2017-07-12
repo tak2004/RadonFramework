@@ -16,7 +16,7 @@
 
 #include <RadonFramework/System/Threading/Thread.hpp>
 
-namespace RadonFramework { namespace Collections { namespace Algorithm {
+namespace RadonFramework::Collections::Algorithm {
 
 template <class C, typename FUNCTION>
 struct FindAllEnumeratorTaskData
@@ -135,7 +135,7 @@ Memory::AutoPointerArray<RF_Type::Size> FindAll(const C& Enumerable, FUNCTION Fu
     return result;
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_ALGO
 #define RF_SHORTHAND_NAMESPACE_ALGO

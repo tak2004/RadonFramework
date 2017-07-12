@@ -9,7 +9,7 @@
 #include <RadonFramework/Math/Geometry/Ray32.hpp>
 #include <RadonFramework/Math/Geometry/Sphere32.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 class Collider
 {
@@ -22,7 +22,7 @@ public:
         RF_Collect::Array<IntersectionResult>& Out);
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

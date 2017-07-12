@@ -6,10 +6,10 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace System { namespace Process {
+namespace RadonFramework::System::Process {
 
 typedef RF_Collect::Array<RF_Type::String> ModuleInfo;
 
-} } }
+}
 
 #endif // RF_SYSTEM_PROCESS_MODULEINFO_HPP

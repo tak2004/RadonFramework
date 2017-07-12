@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class PacketStream;
 
@@ -13,7 +13,7 @@ struct PacketLogicFactory
     virtual RF_Mem::AutoPointer<PacketStream> Generate() = 0;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

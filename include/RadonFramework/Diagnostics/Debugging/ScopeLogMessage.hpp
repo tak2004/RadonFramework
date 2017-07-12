@@ -6,22 +6,17 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework
+namespace RadonFramework::Diagnostics::Debugging {
+
+class ScopeLogMessage
 {
-    namespace Diagnostics
-    {
-        namespace Debugging
-        {
-            class ScopeLogMessage
-            {
-                public:
-                    ScopeLogMessage(const RF_Type::String& Functionname);
-                    ~ScopeLogMessage();
-                protected:
-                    RF_Type::String m_Functionname;
-            };            
-        }
-    }    
+public:
+    ScopeLogMessage(const RF_Type::String& Functionname);
+    ~ScopeLogMessage();
+protected:
+    RF_Type::String m_Functionname;
+};            
+
 }
 
 #define LogScope(FUNCTIONNAME,SCOPENAME) RadonFramework::Diagnostics::Debugging::ScopeLogMessage SCOPENAME(FUNCTIONNAME)

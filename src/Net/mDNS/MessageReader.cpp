@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Net/mDNS/MessageReader.hpp"
 
-namespace RadonFramework { namespace Net { namespace mDNS {
+namespace RadonFramework::Net::mDNS {
 
 static const RF_Type::Size MAXMULTICASTDNSPACKETSIZE = 9000;
 
@@ -317,4 +317,4 @@ RF_Type::Bool MessageReader::ReadAdditionals()
     return result;
 }
 
-} } }
+}

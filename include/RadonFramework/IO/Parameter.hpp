@@ -10,7 +10,7 @@
 #include <RadonFramework/IO/OptionRule.hpp>
 #include <RadonFramework/IO/OptionValue.hpp>
 
-namespace RadonFramework { namespace IO { 
+namespace RadonFramework::IO { 
 
 class Parameter
 {
@@ -41,6 +41,6 @@ private:
     Memory::AutoPointerArray<OptionValue> m_Values;
 };
 
-} }
+}
 
 #endif // RF_IO_PARAMETER_HPP

@@ -5,7 +5,7 @@
 #include <RadonFramework/Drawing/AbstractCanvas.hpp>
 #include <windows.h>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class GraphicDriverInformation;
 class GraphicDriverInformationOpenGL;
@@ -40,6 +40,6 @@ protected:
     OpenGLRenderer m_OpenGLRenderer;
 };
 
-} }
+}
 
 #endif // RF_WDMOPENGLCANVAS3D_HPP

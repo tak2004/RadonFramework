@@ -7,7 +7,7 @@
 
 using namespace RadonFramework::Core::Types;
 
-namespace RadonFramework { namespace System { namespace IO {
+namespace RadonFramework::System::IO {
 
 void RadonFramework::System::IO::Debugger::WriteLine(const RF_Type::String &Str)
 {
@@ -21,4 +21,4 @@ Debugger::Debugger()
 {
 }
 
-} } }
+}

@@ -10,7 +10,7 @@
 struct TESSalloc;
 struct TESStesselator;
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class Path2DTriangulation: public Path2D::Visitor
 {
@@ -76,7 +76,7 @@ private:
     RF_Collect::Array<FaceData> m_Faces;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

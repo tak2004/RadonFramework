@@ -8,7 +8,7 @@
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 class TestSuite;
 class Collector;
@@ -33,7 +33,7 @@ private:
     void RunSuiteAt(const RF_Type::Size Index);
 };
 
-} } } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_UNITTEST
 #define RF_SHORTHAND_NAMESPACE_UNITTEST

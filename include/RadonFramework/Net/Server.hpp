@@ -6,13 +6,13 @@
 
 #include <RadonFramework/Core/Pattern/Event.hpp>
 
-namespace RadonFramework { namespace Time {
+namespace RadonFramework::Time {
 
 struct TimeSpan;
 
-} }
+}
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 struct ServerConfig;
 class IPAddress;
@@ -85,7 +85,7 @@ private:
     RF_Idiom::PImpl<Server> m_PImpl;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

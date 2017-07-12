@@ -4,9 +4,8 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace IO { 
+namespace RadonFramework::IO::VirtualMouseButton {
 
-namespace VirtualMouseButton {
 enum Type
 {
     Left,
@@ -16,9 +15,8 @@ enum Type
     Button5,
     MAX
 };
-}
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

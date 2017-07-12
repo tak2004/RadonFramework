@@ -9,7 +9,7 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Drawing/Forms/Resolution.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class DisplayInformation
 {
@@ -32,7 +32,7 @@ public:
     DisplayInformation& operator=(const DisplayInformation& Other);
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

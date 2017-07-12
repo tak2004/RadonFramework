@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 template <typename T>class List;
 
@@ -770,7 +770,7 @@ RF_Type::Size List<T>::Count()const
     return m_Count;
 }
     
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

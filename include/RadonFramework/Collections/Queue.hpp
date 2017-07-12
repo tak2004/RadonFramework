@@ -12,7 +12,7 @@
 #include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
 #include <atomic>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 /** @brief This class is can grow and shrink.
 *
 * The Queue class supports the first-in-first-out(FIFO)
@@ -248,7 +248,7 @@ RF_Type::Bool Queue<T, MA, MO>::IsEmpty()const
     return m_LastHead < m_Tail;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Geometry/Size2D.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 template<class T/*=RF_Type::UInt32*/, class FLOAT/*=RF_Type::Float32*/>
 RF_Type::Bool Size2D<T, FLOAT>::operator==(const Size2D<T, FLOAT>& Other) const
@@ -79,4 +79,4 @@ template class Size2D<RF_Type::UInt32>;
 template class Size2D<RF_Type::Float32>;
 template class Size2D<RF_Type::Float64, RF_Type::Float64>;
 
-} } }
+}

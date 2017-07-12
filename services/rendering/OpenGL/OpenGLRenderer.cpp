@@ -4,7 +4,7 @@
 #include "RadonFramework/Drawing/AbstractCanvas.hpp"
 #include "RadonFramework/Drawing/BasicRenderFunction.hpp"
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 OpenGLRenderer::OpenGLRenderer()
 :m_NextId(1)
@@ -376,4 +376,4 @@ void OpenGLRenderer::OpenGLPath2DTriangulation::AddText(
     
 }
 
-} }
+}

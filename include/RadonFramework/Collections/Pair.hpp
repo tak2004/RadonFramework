@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 /**
   * This class contains two member which are related as a pair.
@@ -33,7 +33,7 @@ Pair<FIRST,SECOND>::Pair(const FIRST& FirstValue, const SECOND& SecondValue)
 {
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

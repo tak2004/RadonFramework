@@ -6,11 +6,13 @@
 
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace System { namespace Network {
-class SelectObjectCollector;
-} } }
+namespace RadonFramework::System::Network {
 
-namespace RadonFramework { namespace Net {
+class SelectObjectCollector;
+
+}
+
+namespace RadonFramework::Net {
 
 class Client;
 
@@ -28,7 +30,7 @@ private:
 	RF_Mem::AutoPointer<System::Network::SelectObjectCollector> m_Pool;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

@@ -4,7 +4,7 @@
 
 using namespace RadonFramework::System::Threading;
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 AtomicInt64::AtomicInt64(Int64 Value)
 :m_Data(Value)
@@ -104,4 +104,4 @@ AtomicInt64 AtomicInt64::operator++(int)
     return result;
 }
 
-} } }
+}

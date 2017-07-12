@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Random.hpp"
 
-namespace RadonFramework { namespace Math {
+namespace RadonFramework::Math {
 
 Random::Random(const RF_Type::Int32 Seed)
 :m_Seed(Seed)
@@ -54,4 +54,4 @@ RF_Type::Float32 Random::Sample()
     return (RF_Type::Float32)m_J/(RF_Type::Float32)RF_Type::Int32Max;
 }
 
-} }
+}

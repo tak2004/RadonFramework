@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/AddressFamily.hpp>
 #include <RadonFramework/Net/SocketType.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class IPAddress;
 
@@ -42,7 +42,7 @@ struct ServerConfig
     static void AssignIPAsHostname(ServerConfig& Config, const IPAddress IP);
 };
     
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

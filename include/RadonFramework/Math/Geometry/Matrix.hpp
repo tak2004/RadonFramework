@@ -8,7 +8,7 @@
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/System/Memory.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 template<typename T, RF_Type::Size N, RF_Type::Size M>
 class Matrix
@@ -749,7 +749,7 @@ using Matrix3f = Matrix<float,3,3>;
 using Mat2f = Matrix<float,2,2>;
 using Mat3f = Matrix<float,3,3>;
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

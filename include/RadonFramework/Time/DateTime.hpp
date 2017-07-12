@@ -6,40 +6,44 @@
 
 #include <RadonFramework/Time/TimeSpan.hpp>
 
-namespace RadonFramework { namespace Time {
+namespace RadonFramework::Time::DayOfWeek {
 
-namespace DayOfWeek 
+enum Type
 {
-    enum Type
-    {
-        Monday, Tuesday, Wednesday, Thursday, Saturday, Sunday
-    };
+    Monday, Tuesday, Wednesday, Thursday, Saturday, Sunday
+};
+
 }
 
-namespace MonthOfYear
+namespace RadonFramework::Time::MonthOfYear {
+
+enum Type
 {
-    enum Type
-    {
-        January, Februrary, March, April, May, June, July, August, September,
-        October, November, December
-    };
+    January, Februrary, March, April, May, June, July, August, September,
+    October, November, December
+};
+
 }
 
-namespace TickDayConverterTyp
+namespace RadonFramework::Time::TickDayConverterTyp {
+
+enum Type
 {
-    enum Type
-    {
-        Day, DayYear, Month, Year
-    };
+    Day, DayYear, Month, Year
+};
+
 }
 
-namespace DateTimeKind
+namespace RadonFramework::Time::DateTimeKind {
+
+enum Type
 {
-    enum Type
-    {
-        Undefined, Local, UTC
-    };
+    Undefined, Local, UTC
+};
+
 }
+
+namespace RadonFramework::Time {
 
 struct DateTime
 {
@@ -94,7 +98,7 @@ protected:
     static RF_Type::UInt32 AbsoluteDays(RF_Type::UInt32 Year, RF_Type::UInt32 Month, RF_Type::UInt32 Day);
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_TIME
 #define RF_SHORTHAND_NAMESPACE_TIME

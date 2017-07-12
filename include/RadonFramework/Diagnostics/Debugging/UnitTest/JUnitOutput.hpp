@@ -4,15 +4,15 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
     class Uri;
-} }
+}
 
-namespace RadonFramework { namespace Diagnostics { namespace Test {
+namespace RadonFramework::Diagnostics::Test {
 class TestResultCollector;
-} } }
+}
 
-namespace RadonFramework { namespace Diagnostics { namespace Debugging { namespace UnitTest {
+namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 
 class TestResultCollector;
 
@@ -23,7 +23,7 @@ public:
         const RadonFramework::Diagnostics::Test::TestResultCollector& Results);
 };
 
-} } } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_UNITTEST
 #define RF_SHORTHAND_NAMESPACE_UNITTEST

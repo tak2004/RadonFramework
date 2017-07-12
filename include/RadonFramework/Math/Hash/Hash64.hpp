@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Math { namespace Hash {
+namespace RadonFramework::Math::Hash {
             
 struct Hash64
 {
@@ -17,7 +17,7 @@ private:
     RF_Type::UInt64 m_Hash;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_HASH
 #define RF_SHORTHAND_NAMESPACE_HASH

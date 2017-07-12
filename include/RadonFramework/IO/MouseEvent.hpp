@@ -8,7 +8,7 @@
 #include <RadonFramework/IO/VirtualMouseButton.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 struct MouseEvent
 {
@@ -16,7 +16,7 @@ struct MouseEvent
     RF_Geo::Point2D<> CurrentPosition;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

@@ -567,7 +567,7 @@ void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
 }
 #endif
 
-namespace RadonFramework { namespace System { namespace Drawing {
+namespace RadonFramework::System::Drawing {
 
 OSFontService::OSFontService(const RF_Type::String &Name)
 :FontService(Name)
@@ -652,4 +652,4 @@ void OSFontService::LoadGlyphs(const RF_Draw::FontDescription& FromFont,
     ImplementationLoadGlyphs(FromFont, GlyphsUtf32, Out);
 }
 
-} } }
+}

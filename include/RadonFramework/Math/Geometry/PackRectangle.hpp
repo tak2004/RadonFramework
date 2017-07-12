@@ -7,7 +7,7 @@
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 class PackRectangle
 {
@@ -49,6 +49,6 @@ private:
     void Insert(RF_Collect::Pair<RF_Geo::Size2D<>, void*>& RectangleData);
 };
 
-} } }
+}
 
 #endif //!RF_MATH_GEOMETRY_PACKRECTANGLE_HPP

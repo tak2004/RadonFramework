@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Geometry/Collider.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 Collider::IntersectionResult Collider::RaySphereIntersection(const Ray32& ARay, 
     const Sphere32& ASphere)
@@ -63,4 +63,4 @@ RF_Type::Bool Collider::RaySphereIntersectionBulk(const RF_Collect::Array<Ray32>
     return result;
 }
 
-} } }
+}

@@ -7,7 +7,7 @@
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/IO/AccessMode.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class File;
 
@@ -63,7 +63,7 @@ protected:
     Uri m_Uri;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

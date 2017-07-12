@@ -3,7 +3,7 @@
 #include "RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp"
 #include "RadonFramework/Math/Hash/IHashfunction.hpp"
 
-namespace RadonFramework { namespace Math { namespace Hash {
+namespace RadonFramework::Math::Hash {
 
 void Hash32::FromData(const RF_Type::UInt8 * Data, const RF_Type::Size Size)
 {
@@ -34,4 +34,4 @@ RF_Type::UInt32 Hash32::GetHash() const
     return m_Hash;
 }
 
-} } }
+}

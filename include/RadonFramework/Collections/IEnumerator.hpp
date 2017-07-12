@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/Bool.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
         
 template<typename T>
 class IEnumerator
@@ -26,7 +26,7 @@ public:
     virtual void Reset()=0;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

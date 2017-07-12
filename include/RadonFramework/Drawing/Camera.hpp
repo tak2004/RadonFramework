@@ -8,7 +8,7 @@
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 #include <RadonFramework/Math/Geometry/QuatF32.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class Camera
 {
@@ -29,7 +29,7 @@ protected:
     RF_Geo::Vec3f m_Right;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

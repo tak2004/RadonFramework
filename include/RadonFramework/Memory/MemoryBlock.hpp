@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 struct MemoryBlock
 {
@@ -12,7 +12,7 @@ struct MemoryBlock
     RF_Type::Size Bytes;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

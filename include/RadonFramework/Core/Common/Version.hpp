@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace Core { namespace Common {
+namespace RadonFramework::Core::Common {
 
 class Version
 {
@@ -43,7 +43,7 @@ protected:
     RF_Type::UInt32 m_Revision;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COMMON
 #define RF_SHORTHAND_NAMESPACE_COMMON

@@ -4,19 +4,14 @@
 #pragma once
 #endif
 
-namespace RadonFramework
+namespace RadonFramework::Threading::TaskStrategy {
+
+enum Type
 {
-    namespace Threading
-    {
-        namespace TaskStrategy
-        {
-            enum Type
-            {
-                SerialPerThread,
-                Concurrent
-            };
-        }
-    }
+    SerialPerThread,
+    Concurrent
+};
+
 }
 
 #endif // RF_THREADING_TASKSTRATEGY_HPP

@@ -17,7 +17,7 @@
 #include <RadonFramework/Net/SocketOptionName.hpp>
 #include <RadonFramework/Net/MulticastRequest.hpp>
 
-namespace RadonFramework { namespace System { namespace Network {
+namespace RadonFramework::System::Network {
 
 template<typename T>
 struct Identity{typedef T Type;};
@@ -223,7 +223,7 @@ RF_Net::Error NetService::SetSocketOption<RF_Net::MulticastRequest>(
     const RF_Net::SocketOptionName OptionName,
     const RF_Net::MulticastRequest& OptionValue);
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYS_NET
 #define RF_SHORTHAND_NAMESPACE_SYS_NET

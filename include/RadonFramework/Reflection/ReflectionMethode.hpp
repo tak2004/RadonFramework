@@ -9,25 +9,23 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Reflection/ParameterStack.hpp>
 
-namespace RadonFramework
+namespace RadonFramework::Reflection {
+
+class Reflectable;
+
+typedef RF_Type::Int32 (Reflectable::*Callback)(ParameterStack &Stack);
+
+class ReflectionMethode
 {
-    namespace Reflection
-    {
-        class Reflectable;
+    public:
+        ReflectionMethode(const RF_Type::String &Name, Callback Ptr);
+        const RF_Type::String& GetName()const;
+        Callback GetCallback();
+    protected:
+        RF_Type::String m_Name;
+        Callback m_Callback;
+};
 
-        typedef RF_Type::Int32 (Reflectable::*Callback)(ParameterStack &Stack);
-
-        class ReflectionMethode
-        {
-            public:
-                ReflectionMethode(const RF_Type::String &Name, Callback Ptr);
-                const RF_Type::String& GetName()const;
-                Callback GetCallback();
-            protected:
-                RF_Type::String m_Name;
-                Callback m_Callback;
-        };
-    }
 }
 
 #endif

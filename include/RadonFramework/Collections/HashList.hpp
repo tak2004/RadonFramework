@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Policies {
+namespace RadonFramework::Core::Policies {
 
 class ValueAllocator
 {
@@ -14,9 +14,9 @@ public:
     virtual void Free(void* Memory)=0;
 };
 
-} } }
+}
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 class HashList
 {
@@ -57,6 +57,6 @@ private:
     RF_Type::Size FindBucket(const KeyType Key)const;
 };
 
-} }
+}
 
 #endif

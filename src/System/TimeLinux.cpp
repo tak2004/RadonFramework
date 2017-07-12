@@ -21,7 +21,7 @@ RF_Type::Bool IsHighResolutionCounterSupportedLinux()
     return clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&tmp)==0;
 }
 
-namespace RadonFramework { namespace System { namespace Time {
+namespace RadonFramework::System::Time {
 
 void Dispatch_Linux()
 {
@@ -29,4 +29,4 @@ void Dispatch_Linux()
     IsHighResolutionCounterSupported = IsHighResolutionCounterSupportedLinux;
 }
 
-} } }
+}

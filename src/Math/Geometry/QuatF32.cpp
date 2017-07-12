@@ -7,7 +7,7 @@
 #include "RadonFramework/Math/Geometry/QuatF32.hpp"
 #include "RadonFramework/Math/Float32.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 const QuatF32 QuatF32::Identity;
 
@@ -492,4 +492,4 @@ const RF_Type::Float32 QuatF32::operator[](const RF_Type::UInt32 Index)const
     return m_Vec[Index];
 }
 
-} } }
+}

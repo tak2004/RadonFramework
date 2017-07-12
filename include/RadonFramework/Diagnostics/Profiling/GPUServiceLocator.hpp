@@ -7,7 +7,7 @@
 #include <RadonFramework/Diagnostics/Profiling/GPUService.hpp>
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Profiling {
+namespace RadonFramework::Diagnostics::Profiling {
 
 class NullGPUService: public GPUService
 {
@@ -29,7 +29,7 @@ class GPUServiceLocator: public RF_Pattern::Locator<GPUService, NullGPUService>
 {
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PROF
 #define RF_SHORTHAND_NAMESPACE_PROF

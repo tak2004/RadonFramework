@@ -9,9 +9,7 @@
 #include <signal.h>
 #include <pthread.h>
 
-namespace RadonFramework { namespace System { namespace Threading {
-
-namespace Unix {
+namespace RadonFramework::System::Threading::Unix {
 
 void SetAlive(void* Data, RF_Type::Bool Value)
 {
@@ -233,6 +231,8 @@ void Stop(void* Data)
 
 }
 
+namespace RadonFramework::System::Threading {
+
 void Dispatch()
 {
     Create = Unix::Create;
@@ -257,4 +257,4 @@ void Dispatch()
 #endif
 }
 
-} } }
+}

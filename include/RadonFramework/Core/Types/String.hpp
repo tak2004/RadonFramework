@@ -14,7 +14,7 @@
 #include <RadonFramework/Core/Types/FixString.hpp>
 #include <RadonFramework/Core/Types/DynamicString.hpp>
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 /** @brief Standard String class.
 *
@@ -406,7 +406,7 @@ String& String::operator=(char const (&Other)[N])
     return *this;
 }
 
-} } }
+}
 
 RF_Type::String operator "" _rfs(const char* Data, size_t Size);
 

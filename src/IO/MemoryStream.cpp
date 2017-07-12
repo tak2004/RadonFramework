@@ -2,7 +2,7 @@
 #include "RadonFramework/IO/MemoryStream.hpp"
 #include "RadonFramework/Core/Policies/CMemoryOperation.hpp"
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 MemoryStream::MemoryStream()
 :m_FenceStart(0)
@@ -257,4 +257,4 @@ RF_Type::Bool MemoryStream::UseFence() const
     return m_UseFence;
 }
 
-} }
+}

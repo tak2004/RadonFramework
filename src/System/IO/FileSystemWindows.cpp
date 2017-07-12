@@ -28,9 +28,7 @@
 #undef DeleteFile
 #endif
 
-namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
-
-namespace Windows {
+namespace RadonFramework::System::IO::FileSystem::Windows {
 
 DWORD GetNativeAccessMode(FileAccessMode::Type AccessMode)
 {
@@ -693,6 +691,8 @@ RF_Type::Bool UriToSystemPath(const RF_IO::Uri& Uri,
 
 }
 
+namespace RadonFramework::System::IO::FileSystem {
+
 void Dispatch()
 {
     OpenFile=Windows::OpenFile;
@@ -737,4 +737,4 @@ void Dispatch()
     DeleteDirectory = Windows::DeleteDirectory;
 }
 
-} } } }
+}

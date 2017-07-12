@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class Control;
 
@@ -16,7 +16,7 @@ public:
     virtual RF_Geo::Rectanglef GetContentRect(const Control& Child)const = 0;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

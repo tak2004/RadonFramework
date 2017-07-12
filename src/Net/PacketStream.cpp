@@ -19,7 +19,7 @@ public:
     UInt32 MaxDataSize;
 };
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 PacketStream::PacketStream()
 {
@@ -96,4 +96,4 @@ UInt32 PacketStream::MaxDataSize()const
     return m_Data->MaxDataSize;
 }
 
-} }
+}

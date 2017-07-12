@@ -7,12 +7,7 @@ using namespace RadonFramework::System::Threading;
 using namespace RadonFramework::Time;
 using namespace RadonFramework::Core::Types;
 
-namespace RadonFramework
-{
-    namespace System
-    {
-        namespace Threading
-        {
+namespace RadonFramework::System::Threading {
 #if defined(RF_WINDOWS)
 #include <windows.h>
 
@@ -169,8 +164,6 @@ void CondImplementationNotifyAll(void* Data)
     pthread_cond_broadcast(static_cast<pthread_cond_t*>(Data));
 }
 #endif
-        }
-    }
 }
 
 Condition::Condition()

@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 /** @brief This class is can grow and shrink on one end.
 *
@@ -197,7 +197,7 @@ RF_Type::UInt32 Stack<T>::Size()const
     return m_Size;
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Net/Error.hpp>
 
-namespace RadonFramework { namespace Net {        
+namespace RadonFramework::Net {        
 
 struct SocketError
 {
@@ -15,7 +15,7 @@ struct SocketError
     Error Code;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

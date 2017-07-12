@@ -8,7 +8,7 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class Path2D;
 
@@ -64,7 +64,7 @@ inline RF_Collect::CommandBucket<>* AbstractRenderer::GetQueue(const RF_Type::Si
     return m_Buckets.Count() < Index ? nullptr : &m_Buckets(Index);
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

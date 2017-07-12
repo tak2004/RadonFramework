@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Geometry/Line.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 Line2D::Line2D(const Point2D<> &First, const Point2D<> &Second)
 {
@@ -161,4 +161,4 @@ Point2D<> Line2D::End()const
     return m_Point2;
 }
 
-} } }
+}

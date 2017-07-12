@@ -10,7 +10,7 @@
 #include <RadonFramework/Drawing/Path2D.hpp>
 #include <RadonFramework/Drawing/Image.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 enum class FontStyle
 {
@@ -91,7 +91,7 @@ protected:
     RF_Type::Bool m_EnableCharRangeFilter;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

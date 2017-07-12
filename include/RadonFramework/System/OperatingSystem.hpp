@@ -8,7 +8,7 @@
 #include <RadonFramework/Core/Common/Version.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework { namespace System {
+namespace RadonFramework::System {
 
 class OperatingSystem
 {
@@ -26,7 +26,7 @@ protected:
     Core::Common::Version m_VersionNumber;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYS
 #define RF_SHORTHAND_NAMESPACE_SYS

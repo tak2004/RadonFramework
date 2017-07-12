@@ -4,7 +4,7 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/IO/Log.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 void OpenGLShader::Generate()
 {
@@ -99,4 +99,4 @@ void OpenGLShader::Unbind()
     glUseProgram(0);
 }
 
-} }
+}

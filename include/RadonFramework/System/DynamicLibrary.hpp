@@ -9,7 +9,7 @@
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/IO/Uri.hpp>
 
-namespace RadonFramework { namespace System {
+namespace RadonFramework::System {
 
 class DynamicLibrary
 {
@@ -59,7 +59,7 @@ protected:
     DynamicLibrary& operator=(const DynamicLibrary& NoCopy) = delete;
 };
     
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYS
 #define RF_SHORTHAND_NAMESPACE_SYS

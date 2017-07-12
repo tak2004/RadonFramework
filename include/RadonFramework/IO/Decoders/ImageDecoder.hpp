@@ -9,11 +9,13 @@
 #include <RadonFramework/Drawing/PixelFormat.hpp>
 
 
-namespace RadonFramework { namespace Drawing { 
-class Image;
-} }
+namespace RadonFramework::Drawing {
 
-namespace RadonFramework { namespace IO { namespace Decoders {
+class Image;
+
+}
+
+namespace RadonFramework::IO::Decoders {
 
 class ImageDecoder:public Decoder
 {
@@ -33,7 +35,7 @@ protected:
     RF_Type::UInt32 m_Layers;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DECODERS
 #define RF_SHORTHAND_NAMESPACE_DECODERS

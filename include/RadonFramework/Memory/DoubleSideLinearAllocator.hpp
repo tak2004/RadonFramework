@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Memory/MemoryBlock.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 template<class ALLOCATOR, RF_Type::Size BLOCK_SIZE, RF_Type::Size BLOCK_ALIGN_SIZE>
 class DoubleSideStackAllocator: private ALLOCATOR
@@ -19,9 +19,7 @@ public:
     void DeallocateAll();
 };
 
-
-
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

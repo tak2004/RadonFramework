@@ -2,7 +2,7 @@
 #include "RadonFramework/Drawing/Forms/HorizontalLayouter.hpp"
 #include "RadonFramework/Drawing/Forms/Cursor.hpp"
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 HorizontalLayouter::HorizontalLayouter(Control* Parent /*= nullptr*/)
 :Control(Parent)
@@ -36,4 +36,4 @@ RF_Geo::Rectanglef HorizontalLayouter::GetContentRect(const Control& Child) cons
     return result;
 }
 
-} }
+}

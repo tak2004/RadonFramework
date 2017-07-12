@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Collections/IEnumerator.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 template <typename T, typename N>
 class LinkedEnumerator:public IEnumerator<T>
@@ -58,7 +58,7 @@ protected:
     N* m_Current;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

@@ -8,7 +8,7 @@
 #include <RadonFramework/Drawing/Forms/Layouter.hpp> 
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class GridContainer;
 
@@ -28,7 +28,7 @@ protected:
     virtual void AddChild(Control& Obj)override;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

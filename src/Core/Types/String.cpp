@@ -5,7 +5,7 @@ using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace Core { namespace Types {
+namespace RadonFramework::Core::Types {
 
 String::String()
 :m_DataManagment(Common::DataManagment::Copy)
@@ -981,7 +981,7 @@ RF_Type::Size String::GetLength(const RF_Type::UInt8* CString, const RF_Type::Si
     return RF_SysStr::Length(CString, CStringByteSize);
 }
 
-} } }
+}
 
 RF_Type::String operator "" _rfs(const char* Data, size_t Size)
 {

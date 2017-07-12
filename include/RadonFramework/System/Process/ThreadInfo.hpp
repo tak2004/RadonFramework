@@ -10,7 +10,7 @@
 #include <RadonFramework/Threading/ThreadPriority.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace System { namespace Process {
+namespace RadonFramework::System::Process {
 
 struct ThreadInfo
 {
@@ -26,6 +26,6 @@ struct ThreadInfo
 
 typedef RF_Collect::Array<ThreadInfo> ThreadInfoList;
 
-} } }
+}
 
 #endif // RF_SYSTEM_PROCESS_THREADINFO_HPP

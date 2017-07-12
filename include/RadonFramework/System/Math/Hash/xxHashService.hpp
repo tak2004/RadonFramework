@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Math/Hash/HashfunctionService.hpp>
 
-namespace RadonFramework { namespace System { namespace Math { namespace Hash { 
+namespace RadonFramework::System::Math::Hash { 
 
 class xxHash32HashfunctionService: public RF_Hash::HashfunctionService
 {
@@ -26,7 +26,7 @@ public:
     virtual RF_Type::Size BitLength() const override;
 };
 
-} } } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSHASH
 #define RF_SHORTHAND_NAMESPACE_SYSHASH

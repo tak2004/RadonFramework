@@ -2,7 +2,7 @@
 #include "RadonFramework/Drawing/Forms/GridLayouter.hpp"
 #include "RadonFramework/Drawing/Forms/Cursor.hpp"
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 GridLayouter::GridLayouter(Control* Parent /*= nullptr*/, 
     const RF_Type::Size RowCount /*= 1*/, const RF_Type::Size ColumnCount /*= 1*/)
@@ -67,4 +67,4 @@ RF_Geo::Rectanglef GridLayouter::GetContentRect(const Control& Child) const
     return result;
 }
 
-} }
+}

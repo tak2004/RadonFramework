@@ -11,7 +11,7 @@ struct MatcherObject
     std::string m_Text;
 };
 
-namespace RadonFramework { namespace Core { namespace Idioms {
+namespace RadonFramework::Core::Idioms {
 template<>
 struct RF_Idiom::PImpl<RF_Text::Regex>::Data
 {
@@ -19,9 +19,9 @@ struct RF_Idiom::PImpl<RF_Text::Regex>::Data
     RF_Collect::AutoVector<MatcherObject> m_Matcher;
     std::regex m_Pattern;
 };
-} } }
+}
 
-namespace RadonFramework { namespace Text {
+namespace RadonFramework::Text {
 
 Regex::Regex(const RF_Type::String& Pattern)
 {
@@ -127,4 +127,4 @@ RF_Type::Bool Regex::GetMatches(Matcher Instance, RF_Collect::Array<RF_Type::Str
     return result;
 }
 
-} }
+}

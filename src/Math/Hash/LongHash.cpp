@@ -3,7 +3,7 @@
 #include "RadonFramework/Math/Hash/HashfunctionServiceLocator.hpp"
 #include "RadonFramework/Math/Hash/IHashfunction.hpp"
 
-namespace RadonFramework { namespace Math { namespace Hash {
+namespace RadonFramework::Math::Hash {
 
 void LongHash::FromData(const RF_Type::UInt8 * Data, const RF_Type::Size Size)
 {
@@ -35,4 +35,4 @@ const RF_Mem::AutoPointerArray<RF_Type::UInt8>& LongHash::GetHash() const
     return m_Hash;
 }
 
-} } }
+}

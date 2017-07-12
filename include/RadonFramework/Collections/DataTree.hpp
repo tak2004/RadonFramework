@@ -8,11 +8,11 @@
 #include <RadonFramework/Collections/Tree.hpp>
 #include <RadonFramework/Collections/Pair.hpp>
 
-namespace RadonFramework { namespace Collections {
+namespace RadonFramework::Collections {
 
 typedef Tree<Pair<RF_Type::String, RF_Type::String> > DataTree;
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

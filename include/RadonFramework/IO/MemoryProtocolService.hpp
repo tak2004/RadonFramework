@@ -7,7 +7,7 @@
 #include <RadonFramework/IO/ProtocolService.hpp>
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class MemoryProtocolService:public ProtocolService
 {
@@ -23,6 +23,6 @@ private:
     RF_Idiom::PImpl<MemoryProtocolService> m_PImpl;
 };
 
-} }
+}
 
 #endif // RF_MEMORYPROTOCOLSERVICE_HPP

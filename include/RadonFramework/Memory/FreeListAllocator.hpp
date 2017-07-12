@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Memory/MemoryBlock.hpp>
 
-namespace RadonFramework { namespace Memory {
+namespace RadonFramework::Memory {
 
 /// Use this class only for allocation of the same size and alignment.
 /// It reserves a large chunk from the specified arena and split it up.
@@ -71,7 +71,7 @@ FreeListAllocator<ALLOCATOR, BLOCK_SIZE, BLOCK_ALIGN_SIZE>::FreeListAllocator()
 {
 }
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM

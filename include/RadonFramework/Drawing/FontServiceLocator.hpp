@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/Drawing/FontService.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class NullFontService:public FontService
 {
@@ -46,7 +46,7 @@ public:
 
 typedef Core::Pattern::Locator<FontService, NullFontService> FontServiceLocator;
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

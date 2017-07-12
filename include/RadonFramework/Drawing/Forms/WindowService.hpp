@@ -11,7 +11,7 @@
 #include <RadonFramework/Collections/AutoVector.hpp>
 #include <RadonFramework/IO/VirtualMouseButton.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class AbstractWindow;
 class AbstractApplication;
@@ -51,7 +51,7 @@ protected:
     AbstractApplication *m_Application;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM

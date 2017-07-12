@@ -8,7 +8,7 @@
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <stdlib.h>
 
-namespace RadonFramework { namespace Core { namespace Policies {
+namespace RadonFramework::Core::Policies {
 
 struct MallocAllocator
 {
@@ -20,7 +20,7 @@ struct MallocAllocator
                             Traits::AllocatorTraits<void>::SizeType NewSize);
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_POLICY
 #define RF_SHORTHAND_NAMESPACE_POLICY

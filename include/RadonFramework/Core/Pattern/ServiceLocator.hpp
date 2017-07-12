@@ -11,7 +11,7 @@
 #include <RadonFramework/Collections/AutoVector.hpp>
 #include <RadonFramework/Collections/IEnumerator.hpp>
 
-namespace RadonFramework { namespace Core { namespace Pattern {
+namespace RadonFramework::Core::Pattern {
 
 template<class T,class N>
 struct Locator
@@ -111,7 +111,7 @@ RF_Collect::AutoVector<T> Locator<T, N>::m_Services;
 template<class T, class N> 
 RF_Type::UInt32 Locator<T, N>::m_Default = 0;
         
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PATTERN
 #define RF_SHORTHAND_NAMESPACE_PATTERN

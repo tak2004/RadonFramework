@@ -4,7 +4,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework { namespace Core { namespace Pattern {
+namespace RadonFramework::Core::Pattern {
 
 struct EmptyType{};
 
@@ -32,7 +32,7 @@ struct MakeTypeList<>
     typedef EmptyType Result;
 };
         
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PATTERN
 #define RF_SHORTHAND_NAMESPACE_PATTERN

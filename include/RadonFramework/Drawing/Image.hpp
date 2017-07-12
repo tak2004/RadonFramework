@@ -7,7 +7,7 @@
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Drawing/PixelFormat.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class Image
 {
@@ -39,7 +39,7 @@ protected:
     RF_Type::UInt32 m_Layers;
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

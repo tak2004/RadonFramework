@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Diagnostics/Test/TestResult.hpp"
 
-namespace RadonFramework { namespace Diagnostics { namespace Test {
+namespace RadonFramework::Diagnostics::Test {
 
 TestResult::TestResult()
 :m_Passed(true),
@@ -74,4 +74,4 @@ TestResult& TestResult::operator=(const TestResult& Other)
 	return *this;
 }
 
-} } }
+}

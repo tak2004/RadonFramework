@@ -6,7 +6,7 @@ using namespace RadonFramework::System::IO;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Diagnostics;
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 void LogDebuggerOutput::WriteInfo(const String& Text)
 {
@@ -28,4 +28,4 @@ void LogDebuggerOutput::WriteDebug(const String& Text)
     Debugger::GetInstance().WriteLine(Text);
 }
 
-} }
+}

@@ -16,7 +16,7 @@
 
 #include <RadonFramework/System/Threading/Thread.hpp>
 
-namespace RadonFramework { namespace Collections { namespace Algorithm {
+namespace RadonFramework::Collections::Algorithm {
 
 template <class C, typename FUNCTION>
 struct ExistsEnumeratorTaskData
@@ -111,7 +111,7 @@ RF_Type::Bool Exists(const C& Enumerable, FUNCTION Function)
     return hits != 0;
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_ALGO
 #define RF_SHORTHAND_NAMESPACE_ALGO

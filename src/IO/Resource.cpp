@@ -3,7 +3,7 @@
 #include "RadonFramework/IO/Stream.hpp"
 #include "RadonFramework/IO/ProtocolServiceLocator.hpp"
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 Resource::~Resource()
 {
@@ -83,4 +83,4 @@ RF_Mem::AutoPointer<Resource> Resource::FromUri(const RF_IO::Uri& Location)
     return result;
 }
 
-} }
+}

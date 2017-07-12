@@ -8,11 +8,11 @@ using namespace RadonFramework::IO;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
+namespace RadonFramework::System::IO::FileSystem {
 
 void Dispatch_OSX()
 {
 
 }
 
-} } } }
+}

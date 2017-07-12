@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace System { namespace Hardware {
+namespace RadonFramework::System::Hardware {
 
 enum class CacheAssociativity: RF_Type::UInt8
 {
@@ -51,6 +51,6 @@ struct RF_ALIGN(16) CacheInfo
 };
 static_assert(sizeof(CacheInfo) == 16, "RF relies on that CacheInfo is 16 bytes large.");
 
-} } }
+}
 
 #endif // RF_SYSTEM_HARDWARE_CACHEINFO_HPP

@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/StringProcessor/KnuthMorrisPratt.hpp"
 
-namespace RadonFramework { namespace Text { namespace StringProcessors {
+namespace RadonFramework::Text::StringProcessors {
 
 KnuthMorrisPratt::StorageType::StorageType()
 :Position(0)
@@ -85,4 +85,4 @@ RF_Type::Int32 KnuthMorrisPratt::DoAll(RF_Type::String& Text,
     return hit;
 }
 
-} } }
+}

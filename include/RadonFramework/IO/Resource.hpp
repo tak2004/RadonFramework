@@ -6,7 +6,7 @@
 
 #include <RadonFramework/IO/Uri.hpp>
 
-namespace RadonFramework { namespace IO {
+namespace RadonFramework::IO {
 
 class Stream;
 class ProtocolService;
@@ -30,6 +30,6 @@ protected:
     Stream* m_Stream;
 };
 
-} }
+}
 
 #endif // RF_IO_RESOURCE_HPP

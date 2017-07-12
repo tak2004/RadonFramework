@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Core { namespace Policies {
+namespace RadonFramework::Core::Policies {
 
 // all not specialized cased are forbidden as BLOCKSIZE
 template<int BLOCKSIZE>
@@ -85,6 +85,6 @@ inline Types::Size LazyResize<BLOCKSIZE, ELEMENTSIZEINBITS>::BlockOffset(Types::
     return (BLOCKSIZE - 1) - (ElementIndex & (BLOCKSIZE - 1));
 }
 
-} } }
+}
 
 #endif // RF_CORE_POLICIES_LAZYRESIZE_HPP

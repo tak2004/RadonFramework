@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/AddressFamily.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 
-namespace RadonFramework { namespace Net {
+namespace RadonFramework::Net {
 
 class IPAddress
 {
@@ -68,7 +68,7 @@ protected:
     RF_Type::UInt8 m_IP[16];
 };
 
-} }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

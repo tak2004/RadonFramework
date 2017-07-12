@@ -18,9 +18,7 @@ using namespace RadonFramework::Collections;
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace RadonFramework { namespace System { namespace IO { namespace FileSystem {
-
-namespace Linux {
+namespace RadonFramework::System::IO::FileSystem::Linux {
 
 RF_Type::Bool CopyFile(const RF_Type::String& From, const RF_Type::String& To)
 {
@@ -72,10 +70,12 @@ FileHandle OpenFile(const RF_Type::String& Filepath, const FileAccessMode::Type 
 
 }
 
+namespace RadonFramework::System::IO::FileSystem {
+
 void Dispatch_Linux()
 {
     CopyFile = Linux::CopyFile;
     OpenFile = Linux::OpenFile;
 }
 
-} } } }
+}

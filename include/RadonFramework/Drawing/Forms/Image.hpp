@@ -7,7 +7,7 @@
 #include <RadonFramework/Drawing/Forms/Control.hpp> 
 #include <RadonFramework/Drawing/Image.hpp>
 
-namespace RadonFramework { namespace Forms {
+namespace RadonFramework::Forms {
 
 class Image: public Control
 {
@@ -20,7 +20,6 @@ protected:
     RF_Draw::Image m_Image;
 };
 
-}
 }
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM

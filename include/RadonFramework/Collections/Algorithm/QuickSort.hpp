@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-namespace RadonFramework { namespace Collections { namespace Algorithm {
+namespace RadonFramework::Collections::Algorithm {
 
 template <class C, typename FUNCTION>
 void QuickSort(typename C::Iterator Begin, typename C::Iterator End,
@@ -58,7 +58,7 @@ void QuickSort(C& Enumerable, FUNCTION Function)
         Function);
 }
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_ALGO
 #define RF_SHORTHAND_NAMESPACE_ALGO

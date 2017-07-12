@@ -9,7 +9,7 @@
 #include <RadonFramework/Threading/Scopelock.hpp>
 #include <RadonFramework/Collections/List.hpp>
 
-namespace RadonFramework { namespace Core { namespace Pattern {
+namespace RadonFramework::Core::Pattern {
 
 class SignalReceiver;
 class Signal;
@@ -128,7 +128,7 @@ public:
     }
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_PATTERN
 #define RF_SHORTHAND_NAMESPACE_PATTERN

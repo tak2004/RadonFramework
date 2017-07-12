@@ -12,9 +12,7 @@ using namespace RadonFramework;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
-namespace RadonFramework { namespace System { namespace Hardware {
-
-namespace Linux {
+namespace RadonFramework::System::Hardware::Linux {
 
 RF_Type::UInt32 GetAvailableLogicalProcessorCount()
 {
@@ -86,6 +84,8 @@ RF_Type::Bool GetLogicalProcessorFeatures(ProcessorFeatureMask& Features)
 
 }
 
+namespace RadonFramework::System::Hardware {
+
 void Dispatch_Linux()
 {
     GetAvailableLogicalProcessorCount = Linux::GetAvailableLogicalProcessorCount;
@@ -100,4 +100,4 @@ void Dispatch_Linux()
 #endif
 }
 
-} } }
+}

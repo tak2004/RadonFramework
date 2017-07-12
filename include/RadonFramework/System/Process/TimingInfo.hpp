@@ -7,7 +7,7 @@
 #include <RadonFramework/Time/DateTime.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
 
-namespace RadonFramework { namespace System { namespace Process {
+namespace RadonFramework::System::Process {
 
 struct TimingInfo
 {
@@ -17,6 +17,6 @@ struct TimingInfo
     RF_Time::TimeSpan UserTime;
 };
 
-} } }
+}
 
 #endif // RF_SYSTEM_PROCESS_TIMINGINFO_HPP

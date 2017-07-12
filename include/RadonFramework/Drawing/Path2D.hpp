@@ -8,7 +8,7 @@
 #include <RadonFramework/IO/MemoryCollectionStream.hpp>
 #include <RadonFramework/Drawing/Image.hpp>
 
-namespace RadonFramework { namespace Drawing {
+namespace RadonFramework::Drawing {
 
 class Image;
 
@@ -104,7 +104,7 @@ protected:
     RF_Type::UInt32 m_Hash;
 };
 
-} }
+}
 
 
 
