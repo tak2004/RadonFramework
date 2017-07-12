@@ -179,6 +179,19 @@ RF_Type::UInt32 String::Length()const
     return m_Length;
 }
 
+void String::Clear()
+{
+	if (m_DataManagment == DataManagment::Copy)
+	{
+		m_FixBuffer.SetSize(0);
+	}
+	else
+	{
+		m_DynBuffer.Free();
+	}
+	m_Length = 0;
+}
+
 RF_Type::Int32 String::Contains(const String &Str)const
 {
     const int TERMINATION = 1;

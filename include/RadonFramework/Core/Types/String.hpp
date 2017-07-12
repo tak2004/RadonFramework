@@ -131,6 +131,10 @@ public:
     #pragma endregion
 
     #pragma region Methods
+	/** @brief Free resources if necessary and set the length to 0.
+	  **/
+	void Clear();
+
     /** @brief Check if a string contains an other string.
       *
       * @return Return -1 if Str isn't contain or greater -1(position where the string was found).
