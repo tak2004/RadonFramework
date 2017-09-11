@@ -7,6 +7,7 @@
 #include <RadonFramework/Concurrency/TypelessDynamicQueueMPSC.hpp>
 #include <RadonFramework/Memory/HeapAllocator.hpp>
 #include <RadonFramework/Memory/FreeListAllocator.hpp>
+#include <new>
 
 namespace RadonFramework::Concurrency {
 

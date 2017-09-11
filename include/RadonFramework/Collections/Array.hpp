@@ -771,6 +771,10 @@ public:
         const Delegate1<RF_Type::Bool(const T&)>& Match);
 
     void Swap(Array<T,MA,MO>& Other);
+
+	EnumeratorType begin()const;
+
+	EnumeratorType end()const;
 // Operators
     /**
     * \brief Create a deep copy of the Array.
@@ -819,6 +823,30 @@ protected:
     RF_Type::Bool InitArray(RF_Type::Size Rank, 
         const RF_Type::Size* LengthArray);
 };
+
+template<typename T,
+	typename MA/*=Core::Policies::CPPAllocator*/,
+	typename MO/*=Core::Policies::CMemoryOperation*/>
+typename Array<T, MA, MO>::EnumeratorType Array<T, MA, MO>::end() const
+{
+	EnumeratorType result;
+	result.m_Start = m_Data;
+	result.m_Current = m_Data+m_ElementCount;
+	result.m_Elements = m_ElementCount;
+	return result;
+}
+
+template<typename T,
+	typename MA/*=Core::Policies::CPPAllocator*/,
+	typename MO/*=Core::Policies::CMemoryOperation*/>
+typename Array<T, MA, MO>::EnumeratorType Array<T, MA, MO>::begin() const
+{
+	EnumeratorType result;
+	result.m_Start = m_Data;
+	result.m_Current = m_Data;
+	result.m_Elements = m_ElementCount;
+	return result;
+}
 
 template<typename T, typename MA, typename MO>
 inline void Array<T, MA, MO>::Exchange( 

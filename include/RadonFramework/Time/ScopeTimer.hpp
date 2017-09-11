@@ -13,7 +13,7 @@ class ScopeTimer
 {
 public:
     ScopeTimer(TimeSpan& ts);
-    ~ScopeTimer();
+    virtual ~ScopeTimer();
 protected:
     TimeSpan &m_TimeSpan;
     RF_Type::UInt64 m_Start;

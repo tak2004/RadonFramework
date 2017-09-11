@@ -30,6 +30,9 @@ struct Enumerator <T, ArrayEnumeratorType>
     ///
     const T* operator->()const;
 
+	// STL iterator support
+	bool operator!= (const Enumerator& other) const;
+
     Enumerator& MoveBy(const RF_Type::Size Steps);
 
     RF_Type::Size Size()const;
@@ -40,6 +43,12 @@ struct Enumerator <T, ArrayEnumeratorType>
     RF_Type::Size m_Elements;
     T* m_Current;
 };
+
+template<typename T>
+bool Enumerator<T, ArrayEnumeratorType>::operator!=(const Enumerator<T, ArrayEnumeratorType>& other) const
+{
+	return m_Current != other.m_Current;
+}
 
 template<typename T>
 Enumerator<T, ArrayEnumeratorType> Enumerator<T, ArrayEnumeratorType>::operator++(int)
