@@ -12,7 +12,7 @@
 #include <RadonFramework/Math/Geometry/Vector.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 class @ClassName@
 {
@@ -104,7 +104,7 @@ protected:
     Vector<@ClassType@,4> m_Vec;
 };
 
-} } }
+}
 
 #ifndef RF_SHORTHAND_NAMESPACE_GEO
 #define RF_SHORTHAND_NAMESPACE_GEO

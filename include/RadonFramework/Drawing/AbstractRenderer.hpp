@@ -41,6 +41,7 @@ public:
     void ResizeQueueCount(const RF_Type::Size NewValue);
     RF_Type::Size GetQueueCount()const;
     RF_Collect::CommandBucket<>* GetQueue(const RF_Type::Size Index);
+    void DispatchAllFunctions();
     /// This returns very basic functions which should be delivered.
     virtual Dispatcher GetGeneralPurposeDispatcher(const BasicRenderFunctionType Identifier)const = 0;
     /// This returns special functions which can be implemented with custom renderer.

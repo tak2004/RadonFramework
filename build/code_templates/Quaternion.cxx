@@ -7,7 +7,7 @@
 #include "RadonFramework/Math/Geometry/@ClassName@.hpp"
 #include "RadonFramework/Math/@MathType@.hpp"
 
-namespace RadonFramework { namespace Math { namespace Geometry {
+namespace RadonFramework::Math::Geometry {
 
 const @ClassName@ @ClassName@::Identity;
 
@@ -492,4 +492,4 @@ const @ClassType@ @ClassName@::operator[](const RF_Type::UInt32 Index)const
     return m_Vec[Index];
 }
 
-} } }
+}

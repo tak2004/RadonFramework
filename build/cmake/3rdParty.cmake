@@ -4,7 +4,7 @@ if(RADONFRAMEWORK_ADD_XXHASH)
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Set to ON to build shared libraries" FORCE)
     add_subdirectory("${outdir}/cmake_unofficial/" ${outdir})
     AddPublicInclude(XXHASH ${outdir}/)
-    GenerateCustomTargetMetaInfo(MODULE xxhashstatic XXHASH "3rd Party Libraries")
+    GenerateCustomTargetMetaInfo(MODULE xxhash XXHASH "3rd Party Libraries")
     FinalizeCustomTargetMetaInfo(XXHASH)
 else()
     list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/include/RadonFramework/System/Math/Hash/xxHashService.hpp
