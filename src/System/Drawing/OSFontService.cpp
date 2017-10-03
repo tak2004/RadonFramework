@@ -498,7 +498,7 @@ void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
     lf.lfStrikeOut = 0;
     lf.lfUnderline = 0;
     lf.lfItalic = 0;
-    lf.lfHeight = 0;
+    lf.lfHeight = 0;//-MulDiv(16, GetDeviceCaps(hdc, LOGPIXELSY), 72);
     lf.lfWidth = 0;
     lf.lfEscapement = 0;
     lf.lfOrientation = 0;
@@ -526,6 +526,7 @@ void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
         needed = GetGlyphOutline(hdc, glyph, GGO_GRAY8_BITMAP, &gm, 0, nullptr, &identity);
         if(needed != GDI_ERROR)
         {
+            GetGlyphOutline(hdc, glyph, GGO_METRICS, &gm, 0, nullptr, &identity);
             RF_Type::Size rowSize = needed / gm.gmBlackBoxY;
             RF_Mem::AutoPointerArray<RF_Type::UInt8> buffer(needed);
             if(GetGlyphOutline(hdc, glyph, GGO_GRAY8_BITMAP, &gm, needed, buffer.Get(), &identity) != GDI_ERROR)

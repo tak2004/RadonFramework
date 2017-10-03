@@ -24,7 +24,11 @@ enum class BasicRenderFunctionType: RF_Type::UInt32
     GenerateMaterial,
     DestroyMaterial,
     GenerateProgram,
-    DestroyProgram
+    DestroyProgram,
+    GenerateTexture,
+    UpdateTexture,
+    DestroyTexture,
+    AssignTextureToMaterial
 };
 
 class AbstractRenderer

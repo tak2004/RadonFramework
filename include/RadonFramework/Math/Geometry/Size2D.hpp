@@ -6,6 +6,15 @@
 
 namespace RadonFramework::Math::Geometry {
 
+enum class Fitting
+{
+    No,
+    PerfectFit,
+    PerfectFitIfFlip,
+    Fit,
+    FitIfFlip
+};
+
 template<class T=RF_Type::UInt32, class FLOAT=RF_Type::Float32>
 class Size2D
 {
@@ -19,6 +28,7 @@ public:
 
     RF_Type::Bool Equals(const Size2D<T, FLOAT>& Other)const;
     RF_Type::Bool FitsInto(const Size2D<T,FLOAT>& Other)const;
+    Fitting CanFitInto(const Size2D<T, FLOAT>& Other)const;
     FLOAT Ratio()const;
     FLOAT GetArea()const;
     void Flip();

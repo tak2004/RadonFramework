@@ -37,6 +37,7 @@ struct AssignBufferToObject
     static AbstractRenderer::Dispatcher DispatchFunction;
     GraphicHandle* Buffer;
     GraphicHandle* Object;
+    RF_Type::UInt8 Stride;
 };
 
 struct GenerateObject
@@ -88,6 +89,41 @@ struct GenerateMaterial
     static AbstractRenderer::Dispatcher DispatchFunction;
     GraphicHandle* Material;
     GraphicHandle* Program;
+};
+
+struct GenerateTexture
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Texture;
+    RF_Type::UInt8* Data;
+    RF_Type::Size ByteSize;
+    RF_Type::UInt16 Width;
+    RF_Type::UInt16 Height;
+    RF_Type::UInt8 Channels;
+    RF_Type::Bool Transparent;
+};
+
+struct UpdateTexture
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    RF_Type::UInt8* Data;
+    RF_Type::Size ByteSize;
+    GraphicHandle* Texture;
+    RF_Type::UInt16 Width;
+    RF_Type::UInt16 Height;
+};
+
+struct DestroyTexture
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Texture;
+};
+
+struct AssignTextureToMaterial
+{
+    static AbstractRenderer::Dispatcher DispatchFunction;
+    GraphicHandle* Material;
+    GraphicHandle* Texture;
 };
 
 }

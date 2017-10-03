@@ -120,6 +120,9 @@ public:
     Iterator End()const;
     ConstIterator ConstBegin()const;
     ConstIterator ConstEnd()const;
+    
+    Iterator begin()const;
+    Iterator end()const;
 
     RF_Type::Size Count()const;
 
@@ -130,6 +133,18 @@ private:
     Node *m_Last;
     RF_Type::Size m_Count;
 };
+
+template <typename T>
+typename List<T>::Iterator List<T>::begin() const
+{
+    return Begin();
+}
+
+template <typename T>
+typename List<T>::Iterator List<T>::end() const
+{
+    return End();
+}
 
 template <typename T>
 RF_Type::Bool List<T>::IsEmpty() const

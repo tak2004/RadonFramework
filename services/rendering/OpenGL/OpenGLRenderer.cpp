@@ -209,7 +209,7 @@ void GLAssignBufferToObject(void* Command)
 
     glBindVertexArray(obj->VAO);
     glBindBuffer(GL_ARRAY_BUFFER, *cmd->Buffer);
-    glVertexAttribPointer(obj->Buffers, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    glVertexAttribPointer(obj->Buffers, cmd->Stride, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(obj->Buffers);
     ++obj->Buffers;
 }
@@ -323,6 +323,78 @@ void GLDestroyProgram(void* Command)
     *cmd->Program = 0;
 }
 
+GLenum Channel2GLInternalFormat(const GenerateTexture& Command)
+{
+    GLenum result;
+    switch(Command.Channels)
+    {
+        case 1:
+            result = GL_R8;
+            break;
+        case 3:
+            result = GL_RGB8;
+            break;
+        default:
+            result = GL_RGBA8;
+            break;
+    }
+    return result;
+}
+
+GLenum Channel2GLFormat(const GenerateTexture& Command)
+{
+    GLenum result;
+    switch(Command.Channels)
+    {
+        case 1:
+            result = GL_RED;
+            break;
+        case 2:
+            result = GL_RG;
+            break;
+        case 3:
+            result = GL_RGB;
+            break;
+        case 4:
+            result = GL_RGBA;
+            break;
+        default:
+            result = GL_RGBA;
+            break;
+    }
+    return result;
+}
+
+void GLGenerateTexture(void* Command)
+{
+    GenerateTexture* cmd = reinterpret_cast<GenerateTexture*>(Command);
+    glCreateTextures(GL_TEXTURE_2D,1, cmd->Texture);
+    auto internalFormat = Channel2GLInternalFormat(*cmd);
+    auto format = Channel2GLFormat(*cmd);
+    glTextureStorage2D(*cmd->Texture, 1, internalFormat, cmd->Width, cmd->Height);
+    glTextureSubImage2D(*cmd->Texture, 0, 0, 0, cmd->Width, cmd->Height, format, GL_UNSIGNED_BYTE, cmd->Data);
+    glBindTextureUnit(0, *cmd->Texture);
+}
+
+void GLUpdateTexture(void* Command)
+{
+    UpdateTexture* cmd = reinterpret_cast<UpdateTexture*>(Command);
+    glTextureSubImage2D(*cmd->Texture, 0, 0, 0, cmd->Width, cmd->Height, GL_RGBA, GL_UNSIGNED_BYTE, cmd->Data);
+}
+
+void GLDestroyTexture(void* Command)
+{
+    DestroyTexture* cmd = reinterpret_cast<DestroyTexture*>(Command);
+    glDeleteTextures(1,cmd->Texture);
+    *cmd->Texture = 0;
+}
+
+void GLAssignTextureToMaterial(void* Command)
+{
+    AssignTextureToMaterial* cmd = reinterpret_cast<AssignTextureToMaterial*>(Command);
+    
+}
+
 AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const BasicRenderFunctionType Identifier) const
 {
     AbstractRenderer::Dispatcher result = nullptr;
@@ -360,6 +432,18 @@ AbstractRenderer::Dispatcher OpenGLRenderer::GetGeneralPurposeDispatcher(const B
             break;
         case BasicRenderFunctionType::DestroyProgram:
             result = GLDestroyProgram;
+            break;
+        case BasicRenderFunctionType::GenerateTexture:
+            result = GLGenerateTexture;
+            break;
+        case BasicRenderFunctionType::UpdateTexture:
+            result = GLUpdateTexture;
+            break;
+        case BasicRenderFunctionType::DestroyTexture:
+            result = GLDestroyTexture;
+            break;
+        case BasicRenderFunctionType::AssignTextureToMaterial:
+            result = GLAssignTextureToMaterial;
             break;
     }
     return result;

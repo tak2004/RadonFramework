@@ -15,6 +15,10 @@ void AbstractRenderer::DispatchAllFunctions()
     RF_Draw::GenerateProgram::DispatchFunction = GetGeneralPurposeDispatcher(RF_Draw::BasicRenderFunctionType::GenerateProgram);
     RF_Draw::DestroyProgram::DispatchFunction = GetGeneralPurposeDispatcher(RF_Draw::BasicRenderFunctionType::DestroyProgram);
     RF_Draw::GenerateMaterial::DispatchFunction = GetGeneralPurposeDispatcher(RF_Draw::BasicRenderFunctionType::GenerateMaterial);
+    RF_Draw::GenerateTexture::DispatchFunction = GetGeneralPurposeDispatcher(RF_Draw::BasicRenderFunctionType::GenerateTexture);
+    RF_Draw::UpdateTexture::DispatchFunction = GetGeneralPurposeDispatcher(RF_Draw::BasicRenderFunctionType::UpdateTexture);
+    RF_Draw::DestroyTexture::DispatchFunction = GetGeneralPurposeDispatcher(RF_Draw::BasicRenderFunctionType::DestroyTexture);
+    RF_Draw::AssignTextureToMaterial::DispatchFunction = GetGeneralPurposeDispatcher(RF_Draw::BasicRenderFunctionType::AssignTextureToMaterial);
 }
 
 }

@@ -13,5 +13,9 @@ AbstractRenderer::Dispatcher DestroyProgram::DispatchFunction = nullptr;
 AbstractRenderer::Dispatcher GenerateObject::DispatchFunction = nullptr;
 AbstractRenderer::Dispatcher DestroyObject::DispatchFunction = nullptr;
 AbstractRenderer::Dispatcher AssignBufferToObject::DispatchFunction = nullptr;
+AbstractRenderer::Dispatcher GenerateTexture::DispatchFunction = nullptr;
+AbstractRenderer::Dispatcher UpdateTexture::DispatchFunction = nullptr;
+AbstractRenderer::Dispatcher DestroyTexture::DispatchFunction = nullptr;
+AbstractRenderer::Dispatcher AssignTextureToMaterial::DispatchFunction = nullptr;
 
 }

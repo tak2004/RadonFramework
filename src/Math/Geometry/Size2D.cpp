@@ -74,6 +74,20 @@ void Size2D<T, FLOAT>::Flip()
     Height = tmp;
 }
 
+template<class T/*=RF_Type::UInt32*/, class FLOAT/*=RF_Type::Float32*/>
+Fitting Size2D<T, FLOAT>::CanFitInto(const Size2D<T, FLOAT>& Other) const
+{
+    if(Width == Other.Width && Height == Other.Height)
+        return Fitting::PerfectFit;
+    if(Width == Other.Height && Height == Other.Width)
+        return Fitting::PerfectFitIfFlip;
+    if(Width <= Other.Width && Height <= Other.Height)
+        return Fitting::Fit;
+    if(Width <= Other.Height && Height <= Other.Width)
+        return Fitting::FitIfFlip;
+    return Fitting::No;
+}
+
 template class Size2D<RF_Type::Int32>;
 template class Size2D<RF_Type::UInt32>;
 template class Size2D<RF_Type::Float32>;

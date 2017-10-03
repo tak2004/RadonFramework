@@ -4,12 +4,120 @@
 
 namespace RadonFramework::Math::Geometry {
 
-struct PackRectangle::Node
+struct Node
 {
-    Node* Childs[2];
+    struct LeafNode
+    {
+        Node* Instance;
+        RF_Type::Bool Fill;
+        LeafNode();
+        void Set(const RF_Geo::Rectangle<>& Rectangle);
+    };
+    LeafNode Childs[2];
     void* UserData;
     RF_Geo::Rectangle<> Rectangle;
+    RF_Type::Bool Flipped;
+
+    Node();
+    Node* Insert(RF_Collect::Pair<RF_Geo::Size2D<>, void*>& RectangleData);
+    RF_Type::Size TotalElements()const;
 };
+
+Node::LeafNode::LeafNode()
+:Instance(nullptr)
+,Fill(false)
+{
+}
+
+void Node::LeafNode::Set(const RF_Geo::Rectangle<>& Rectangle)
+{
+    if (!Instance)
+    {
+        Instance = new Node();
+        Instance->Rectangle = Rectangle;
+    }
+    else
+    {
+        Instance->Rectangle = Rectangle;
+        Instance->UserData = nullptr;
+    }
+    Fill = true;
+}
+
+Node* Node::Insert(RF_Collect::Pair<RF_Geo::Size2D<>, void*>& RectangleData)
+{
+    if(Childs[0].Instance && Childs[0].Fill)
+    {
+        Node* newNode;
+        if (newNode = Childs[0].Instance->Insert(RectangleData))
+            return newNode;
+        return Childs[1].Instance->Insert(RectangleData);
+    }
+
+    if (UserData)
+        return nullptr;
+
+    auto fitting = RectangleData.First.CanFitInto(Rectangle.GetSize());
+    switch(fitting)
+    {
+        case RF_Geo::Fitting::No: 
+            return nullptr;
+        case RF_Geo::Fitting::Fit: 
+            break;
+        case RF_Geo::Fitting::FitIfFlip: 
+            RectangleData.First.Flip(); 
+            Flipped = true;
+            break;
+        case RF_Geo::Fitting::PerfectFit: 
+            UserData = RectangleData.Second; 
+            return this;
+        case RF_Geo::Fitting::PerfectFitIfFlip: 
+            UserData = RectangleData.Second; 
+            RectangleData.First.Flip(); 
+            Flipped = true;
+            return this;
+    }
+
+    if(Rectangle.Width() - RectangleData.First.Width > Rectangle.Height() - RectangleData.First.Height)
+    {
+        Childs[0].Set(Rectangle);
+        Childs[0].Instance->Rectangle.Width(RectangleData.First.Width);
+        Childs[1].Set(Rectangle);
+        Childs[1].Instance->Rectangle.Left(Childs[1].Instance->Rectangle.Left() + RectangleData.First.Width);
+        Childs[1].Instance->Rectangle.Width(Rectangle.Width() - RectangleData.First.Width);
+    }
+    else
+    {
+        Childs[0].Set(Rectangle);
+        Childs[0].Instance->Rectangle.Height(RectangleData.First.Height);
+        Childs[1].Set(Rectangle);
+        Childs[1].Instance->Rectangle.Top(Childs[1].Instance->Rectangle.Top() + RectangleData.First.Height);
+        Childs[1].Instance->Rectangle.Height(Rectangle.Height() - RectangleData.First.Height);
+    }
+
+    return Childs[0].Instance->Insert(RectangleData);
+}
+
+RF_Type::Size Node::TotalElements() const
+{
+    RF_Type::Size result = 0;
+    if (Childs[0].Fill)
+        result += Childs[0].Instance->TotalElements();
+
+    if (Childs[1].Fill)
+        result += Childs[1].Instance->TotalElements();
+
+    if (UserData)
+        ++result;
+    return result;
+}
+
+Node::Node()
+:UserData(nullptr)
+,Flipped(false)
+{
+
+}
 
 PackRectangle::PackRectangle(const RF_Type::Size EdgeSize)
 :m_Dimension(EdgeSize, EdgeSize)
@@ -37,8 +145,7 @@ PackRectangle::~PackRectangle()
 void PackRectangle::Clear()
 {
     m_NotProcessedRectangles.Clear();
-    m_Bins.Clear();
-    m_Root.Clear();
+    m_Bins.Resize(0);
 }
 
 void PackRectangle::AddRectangle(const RF_Geo::Size2D<>& Size, void* UserData)
@@ -47,94 +154,57 @@ void PackRectangle::AddRectangle(const RF_Geo::Size2D<>& Size, void* UserData)
     m_NotProcessedRectangles.AddLast(info);
 }
 
-void PackRectangle::Insert(RF_Collect::Pair<RF_Geo::Size2D<>, void*>& RectangleData)
+void AddLeafs(const Node& CurrentNode, PackRectangle::Bin& Bin, int& Index)
 {
-    RF_Type::Size i = 0;
-    for (; i < m_Bins.Count(); ++i)
+    if (CurrentNode.UserData)
     {
-        for (RF_Type::Size j = 0; j < m_Root[i].Count(); ++j)
-        {
-            if(m_Root[i][j].Childs[1] == nullptr && m_Root[i][j].UserData == nullptr)
-            {
-                if(RectangleData.First.FitsInto(m_Root[i][j].Rectangle.GetSize()))
-                {
-/*                    RF_Geo::Rectangle<> rect(m_Root[i][j].Rectangle.GetPosition(), RectangleData.First);
-                    if(m_Root[i][j].Childs[0]->Rectangle.Width == m_Root[i][j].Rectangle.Width)
-                    {// is vertical split
-                        rect.SetPosition({m_Root[i][j].Childs[0]->Rectangle.Left, m_Root[i][j].Childs[0]->Rectangle.Bottom});
-                    }
-                    else
-                    {// is horizontal split
-                        rect.SetPosition({m_Root[i][j].Childs[0]->Rectangle.Right, m_Root[i][j].Childs[0]->Rectangle.Top});
-                    }
-                    // add node
-                    m_Root.Last()->AddLast({nullptr, nullptr, RectangleData.Second, rect});
-                    // add horizontal split
-                    rect.SetSize({rect.Width(), m_Root[i][j].Rectangle.Height});
-                    m_Root.Last()->AddLast({m_Root.Last()->Last(), nullptr, nullptr, rect});
-                    // add vertical split
-
-                    // erst hier muss noch das richtige maß hin
-
-                    rect.SetSize(m_Root[i][j].Rectangle.Height);
-                    m_Root.Last()->AddLast({m_Root.Last()->Last(), nullptr, nullptr, rect});
-                    m_Root[i][j].Childs[1] = m_Root.Last()->Last();
-*/                }
-            }
-        }
+        Bin(Index).UserData = CurrentNode.UserData;
+        Bin(Index).Rectangle = CurrentNode.Rectangle;
+        Bin(Index).Flipped = CurrentNode.Flipped;
+        ++Index;
     }
-
-    if(i == m_Bins.Count())
+    else
     {
-        m_Root.AddLast(RF_Collect::List<Node>());
-        // add node
-        m_Root.Last()->AddLast({nullptr, nullptr,RectangleData.Second, {{0,0},RectangleData.First}});
-        // add horizontal split
-        RF_Geo::Rectangle<> split(0,0,m_Dimension.Width,RectangleData.First.Height);
-        m_Root.Last()->AddLast({m_Root.Last()->Last(), nullptr, nullptr, split});
-        // add vertical split
-        m_Root.Last()->AddLast({m_Root.Last()->Last(), nullptr, nullptr, {{0,0},m_Dimension}});
+        if (CurrentNode.Childs[0].Fill)
+            AddLeafs(*CurrentNode.Childs[0].Instance, Bin, Index);
+        if(CurrentNode.Childs[1].Fill)
+            AddLeafs(*CurrentNode.Childs[1].Instance, Bin, Index);
     }
 }
 
 RF_Type::Bool PackRectangle::Pack()
 {
-    RF_Type::Bool result = true;
+    RF_Type::Bool fits = true;
 
-    // New rectangles were added.
-    if(m_NotProcessedRectangles.Count() > 0)
+    if(m_NotProcessedRectangles.IsEmpty() == false)
     {
-        RF_Type::Size alreadyProcessedRectangles = 0;
-        for(RF_Type::Size i = 0; i < m_Bins.Count(); ++i)
-        {
-            alreadyProcessedRectangles += m_Bins[i].Count();
-        }
+        SortLargestToSmallest();
+        fits = IsDimensionRequirementFullfilled();
 
-        RF_Algo::QuickSort(m_NotProcessedRectangles, 
-            [](RF_Collect::Pair<RF_Geo::Size2D<>, void*>& A, 
-                RF_Collect::Pair<RF_Geo::Size2D<>, void*>& B) {
-            if(A.First.GetArea() == B.First.GetArea())
-                return 0;
-            else
-                if(A.First.GetArea() > B.First.GetArea())
-                    return 1;
-                else
-                    return -1;
-        });
-
-        
-        for (RF_Type::Size i = 0; i < m_NotProcessedRectangles.Count(); ++i)
+        if(fits)
         {
-            Insert(m_NotProcessedRectangles[i]);
-        }
-        m_NotProcessedRectangles.Clear();
+            RF_Collect::List<Node> bins;
+            auto& root = bins.CreateElementAtEnd();
+            root.Rectangle.SetSize(m_Dimension);
+            for(auto& rectangle: m_NotProcessedRectangles)
+                if(root.Insert(rectangle) == nullptr)
+                {
+                    root = bins.CreateElementAtEnd();
+                    root.Rectangle.SetSize(m_Dimension);
+                    root.Insert(rectangle);
+                }                    
+            m_NotProcessedRectangles.Clear();
+            m_Bins.Resize(bins.Count());
+            for(auto i = 0; i < bins.Count(); ++i)
+            {
+                auto elements = bins[i].TotalElements();
+                m_Bins(i).Resize(elements);
+                auto index = 0;
+                AddLeafs(bins[i], m_Bins(i), index);
+            }
+        }            
     }
-    return result;
-}
-
-RF_Type::Bool PackRectangle::Rebuild()
-{
-    return false;
+    return fits;
 }
 
 void PackRectangle::SetDimension(const RF_Type::Size EdgeSize)
@@ -153,20 +223,19 @@ void PackRectangle::SetDimension(const RF_Geo::Size2D<>& MaxSize)
     m_Dimension = MaxSize;
     for(RF_Type::Size i = 0; i < m_Bins.Count(); ++i)
     {
-        for (RF_Type::Size j = 0; j < m_Bins[i].Count(); ++j)
+        for (RF_Type::Size j = 0; j < m_Bins(i).Count(); ++j)
         {
-            RF_Collect::Pair<RF_Geo::Size2D<>, void*> entry(m_Bins[i](j).Rectangle.GetSize(),
-                m_Bins[i](j).UserData);
+            RF_Collect::Pair<RF_Geo::Size2D<>, void*> entry(m_Bins(i)(j).Rectangle.GetSize(),
+                m_Bins(i)(j).UserData);
 
-            if(m_Bins[i](j).Fliped)
+            if(m_Bins(i)(j).Flipped)
             {
                 entry.First.Flip();
             }
             m_NotProcessedRectangles.AddLast(entry);
         }
     }
-    m_Bins.Clear();
-    m_Root.Clear();
+    m_Bins.Resize(0);
 }
 
 const RF_Geo::Size2D<>& PackRectangle::GetDimension() const
@@ -174,7 +243,7 @@ const RF_Geo::Size2D<>& PackRectangle::GetDimension() const
     return m_Dimension;
 }
 
-const RF_Collect::List<PackRectangle::Bin>& PackRectangle::GetBins() const
+const RF_Collect::Array<PackRectangle::Bin>& PackRectangle::GetBins() const
 {
     return m_Bins;
 }
@@ -182,6 +251,38 @@ const RF_Collect::List<PackRectangle::Bin>& PackRectangle::GetBins() const
 RF_Type::Bool PackRectangle::NeedProcessing() const
 {
     return m_NotProcessedRectangles.IsEmpty() == false;
+}
+
+void PackRectangle::SortLargestToSmallest()
+{
+    RF_Algo::QuickSort(m_NotProcessedRectangles,
+                       [](RF_Collect::Pair<RF_Geo::Size2D<>, void*>& A,
+                          RF_Collect::Pair<RF_Geo::Size2D<>, void*>& B) 
+    {
+        if(A.First.GetArea() == B.First.GetArea()) {
+            return 0;
+        }
+        else {
+            if(A.First.GetArea() > B.First.GetArea())
+                return 1;
+            else
+                return -1;
+        }
+    });
+}
+
+RF_Type::Bool PackRectangle::IsDimensionRequirementFullfilled()const
+{
+    RF_Type::Bool result = true;
+    for(auto& rectangle : m_NotProcessedRectangles)
+    {
+        if(rectangle.First.CanFitInto(m_Dimension) == RF_Geo::Fitting::No)
+        {
+            result = false;
+            break;
+        }
+    }
+    return result;
 }
 
 }
