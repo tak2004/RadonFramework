@@ -5,6 +5,8 @@ namespace RadonFramework::Drawing {
 
 Image::Image()
 :m_Layers(0)
+,m_Proxy(nullptr)
+,m_ProxyBytes(0)
 {
     m_Dimension = RF_Geo::Size2Du(0,0);
 }
@@ -22,6 +24,28 @@ RF_Type::Bool Image::Initialize(const RF_Type::UInt32 Width,
         m_Layers = Layers;
         m_PixelFormat = Format;
         m_Data = Data;
+        m_Proxy = m_Data.Get();
+        m_ProxyBytes = m_Data.Size();
+        result = true;
+    }
+    return result;
+}
+
+RF_Type::Bool Image::Initialize(const RF_Type::UInt32 Width,
+    const RF_Type::UInt32 Height, const RF_Type::UInt32 Layers,
+    const RF_Draw::PixelFormat& Format, RF_Type::UInt8* Data, 
+    const RF_Type::Size Bytes)
+{
+    RF_Type::Bool result = false;
+    if(Width > 0 && Height > 0 && Layers > 0 && Format.BitPerPixel > 0 &&
+       Data && Bytes > 0)
+    {
+        m_Dimension.Width = Width;
+        m_Dimension.Height = Height;
+        m_Layers = Layers;
+        m_PixelFormat = Format;
+        m_Proxy = Data;
+        m_ProxyBytes = Bytes;
         result = true;
     }
     return result;
@@ -49,7 +73,7 @@ const RF_Type::UInt32 Image::Layers() const
 
 RF_Type::UInt8* Image::UnsafeAccess() const
 {
-    return m_Data.Get();
+    return m_Proxy;
 }
 
 RF_Mem::AutoPointerArray<RF_Type::UInt8> Image::GetCopyOfLayer(RF_Type::UInt32 Layer) const
@@ -58,7 +82,7 @@ RF_Mem::AutoPointerArray<RF_Type::UInt8> Image::GetCopyOfLayer(RF_Type::UInt32 L
     if(Layer < m_Layers)
     {
         result.New((m_Dimension.Width * m_Dimension.Height * m_PixelFormat.BitPerPixel) / 8);
-        RF_SysMem::Copy(result.Get(), m_Data.Get()+(result.Size() * Layer), result.Size());
+        RF_SysMem::Copy(result.Get(), m_Proxy+(result.Size() * Layer), result.Size());
     }
     return result;
 }
@@ -213,12 +237,32 @@ RadonFramework::Drawing::Image& Image::operator=(const Image& Copy)
     m_Layers = Copy.Layers();
     m_PixelFormat = Copy.PixelFormat();
     m_Data = Copy.m_Data.Clone();
+    m_Proxy = m_Data.Get();
+    m_ProxyBytes = m_Data.Size();
     return *this;
 }
 
 const RF_Geo::Size2Du& Image::Dimension() const
 {
     return m_Dimension;
+}
+
+RF_Type::Bool Image::CopyAtPosition(const Image& Source, const RF_Type::Size X, const RF_Type::Size Y)
+{
+    RF_Type::Bool result = false;
+    if((Source.Dimension() + RF_Geo::Size2Du(X, Y)).FitsInto(m_Dimension))
+    {
+        result = true;
+        auto* lineData = Source.UnsafeAccess();
+        auto sourceLineSize = (Source.PixelFormat().BitPerPixel * Source.Width()) / 8;
+        auto targetLineSize = (PixelFormat().BitPerPixel * m_Dimension.Width) / 8;;
+        for(auto line = 0; line < Source.Height(); ++line)
+        {
+            RF_SysMem::Copy(m_Proxy + ((Y + line)*targetLineSize) + X, lineData, sourceLineSize);
+            lineData += sourceLineSize;
+        }
+    }
+    return result;    
 }
 
 }

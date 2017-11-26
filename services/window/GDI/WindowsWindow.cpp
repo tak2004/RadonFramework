@@ -156,8 +156,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
     case WM_MOVE:
         wnd = dynamic_cast<WindowsWindow*>(WindowsWindow::GetObjectByHandle(hWnd));
-        pos.X = LOWORD(lParam);
-        pos.Y = HIWORD(lParam);
+        pos.X = (int)(short)LOWORD(lParam);
+        pos.Y = (int)(short)HIWORD(lParam);
         wnd->OnReposition(pos);
         return 0;
     case WM_SIZE:

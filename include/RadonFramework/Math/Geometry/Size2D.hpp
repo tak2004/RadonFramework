@@ -39,6 +39,15 @@ public:
     RF_Type::Bool operator ==(const Size2D<T, FLOAT>& Other)const;
 };
 
+template<class T = RF_Type::UInt32, class FLOAT = RF_Type::Float32>
+Size2D<T, FLOAT> operator +(const Size2D<T, FLOAT>& A, const Size2D<T, FLOAT>& B)
+{
+    Size2D<> result(A);
+    result.Width += B.Width;
+    result.Height += B.Height;
+    return result;
+}
+
 template<class T, class FLOAT>
 template<class NT, class NFLOAT>
 Size2D<T,FLOAT>::Size2D(const Size2D<NT, NFLOAT>& Convert)

@@ -137,7 +137,7 @@ RF_Type::Bool GetCacheInfo(CacheInfo& Info, RF_Type::UInt32 Index)
 
     RF_Type::Bool result = false;
     RF_Type::UInt32 pid = GetCurrentProcessorNumber();
-    if(CacheData > 0)
+    if(CacheData)
     {
         if(CacheData[pid].Count() > Index)
         {

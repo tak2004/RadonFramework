@@ -89,6 +89,7 @@ struct GenerateMaterial
     static AbstractRenderer::Dispatcher DispatchFunction;
     GraphicHandle* Material;
     GraphicHandle* Program;
+    RF_Type::Bool Blending;
 };
 
 struct GenerateTexture

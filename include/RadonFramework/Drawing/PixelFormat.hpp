@@ -38,6 +38,8 @@ public:
     PixelFormat& operator = (const PixelFormat& CopyFrom);
     RF_Type::Bool operator ==(const PixelFormat& Other)const;
     RF_Type::Bool operator !=(const PixelFormat& Other)const;
+
+    static PixelFormat Gray8;
 };
 
 inline PixelFormat& PixelFormat::operator=(const PixelFormat& CopyFrom)

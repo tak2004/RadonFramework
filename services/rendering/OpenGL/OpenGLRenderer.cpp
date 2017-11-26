@@ -137,28 +137,22 @@ void GLUpdateBuffer(void* Command)
     glBufferSubData(GL_ARRAY_BUFFER, 0, cmd->ByteSize, cmd->Data);
 }
 
-struct GLObject
-{
-    RF_Type::UInt32 MaterialId;
-    RF_Type::UInt32 VAO;
-    RF_Type::UInt32 Buffers;
-};
-
-union ObjectSlot
-{
-    GLObject UsedObject;
-    ObjectSlot* FreeObject;
-};
-
-class GLObjectFactory
+template<class T>
+class Factory
 {
 public:
-    static GLObject* Get(RF_Type::UInt32 ID)
+    union Slot
     {
-        GLObject* result = nullptr;
+        T UsedObject;
+        Slot* FreeObject;
+    };
+
+    static T* Get(RF_Type::UInt32 ID)
+    {
+        T* result = nullptr;
         if(ID < ObjectCount)
         {
-            result = reinterpret_cast<GLObject*>(Objects + ID);
+            result = reinterpret_cast<T*>(Objects + ID);
         }
         return result;
     }
@@ -169,11 +163,11 @@ public:
         {
             // resize pool
             RF_Type::UInt32 newSize = ObjectCount == 0 ? 512 : ObjectCount * 2;
-            ObjectSlot* newPool = new ObjectSlot[newSize];
-            RF_SysMem::Copy(newPool, Objects, sizeof(ObjectSlot)*ObjectCount);
+            Slot* newPool = new Slot[newSize];
+            RF_SysMem::Copy(newPool, Objects, sizeof(Slot)*ObjectCount);
             delete[] Objects;
             Objects = newPool;
-            for (RF_Type::UInt32 i = ObjectCount; i < newSize; ++i)
+            for(RF_Type::UInt32 i = ObjectCount; i < newSize; ++i)
             {
                 Objects[i].FreeObject = Free;
                 Free = Objects + i;
@@ -193,13 +187,32 @@ public:
         }
     }
 private:
-    static ObjectSlot* Objects;
+    static Slot* Objects;
     static RF_Type::UInt32 ObjectCount;
-    static ObjectSlot* Free;
+    static Slot* Free;
 };
 
-ObjectSlot* GLObjectFactory::Objects = nullptr;
-ObjectSlot* GLObjectFactory::Free = nullptr;
+struct GLMaterial
+{
+    RF_Type::UInt32 ProgramID;
+    RF_Type::Bool Blending;
+};
+
+typedef Factory<GLMaterial> MaterialFactory;
+MaterialFactory::Slot* MaterialFactory::Objects = nullptr;
+MaterialFactory::Slot* MaterialFactory::Free = nullptr;
+RF_Type::UInt32 MaterialFactory::ObjectCount = 0;
+
+struct GLObject
+{
+    RF_Type::UInt32 MaterialId;
+    RF_Type::UInt32 VAO;
+    RF_Type::UInt32 Buffers;
+};
+
+typedef Factory<GLObject> GLObjectFactory;
+GLObjectFactory::Slot* GLObjectFactory::Objects = nullptr;
+GLObjectFactory::Slot* GLObjectFactory::Free = nullptr;
 RF_Type::UInt32 GLObjectFactory::ObjectCount = 0;
 
 void GLAssignBufferToObject(void* Command)
@@ -233,7 +246,17 @@ void GLRenderObject(void* Command)
 {
     RenderObject* cmd = reinterpret_cast<RenderObject*>(Command);
     GLObject* obj = GLObjectFactory::Get(*cmd->Object);
-    glUseProgram(obj->MaterialId);
+    GLMaterial* mat = MaterialFactory::Get(obj->MaterialId);
+    if(mat->Blending)
+    {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+    else
+    {
+        glDisable(GL_BLEND);
+    }
+    glUseProgram(mat->ProgramID);
     glBindVertexArray(obj->VAO);
     if (cmd->ElementType == RF_Draw::RenderObject::PointSprites)
         glDrawArrays(GL_POINTS, 0, cmd->Elements);
@@ -244,7 +267,10 @@ void GLRenderObject(void* Command)
 void GLGenerateMaterial(void* Command)
 {
     GenerateMaterial* cmd = reinterpret_cast<GenerateMaterial*>(Command);
-    *cmd->Material = *cmd->Program;
+    *cmd->Material = MaterialFactory::Create();
+    GLMaterial* mat = MaterialFactory::Get(*cmd->Material);
+    mat->ProgramID = *cmd->Program;
+    mat->Blending = cmd->Blending;
 }
 
 void GLDestroyMaterial(void* Command)

@@ -1,12 +1,13 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/Settings.hpp"
 #include "RadonFramework/Collections/HashMap.hpp"
+#include "RadonFramework/Collections/Pair.hpp"
 #include "RadonFramework/IO/Directory.hpp"
 #include "RadonFramework/IO/File.hpp"
 #include "RadonFramework/IO/FileStream.hpp"
-#include "RadonFramework/Collections/Queue.hpp"
+#include "RadonFramework/Collections/HashList.hpp"
 #include "RadonFramework/Core/Policies/CMemoryOperation.hpp"
-#include "RadonFramework/Core/Common/StringCache.hpp"
+#include "RadonFramework/Math/Hash/Hash32.hpp"
 
 using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::Collections;
@@ -17,15 +18,18 @@ using namespace RadonFramework::Core::Policies;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::System::IO::FileSystem;
 
-struct eqstr { bool operator()(const char* s1, const char* s2) const { return (s1 == s2) || (s1 && s2 && strcmp(s1, s2) == 0); } };
-
 template<class T>
 struct PImpl<T>::Data
 {
-    Data() { m_Data.SetEmptyKey(0); }
+    Data()
+    :m_Lookup(32)
+    {
+    }
+
     ~Data(){}
 
-    HashMap<const char*, String, hash<const char*>, eqstr, HashMapOperationEfficient<const char*, String, hash<const char*>, eqstr> > m_Data;
+    HashList m_Lookup;
+    List<Pair<String,String>> m_KeyValuePairs;
     String m_Organisation;
     String m_Application;
 };
@@ -43,23 +47,43 @@ void Settings::Initialize(const String& Organisation, const String& Application)
 {
     m_PImpl->m_Organisation = Organisation;
     m_PImpl->m_Application = Application;
+    m_PImpl->m_Lookup.Clear();
+    m_PImpl->m_KeyValuePairs.Clear();
 }
 
 Settings::Settings()
 {
 }
 
-String Settings::GetValue(const char* PropertyName)
+String Settings::GetValue(const RF_Type::String& PropertyName)
 {
     String result;
-    if (m_PImpl->m_Data.ContainsKey(PropertyName))
-        result = m_PImpl->m_Data[PropertyName];
+    RF_Hash::Hash32 hash;
+    hash.FromString(PropertyName);
+    Pair<String,String>* value = nullptr;
+    if(m_PImpl->m_Lookup.Get(hash.GetHash(), reinterpret_cast<void*&>(value)))
+    {
+        result = value->Second;
+    }
     return result;
 }
 
-void Settings::SetValue(const char* PropertyName, const String& Value)
+void Settings::SetValue(const RF_Type::String& PropertyName, const String& Value)
 {
-    m_PImpl->m_Data[PropertyName] = Value;
+    RF_Hash::Hash32 hash;
+    hash.FromString(PropertyName);
+    Pair<String, String>* entry = nullptr;
+    if(m_PImpl->m_Lookup.Get(hash.GetHash(), reinterpret_cast<void*&>(entry)))
+    {
+        entry->Second = Value;
+    }
+    else
+    {
+        auto& entry = m_PImpl->m_KeyValuePairs.CreateElementAtEnd();
+        entry.First = PropertyName;
+        entry.Second = Value;
+        m_PImpl->m_Lookup.Add(hash.GetHash(), &entry);
+    }
 }
 
 void Settings::Load()
@@ -85,10 +109,7 @@ void Settings::Load()
                         AutoPointerArray<String> keyValue = line.Split(String("="));
                         if(keyValue.Count() == 2)
                         {
-                            const char* key = StringCache::Find(keyValue[0]);
-                            if(key == 0)
-                                key = keyValue[0].c_str();
-                            m_PImpl->m_Data[key] = keyValue[1];
+                            SetValue(keyValue[0],keyValue[1]);
                         }
 
                         while(i < buf.Size() && (buf[i] == '\n' || buf[i] == '\r'))
@@ -114,8 +135,8 @@ void Settings::Save()
     Directory appDataDir = GetAppDataDir();
     if (!appDataDir.Exists())
         appDataDir.CreateNewDirectory();
-    auto it = m_PImpl->m_Data.Begin();
-    auto end = m_PImpl->m_Data.End();
+    auto it = m_PImpl->m_KeyValuePairs.Begin();
+    auto end = m_PImpl->m_KeyValuePairs.End();
     File config;
     config.SetLocation(appDataDir.Location().OriginalString() + "/config.txt");
     config.CreateNewFile();
@@ -124,7 +145,7 @@ void Settings::Save()
     {
         for (; it != end; ++it)
         {
-            String buf = String::UnsafeStringCreation(it->first) + "=" + it->second + "\n";
+            String buf = it->First + "=" + it->Second + "\n";
             fs.Write(reinterpret_cast<const UInt8*>(buf.c_str()), 0, buf.Length());
         }
         fs.Close();

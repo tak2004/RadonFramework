@@ -14,7 +14,7 @@
     static void ConfigureDescriptionClass##__CLASS(RF_Reflect::ReflectionClass* Cls)
 
 #define PROPERTY(__NAME,__TYPE,__SETTER,__GETTER)\
-    RF_Mem::AutoPointer<RF_Reflect::ReflectionProperty> propertyptr##__NAME(new RF_Reflect::ReflectionProperty(#__NAME,__TYPE,(RF_Reflect::Callback)__SETTER,(RF_Reflect::Callback)__GETTER));\
+    RF_Mem::AutoPointer<RF_Reflect::ReflectionProperty> propertyptr##__NAME(new RF_Reflect::ReflectionProperty(#__NAME##_rfs,__TYPE,(RF_Reflect::Callback)__SETTER,(RF_Reflect::Callback)__GETTER));\
     Cls->Properties.PushBack(propertyptr##__NAME);
 
 #define METHODE(__NAME,__FUNCTIONPTR)\

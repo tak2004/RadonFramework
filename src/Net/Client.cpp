@@ -8,6 +8,7 @@ template<>
 struct PImpl<RF_Net::Client>::Data
 {
     Data()
+    :m_IsConnected(false)
     {}
 
     ~Data()

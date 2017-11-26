@@ -19,6 +19,7 @@ Form::Form()
     {
         m_Backend->OnIdle += SignalReceiver::Connector<Form>(&Form::Idle);
         m_Backend->OnResize += IObserver::Connector<Form, const Math::Geometry::Size2D<>&>(&Form::Resize);
+        m_Backend->OnReposition += IObserver::Connector<Form,const RF_Geo::Point2D<>&>(&Form::Move);
         m_Backend->OnKeyPress += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyPressed);
         m_Backend->OnPrintableKeyPressed += IObserver::Connector<Form, const KeyboardEvent&>(&Form::PrintableKeyPressed);
         m_Backend->OnKeyRelease += IObserver::Connector<Form, const KeyboardEvent&>(&Form::KeyReleased);
@@ -56,7 +57,9 @@ void Form::Title(const String &Value)
 
 void Form::InitializeComponent()
 {
-    SetSize({640, 480});
+    m_WindowPosition = {0,0};
+    m_WindowSize = {640,480};
+    SetSize(m_WindowSize);
     RF_Geo::Size2D<> size;
     size.Width = GetSize().Width;
     size.Height = GetSize().Height;
@@ -186,6 +189,8 @@ void Form::ChangeCursor(const Cursor& NewCursor)
 
 void Form::Resize(const RF_Geo::Size2D<>& Value)
 {
+    m_WindowSize = Value;
+
     RF_Geo::Size2Df size;
     size.Width = Value.Width;
     size.Height = Value.Height;
@@ -194,4 +199,19 @@ void Form::Resize(const RF_Geo::Size2D<>& Value)
     contentRectangle.SetSize(size);
     contentRectangle.SetPosition(GetPosition());
     Control::ChangeContentRectangle(contentRectangle, GetClientRectangle());
+}
+
+void Form::Move(const RF_Geo::Point2D<>& Value)
+{
+    m_WindowPosition = Value;
+}
+
+const RF_Geo::Point2D<>& Form::GetWindowPosition() const
+{
+    return m_WindowPosition;
+}
+
+const RF_Geo::Size2D<>& Form::GetWindowSize() const
+{
+    return m_WindowSize;
 }

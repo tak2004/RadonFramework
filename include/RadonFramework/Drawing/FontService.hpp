@@ -47,12 +47,14 @@ public:
     RF_Collect::Array<FontVariation> Variations;
 };
 
-class Glyph
+struct GlyphMetric
 {
-public:
-    RF_Type::Float32 Width;
-    RF_Type::Float32 Height;
-    RF_Type::Float32 Baseline;
+    RF_Type::UInt16 Width;
+    RF_Type::UInt16 Height;
+    RF_Type::UInt16 OriginLeft;
+    RF_Type::UInt16 OriginTop;
+    RF_Type::UInt16 HorizontalAdvance;
+    RF_Type::UInt16 VerticalAdvance;
 };
 
 class FontService:public RF_Pattern::Service
@@ -66,7 +68,7 @@ public:
     virtual void GetUnicodeCharRanges(const RF_Type::String& Text,
             RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Out)=0;
     virtual void GetUnicodeCharRange(const RF_Text::UnicodeRangeIdentifier Identifier,
-            RF_Text::UnicodeRangeInfo& Out) = 0;
+                                     RF_Text::UnicodeRangeInfo& Out) = 0;
     void EnableStyleFilter(const FontStyle StyleFilter);
     void DisableStyleFilter();
     void EnableOrientationFilter(RF_Type::Bool Horizontal);
@@ -78,7 +80,9 @@ public:
         RF_Collect::Array<RF_Draw::Path2D>& Out) = 0;
     virtual void LoadGlyphs(const FontDescription& FromFont,
         const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
-        RF_Collect::Array<RF_Draw::Image>& Out) = 0;
+        const RF_Type::UInt32 FontPixelSize,
+        RF_Collect::Array<RF_Draw::Image>& RasterizedGlyphs,
+        RF_Collect::Array<RF_Draw::GlyphMetric>& Metrics) = 0;
 protected:
     RF_Type::Bool MatchFilter(const FontVariation& Variation);
 

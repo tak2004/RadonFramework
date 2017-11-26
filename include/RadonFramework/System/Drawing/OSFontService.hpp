@@ -23,7 +23,9 @@ public:
         RF_Collect::Array<RF_Draw::Path2D>& Out) override;
     virtual void LoadGlyphs(const RF_Draw::FontDescription& FromFont,
         const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
-        RF_Collect::Array<RF_Draw::Image>& Out) override;
+        const RF_Type::UInt32 FontPixelSize,
+        RF_Collect::Array<RF_Draw::Image>& RasterizedGlyphs,
+        RF_Collect::Array<RF_Draw::GlyphMetric>& Metrics) override;
 };
 
 }

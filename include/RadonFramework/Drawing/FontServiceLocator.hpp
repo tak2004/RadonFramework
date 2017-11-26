@@ -34,7 +34,9 @@ public:
 
     virtual void LoadGlyphs(const FontDescription& FromFont,
         const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
-        RF_Collect::Array<RF_Draw::Image>& Out) override
+        const RF_Type::UInt32 FontPixelSize,
+        RF_Collect::Array<RF_Draw::Image>& RasterizedGlyphs,
+        RF_Collect::Array<RF_Draw::GlyphMetric>& Metrics) override
     {
     }
 

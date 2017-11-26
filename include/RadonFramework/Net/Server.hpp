@@ -63,6 +63,8 @@ public:
     const IPAddress& InterfaceIp()const;
 
     Socket* GetSocket()const;
+
+    void SendToAll(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
     
     RF_Pattern::Event<ServerEvent&> OnPreBind;
     RF_Pattern::Event<ServerEvent&> OnPostBind;

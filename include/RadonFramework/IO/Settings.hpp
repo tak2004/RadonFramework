@@ -15,8 +15,8 @@ class Settings: public RF_Pattern::Singleton<Settings>
 {
 public:
     void Initialize(const RF_Type::String& Organisation, const RF_Type::String& Applicationname);
-    RF_Type::String GetValue(const char* PropertyName);
-    void SetValue(const char* PropertyName, const RF_Type::String& Value);
+    RF_Type::String GetValue(const RF_Type::String& PropertyName);
+    void SetValue(const RF_Type::String& PropertyName, const RF_Type::String& Value);
     void Save();
     void Load();
     void Load(const RF_Type::String& Organisation, const RF_Type::String& Applicationname);

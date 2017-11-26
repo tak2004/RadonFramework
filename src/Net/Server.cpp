@@ -235,4 +235,13 @@ void Server::RemoveSocket(Socket& Socket, IPAddress& Interface)
     OnRemoveSocket(event);
 }
 
+void Server::SendToAll(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data)
+{
+    for (auto socket: m_PImpl->m_Sockets)
+    {
+        RF_Type::UInt32 sendBytes;
+        socket->Send(Data.Get(),Data.Count(),sendBytes);
+    }    
+}
+
 }

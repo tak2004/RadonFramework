@@ -485,9 +485,12 @@ void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
 
 void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
     const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
-    RF_Collect::Array<RF_Draw::Image>& Out)
+    const RF_Type::UInt32 FontPixelSize,
+    RF_Collect::Array<RF_Draw::Image>& RasterizedGlyphs, 
+    RF_Collect::Array<RF_Draw::GlyphMetric>& Metrics)
 {
-    Out.Resize(GlyphsUtf32.Count());
+    RasterizedGlyphs.Resize(GlyphsUtf32.Count());
+    Metrics.Resize(GlyphsUtf32.Count());
     HDC hdc = GetDC(0);
     GLYPHMETRICS gm;
     UINT glyph = 'A';
@@ -498,7 +501,7 @@ void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
     lf.lfStrikeOut = 0;
     lf.lfUnderline = 0;
     lf.lfItalic = 0;
-    lf.lfHeight = 0;//-MulDiv(16, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+    lf.lfHeight = -MulDiv(FontPixelSize, GetDeviceCaps(hdc, LOGPIXELSY), 96);
     lf.lfWidth = 0;
     lf.lfEscapement = 0;
     lf.lfOrientation = 0;
@@ -531,7 +534,17 @@ void ImplementationLoadGlyphs(const RF_Draw::FontDescription& FromFont,
             RF_Mem::AutoPointerArray<RF_Type::UInt8> buffer(needed);
             if(GetGlyphOutline(hdc, glyph, GGO_GRAY8_BITMAP, &gm, needed, buffer.Get(), &identity) != GDI_ERROR)
             {
-                Out(i).Initialize(rowSize, gm.gmBlackBoxY, 1, gray, buffer);
+                for(auto i = 0; i < buffer.Count(); ++i)
+                {
+                    buffer[i] = (buffer[i]/64.f)*255;
+                }
+                RasterizedGlyphs(i).Initialize(rowSize, gm.gmBlackBoxY, 1, gray, buffer);
+                Metrics(i).Width = gm.gmBlackBoxX;
+                Metrics(i).Height = gm.gmBlackBoxY;
+                Metrics(i).OriginLeft = gm.gmptGlyphOrigin.x;
+                Metrics(i).OriginTop = gm.gmptGlyphOrigin.y;
+                Metrics(i).HorizontalAdvance = gm.gmCellIncX;
+                Metrics(i).VerticalAdvance = gm.gmCellIncY;
             }
         }
     }
@@ -648,9 +661,11 @@ void OSFontService::LoadGlyphs(const RF_Draw::FontDescription& FromFont,
 
 void OSFontService::LoadGlyphs(const RF_Draw::FontDescription& FromFont,
     const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
-    RF_Collect::Array<RF_Draw::Image>& Out)
+    const RF_Type::UInt32 FontPixelSize,
+    RF_Collect::Array<RF_Draw::Image>& RasterizedGlyphs,
+    RF_Collect::Array<RF_Draw::GlyphMetric>& Metrics)
 {
-    ImplementationLoadGlyphs(FromFont, GlyphsUtf32, Out);
+    ImplementationLoadGlyphs(FromFont, GlyphsUtf32, FontPixelSize, RasterizedGlyphs, Metrics);
 }
 
 }

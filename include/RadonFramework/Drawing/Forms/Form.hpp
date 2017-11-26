@@ -42,11 +42,15 @@ public:
     
     /// Window was resized from outside.
     void Resize(const RF_Geo::Size2D<>& Value);
+    /// Window was moved from outside.
+    void Move(const RF_Geo::Point2D<>& Value);
     
     RF_Type::Bool HasFocus()const;
     RF_Geo::Point2D<> GetCursorPosition()const;
     RF_Type::Float32 GetHorizontalScale()const;
     RF_Type::Float32 GetVerticalScale()const;
+    const RF_Geo::Point2D<>& GetWindowPosition()const;
+    const RF_Geo::Size2D<>& GetWindowSize()const;
 
     RF_Pattern::Signal OnIdle;
     RF_Pattern::Event<const IO::KeyboardEvent&> OnKeyPress;
@@ -64,6 +68,8 @@ protected:
     RF_Type::UInt64 m_AnimationStep;
     RF_Type::Float32 m_HorizontalScale;
     RF_Type::Float32 m_VerticalScale;
+    RF_Geo::Point2D<> m_WindowPosition;
+    RF_Geo::Size2D<> m_WindowSize;
 };
 
 }
