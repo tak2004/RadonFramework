@@ -98,7 +98,7 @@ target_include_directories(RadonFramework PRIVATE ${RADONFRAMEWORK_LOCATION}/inc
 target_include_directories(RadonFramework PRIVATE ${RADONFRAMEWORK_LOCATION}/include/RadonFramework/backend/uripp/)
 if(RADONFRAMEWORK_ADD_XXHASH)
     AddPublicDefine(RADONFRAMEWORK RF_USE_XXHASH)
-    AddDependency(RADONFRAMEWORK xxhash)
+    AddDependency(RADONFRAMEWORK xxHash_Static)
 endif()
 AddDependency(RADONFRAMEWORK libtess2)
 Finalize(RADONFRAMEWORK)
