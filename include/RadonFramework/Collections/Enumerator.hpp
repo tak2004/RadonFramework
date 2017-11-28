@@ -34,7 +34,23 @@ struct Enumerator
     RF_Type::Size Distance(const Enumerator& To);
 
     RF_Type::Size Size()const;
+
+    T* Pointer();
+
+    const T* Pointer()const;
 };
+
+template<typename T, class ENUMERATORTYPE /*= GenericEnumeratorType*/>
+T* Enumerator<T, ENUMERATORTYPE>::Pointer()
+{
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
+}
+
+template<typename T, class ENUMERATORTYPE /*= GenericEnumeratorType*/>
+const T* Enumerator<T, ENUMERATORTYPE>::Pointer()const
+{
+    static_assert(sizeof(T) == 0, "Container isn't supported yet.");
+}
 
 template<typename T, class ENUMERATORTYPE /*= GenericEnumeratorType*/>
 RF_Type::Size Enumerator<T, ENUMERATORTYPE>::Distance(const Enumerator& To)

@@ -39,10 +39,27 @@ struct Enumerator <T, ArrayEnumeratorType>
 
     RF_Type::Size AtIndex()const;
 
+    const T* Pointer()const;
+    T* Pointer();
+
     T* m_Start;
     RF_Type::Size m_Elements;
     T* m_Current;
 };
+
+template<typename T>
+T* Enumerator<T, ArrayEnumeratorType>::Pointer()
+{
+    Assert(m_Current >= m_Start && m_Current < (m_Start + m_Elements), "Out of bound");
+    return m_Current;
+}
+
+template<typename T>
+const T* Enumerator<T, ArrayEnumeratorType>::Pointer()const
+{
+    Assert(m_Current >= m_Start && m_Current < (m_Start + m_Elements), "Out of bound");
+    return m_Current;
+}
 
 template<typename T>
 bool Enumerator<T, ArrayEnumeratorType>::operator!=(const Enumerator<T, ArrayEnumeratorType>& other) const

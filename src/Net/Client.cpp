@@ -34,6 +34,11 @@ void Client::Connect(const IPAddress& IP, const RF_Type::UInt16 Port)
         m_Data->m_Socket->Disconnect();
         m_Data->m_IsConnected = false;
     }
+
+    if (!m_Data->m_Socket)
+    {
+        m_Data->m_Socket = m_Data->m_Socket = RF_Net::Socket::Create(RF_Net::AddressFamily::InterNetwork, RF_Net::SocketType::Stream);
+    }
     
     auto status = m_Data->m_Socket->Connect(IP, Port);
     if(status)

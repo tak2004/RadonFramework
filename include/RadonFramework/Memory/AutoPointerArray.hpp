@@ -141,7 +141,7 @@ RF_Type::Size AutoPointerArray<T>::Copy(
     const void* From, RF_Type::Size Bytes, RF_Type::Size Offset /*= 0*/)
 {
     RF_Type::Size result = 0;
-    if(Offset + Bytes <= m_Elements)
+    if(Offset + (Bytes/sizeof(T)) <= m_Elements)
     {
         RF_SysMem::Copy(m_Data + Offset, From, Bytes);
         result = Bytes;
