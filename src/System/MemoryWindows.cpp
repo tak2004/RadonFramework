@@ -42,7 +42,7 @@ Size PageAllocationSizeWindows(const void* FirstPage)
 
 void* PageAllocateWindows(Size& Bytes)
 {
-    return VirtualAlloc(0, Bytes, MEM_COMMIT, PAGE_READWRITE);
+    return VirtualAlloc(0, Bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 }
 
 void PageFreeWindows(void* FirstPage)

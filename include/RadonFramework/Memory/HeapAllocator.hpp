@@ -8,6 +8,11 @@
 
 namespace RadonFramework::Memory {
 
+struct MemoryMap
+{
+    void* Handle;
+};
+
 class HeapAllocator
 {
 public:
@@ -16,8 +21,9 @@ public:
     void Deallocate(const MemoryBlock& Block);
     RF_Type::Bool Owns(const MemoryBlock& Block)const;
     void DeallocateAll();
+    MemoryMap Map(const MemoryBlock& Block, const RF_Type::Size Bytes);
 private:
-    static RF_Type::Size m_PageSize;
+    static RF_Type::Size m_BlockSize;
 };
 
 }

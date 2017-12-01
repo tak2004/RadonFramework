@@ -6,12 +6,12 @@ namespace RadonFramework::Memory {
 
 HeapAllocator::HeapAllocator()
 {
-    m_PageSize=RF_SysMem::GetPageSize();
+    m_BlockSize=RF_SysMem::GetBlockSize();
 }
 
 MemoryBlock HeapAllocator::Allocate(const RF_Type::Size Bytes)
 {
-    RF_Type::Size fittingSize = ((Bytes - 1) / m_PageSize + 1)* m_PageSize;
+    RF_Type::Size fittingSize = ((Bytes - 1) / m_BlockSize + 1)* m_BlockSize;
     return {reinterpret_cast<RF_Type::UInt8*>(RF_SysMem::PageAllocate(fittingSize)), fittingSize};
 }
 
@@ -30,6 +30,6 @@ void HeapAllocator::DeallocateAll()
 
 }
 
-RF_Type::Size HeapAllocator::m_PageSize = 0;
+RF_Type::Size HeapAllocator::m_BlockSize = 0;
 
 }
