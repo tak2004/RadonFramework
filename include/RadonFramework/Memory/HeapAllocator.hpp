@@ -18,10 +18,12 @@ class HeapAllocator
 public:
     HeapAllocator();
     MemoryBlock Allocate(const RF_Type::Size Bytes);
-    void Deallocate(const MemoryBlock& Block);
+    void Deallocate(MemoryBlock& Block);
     RF_Type::Bool Owns(const MemoryBlock& Block)const;
     void DeallocateAll();
-    MemoryMap Map(const MemoryBlock& Block, const RF_Type::Size Bytes);
+    MemoryMap Map(const RF_Type::Size Bytes);
+    void Unmap(MemoryMap& Mapping);
+    void* MapView(const MemoryMap& Map, const RF_Type::Size Bytes, void* View = nullptr);
 private:
     static RF_Type::Size m_BlockSize;
 };

@@ -16,7 +16,7 @@ class FreeListAllocator: private ALLOCATOR
 public:
     FreeListAllocator();
     MemoryBlock Allocate(const RF_Type::Size Bytes);
-    void Deallocate(const MemoryBlock& Block);
+    void Deallocate(MemoryBlock& Block);
     RF_Type::Bool Owns(const MemoryBlock& Block)const;
     void DeallocateAll();
 protected:
@@ -42,7 +42,7 @@ RF_Type::Bool FreeListAllocator<ALLOCATOR, BLOCK_SIZE, BLOCK_ALIGN_SIZE>::Owns(c
 }
 
 template<class ALLOCATOR, RF_Type::Size BLOCK_SIZE, RF_Type::Size BLOCK_ALIGN_SIZE>
-void FreeListAllocator<ALLOCATOR, BLOCK_SIZE, BLOCK_ALIGN_SIZE>::Deallocate(const MemoryBlock& Block)
+void FreeListAllocator<ALLOCATOR, BLOCK_SIZE, BLOCK_ALIGN_SIZE>::Deallocate(MemoryBlock& Block)
 {
     if(Block.Bytes != BLOCK_SIZE)
     {

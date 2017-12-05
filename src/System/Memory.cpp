@@ -111,7 +111,7 @@ FillCallback RF_SysMem::Fill = Fill_CPUDispatcher;
 
 UInt32 GetPageSize_SystemAPIDispatcher()
 {
-    GetPageSize = 0;
+    GetPageSize = nullptr;
     Dispatch();
     Assert(GetPageSize != GetPageSize_SystemAPIDispatcher &&
            GetPageSize != 0,
@@ -121,7 +121,7 @@ UInt32 GetPageSize_SystemAPIDispatcher()
 
 UInt32 GetBlockSize_SystemAPIDispatcher()
 {
-    GetBlockSize = 0;
+    GetBlockSize = nullptr;
     Dispatch();
     Assert(GetBlockSize != GetBlockSize_SystemAPIDispatcher &&
            GetBlockSize != 0,
@@ -131,7 +131,7 @@ UInt32 GetBlockSize_SystemAPIDispatcher()
 
 void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
 {
-    EnableTerminationOnHeapCorruption = 0;
+    EnableTerminationOnHeapCorruption = nullptr;
     Dispatch();
     Assert(EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher &&
            EnableTerminationOnHeapCorruption != 0,
@@ -141,7 +141,7 @@ void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
 
 Size PageAllocationSize_SystemAPIDispatcher(const void* FirstPage)
 {
-    PageAllocationSize = 0;
+    PageAllocationSize = nullptr;
     Dispatch();
     Assert(PageAllocationSize != PageAllocationSize_SystemAPIDispatcher &&
            PageAllocationSize != 0,
@@ -151,7 +151,7 @@ Size PageAllocationSize_SystemAPIDispatcher(const void* FirstPage)
 
 void* PageAllocate_SystemAPIDispatcher(Size& Bytes)
 {
-    PageAllocate = 0;
+    PageAllocate = nullptr;
     Dispatch();
     Assert(PageAllocate != PageAllocate_SystemAPIDispatcher &&
            PageAllocate != 0,
@@ -161,7 +161,7 @@ void* PageAllocate_SystemAPIDispatcher(Size& Bytes)
 
 void PageFree_SystemAPIDispatcher(void* FirstPage)
 {
-    PageFree = 0;
+    PageFree = nullptr;
     Dispatch();
     Assert(PageFree != PageFree_SystemAPIDispatcher&&
            PageFree != 0,
@@ -171,7 +171,7 @@ void PageFree_SystemAPIDispatcher(void* FirstPage)
 
 void* Allocate_SystemAPIDispatcher(const Size Bytes, const Size Alignment)
 {
-    Allocate = 0;
+    Allocate = nullptr;
     Dispatch();
     Assert(Allocate != Allocate_SystemAPIDispatcher &&
            Allocate != 0,
@@ -181,12 +181,42 @@ void* Allocate_SystemAPIDispatcher(const Size Bytes, const Size Alignment)
 
 void Free_SystemAPIDispatcher(void* FirstPage)
 {
-    Free = 0;
+    Free = nullptr;
     Dispatch();
     Assert(Free != Free_SystemAPIDispatcher &&
            Free != 0,
            "Funtion was called and couldn't be dispatched");
     Free(FirstPage);
+}
+
+void* MapMemory_SystemAPIDispatcher(void* Memory, RF_Type::Size Bytes)
+{
+    MapMemory = nullptr;
+    Dispatch();
+    Assert(MapMemory != MapMemory_SystemAPIDispatcher &&
+           MapMemory != 0,
+           "Funtion was called and couldn't be dispatched");
+    return MapMemory(Memory, Bytes);
+}
+
+void UnmapMemory_SystemAPIDispatcher(void* MemoryMapHandle)
+{
+    UnmapMemory = nullptr;
+    Dispatch();
+    Assert(UnmapMemory != UnmapMemory_SystemAPIDispatcher &&
+           UnmapMemory != 0,
+           "Funtion was called and couldn't be dispatched");
+    UnmapMemory(MemoryMapHandle);
+}
+
+void* MapView_SystemAPIDispatcher(void* MemoryMapHandle, const RF_Type::Size Bytes, void* View)
+{
+    MapView = nullptr;
+    Dispatch();
+    Assert(MapView != MapView_SystemAPIDispatcher &&
+           MapView != 0,
+           "Funtion was called and couldn't be dispatched");
+    return MapView(MemoryMapHandle, Bytes, View);
 }
 
 GetPageSizeCallback RF_SysMem::GetPageSize = GetPageSize_SystemAPIDispatcher;
@@ -197,6 +227,9 @@ PageAllocateCallback RF_SysMem::PageAllocate = PageAllocate_SystemAPIDispatcher;
 PageFreeCallback RF_SysMem::PageFree = PageFree_SystemAPIDispatcher;
 AllocateCallback RF_SysMem::Allocate = Allocate_SystemAPIDispatcher;
 FreeCallback RF_SysMem::Free = Free_SystemAPIDispatcher;
+MapMemoryCallback RF_SysMem::MapMemory = MapMemory_SystemAPIDispatcher;
+UnmapMemoryCallback RF_SysMem::UnmapMemory = UnmapMemory_SystemAPIDispatcher;
+MapViewCallback RF_SysMem::MapView = MapView_SystemAPIDispatcher;
 
 Bool RF_SysMem::IsSuccessfullyDispatched()
 {
@@ -210,6 +243,9 @@ Bool RF_SysMem::IsSuccessfullyDispatched()
     result = result && PageFree != PageFree_SystemAPIDispatcher && PageFree != 0;
     result = result && Allocate != Allocate_SystemAPIDispatcher && Allocate != 0;
     result = result && Free != Free_SystemAPIDispatcher && Free != 0;
+    result = result && MapMemory != MapMemory_SystemAPIDispatcher && MapMemory != 0;
+    result = result && UnmapMemory != UnmapMemory_SystemAPIDispatcher && UnmapMemory != 0;
+    result = result && MapView != MapView_SystemAPIDispatcher && MapView != 0;
     return result;
 }
 
@@ -232,4 +268,10 @@ void RF_SysMem::GetNotDispatchedFunctions(List<RF_Type::String>& Result)
         Result.AddLast("Allocate"_rfs);
     if(Free == Free_SystemAPIDispatcher || Free == 0)
         Result.AddLast("Free"_rfs);
+    if (MapMemory == MapMemory_SystemAPIDispatcher || MapMemory == 0)
+        Result.AddLast("MapMemory"_rfs);
+    if (UnmapMemory == UnmapMemory_SystemAPIDispatcher || UnmapMemory == 0)
+        Result.AddLast("UnmapMemory"_rfs);
+    if(MapView == MapView_SystemAPIDispatcher || MapView == 0)
+        Result.AddLast("MapView"_rfs);
 }

@@ -76,7 +76,8 @@ inline void DynamicQueueMPSC<T, ALLOCATOR>::Clear()
     while(p = (m_RealQueue.Dequeue()))
     {
         reinterpret_cast<T*>(p)->~T();
-        m_PayloadAllocator.Deallocate({reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)});
+        RF_Mem::MemoryBlock block = {reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)};
+        m_PayloadAllocator.Deallocate(block);
     }
 }
 
@@ -89,7 +90,8 @@ inline RF_Type::Bool DynamicQueueMPSC<T, ALLOCATOR>::Dequeue(T& Data)
     {
         Data = *p;
         p->~T();
-        m_PayloadAllocator.Deallocate({reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)});
+        RF_Mem::MemoryBlock block = {reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)};
+        m_PayloadAllocator.Deallocate(block);
         result = true;
     }
     return result;
@@ -104,7 +106,8 @@ inline RF_Type::Bool DynamicQueueMPSC<T, ALLOCATOR>::Dequeue()
     {
         result = true;
         p->~T();
-        m_PayloadAllocator.Deallocate({reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)});
+        RF_Mem::MemoryBlock block = {reinterpret_cast<RF_Type::UInt8*>(p),sizeof(T)};
+        m_PayloadAllocator.Deallocate(block);
     }
     return result;
 }

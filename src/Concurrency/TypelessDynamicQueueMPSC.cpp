@@ -35,7 +35,8 @@ TypelessDynamicQueueMPSC::TypelessDynamicQueueMPSC()
 
 TypelessDynamicQueueMPSC::~TypelessDynamicQueueMPSC()
 {
-    NodeAllocator->Deallocate({reinterpret_cast<RF_Type::UInt8*>(m_Stub),sizeof(Node)});
+    RF_Mem::MemoryBlock block = {reinterpret_cast<RF_Type::UInt8*>(m_Stub),sizeof(Node)};
+    NodeAllocator->Deallocate(block);
 }
 
 void TypelessDynamicQueueMPSC::Clear()
@@ -74,7 +75,8 @@ void* TypelessDynamicQueueMPSC::Dequeue()
     {
         m_Tail = next;
         void* result = tail->m_Data;
-        NodeAllocator->Deallocate({reinterpret_cast<RF_Type::UInt8*>(tail),sizeof(Node)});
+        RF_Mem::MemoryBlock block = {reinterpret_cast<RF_Type::UInt8*>(tail), sizeof(Node)};
+        NodeAllocator->Deallocate(block);
         return result;
     }
 
@@ -94,7 +96,8 @@ void* TypelessDynamicQueueMPSC::Dequeue()
     {
         m_Tail = next;
         void* result = tail->m_Data;
-        NodeAllocator->Deallocate({reinterpret_cast<RF_Type::UInt8*>(tail),sizeof(Node)});
+        RF_Mem::MemoryBlock block = {reinterpret_cast<RF_Type::UInt8*>(tail),sizeof(Node)};
+        NodeAllocator->Deallocate(block);
         return result;
     }
     return nullptr;

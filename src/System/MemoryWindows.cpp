@@ -60,6 +60,21 @@ void FreeWindows(void* FirstPage)
     _aligned_free(FirstPage);
 }
 
+void* MapMemoryWindows(void* Memory, RF_Type::Size Bytes)
+{
+    return CreateFileMappingA(INVALID_HANDLE_VALUE,0,PAGE_READWRITE,(unsigned long long)Bytes >> 32, Bytes & 0xffffffffu, nullptr);
+}
+
+void UnmapMemoryWindows(void* MemoryMapHandle)
+{
+    CloseHandle(MemoryMapHandle);
+}
+
+void* MapViewWindows(void* MemoryMapHandle, const RF_Type::Size Bytes, void* View)
+{
+    return MapViewOfFileEx(MemoryMapHandle, FILE_MAP_ALL_ACCESS, 0,0,Bytes,View);
+}
+
 void RF_SysMem::Dispatch()
 {
     GetPageSize = GetPageSizeWindows;
@@ -70,4 +85,7 @@ void RF_SysMem::Dispatch()
     PageFree = PageFreeWindows;
     Allocate = AllocateWindows;
     Free = FreeWindows;
+    MapMemory = MapMemoryWindows;
+    UnmapMemory = UnmapMemoryWindows;
+    MapView = MapViewWindows;
 }

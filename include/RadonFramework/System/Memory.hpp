@@ -65,6 +65,12 @@ using SwapCallback = void(*)(void* P1, void* P2, RF_Type::Size Bytes);
 using FillCallback = RF_Type::Size(*)(void* Pointer, const void* PatternData,
                                       RF_Type::Size PatternSize, RF_Type::Size BufferSize);
 
+using MapMemoryCallback = void* (*)(void* Memory, RF_Type::Size Bytes);
+
+using UnmapMemoryCallback = void (*)(void* MemoryMapHandle);
+
+using MapViewCallback = void*(*)(void* MemoryMapHandle, const RF_Type::Size Bytes, void* View);
+
 extern GetPageSizeCallback GetPageSize;
 extern GetBlockSizeCallback GetBlockSize;
 extern EnableTerminationOnHeapCorruptionCallback EnableTerminationOnHeapCorruption;
@@ -79,6 +85,9 @@ extern MoveCallback Move;
 extern SetCallback Set;
 extern SwapCallback Swap;
 extern FillCallback Fill;
+extern MapMemoryCallback MapMemory;
+extern UnmapMemoryCallback UnmapMemory;
+extern MapViewCallback MapView;
 
 }
 
