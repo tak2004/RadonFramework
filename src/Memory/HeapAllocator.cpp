@@ -43,9 +43,9 @@ void HeapAllocator::Unmap(MemoryMap& Mapping)
     Mapping.Handle = nullptr;
 }
 
-void* HeapAllocator::MapView(const MemoryMap& Map, const RF_Type::Size Bytes, void* View)
+RF_Type::UInt8* HeapAllocator::MapView(const MemoryMap& Map, const RF_Type::Size Bytes, void* View)
 {
-    return RF_SysMem::MapView(Map.Handle, Bytes, View);
+    return reinterpret_cast<RF_Type::UInt8*>(RF_SysMem::MapView(Map.Handle, Bytes, View));
 }
 
 RF_Type::Size HeapAllocator::m_BlockSize = 0;

@@ -29,11 +29,13 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
+#include <RadonFramework/Core/Types/AtomicUInt32.hpp>
 // 8 byte size
 #include <RadonFramework/Core/Types/Float64.hpp>
 #include <RadonFramework/Core/Types/Int64.hpp>
 #include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/Core/Types/AtomicInt64.hpp>
+#include <RadonFramework/Core/Types/AtomicUInt64.hpp>
 
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
@@ -70,6 +72,7 @@
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Memory/PointerID.hpp>
+#include <RadonFramework/Memory/ObserverPointer.hpp>
 
 // lockfree functions
 #include <RadonFramework/System/Threading/Interlocked.hpp>

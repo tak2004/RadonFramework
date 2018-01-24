@@ -46,7 +46,7 @@ void Camera::RotateY(Float32 Value)
     m_Quat=q*m_Quat;
 }
 
-Mat4f Camera::GetMatrix()
+Mat4f Camera::GetMatrix()const
 {
     Mat4f m;
     m.SetColumn(3,m_Position);

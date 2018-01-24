@@ -241,9 +241,9 @@ public:
     }
 };
 
-typedef Vector<float,2> Vec2f;
-typedef Vector<float,3> Vec3f;
-typedef Vector<float,4> Vec4f;
+typedef Vector<RF_Type::Float32,2> Vec2f;
+typedef Vector<RF_Type::Float32,3> Vec3f;
+typedef Vector<RF_Type::Float32,4> Vec4f;
       
 }
 

@@ -67,6 +67,15 @@ T Integer<T>::Abs(const T Value)
     return Value < 0 ? -Value : Value;
 }
 
+typedef Integer<RF_Type::UInt8> UInt8;
+typedef Integer<RF_Type::UInt16> UInt16;
+typedef Integer<RF_Type::UInt32> UInt32;
+typedef Integer<RF_Type::UInt64> UInt64;
+typedef Integer<RF_Type::Int8> Int8;
+typedef Integer<RF_Type::Int16> Int16;
+typedef Integer<RF_Type::Int32> Int32;
+typedef Integer<RF_Type::Int64> Int64;
+
 }
 
 #ifndef RF_SHORTHAND_NAMESPACE_MATH

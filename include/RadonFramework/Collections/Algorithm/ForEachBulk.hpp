@@ -11,20 +11,6 @@
 namespace RadonFramework::Collections::Algorithm {
 
 template <class C, typename FUNCTION>
-struct ForEachBulkEnumeratorTaskData
-{
-    explicit ForEachBulkEnumeratorTaskData(FUNCTION function)
-    :Function(function)
-    {        
-    }
-    FUNCTION Function;
-    typename C::EnumeratorType Enumeable;
-    RF_Type::UInt32 From;
-    RF_Type::UInt32 Steps;
-    RF_Type::AtomicInt32* OverallWork;
-};
-
-template <class C, typename FUNCTION>
 void ForEachBulkEnumeratorTaskFunction(void* Data)
 {
     auto* data = reinterpret_cast<ForEachEnumeratorTaskData<C, FUNCTION>*>(Data);
@@ -73,6 +59,46 @@ void ForEachBulk(const C& Enumerable, FUNCTION Function)
             offset += jobsPerWorker + extra;
         }
     
+        // Wait for other threads. Sleep(0) will ensure that the thread return if no
+        // other process/thread will work for the rest of the time slice on this core.
+        Time::TimeSpan sleep = Time::TimeSpan::CreateByTicks(0);
+        while(overallWork != 0)
+        {
+            RF_Thread::Thread::Sleep(sleep);
+        }
+    }
+    else
+    {
+        Function(enumerator, elements);
+    }
+}
+
+template <class C, typename FUNCTION>
+void ForEachBulk(const C& Enumerable, const RF_Type::UInt32 Bulksize, FUNCTION Function)
+{
+    auto enumerator = Enumerable.GetEnumerator();
+    RF_Type::Size elements = enumerator.Size();
+
+    if(RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().CanQueue() && elements > 1)
+    {
+        RF_Type::AtomicInt32 overallWork(elements);
+        RF_Type::UInt32 steps = Bulksize;
+        for(RF_Type::UInt32 i = 0; i < elements;)
+        {
+            auto* task = new ForEachEnumeratorTaskData<C, FUNCTION>(Function);
+            task->Enumeable = enumerator;
+            task->From = i;
+            task->Steps = steps;
+            task->OverallWork = &overallWork;
+            RF_Pattern::Singleton<RF_Thread::ThreadPool>::GetInstance().QueueUserWorkItem(ForEachBulkEnumeratorTaskFunction<C, FUNCTION>, task);
+            i = i + steps;
+            if(i > elements)
+            {
+                steps = elements - (i - Bulksize);
+                i = elements - 1;
+            }
+        }
+
         // Wait for other threads. Sleep(0) will ensure that the thread return if no
         // other process/thread will work for the rest of the time slice on this core.
         Time::TimeSpan sleep = Time::TimeSpan::CreateByTicks(0);

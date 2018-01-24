@@ -23,7 +23,7 @@ public:
     void DeallocateAll();
     MemoryMap Map(const RF_Type::Size Bytes);
     void Unmap(MemoryMap& Mapping);
-    void* MapView(const MemoryMap& Map, const RF_Type::Size Bytes, void* View = nullptr);
+    RF_Type::UInt8* MapView(const MemoryMap& Map, const RF_Type::Size Bytes, void* View = nullptr);
 private:
     static RF_Type::Size m_BlockSize;
 };

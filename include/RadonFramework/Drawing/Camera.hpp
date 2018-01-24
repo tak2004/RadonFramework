@@ -20,7 +20,7 @@ public:
     void RotateX(RF_Type::Float32 Value);
     void RotateY(RF_Type::Float32 Value);
     void Move(RF_Type::Float32 Value);
-    RF_Geo::Mat4f GetMatrix();
+    RF_Geo::Mat4f GetMatrix()const;
 protected:
     RF_Geo::QuatF32 m_Quat;
     RF_Geo::Vec4f m_Position;

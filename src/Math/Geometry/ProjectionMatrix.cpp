@@ -83,12 +83,12 @@ void ProjectionMatrix::SetSize(const Size2D<RF_Type::Float32> &size)
   m_OrthoMatrix[13]=-(t+b)/(t-b);
 }
 
-Size2D<> ProjectionMatrix::GetSize()
+Size2D<> ProjectionMatrix::GetSize()const
 {
   return Size2D<>(m_Width,m_Height);
 }
 
-RF_Type::Float32 ProjectionMatrix::FieldOfView()
+RF_Type::Float32 ProjectionMatrix::FieldOfView()const
 {
   return m_FieldOfView;
 }
@@ -102,7 +102,7 @@ void ProjectionMatrix::FieldOfView(const RF_Type::Float32 FOV)
   m_ProjectionMatrix[5]=f;
 }
 
-RF_Type::Float32 ProjectionMatrix::Far()
+RF_Type::Float32 ProjectionMatrix::Far()const
 {
   return m_Far;
 }
@@ -117,7 +117,7 @@ void ProjectionMatrix::Far(const RF_Type::Float32 Far)
   m_OrthoMatrix[14]=-(m_Far+m_Near)/(m_Far-m_Near);
 }
 
-RF_Type::Float32 ProjectionMatrix::Near()
+RF_Type::Float32 ProjectionMatrix::Near()const
 {
   return m_Near;
 }
@@ -132,7 +132,7 @@ void ProjectionMatrix::Near(const RF_Type::Float32 Near)
   m_OrthoMatrix[14]=-(m_Far+m_Near)/(m_Far-m_Near);
 }
 
-const Mat4f& ProjectionMatrix::GetMatrix(const Viewtype::Type Type)
+const Mat4f& ProjectionMatrix::GetMatrix(const Viewtype::Type Type)const
 {
   switch (Type)
   {
@@ -140,4 +140,9 @@ const Mat4f& ProjectionMatrix::GetMatrix(const Viewtype::Type Type)
     case Viewtype::View3D:return m_ProjectionMatrix;
     default:return m_ProjectionMatrix;
   }
+}
+
+RF_Type::Float32 ProjectionMatrix::AspectRatio() const
+{
+    return m_AspectRatio;
 }

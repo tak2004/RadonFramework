@@ -228,6 +228,7 @@ void Radon::InitSubSystem(UInt32 Flags)
         ProtocolServiceLocator::Initialize();
         ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new FileProtocolService("file"_rfs)));
         ProtocolServiceLocator::Register(AutoPointer<ProtocolService>(new MemoryProtocolService("mem"_rfs)));
+        RF_IO::Log::AddAppender(AutoPointer<Appender>(new LogConsole()));
         m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::IO;
     }
 

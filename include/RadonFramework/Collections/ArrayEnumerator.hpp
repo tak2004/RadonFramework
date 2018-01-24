@@ -7,7 +7,7 @@
 namespace RadonFramework::Collections {
 
 template <typename T>
-class ArrayEnumerator
+class [[deprecated]] ArrayEnumerator
 {
 public:
     ArrayEnumerator(T* Begin, T* End);

@@ -25,14 +25,15 @@ public:
     ProjectionMatrix();
     void SetPosition(const Point2D<RF_Type::Float32> &Position);
     void SetSize(const Size2D<RF_Type::Float32> &size);
-    Size2D<> GetSize();
-    RF_Type::Float32 FieldOfView();
+    Size2D<> GetSize()const;
+    RF_Type::Float32 FieldOfView()const;
     void FieldOfView(const RF_Type::Float32 FOV);
-    RF_Type::Float32 Far();
+    RF_Type::Float32 Far()const;
     void Far(const RF_Type::Float32 Far);
-    RF_Type::Float32 Near();
+    RF_Type::Float32 Near()const;
     void Near(const RF_Type::Float32 Near);
-    const Mat4f& GetMatrix(const Viewtype::Type Type);
+    const Mat4f& GetMatrix(const Viewtype::Type Type)const;
+    RF_Type::Float32 AspectRatio()const;
 protected:
     Mat4f m_ProjectionMatrix;
     Mat4f m_OrthoMatrix;
