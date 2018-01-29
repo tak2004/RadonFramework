@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <iterator>
+
 namespace RadonFramework::Collections {
 
 struct ArrayEnumeratorType
@@ -13,6 +15,13 @@ template<typename T>
 struct Enumerator <T, ArrayEnumeratorType>
 {
     typedef T Type;
+    typedef typename std::random_access_iterator_tag iterator_category;
+    typedef typename T value_type;
+    typedef typename RF_Type::Size difference_type;
+
+    typedef typename T* pointer;
+    typedef typename T& reference;
+
     /// post-increment operator
     Enumerator operator ++(int);
     /// pre-increment operator

@@ -1,3 +1,6 @@
+# libmorton is used by an octree implementation
+rcf_addpackage(morton)
+
 if(RADONFRAMEWORK_ADD_XXHASH)
     rcf_addpackage(xxhash)
 #    rcf_addlocation(XXHASH "git" "https://github.com/Cyan4973/xxHash.git")

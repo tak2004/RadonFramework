@@ -14,4 +14,9 @@ enum Type
 
 }
 
+#ifndef RF_SHORTHAND_NAMESPACE_THREAD
+#define RF_SHORTHAND_NAMESPACE_THREAD
+namespace RF_Thread = RadonFramework::Threading;
+#endif
+
 #endif // RF_THREADING_TASKSTRATEGY_HPP

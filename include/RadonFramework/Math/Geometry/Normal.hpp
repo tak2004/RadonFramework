@@ -53,7 +53,7 @@ public:
         return m_Value;
     }
 
-    RF_Type::Bool Set(const RF_Type::Size Index, const T Value)const
+    RF_Type::Bool Set(const RF_Type::Size Index, const T Value)
     {
         RF_Type::Bool result = false;
         if (Value != 0 && Index < SIZE)
