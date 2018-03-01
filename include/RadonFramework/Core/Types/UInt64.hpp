@@ -32,4 +32,8 @@ extern const UInt64 UInt64Max;
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::UInt64;
+#endif
+
 #endif // RF_CORE_TYPES_UINT64_HPP

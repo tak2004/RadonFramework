@@ -24,4 +24,8 @@ extern const Size SizeMin;
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::Size;
+#endif
+
 #endif // RF_CORE_TYPES_SIZE_HPP

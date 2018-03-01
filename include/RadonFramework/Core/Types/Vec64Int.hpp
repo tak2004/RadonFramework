@@ -40,4 +40,10 @@ extern const Int32 Vec64Int32Max;
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::Vec64Int8;
+using RadonFramework::Core::Types::Vec64Int16;
+using RadonFramework::Core::Types::Vec64Int32;
+#endif
+
 #endif // RF_CORE_TYPES_VEC64INT_HPP

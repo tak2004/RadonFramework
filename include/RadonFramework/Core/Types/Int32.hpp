@@ -22,4 +22,8 @@ extern const Int32 Int32Min;
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::Int32;
+#endif
+
 #endif // RF_CORE_TYPES_INT32_HPP

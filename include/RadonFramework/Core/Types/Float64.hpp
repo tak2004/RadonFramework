@@ -24,4 +24,8 @@ extern const Float64 Float64Min;
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::Float64;
+#endif
+
 #endif // RF_CORE_TYPES_FLOAT64_HPP

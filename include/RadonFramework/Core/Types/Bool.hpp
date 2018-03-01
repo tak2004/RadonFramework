@@ -15,4 +15,8 @@ typedef bool Bool;
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::Bool;
+#endif
+
 #endif // RF_CORE_TYPES_BOOL_HPP

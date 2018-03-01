@@ -40,4 +40,8 @@ protected:
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::AtomicInt64;
+#endif
+
 #endif // RF_CORE_TYPES_ATOMICINT64_HPP

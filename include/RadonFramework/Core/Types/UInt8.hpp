@@ -22,4 +22,8 @@ extern const UInt8 UInt8Max;
 namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
+#ifndef RF_DISABLE_USING_TYPES
+using RadonFramework::Core::Types::UInt8;
+#endif
+
 #endif // RF_CORE_TYPES_UINT8_HPP
