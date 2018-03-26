@@ -1769,6 +1769,7 @@ RF_Type::Bool Array<T,MA,MO>::InitArray(
     return true;
 }
 
+using ByteArray = Array<RF_Type::UInt8>;
 }
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT

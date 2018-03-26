@@ -23,7 +23,8 @@ enum Type
 	Time = 0x80,
 	Memory = 0x100,
 	Process= 0x200,
-    Threading = 0x400
+    Threading = 0x400,
+    Security = 0x800
 };
 
 }

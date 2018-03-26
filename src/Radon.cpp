@@ -19,6 +19,7 @@
 #include "RadonFramework/System/Drawing/SystemTrayServiceLocator.hpp"
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
 #include "RadonFramework/System/Threading/Thread.hpp"
+#include "RadonFramework/System/Security.hpp"
 #include "RadonFramework/Core/Common/DataManagment.hpp"
 #include "RadonFramework/System/DynamicLibrary.hpp"
 #ifdef RF_USE_XXHASH
@@ -102,6 +103,12 @@ void Radon::InitSubSystem(UInt32 Flags)
     {
         RF_SysMem::Dispatch();
         m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Memory;
+    }
+
+    if(Flags & RadonFramework::Init::Security)
+    {
+        RF_SysSecurity::Dispatch();
+        m_PIMPL->m_IsSubSystemInitialized |= RadonFramework::Init::Security;
     }
 
     if(Flags & RadonFramework::Init::Threading)

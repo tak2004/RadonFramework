@@ -106,7 +106,8 @@ set(LIBSRCFILES_WINDOW
 	src/System/ProcessWindows.cpp
 	src/System/Hardware/HardwareWindows.cpp
 	src/System/Drawing/SystemTrayServiceWindows.cpp
-    src/System/Threading/ThreadWindows.cpp)
+    src/System/Threading/ThreadWindows.cpp
+    src/System/SecurityWindows.cpp)
 	
 set(LIBSRCFILES_LINUX
 	src/System/TimeLinux.cpp
@@ -196,6 +197,8 @@ AddSourceDirectoryRecursive(filelist "src/Text" "Sources\\Text")
 list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Util" "Sources\\Util")
 list(APPEND LIBSRCFILES ${filelist})
+AddSourceDirectoryRecursive(filelist "src/Security" "Sources\\Security")
+list(APPEND LIBSRCFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Reflection" "Includes\\Reflection")
 list(APPEND LIBHDRFILES ${filelist})	
@@ -226,6 +229,8 @@ list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Text" "Includes\\Text")
 list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Util" "Includes\\Util")
+list(APPEND LIBHDRFILES ${filelist})
+AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Security" "Includes\\Security")
 list(APPEND LIBHDRFILES ${filelist})
 
 # custom CMake files
