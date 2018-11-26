@@ -24,6 +24,8 @@
 // 2 byte size
 #include <RadonFramework/Core/Types/Int16.hpp>
 #include <RadonFramework/Core/Types/UInt16.hpp>
+#include <RadonFramework/Core/Types/AtomicInt16.hpp>
+#include <RadonFramework/Core/Types/AtomicUInt16.hpp>
 // 4 byte size
 #include <RadonFramework/Core/Types/Float32.hpp>
 #include <RadonFramework/Core/Types/Int32.hpp>

@@ -4,6 +4,10 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/MemoryRange.hpp>
+#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+
 namespace RadonFramework::Core::Types{
 
 template<int LENGTH>

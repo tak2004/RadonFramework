@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Bool.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
 namespace RadonFramework::Collections {

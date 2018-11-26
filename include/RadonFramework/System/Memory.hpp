@@ -4,6 +4,11 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Bool.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Int32.hpp>
+
 namespace RadonFramework::Collections {
 
 template<class T>

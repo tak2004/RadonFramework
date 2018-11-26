@@ -4,6 +4,15 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/Int8.hpp>
+#include <RadonFramework/Core/Types/UInt16.hpp>
+#include <RadonFramework/Core/Types/Int16.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Int32.hpp>
+#include <RadonFramework/Core/Types/UInt64.hpp>
+#include <RadonFramework/Core/Types/Int64.hpp>
+
 RF_Type::String operator+(const RF_Type::String &LH, const RF_Type::Char &RH);
 /// Append "true" or "false" on the string.
 RF_Type::String operator+(const RF_Type::String &LH, const RF_Type::Bool &RH);

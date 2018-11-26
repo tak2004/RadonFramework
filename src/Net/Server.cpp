@@ -164,7 +164,7 @@ void Server::Update()
         RF_Mem::AutoPointerArray<RF_Type::UInt8> packet;
         EndPoint ep;
         m_PImpl->m_Sockets[0]->ReceiveFrom(packet, ep);
-        if(packet)
+        if(!packet.IsEmpty())
         {
             ProcessPacket(*m_PImpl->m_Sockets[0], ep.Address(), packet);
         }

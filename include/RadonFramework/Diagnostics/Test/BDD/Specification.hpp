@@ -1,6 +1,7 @@
 #ifndef RF_DIAGNOSTICS_TEST_BDD_SPECIFICATION_HPP
 #define RF_DIAGNOSTICS_TEST_BDD_SPECIFICATION_HPP
 
+#include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Collections/HashList.hpp>
 #include <RadonFramework/Diagnostics/Test/BDD/SpecificationOutput.hpp>

@@ -1,0 +1,16 @@
+#include <RadonFramework/Defines.hpp>
+#include <RadonFramework/Plugins.hpp>
+#include <RadonFramework/Radon.hpp>
+module RadonFramework;
+
+export namespace RadonFramework::Init {
+  export enum Type;
+}
+
+export namespace RadonFramework
+{
+  export class Radon;
+}
+
+// module import RadonFramework.Core.Types;
+// module import RadonFramework.Core.Common;

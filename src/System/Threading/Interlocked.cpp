@@ -28,6 +28,7 @@
     #pragma intrinsic(_InterlockedCompareExchange)
     #pragma intrinsic(_InterlockedCompareExchange64)
     #pragma intrinsic(_InterlockedCompareExchangePointer)
+    #pragma intrinsic(_InterlockedExchange16)
     #pragma intrinsic(_InterlockedExchange)
     #pragma intrinsic(_InterlockedExchange64)
     #pragma intrinsic(_InterlockedExchangePointer)
@@ -328,6 +329,16 @@ void* Interlocked::InterlockedCompareExchangePointer(void* volatile* Destination
     #endif
 #elif defined(RF_GCC)
     return __sync_val_compare_and_swap(Destination,Exchange,Comparand);
+#else
+#endif
+}
+
+Int16 Interlocked::InterlockedExchange16(Int16 volatile* Target, Int16 Value)
+{
+#if defined(RF_VISUALCPP)
+  return _InterlockedExchange16((short*)Target, (short)Value);
+#elif defined(RF_GCC)
+  return __sync_lock_test_and_set(Target, Value);
 #else
 #endif
 }

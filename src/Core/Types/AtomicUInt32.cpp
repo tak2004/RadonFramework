@@ -5,8 +5,7 @@
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::System::Threading;
 
-AtomicUInt32::AtomicUInt32(UInt32 Value)
-:m_Data(Value)
+AtomicUInt32::AtomicUInt32(DataType Value) :m_Data(Value)
 {
 }
 
@@ -15,32 +14,33 @@ AtomicUInt32::AtomicUInt32(const AtomicUInt32& Other)
 {
 }
 
-UInt32 AtomicUInt32::Increment()
+AtomicUInt32::DataType AtomicUInt32::Increment()
 {
     return Interlocked::InterlockedInc32((Int32*)&m_Data);
 }
 
-UInt32 AtomicUInt32::Decrement()
+AtomicUInt32::DataType AtomicUInt32::Decrement()
 {
     return Interlocked::InterlockedDec32((Int32*)&m_Data);
 }
 
-UInt32 AtomicUInt32::FetchAndAdd(UInt32 Addend)
+AtomicUInt32::DataType AtomicUInt32::FetchAndAdd(DataType Addend)
 {
     return Interlocked::InterlockedAdd32((Int32*)&m_Data,Addend);
 }
 
-UInt32 AtomicUInt32::FetchAndExchange(UInt32 Value)
+AtomicUInt32::DataType AtomicUInt32::FetchAndExchange(DataType Value)
 {
     return Interlocked::InterlockedExchange32((Int32*)&m_Data,Value);
 }
 
-UInt32 AtomicUInt32::CompareAndExchange(UInt32 Compare, UInt32 Value)
+AtomicUInt32::DataType
+AtomicUInt32::CompareAndExchange(DataType Compare, DataType Value)
 {
     return Interlocked::InterlockedCompareExchange32((Int32*)&m_Data, Value, Compare);
 }
 
-UInt32 AtomicUInt32::Add(UInt32 Value)
+AtomicUInt32::DataType AtomicUInt32::Add(DataType Value)
 {
     return Interlocked::InterlockedAdd32((Int32*)&m_Data, Value);
 }
@@ -55,12 +55,12 @@ bool AtomicUInt32::operator !()const
     return m_Data == 0 ? true : false;
 }
 
-bool AtomicUInt32::operator !=(UInt32 Value)const
+bool AtomicUInt32::operator!=(DataType Value) const
 {
     return m_Data!=Value;
 }
 
-AtomicUInt32& AtomicUInt32::operator =(UInt32 Value)
+AtomicUInt32& AtomicUInt32::operator=(DataType Value)
 {
     m_Data=Value;
     return *this;
@@ -72,7 +72,7 @@ AtomicUInt32& AtomicUInt32::operator =(const AtomicUInt32& Other)
     return *this;
 }
 
-bool AtomicUInt32::operator ==(UInt32 Value)const
+bool AtomicUInt32::operator==(DataType Value) const
 {
     return m_Data==Value;
 }

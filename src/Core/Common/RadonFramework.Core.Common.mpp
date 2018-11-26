@@ -1,0 +1,12 @@
+#include <RadonFramework/Core/Common/DataManagment.hpp>
+#include <RadonFramework/Core/Common/StringCache.hpp>
+#include <RadonFramework/Core/Common/Version.hpp>
+import RadonFramework.Core.Types;
+module RadonFramework.Core.Common;
+
+
+export namespace RadonFramework::Core::Common {
+
+enum class DataManagment;
+
+}

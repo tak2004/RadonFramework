@@ -4,6 +4,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <stdint.h>
+#include <RadonFramework/Defines.hpp>
+
 namespace RadonFramework::Core::Types {
 
 /// A UInt8 have always the size of 8 byte and represent a unsigned number.

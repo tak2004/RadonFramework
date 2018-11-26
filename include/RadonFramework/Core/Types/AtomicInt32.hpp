@@ -4,36 +4,40 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Core::Types {
+#include <RadonFramework/Core/Types/Int32.hpp>
 
+namespace RadonFramework::Core::Types
+{
 struct AtomicInt32
 {
 public:
-    AtomicInt32(Int32 Value=0);
-    AtomicInt32(const AtomicInt32& Other);
+  typedef RF_Type::Int32 DataType;
+  AtomicInt32(DataType Value = 0);
+  AtomicInt32(const AtomicInt32& Other);
 
-    Int32 Increment();
-    Int32 Decrement();
-    Int32 FetchAndAdd(Int32 Addend);
-    Int32 FetchAndExchange(Int32 Value);
-    Int32 CompareAndExchange(Int32 Compare, Int32 Value);
-    Int32 Add(Int32 Value);
+  DataType Increment();
+  DataType Decrement();
+  DataType FetchAndAdd(DataType Addend);
+  DataType FetchAndExchange(DataType Value);
+  DataType CompareAndExchange(DataType Compare, DataType Value);
+  DataType Add(DataType Value);
 
-    operator Int32()const;
-    bool operator !()const;
-    bool operator !=(Int32 Value)const;
-    AtomicInt32& operator =(Int32 Value);
-    AtomicInt32& operator =(const AtomicInt32& Other);
-    bool operator ==(Int32 Value)const;
-    AtomicInt32& operator++();
-    AtomicInt32 operator++(Int32);
-    AtomicInt32& operator--();
-    AtomicInt32 operator--(Int32);
+  operator Int32() const;
+  bool operator!() const;
+  bool operator!=(DataType Value) const;
+  AtomicInt32& operator=(DataType Value);
+  AtomicInt32& operator=(const AtomicInt32& Other);
+  bool operator==(DataType Value) const;
+  AtomicInt32& operator++();
+  AtomicInt32 operator++(Int32);
+  AtomicInt32& operator--();
+  AtomicInt32 operator--(Int32);
+
 protected:
-    Int32 m_Data;
+  DataType m_Data;
 };
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE
@@ -44,4 +48,4 @@ namespace RF_Type = RadonFramework::Core::Types;
 using RadonFramework::Core::Types::AtomicInt32;
 #endif
 
-#endif // RF_CORE_TYPES_ATOMICINT_HPP
+#endif  // RF_CORE_TYPES_ATOMICINT_HPP

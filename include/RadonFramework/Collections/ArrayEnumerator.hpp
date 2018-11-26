@@ -4,6 +4,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <RadonFramework/Memory/AutoPointer.hpp>
+
 namespace RadonFramework::Collections {
 
 template <typename T>

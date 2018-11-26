@@ -4,6 +4,7 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/System/Threading/Interlocked.hpp>
 
 namespace RadonFramework::Core::Types {

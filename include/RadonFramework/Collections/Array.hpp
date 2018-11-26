@@ -11,6 +11,7 @@
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
+#include <RadonFramework/Math/Integer.hpp>
 
 #include <stdlib.h>
 

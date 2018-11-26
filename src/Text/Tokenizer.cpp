@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/Tokenizer.hpp"
 #include "RadonFramework/Collections/Algorithm/FindAll.hpp"
+#include "RadonFramework/Collections/Algorithm/QuickSort.hpp"
 
 namespace RadonFramework::Text {
 
@@ -61,8 +62,19 @@ void Tokenizer::Delimiter(const RF_Type::String& Delimiter)
 
 void Tokenizer::Process(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Code)
 {
-    ParseCode(Code);
-    RecursiveVisit();
+  ParseCode(Code);
+  
+  for(RF_Type::Size i = 0; i < m_Rules.Count(); ++i)
+  {
+    m_Rules[i]->Code = &Code;
+  }
+  
+  RecursiveVisit();
+
+  for(RF_Type::Size i = 0; i < m_Rules.Count(); ++i)
+  {
+    m_Rules[i]->Code = nullptr;
+  }
 }
 
 void Tokenizer::AddRule(RF_Mem::AutoPointer<Visitor> Rule)
@@ -234,8 +246,12 @@ void Tokenizer::RecursiveVisit()
     }
 }
 
-Visitor::~Visitor()
+Visitor::Visitor() 
+:Code(nullptr)
 {
+}
+
+Visitor::~Visitor() {
 
 }
 

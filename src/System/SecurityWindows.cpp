@@ -97,9 +97,9 @@ Dispatch()
   RemoveUserEncryptedData = Windows::RemoveUserEncryptedData;
   UserEncryptedDataSize = Windows::UserEncryptedDataSize;
   IsUserEncryptedEntryAvailable = Windows::IsUserEncryptedEntryAvailable;
-  auto module = LoadLibrary("Advapi32.dll");
+  auto advancedAPIModule = LoadLibrary("Advapi32.dll");
   Windows::RtlGenRandom = reinterpret_cast<Windows::RtlGenRandomFunction>(
-    GetProcAddress(module, "SystemFunction036"));
+    GetProcAddress(advancedAPIModule, "SystemFunction036"));
   if (Windows::RtlGenRandom) {
     GenerateRandom = Windows::GenerateRandom;
   }

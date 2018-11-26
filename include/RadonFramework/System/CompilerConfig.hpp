@@ -4,6 +4,7 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Defines.hpp>
 #include <RadonFramework/System/MemoryArchitecture.hpp>
 #include <RadonFramework/System/Endian.hpp>
 

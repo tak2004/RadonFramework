@@ -69,6 +69,7 @@ public:
     typedef RF_Collect::Tree<RF_Mem::AutoPointer<Token>>::NodeType TokenNode;
     typedef RF_Collect::Stack<TokenNode*> TokenStack;
 
+    Visitor();
     virtual ~Visitor();
     virtual RF_Type::Bool Visit(const TokenNode& AToken)=0;
 
@@ -79,6 +80,7 @@ public:
     void DeleteToken(const TokenNode& AToken);
 
     RF_Collect::List<RF_Mem::AutoPointer<ASTCommand>> Todo;
+    RF_Mem::AutoPointerArray<RF_Type::UInt8>* Code;
 };
 
 class Tokenizer

@@ -4,6 +4,15 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/Int8.hpp>
+#include <RadonFramework/Core/Types/UInt16.hpp>
+#include <RadonFramework/Core/Types/Int16.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Int32.hpp>
+#include <RadonFramework/Core/Types/UInt64.hpp>
+#include <RadonFramework/Core/Types/Int64.hpp>
+
 namespace RadonFramework::Math {
 
 template <typename T>

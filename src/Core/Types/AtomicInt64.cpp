@@ -6,8 +6,7 @@ using namespace RadonFramework::System::Threading;
 
 namespace RadonFramework::Core::Types {
 
-AtomicInt64::AtomicInt64(Int64 Value)
-:m_Data(Value)
+AtomicInt64::AtomicInt64(DataType Value) :m_Data(Value)
 {
 }
 
@@ -16,32 +15,33 @@ AtomicInt64::AtomicInt64(const AtomicInt64& Other)
 {
 }
 
-Int64 AtomicInt64::Increment()
+AtomicInt64::DataType AtomicInt64::Increment()
 {
     return Interlocked::InterlockedInc64(&m_Data);
 }
 
-Int64 AtomicInt64::Decrement()
+AtomicInt64::DataType AtomicInt64::Decrement()
 {
     return Interlocked::InterlockedDec64(&m_Data);
 }
 
-Int64 AtomicInt64::FetchAndAdd(Int64 Addend)
+AtomicInt64::DataType AtomicInt64::FetchAndAdd(DataType Addend)
 {
     return Interlocked::InterlockedAdd64(&m_Data,Addend);
 }
 
-Int64 AtomicInt64::FetchAndExchange(Int64 Value)
+AtomicInt64::DataType AtomicInt64::FetchAndExchange(DataType Value)
 {
     return Interlocked::InterlockedExchange64(&m_Data,Value);
 }
 
-Int64 AtomicInt64::CompareAndExchange(Int64 Compare, Int64 Value)
+AtomicInt64::DataType
+AtomicInt64::CompareAndExchange(DataType Compare, DataType Value)
 {
     return Interlocked::InterlockedCompareExchange64(&m_Data, Value, Compare);
 }
 
-Int64 AtomicInt64::Add(Int64 Value)
+AtomicInt64::DataType AtomicInt64::Add(DataType Value)
 {
     return Interlocked::InterlockedAdd64(&m_Data, Value);
 }
@@ -56,12 +56,12 @@ bool AtomicInt64::operator !()const
     return m_Data==0?true:false;
 }
 
-bool AtomicInt64::operator !=(Int64 Value)const
+bool AtomicInt64::operator!=(DataType Value) const
 {
     return m_Data!=Value;
 }
 
-AtomicInt64& AtomicInt64::operator =(Int64 Value)
+AtomicInt64& AtomicInt64::operator=(DataType Value)
 {
     m_Data=Value;
     return *this;
@@ -73,7 +73,7 @@ AtomicInt64& AtomicInt64::operator =(const AtomicInt64& Other)
     return *this;
 }
 
-bool AtomicInt64::operator ==(Int64 Value)const
+bool AtomicInt64::operator==(DataType Value) const
 {
     return m_Data==Value;
 }
@@ -90,14 +90,14 @@ AtomicInt64& AtomicInt64::operator--()
     return *this;
 }
 
-AtomicInt64 AtomicInt64::operator--(int)
+AtomicInt64 AtomicInt64::operator--(Int32)
 {
     AtomicInt64 result(*this);
     Decrement();
     return result;
 }
 
-AtomicInt64 AtomicInt64::operator++(int)
+AtomicInt64 AtomicInt64::operator++(Int32)
 {
     AtomicInt64 result(*this);
     Increment();

@@ -4,6 +4,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <stdint.h>
+
 namespace RadonFramework::Core::Types {
 
 /// A UInt16 have always the size of 2 byte and represent a unsigned number.

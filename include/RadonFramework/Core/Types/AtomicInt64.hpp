@@ -4,36 +4,40 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Core::Types {
+#include <RadonFramework/Core/Types/Int64.hpp>
 
+namespace RadonFramework::Core::Types
+{
 struct AtomicInt64
 {
 public:
-    AtomicInt64(Int64 Value=0);
-    AtomicInt64(const AtomicInt64& Other);
+  typedef RF_Type::Int64 DataType;
+  AtomicInt64(DataType Value = 0);
+  AtomicInt64(const AtomicInt64& Other);
 
-    Int64 Increment();
-    Int64 Decrement();
-    Int64 FetchAndAdd(Int64 Addend);
-    Int64 FetchAndExchange(Int64 Value);
-    Int64 CompareAndExchange(Int64 Compare, Int64 Value);
-    Int64 Add(Int64 Value);
+  DataType Increment();
+  DataType Decrement();
+  DataType FetchAndAdd(DataType Addend);
+  DataType FetchAndExchange(DataType Value);
+  DataType CompareAndExchange(DataType Compare, DataType Value);
+  DataType Add(DataType Value);
 
-    operator Int64()const;
-    bool operator !()const;
-    bool operator !=(Int64 Value)const;
-    AtomicInt64& operator =(Int64 Value);
-    AtomicInt64& operator =(const AtomicInt64& Other);
-    bool operator ==(Int64 Value)const;
-    AtomicInt64& operator++();
-    AtomicInt64 operator++(int);
-    AtomicInt64& operator--();
-    AtomicInt64 operator--(int);
+  operator Int64() const;
+  bool operator!() const;
+  bool operator!=(DataType Value) const;
+  AtomicInt64& operator=(DataType Value);
+  AtomicInt64& operator=(const AtomicInt64& Other);
+  bool operator==(DataType Value) const;
+  AtomicInt64& operator++();
+  AtomicInt64 operator++(Int32);
+  AtomicInt64& operator--();
+  AtomicInt64 operator--(Int32);
+
 protected:
-    Int64 m_Data;
+  DataType m_Data;
 };
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE
@@ -44,4 +48,4 @@ namespace RF_Type = RadonFramework::Core::Types;
 using RadonFramework::Core::Types::AtomicInt64;
 #endif
 
-#endif // RF_CORE_TYPES_ATOMICINT64_HPP
+#endif  // RF_CORE_TYPES_ATOMICINT64_HPP

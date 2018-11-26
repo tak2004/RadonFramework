@@ -5,6 +5,7 @@
 #endif
 
 #include <iterator>
+#include <RadonFramework/Collections/Enumerator.hpp>
 
 namespace RadonFramework::Collections {
 
@@ -12,7 +13,7 @@ struct ArrayEnumeratorType
 {};
 
 template<typename T>
-struct Enumerator <T, ArrayEnumeratorType>
+struct Enumerator<T, ArrayEnumeratorType>
 {
     typedef T Type;
     typedef typename std::random_access_iterator_tag iterator_category;

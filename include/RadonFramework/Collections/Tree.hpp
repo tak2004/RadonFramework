@@ -33,6 +33,7 @@ public:
     ArrayNode<T>* Next();
     const ArrayNode<T>* Next()const;
     ArrayNode<T>* Prev();
+    const ArrayNode<T>* Prev() const;
     ArrayNode<T>* Child(RF_Type::Size Index);
 
     T& Data();
@@ -238,7 +239,7 @@ const ArrayNode<T>* ArrayNode<T>::Parent()const
 template <class T>
 ArrayNode<T>* ArrayNode<T>::Next()
 {
-    ArrayNode<T>* result = 0;
+    ArrayNode<T>* result = nullptr;
     if(m_Parent)
     {
         if(m_Parent->m_Children.Count() > 0)
@@ -256,7 +257,7 @@ ArrayNode<T>* ArrayNode<T>::Next()
 template <class T>
 const ArrayNode<T>* ArrayNode<T>::Next()const
 {
-    const ArrayNode<T>* result = 0;
+    const ArrayNode<T>* result = nullptr;
     if(m_Parent)
     {
         if(m_Parent->m_Children.Count() > 0)
@@ -274,7 +275,7 @@ const ArrayNode<T>* ArrayNode<T>::Next()const
 template <class T>
 ArrayNode<T>* ArrayNode<T>::Prev()
 {
-    ArrayNode<T>* result = 0;
+    ArrayNode<T>* result = nullptr;
     if (m_Parent)
     {
         if (m_Parent->m_Children.Count() > 0)
@@ -287,6 +288,24 @@ ArrayNode<T>* ArrayNode<T>::Prev()
         }
     }
     return result;
+}
+
+template <class T>
+inline const ArrayNode<T>* ArrayNode<T>::Prev() const
+{
+  const ArrayNode<T>* result = nullptr;
+  if(m_Parent)
+  {
+    if(m_Parent->m_Children.Count() > 0)
+    {
+      RF_Type::MemoryRange index = this - &m_Parent->m_Children(0) - 1;
+      if(index >= 0)
+      {
+        result = &m_Parent->m_Children(index);
+      }
+    }
+  }
+  return result;
 }
 
 template <class T>

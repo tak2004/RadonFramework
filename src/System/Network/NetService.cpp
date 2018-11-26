@@ -437,35 +437,6 @@ Error NetService::Free()
     return FreeImplementation();
 }
 
-IPHostEntry NetService::GetHostEntry( const RF_Type::String& HostnameOrAddress )
-{
-    List<RF_Type::String> s;
-    List<IPAddress> i;
-    struct addrinfo hints,*servinfo,*element;
-
-    RF_SysMem::Set(&hints, 0, sizeof hints);
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-
-    // collect all IP's
-    if (getaddrinfo(HostnameOrAddress.c_str(),NULL,&hints,&servinfo)!=0)
-        return IPHostEntry(RF_Type::String(),s,i);
-
-    // collect all names related to the IP's
-    for (element=servinfo;element!=NULL;element=element->ai_next)
-    {
-        char hostname[NI_MAXHOST]="";
-        getnameinfo(element->ai_addr, static_cast<socklen_t>(element->ai_addrlen), 
-                    hostname, NI_MAXHOST, NULL, 0, 0);
-        i.AddLast(IPAddress(((sockaddr_in*)element->ai_addr)->sin_addr.s_addr));
-        if (*hostname)
-            s.AddLast(RF_Type::String(hostname, NI_MAXHOST));
-    }
-    freeaddrinfo(servinfo);
-    IPHostEntry result(HostnameOrAddress,s,i);
-    return result;
-}
-
 String NetService::GetHostname()
 {
     char szHostname[255];

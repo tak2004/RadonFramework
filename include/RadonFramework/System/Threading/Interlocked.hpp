@@ -154,6 +154,10 @@ struct Interlocked
     static void* InterlockedCompareExchangePointer(
         void* volatile* Destination, void* Exchange, void* Comparand);
 
+    /// Sets a 16-bit variable to the specified value as an atomic operation.
+    static RF_Type::Int16 InterlockedExchange16(RF_Type::Int16 volatile* Target,
+                                                RF_Type::Int16 Value);
+
     /// Sets a 32-bit variable to the specified value as an atomic operation.
     static RF_Type::Int32 InterlockedExchange32(
         RF_Type::Int32 volatile* Target, RF_Type::Int32 Value);

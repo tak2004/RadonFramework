@@ -21,6 +21,8 @@ public:
     ThreadPool();
     ~ThreadPool();
 
+    static ThreadPool& Global();
+
     /// The function will calculate the best working thread amount
     /// for the specified processor core amount.
     static RF_Type::UInt32 GetBestThreadAmountByProcessorCoreAmount(RF_Type::UInt32 Amount);

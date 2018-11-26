@@ -2,11 +2,11 @@
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
 #include <RadonFramework/System/Threading/Interlocked.hpp>
 
-using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::System::Threading;
+namespace RadonFramework::Core::Types
+{
 
-AtomicInt32::AtomicInt32(Int32 Value)
-:m_Data(Value)
+AtomicInt32::AtomicInt32(DataType Value) 
+  :m_Data(Value)
 {
 }
 
@@ -15,34 +15,36 @@ AtomicInt32::AtomicInt32(const AtomicInt32& Other)
 {
 }
 
-Int32 AtomicInt32::Increment()
+AtomicInt32::DataType AtomicInt32::Increment()
 {
-    return Interlocked::InterlockedInc32(&m_Data);
+  return RF_SysThread::Interlocked::InterlockedInc32(&m_Data);
 }
 
-Int32 AtomicInt32::Decrement()
+AtomicInt32::DataType AtomicInt32::Decrement()
 {
-    return Interlocked::InterlockedDec32(&m_Data);
+  return RF_SysThread::Interlocked::InterlockedDec32(&m_Data);
 }
 
-Int32 AtomicInt32::FetchAndAdd(Int32 Addend)
+AtomicInt32::DataType AtomicInt32::FetchAndAdd(DataType Addend)
 {
-    return Interlocked::InterlockedAdd32(&m_Data,Addend);
+  return RF_SysThread::Interlocked::InterlockedAdd32(&m_Data, Addend);
 }
 
-Int32 AtomicInt32::FetchAndExchange(Int32 Value)
+AtomicInt32::DataType AtomicInt32::FetchAndExchange(DataType Value)
 {
-    return Interlocked::InterlockedExchange32(&m_Data,Value);
+  return RF_SysThread::Interlocked::InterlockedExchange32(&m_Data, Value);
 }
 
-Int32 AtomicInt32::CompareAndExchange(Int32 Compare, Int32 Value)
+AtomicInt32::DataType
+AtomicInt32::CompareAndExchange(DataType Compare, DataType Value)
 {
-    return Interlocked::InterlockedCompareExchange32(&m_Data, Value, Compare);
+  return RF_SysThread::Interlocked::InterlockedCompareExchange32(&m_Data, Value,
+                                                                 Compare);
 }
 
-Int32 AtomicInt32::Add(Int32 Value)
+AtomicInt32::DataType AtomicInt32::Add(DataType Value)
 {
-    return Interlocked::InterlockedAdd32(&m_Data, Value);
+  return RF_SysThread::Interlocked::InterlockedAdd32(&m_Data, Value);
 }
 
 AtomicInt32::operator Int32()const
@@ -55,12 +57,12 @@ bool AtomicInt32::operator !()const
     return m_Data==0?true:false;
 }
 
-bool AtomicInt32::operator !=(Int32 Value)const
+bool AtomicInt32::operator!=(DataType Value) const
 {
     return m_Data!=Value;
 }
 
-AtomicInt32& AtomicInt32::operator =(Int32 Value)
+AtomicInt32& AtomicInt32::operator=(DataType Value)
 {
     m_Data=Value;
     return *this;
@@ -72,7 +74,7 @@ AtomicInt32& AtomicInt32::operator =(const AtomicInt32& Other)
     return *this;
 }
 
-bool AtomicInt32::operator ==(Int32 Value)const
+bool AtomicInt32::operator==(DataType Value) const
 {
     return m_Data==Value;
 }
@@ -101,4 +103,6 @@ AtomicInt32 AtomicInt32::operator--(Int32)
     AtomicInt32 result(*this);
     Decrement();
     return result;
+}
+
 }

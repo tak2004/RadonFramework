@@ -4,11 +4,14 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <stdint.h>
+#include <RadonFramework/Defines.hpp>
+
 namespace RadonFramework::Core::Types {
 
 #ifdef RF_HAVE_LONG_LONG
     /// A Int64 have always the size of 8 byte and represent a signed number.
-    typedef int64_t Int64;
+    using Int64 = int64_t;
 #else
     /// A Int64 have always the size of 8 byte and represent a signed number.
     typedef struct {

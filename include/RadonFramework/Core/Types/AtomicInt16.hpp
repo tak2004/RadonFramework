@@ -1,19 +1,19 @@
-#ifndef RF_CORE_TYPES_ATOMICUINT32_HPP
-#define RF_CORE_TYPES_ATOMICUINT32_HPP
+#ifndef RF_CORE_TYPES_ATOMICINT16_HPP
+#define RF_CORE_TYPES_ATOMICINT16_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Int16.hpp>
 
 namespace RadonFramework::Core::Types
 {
-struct AtomicUInt32
+struct AtomicInt16
 {
 public:
-  typedef RF_Type::UInt32 DataType;
-  AtomicUInt32(DataType Value = 0);
-  AtomicUInt32(const AtomicUInt32& Other);
+  typedef RF_Type::Int16 DataType;
+  AtomicInt16(DataType Value = 0);
+  AtomicInt16(const AtomicInt16& Other);
 
   DataType Increment();
   DataType Decrement();
@@ -22,16 +22,16 @@ public:
   DataType CompareAndExchange(DataType Compare, DataType Value);
   DataType Add(DataType Value);
 
-  operator UInt32() const;
+  operator Int16() const;
   bool operator!() const;
   bool operator!=(DataType Value) const;
-  AtomicUInt32& operator=(DataType Value);
-  AtomicUInt32& operator=(const AtomicUInt32& Other);
+  AtomicInt16& operator=(DataType Value);
+  AtomicInt16& operator=(const AtomicInt16& Other);
   bool operator==(DataType Value) const;
-  AtomicUInt32& operator++();
-  AtomicUInt32 operator++(int);
-  AtomicUInt32& operator--();
-  AtomicUInt32 operator--(int);
+  AtomicInt16& operator++();
+  AtomicInt16 operator++(int);
+  AtomicInt16& operator--();
+  AtomicInt16 operator--(int);
 
 protected:
   DataType m_Data;
@@ -45,7 +45,7 @@ namespace RF_Type = RadonFramework::Core::Types;
 #endif
 
 #ifndef RF_DISABLE_USING_TYPES
-using RadonFramework::Core::Types::AtomicUInt32;
+using RadonFramework::Core::Types::AtomicInt16;
 #endif
 
-#endif  // RF_CORE_TYPES_ATOMICUINT32_HPP
+#endif  // RF_CORE_TYPES_ATOMICINT16_HPP

@@ -420,7 +420,7 @@ void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>&
 
     for(RF_Type::Int64 i = fonts.Count() - 1; i >= 0; --i)
     {
-        if(stringList)
+        if(!stringList.IsEmpty())
         {
             RF_Type::UInt8* cursor = stringList.Get();
             RF_Type::Size leftBytes = stringList.Size();

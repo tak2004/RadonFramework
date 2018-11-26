@@ -4,6 +4,7 @@
 #pragma once
 #endif
 
+#include <cstdarg>
 #include <RadonFramework/System/CompilerConfig.hpp>
 #include <RadonFramework/Core/Types/Char.hpp>
 #include <RadonFramework/Core/Types/Size.hpp>

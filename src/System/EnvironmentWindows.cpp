@@ -61,10 +61,10 @@ PlatformID::Type Platform()
 Bool Is32BitEmulation()
 {
     BOOL bIsWow64 = FALSE;
-    HMODULE module = GetModuleHandle("kernel32");
-    if(0 != module)
+    HMODULE kernelModule = GetModuleHandle("kernel32");
+    if(0 != kernelModule)
     {
-        fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(module, "IsWow64Process");
+        fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(kernelModule, "IsWow64Process");
         if(NULL != fnIsWow64Process)
         {
             fnIsWow64Process(GetCurrentProcess(), &bIsWow64);

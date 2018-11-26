@@ -5,7 +5,6 @@
 #endif
 
 #include <RadonFramework/Net/Error.hpp>
-#include <RadonFramework/Net/IPHostEntry.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Net/NetworkAdapter.hpp>
@@ -37,10 +36,6 @@ public:
         * This method will be called by RadonFramework_Quit();
         **/
     static RF_Net::Error Free();
-
-    // Return all IPs and names related to the specified parameter.
-    static RF_Net::IPHostEntry GetHostEntry(
-        const RF_Type::String& HostnameOrAddress);
 
     // Return the hostname of the pc.
     static RF_Type::String GetHostname();
