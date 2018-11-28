@@ -4,41 +4,44 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Diagnostics::Debugging {
+#include <RadonFramework/BuildInfo.hpp>
 
+namespace RadonFramework::Diagnostics::Debugging
+{
 #ifndef NDEBUG
-    #ifdef RF_DEBUG
-        struct AssertHandler
-        {
-            typedef void (*Callback)(const char* Test, const char* Message, 
-                                        const char* Filename, int Line);
-            static Callback Override;
-            static void Process(const char* Test, const char* Message, 
-                                const char* Filename, int Line);
-        };
+struct AssertHandler
+{
+  typedef void (*Callback)(const char* Test,
+                           const char* Message,
+                           const char* Filename,
+                           int Line);
+  static Callback Override;
+  static void Process(const char* Test,
+                      const char* Message,
+                      const char* Filename,
+                      int Line);
+};
 
-        #define ASSERT_IMPL(test,msg)\
-        if(!(test))\
-        {\
-            if (RF_Debug::AssertHandler::Override)\
-                RF_Debug::AssertHandler::Override(#test,#msg,__FILE__,__LINE__);\
-            else\
-                RF_Debug::AssertHandler::Process(#test,#msg,__FILE__,__LINE__);\
-        }
-    #else
-        #define ASSERT_IMPL(test,msg) { }
-    #endif
+#define Assert(test, msg)                                                   \
+  {                                                                         \
+    if(RadonFramework::BuildInfo::CompileForDebugging ==                    \
+           RadonFramework::BuildInfo::DebugMode::True &&      \
+       !(test))                                                             \
+    {                                                                       \
+      if(RF_Debug::AssertHandler::Override)                                 \
+        RF_Debug::AssertHandler::Override(#test, #msg, __FILE__, __LINE__); \
+      else                                                                  \
+        RF_Debug::AssertHandler::Process(#test, #msg, __FILE__, __LINE__);  \
+    }                                                                       \
+  }
 #else
-    #define ASSERT_IMPL(test,msg) { }
+#define Assert(test, msg) \
+  {                       \
+  }
 #endif
 
-#define Assert(test,msg)\
-{\
-    ASSERT_IMPL(test,msg)\
-}
-
-}
+}  // namespace RadonFramework::Diagnostics::Debugging
 
 namespace RF_Debug = ::RadonFramework::Diagnostics::Debugging;
 
-#endif // RF_DIAGNOSTICS_DEBUGGING_ASSERT_HPP
+#endif  // RF_DIAGNOSTICS_DEBUGGING_ASSERT_HPP

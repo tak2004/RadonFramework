@@ -66,23 +66,12 @@
 #endif                          
 //-------------------------------//
 
-//--------detect debug mode--------//
-#if defined(DEBUG)||defined(_DEBUG)//
-    #define RF_DEBUG               //
-#endif                             //
-//---------------------------------//
-
 // detect architecture
 #if defined __LP64__ || defined _M_X64 || defined __MING64__ || defined _LP64
     #define RF_64BIT
 #else
     #define RF_32BIT
 #endif  
-
-// detect 64bit integer support
-#if defined(_MSC_VER) || defined(__SIZEOF_LONG_LONG__) // VS, gcc
-    #define RF_HAVE_LONG_LONG
-#endif
 
 //defines for cmake
 @USEOPENGL@

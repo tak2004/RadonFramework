@@ -5,22 +5,11 @@
 #endif // _MSC_VER > 1000
 
 #include <stdint.h>
-#include <RadonFramework/Defines.hpp>
 
 namespace RadonFramework::Core::Types {
 
 /// A UInt8 have always the size of 8 byte and represent a unsigned number.
-#ifdef RF_HAVE_LONG_LONG
-    typedef uint64_t UInt64;
-#else
-    typedef struct {
-        #ifdef IS_LITTLE_ENDIAN
-            unsigned long lo,hi;
-        #else
-            unsigned long hi,lo;
-        #endif
-    }UInt64;
-#endif
+typedef uint64_t UInt64;
 
 /// The minimum value which can be contained by a UInt64.
 extern const UInt64 UInt64Min;
