@@ -1,12 +1,12 @@
-#ifndef RF_CONCURRENCY_TYPELESSDYNAMICQUEUEMPSC_HPP
-#define RF_CONCURRENCY_TYPELESSDYNAMICQUEUEMPSC_HPP
+#ifndef RF_COLLECTIONS_CONCURRENCY_TYPELESSDYNAMICQUEUEMPSC_HPP
+#define RF_COLLECTIONS_CONCURRENCY_TYPELESSDYNAMICQUEUEMPSC_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
 
 #include <RadonFramework/Memory/FreeListAllocator.hpp>
 
-namespace RadonFramework::Concurrency {
+namespace RadonFramework::Collections::Concurrency {
 
 /** @brief This class is a lock free queue which can grow and shrink.
 *
@@ -52,7 +52,7 @@ private:
 
 #ifndef RF_SHORTHAND_NAMESPACE_CON
 #define RF_SHORTHAND_NAMESPACE_CON
-namespace RF_Con = RadonFramework::Concurrency;
+namespace RF_Con = RadonFramework::Collections::Concurrency;
 #endif
 
-#endif // RF_CONCURRENCY_TYPELESSDYNAMICQUEUEMPSC_HPP
+#endif  // RF_COLLECTIONS_CONCURRENCY_TYPELESSDYNAMICQUEUEMPSC_HPP

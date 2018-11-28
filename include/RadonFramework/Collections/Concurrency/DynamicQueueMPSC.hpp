@@ -1,15 +1,15 @@
-#ifndef RF_CONCURRENCY_DYNAMICQUEUEMPSC_HPP
-#define RF_CONCURRENCY_DYNAMICQUEUEMPSC_HPP
+#ifndef RF_COLLECTIONS_CONCURRENCY_DYNAMICQUEUEMPSC_HPP
+#define RF_COLLECTIONS_CONCURRENCY_DYNAMICQUEUEMPSC_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif
 
-#include <RadonFramework/Concurrency/TypelessDynamicQueueMPSC.hpp>
+#include <RadonFramework/Collections/Concurrency/TypelessDynamicQueueMPSC.hpp>
 #include <RadonFramework/Memory/HeapAllocator.hpp>
 #include <RadonFramework/Memory/FreeListAllocator.hpp>
 #include <new>
 
-namespace RadonFramework::Concurrency {
+namespace RadonFramework::Collections::Concurrency {
 
 /** @brief This class is a lock free queue which can grow and shrink.
 *
@@ -130,7 +130,7 @@ inline void DynamicQueueMPSC<T, ALLOCATOR>::Enqueue(const T& Data)
 
 #ifndef RF_SHORTHAND_NAMESPACE_CON
 #define RF_SHORTHAND_NAMESPACE_CON
-namespace RF_Con = RadonFramework::Concurrency;
+namespace RF_Con = RadonFramework::Collections::Concurrency;
 #endif
 
-#endif // RF_CONCURRENCY_DYNAMICQUEUEMPSC_HPP
+#endif  // RF_COLLECTIONS_CONCURRENCY_DYNAMICQUEUEMPSC_HPP

@@ -7,7 +7,7 @@
 #include <RadonFramework/Net/Server.hpp>
 #include <RadonFramework/Net/PacketLogicFactory.hpp>
 #include <RadonFramework/Collections/HashList.hpp>
-#include <RadonFramework/Concurrency/DynamicQueueMPSC.hpp>
+#include <RadonFramework/Collections/Concurrency/DynamicQueueMPSC.hpp>
 
 namespace RadonFramework::Net {
 

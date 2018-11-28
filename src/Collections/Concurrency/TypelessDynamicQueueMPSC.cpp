@@ -1,9 +1,9 @@
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/Concurrency/TypelessDynamicQueueMPSC.hpp"
+#include "RadonFramework/Collections/Concurrency/TypelessDynamicQueueMPSC.hpp"
 #include "RadonFramework/System/Threading/Interlocked.hpp"
 #include "RadonFramework/Memory/Allocators.hpp"
 
-namespace RadonFramework::Concurrency {
+namespace RadonFramework::Collections::Concurrency {
 
 struct TypelessDynamicQueueMPSC::Node
 {

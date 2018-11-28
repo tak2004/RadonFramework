@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Concurrency/DynamicQueueMPSC.hpp>
+#include <RadonFramework/Collections/Concurrency/DynamicQueueMPSC.hpp>
 #include <RadonFramework/Diagnostics/Profiling/ProfileScope.hpp>
 
 namespace RadonFramework { namespace Diagnostics { namespace Profiling {
