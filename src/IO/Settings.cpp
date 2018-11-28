@@ -9,7 +9,7 @@
 #include "RadonFramework/Core/Policies/CMemoryOperation.hpp"
 #include "RadonFramework/Math/Hash/Hash32.hpp"
 
-using namespace RadonFramework::Core::Common;
+using namespace RadonFramework::Core;
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
@@ -106,10 +106,10 @@ void Settings::Load()
                     if(buf[i] == '\n' || buf[i] == '\r')
                     {
                         String line = String(reinterpret_cast<const char*>(&buf[s]), i - s);
-                        AutoPointerArray<String> keyValue = line.Split(String("="));
+                        auto keyValue = line.Split(String("="));
                         if(keyValue.Count() == 2)
                         {
-                            SetValue(keyValue[0],keyValue[1]);
+                            SetValue(keyValue[0], keyValue[1]);
                         }
 
                         while(i < buf.Size() && (buf[i] == '\n' || buf[i] == '\r'))

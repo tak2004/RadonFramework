@@ -1,21 +1,22 @@
-#include <RadonFramework/Core/Idioms/PImpl.hpp>
-#include <RadonFramework/Core/Meta/If.hpp>
-#include <RadonFramework/Core/Pattern/Delegate.hpp>
-#include <RadonFramework/Core/Pattern/Event.hpp>
-#include <RadonFramework/Core/Pattern/Service.hpp>
-#include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
-#include <RadonFramework/Core/Pattern/Signal.hpp>
-#include <RadonFramework/Core/Pattern/Singleton.hpp>
-#include <RadonFramework/Core/Pattern/Typelist.hpp>
-#include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
-#include <RadonFramework/Core/Policies/CPPAllocator.hpp>
-#include <RadonFramework/Core/Policies/Comparsion.hpp>
-#include <RadonFramework/Core/Policies/LazyResize.hpp>
-#include <RadonFramework/Core/Policies/MallocAllocator.hpp>
-#include <RadonFramework/Core/Policies/ObjectLogic.hpp>
-#include <RadonFramework/Core/Traits/AllocatorTraits.hpp>
+//#include <RadonFramework/Core/Idioms/PImpl.hpp>
+//#include <RadonFramework/Core/Meta/If.hpp>
+//#include <RadonFramework/Core/Pattern/Delegate.hpp>
+//#include <RadonFramework/Core/Pattern/Event.hpp>
+//#include <RadonFramework/Core/Pattern/Service.hpp>
+//#include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
+//#include <RadonFramework/Core/Pattern/Signal.hpp>
+//#include <RadonFramework/Core/Pattern/Singleton.hpp>
+//#include <RadonFramework/Core/Pattern/Typelist.hpp>
+//#include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
+//#include <RadonFramework/Core/Policies/CPPAllocator.hpp>
+//#include <RadonFramework/Core/Policies/Comparsion.hpp>
+//#include <RadonFramework/Core/Policies/LazyResize.hpp>
+//#include <RadonFramework/Core/Policies/MallocAllocator.hpp>
+//#include <RadonFramework/Core/Policies/ObjectLogic.hpp>
+//#include <RadonFramework/Core/Traits/AllocatorTraits.hpp>
+#include <RadonFramework/Core/DataManagment.hpp>
+
+export module RadonFramework.Core;
 
 import RadonFramework.Core.Types;
 import RadonFramework.Core.Common;
-module RadonFramework.Core;
-

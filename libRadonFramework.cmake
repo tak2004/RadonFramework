@@ -260,7 +260,11 @@ set_source_files_properties(${LIBBACKENDHDRFILES} ${LIBHDRFILES} ${MODULES_HDRS}
 #
 # setup precompiled header
 #
-option(RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER "Activate precompiled header(Default: on)" ON)
+if(${RADONFRAMEWORK_COMPILER_EXPORT_AS_MODULE})
+    option(RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER "Activate precompiled header(Default: on)" OFF)
+else()
+    option(RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER "Activate precompiled header(Default: on)" ON)
+endif()
 if(${RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER})
 	CreatePrecompiledHeader(RADONFRAMEWORK "RadonFramework/precompiled.hpp" "src/precompiled.cpp" SourceList)
 endif()

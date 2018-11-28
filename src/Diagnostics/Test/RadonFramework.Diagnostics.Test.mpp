@@ -1,15 +1,9 @@
+#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Collections/HashList.hpp>
+
+export module RadonFramework.Diagnostics.Test;
+
 #include <RadonFramework/Diagnostics/Test/BDD/Specification.hpp>
+#include <RadonFramework/Diagnostics/Test/BDD/SpecificationOutput.hpp>
 #include <RadonFramework/Diagnostics/Test/BDD/ConsoleOutput.hpp>
-
-module RadonFramework.Diagnostics.Test;
-
-export namespace RadonFramework::Diagnostics::Test {}
-export namespace RadonFramework::Diagnostics::Test::BDD
-{
-  class Specification;
-  class ConsoleOutput;
-}
-export namespace RF_BDD = RadonFramework::Diagnostics::Test::BDD;
-
-export RF_BDD::Specification
-operator"" _rfsp(const char* SpecificationData, size_t SpecificationLenght);

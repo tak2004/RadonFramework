@@ -123,7 +123,7 @@ public:
       auto* code = reinterpret_cast<RF_Text::CodePart*>(AToken.Data().Get());
       RF_Type::String codeview(
           reinterpret_cast<char*>(Code->Get() + code->Start), code->Count,
-          RF_Common::DataManagment::UnmanagedInstance);
+          RF_Core::DataManagment::UnmanagedInstance);
       if(codeview.StartsWith(Name))
       {
         auto newToken = RF_Mem::AutoPointer<FeatureLine>(new FeatureLine);
@@ -161,7 +161,7 @@ public:
       auto* code = reinterpret_cast<RF_Text::CodePart*>(AToken.Data().Get());
       RF_Type::String codeview(
           reinterpret_cast<char*>(Code->Get() + code->Start), code->Count,
-          RF_Common::DataManagment::UnmanagedInstance);
+          RF_Core::DataManagment::UnmanagedInstance);
       if(codeview.StartsWith(Name))
       {
         auto newToken = RF_Mem::AutoPointer<ScenarioLine>(new ScenarioLine);
@@ -202,7 +202,7 @@ public:
       auto* code = reinterpret_cast<RF_Text::CodePart*>(AToken.Data().Get());
       RF_Type::String codeview(
           reinterpret_cast<char*>(Code->Get() + code->Start), code->Count,
-          RF_Common::DataManagment::UnmanagedInstance);
+          RF_Core::DataManagment::UnmanagedInstance);
       if(codeview.StartsWith(Name))
       {
         auto newToken =
@@ -253,7 +253,7 @@ public:
       auto* code = reinterpret_cast<RF_Text::CodePart*>(AToken.Data().Get());
       RF_Type::String codeview(
           reinterpret_cast<char*>(Code->Get() + code->Start), code->Count,
-          RF_Common::DataManagment::UnmanagedInstance);
+          RF_Core::DataManagment::UnmanagedInstance);
       if(codeview == Name)
       {
         auto newToken = RF_Mem::AutoPointer<Background>(new Background);
@@ -291,7 +291,7 @@ public:
       auto* code = reinterpret_cast<RF_Text::CodePart*>(AToken.Data().Get());
       RF_Type::String codeview(
           reinterpret_cast<char*>(Code->Get() + code->Start), code->Count,
-          RF_Common::DataManagment::UnmanagedInstance);
+          RF_Core::DataManagment::UnmanagedInstance);
       RF_Type::Size indent = 0;
       for(; indent < codeview.Length(); indent++)
       {
@@ -342,7 +342,7 @@ public:
       auto* code = reinterpret_cast<RF_Text::CodePart*>(AToken.Data().Get());
       RF_Type::String codeview(
           reinterpret_cast<char*>(Code->Get() + code->Start), code->Count,
-          RF_Common::DataManagment::UnmanagedInstance);
+          RF_Core::DataManagment::UnmanagedInstance);
       RF_Type::Size indent = 0;
       for(; indent < codeview.Length(); indent++)
       {
@@ -386,7 +386,7 @@ public:
       auto* code = reinterpret_cast<RF_Text::CodePart*>(AToken.Data().Get());
       RF_Type::String codeview(
           reinterpret_cast<char*>(Code->Get() + code->Start), code->Count,
-          RF_Common::DataManagment::UnmanagedInstance);
+          RF_Core::DataManagment::UnmanagedInstance);
       RF_Type::Size indent = 0;
       for(; indent < codeview.Length(); indent++)
       {
@@ -398,9 +398,9 @@ public:
       if(codeview[indent] == '@')
       {
         auto tags = codeview.Split(" "_rfs);
-        for(auto tag : tags)
+        for(auto i = 0; i < tags.Count(); ++i)
         {
-          if(!tag.StartsWith("@"_rfs))
+          if(!tags[i].StartsWith('@'))
           {
             return false;
           }

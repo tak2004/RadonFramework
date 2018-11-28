@@ -70,7 +70,7 @@ RF_Type::Size StringBuilder::Capacity()const
 RF_Mem::AutoPointer<RF_Type::String> StringBuilder::ToString()const
 {
     RF_Mem::AutoPointer<RF_Type::String> result(new RF_Type::String(
-        m_Data, m_Size, RadonFramework::Core::Common::DataManagment::UnmanagedInstance));
+        m_Data, m_Size, RF_Core::DataManagment::UnmanagedInstance));
     return result;
 }
 

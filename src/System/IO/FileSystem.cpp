@@ -9,7 +9,7 @@ using namespace RadonFramework::IO;
 using namespace RadonFramework::System::IO;
 using namespace RadonFramework::System::IO::FileSystem;
 using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::Core::Common;
+using namespace RadonFramework::Core;
 using namespace RadonFramework::Collections;
 
 Bool Access_SystemAPIDispatcher(const String& Path, const AccessMode::Type Mode)

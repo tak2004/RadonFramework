@@ -219,11 +219,22 @@ Bool IPAddress::IsValidIPv4(const String& Text)
     if(Text.Length() < 7)
         return false;
 
-    AutoPointerArray<String> tokens = Text.Split("."_rfs);
-    return tokens.Count() == 4 && RF_Algo::FindAll(tokens, [](AutoPointerArray<String>::ConstEnumeratorType& Text) {
-        Size value;
-        return Convert::ToSize(*Text, value) && value < 256;
-    }).Count() == 4;
+    Bool result = false;
+    const auto tokens = Text.Split("."_rfs);
+    if (tokens.Count() == 4)
+    {
+      result = true;
+      Size value;
+      for (auto i = 0; i < 4; ++i)
+      {
+        Convert::ToSize(String(tokens[0]), value);
+        if(value > 255)
+        {
+          result = false;
+        }
+      }      
+    }
+    return result;
 }
 
 Bool IsHex(const String& Text)
@@ -263,17 +274,23 @@ RF_Type::Bool IPAddress::ResolveIP4(const RF_Type::String& Text,
     if(result)
     {
         AutoPointerArray<UInt8> bytes(4);
-        UInt8* fragments = bytes.Get();
-        AutoPointerArray<String> tokens = Text.Split("."_rfs);
-        result = tokens.Count() == 4 && 
-            RF_Algo::FindAll(tokens, [fragments](AutoPointerArray<String>::ConstEnumeratorType& Text)
-                 {
-                     Bool result;
-                     Size value;                     
-                     result = Convert::ToSize(*Text, value) && value < 256;
-                     fragments[Text.AtIndex()] = static_cast<UInt8>(value);
-                     return result;
-                 }).Count() == 4;
+        Bool result = false;
+        const auto tokens = Text.Split("."_rfs);
+        if(tokens.Count() == 4)
+        {
+          result = true;
+          Size value;
+          for(auto i = 0; i < 4; ++i)
+          {
+            Convert::ToSize(String(tokens[0]), value);
+            if(value > 255)
+            {
+              result = false;
+            }
+            bytes[i] = static_cast<UInt8>(value);
+          }
+        }
+
         if(result)
         {
             ResolvedAddress = IPAddress(bytes[0], bytes[1], bytes[2], bytes[3]);
@@ -326,17 +343,17 @@ Bool IPAddress::ResolveIP6(const String& Text, IPAddress& ResolvedAddress)
 
     AutoPointerArray<UInt16> shorts(8);
     UInt16* fragments = shorts.Get();
-    AutoPointerArray<String> tokens = Text.Split(":"_rfs);
-    result = RF_Algo::FindAll(tokens, [fragments](AutoPointerArray<String>::ConstEnumeratorType& Text)
-    {
-        Bool result;
-        UInt16 value;
-        result = IsHex(*Text) && IPv6HexToShort(*Text, value);
-        fragments[Text.AtIndex()] = value;
-        return result;
-    }).Count() == tokens.Count();
-
-    if(result)
+    const auto tokens = Text.Split(":"_rfs);
+    //result = RF_Algo::FindAll(tokens, [fragments](AutoPointerArray<String>::ConstEnumeratorType& Text)
+    //{
+    //    Bool result;
+    //    UInt16 value;
+    //    result = IsHex(*Text) && IPv6HexToShort(*Text, value);
+    //    fragments[Text.AtIndex()] = value;
+    //    return result;
+    //}).Count() == tokens.Count();
+    //
+    //if(result)
     {
         ResolvedAddress = IPAddress(shorts[0], shorts[1], shorts[2], shorts[3],
             shorts[4], shorts[5], shorts[6], shorts[7]);

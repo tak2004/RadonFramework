@@ -8,19 +8,8 @@
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Int32.hpp>
-
-namespace RadonFramework::Collections {
-
-template<class T>
-class List;
-
-}
-
-namespace RadonFramework::Core::Types {
-
-class String;
-
-}
+#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Collections/List.hpp>
 
 namespace RadonFramework::System::Memory {
 

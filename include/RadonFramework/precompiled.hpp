@@ -14,6 +14,8 @@
 // allow to raise compile time assertion
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
+#include <RadonFramework/Core/DataManagment.hpp>
+
 // Basic types
 #include <stdint.h>
 // 1 byte size
@@ -45,8 +47,6 @@
 
 // Information about types
 #include <RadonFramework/Core/Types/TypeCode.hpp>
-
-#include <RadonFramework/Core/Common/DataManagment.hpp>
 
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
 #include <RadonFramework/Core/Pattern/Singleton.hpp>

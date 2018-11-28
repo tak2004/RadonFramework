@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Environment.hpp"
 #include "RadonFramework/System/CompilerConfig.hpp"
-#include "RadonFramework/Core/Common/DataManagment.hpp"
+#include "RadonFramework/Core/DataManagment.hpp"
 #include "RadonFramework/Util/UUID.hpp"
 #include <rpc.h>
 #include <VersionHelpers.h>

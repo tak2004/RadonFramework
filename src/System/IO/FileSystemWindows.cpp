@@ -338,7 +338,8 @@ void RealPath(const RF_Type::String& Path, RF_Type::String& ResolvedPath)
         RF_Mem::AutoPointerArray<char> buffer(neededBufferSize);
         GetFullPathName(Path.c_str(), neededBufferSize, buffer.Get(), lppPart);
         ResolvedPath = RF_Type::String(buffer.Release().Ptr, neededBufferSize, 
-            RF_Common::DataManagment::TransfereOwnership).Replace(
+            RF_Core::DataManagment::TransfereOwnership)
+                .Replace(
                 RF_Type::String("\\"), RF_Type::String("/"));
     }
 }

@@ -1,16 +1,62 @@
-#include <RadonFramework/Defines.hpp>
-#include <RadonFramework/Plugins.hpp>
-#include <RadonFramework/Radon.hpp>
-module RadonFramework;
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Bool.hpp>
 
-export namespace RadonFramework::Init {
-  export enum Type;
-}
+export module RadonFramework;
 
-export namespace RadonFramework
+// If you change this enum then do it in RadonFramework_Init and
+// RadonFramework_Quit function too and don't forget to adjust the Type::All
+// value.
+namespace RadonFramework::Init
 {
-  export class Radon;
+enum Type
+{
+  All = 0x7FF,
+  Core = 1,
+  Drawing = 2,
+  Forms = 4,
+  Hashing = 8,
+  IO = 0x10,
+  Net = 0x20,
+  Diagnostics = 0x40,
+  Time = 0x80,
+  Memory = 0x100,
+  Process = 0x200,
+  Threading = 0x400,
+  Security = 0x800
+};
 }
 
-// module import RadonFramework.Core.Types;
-// module import RadonFramework.Core.Common;
+namespace RadonFramework
+{
+/** This class take care of one time initialized objects and modules.
+ * It allows to dispatch, initialize, shutdown and register at a specific
+ * point instead of On-Demand.
+ */
+class Radon
+{
+public:
+  /** @brief This function will be init all manager and services.
+   *
+   * The function will initialize all services and manager which pass by the
+   * Flags parameter. You can also init the systems by your self but this will
+   * take more code then use this function.
+   */
+  Radon(RF_Type::UInt32 Flags = Init::All);
+  /** @brief This function will be clean up all instances and shut down all
+   * manager.
+   *
+   * The function will clean up every manager, remove services and delete used
+   * memory. This will only clean up all components which were initialized by
+   * RadonFramework_Init function.
+   */
+  ~Radon();
+
+  void InitSubSystem(RF_Type::UInt32 Flags);
+  void QuitSubSystem(RF_Type::UInt32 Flags);
+  RF_Type::Bool IsSubSystemInitialized(RF_Type::UInt32 Flag) const;
+};
+
+}  // namespace RadonFramework
+
+import RadonFramework.Core;
+import RadonFramework.System;

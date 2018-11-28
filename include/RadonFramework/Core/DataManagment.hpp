@@ -1,10 +1,10 @@
-#ifndef RF_CORE_COMMON_DATAMANAGMENT_HPP
-#define RF_CORE_COMMON_DATAMANAGMENT_HPP
+#ifndef RF_CORE_DATAMANAGMENT_HPP
+#define RF_CORE_DATAMANAGMENT_HPP
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-namespace RadonFramework::Core::Common {
+namespace RadonFramework::Core {
 
 enum class DataManagment
 {
@@ -20,9 +20,9 @@ enum class DataManagment
 
 }
 
-#ifndef RF_SHORTHAND_NAMESPACE_COMMON
-#define RF_SHORTHAND_NAMESPACE_COMMON
-namespace RF_Common = RadonFramework::Core::Common;
+#ifndef RF_SHORTHAND_NAMESPACE_CORE
+#define RF_SHORTHAND_NAMESPACE_CORE
+namespace RF_Core = RadonFramework::Core;
 #endif
 
-#endif // RF_CORE_COMMON_DATAMANAGMENT_HPP
+#endif // RF_CORE_DATAMANAGMENT_HPP

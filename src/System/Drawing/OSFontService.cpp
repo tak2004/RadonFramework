@@ -428,7 +428,9 @@ void ImplementationGetAvailableFonts(RF_Collect::List<RF_Draw::FontDescription>&
             while(*cursor != '\0')
             {
                 RF_Type::Size bytes = RF_SysStr::CStringSizeOf(cursor, leftBytes);
-                hiddenFont = RF_Type::String(reinterpret_cast<const char*>(cursor), bytes, RF_Common::DataManagment::UnmanagedInstance);
+              hiddenFont =
+                  RF_Type::String(reinterpret_cast<const char*>(cursor), bytes,
+                                  RF_Core::DataManagment::UnmanagedInstance);
                 cursor += bytes;
                 leftBytes -= bytes;
                 if(hiddenFont == fonts[i].Name)

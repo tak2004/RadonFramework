@@ -100,10 +100,10 @@ Bool Directory::CreateNewDirectory(const Bool Recursive /* = true */) const
     Bool result = false;
     if (Recursive)
     {
-        AutoPointerArray<String> dirs = m_Uri.GetComponents(UriComponents::Path).Split(Uri::PathSeperator);
+        auto dirs = m_Uri.GetComponents(UriComponents::Path).Split(Uri::PathSeperator);
         String path("file://");
         String systemPath;
-        for (Size i = 0; i < dirs.Count(); ++i)
+        for (auto i= 0; i < dirs.Count(); ++i)
         {
             path += "/"_rfs + dirs[i];
             RF_SysFile::UriToSystemPath(path, systemPath);
@@ -136,7 +136,8 @@ Bool Directory::Exists() const
 String Directory::Name() const
 {
     String result;
-    AutoPointerArray<String> pathParts = m_Uri.GetComponents(UriComponents::Path).Split(Uri::PathSeperator);
+    auto component = m_Uri.GetComponents(UriComponents::Path);
+    auto pathParts = component.Split(Uri::PathSeperator);
     if (pathParts.Count()>0)
         result=pathParts[pathParts.Count()-1];
     return result;

@@ -2,13 +2,12 @@
 #include "RadonFramework/Core/Types/String.hpp"
 
 using namespace RadonFramework::Memory;
-using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::Collections;
 
 namespace RadonFramework::Core::Types {
 
 String::String()
-:m_DataManagment(Common::DataManagment::Copy)
+:m_DataManagment(DataManagment::Copy)
 ,m_Length(0)
 {
     m_FixBuffer[0] = 0;
@@ -16,7 +15,7 @@ String::String()
 }
 
 String::String(const String& Copy)
-:m_DataManagment(Common::DataManagment::Copy)
+:m_DataManagment(DataManagment::Copy)
 ,m_Length(0)
 {
     m_FixBuffer.SetSize(0);
@@ -26,10 +25,10 @@ String::String(const String& Copy)
         // take the calculated length from Copy
         m_Length = Copy.m_Length;
 
-        if (Copy.m_DataManagment != Common::DataManagment::Copy)
+        if (Copy.m_DataManagment != DataManagment::Copy)
         {
             m_DataManagment = Copy.m_DataManagment;
-            if (Copy.m_DataManagment == Common::DataManagment::UnmanagedInstance)
+            if (Copy.m_DataManagment == DataManagment::UnmanagedInstance)
             {// clone it
                 m_DynBuffer = Copy.m_DynBuffer;
             }
@@ -57,7 +56,7 @@ String::String(const char* cString, const RF_Type::Size cStringSize, DataManagme
         RF_Type::Size bytesInUse = RF_SysStr::CStringSizeOf(reinterpret_cast<const UInt8*>(cString), cStringSize);
         switch (m_DataManagment)
         {
-        case Common::DataManagment::Copy:
+        case DataManagment::Copy:
             if(bytesInUse <= BUFFER_SIZE)
             {
                 const RF_Type::Size TERMINATION = 1;
@@ -75,9 +74,9 @@ String::String(const char* cString, const RF_Type::Size cStringSize, DataManagme
                 RF_SysMem::Copy(m_DynBuffer.Raw(), cString, m_DynBuffer.m_Size);
             }
             break;
-        case Common::DataManagment::TransfereOwnership:
-            m_DataManagment = Common::DataManagment::AllocateAndCopy;
-        case Common::DataManagment::UnmanagedInstance:
+        case DataManagment::TransfereOwnership:
+            m_DataManagment = DataManagment::AllocateAndCopy;
+        case DataManagment::UnmanagedInstance:
             m_DynBuffer.m_Buffer = reinterpret_cast<UInt8*>(const_cast<char*>(cString));
             m_DynBuffer.m_Size = bytesInUse;
             break;
@@ -93,7 +92,7 @@ String::String(const char* cString, const RF_Type::Size cStringSize, DataManagme
 }
 
 String::String(const RF_Type::Size StringSize)
-:m_DataManagment(Common::DataManagment::Copy)
+:m_DataManagment(DataManagment::Copy)
 {
     m_Length=StringSize-1;
     if (StringSize <= BUFFER_SIZE)
@@ -119,35 +118,35 @@ String::String(const RF_Type::Size StringSize)
     }
 }
 
-String::String(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Memory, 
-    RF_Common::DataManagment Ownership /*= RF_Common::DataManagment::TransfereOwnership*/)
-{
-    switch(Ownership)
-    {
-        case RadonFramework::Core::Common::DataManagment::Copy:
-        case RadonFramework::Core::Common::DataManagment::AllocateAndCopy:
-        case RadonFramework::Core::Common::DataManagment::UnmanagedInstance:
-            *this=String(reinterpret_cast<const char*>(Memory.Get()), Memory.Size(), Ownership);
-            break;
-        case RadonFramework::Core::Common::DataManagment::TransfereOwnership:
-        {
-            auto data = Memory.Release();
-            *this=String(reinterpret_cast<const char*>(data.Ptr), data.Count, Ownership);
-            break;
-        }
-    }
-}
+//String::String(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Memory, 
+//    RF_Common::DataManagment Ownership /*= RF_Common::DataManagment::TransfereOwnership*/)
+//{
+//    switch(Ownership)
+//    {
+//        case RadonFramework::Core::Common::DataManagment::Copy:
+//        case RadonFramework::Core::Common::DataManagment::AllocateAndCopy:
+//        case RadonFramework::Core::Common::DataManagment::UnmanagedInstance:
+//            *this=String(reinterpret_cast<const char*>(Memory.Get()), Memory.Size(), Ownership);
+//            break;
+//        case RadonFramework::Core::Common::DataManagment::TransfereOwnership:
+//        {
+//            auto data = Memory.Release();
+//            *this=String(reinterpret_cast<const char*>(data.Ptr), data.Count, Ownership);
+//            break;
+//        }
+//    }
+//}
 
 String::~String()
 {
-    if (m_DataManagment == Common::DataManagment::AllocateAndCopy)
+    if (m_DataManagment == DataManagment::AllocateAndCopy)
     {
         delete[] m_DynBuffer.m_Buffer;
         m_DynBuffer.m_Size = 0;
     }
 }
 
-String String::UnsafeStringCreation(const char* CString, RF_Common::DataManagment Ownership)
+String String::UnsafeStringCreation(const char* CString, DataManagment Ownership)
 {
     String result;
     RF_Type::Size size = 0;
@@ -460,10 +459,10 @@ String String::Replace(const String& OldValue, const String& NewValue)const
 }
 
 
-AutoPointerArray<String> String::Split(const String &Delimiters)const
+StringSet String::Split(const String &Delimiters)const
 {
     const int TERMINATION = 1;
-    AutoPointerArray<String> list;
+    StringSet list;
     if(m_Length != 0)
     {
         const RF_Type::UInt8* p = GetBuffer();
@@ -481,7 +480,7 @@ AutoPointerArray<String> String::Split(const String &Delimiters)const
             }
         }
 
-        list = AutoPointerArray<String>(hits);
+        list = StringSet(StringView(c_str(), Size()),hits);
         hits = 0;
         RF_Type::Size lasthit = 0;
 
@@ -501,8 +500,7 @@ AutoPointerArray<String> String::Split(const String &Delimiters)const
             {
                 if(p[i] == Delimiters[j] && i != 0 && i != end)
                 {
-                    String& str = list[hits];
-                    str = SubString(lasthit, i - lasthit);
+                    list.Set(hits,lasthit, i - lasthit);
                     lasthit = i + 1;
                     ++hits;
                     break;
@@ -513,8 +511,7 @@ AutoPointerArray<String> String::Split(const String &Delimiters)const
         // if last glyph is no delimiter
         if(lasthit < Size() - TERMINATION)
         {
-            String& str = list[hits];
-            str = SubString(lasthit, Size() - lasthit - TERMINATION);
+          list.Set(hits, lasthit, Size() - lasthit - TERMINATION);
         }
     }
     return list;
@@ -732,7 +729,7 @@ String& String::operator=(const String &Other)
 {
     m_DataManagment = Other.m_DataManagment;
     m_Length = Other.m_Length;
-    if (Other.m_DataManagment == Common::DataManagment::Copy)
+    if (Other.m_DataManagment == DataManagment::Copy)
     {// Other is a locale buffer
         RF_SysMem::Copy(m_FixBuffer.Raw(), Other.m_FixBuffer.Raw(), BUFFER_SIZE);
         m_FixBuffer.SetSize(Other.m_FixBuffer.GetSize());
@@ -864,7 +861,7 @@ void String::Swap(String& Other)
     {
         tmp.m_DataManagment = m_DataManagment;
         tmp.m_Length = m_Length;
-        if (m_DataManagment == Common::DataManagment::Copy)
+        if (m_DataManagment == DataManagment::Copy)
         {
             RF_SysMem::Copy(tmp.m_FixBuffer.Raw(), m_FixBuffer.Raw(), BUFFER_SIZE);
             tmp.m_FixBuffer.SetSize(m_FixBuffer.GetSize());
@@ -882,7 +879,7 @@ void String::Swap(String& Other)
     // copy Other to this
     m_DataManagment = Other.m_DataManagment;
     m_Length = Other.m_Length;
-    if (Other.m_DataManagment == Common::DataManagment::Copy)
+    if (Other.m_DataManagment == DataManagment::Copy)
     {// Other use a locale buffer
         RF_SysMem::Copy(m_FixBuffer.Raw(), Other.m_FixBuffer.Raw(), BUFFER_SIZE);
         m_FixBuffer.SetSize(Other.m_FixBuffer.GetSize());
@@ -899,7 +896,7 @@ void String::Swap(String& Other)
     // move tmp to Other
     Other.m_DataManagment = tmp.m_DataManagment;
     Other.m_Length = tmp.m_Length;
-    if (tmp.m_DataManagment == Common::DataManagment::Copy)
+    if (tmp.m_DataManagment == DataManagment::Copy)
     {// tmp use a locale buffer
         if (tmp.m_Length > 0)
         {
@@ -981,7 +978,69 @@ RF_Type::Size String::GetLength(const RF_Type::UInt8* CString, const RF_Type::Si
     return RF_SysStr::Length(CString, CStringByteSize);
 }
 
+String String::operator+(const StringView& Other) const
+{
+  const int TERMINATION = 1;
+  if(Length() + Other.Length())
+  {
+    RF_Type::Size bytes = Size() + Other.Length();
+
+    if(Other.Length() > 0 && Length() > 0)
+    {  // we only need one termination symbol
+      --bytes;
+    }
+
+    String str(bytes);
+
+    if(Length() > 0)
+    {
+      RF_SysMem::Copy(const_cast<char*>(str.c_str()), c_str(), Size());
+    }
+
+    if(Other.Length() > 0 && Length() > 0)
+    {
+      RF_SysMem::Copy(const_cast<char*>(str.c_str() + Size() - TERMINATION),
+                      Other.Data(), Other.Length());
+    }
+    else
+    {
+      RF_SysMem::Copy(const_cast<char*>(str.c_str()), Other.Data(),
+                      Other.Length());
+    }
+
+    return str;
+  }
+  return String();
 }
+
+String::String(const StringView& Copy)
+:m_DataManagment(DataManagment::Copy)
+{
+  m_Length = Copy.Length() - 1;
+  if(Copy.Length() <= BUFFER_SIZE)
+  {
+    if(Copy.Length() > 0)
+    {
+      RF_SysMem::Copy(static_cast<void*>(m_FixBuffer.Raw()), Copy.Data(), m_Length);
+      m_FixBuffer[m_Length] = 0;
+    }
+    else
+    {
+      m_FixBuffer[0] = 0;
+    }
+    m_FixBuffer.SetSize(Copy.Length());
+  }
+  else
+  {
+    m_DataManagment = DataManagment::AllocateAndCopy;
+    m_DynBuffer.m_Buffer = new UInt8[Copy.Length()];
+    m_DynBuffer.m_Size = Copy.Length();
+    RF_SysMem::Copy(static_cast<void*>(m_DynBuffer.Raw()), Copy.Data(), m_Length);
+    m_DynBuffer[m_Length] = '\0';
+  }
+}
+
+}  // namespace RadonFramework::Core::Types
 
 RF_Type::String operator "" _rfs(const char* Data, size_t Size)
 {

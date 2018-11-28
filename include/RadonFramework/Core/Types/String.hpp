@@ -10,10 +10,11 @@
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Int32.hpp>
-#include <RadonFramework/Core/Common/DataManagment.hpp>
-#include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Core/DataManagment.hpp>
 #include <RadonFramework/Core/Types/FixString.hpp>
 #include <RadonFramework/Core/Types/DynamicString.hpp>
+#include <RadonFramework/Core/Types/StringSet.hpp>
+#include <RadonFramework/Core/Types/StringView.hpp>
 
 namespace RadonFramework::Core::Types {
 
@@ -45,6 +46,8 @@ public:
     template<int N>
     explicit String(char const (&CString)[N]);
 
+    String(const StringView& Copy);
+
     ~String();
 
     /** Special constructor to handle utf-8(mostly used by Linux API) and ascii.
@@ -54,10 +57,10 @@ public:
     * @param CStringSize Contains the size of the CString including the 0 termination.
     **/
     explicit String(const char* CString, const Size CStringSize,
-        RF_Common::DataManagment Ownership = RF_Common::DataManagment::Copy);
+        DataManagment Ownership = DataManagment::Copy);
 
-    explicit String(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Memory,
-        RF_Common::DataManagment Ownership = RF_Common::DataManagment::TransfereOwnership);
+//    explicit String(RF_Mem::AutoPointerArray<RF_Type::UInt8>& Memory,
+//        DataManagment Ownership = DataManagment::TransfereOwnership);
 
     /** \brief This constructor accept a C string without any information
     *          about size.
@@ -65,7 +68,7 @@ public:
     * The constructor will determine the size, length and create a copy.
     */
     static String UnsafeStringCreation(const char* CString, 
-        RF_Common::DataManagment Ownership = RF_Common::DataManagment::Copy);
+        DataManagment Ownership = DataManagment::Copy);
     #pragma endregion
 
     #pragma region Operator
@@ -97,6 +100,7 @@ public:
     template<int N>
     String operator+(char const (&Other)[N])const;
     String operator+(const String &Other)const;
+    String operator+(const StringView& Other) const;
 
     template<int N>
     String& operator+=(char const (&Other)[N]);
@@ -241,7 +245,7 @@ public:
     /** Return a String vector that contains the substrings in this
       * instance that are delimited by char's contained by Delimiters.
       **/
-    Memory::AutoPointerArray<String> Split(const String &Delimiters)const;
+    StringSet Split(const String &Delimiters)const;
 
     /** Determines whether the beginning of this string instance
       * matches the specified string.
@@ -325,7 +329,7 @@ private:
         FixString<BUFFER_SIZE> m_FixBuffer;
         DynamicString m_DynBuffer;
     };
-    Common::DataManagment m_DataManagment;
+    DataManagment m_DataManagment;
     RF_Type::UInt32 m_Length;
 
     RF_Type::UInt8* GetBuffer();
@@ -344,13 +348,13 @@ String::String(char const (&CString)[N])
     m_Length = GetLength(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
     if (N <= BUFFER_SIZE)
     {// the locale buffer is a little bit faster
-        m_DataManagment = RF_Common::DataManagment::Copy;
+      m_DataManagment = RF_Core::DataManagment::Copy;
         RF_SysMem::Copy(m_FixBuffer.Raw(), CString, N);
         m_FixBuffer.SetSize(N);
     }
     else
     {// use the pointer of the string literal instead of create a copy
-        m_DataManagment = Common::DataManagment::UnmanagedInstance;
+      m_DataManagment = RF_Core::DataManagment::UnmanagedInstance;
         m_DynBuffer.m_Buffer = const_cast<RF_Type::UInt8*>(reinterpret_cast<const RF_Type::UInt8*>(&CString[0]));
 
         m_DynBuffer.m_Size = 1;

@@ -1,9 +1,9 @@
 #include <RadonFramework/Threading/ThreadPool.hpp>
 
-module RadonFramework.Threading;
+export module RadonFramework.Threading;
 
-export namespace RadonFramework::Threading {
+namespace RadonFramework::Threading {
   class ThreadPool;
 }
 
-export namespace RF_Thread = RadonFramework::Threading;
+namespace RF_Thread = RadonFramework::Threading;
