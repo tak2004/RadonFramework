@@ -2,12 +2,10 @@
 #include "RadonFramework/System/Environment.hpp"
 #include "RadonFramework/System/CompilerConfig.hpp"
 #include "RadonFramework/Core/DataManagment.hpp"
-#include "RadonFramework/Util/UUID.hpp"
 #include <rpc.h>
 #include <VersionHelpers.h>
 #pragma comment(lib, "Rpcrt4.lib")
 
-using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Common;
 using namespace RadonFramework::System;
 
@@ -99,21 +97,21 @@ OperatingSystemFamily::Type OSFamily()
     return OperatingSystemFamily::Windows;
 }
 
-void FastRandomUUID_Windows(RF_Util::UUID& Target)
+void FastRandomUUID_Windows(RF_Type::UUID& Target)
 {
     UUID uuid;
     UuidCreate(&uuid);
     RF_SysMem::Copy(Target.Bytes.m_Vector, &uuid, 16);
 }
 
-void SecureRandomUUID_Windows(RF_Util::UUID& Target)
+void SecureRandomUUID_Windows(RF_Type::UUID& Target)
 {
     UUID uuid;
     UuidCreateSequential(&uuid);
     RF_SysMem::Copy(Target.Bytes.m_Vector, &uuid,16);
 }
 
-void UUIDFromString_Windows(const RF_Type::String& Text, RF_Util::UUID& Target)
+void UUIDFromString_Windows(const RF_Type::String& Text, RF_Type::UUID& Target)
 {
     UUID uuid;
     UuidFromString(reinterpret_cast<unsigned char*>(const_cast<char*>(Text.c_str())), &uuid);

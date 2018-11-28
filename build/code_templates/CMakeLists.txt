@@ -92,11 +92,6 @@ if(${RADONFRAMEWORK_BLACKLISTCOUNT} GREATER 0)
 endif()
 GenerateIncludes(INCLUDES_TEXT "${filelist}")
 
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Util" "Includes\\Util")
-if(${RADONFRAMEWORK_BLACKLISTCOUNT} GREATER 0)
-    list(REMOVE_ITEM filelist ${RADONFRAMEWORK_BLACKLIST})
-endif()
-GenerateIncludes(INCLUDES_UTIL "${filelist}")
 configure_file("${RADONFRAMEWORK_LOCATION}/build/code_templates/RadonInline.hxx" "${RADONFRAMEWORK_LOCATION}/include/RadonFramework/RadonInline.hpp" @ONLY)
 
 message(STATUS "Generate ${RADONFRAMEWORK_LOCATION}/include/RadonFramework/Defines.hpp")

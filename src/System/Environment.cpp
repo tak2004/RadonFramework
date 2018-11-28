@@ -1,6 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Environment.hpp"
-#include "RadonFramework/Util/UUID.hpp"
 
 using namespace RadonFramework::Collections;
 using namespace RadonFramework::System;
@@ -66,7 +65,7 @@ OperatingSystemFamily::Type OSFamily_SystemAPIDispatcher()
     return OSFamily();
 }
 
-void FastRandomUUID_SystemAPIDispatcher(RF_Util::UUID& Target)
+void FastRandomUUID_SystemAPIDispatcher(RF_Type::UUID& Target)
 {
     FastRandomUUID = 0;
     Dispatch();
@@ -76,7 +75,7 @@ void FastRandomUUID_SystemAPIDispatcher(RF_Util::UUID& Target)
     FastRandomUUID(Target);
 }
 
-void SecureRandomUUID_SystemAPIDispatcher(RF_Util::UUID& Target)
+void SecureRandomUUID_SystemAPIDispatcher(RF_Type::UUID& Target)
 {
     SecureRandomUUID = 0;
     Dispatch();
@@ -86,7 +85,7 @@ void SecureRandomUUID_SystemAPIDispatcher(RF_Util::UUID& Target)
     SecureRandomUUID(Target);
 }
 
-void UUIDFromString_SystemAPIDispatcher(const RF_Type::String& Text, RF_Util::UUID& Target)
+void UUIDFromString_SystemAPIDispatcher(const RF_Type::String& Text, RF_Type::UUID& Target)
 {
     UUIDFromString = 0;
     Dispatch();

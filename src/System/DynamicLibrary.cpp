@@ -6,7 +6,6 @@
 using namespace RadonFramework;
 using namespace RadonFramework::System;
 using namespace RadonFramework::Memory;
-using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::IO;
 
 #if defined(RF_WINDOWS)

@@ -45,5 +45,6 @@ export module RadonFramework.Core.Types;
 #include <RadonFramework/Core/Types/Vec128UInt.hpp>
 #include <RadonFramework/Core/Types/Vec64Int.hpp>
 #include <RadonFramework/Core/Types/Vec64UInt.hpp>
+#include <RadonFramework/Core/Types/UUID.hpp>
 
 namespace RF_Type = RadonFramework::Core::Types;

@@ -85,6 +85,8 @@
 #include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Core/Types/AtomicPointer.hpp>
 
+#include <RadonFramework/Core/Types/UUID.hpp>
+
 // Util classes for types
 #include <RadonFramework/Core/Types/Convert.hpp>
 #include <RadonFramework/Core/Types/Utils/StringOperators.hpp>

@@ -10,7 +10,6 @@
 namespace RFT=RadonFramework::Threading;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::System::IO;
-using namespace RadonFramework::Core::Types;
 
 static RadonFramework::System::Threading::Mutex m_Busy;
 
@@ -121,53 +120,53 @@ ConsoleColor::Type Console::ForegroundColor()
 
 Console& RadonFramework::System::IO::operator<<(Console& Con,bool& val){
     RF_Type::String str;
-    str=Convert::ToString(val);
+    str=RF_Type::Convert::ToString(val);
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,short& val){
     RF_Type::String str; 
-    str=Convert::ToString(static_cast<Bool>(val));
+    str = RF_Type::Convert::ToString(static_cast<Bool>(val));
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,unsigned short& val){
     RF_Type::String str;
-    str=Convert::ToString(static_cast<Int16>(val));
+  str = RF_Type::Convert::ToString(static_cast<Int16>(val));
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,int& val){
     RF_Type::String str;
-    str=Convert::ToString(static_cast<Int32>(val));
+  str = RF_Type::Convert::ToString(static_cast<Int32>(val));
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,unsigned int& val){
     RF_Type::String str;
-    str=Convert::ToString(static_cast<UInt32>(val));
+  str = RF_Type::Convert::ToString(static_cast<UInt32>(val));
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,long& val){
     RF_Type::String str;
-    str=Convert::ToString(static_cast<Int32>(val));
+  str = RF_Type::Convert::ToString(static_cast<Int32>(val));
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,unsigned long& val){
     RF_Type::String str;
-    str=Convert::ToString(static_cast<UInt32>(val));
+  str = RF_Type::Convert::ToString(static_cast<UInt32>(val));
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,float& val){
-    RF_Type::String str=Convert::ToString(val);
+  RF_Type::String str = RF_Type::Convert::ToString(val);
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,double& val){
-    RF_Type::String str=Convert::ToString(val);
+  RF_Type::String str = RF_Type::Convert::ToString(val);
     fputs(str.c_str(),stdout);
     return Con;
 }
@@ -181,25 +180,25 @@ Console& RadonFramework::System::IO::operator<<(Console& Con,const void* val){
 
 Console& RadonFramework::System::IO::operator<<(Console& Con,char c){
     RF_Type::String str;
-    str=Convert::ToString(c);
+  str = RF_Type::Convert::ToString(c);
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,signed char c){
     RF_Type::String str;
-    str=Convert::ToString(c);
+  str = RF_Type::Convert::ToString(c);
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,unsigned char c){
     RF_Type::String str;
-    str=Convert::ToString(c);
+  str = RF_Type::Convert::ToString(c);
     fputs(str.c_str(),stdout);
     return Con;
 }
 Console& RadonFramework::System::IO::operator<<(Console& Con,int c){
     RF_Type::String str;
-    str=Convert::ToString(static_cast<Int32>(c));
+  str = RF_Type::Convert::ToString(static_cast<Int32>(c));
     fputs(str.c_str(),stdout);
     return Con;
 }
@@ -240,7 +239,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::UInt8 &Nu
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 
@@ -248,7 +247,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::UInt16 &N
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 
@@ -256,7 +255,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::UInt32 &N
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 
@@ -264,7 +263,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::UInt64 &N
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 
@@ -272,7 +271,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::Int8 &Num
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 
@@ -280,7 +279,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::Int16 &Nu
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 
@@ -288,7 +287,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::Int32 &Nu
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 
@@ -296,7 +295,7 @@ void RadonFramework::System::IO::Console::WriteLine(const Core::Types::Int64 &Nu
 {
     RFT::Scopelock lock(m_Busy);
     RF_Type::String str;
-    str=Convert::ToString(Number);
+    str = RF_Type::Convert::ToString(Number);
     printf("%s\n",str.c_str());
 }
 

@@ -11,12 +11,6 @@
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
 
-namespace RadonFramework::Util { 
-
-struct UUID; 
-
-}
-
 namespace RadonFramework::System::Environment {
 
 /// This function will be called by RadonFramework_Init function.
@@ -43,9 +37,10 @@ using PlatformCallback = PlatformID::Type(*)();
 
 using OSFamilyCallback = OperatingSystemFamily::Type(*)();
 
-using FastRandomUUIDCallback = void(*)(Util::UUID& Target);
-using SecureRandomUUIDCallback = void(*)(Util::UUID& Target);
-using UUIDFromStringCallback = void(*)(const RF_Type::String& Text, Util::UUID& Target);
+using FastRandomUUIDCallback = void(*)(RF_Type::UUID& Target);
+using SecureRandomUUIDCallback = void (*)(RF_Type::UUID& Target);
+using UUIDFromStringCallback = void (*)(const RF_Type::String& Text,
+                                        RF_Type::UUID& Target);
 
 // ISO 639([]_[ISO 3166/Location])
 using SystemLanguageCallback = RF_Type::String (*)();

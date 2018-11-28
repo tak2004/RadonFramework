@@ -2,7 +2,6 @@
 #include "RadonFramework/System/Threading/Mutex.hpp"
 
 using namespace RadonFramework::System::Threading;
-using namespace RadonFramework::Core::Types;
 
 #if defined(RF_WINDOWS)
 #include <windows.h>

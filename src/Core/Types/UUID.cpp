@@ -1,8 +1,8 @@
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/Util/UUID.hpp"
+#include "RadonFramework/Core/Types/UUID.hpp"
 #include "RadonFramework/System/Environment.hpp"
 
-namespace RadonFramework::Util {
+namespace RadonFramework::Core::Types {
 
 UUID UUID::NIL = {0};
 UUID UUID::DNS = {0x6b, 0xa7, 0xb8, 0x10, 0x9d, 0xad, 0x11, 0xd1, 0x80, 0xb4, 0x00, 0xc0, 0x4f, 0xd4, 0x30, 0xc8};
@@ -29,14 +29,14 @@ UUID UUID::SecureRandomUUID()
     return result;
 }
 
-UUID UUID::UUIDFromString(const RF_Type::String& Text)
+UUID UUID::UUIDFromString(const String& Text)
 {
     UUID result = NIL;
     RF_SysEnv::UUIDFromString(Text, result);
     return result;
 }
 
-RF_Type::Bool UUID::IsNil()const
+Bool UUID::IsNil()const
 {
     return RF_SysMem::Compare(Bytes.m_Vector, NIL.Bytes.m_Vector, 16) == 0;
 }
@@ -46,10 +46,10 @@ void UUID::Swap(UUID& Other)
     RF_SysMem::Swap(Bytes.m_Vector, Other.Bytes.m_Vector, 16);
 }
 
-RF_Type::String UUID::ToString()const
+String UUID::ToString()const
 {
-    RF_Type::String result;
-    result = RF_Type::String::Format(
+    String result;
+    result = String::Format(
         "%8.8x-%4.4x-%4.4x-%2.2x%2.2x-%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"_rfs,
         Structure.TimeLow, Structure.TimeMid, Structure.TimeHiAndVersion, 
         Structure.ClockSeqHiAndReserved, Structure.ClockSeqLow, 
@@ -58,7 +58,7 @@ RF_Type::String UUID::ToString()const
     return result;
 }
 
-inline RF_Type::Int32 UUID::CompareTo(const UUID& Other) const
+inline Int32 UUID::CompareTo(const UUID& Other) const
 {
     return RF_SysMem::Compare(Bytes.m_Vector, Other.Bytes.m_Vector, 16);
 }
