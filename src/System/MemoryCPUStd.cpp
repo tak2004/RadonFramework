@@ -1,5 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Memory.hpp"
+#include "RadonFramework/Core/Types/UInt8.hpp"
+#include "RadonFramework/Core/Types/MemoryRange.hpp"
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::System::Memory;

@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/String.hpp>
+
 namespace RadonFramework::IO {
 
 class OptionValue

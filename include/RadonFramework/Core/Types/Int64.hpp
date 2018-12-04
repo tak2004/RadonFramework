@@ -4,7 +4,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace RadonFramework::Core::Types {
 
@@ -16,7 +16,7 @@ extern const Int64 Int64Max;
 /// The minimum value which can be contained by a Int64.
 extern const Int64 Int64Min;
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

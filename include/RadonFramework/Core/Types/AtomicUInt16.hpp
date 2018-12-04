@@ -11,9 +11,9 @@ namespace RadonFramework::Core::Types
 struct AtomicUInt16
 {
 public:
-  typedef RF_Type::UInt16 DataType;
+  using DataType = RF_Type::UInt16;
   AtomicUInt16(DataType Value = 0);
-  AtomicUInt16(const AtomicUInt16& Other);
+  AtomicUInt16(const AtomicUInt16& Other) = default;
 
   DataType Increment();
   DataType Decrement();
@@ -26,7 +26,7 @@ public:
   bool operator!() const;
   bool operator!=(DataType Value) const;
   AtomicUInt16& operator=(DataType Value);
-  AtomicUInt16& operator=(const AtomicUInt16& Other);
+  AtomicUInt16& operator=(const AtomicUInt16& Other) = default;
   bool operator==(DataType Value) const;
   AtomicUInt16& operator++();
   AtomicUInt16 operator++(int);

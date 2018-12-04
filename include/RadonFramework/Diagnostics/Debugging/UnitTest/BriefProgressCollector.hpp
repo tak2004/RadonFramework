@@ -6,15 +6,15 @@
 
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
 
-namespace RadonFramework::Diagnostics::Debugging::UnitTest {
-
-class BriefProgressCollector:public Collector
+namespace RadonFramework::Diagnostics::Debugging::UnitTest
+{
+class BriefProgressCollector : public Collector
 {
 public:
-    void CreateSuite(const RF_Type::String& Name)override;
-    void ProcessResult(const Test::TestResult& Result)override;
+  void CreateSuite(const Core::Types::String& Name) override;
+  void ProcessResult(const Test::TestResult& Result) override;
 };
- 
-}
 
-#endif // RF_DIAGNOSTICS_DEBUGGING_BRIEFPROGRESSCOLLECTOR_HPP
+}  // namespace RadonFramework::Diagnostics::Debugging::UnitTest
+
+#endif  // RF_DIAGNOSTICS_DEBUGGING_BRIEFPROGRESSCOLLECTOR_HPP

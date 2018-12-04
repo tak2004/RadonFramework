@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Memory/AutoPointer.hpp>
+
 namespace RadonFramework::Net {
 
 class PacketStream;

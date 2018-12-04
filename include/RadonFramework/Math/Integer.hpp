@@ -76,16 +76,16 @@ T Integer<T>::Abs(const T Value)
     return Value < 0 ? -Value : Value;
 }
 
-typedef Integer<RF_Type::UInt8> UInt8;
-typedef Integer<RF_Type::UInt16> UInt16;
-typedef Integer<RF_Type::UInt32> UInt32;
-typedef Integer<RF_Type::UInt64> UInt64;
-typedef Integer<RF_Type::Int8> Int8;
-typedef Integer<RF_Type::Int16> Int16;
-typedef Integer<RF_Type::Int32> Int32;
-typedef Integer<RF_Type::Int64> Int64;
+using UInt8 = Integer<RF_Type::UInt8>;
+using UInt16 = Integer<RF_Type::UInt16>;
+using UInt32 = Integer<RF_Type::UInt32>;
+using UInt64 = Integer<RF_Type::UInt64>;
+using Int8 = Integer<RF_Type::Int8>;
+using Int16 = Integer<RF_Type::Int16>;
+using Int32 = Integer<RF_Type::Int32>;
+using Int64 = Integer<RF_Type::Int64>;
 
-}
+}  // namespace RadonFramework::Math
 
 #ifndef RF_SHORTHAND_NAMESPACE_MATH
 #define RF_SHORTHAND_NAMESPACE_MATH

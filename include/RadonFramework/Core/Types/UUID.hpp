@@ -4,6 +4,9 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Core/Types/Vec128UInt.hpp>
+
 namespace RadonFramework::Core::Types {
 
 /// UUID Version 5

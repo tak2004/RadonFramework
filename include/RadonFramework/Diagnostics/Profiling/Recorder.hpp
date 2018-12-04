@@ -6,6 +6,7 @@
 
 #include <RadonFramework/Collections/Concurrency/DynamicQueueMPSC.hpp>
 #include <RadonFramework/Diagnostics/Profiling/ProfileScope.hpp>
+#include <RadonFramework/Core/Pattern/Singleton.hpp>
 
 namespace RadonFramework { namespace Diagnostics { namespace Profiling {
 

@@ -2,6 +2,8 @@
 #include "RadonFramework/IO/Uri.hpp"
 #include "RadonFramework/Net/IPAddress.hpp"
 #include "RadonFramework/IO/Log.hpp"
+#include "RadonFramework/Core/Types/Convert.hpp"
+#include "RadonFramework/Core/Types/Utils/StringOperators.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::IO;

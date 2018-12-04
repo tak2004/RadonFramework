@@ -4,6 +4,9 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
+
 namespace RadonFramework::System::Process {
 
 // This is no POD structure because of the String class.
@@ -15,7 +18,7 @@ public:
     RF_Type::String Name;
 };
 
-}
+}  // namespace RadonFramework::System::Process
 
 namespace RFPROC = RadonFramework::System::Process;
 

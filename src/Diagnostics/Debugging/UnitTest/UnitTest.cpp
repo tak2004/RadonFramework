@@ -4,6 +4,7 @@
 #include "RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp"
 #include "RadonFramework/Diagnostics/Test/TestResult.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
+#include "RadonFramework/Core/Pattern/Singleton.hpp"
 
 namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 

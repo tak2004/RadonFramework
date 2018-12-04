@@ -261,7 +261,8 @@ set_source_files_properties(${LIBBACKENDHDRFILES} ${LIBHDRFILES} ${MODULES_HDRS}
 # setup precompiled header
 #
 if(${RADONFRAMEWORK_COMPILER_EXPORT_AS_MODULE})
-    option(RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER "Activate precompiled header(Default: on)" OFF)
+    set(RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER OFF CACHE BOOL "Activate precompiled header(Default: on)" FORCE)
+    AddPrivateDefine(RF_SKIP_PRECOMPILED_HEADER)
 else()
     option(RADONFRAMEWORK_COMPILER_USE_PRECOMPILED_HEADER "Activate precompiled header(Default: on)" ON)
 endif()

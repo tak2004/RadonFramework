@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/String.hpp>
+
 namespace RadonFramework::Text::StringProcessors {
 
 /** This policy search a String in an other String by comparing

@@ -1,6 +1,9 @@
 #ifndef RF_DRAWING_COLOR_HPP
 #define RF_DRAWING_COLOR_HPP
 
+#include <RadonFramework/Core/Types/Float32.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+
 namespace RadonFramework::Drawing {
 
 struct Color4f

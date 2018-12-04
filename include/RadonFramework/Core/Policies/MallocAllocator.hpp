@@ -6,25 +6,25 @@
 
 #include <RadonFramework/Core/Traits/AllocatorTraits.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
-#include <stdlib.h>
+#include <cstdlib>
 
-namespace RadonFramework::Core::Policies {
-
+namespace RadonFramework::Core::Policies
+{
 struct MallocAllocator
 {
-    static void* Allocate(Traits::AllocatorTraits<void>::SizeType Size);
-    static void Deallocate(void* Ptr,
-                            Traits::AllocatorTraits<void>::SizeType Size);
-    static void* Reallocate(void* Ptr, 
-                            Traits::AllocatorTraits<void>::SizeType OldSize, 
-                            Traits::AllocatorTraits<void>::SizeType NewSize);
+  static void* Allocate(Traits::AllocatorTraits<void>::SizeType Size);
+  static void
+  Deallocate(void* Ptr, Traits::AllocatorTraits<void>::SizeType Size);
+  static void* Reallocate(void* Ptr,
+                          Traits::AllocatorTraits<void>::SizeType OldSize,
+                          Traits::AllocatorTraits<void>::SizeType NewSize);
 };
 
-}
+}  // namespace RadonFramework::Core::Policies
 
 #ifndef RF_SHORTHAND_NAMESPACE_POLICY
 #define RF_SHORTHAND_NAMESPACE_POLICY
 namespace RF_Policy = RadonFramework::Core::Policies;
 #endif
 
-#endif // RF_CORE_POLICIES_MALLOCALLOCATOR_HPP
+#endif  // RF_CORE_POLICIES_MALLOCALLOCATOR_HPP

@@ -5,6 +5,7 @@
 #endif
 
 #include <iterator>
+#include <RadonFramework/Core/Types/Size.hpp>
 
 namespace RadonFramework::Collections {
 
@@ -13,13 +14,13 @@ struct GenericEnumeratorType{};
 template<typename T, class ENUMERATORTYPE = GenericEnumeratorType>
 struct Enumerator
 {   
-    typedef T Type;
-    typedef typename std::random_access_iterator_tag iterator_category;
-    typedef typename T value_type;
-    typedef typename RF_Type::Size difference_type;
+    using Type = T;
+    using iterator_category = typename std::random_access_iterator_tag;
+    using value_type = T;
+    using difference_type = typename RF_Type::Size;
 
-    typedef typename T* pointer;
-    typedef typename T& reference;
+    using pointer = T *;
+    using reference = T &;
 
     /// post-increment operator
     Enumerator operator ++(int);
@@ -128,7 +129,7 @@ RF_Type::Size Enumerator<T, ENUMERATORTYPE>::Size() const
     static_assert(sizeof(T) == 0, "Container isn't supported yet.");
 }
 
-}
+}  // namespace RadonFramework::Collections
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

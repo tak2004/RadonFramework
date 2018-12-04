@@ -2,6 +2,7 @@
 #include "RadonFramework/System/Security.hpp"
 #include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/System/Math/Hash/pbkdf2.hpp>
+#include "RadonFramework/Memory/AutoPointerArray.hpp"
 
 namespace RadonFramework::Security {
 

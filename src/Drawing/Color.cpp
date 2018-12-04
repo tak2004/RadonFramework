@@ -1,5 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Color.hpp"
+#include "RadonFramework/System/Memory.hpp"
+#include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
 
 namespace RadonFramework::Drawing {
 

@@ -5,6 +5,9 @@
 #endif // _MSC_VER > 1000
 
 #include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
 
 namespace RadonFramework::Collections {
 

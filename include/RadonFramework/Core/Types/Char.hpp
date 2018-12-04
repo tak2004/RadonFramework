@@ -7,7 +7,7 @@
 namespace RadonFramework::Core::Types {
 
 /// A Char have always the size of 1 byte and represent the ASCII charset.
-typedef char Char;
+using Char = char;
 
 /// The minimum value which can be contained by a Char.
 extern const Char CharMin;
@@ -15,7 +15,7 @@ extern const Char CharMin;
 /// The maximum value which can be contained by a Char.
 extern const Char CharMax;
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

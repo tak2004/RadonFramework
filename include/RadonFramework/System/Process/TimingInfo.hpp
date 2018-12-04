@@ -17,6 +17,6 @@ struct TimingInfo
     RF_Time::TimeSpan UserTime;
 };
 
-}
+}  // namespace RadonFramework::System::Process
 
 #endif // RF_SYSTEM_PROCESS_TIMINGINFO_HPP

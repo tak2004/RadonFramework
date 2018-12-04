@@ -4,6 +4,7 @@
 #include "RadonFramework/Core/Types/String.hpp"
 #include "RadonFramework/IO/Log.hpp"
 #include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
+#include "RadonFramework/Core/Types/Utils/StringOperators.hpp"
 
 using namespace RadonFramework::Time;
 using namespace RadonFramework::Core::Types;

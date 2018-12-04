@@ -18,7 +18,7 @@ enum class DataManagment
     TransfereOwnership
 };
 
-}
+}  // namespace RadonFramework::Core
 
 #ifndef RF_SHORTHAND_NAMESPACE_CORE
 #define RF_SHORTHAND_NAMESPACE_CORE

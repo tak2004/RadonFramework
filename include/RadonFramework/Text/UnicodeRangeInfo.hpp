@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt32.hpp>
+
 namespace RadonFramework::Text {
 
 enum class UnicodeRangeIdentifier;

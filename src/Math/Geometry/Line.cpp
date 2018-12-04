@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Math/Geometry/Line.hpp"
+#include "RadonFramework/Math/Float32.hpp"
 
 namespace RadonFramework::Math::Geometry {
 

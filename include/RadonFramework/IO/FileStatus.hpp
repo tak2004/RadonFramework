@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt64.hpp>
+
 namespace RadonFramework::IO {
 
 struct FileStatus

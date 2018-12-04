@@ -2,6 +2,8 @@
 #include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/Time/ScopeTimer.hpp"
 #include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/Core/Types/AtomicInt32.hpp"
+#include "RadonFramework/Core/Pattern/Singleton.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::Collections;

@@ -5,6 +5,8 @@
 #endif
 
 #include <RadonFramework/IO/Encoders/Interface.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
 
 namespace RadonFramework::IO {
 

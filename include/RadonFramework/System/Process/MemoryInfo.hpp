@@ -24,7 +24,7 @@ struct MemoryInfo
     RF_Type::UInt64 PageFaultCount;
 };
 
-}
+}  // namespace RadonFramework::System::Process
 
 namespace RFPROC = RadonFramework::System::Process;
 

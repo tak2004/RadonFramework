@@ -11,9 +11,9 @@ namespace RadonFramework::Core::Types
 struct AtomicUInt32
 {
 public:
-  typedef RF_Type::UInt32 DataType;
+  using DataType = RF_Type::UInt32;
   AtomicUInt32(DataType Value = 0);
-  AtomicUInt32(const AtomicUInt32& Other);
+  AtomicUInt32(const AtomicUInt32& Other) = default;
 
   DataType Increment();
   DataType Decrement();
@@ -26,7 +26,7 @@ public:
   bool operator!() const;
   bool operator!=(DataType Value) const;
   AtomicUInt32& operator=(DataType Value);
-  AtomicUInt32& operator=(const AtomicUInt32& Other);
+  AtomicUInt32& operator=(const AtomicUInt32& Other) = default;
   bool operator==(DataType Value) const;
   AtomicUInt32& operator++();
   AtomicUInt32 operator++(int);

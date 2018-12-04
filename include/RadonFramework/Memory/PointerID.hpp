@@ -4,6 +4,9 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/UInt64.hpp>
+
 namespace RadonFramework::Memory {
 
 typedef RF_Type::UInt64 PtrID;

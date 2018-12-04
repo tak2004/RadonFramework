@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Threading/Interlocked.hpp"
+#include "RadonFramework/Defines.hpp"
 
 #if defined(RF_VISUALCPP)
     #include <intrin.h>

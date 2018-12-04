@@ -12,6 +12,9 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/Core/Types/Int64.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
+#include <RadonFramework/Core/Types/Float64.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 RF_Type::String operator+(const RF_Type::String &LH, const RF_Type::Char &RH);
 /// Append "true" or "false" on the string.

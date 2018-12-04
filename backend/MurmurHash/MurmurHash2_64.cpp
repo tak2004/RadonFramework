@@ -1,4 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/Defines.hpp"
 //-----------------------------------------------------------------------------
 // MurmurHash2, 64-bit versions, by Austin Appleby
 
@@ -14,7 +15,7 @@ unsigned long long int MurmurHash64 ( const void * key, int len, unsigned int se
 
 	unsigned long long int h = seed ^ (len * m);
 
-	const unsigned long long int * data = (const unsigned long long int *)key;
+	const auto * data = static_cast<const unsigned long long int *>(key);
 	const unsigned long long int * end = data + (len/8);
 
 	while(data != end)
@@ -29,17 +30,17 @@ unsigned long long int MurmurHash64 ( const void * key, int len, unsigned int se
 		h *= m;
 	}
 
-	const unsigned char * data2 = (const unsigned char*)data;
+	const auto * data2 = reinterpret_cast<const unsigned char*>(data);
 
 	switch(len & 7)
 	{
-	case 7: h ^= (unsigned long long int)data2[6] << 48;
-	case 6: h ^= (unsigned long long int)data2[5] << 40;
-	case 5: h ^= (unsigned long long int)data2[4] << 32;
-	case 4: h ^= (unsigned long long int)data2[3] << 24;
-	case 3: h ^= (unsigned long long int)data2[2] << 16;
-	case 2: h ^= (unsigned long long int)data2[1] << 8;
-	case 1: h ^= (unsigned long long int)data2[0];
+	case 7: h ^= static_cast<unsigned long long int>(data2[6]) << 48;
+	case 6: h ^= static_cast<unsigned long long int>(data2[5]) << 40;
+	case 5: h ^= static_cast<unsigned long long int>(data2[4]) << 32;
+	case 4: h ^= static_cast<unsigned long long int>(data2[3]) << 24;
+	case 3: h ^= static_cast<unsigned long long int>(data2[2]) << 16;
+	case 2: h ^= static_cast<unsigned long long int>(data2[1]) << 8;
+	case 1: h ^= static_cast<unsigned long long int>(data2[0]);
 	        h *= m;
 	};
 

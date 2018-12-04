@@ -23,8 +23,6 @@ OPTION(RADONFRAMEWORK_ADD_XXHASH "Add the xxhash library and services." ON)
 # Advanced framework options.
 OPTION(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE "Enable code which is still in development." OFF)
 mark_as_advanced(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE)
-OPTION(RADONFRAMEWORK_WITH_VISUALGDB "Generate a VisualGDB target for remote build." OFF)
-mark_as_advanced(RADONFRAMEWORK_WITH_VISUALGDB)
 OPTION(RADONFRAMEWORK_USE_MICROCRT "Radon framework will provide code for running without crt and std functions." OFF)
 mark_as_advanced(RADONFRAMEWORK_USE_MICROCRT)
 if(RADONFRAMEWORK_ADD_TESTS)

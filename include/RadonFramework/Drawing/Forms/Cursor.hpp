@@ -4,6 +4,10 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Int32.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Memory/AutoPointer.hpp>
+
 namespace RadonFramework::Forms {
 
 class Cursor

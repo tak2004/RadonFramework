@@ -4,6 +4,10 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/MemoryRange.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+
 namespace RadonFramework::Core::Types {
 
 struct DynamicString
@@ -19,7 +23,7 @@ struct DynamicString
     Size m_Size;
 };
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

@@ -4,6 +4,7 @@
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Time/DateTime.hpp>
 #include "RadonFramework/Threading/ThreadPool.hpp"
+#include "RadonFramework/Core/Pattern/Singleton.hpp"
 
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Core::Types;

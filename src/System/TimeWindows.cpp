@@ -1,6 +1,8 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/Time/DateTime.hpp"
+#include "RadonFramework/Memory/AutoPointerArray.hpp"
+#include "RadonFramework/Core/Types/Int64.hpp"
 #include <math.h>
 #include <time.h>
 

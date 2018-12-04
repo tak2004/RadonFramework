@@ -63,7 +63,7 @@ void FixString<LENGTH>::SetSize(const UInt8 NewSize)
     m_Size = NewSize;
 }
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

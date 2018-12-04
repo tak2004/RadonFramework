@@ -4,6 +4,10 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Bool.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
+#include <RadonFramework/Core/Types/Float64.hpp>
+
 namespace RadonFramework::Math::Geometry {
             
 template<class T=RF_Type::Int32>

@@ -1,5 +1,6 @@
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/DebugCollector.hpp>
 #include <RadonFramework/Diagnostics/Test/TestResult.hpp>
+#include <cstdlib>
 #include "RadonFramework/BuildInfo.hpp"
 #include "RadonFramework/precompiled.hpp"
 

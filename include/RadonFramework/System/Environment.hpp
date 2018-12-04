@@ -10,6 +10,7 @@
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
+#include <RadonFramework/Core/Types/UUID.hpp>
 
 namespace RadonFramework::System::Environment {
 

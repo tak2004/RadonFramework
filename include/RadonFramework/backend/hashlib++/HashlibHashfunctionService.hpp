@@ -3,54 +3,54 @@
 
 #include <RadonFramework/Math/Hash/HashfunctionService.hpp>
 
-namespace RadonFramework { namespace Math { namespace Hash {
-
-class HashlibMD5HashfunctionService:public HashfunctionService
+namespace RadonFramework::Math::Hash
+{
+class HashlibMD5HashfunctionService : public HashfunctionService
 {
 public:
-    HashlibMD5HashfunctionService(const Core::Types::String &Name);
-    virtual IHashfunction* Create() override;
-    virtual void Free(IHashfunction*& Instance) override;
-    virtual RF_Type::Size BitLength() const override;
+  HashlibMD5HashfunctionService(const Core::Types::String& Name);
+  IHashfunction* Create() final;
+  void Free(IHashfunction*& Instance) final;
+  RF_Type::Size BitLength() const final;
 };
 
-class HashlibSHA1HashfunctionService:public HashfunctionService
+class HashlibSHA1HashfunctionService : public HashfunctionService
 {
 public:
-    HashlibSHA1HashfunctionService(const Core::Types::String &Name);
-    virtual IHashfunction* Create()override;
-    virtual void Free(IHashfunction*& Instance) override;
-    virtual RF_Type::Size BitLength() const override;
+  HashlibSHA1HashfunctionService(const Core::Types::String& Name);
+  IHashfunction* Create() final;
+  void Free(IHashfunction*& Instance) final;
+  RF_Type::Size BitLength() const final;
 };
 
-class HashlibSHA256HashfunctionService:public HashfunctionService
+class HashlibSHA256HashfunctionService : public HashfunctionService
 {
 public:
-    HashlibSHA256HashfunctionService(const Core::Types::String &Name);
-    virtual IHashfunction* Create()override;
-    virtual void Free(IHashfunction*& Instance) override;
-    virtual RF_Type::Size BitLength() const override;
+  HashlibSHA256HashfunctionService(const Core::Types::String& Name);
+  IHashfunction* Create() final;
+  void Free(IHashfunction*& Instance) final;
+  RF_Type::Size BitLength() const final;
 };
 
-class HashlibSHA384HashfunctionService:public HashfunctionService
+class HashlibSHA384HashfunctionService : public HashfunctionService
 {
 public:
-    HashlibSHA384HashfunctionService(const Core::Types::String &Name);
-    virtual IHashfunction* Create()override;
-    virtual void Free(IHashfunction*& Instance) override;
-    virtual RF_Type::Size BitLength() const override;
+  HashlibSHA384HashfunctionService(const Core::Types::String& Name);
+  IHashfunction* Create() final;
+  void Free(IHashfunction*& Instance) final;
+  RF_Type::Size BitLength() const final;
 };
 
-class HashlibSHA512HashfunctionService:public HashfunctionService
+class HashlibSHA512HashfunctionService : public HashfunctionService
 {
 public:
-    HashlibSHA512HashfunctionService(const Core::Types::String &Name);
-    virtual IHashfunction* Create()override;
-    virtual void Free(IHashfunction*& Instance) override;
-    virtual RF_Type::Size BitLength() const override;
+  HashlibSHA512HashfunctionService(const Core::Types::String& Name);
+  IHashfunction* Create() final;
+  void Free(IHashfunction*& Instance) final;
+  RF_Type::Size BitLength() const final;
 };
 
-} } }
+}  // namespace RadonFramework::Math::Hash
 
 #ifndef RF_SHORTHAND_NAMESPACE_HASH
 #define RF_SHORTHAND_NAMESPACE_HASH

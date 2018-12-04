@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Hardware/Vec128Int.hpp"
+#include "RadonFramework/Defines.hpp"
 
 #if RF_BUILD_INTRINSIC_NEON
 #include <arm_neon.h>

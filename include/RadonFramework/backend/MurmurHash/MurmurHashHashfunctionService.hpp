@@ -3,18 +3,17 @@
 
 #include <RadonFramework/Math/Hash/HashfunctionService.hpp>
 
-namespace RadonFramework { namespace Math { namespace Hash {
-
-class MurmurHashHashfunctionService:public HashfunctionService
+namespace RadonFramework::Math::Hash
+{
+class MurmurHashHashfunctionService : public HashfunctionService
 {
 public:
-    MurmurHashHashfunctionService(const Core::Types::String &Name);
-    virtual IHashfunction* Create() override;
-    virtual void Free(IHashfunction*& Instance) override;
-    virtual RF_Type::Size BitLength() const override;
-
+  MurmurHashHashfunctionService(const Core::Types::String& Name);
+  IHashfunction* Create() final;
+  void Free(IHashfunction*& Instance) final;
+  RF_Type::Size BitLength() const final;
 };
 
-} } }
+}  // namespace RadonFramework::Math::Hash
 
 #endif

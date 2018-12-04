@@ -4,6 +4,9 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Memory/AutoPointer.hpp>
+
 namespace RadonFramework::Text {
 
 /** This class can be used to build strings without generating 

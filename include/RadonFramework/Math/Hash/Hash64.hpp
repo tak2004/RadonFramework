@@ -4,6 +4,20 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/UInt64.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+
+namespace RadonFramework::Core::Types
+{
+class String;
+}  // namespace RadonFramework::Core::Types
+namespace RadonFramework::Memory
+{
+template<class T>
+class AutoPointerArray;
+}
+
 namespace RadonFramework::Math::Hash {
             
 struct Hash64

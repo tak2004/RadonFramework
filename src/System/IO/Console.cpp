@@ -6,6 +6,7 @@
 #include "RadonFramework/IO/Uri.hpp"
 #include <stdio.h>
 #include <stdarg.h>
+#include "RadonFramework/Core/Types/Convert.hpp"
 
 namespace RFT=RadonFramework::Threading;
 using namespace RadonFramework::IO;

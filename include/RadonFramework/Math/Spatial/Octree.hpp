@@ -3,6 +3,7 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Math/Geometry/Ray32.hpp>
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
 
 namespace RadonFramework::Math::Spatial {
 

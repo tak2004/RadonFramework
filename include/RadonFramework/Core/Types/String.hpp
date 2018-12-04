@@ -15,6 +15,7 @@
 #include <RadonFramework/Core/Types/DynamicString.hpp>
 #include <RadonFramework/Core/Types/StringSet.hpp>
 #include <RadonFramework/Core/Types/StringView.hpp>
+#include <RadonFramework/System/Memory.hpp>
 
 namespace RadonFramework::Core::Types {
 
@@ -382,7 +383,7 @@ template<int N>
 String String::operator+(char const (&Other)[N])const
 {
     String tmp(Other, N);
-    return *this+tmp;
+    return (*this).operator+(tmp);
 }
 
 template<int N>
@@ -411,7 +412,7 @@ String& String::operator=(char const (&Other)[N])
     return *this;
 }
 
-}
+}  // namespace RadonFramework::Core::Types
 
 RF_Type::String operator "" _rfs(const char* Data, size_t Size);
 

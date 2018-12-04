@@ -6,6 +6,8 @@
 
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Memory/AutoPointer.hpp>
 
 namespace RadonFramework::Diagnostics::Test {
 class TestResult;

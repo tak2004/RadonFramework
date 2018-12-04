@@ -4,6 +4,12 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include<RadonFramework/Memory/AutoPointerArray.hpp>
+
 namespace RadonFramework::Math::Hash {
             
 struct Hash32

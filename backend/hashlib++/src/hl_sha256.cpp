@@ -1,4 +1,5 @@
 #include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
 /*
  * hashlib++ - a simple hash library for C++
  *

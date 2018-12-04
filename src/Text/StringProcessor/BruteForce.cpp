@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/StringProcessor/BruteForce.hpp"
 #include "RadonFramework/Core/Policies/CMemoryOperation.hpp"
+#include "RadonFramework/Core/Types/UInt8.hpp"
 
 namespace RadonFramework::Text::StringProcessors {
 

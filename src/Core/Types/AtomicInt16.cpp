@@ -6,8 +6,6 @@ namespace RadonFramework::Core::Types
 {
 AtomicInt16::AtomicInt16(DataType Value) : m_Data(Value) {}
 
-AtomicInt16::AtomicInt16(const AtomicInt16& Other) : m_Data(Other.m_Data) {}
-
 AtomicInt16::DataType AtomicInt16::Increment()
 {
   return RF_SysThread::Interlocked::InterlockedInc16(&m_Data);
@@ -58,12 +56,6 @@ bool AtomicInt16::operator!=(DataType Value) const
 AtomicInt16& AtomicInt16::operator=(DataType Value)
 {
   m_Data = Value;
-  return *this;
-}
-
-AtomicInt16& AtomicInt16::operator=(const AtomicInt16& Other)
-{
-  m_Data = Other.m_Data;
   return *this;
 }
 

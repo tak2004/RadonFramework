@@ -5,6 +5,9 @@
 #endif
 
 #include <RadonFramework/Core/Pattern/Event.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
 
 namespace RadonFramework::Time {
 

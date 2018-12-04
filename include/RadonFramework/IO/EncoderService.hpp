@@ -6,6 +6,7 @@
 
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/IO/Encoders/Interface.hpp>
+#include <RadonFramework/Memory/AutoPointer.hpp>
 
 namespace RadonFramework::IO {
 

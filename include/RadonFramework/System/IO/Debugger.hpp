@@ -4,6 +4,9 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Pattern/Singleton.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
+
 namespace RadonFramework::System::IO {
 
 class Debugger:public RF_Pattern::Singleton<Debugger>

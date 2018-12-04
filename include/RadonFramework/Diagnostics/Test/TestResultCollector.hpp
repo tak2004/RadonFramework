@@ -7,6 +7,7 @@
 #include <RadonFramework/Diagnostics/Test/TestResult.hpp>
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
 #include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
 
 namespace RadonFramework::Diagnostics::Test {
 

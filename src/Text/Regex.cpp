@@ -2,6 +2,7 @@
 #include "RadonFramework/Text/Regex.hpp"
 #include "RadonFramework/Collections/HashMap.hpp"
 #include "RadonFramework/Collections/AutoVector.hpp"
+#include "RadonFramework/Core/Types/String.hpp"
 
 #include <regex>
 

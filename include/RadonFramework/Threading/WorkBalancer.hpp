@@ -6,6 +6,7 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Collections/Pair.hpp>
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
 
 namespace RadonFramework::Threading {
 

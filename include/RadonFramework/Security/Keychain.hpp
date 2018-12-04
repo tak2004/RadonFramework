@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework::Security {
 

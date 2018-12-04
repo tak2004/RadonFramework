@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Net/IPAddress.hpp"
 #include "RadonFramework/Net/ServerConfig.hpp"
+#include "RadonFramework/Core/Types/String.hpp"
 
 namespace RadonFramework::Net {
 

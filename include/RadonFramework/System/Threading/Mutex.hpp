@@ -4,38 +4,43 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Time {
+#include <RadonFramework/Core/Types/Bool.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
 
+namespace RadonFramework::Time
+{
 struct TimeSpan;
-
 }
 
-namespace RadonFramework::System::Threading {
-
+namespace RadonFramework::System::Threading
+{
 class Mutex
 {
-friend void CondImplementationWait(void*, Mutex&);
-friend void CondImplementationTimeWait(void*, Mutex&, 
-    const RadonFramework::Time::TimeSpan&);
+  friend void CondImplementationWait(void*, Mutex&);
+  friend void CondImplementationTimeWait(void*,
+                                         Mutex&,
+                                         const RadonFramework::Time::TimeSpan&);
+
 public:
-    Mutex();
-    ~Mutex();
-    void Lock();
-    void Unlock();
-    RF_Type::Bool IsLocked();
-    /// Return 0 if the resource isn't locked else the thread id.
-    RF_Type::UInt32 LockedByThreadID();
+  Mutex();
+  ~Mutex();
+  void Lock();
+  void Unlock();
+  RF_Type::Bool IsLocked();
+  /// Return 0 if the resource isn't locked else the thread id.
+  RF_Type::UInt32 LockedByThreadID();
+
 protected:
-    RF_Type::Bool m_IsLogicLock;
-    RF_Type::UInt32 m_ThreadID;
-    void* m_ImplData;
+  RF_Type::Bool m_IsLogicLock;
+  RF_Type::UInt32 m_ThreadID;
+  void* m_ImplData;
 };
 
-}
+}  // namespace RadonFramework::System::Threading
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSTHREAD
 #define RF_SHORTHAND_NAMESPACE_SYSTHREAD
 namespace RF_SysThread = RadonFramework::System::Threading;
 #endif
 
-#endif // RF_SYSTEM_THREADING_MUTEX_HPP
+#endif  // RF_SYSTEM_THREADING_MUTEX_HPP

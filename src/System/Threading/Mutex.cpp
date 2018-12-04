@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Threading/Mutex.hpp"
+#include "RadonFramework/Defines.hpp"
 
 using namespace RadonFramework::System::Threading;
 

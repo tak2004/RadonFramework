@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/Stream.hpp"
+#include "RadonFramework/System/Memory.hpp"
 
 namespace RadonFramework::IO {
 

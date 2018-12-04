@@ -1,19 +1,10 @@
-#include "RadonFramework/precompiled.hpp"
 #include <RadonFramework/Core/Types/AtomicInt32.hpp>
 #include <RadonFramework/System/Threading/Interlocked.hpp>
+#include "RadonFramework/precompiled.hpp"
 
 namespace RadonFramework::Core::Types
 {
-
-AtomicInt32::AtomicInt32(DataType Value) 
-  :m_Data(Value)
-{
-}
-
-AtomicInt32::AtomicInt32(const AtomicInt32& Other)
-:m_Data(Other.m_Data)
-{
-}
+AtomicInt32::AtomicInt32(DataType Value) : m_Data(Value) {}
 
 AtomicInt32::DataType AtomicInt32::Increment()
 {
@@ -47,62 +38,56 @@ AtomicInt32::DataType AtomicInt32::Add(DataType Value)
   return RF_SysThread::Interlocked::InterlockedAdd32(&m_Data, Value);
 }
 
-AtomicInt32::operator Int32()const
+AtomicInt32::operator Int32() const
 {
-    return m_Data;
+  return m_Data;
 }
 
-bool AtomicInt32::operator !()const
+bool AtomicInt32::operator!() const
 {
-    return m_Data==0?true:false;
+  return m_Data == 0 ? true : false;
 }
 
 bool AtomicInt32::operator!=(DataType Value) const
 {
-    return m_Data!=Value;
+  return m_Data != Value;
 }
 
 AtomicInt32& AtomicInt32::operator=(DataType Value)
 {
-    m_Data=Value;
-    return *this;
-}
-
-AtomicInt32& AtomicInt32::operator =(const AtomicInt32& Other)
-{
-    m_Data=Other.m_Data;
-    return *this;
+  m_Data = Value;
+  return *this;
 }
 
 bool AtomicInt32::operator==(DataType Value) const
 {
-    return m_Data==Value;
+  return m_Data == Value;
 }
 
 AtomicInt32& AtomicInt32::operator++()
 {
-    Increment();
-    return *this;
+  Increment();
+  return *this;
 }
 
 AtomicInt32 AtomicInt32::operator++(Int32)
 {
-    AtomicInt32 result(*this);
-    Increment();
-    return result;
+  AtomicInt32 result(*this);
+  Increment();
+  return result;
 }
 
 AtomicInt32& AtomicInt32::operator--()
 {
-    Decrement();
-    return *this;
+  Decrement();
+  return *this;
 }
 
 AtomicInt32 AtomicInt32::operator--(Int32)
 {
-    AtomicInt32 result(*this);
-    Decrement();
-    return result;
+  AtomicInt32 result(*this);
+  Decrement();
+  return result;
 }
 
-}
+}  // namespace RadonFramework::Core::Types

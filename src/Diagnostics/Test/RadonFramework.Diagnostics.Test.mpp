@@ -1,9 +1,9 @@
-#include <RadonFramework/Core/Types/String.hpp>
-#include <RadonFramework/Collections/Array.hpp>
-#include <RadonFramework/Collections/HashList.hpp>
+import RadonFramework.Core.Types;
 
 export module RadonFramework.Diagnostics.Test;
 
 #include <RadonFramework/Diagnostics/Test/BDD/Specification.hpp>
 #include <RadonFramework/Diagnostics/Test/BDD/SpecificationOutput.hpp>
 #include <RadonFramework/Diagnostics/Test/BDD/ConsoleOutput.hpp>
+
+namespace RF_BDD = RadonFramework::Diagnostics::Test::BDD;

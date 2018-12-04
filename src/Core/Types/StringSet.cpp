@@ -1,5 +1,6 @@
 #include "RadonFramework/Core/Types/StringSet.hpp"
 #include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/System/Memory.hpp"
 
 namespace RadonFramework::Core::Types
 {

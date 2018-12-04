@@ -5,6 +5,9 @@
 #endif
 
 #include <RadonFramework/IO/Decoders/Interface.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/Bool.hpp>
 
 namespace RadonFramework::IO {
 

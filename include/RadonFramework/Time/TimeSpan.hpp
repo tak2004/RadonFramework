@@ -11,7 +11,7 @@
 
 namespace RadonFramework::Time {
 
-typedef RF_Type::UInt64 TimeValue;
+using TimeValue = RF_Type::UInt64;
 
 struct TimeSpan
 {
@@ -64,7 +64,7 @@ protected:
     TimeValue m_TimeValue;
 };
 
-}
+}  // namespace RadonFramework::Time
 
 #ifndef RF_SHORTHAND_NAMESPACE_TIME
 #define RF_SHORTHAND_NAMESPACE_TIME

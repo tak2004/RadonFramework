@@ -4,6 +4,11 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Vec.hpp>
+#include <RadonFramework/Core/Types/UInt16.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+
 namespace RadonFramework::Core::Types {
 
 /// A Vec128UInt8 have always the size of 8 byte and represent 8 unsigned numbers.

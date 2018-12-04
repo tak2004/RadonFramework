@@ -2,14 +2,14 @@
 #define RF_CORE_TYPES_FLOAT32_HPP
 #if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
+#endif  // _MSC_VER > 1000
 
-namespace RadonFramework::Core::Types {
-
+namespace RadonFramework::Core::Types
+{
 /** A Float32 have always the size of 4 byte and represent a signed
-  * floating point value.
-  **/
-typedef float Float32;
+ * floating point value.
+ **/
+using Float32 = float;
 
 /// The minimum value which can be contained by a Float32.
 extern const Float32 Float32Min;
@@ -17,7 +17,7 @@ extern const Float32 Float32Min;
 /// The maximum value which can be contained by a Float32.
 extern const Float32 Float32Max;
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE
@@ -28,4 +28,4 @@ namespace RF_Type = RadonFramework::Core::Types;
 using RadonFramework::Core::Types::Float32;
 #endif
 
-#endif // RF_CORE_TYPES_FLOAT32_HPP
+#endif  // RF_CORE_TYPES_FLOAT32_HPP

@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/MemoryStream.hpp"
 #include "RadonFramework/Core/Policies/CMemoryOperation.hpp"
+#include "RadonFramework/Math/Integer.hpp"
 
 namespace RadonFramework::IO {
 

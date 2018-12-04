@@ -15,6 +15,7 @@
 #include <RadonFramework/Net/SocketOptionLevel.hpp>
 #include <RadonFramework/Net/SocketOptionName.hpp>
 #include <RadonFramework/Net/MulticastRequest.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
 
 namespace RadonFramework::System::Network {
 

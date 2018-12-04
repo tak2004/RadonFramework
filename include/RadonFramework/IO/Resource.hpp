@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/IO/Uri.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
 
 namespace RadonFramework::IO {
 

@@ -6,6 +6,7 @@
 
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
 
 namespace RadonFramework::Diagnostics::Profiling {
 

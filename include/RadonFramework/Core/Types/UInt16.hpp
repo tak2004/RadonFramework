@@ -4,12 +4,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace RadonFramework::Core::Types {
 
 /// A UInt16 have always the size of 2 byte and represent a unsigned number.
-typedef uint16_t UInt16;
+using UInt16 = uint16_t;
 
 /// The minimum value which can be contained by a UInt16.
 extern const UInt16 UInt16Min;
@@ -17,7 +17,7 @@ extern const UInt16 UInt16Min;
 /// The maximum value which can be contained by a UInt16.
 extern const UInt16 UInt16Max;
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

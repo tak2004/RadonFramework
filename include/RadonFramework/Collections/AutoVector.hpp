@@ -7,6 +7,7 @@
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
 
 namespace RadonFramework::Collections {
 
@@ -115,8 +116,8 @@ public:
     operator AutoVectorReference();
 protected:
     List<PtrInfo> m_Pointer;
-    typedef typename List<PtrInfo>::Iterator ListIterator;
-    typedef typename List<PtrInfo>::ConstIterator ConstListIterator;
+    using ListIterator = typename List<PtrInfo>::Iterator;
+    using ConstListIterator = typename List<PtrInfo>::ConstIterator;
 };
 
 template <class T>
@@ -342,7 +343,7 @@ AutoVector<T>::operator AutoVectorReference()
     return AutoVectorReference(m_Pointer);
 }
 
-}
+}  // namespace RadonFramework::Collections
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

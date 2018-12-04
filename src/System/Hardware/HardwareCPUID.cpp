@@ -3,9 +3,9 @@
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
 #include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
 #include "RadonFramework/System/Hardware/Vec128Int.hpp"
+#include "RadonFramework/Memory/AutoPointerArray.hpp"
 
 using namespace RadonFramework;
-using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;
 
 namespace RadonFramework::System::Hardware::CPUID {
@@ -314,10 +314,10 @@ void DecodeCacheInfo(CacheInfo& CacheInfo, RF_Type::UInt32 reg)
 RF_Type::Int32 GetCacheCount();
 
 // Util function: use it only for internal purpose
-inline void DetectCacheInfo(AutoPointerArray<CacheInfo>& CacheData)
+inline void DetectCacheInfo(RF_Mem::AutoPointerArray<CacheInfo>& CacheData)
 {
     RF_Type::Int32 count = GetCacheCount();
-    CacheData = AutoPointerArray<CacheInfo>(count);
+    CacheData = RF_Mem::AutoPointerArray<CacheInfo>(count);
 
     RF_Type::UInt32 reg[4] = {0,0,0,0};
 

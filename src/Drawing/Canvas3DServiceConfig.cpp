@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Canvas3DServiceConfig.hpp"
 #include "RadonFramework/Drawing/Canvas3DServiceLocator.hpp"
+#include "RadonFramework/Core/Types/Convert.hpp"
 
 using namespace RadonFramework::Drawing;
 using namespace RadonFramework::Core::Types;

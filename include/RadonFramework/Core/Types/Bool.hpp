@@ -6,7 +6,7 @@
 
 namespace RadonFramework::Core::Types {
 
-typedef bool Bool;
+using Bool = bool;
 
 }
 

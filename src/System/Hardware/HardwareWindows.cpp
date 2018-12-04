@@ -2,6 +2,8 @@
 #include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/System/Hardware/CacheInfo.hpp"
 #include "RadonFramework/System/Hardware/ProcessorFeatures.hpp"
+#include "RadonFramework/Memory/AutoPointerArray.hpp"
+#include "RadonFramework/Core/Pattern/Singleton.hpp"
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 

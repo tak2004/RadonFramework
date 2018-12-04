@@ -6,6 +6,7 @@
 
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/Core/Idioms/PImpl.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework::IO {
 

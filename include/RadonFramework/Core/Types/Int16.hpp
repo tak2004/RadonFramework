@@ -4,12 +4,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace RadonFramework::Core::Types {
 
 /// A Int16 have always the size of 2 byte and represent a signed number.
-typedef int16_t Int16;
+using Int16 = int16_t;
 
 /// The maximum value which can be contained by a Int16.
 extern const Int16 Int16Max;
@@ -17,7 +17,7 @@ extern const Int16 Int16Max;
 /// The minimum value which can be contained by a Int16.
 extern const Int16 Int16Min;
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

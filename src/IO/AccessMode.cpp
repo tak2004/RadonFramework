@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/AccessMode.hpp"
+#include "RadonFramework/Core/Types/UInt32.hpp"
 
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Core::Types;

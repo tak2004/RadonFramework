@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <errno.h>
 #include <mbstring.h>
+#include "RadonFramework/Core/Types/String.hpp"
+#include "RadonFramework/Math/Float64.hpp"
 
 using namespace RadonFramework::System::String;
 using namespace RadonFramework::Core::Types;

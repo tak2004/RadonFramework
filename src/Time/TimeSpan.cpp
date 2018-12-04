@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Time/TimeSpan.hpp"
 #include "RadonFramework/System/IO/Console.hpp"
+#include "RadonFramework/Core/Types/Utils/StringOperators.hpp"
 
 using namespace RadonFramework::Time;
 using namespace RadonFramework::Core::Types;

@@ -5,6 +5,8 @@
 #endif
 
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Size.hpp>
 
 namespace RadonFramework::Collections {
 

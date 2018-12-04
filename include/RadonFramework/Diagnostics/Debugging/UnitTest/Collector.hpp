@@ -4,6 +4,11 @@
 #pragma once
 #endif
 
+namespace RadonFramework::Core::Types
+{
+class String;
+}
+
 namespace RadonFramework::Diagnostics::Test {
 class TestResult;
 }
@@ -13,7 +18,7 @@ namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 class Collector
 {
 public:
-    virtual void CreateSuite(const RF_Type::String& Name)=0;
+    virtual void CreateSuite(const Core::Types::String& Name)=0;
     virtual void ProcessResult(const Test::TestResult& Result)=0;
 };
 

@@ -6,6 +6,8 @@
 
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/IO/AccessMode.hpp>
+#include <RadonFramework/Core/Types/UInt64.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
 
 namespace RadonFramework::IO {
 

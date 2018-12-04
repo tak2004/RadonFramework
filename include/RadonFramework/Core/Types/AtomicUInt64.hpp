@@ -4,6 +4,7 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/UInt64.hpp>
 
 namespace RadonFramework::Core::Types
@@ -11,9 +12,9 @@ namespace RadonFramework::Core::Types
 struct AtomicUInt64
 {
 public:
-  typedef UInt64 DataType;
+  using DataType = UInt64;
   AtomicUInt64(DataType Value = 0);
-  AtomicUInt64(const AtomicUInt64& Other);
+  AtomicUInt64(const AtomicUInt64& Other) = default;
 
   DataType Increment();
   DataType Decrement();
@@ -27,7 +28,7 @@ public:
   bool operator!() const;
   bool operator!=(DataType Value) const;
   AtomicUInt64& operator=(DataType Value);
-  AtomicUInt64& operator=(const AtomicUInt64& Other);
+  AtomicUInt64& operator=(const AtomicUInt64& Other) = default;
   bool operator==(DataType Value) const;
   AtomicUInt64& operator++();
   AtomicUInt64 operator++(Int32);

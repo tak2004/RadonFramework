@@ -210,20 +210,20 @@ namespace fastdelegate {
 #undef FASTDELEGATE_USESTATICFUNCTIONHACK
 #endif
 
-        typedef void DefaultVoid;
+        using DefaultVoid = void;
 
         // Translate from 'DefaultVoid' to 'void'.
         // Everything else is unchanged
         template <class T>
         struct DefaultVoidToVoid
         {
-            typedef T type;
+            using type = T;
         };
 
         template <>
         struct DefaultVoidToVoid<DefaultVoid>
         {
-            typedef void type;
+            using type = void;
         };
 
         // Translate from 'void' into 'DefaultVoid'
@@ -231,13 +231,13 @@ namespace fastdelegate {
         template <class T>
         struct VoidToDefaultVoid
         {
-            typedef T type;
+            using type = T;
         };
 
         template <>
         struct VoidToDefaultVoid<void>
         {
-            typedef DefaultVoid type;
+            using type = DefaultVoid;
         };
 
 
@@ -564,7 +564,7 @@ namespace fastdelegate {
         {};
         void clear()
         {
-            m_pthis = 0; m_pFunction = 0;
+            m_pthis = nullptr; m_pFunction = nullptr;
         }
 #endif
     public:
@@ -592,7 +592,8 @@ namespace fastdelegate {
             if(m_pStaticFunction != 0 || right.m_pStaticFunction != 0)
                 return m_pStaticFunction < right.m_pStaticFunction;
 #endif
-            if(m_pthis != right.m_pthis) return m_pthis < right.m_pthis;
+            if(m_pthis != right.m_pthis) { return m_pthis < right.m_pthis;
+}
             // There are no ordering operators for member function pointers,
             // but we can fake one by comparing each byte. The resulting ordering is
             // arbitrary (and compiler-dependent), but it permits storage in ordered STL containers.
@@ -609,11 +610,11 @@ namespace fastdelegate {
         // m_pFunction can be zero even if the delegate is not empty!
         inline bool operator ! () const     // Is it bound to anything?
         {
-            return m_pthis == 0 && m_pFunction == 0;
+            return m_pthis == nullptr && m_pFunction == nullptr;
         }
         inline bool empty() const       // Is it bound to anything?
         {
-            return m_pthis == 0 && m_pFunction == 0;
+            return m_pthis == nullptr && m_pFunction == nullptr;
         }
     public:
         DelegateMemento & operator = (const DelegateMemento &right)

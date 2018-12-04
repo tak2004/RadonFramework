@@ -10,10 +10,6 @@ Service::Service(const String &Name)
 {
 }
 
-Service::~Service()
-{
-}
-
 const String& Service::Name()
 {
   return m_Name;

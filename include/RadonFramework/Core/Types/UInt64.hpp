@@ -4,12 +4,12 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace RadonFramework::Core::Types {
 
 /// A UInt8 have always the size of 8 byte and represent a unsigned number.
-typedef uint64_t UInt64;
+using UInt64 = uint64_t;
 
 /// The minimum value which can be contained by a UInt64.
 extern const UInt64 UInt64Min;
@@ -17,7 +17,7 @@ extern const UInt64 UInt64Min;
 /// The maximum value which can be contained by a UInt64.
 extern const UInt64 UInt64Max;
 
-}
+}  // namespace RadonFramework::Core::Types
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

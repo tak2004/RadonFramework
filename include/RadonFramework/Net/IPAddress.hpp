@@ -6,6 +6,7 @@
 
 #include <RadonFramework/Net/AddressFamily.hpp>
 #include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework::Net {
 

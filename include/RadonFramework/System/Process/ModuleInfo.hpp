@@ -5,11 +5,11 @@
 #endif
 
 #include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework::System::Process {
-
-typedef RF_Collect::Array<RF_Type::String> ModuleInfo;
-
+namespace RadonFramework::System::Process
+{
+using ModuleInfo = RF_Collect::Array<RF_Type::String>;
 }
 
-#endif // RF_SYSTEM_PROCESS_MODULEINFO_HPP
+#endif  // RF_SYSTEM_PROCESS_MODULEINFO_HPP

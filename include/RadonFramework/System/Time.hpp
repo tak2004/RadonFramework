@@ -5,6 +5,8 @@
 #endif
 
 #include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/Memory/PointerID.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework::Time { 
 

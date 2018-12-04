@@ -11,10 +11,7 @@ namespace RadonFramework::Diagnostics::Debugging
 #ifndef NDEBUG
 struct AssertHandler
 {
-  typedef void (*Callback)(const char* Test,
-                           const char* Message,
-                           const char* Filename,
-                           int Line);
+  using Callback = void (*)(const char *, const char *, const char *, int);
   static Callback Override;
   static void Process(const char* Test,
                       const char* Message,

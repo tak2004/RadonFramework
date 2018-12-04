@@ -23,6 +23,7 @@
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/System/String.hpp"
 #ifdef RF_USE_XXHASH
 #include "RadonFramework/System/Math/Hash/xxHashService.hpp"
 #endif

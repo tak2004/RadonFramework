@@ -8,26 +8,26 @@ namespace RadonFramework::Core::Traits {
 template <class T>
 struct AllocatorTraits
 {
-    typedef T ValueType;
-    typedef T* Pointer;
-    typedef T& Reference;
-    typedef const T* ConstPointer;
-    typedef const T& ConstReference;
-    typedef RF_Type::MemoryRange SizeType;
-    typedef RF_Type::MemoryRange DifferenceType;
+    using ValueType = T;
+    using Pointer = T *;
+    using Reference = T &;
+    using ConstPointer = const T *;
+    using ConstReference = const T &;
+    using SizeType = RF_Type::MemoryRange;
+    using DifferenceType = RF_Type::MemoryRange;
 };
 
 template<>
 struct AllocatorTraits<void>
 {
-    typedef void ValueType;
-    typedef void* Pointer;
-    typedef const void* ConstPointer;
-    typedef RF_Type::MemoryRange SizeType;
-    typedef RF_Type::MemoryRange DifferenceType;
+    using ValueType = void;
+    using Pointer = void *;
+    using ConstPointer = const void *;
+    using SizeType = RF_Type::MemoryRange;
+    using DifferenceType = RF_Type::MemoryRange;
 };
         
-}
+}  // namespace RadonFramework::Core::Traits
 
 #ifndef RF_SHORTHAND_NAMESPACE_TRAIT
 #define RF_SHORTHAND_NAMESPACE_TRAIT

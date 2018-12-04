@@ -24,8 +24,8 @@ struct ThreadInfo
     RF_Time::TimeSpan UserTime;
 };
 
-typedef RF_Collect::Array<ThreadInfo> ThreadInfoList;
+using ThreadInfoList = RF_Collect::Array<ThreadInfo>;
 
-}
+}  // namespace RadonFramework::System::Process
 
 #endif // RF_SYSTEM_PROCESS_THREADINFO_HPP

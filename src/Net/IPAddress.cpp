@@ -3,6 +3,8 @@
 #include "RadonFramework/IO/Log.hpp"
 #include "RadonFramework/Collections/Stack.hpp"
 #include "RadonFramework/Collections/Algorithm/FindAll.hpp"
+#include "RadonFramework/Core/Types/Convert.hpp"
+#include "RadonFramework/Core/Types/Utils/StringOperators.hpp"
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::IO;

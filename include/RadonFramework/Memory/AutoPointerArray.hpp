@@ -31,11 +31,11 @@ template <typename T>
 class AutoPointerArray
 {
 public:
-  typedef T ElementType;
-  typedef Collections::Enumerator<T, Collections::ArrayEnumeratorType>
-      EnumeratorType;
-  typedef Collections::Enumerator<const T, Collections::ArrayEnumeratorType>
-      ConstEnumeratorType;
+  using ElementType = T;
+  using EnumeratorType =
+      Collections::Enumerator<T, Collections::ArrayEnumeratorType>;
+  using ConstEnumeratorType =
+      Collections::Enumerator<const T, Collections::ArrayEnumeratorType>;
 
   explicit AutoPointerArray();
 
@@ -78,7 +78,7 @@ public:
 
   AutoPointerArray& operator=(const AutoPointerArray& Copy);
 
-  AutoPointerArray& operator=(AutoPointerArray&& Copy);
+  AutoPointerArray& operator=(AutoPointerArray&& Move);
 
   template <typename T1>
   AutoPointerArray& operator=(AutoPointerArray<T1>& Copy);
@@ -122,7 +122,7 @@ public:
 
 private:
   T* m_Data;
-  RF_Type::Size m_Elements;
+  RF_Type::Size m_Elements{0};
 };
 
 template <typename T>
@@ -180,7 +180,7 @@ AutoPointerArrayReference<T>::AutoPointerArrayReference(
 }
 
 template <typename T>
-AutoPointerArray<T>::AutoPointerArray() : m_Data(0), m_Elements(0)
+AutoPointerArray<T>::AutoPointerArray() : m_Data(nullptr) 
 {
 }
 
@@ -202,7 +202,7 @@ AutoPointerArray<T>::AutoPointerArray(AutoPointerArray<T>&& Move)
 {
   m_Data = Move.m_Data;
   m_Elements = Move.m_Elements;
-  Move.m_Data = 0;
+  Move.m_Data = nullptr;
   Move.m_Elements = 0;
 }
 
@@ -226,7 +226,7 @@ template <typename T>
 AutoPointerArray<T>::~AutoPointerArray()
 {
   delete[] m_Data;
-  m_Data = 0;
+  m_Data = nullptr;
   m_Elements = 0;
 }
 
@@ -283,7 +283,7 @@ AutoPointerArray<T>& AutoPointerArray<T>::operator=(AutoPointerArray<T>&& Move)
 {
   Reset();
   m_Data = Move.m_Data;
-  Move.m_Data = 0;
+  Move.m_Data = nullptr;
   m_Elements = Move.m_Elements;
   Move.m_Elements = 0;
   return *this;
@@ -326,7 +326,7 @@ template <typename T>
 void AutoPointerArray<T>::Reset()
 {
   delete[] m_Data;
-  m_Data = 0;
+  m_Data = nullptr;
   m_Elements = 0;
 }
 

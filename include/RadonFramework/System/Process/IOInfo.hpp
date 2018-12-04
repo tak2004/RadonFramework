@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt64.hpp>
+
 namespace RadonFramework::System::Process {
 
 struct IOInfo
@@ -16,7 +18,7 @@ struct IOInfo
     RF_Type::UInt64 OtherTransferedBytes;
 };
 
-}
+}  // namespace RadonFramework::System::Process
 
 namespace RFPROC = RadonFramework::System::Process;
 

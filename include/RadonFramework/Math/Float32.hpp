@@ -4,6 +4,10 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Float32.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Bool.hpp>
+
 namespace RadonFramework::Math {
 
 /** @brief This class support basic math functions.

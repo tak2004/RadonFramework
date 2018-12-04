@@ -7,6 +7,8 @@
 #include <RadonFramework/Collections/AutoVector.hpp>
 #include <RadonFramework/Math/Geometry/Size2D.hpp>
 #include <RadonFramework/System/Drawing/SystemTrayService.hpp>
+#include <RadonFramework/Core/Pattern/Singleton.hpp>
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
 
 namespace RadonFramework::Drawing {
 

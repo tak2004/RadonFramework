@@ -4,8 +4,12 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
 #include <RadonFramework/Core/Pattern/Event.hpp>
 #include <RadonFramework/Core/Pattern/Signal.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/Types/UInt16.hpp>
 
 namespace RadonFramework::Net {
 

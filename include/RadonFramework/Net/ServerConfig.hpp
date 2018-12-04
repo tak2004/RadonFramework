@@ -6,6 +6,8 @@
 
 #include <RadonFramework/Net/AddressFamily.hpp>
 #include <RadonFramework/Net/SocketType.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Char.hpp>
 
 namespace RadonFramework::Net {
 

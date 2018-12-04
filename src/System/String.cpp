@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/String.hpp"
 #include "RadonFramework/Collections/List.hpp"
+#include "RadonFramework/Core/Types/String.hpp"
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;

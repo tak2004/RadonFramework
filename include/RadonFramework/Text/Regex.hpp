@@ -5,6 +5,8 @@
 #endif
 
 #include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Core/Idioms/PImpl.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework::Text {
 

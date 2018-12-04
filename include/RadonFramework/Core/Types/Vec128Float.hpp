@@ -4,6 +4,9 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Vec.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
+
 namespace RadonFramework::Core::Types {
 
 /// A Vec128Float32 have always the size of 16 byte and represent 4 floating point numbers.

@@ -5,10 +5,14 @@
 #endif
 
 #include <RadonFramework/Memory/AutoPointer.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/IO/AccessMode.hpp>
 #include <RadonFramework/IO/FileStatus.hpp>
 #include <RadonFramework/IO/SeekOrigin.hpp>
 #include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/Memory/PointerID.hpp>
+#include <RadonFramework/Core/Types/Int64.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework::IO {
 

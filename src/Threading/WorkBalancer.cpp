@@ -1,5 +1,7 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Threading/WorkBalancer.hpp>
+#include "RadonFramework/precompiled.hpp"
+#include "RadonFramework/Threading/WorkBalancer.hpp"
+#include "RadonFramework/Memory/AutoPointerArray.hpp"
+#include "RadonFramework/Memory/ObserverPointer.hpp"
 
 namespace RadonFramework::Core::Idioms {
 

@@ -3,6 +3,7 @@
 #include "RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp"
 #include "RadonFramework/Diagnostics/Test/TestResult.hpp"
 #include "RadonFramework/Time/ScopeTimer.hpp"
+#include "RadonFramework/Core/Pattern/Singleton.hpp"
 
 namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 

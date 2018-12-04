@@ -26,7 +26,7 @@ public:
     virtual void Reset()=0;
 };
 
-}
+}  // namespace RadonFramework::Collections
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT

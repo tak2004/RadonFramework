@@ -7,6 +7,7 @@
 #include <RadonFramework/Threading/ThreadPool.hpp>
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/Time/ScopeTimer.hpp>
+#include <RadonFramework/Core/Types/AtomicInt32.hpp>
 
 namespace RadonFramework::Collections::Algorithm {
 

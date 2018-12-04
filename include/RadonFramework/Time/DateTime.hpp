@@ -98,7 +98,7 @@ protected:
     static RF_Type::UInt32 AbsoluteDays(RF_Type::UInt32 Year, RF_Type::UInt32 Month, RF_Type::UInt32 Day);
 };
 
-}
+}  // namespace RadonFramework::Time
 
 #ifndef RF_SHORTHAND_NAMESPACE_TIME
 #define RF_SHORTHAND_NAMESPACE_TIME

@@ -4,6 +4,15 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Memory/AutoPointerArray.hpp>
+
+namespace RadonFramework::Core::Types
+{
+class String;
+}
+
 namespace RadonFramework::Math::Hash {
             
 struct LongHash

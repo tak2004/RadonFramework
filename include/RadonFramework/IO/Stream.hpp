@@ -8,6 +8,7 @@
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/UInt8.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/Int64.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
 

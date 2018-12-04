@@ -1,6 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Drawing/OSFontService.hpp"
 #include "RadonFramework/Collections/List.hpp"
+#include "RadonFramework/System/String.hpp"
 
 #if defined(RF_WINDOWS)
 #include <windows.h>

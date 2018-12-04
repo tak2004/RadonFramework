@@ -4,32 +4,31 @@
 #pragma once
 #endif
 
-namespace RadonFramework::System::Threading {
-
+namespace RadonFramework::System::Threading
+{
 class Mutex;
-
 }
 
-namespace RadonFramework::Threading {
-
+namespace RadonFramework::Threading
+{
 class Scopelock
 {
 public:
-    Scopelock(System::Threading::Mutex& Ref);
-    ~Scopelock();
+  Scopelock(System::Threading::Mutex& Ref);
+  ~Scopelock();
+
 protected:
-    System::Threading::Mutex* m_Mutex;
-    Scopelock();
-    Scopelock(const Scopelock& Other);
-    Scopelock& operator=(const Scopelock& Other);
+  System::Threading::Mutex* m_Mutex;
+  Scopelock();
+  Scopelock(const Scopelock& Other);
+  Scopelock& operator=(const Scopelock& Other);
 };
 
-}
+}  // namespace RadonFramework::Threading
 
 #ifndef RF_SHORTHAND_NAMESPACE_THREAD
 #define RF_SHORTHAND_NAMESPACE_THREAD
 namespace RF_Thread = RadonFramework::Threading;
-#endif // !RF_SHORTHAND_NAMESPACE_THREAD
+#endif  // !RF_SHORTHAND_NAMESPACE_THREAD
 
-
-#endif // RF_THREADING_SCOPELOCK_HPP
+#endif  // RF_THREADING_SCOPELOCK_HPP

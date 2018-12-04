@@ -8,8 +8,17 @@
 #include <RadonFramework/Core/Types/Size.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Int32.hpp>
-#include <RadonFramework/Core/Types/String.hpp>
-#include <RadonFramework/Collections/List.hpp>
+
+namespace RadonFramework::Collections
+{
+template<class T>
+class List;
+}
+
+namespace RadonFramework::Core::Types
+{
+class String;
+}
 
 namespace RadonFramework::System::Memory {
 
@@ -83,7 +92,7 @@ extern MapMemoryCallback MapMemory;
 extern UnmapMemoryCallback UnmapMemory;
 extern MapViewCallback MapView;
 
-}
+}  // namespace RadonFramework::System::Memory
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSMEM
 #define RF_SHORTHAND_NAMESPACE_SYSMEM

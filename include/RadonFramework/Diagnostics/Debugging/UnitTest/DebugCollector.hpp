@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
 namespace RadonFramework::Diagnostics::Debugging::UnitTest {
 

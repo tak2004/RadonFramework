@@ -4,6 +4,11 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/Vec.hpp>
+#include <RadonFramework/Core/Types/Int8.hpp>
+#include <RadonFramework/Core/Types/Int16.hpp>
+#include <RadonFramework/Core/Types/Int32.hpp>
+
 namespace RadonFramework::Core::Types {
 
 /// A Vec64Int8 have always the size of 8 byte and represent 8 signed numbers.

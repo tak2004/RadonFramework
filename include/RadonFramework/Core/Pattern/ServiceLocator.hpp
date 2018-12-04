@@ -16,8 +16,8 @@ namespace RadonFramework::Core::Pattern {
 template<class T,class N>
 struct Locator
 {
-    typedef typename RF_Collect::AutoVector<T>::Iterator Iterator;
-    typedef typename RF_Collect::AutoVector<T>::ConstIterator ConstIterator;
+    using Iterator = typename RF_Collect::AutoVector<T>::Iterator;
+    using ConstIterator = typename RF_Collect::AutoVector<T>::ConstIterator;
 
     Locator() = delete;
 
@@ -111,7 +111,7 @@ RF_Collect::AutoVector<T> Locator<T, N>::m_Services;
 template<class T, class N> 
 RF_Type::UInt32 Locator<T, N>::m_Default = 0;
         
-}
+}  // namespace RadonFramework::Core::Pattern
 
 #ifndef RF_SHORTHAND_NAMESPACE_PATTERN
 #define RF_SHORTHAND_NAMESPACE_PATTERN

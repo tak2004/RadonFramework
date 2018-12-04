@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/Memory/AutoPointer.hpp>
 
 namespace RadonFramework::System::Network {
 

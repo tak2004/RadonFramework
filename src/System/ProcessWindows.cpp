@@ -29,8 +29,8 @@ AutoPointerArray<RF_Type::UInt32> GetProcessList()
     {
         processcount += 1024;
         processes = AutoPointerArray<RF_Type::UInt32>(processcount);
-        EnumProcesses((DWORD*)processes.Get(), processcount*sizeof(RF_Type::UInt32),
-                      (LPDWORD)&UsedMemory);
+        EnumProcesses(reinterpret_cast<DWORD*>(processes.Get()), processcount*sizeof(RF_Type::UInt32),
+                      reinterpret_cast<LPDWORD>(&UsedMemory));
     } while (processcount * sizeof(RF_Type::UInt32) == UsedMemory);
     processcount = UsedMemory / sizeof(RF_Type::UInt32);
     result = AutoPointerArray<RF_Type::UInt32>(processcount);
@@ -47,14 +47,14 @@ RF_Type::UInt32 GetCurrentProcessIdImplementation()
 
 TimeSpan FILETIMEToTimeSpan(const FILETIME &Time)
 {
-    UInt64 t=((UInt64)Time.dwHighDateTime)<<32;
+    UInt64 t=(static_cast<UInt64>(Time.dwHighDateTime))<<32;
     t+=Time.dwLowDateTime;
     return TimeSpan::CreateByTicks(t);
 }
 
 DateTime FILETIMEToDate(const FILETIME &Time)
 {
-    UInt64 t = ((UInt64)Time.dwHighDateTime)<<32;
+    UInt64 t = (static_cast<UInt64>(Time.dwHighDateTime))<<32;
     t += Time.dwLowDateTime;
     t += DateTime::CreateByTime(1601, 1, 1).Ticks();
     return DateTime::CreateByTicks(t);
@@ -67,23 +67,23 @@ RF_Type::Bool GetGeneralInfo(RF_Type::UInt32 PId, RFPROC::GeneralInfo& Info)
 
     HANDLE hProcess;
     hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, PId);//win vista and newer
-    if (NULL==hProcess)
+    if (nullptr==hProcess)
     {
         hProcess=OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, PId);//win2k and newer
     }
 
-    if (NULL != hProcess)
+    if (nullptr != hProcess)
     {
         TCHAR szProcessName[MAX_PATH] = TEXT("<unknown>");
         GetProcessImageFileName(hProcess, szProcessName, sizeof(szProcessName) / sizeof(TCHAR));
         CloseHandle(hProcess);
-        hProcess=NULL;
+        hProcess=nullptr;
         Info.BinaryName = String(szProcessName, MAX_PATH);
         result = true;
     }
 
     hProcess=OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ,FALSE, PId);
-    if (hProcess!=NULL)
+    if (hProcess!=nullptr)
     {
         HMODULE hMod;
         DWORD cbNeeded;
@@ -94,7 +94,7 @@ RF_Type::Bool GetGeneralInfo(RF_Type::UInt32 PId, RFPROC::GeneralInfo& Info)
             Info.Name = String(szProcessName, MAX_PATH);
         }
         CloseHandle(hProcess);
-        hProcess=NULL;
+        hProcess=nullptr;
         result = true;
     }
     return result;
@@ -105,15 +105,15 @@ RF_Type::Bool GetIOInfo(RF_Type::UInt32 PId, RFPROC::IOInfo& Info)
     RF_Type::Bool result = false;
 
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION,FALSE, PId );//win vista and newer
-    if (NULL==hProcess)
+    if (nullptr==hProcess)
     {
         hProcess=OpenProcess(PROCESS_QUERY_INFORMATION,FALSE, PId );//win2k and newer
     }
 
-    if (NULL != hProcess)
+    if (nullptr != hProcess)
     {
         IO_COUNTERS c;
-        if (GetProcessIoCounters(hProcess, &c))
+        if (GetProcessIoCounters(hProcess, &c) != 0)
         {
             Info.ReadOperationCount=c.ReadOperationCount;
             Info.ReadTransferedBytes=c.ReadTransferCount;
@@ -124,7 +124,7 @@ RF_Type::Bool GetIOInfo(RF_Type::UInt32 PId, RFPROC::IOInfo& Info)
             result = true;
         }
         CloseHandle(hProcess);
-        hProcess=NULL;
+        hProcess=nullptr;
     }
     return result;
 }
@@ -135,7 +135,7 @@ RF_Type::Bool GetMemoryInfo(RF_Type::UInt32 PId, RFPROC::MemoryInfo& Info)
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
         FALSE, PId );
 
-    if (NULL != hProcess)
+    if (nullptr != hProcess)
     {
         Info.MemoryAccessRights = true;
         if ( GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
@@ -148,7 +148,7 @@ RF_Type::Bool GetMemoryInfo(RF_Type::UInt32 PId, RFPROC::MemoryInfo& Info)
             Info.PageFaultCount = pmc.PageFaultCount;
         }
         CloseHandle(hProcess);
-        hProcess=NULL;
+        hProcess=nullptr;
     }
     else
     {
@@ -161,16 +161,16 @@ RF_Type::Bool GetTimingInfo(RF_Type::UInt32 PId, RFPROC::TimingInfo& Info)
 {
     RF_Type::Bool result = false;
     HANDLE hProcess=OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION,FALSE, PId );//win vista and newer
-    if (NULL==hProcess)
+    if (nullptr==hProcess)
     {
         hProcess=OpenProcess(PROCESS_QUERY_INFORMATION,FALSE, PId );//win2k and newer
     }
 
-    if (NULL != hProcess)
+    if (nullptr != hProcess)
     {
         FILETIME ct = {0, 0}, et = {0, 0}, kt = {0, 0}, ut = {0, 0};
 
-        if (GetProcessTimes(hProcess, &ct, &et, &kt, &ut))
+        if (GetProcessTimes(hProcess, &ct, &et, &kt, &ut) != 0)
         {
             Info.CreationTime = FILETIMEToDate(ct);
             Info.ExitTime = FILETIMEToDate(et);
@@ -179,7 +179,7 @@ RF_Type::Bool GetTimingInfo(RF_Type::UInt32 PId, RFPROC::TimingInfo& Info)
             result = true;
         }
         CloseHandle(hProcess);
-        hProcess=NULL;
+        hProcess=nullptr;
     }
     return result;
 }
@@ -189,7 +189,7 @@ RF_Type::Bool GetModuleInfo(RF_Type::UInt32 PId, RFPROC::ModuleInfo& Info)
     RF_Type::Bool result = false;
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
                                   FALSE, PId);
-    if (hProcess)
+    if (hProcess != nullptr)
     {
         HMODULE hMods[1024];
         DWORD cbNeeded;
@@ -222,7 +222,7 @@ RF_Type::Bool GetThreadInfo(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
     {
         te32.dwSize = sizeof(THREADENTRY32);
         RF_Type::UInt32 amount = 0, i = 0;
-        if(Thread32First(hThreadSnap, &te32))
+        if(Thread32First(hThreadSnap, &te32) != 0)
         {
             do
             {
@@ -231,7 +231,7 @@ RF_Type::Bool GetThreadInfo(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
                     ++amount;
                 }
             }
-            while(Thread32Next(hThreadSnap, &te32));
+            while(Thread32Next(hThreadSnap, &te32) != 0);
 
             Info.Resize(amount);
             Thread32First(hThreadSnap, &te32);
@@ -240,14 +240,14 @@ RF_Type::Bool GetThreadInfo(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
             {
                 if(te32.th32OwnerProcessID == PId)
                 {
-                    HANDLE hThread=NULL;
-                    hThread=OpenThread(THREAD_QUERY_LIMITED_INFORMATION,false,te32.th32ThreadID);
-                    if(hThread==NULL)
+                    HANDLE hThread=nullptr;
+                    hThread=OpenThread(THREAD_QUERY_LIMITED_INFORMATION,0,te32.th32ThreadID);
+                    if(hThread==nullptr)
                     {
-                        hThread=OpenThread(THREAD_QUERY_INFORMATION,false,te32.th32ThreadID);
+                        hThread=OpenThread(THREAD_QUERY_INFORMATION,0,te32.th32ThreadID);
                     }
 
-                    if (hThread!=NULL)
+                    if (hThread!=nullptr)
                     {
                         int prio=GetThreadPriority(hThread);
                         switch(prio)
@@ -277,20 +277,20 @@ RF_Type::Bool GetThreadInfo(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
                             Info(i).Priority = ThreadPriority::Normal;
                         }
                         CloseHandle(hThread);
-                        hThread = NULL;
+                        hThread = nullptr;
                     }
 
-                    hThread = OpenThread(THREAD_QUERY_LIMITED_INFORMATION,false,te32.th32ThreadID);
-                    if(hThread == NULL)
+                    hThread = OpenThread(THREAD_QUERY_LIMITED_INFORMATION,0,te32.th32ThreadID);
+                    if(hThread == nullptr)
                     {
-                        hThread = OpenThread(THREAD_QUERY_INFORMATION, false, te32.th32ThreadID);
+                        hThread = OpenThread(THREAD_QUERY_INFORMATION, 0, te32.th32ThreadID);
                     }
 
-                    if (hThread != NULL)
+                    if (hThread != nullptr)
                     {
                         FILETIME ct = {0, 0}, et = {0, 0}, kt = {0, 0}, ut = {0, 0};
 
-                        if (GetThreadTimes(hThread, &ct, &et, &kt, &ut))
+                        if (GetThreadTimes(hThread, &ct, &et, &kt, &ut) != 0)
                         {
                             Info(i).CreationTime = FILETIMEToDate(ct);
                             Info(i).ExitTime = FILETIMEToDate(et);
@@ -303,7 +303,7 @@ RF_Type::Bool GetThreadInfo(RF_Type::UInt32 PId, RFPROC::ThreadInfoList& Info)
                     Info(i).ID = te32.th32ThreadID;
                     ++i;
                 }
-            } while (Thread32Next(hThreadSnap, &te32));
+            } while (Thread32Next(hThreadSnap, &te32) != 0);
             result = true;
         }
         CloseHandle(hThreadSnap);
@@ -323,8 +323,9 @@ RF_Type::Int32 ExecuteProgram(const RF_Type::String& Executable,
 
 	RF_Type::String cmd(Executable + " " + Parameters);
 	char* p = const_cast<char*>(cmd.c_str());
-	if (CreateProcessA(0, p, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi) == FALSE)
+	if (CreateProcessA(nullptr, p, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi) == FALSE) {
 		return -1;
+}
 
 	WaitForSingleObject(pi.hProcess, INFINITE);
 	return 0;
@@ -332,7 +333,7 @@ RF_Type::Int32 ExecuteProgram(const RF_Type::String& Executable,
 
 RF_Type::Bool OpenWithDefaultApplication(const RF_Type::String& What)
 {
-    return ShellExecute(0, "open", What.c_str(), 0, 0, SW_SHOWNORMAL) != 0;
+    return ShellExecute(nullptr, "open", What.c_str(), nullptr, nullptr, SW_SHOWNORMAL) != nullptr;
 }
 
 void RFPROC::Dispatch()
