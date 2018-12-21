@@ -128,28 +128,28 @@ Matrix<T, 4, 4>& Matrix<T, 4, 4>::operator=(const Matrix<T, 4, 4>& Other)
 template<typename T>
 inline T& Matrix<T,4,4>::operator()(RF_Type::Size Col, RF_Type::Size Row)
 {
-    Assert(Col * 4 + Row >= 0 && Col * 4 + Row < 16, "Index out of bound.");
+    RF_ASSERT(Col * 4 + Row >= 0 && Col * 4 + Row < 16, "Index out of bound.");
     return Value[Col * 4 + Row];
 }
 
 template<typename T>
 inline T Matrix<T,4,4>::operator()(RF_Type::Size Col, RF_Type::Size Row)const
 {
-    Assert(Col * 4 + Row >= 0 && Col * 4 + Row < 16, "Index out of bound.");
+    RF_ASSERT(Col * 4 + Row >= 0 && Col * 4 + Row < 16, "Index out of bound.");
     return Value[Col * 4 + Row];
 }
 
 template<typename T>
 inline T& Matrix<T,4,4>::operator[](const RF_Type::Size Index)
 {
-    Assert(Index >= 0 && Index < 16, "Index out of bound.")
+    RF_ASSERT(Index >= 0 && Index < 16, "Index out of bound.")
         return Value[Index];
 }
 
 template<typename T>
 inline T Matrix<T,4,4>::operator[](const RF_Type::Size Index)const
 {
-    Assert(Index >= 0 && Index < 16, "Index out of bound.");
+    RF_ASSERT(Index >= 0 && Index < 16, "Index out of bound.");
     return Value[Index];
 }
 

@@ -6,23 +6,24 @@
 
 #include <RadonFramework/Core/Types/UInt64.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Profiling { 
-
+namespace RadonFramework::Diagnostics::Profiling
+{
 struct ProfileScopeData
 {
-	RF_Type::UInt64 Start;
-	RF_Type::UInt64 Stop;
+  RF_Type::UInt64 Start;
+  RF_Type::UInt64 Stop;
 };
 
 class ProfileScope
 {
 public:
-	ProfileScope();
-	~ProfileScope();
+  ProfileScope();
+  ~ProfileScope();
+
 protected:
-	ProfileScopeData m_Data;
+  ProfileScopeData m_Data;
 };
 
-} } }
+}  // namespace RadonFramework::Diagnostics::Profiling
 
-#endif //!RF_DIAGNOSTICS_PROFILING_PROFILESCOPE_HPP
+#endif  //! RF_DIAGNOSTICS_PROFILING_PROFILESCOPE_HPP

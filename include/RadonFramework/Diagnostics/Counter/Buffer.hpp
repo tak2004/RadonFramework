@@ -13,7 +13,7 @@ template <typename ATOMIC>
 class Buffer
 {
 public:
-  typedef typename ATOMIC::DataType DataType;
+  using DataType = typename ATOMIC::DataType;
   Buffer(Simplex<ATOMIC>& StoreInto);
   ~Buffer();
 

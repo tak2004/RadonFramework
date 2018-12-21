@@ -9,7 +9,7 @@ void Vec128Load_SystemAPIDispatcher(RF_Type::Vec128Int32* Destination,
 {
     Vec128IntLoad = 0;
     DispatchVec128Int();
-    Assert(Vec128IntLoad != Vec128Load_SystemAPIDispatcher &&
+    RF_ASSERT(Vec128IntLoad != Vec128Load_SystemAPIDispatcher &&
         Vec128IntLoad != 0, "Funtion was called and couldn't be dispatched");
     Vec128IntLoad(Destination, Source, Elements);
 }
@@ -19,7 +19,7 @@ void Vec128SetInt32_SystemAPIDispatcher(RF_Type::Vec128Int32* Destination,
 {
     Vec128IntSetInt32 = 0;
     DispatchVec128Int();
-    Assert(Vec128IntSetInt32 != Vec128SetInt32_SystemAPIDispatcher &&
+    RF_ASSERT(Vec128IntSetInt32 != Vec128SetInt32_SystemAPIDispatcher &&
         Vec128IntSetInt32 != 0, "Funtion was called and couldn't be dispatched");
     Vec128IntSetInt32(Destination, Source, Elements);
 }
@@ -30,7 +30,7 @@ void Vec128CompareInt32_SystemAPIDispatcher(RF_Type::Vec128Int32* Destination,
 {
     Vec128IntCompareInt32 = 0;
     DispatchVec128Int();
-    Assert(Vec128IntCompareInt32 != Vec128CompareInt32_SystemAPIDispatcher &&
+    RF_ASSERT(Vec128IntCompareInt32 != Vec128CompareInt32_SystemAPIDispatcher &&
         Vec128IntCompareInt32 != 0, "Funtion was called and couldn't be dispatched");
     Vec128IntCompareInt32(Destination, SourceA, SourceB, Elements);
 }
@@ -40,7 +40,7 @@ void Vec128MaskInt8_SystemAPIDispatcher(RF_Type::Int32* Masks,
 {
     Vec128IntMaskInt8 = 0;
     DispatchVec128Int();
-    Assert(Vec128IntMaskInt8 != Vec128MaskInt8_SystemAPIDispatcher &&
+    RF_ASSERT(Vec128IntMaskInt8 != Vec128MaskInt8_SystemAPIDispatcher &&
         Vec128IntMaskInt8 != 0, "Funtion was called and couldn't be dispatched");
     Vec128IntMaskInt8(Masks, Source, Elements);
 }
@@ -50,7 +50,7 @@ RF_Type::Int32 Vec128IntFindInt32_SystemAPIDispatcher(
 {
     Vec128IntFindInt32 = 0;
     DispatchVec128Int();
-    Assert(Vec128IntFindInt32 != Vec128IntFindInt32_SystemAPIDispatcher &&
+    RF_ASSERT(Vec128IntFindInt32 != Vec128IntFindInt32_SystemAPIDispatcher &&
         Vec128IntFindInt32 != 0, "Funtion was called and couldn't be dispatched");
     return Vec128IntFindInt32(Source, Value);
 }

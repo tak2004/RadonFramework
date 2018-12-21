@@ -8,53 +8,52 @@
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/System/IO/FileSystem.hpp>
 
-namespace RadonFramework::IO {
-    
+namespace RadonFramework::IO
+{
 class FileWatcher;
 
 struct FileWatcherEvent
 {
-    FileWatcher* Sender;
-    RF_Type::String* Filename;
+  FileWatcher* Sender;
+  RF_Type::String* Filename;
 };
-        
-class FileWatcher: RF_Pattern::IObserver
+
+class FileWatcher : RF_Pattern::IObserver
 {
 public:
-    FileWatcher();
-    FileWatcher(const FileWatcher& Copy);
-    ~FileWatcher();
+  FileWatcher();
+  FileWatcher(const FileWatcher& Copy);
+  ~FileWatcher() override;
 
-    void Initialize(const Uri& Path,
-                    const RF_Type::String& Filter = ""_rfs);
-                
-    const Uri& Path()const;
-    const RF_Type::String& Filter();
+  void Initialize(const Uri& Path, const RF_Type::String& Filter = ""_rfs);
 
-    /// Retun False on time out else True.
-    RF_Type::Bool WaitForEvent(System::IO::FileSystem::FileWatcherEvent& Event);
+  const Uri& Path() const;
+  const RF_Type::String& Filter();
 
-    void Start();
-    void ProcessBuffer();
-    void Stop();
+  /// Retun False on time out else True.
+  RF_Type::Bool WaitForEvent(System::IO::FileSystem::FileWatcherEvent& Event);
 
-    FileWatcher& operator=(const FileWatcher& Other);
-       
+  void Start();
+  void ProcessBuffer();
+  void Stop();
 
-    RF_Pattern::Event<const FileWatcherEvent&> OnCreated;
-    RF_Pattern::Event<const FileWatcherEvent&> OnChanged;
-    RF_Pattern::Event<const FileWatcherEvent&> OnDeleted;
+  FileWatcher& operator=(const FileWatcher& Other);
+
+  RF_Pattern::Event<const FileWatcherEvent&> OnCreated;
+  RF_Pattern::Event<const FileWatcherEvent&> OnChanged;
+  RF_Pattern::Event<const FileWatcherEvent&> OnDeleted;
+
 private:
-    System::IO::FileSystem::FileWatcherHandle m_Handle;
-    RF_Type::String m_Filter;
-    Uri m_Path;
+  System::IO::FileSystem::FileWatcherHandle m_Handle;
+  RF_Type::String m_Filter;
+  Uri m_Path;
 };
 
-}
+}  // namespace RadonFramework::IO
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO
 namespace RF_IO = RadonFramework::IO;
 #endif
 
-#endif // RF_IO_FILEWATCHER_HPP
+#endif  // RF_IO_FILEWATCHER_HPP

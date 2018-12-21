@@ -4,24 +4,24 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Reflection/ReflectionManager.hpp>
 #include <RadonFramework/Reflection/ReflectionClass.hpp>
-#include <RadonFramework/Reflection/ReflectionProperty.hpp>
+#include <RadonFramework/Reflection/ReflectionManager.hpp>
 #include <RadonFramework/Reflection/ReflectionMethode.hpp>
+#include <RadonFramework/Reflection/ReflectionProperty.hpp>
 
-namespace RadonFramework::Reflection {
-
+namespace RadonFramework::Reflection
+{
 class Reflectable
 {
 public:
-    virtual const RF_Type::String& GetName()const;
-    virtual RF_Type::UInt32 PropertiesCount();
-    virtual RF_Type::UInt32 MethodeCount();
-    virtual ReflectionProperty* Property(RF_Type::UInt32 Index);
-    virtual ReflectionMethode* Methode(RF_Type::UInt32 Index);
-    REFLECT(Reflectable){}
+  virtual const RF_Type::String& GetName() const;
+  virtual RF_Type::UInt32 PropertiesCount();
+  virtual RF_Type::UInt32 MethodeCount();
+  virtual ReflectionProperty* Property(RF_Type::UInt32 Index);
+  virtual ReflectionMethode* Methode(RF_Type::UInt32 Index);
+  REFLECT(Reflectable) {}
 };
 
-}
+}  // namespace RadonFramework::Reflection
 
 #endif

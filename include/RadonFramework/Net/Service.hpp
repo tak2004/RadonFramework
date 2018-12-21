@@ -38,7 +38,7 @@ class Service : public RF_Pattern::IObserver
 {
 public:
   Service();
-  virtual ~Service();
+  ~Service()override;
   virtual void Setup(ServiceInterfaceBinding Binding, ServiceIPVersion Version);
   virtual RF_Type::Bool Shutdown(const Time::TimeSpan& ReturnAfter);
   virtual void Update();

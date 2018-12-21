@@ -38,7 +38,7 @@ public:
   /// Return the pointer and set it to 0.
   ElementType* Release();
   /// Replace the pointer by a new one.
-  void Reset(ElementType* NewPtr = 0);
+  void Reset(ElementType* NewPtr = nullptr);
 
   // Operator overloading
   /// Return the const reference of the pointer.
@@ -72,7 +72,7 @@ private:
 };
 
 template <typename T>
-AutoPointer<T>::AutoPointer() : m_Data(0)
+AutoPointer<T>::AutoPointer() : m_Data(nullptr)
 {
 }
 
@@ -139,7 +139,7 @@ template <typename T>
 AutoPointer<T>& AutoPointer<T>::operator=(const AutoPointer<T>& Copy)
 {
   Reset(Copy.m_Data);
-  Copy.m_Data = 0;
+  Copy.m_Data = nullptr;
   return *this;
 }
 
@@ -205,7 +205,7 @@ RF_Type::Bool AutoPointer<T>::operator!() const
 template <typename T>
 AutoPointer<T>::operator RF_Type::Bool() const
 {
-  return 0 != m_Data;
+  return nullptr != m_Data;
 }
 
 }  // namespace RadonFramework::Memory

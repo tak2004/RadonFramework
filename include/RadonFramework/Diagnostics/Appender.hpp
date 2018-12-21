@@ -6,23 +6,24 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework::Diagnostics {
-
+namespace RadonFramework::Diagnostics
+{
 class Appender
 {
 public:
-    virtual void WriteInfo(const RF_Type::String& Text)=0;
-    virtual void WriteError(const RF_Type::String& Text)=0;
-    virtual void WriteFatalError(const RF_Type::String& Text)=0;
-    virtual void WriteDebug(const RF_Type::String& Text)=0;
+  virtual void WriteInfo(const RF_Type::String& Text) = 0;
+  virtual void WriteError(const RF_Type::String& Text) = 0;
+  virtual void WriteFatalError(const RF_Type::String& Text) = 0;
+  virtual void WriteDebug(const RF_Type::String& Text) = 0;
+
 protected:
 };
 
-}
+}  // namespace RadonFramework::Diagnostics
 
 #ifndef RF_SHORTHAND_NAMESPACE_DIAG
 #define RF_SHORTHAND_NAMESPACE_DIAG
 namespace RF_Diag = RadonFramework::Diagnostics;
 #endif
 
-#endif // RF_DIAGNOSTICS_APPENDER_HPP
+#endif  // RF_DIAGNOSTICS_APPENDER_HPP

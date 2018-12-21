@@ -7,52 +7,48 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/Drawing/FontService.hpp>
 
-namespace RadonFramework::Drawing {
-
-class NullFontService:public FontService
+namespace RadonFramework::Drawing
+{
+class NullFontService : public FontService
 {
 public:
-    NullFontService(const RF_Type::String &Name)
-    :FontService(Name)
-    {
-    }
+  NullFontService(const RF_Type::String& Name) : FontService(Name) {}
 
-    virtual void Update() override
-    {
-    }
+  void Update() final {}
 
-    virtual void GetUnicodeCharRanges(const RF_Type::String& Text, 
-        RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Out) override
-    {
-    }
+  void
+  GetUnicodeCharRanges(const RF_Type::String& Text,
+                       RF_Collect::Array<RF_Text::UnicodeRangeInfo>& Out) final
+  {
+  }
 
-    virtual void LoadGlyphs(const FontDescription& FromFont, 
-        const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
-        RF_Collect::Array<RF_Draw::Path2D>& Out) override
-    {
-    }
+  void LoadGlyphs(const FontDescription& FromFont,
+                  const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+                  RF_Collect::Array<RF_Draw::Path2D>& Out) final
+  {
+  }
 
-    virtual void LoadGlyphs(const FontDescription& FromFont,
-        const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
-        const RF_Type::UInt32 FontPixelSize,
-        RF_Collect::Array<RF_Draw::Image>& RasterizedGlyphs,
-        RF_Collect::Array<RF_Draw::GlyphMetric>& Metrics) override
-    {
-    }
+  void LoadGlyphs(const FontDescription& FromFont,
+                  const RF_Collect::Array<RF_Type::UInt32>& GlyphsUtf32,
+                  const RF_Type::UInt32 FontPixelSize,
+                  RF_Collect::Array<RF_Draw::Image>& RasterizedGlyphs,
+                  RF_Collect::Array<RF_Draw::GlyphMetric>& Metrics) final
+  {
+  }
 
-    virtual void GetUnicodeCharRange(const RF_Text::UnicodeRangeIdentifier Identifier, 
-        RF_Text::UnicodeRangeInfo& Out) override
-    {     
-    }
+  void GetUnicodeCharRange(const RF_Text::UnicodeRangeIdentifier Identifier,
+                           RF_Text::UnicodeRangeInfo& Out) final
+  {
+  }
 };
 
-typedef Core::Pattern::Locator<FontService, NullFontService> FontServiceLocator;
+using FontServiceLocator = RF_Pattern::Locator<FontService, NullFontService>;
 
-}
+}  // namespace RadonFramework::Drawing
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW
 namespace RF_Draw = RadonFramework::Drawing;
 #endif
 
-#endif // RF_FONTSERVICELOCATOR_HPP
+#endif  // RF_FONTSERVICELOCATOR_HPP

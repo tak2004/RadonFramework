@@ -12,6 +12,7 @@
 #include <RadonFramework/Core/Types/Int32.hpp>
 #include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/Core/Types/Int64.hpp>
+#include <RadonFramework/Core/Types/Bool.hpp>
 
 namespace RadonFramework::Math {
 

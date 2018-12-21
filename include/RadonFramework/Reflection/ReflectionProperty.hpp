@@ -5,27 +5,30 @@
 #endif
 
 #include <RadonFramework/Core/Types/String.hpp>
-#include <RadonFramework/Reflection/ReflectionTypes.hpp>
 #include <RadonFramework/Reflection/ReflectionMethode.hpp>
+#include <RadonFramework/Reflection/ReflectionTypes.hpp>
 
-namespace RadonFramework::Reflection {
-
+namespace RadonFramework::Reflection
+{
 class ReflectionProperty
 {
 public:
-    ReflectionProperty(const RF_Type::String &Name,const TypeKind::Type Type,Callback Setter,Callback Getter);
-    const RF_Type::String& GetName()const;
-    TypeKind::Type GetType()const;
-    Callback GetGetter();
-    Callback GetSetter();
+  ReflectionProperty(const RF_Type::String& Name,
+                     const TypeKind::Type Type,
+                     Callback Setter,
+                     Callback Getter);
+  const RF_Type::String& GetName() const;
+  TypeKind::Type GetType() const;
+  Callback GetGetter();
+  Callback GetSetter();
+
 protected:
-    RF_Type::String m_Name;
-    TypeKind::Type m_Type;
-    Callback m_Getter;
-    Callback m_Setter;
+  RF_Type::String m_Name;
+  TypeKind::Type m_Type;
+  Callback m_Getter;
+  Callback m_Setter;
 };
 
-}
+}  // namespace RadonFramework::Reflection
 
 #endif
-

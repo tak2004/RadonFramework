@@ -4,19 +4,18 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Net {
-
+namespace RadonFramework::Net
+{
 enum class SocketOptionLevel
 {
-    Unset,
-    Socket,
-    IPv4,
-    IPv6,
-    TCP,
-    UDP,
-    MAX
+  Unset,
+  Socket,
+  IPv4,
+  IPv6,
+  TCP,
+  UDP,
+  MAX
 };
-
 }
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET

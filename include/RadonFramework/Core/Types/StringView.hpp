@@ -22,11 +22,23 @@ public:
   Size Length()const;
   const UInt8* Data()const;
   Bool StartsWith(const UInt8 Value);
+  template <int N>
+  Bool operator==(char const (&CString)[N]);
 
 private:
   const UInt8* m_Source;
   Size m_Length;
 };
+
+template <int N>
+Bool StringView::operator==(char const (&CString)[N])
+{
+  if (m_Length >= N)
+  {
+    return RF_SysMem::Compare(m_Source, CString, N) == 0;
+  }
+  return false;
+}
 
 }  // namespace RadonFramework::Core::Types
 

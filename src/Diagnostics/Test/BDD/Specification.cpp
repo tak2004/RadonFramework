@@ -723,13 +723,13 @@ void Specification::Test() const
   });
 }
 
-void Specification::Generate(const RF_BDD::SpecificationOutput& Output) const {}
+void Specification::Generate(const SpecificationOutput& Output) const {}
 
 }  // namespace RadonFramework::Diagnostics::Test::BDD
 
-RF_BDD::Specification
+RadonFramework::Diagnostics::Test::BDD::Specification
 operator"" _rfsp(const char* SpecificationData, size_t SpecificationLenght)
 {
   RF_Type::String text(SpecificationData, SpecificationLenght);
-  return RF_BDD::Specification(text);
+  return RadonFramework::Diagnostics::Test::BDD::Specification(text);
 }

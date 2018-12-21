@@ -6,21 +6,21 @@
 
 #include <RadonFramework/Math/Geometry/Rectangle.hpp>
 
-namespace RadonFramework::Forms {
-
+namespace RadonFramework::Forms
+{
 class Control;
 
 class Layouter
 {
 public:
-    virtual RF_Geo::Rectanglef GetContentRect(const Control& Child)const = 0;
+  virtual RF_Geo::Rectanglef GetContentRect(const Control& Child) const = 0;
 };
 
-}
+}  // namespace RadonFramework::Forms
 
 #ifndef RF_SHORTHAND_NAMESPACE_FORM
 #define RF_SHORTHAND_NAMESPACE_FORM
 namespace RF_Form = RadonFramework::Forms;
 #endif
 
-#endif // RF_DRAWING_FORMS_LAYOUTER_HPP
+#endif  // RF_DRAWING_FORMS_LAYOUTER_HPP

@@ -71,7 +71,7 @@ Size SelectObjectCollector::Count()const
 
 Bool SelectObjectCollector::IsSet(const Size Index)const
 {
-    Assert(Index<m_Data->Sockets.Count(),"Index out of bound.");
+    RF_ASSERT(Index<m_Data->Sockets.Count(),"Index out of bound.");
     return FD_ISSET(m_Data->Sockets(Index),&m_Data->Lookup)!=0;
 }
 

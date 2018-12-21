@@ -5,25 +5,30 @@
 #endif
 
 #include <RadonFramework/IO/VirtualKey.hpp>
+#include <RadonFramework/Core/Types/Bool.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework::IO {
-
+namespace RadonFramework::IO
+{
 class KeyboardEvent
 {
 public:
-    KeyboardEvent():Key(VirtualKey::NotSet), Ctrl(false), Alt(false), Shift(false){}
-    RF_Type::String PrintableCharacter;
-    VirtualKey Key;
-    RF_Type::Bool Ctrl;
-    RF_Type::Bool Alt;
-    RF_Type::Bool Shift;
+  KeyboardEvent() = default;
+  RF_Type::String PrintableCharacter;
+  VirtualKey Key = VirtualKey::NotSet;
+  RF_Type::Bool Ctrl = false;
+  RF_Type::Bool Alt = false;
+  RF_Type::Bool Shift = false;
+
+private:
+  RF_Type::UInt8 Padding[28];
 };
 
-}
+}  // namespace RadonFramework::IO
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO
 namespace RF_IO = RadonFramework::IO;
 #endif
 
-#endif // RF_KEYBOARDEVENT_HPP
+#endif  // RF_KEYBOARDEVENT_HPP

@@ -4,26 +4,26 @@
 #pragma once
 #endif
 
-namespace RadonFramework::IO {
-
+namespace RadonFramework::IO
+{
 struct StandardRuleChecker
 {
-    static RF_Type::Bool Text(const RF_Type::String& Value)
-    {
-        return Value != "";
-    }
+  static RF_Type::Bool Text(const RF_Type::String& Value)
+  {
+    return Value != "";
+  }
 
-    static RF_Type::Bool Numeric(const RF_Type::String& Value)
-    {
-        return Value.IsNumber();
-    }
+  static RF_Type::Bool Numeric(const RF_Type::String& Value)
+  {
+    return Value.IsNumber();
+  }
 
-    static RF_Type::Bool Boolean(const RF_Type::String& Value)
-    {
-        return Value.IsBoolean();
-    }
+  static RF_Type::Bool Boolean(const RF_Type::String& Value)
+  {
+    return Value.IsBoolean();
+  }
 };
 
-}
+}  // namespace RadonFramework::IO
 
-#endif // RF_IO_STANDARDRULECHECKER_HPP
+#endif  // RF_IO_STANDARDRULECHECKER_HPP

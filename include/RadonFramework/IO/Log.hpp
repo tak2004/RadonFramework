@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-#include <stdarg.h>
+#include <cstdarg>
 #include <RadonFramework/BuildInfo.hpp>
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Diagnostics/Appender.hpp>
@@ -104,7 +104,7 @@ inline void LogDebug(const char* Str, ...)
 
 inline void LogDebugBuild(const char* Str, ...)
 {
-  if(BuildInfo::CompileForDebugging == BuildInfo::DebugMode::True)
+  if constexpr(BuildInfo::CompileForDebugging == BuildInfo::DebugMode::True)
   {
     RF_Mem::AutoPointer<RF_Type::String> ptr(new RF_Type::String());
     va_list argp;

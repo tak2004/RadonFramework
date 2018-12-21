@@ -113,7 +113,7 @@ UInt32 GetPageSize_SystemAPIDispatcher()
 {
     GetPageSize = nullptr;
     Dispatch();
-    Assert(GetPageSize != GetPageSize_SystemAPIDispatcher &&
+    RF_ASSERT(GetPageSize != GetPageSize_SystemAPIDispatcher &&
            GetPageSize != 0,
            "Funtion was called and couldn't be dispatched");
     return GetPageSize();
@@ -123,7 +123,7 @@ UInt32 GetBlockSize_SystemAPIDispatcher()
 {
     GetBlockSize = nullptr;
     Dispatch();
-    Assert(GetBlockSize != GetBlockSize_SystemAPIDispatcher &&
+    RF_ASSERT(GetBlockSize != GetBlockSize_SystemAPIDispatcher &&
            GetBlockSize != 0,
            "Funtion was called and couldn't be dispatched");
     return GetBlockSize();
@@ -133,7 +133,7 @@ void EnableTerminationOnHeapCorruption_SystemAPIDispatcher()
 {
     EnableTerminationOnHeapCorruption = nullptr;
     Dispatch();
-    Assert(EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher &&
+    RF_ASSERT(EnableTerminationOnHeapCorruption != EnableTerminationOnHeapCorruption_SystemAPIDispatcher &&
            EnableTerminationOnHeapCorruption != 0,
            "Funtion was called and couldn't be dispatched");
     EnableTerminationOnHeapCorruption();
@@ -143,7 +143,7 @@ Size PageAllocationSize_SystemAPIDispatcher(const void* FirstPage)
 {
     PageAllocationSize = nullptr;
     Dispatch();
-    Assert(PageAllocationSize != PageAllocationSize_SystemAPIDispatcher &&
+    RF_ASSERT(PageAllocationSize != PageAllocationSize_SystemAPIDispatcher &&
            PageAllocationSize != 0,
            "Funtion was called and couldn't be dispatched");
     return PageAllocationSize(FirstPage);
@@ -153,7 +153,7 @@ void* PageAllocate_SystemAPIDispatcher(Size& Bytes)
 {
     PageAllocate = nullptr;
     Dispatch();
-    Assert(PageAllocate != PageAllocate_SystemAPIDispatcher &&
+    RF_ASSERT(PageAllocate != PageAllocate_SystemAPIDispatcher &&
            PageAllocate != 0,
            "Funtion was called and couldn't be dispatched");
     return PageAllocate(Bytes);
@@ -163,7 +163,7 @@ void PageFree_SystemAPIDispatcher(void* FirstPage)
 {
     PageFree = nullptr;
     Dispatch();
-    Assert(PageFree != PageFree_SystemAPIDispatcher&&
+    RF_ASSERT(PageFree != PageFree_SystemAPIDispatcher&&
            PageFree != 0,
            "Funtion was called and couldn't be dispatched");
     PageFree(FirstPage);
@@ -173,7 +173,7 @@ void* Allocate_SystemAPIDispatcher(const Size Bytes, const Size Alignment)
 {
     Allocate = nullptr;
     Dispatch();
-    Assert(Allocate != Allocate_SystemAPIDispatcher &&
+    RF_ASSERT(Allocate != Allocate_SystemAPIDispatcher &&
            Allocate != 0,
            "Funtion was called and couldn't be dispatched");
     return Allocate(Bytes, Alignment);
@@ -183,7 +183,7 @@ void Free_SystemAPIDispatcher(void* FirstPage)
 {
     Free = nullptr;
     Dispatch();
-    Assert(Free != Free_SystemAPIDispatcher &&
+    RF_ASSERT(Free != Free_SystemAPIDispatcher &&
            Free != 0,
            "Funtion was called and couldn't be dispatched");
     Free(FirstPage);
@@ -193,7 +193,7 @@ void* MapMemory_SystemAPIDispatcher(void* Memory, RF_Type::Size Bytes)
 {
     MapMemory = nullptr;
     Dispatch();
-    Assert(MapMemory != MapMemory_SystemAPIDispatcher &&
+    RF_ASSERT(MapMemory != MapMemory_SystemAPIDispatcher &&
            MapMemory != 0,
            "Funtion was called and couldn't be dispatched");
     return MapMemory(Memory, Bytes);
@@ -203,7 +203,7 @@ void UnmapMemory_SystemAPIDispatcher(void* MemoryMapHandle)
 {
     UnmapMemory = nullptr;
     Dispatch();
-    Assert(UnmapMemory != UnmapMemory_SystemAPIDispatcher &&
+    RF_ASSERT(UnmapMemory != UnmapMemory_SystemAPIDispatcher &&
            UnmapMemory != 0,
            "Funtion was called and couldn't be dispatched");
     UnmapMemory(MemoryMapHandle);
@@ -213,7 +213,7 @@ void* MapView_SystemAPIDispatcher(void* MemoryMapHandle, const RF_Type::Size Byt
 {
     MapView = nullptr;
     Dispatch();
-    Assert(MapView != MapView_SystemAPIDispatcher &&
+    RF_ASSERT(MapView != MapView_SystemAPIDispatcher &&
            MapView != 0,
            "Funtion was called and couldn't be dispatched");
     return MapView(MemoryMapHandle, Bytes, View);

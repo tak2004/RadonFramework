@@ -67,37 +67,37 @@ OpenGLCapability& OpenGLCapability::operator =(const OpenGLCapability& Other)
 
 const Int32 OpenGLCapability::GLInt(const UInt32 Index)const
 {
-    Assert(m_Type==OpenGLCapabilitiesType::GLINT,"Illegal usage.");
+    RF_ASSERT(m_Type==OpenGLCapabilitiesType::GLINT,"Illegal usage.");
     return *(reinterpret_cast<Int32*>(m_Data)+Index);
 }
 
 const Bool OpenGLCapability::GLBoolean(const UInt32 Index)const
 {
-    Assert(m_Type==OpenGLCapabilitiesType::GLBOOLEAN,"Illegal usage.");
+    RF_ASSERT(m_Type==OpenGLCapabilitiesType::GLBOOLEAN,"Illegal usage.");
     return *(reinterpret_cast<Bool*>(m_Data)+Index);
 }
 
 const Float32 OpenGLCapability::GLFloat(const UInt32 Index)const
 {
-    Assert(m_Type==OpenGLCapabilitiesType::GLFLOAT,"Illegal usage.");
+    RF_ASSERT(m_Type==OpenGLCapabilitiesType::GLFLOAT,"Illegal usage.");
     return *(reinterpret_cast<Float32*>(m_Data)+Index);
 }
 
 const String& OpenGLCapability::GLString(const UInt32 Index)const
 {
-    Assert(m_Type==OpenGLCapabilitiesType::GLSTRING,"Illegal usage.");
+    RF_ASSERT(m_Type==OpenGLCapabilitiesType::GLSTRING,"Illegal usage.");
     return *(reinterpret_cast<String*>(m_Data)+Index);
 }
 
 const Float64 OpenGLCapability::GLDouble(const UInt32 Index)const
 {
-    Assert(m_Type==OpenGLCapabilitiesType::GLDOUBLE,"Illegal usage.");
+    RF_ASSERT(m_Type==OpenGLCapabilitiesType::GLDOUBLE,"Illegal usage.");
     return *(reinterpret_cast<Float64*>(m_Data)+Index);
 }
 
 const Int64 OpenGLCapability::GLInt64(const UInt32 Index)const
 {
-    Assert(m_Type==OpenGLCapabilitiesType::GLINT64,"Illegal usage.");
+    RF_ASSERT(m_Type==OpenGLCapabilitiesType::GLINT64,"Illegal usage.");
     return *(reinterpret_cast<Int64*>(m_Data)+Index);
 }
 

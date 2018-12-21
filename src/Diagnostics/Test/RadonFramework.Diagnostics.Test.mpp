@@ -1,9 +1,0 @@
-import RadonFramework.Core.Types;
-
-export module RadonFramework.Diagnostics.Test;
-
-#include <RadonFramework/Diagnostics/Test/BDD/Specification.hpp>
-#include <RadonFramework/Diagnostics/Test/BDD/SpecificationOutput.hpp>
-#include <RadonFramework/Diagnostics/Test/BDD/ConsoleOutput.hpp>
-
-namespace RF_BDD = RadonFramework::Diagnostics::Test::BDD;

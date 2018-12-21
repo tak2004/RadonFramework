@@ -12,7 +12,7 @@ class SpecificationOutput;
 class Specification
 {
 public:
-  explicit Specification(const RF_Type::String& Rule);
+  Specification(const RF_Type::String& Rule);
   Specification(const Specification& Copy);
 
   void AddFunction(

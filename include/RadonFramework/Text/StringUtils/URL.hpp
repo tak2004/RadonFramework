@@ -6,17 +6,17 @@
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework::Text::StringUtils {
-
+namespace RadonFramework::Text::StringUtils
+{
 class URL
 {
 public:
-    static RF_Type::String Encode(const RF_Type::String &Source);
-    static RF_Type::String Decode(const RF_Type::String &Source);
-    static RF_Type::String EncodeMinimal(const RF_Type::String &Source);
-    static RF_Type::String DecodeMinimal(const RF_Type::String &Source);
+  static RF_Type::String Encode(const RF_Type::String& Source);
+  static RF_Type::String Decode(const RF_Type::String& Source);
+  static RF_Type::String EncodeMinimal(const RF_Type::String& Source);
+  static RF_Type::String DecodeMinimal(const RF_Type::String& Source);
 };
 
-}
+}  // namespace RadonFramework::Text::StringUtils
 
-#endif // RF_TEXT_STRINGUTILS_URL_HPP
+#endif  // RF_TEXT_STRINGUTILS_URL_HPP

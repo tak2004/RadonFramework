@@ -11,7 +11,7 @@ TestResultCollector::TestResultCollector()
 void TestResultCollector::ProcessResult(const RF_Test::TestResult& Result)
 {
 	m_Successful = m_Successful && Result.GetPassed();
-	Assert(m_TestResults.Last(), "Illegal usage of null pointer.");
+	RF_ASSERT(m_TestResults.Last(), "Illegal usage of null pointer.");
 	m_TestResults.Last()->TestResults.AddLast(Result);
 	if (Result.GetError())
 		++m_TestResults.Last()->TestsWithError;

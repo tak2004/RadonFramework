@@ -166,7 +166,7 @@ UInt64 File::Size() const
     RF_Type::String systemPath;
     RF_SysFile::UriToSystemPath(m_Location, systemPath);
     AutoPointer<FileStatus> stat= RF_SysFile::Stat(systemPath);
-    Assert(stat!=0,"Unexspected result.");
+    RF_ASSERT(stat!=0,"Unexspected result.");
     if (stat)
         return stat->Size;
     return 0;

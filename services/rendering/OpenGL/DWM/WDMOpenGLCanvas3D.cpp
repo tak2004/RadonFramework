@@ -425,7 +425,7 @@ const GraphicDriverInformationOpenGL& WDMOpenGLCanvas3D::GetContextRelatedGraphi
                     *reinterpret_cast<Core::Types::String*>(cap.Ptr()) = String::UnsafeStringCreation(reinterpret_cast<const char*>(str));
                     break;
                 default:
-                    Assert(false, "Global GLConstantWrapper array is corrupted.");
+                    RF_ASSERT(false, "Global GLConstantWrapper array is corrupted.");
                 }
             }
             caps.Value[i] = cap;

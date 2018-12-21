@@ -12,7 +12,7 @@ String SetLocale_SystemAPIDispatcher(const LocaleCategory::Type Category,
 {
     SetLocale = 0;
     Dispatch();
-    Assert(SetLocale != SetLocale_SystemAPIDispatcher,
+    RF_ASSERT(SetLocale != SetLocale_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return SetLocale(Category, Locale);
 }
@@ -21,7 +21,7 @@ const String& GetLocaleCallback_SystemAPIDispatcher()
 {
     GetLocale = 0;
     Dispatch();
-    Assert(GetLocale != GetLocaleCallback_SystemAPIDispatcher,
+    RF_ASSERT(GetLocale != GetLocaleCallback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return GetLocale();
 }
@@ -30,7 +30,7 @@ Bool ToUpperCallback_SystemAPIDispatcher(String& Instance)
 {
     ToUpper = 0;
     Dispatch();
-    Assert(ToUpper != ToUpperCallback_SystemAPIDispatcher,
+    RF_ASSERT(ToUpper != ToUpperCallback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return ToUpper(Instance);
 }
@@ -39,7 +39,7 @@ Bool ToLowerCallback_SystemAPIDispatcher(String& Instance)
 {
     ToLower = 0;
     Dispatch();
-    Assert(ToLower != ToLowerCallback_SystemAPIDispatcher,
+    RF_ASSERT(ToLower != ToLowerCallback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return ToLower(Instance);
 }
@@ -48,7 +48,7 @@ Size SizeCallback_SystemAPIDispatcher(const UInt8* Buffer, const Size BufferSize
 {
     CStringSizeOf = 0;
     Dispatch();
-    Assert(CStringSizeOf != SizeCallback_SystemAPIDispatcher,
+    RF_ASSERT(CStringSizeOf != SizeCallback_SystemAPIDispatcher,
         "Function was called and couldn't be dispatched");
     return CStringSizeOf(Buffer, BufferSize);
 }
@@ -57,7 +57,7 @@ Size LengthCallback_SystemAPIDispatcher(const UInt8* Buffer, const Size BufferSi
 {
     Length = 0;
     Dispatch();
-    Assert(Length != LengthCallback_SystemAPIDispatcher,
+    RF_ASSERT(Length != LengthCallback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return Length(Buffer, BufferSize);
 }
@@ -67,7 +67,7 @@ Bool ToInt64Callback_SystemAPIDispatcher(const String& Instance, Int32 Base,
 {
     ToInt64 = 0;
     Dispatch();
-    Assert(ToInt64 != ToInt64Callback_SystemAPIDispatcher,
+    RF_ASSERT(ToInt64 != ToInt64Callback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return ToInt64(Instance, Base, Out);
 }
@@ -77,7 +77,7 @@ Bool ToUInt64Callback_SystemAPIDispatcher(const String& Instance, Int32 Base,
 {
     ToUInt64 = 0;
     Dispatch();
-    Assert(ToUInt64 != ToUInt64Callback_SystemAPIDispatcher,
+    RF_ASSERT(ToUInt64 != ToUInt64Callback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return ToUInt64(Instance, Base, Out);
 }
@@ -86,7 +86,7 @@ Bool ToFloat64Callback_SystemAPIDispatcher(const String& Instance, Float64& Out)
 {
     ToFloat64 = 0;
     Dispatch();
-    Assert(ToFloat64 != ToFloat64Callback_SystemAPIDispatcher,
+    RF_ASSERT(ToFloat64 != ToFloat64Callback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return ToFloat64(Instance, Out);
 }
@@ -97,7 +97,7 @@ Int32 FormatCallback_SystemAPIDispatcher(RF_Type::UInt8* Buffer, RF_Type::Size B
 {
     RF_SysStr::Format = 0;
     Dispatch();
-    Assert(RF_SysStr::Format != FormatCallback_SystemAPIDispatcher,
+    RF_ASSERT(RF_SysStr::Format != FormatCallback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return RF_SysStr::Format(Buffer, BufferSize, Format, arg);
 }
@@ -108,7 +108,7 @@ const UInt8* FindCallback_SystemAPIDispatcher(const RF_Type::UInt8* Buffer,
 {
     RF_SysStr::Find = 0;
     Dispatch();
-    Assert(RF_SysStr::Find != FindCallback_SystemAPIDispatcher,
+    RF_ASSERT(RF_SysStr::Find != FindCallback_SystemAPIDispatcher,
            "Function was called and couldn't be dispatched");
     return RF_SysStr::Find(Buffer, BufferSize, LookingFor, LookingForSize);
 }

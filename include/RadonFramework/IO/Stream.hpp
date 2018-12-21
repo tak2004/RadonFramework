@@ -4,89 +4,93 @@
 #pragma once
 #endif
 
-#include <RadonFramework/IO/SeekOrigin.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
-#include <RadonFramework/Core/Types/UInt8.hpp>
-#include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Core/Types/Int64.hpp>
+#include <RadonFramework/Core/Types/UInt32.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/IO/SeekOrigin.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <RadonFramework/Time/TimeSpan.hpp>
 
-namespace RadonFramework::IO {
-
+namespace RadonFramework::IO
+{
 class Stream
 {
 public:
-    virtual ~Stream();
-                
-    virtual void Close()=0;
+  virtual ~Stream();
 
-    virtual void Flush()=0;
-                
-    virtual RF_Type::UInt64 Read(RF_Type::UInt8* Buffer,
-        const RF_Type::UInt64 Index, const RF_Type::UInt64 Count)=0;
+  virtual void Close() = 0;
 
-    virtual RF_Type::UInt64 Seek(const RF_Type::Int64 Offset,
-        const SeekOrigin::Type Origin)=0;
-                
-    virtual RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer,
-        const RF_Type::UInt64 Offset, const RF_Type::UInt64 Count)=0;
+  virtual void Flush() = 0;
 
-    /// Like read but don't change the position in the stream.
-    virtual RF_Type::UInt64 Peek(RF_Type::UInt8* Buffer,
-        const RF_Type::UInt64 Index, const RF_Type::UInt64 Count) = 0;
+  virtual RF_Type::UInt64 Read(RF_Type::UInt8* Buffer,
+                               const RF_Type::UInt64 Index,
+                               const RF_Type::UInt64 Count) = 0;
 
-    RF_Type::UInt64 WriteText(const RF_Type::String& ByValue);
+  virtual RF_Type::UInt64
+  Seek(const RF_Type::Int64 Offset, const SeekOrigin::Type Origin) = 0;
 
-    template<class T>
-    RF_Type::UInt64 WriteType(const T& ByValue);
+  virtual RF_Type::UInt64 Write(const RF_Type::UInt8* Buffer,
+                                const RF_Type::UInt64 Offset,
+                                const RF_Type::UInt64 Count) = 0;
 
-    template<class T>
-    RF_Type::UInt64 ReadType(T& ByValue);
+  /// Like read but don't change the position in the stream.
+  virtual RF_Type::UInt64 Peek(RF_Type::UInt8* Buffer,
+                               const RF_Type::UInt64 Index,
+                               const RF_Type::UInt64 Count) = 0;
 
-    template<class T>
-    RF_Type::UInt64 PeekType(T& ByValue);
+  RF_Type::UInt64 WriteText(const RF_Type::String& ByValue);
 
-    RF_Mem::AutoPointerArray<RF_Type::UInt8> ReadBytes(RF_Type::Size Bytes);
+  template <class T>
+  RF_Type::UInt64 WriteType(const T& ByValue);
 
-    RF_Type::UInt64 WriteData(const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
+  template <class T>
+  RF_Type::UInt64 ReadType(T& ByValue);
 
-    RF_Mem::AutoPointerArray<RF_Type::UInt8> PeekBytes(RF_Type::Size Bytes);
+  template <class T>
+  RF_Type::UInt64 PeekType(T& ByValue);
 
-    virtual RF_Type::Bool CanRead()const=0;
-    virtual RF_Type::Bool CanSeek()const=0;
-    virtual RF_Type::Bool CanWrite()const=0;
-    virtual RF_Type::Bool CanTimeout()const=0;
-    virtual RF_Type::Bool CanPeek()const = 0;
-    virtual RF_Type::UInt64 Length()const=0;
-    virtual RF_Type::UInt64 Position()const=0;
-    virtual Time::TimeSpan ReadTimeout()const=0;
-    virtual Time::TimeSpan WriteTimeout()const=0;
+  RF_Mem::AutoPointerArray<RF_Type::UInt8> ReadBytes(RF_Type::Size Bytes);
+
+  RF_Type::UInt64
+  WriteData(const RF_Mem::AutoPointerArray<RF_Type::UInt8>& Data);
+
+  RF_Mem::AutoPointerArray<RF_Type::UInt8> PeekBytes(RF_Type::Size Bytes);
+
+  virtual RF_Type::Bool CanRead() const = 0;
+  virtual RF_Type::Bool CanSeek() const = 0;
+  virtual RF_Type::Bool CanWrite() const = 0;
+  virtual RF_Type::Bool CanTimeout() const = 0;
+  virtual RF_Type::Bool CanPeek() const = 0;
+  virtual RF_Type::UInt64 Length() const = 0;
+  virtual RF_Type::UInt64 Position() const = 0;
+  virtual Time::TimeSpan ReadTimeout() const = 0;
+  virtual Time::TimeSpan WriteTimeout() const = 0;
 };
 
-template<class T>
+template <class T>
 RF_Type::UInt64 Stream::WriteType(const T& ByValue)
 {
-    return Write(reinterpret_cast<const RF_Type::UInt8*>(&ByValue),0,sizeof(T));
+  return Write(reinterpret_cast<const RF_Type::UInt8*>(&ByValue), 0, sizeof(T));
 }
 
-template<class T>
+template <class T>
 RF_Type::UInt64 Stream::ReadType(T& ByValue)
 {
-    return Read(reinterpret_cast<RF_Type::UInt8*>(&ByValue),0,sizeof(T));
+  return Read(reinterpret_cast<RF_Type::UInt8*>(&ByValue), 0, sizeof(T));
 }
 
-template<class T>
+template <class T>
 RF_Type::UInt64 Stream::PeekType(T& ByValue)
 {
-    return Peek(reinterpret_cast<RF_Type::UInt8*>(&ByValue),0,sizeof(T));
+  return Peek(reinterpret_cast<RF_Type::UInt8*>(&ByValue), 0, sizeof(T));
 }
 
-}
+}  // namespace RadonFramework::IO
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
-#define  RF_SHORTHAND_NAMESPACE_IO
+#define RF_SHORTHAND_NAMESPACE_IO
 namespace RF_IO = RadonFramework::IO;
 #endif
 
-#endif // RF_IO_STREAM_HPP
+#endif  // RF_IO_STREAM_HPP

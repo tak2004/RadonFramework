@@ -7,32 +7,33 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/IO/DecoderService.hpp>
 
-namespace RadonFramework::IO {
-
-class NullDecoderService:public DecoderService
+namespace RadonFramework::IO
+{
+class NullDecoderService : public DecoderService
 {
 public:
-    NullDecoderService(const RF_Type::String &Name):DecoderService(Name){}
-    
-    virtual RF_Mem::AutoPointer<Decoder> CreateDecoder(const RF_Type::UInt32 FourCC,
-                                                       RF_Decoders::Interface Target)
-    {
-        return RF_Mem::AutoPointer<Decoder>();
-    }
+  NullDecoderService(const RF_Type::String& Name) : DecoderService(Name) {}
+
+  RF_Mem::AutoPointer<Decoder>
+  CreateDecoder(const RF_Type::UInt32, RF_Decoders::Interface) override
+  {
+    return RF_Mem::AutoPointer<Decoder>();
+  }
 };
 
-struct DecoderServiceLocator:public RF_Pattern::Locator<DecoderService, NullDecoderService>
+struct DecoderServiceLocator
+: public RF_Pattern::Locator<DecoderService, NullDecoderService>
 {
-    DecoderServiceLocator() = delete;
+  DecoderServiceLocator() = delete;
 
-    static DecoderServiceLocator::Iterator FindCodec(
-        const RF_Type::UInt32 FCC, RF_Decoders::Interface Target);
+  static DecoderServiceLocator::Iterator
+  FindCodec(const RF_Type::UInt32 FCC, RF_Decoders::Interface Target);
 
-    static DecoderServiceLocator::Iterator FindByNameOrFourCC(
-        const RF_Type::String& Name, const RF_Type::UInt32 FCC);
+  static DecoderServiceLocator::Iterator
+  FindByNameOrFourCC(const RF_Type::String& Name, const RF_Type::UInt32 FCC);
 };
 
-}
+}  // namespace RadonFramework::IO
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
 #define RF_SHORTHAND_NAMESPACE_IO

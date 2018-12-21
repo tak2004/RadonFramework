@@ -28,11 +28,39 @@ if(NOT RADONFRAMEWORK_EXPERIMENTAL_GRAMMAR)
         ${CMAKE_CURRENT_SOURCE_DIR}/src/System/VM/CppVM.cpp)
 endif()
 
-if(NOT RADONFRAMEWORK_EXPERIMENTAL_MODULES)
-    list(APPEND RADONFRAMEWORK_BLACKLIST ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/RadonFramework.Core.mpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/RadonFramework.mpp)
-elseif()
-    set(RADONFRAMEWORK_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
-    set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/RadonFramework.mpp PROPERTIES OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/RadonFramework.Core.mpp ${CMAKE_CURRENT_SOURCE_DIR}/src/System/RadonFramework.System.mpp)
-    set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/Core/RadonFramework.Core.mpp PROPERTIES OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Types/RadonFramework.Core.Types.mpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Common/RadonFramework.Core.Common.mpp)
+if(RADONFRAMEWORK_EXPERIMENTAL_MODULES)
+    set(RADONFRAMEWORK_SYSTEM_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_SYSTEM_MODULE RadonFrameworkSystemModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.System.mpp)
+    rcf_endgenerate()
+
+    set(RADONFRAMEWORK_CORE_COMMON_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_CORE_COMMON_MODULE RadonFrameworkCoreCommonModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.Core.Common.mpp)
+    rcf_endgenerate()
+
+    set(RADONFRAMEWORK_CORE_TYPES_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_CORE_TYPES_MODULE RadonFrameworkCoreTypesModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.Core.Types.mpp)
+    rcf_endgenerate()
+
+    set(RADONFRAMEWORK_COLLECTIONS_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_COLLECTIONS_MODULE RadonFrameworkCollectionsModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.Collections.mpp)
+    rcf_endgenerate()
+
+    set(RADONFRAMEWORK_CORE_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_CORE_MODULE RadonFrameworkCoreModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.Core.mpp)
+        rcf_dependencies(RadonFrameworkCoreCommonModule RadonFrameworkCoreTypesModule)
+    rcf_endgenerate()
+
+    set(RADONFRAMEWORK_DIAGNOSTICS_TEST_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_DIAGNOSTICS_TEST_MODULE RadonFrameworkDiagnosticsTestModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.Diagnostics.Test.mpp)
+        rcf_dependencies(RadonFrameworkCollectionsModule RadonFrameworkCoreTypesModule)
+    rcf_endgenerate()
+
+    set(RADONFRAMEWORK_IO_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_IO_MODULE RadonFrameworkIOModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.IO.mpp)
+    rcf_endgenerate()
+
+    set(RADONFRAMEWORK_MODULE_COMPILER_EXPORT_AS_MODULE ON CACHE BOOL "Generate the project as module(Default: off)" FORCE)
+    rcf_generate(module RADONFRAMEWORK_MODULE RadonFrameworkModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.mpp)
+        rcf_dependencies(RadonFrameworkSystemModule RadonFrameworkCoreModule)
+    rcf_endgenerate()
 endif()

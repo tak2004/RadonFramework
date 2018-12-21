@@ -9,22 +9,23 @@
 #include <RadonFramework/IO/Resource.hpp>
 #include <RadonFramework/IO/Uri.hpp>
 
-namespace RadonFramework::IO {
-
-class NullProtocolService:public ProtocolService
+namespace RadonFramework::IO
 {
-    public:
-        NullProtocolService(const RF_Type::String &Name):ProtocolService(Name){}
-        virtual RF_Type::Bool Exists(const Uri& URI) override{return false;}
-        virtual Stream* GenerateInterface(const Uri& URI) override{return 0;}
-        virtual void FreeInterface(const Uri& URI) override{}
+class NullProtocolService : public ProtocolService
+{
+public:
+  NullProtocolService(const RF_Type::String& Name) : ProtocolService(Name) {}
+  RF_Type::Bool Exists(const Uri& URI) override { return false; }
+  Stream* GenerateInterface(const Uri& URI) override { return nullptr; }
+  void FreeInterface(const Uri& URI) override {}
 };
 
-struct ProtocolServiceLocator:public RF_Pattern::Locator<ProtocolService, NullProtocolService>
+struct ProtocolServiceLocator
+: public RF_Pattern::Locator<ProtocolService, NullProtocolService>
 {
-    ProtocolServiceLocator() = delete;
+  ProtocolServiceLocator() = delete;
 };
 
-}
+}  // namespace RadonFramework::IO
 
-#endif // RF_PROTOCOLSERVICELOCATOR_HPP
+#endif  // RF_PROTOCOLSERVICELOCATOR_HPP

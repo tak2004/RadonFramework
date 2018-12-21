@@ -33,7 +33,7 @@ inline RF_Type::Bool Access(const RF_Type::String& Path, const AccessMode::Type 
                                 W_OK | R_OK, W_OK | R_OK | F_OK, X_OK, X_OK | F_OK,
                                 X_OK | R_OK, X_OK | R_OK | F_OK, X_OK | W_OK,
                                 X_OK | W_OK | F_OK, X_OK | W_OK | R_OK, X_OK | W_OK | R_OK | F_OK};
-    Assert(modes[Mode] >= 0 && modes[Mode] <= X_OK | W_OK | R_OK | F_OK, "Invalid argument.");
+    RF_ASSERT(modes[Mode] >= 0 && modes[Mode] <= X_OK | W_OK | R_OK | F_OK, "Invalid argument.");
     return access(Path.c_str(), modes[Mode])==0;
 }
 

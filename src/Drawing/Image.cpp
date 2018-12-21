@@ -1,5 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Drawing/Image.hpp"
+#include "RadonFramework/System/Memory.hpp"
 
 namespace RadonFramework::Drawing {
 

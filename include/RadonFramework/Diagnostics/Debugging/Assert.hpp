@@ -19,7 +19,7 @@ struct AssertHandler
                       int Line);
 };
 
-#define Assert(test, msg)                                                   \
+#define RF_ASSERT(test, msg)                                                   \
   {                                                                         \
     if(RadonFramework::BuildInfo::CompileForDebugging ==                    \
            RadonFramework::BuildInfo::DebugMode::True &&      \
@@ -32,13 +32,16 @@ struct AssertHandler
     }                                                                       \
   }
 #else
-#define Assert(test, msg) \
+#define RF_ASSERT(test, msg) \
   {                       \
   }
 #endif
 
 }  // namespace RadonFramework::Diagnostics::Debugging
 
+#ifndef RF_SHORTHAND_NAMESPACE_DEBUG
+#define RF_SHORTHAND_NAMESPACE_DEBUG
 namespace RF_Debug = ::RadonFramework::Diagnostics::Debugging;
+#endif
 
 #endif  // RF_DIAGNOSTICS_DEBUGGING_ASSERT_HPP

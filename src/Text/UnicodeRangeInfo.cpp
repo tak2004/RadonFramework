@@ -1,38 +1,28 @@
-#include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Text/UnicodeRangeInfo.hpp"
+#include "RadonFramework/precompiled.hpp"
 
-namespace RadonFramework::Text {
-
-UnicodeRangeInfo::UnicodeRangeInfo(const UnicodeRangeIdentifier Identifier, 
-    const RF_Type::UInt32 Start, const RF_Type::UInt32 End)
-:m_Identifier(Identifier)
-,m_Start(Start)
-,m_End(End)
+namespace RadonFramework::Text
 {
-
-}
-
-UnicodeRangeInfo::UnicodeRangeInfo()
-:m_Identifier(UnicodeRangeIdentifier::BasicLatin)
-,m_Start(0)
-,m_End(0x7f)
+UnicodeRangeInfo::UnicodeRangeInfo(const UnicodeRangeIdentifier Identifier,
+                                   const RF_Type::UInt32 Start,
+                                   const RF_Type::UInt32 End)
+: m_Identifier(Identifier), m_Start(Start), m_End(End)
 {
-
 }
 
 const UnicodeRangeIdentifier UnicodeRangeInfo::Identifier() const
 {
-    return m_Identifier;
+  return m_Identifier;
 }
 
 const RF_Type::UInt32 UnicodeRangeInfo::Start() const
 {
-    return m_Start;
+  return m_Start;
 }
 
 const RF_Type::UInt32 UnicodeRangeInfo::End() const
 {
-    return m_End;
+  return m_End;
 }
 
-}
+}  // namespace RadonFramework::Text

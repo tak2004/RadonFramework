@@ -4,17 +4,16 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Net {
-
+namespace RadonFramework::Net
+{
 enum class SocketType
 {
-	Datagram,//UDP
-	Stream,//TCP
-	Raw,
-	None,
-	MAX
+  Datagram,  // UDP
+  Stream,    // TCP
+  Raw,
+  None,
+  MAX
 };
-
 }
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET

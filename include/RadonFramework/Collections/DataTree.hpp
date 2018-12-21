@@ -10,7 +10,7 @@
 
 namespace RadonFramework::Collections {
 
-typedef Tree<Pair<RF_Type::String, RF_Type::String> > DataTree;
+using DataTree = Tree<Pair<RF_Type::String, RF_Type::String>>;
 
 }
 

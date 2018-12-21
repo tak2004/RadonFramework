@@ -4,63 +4,64 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Core/Types/UInt8.hpp>
+#include <RadonFramework/Core/DataManagment.hpp>
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
+#include <RadonFramework/Core/Types/UInt8.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 
-namespace RadonFramework::Core::Types{
-
-template<int LENGTH>
+namespace RadonFramework::Core::Types
+{
+template <int LENGTH>
 struct FixString
 {
-    UInt8& operator[](const MemoryRange Index);
-    UInt8 operator[](const MemoryRange Index)const;
-    const UInt8* Raw()const;
-    UInt8* Raw();
-    Size GetSize()const;
-    void SetSize(const UInt8 NewSize);
+  UInt8& operator[](const MemoryRange Index);
+  UInt8 operator[](const MemoryRange Index) const;
+  const UInt8* Raw() const;
+  UInt8* Raw();
+  Size GetSize() const;
+  void SetSize(const UInt8 NewSize);
 protected:
-    UInt8 m_Buffer[LENGTH];
-    UInt8 m_Size;
+  UInt8 m_Buffer[LENGTH];
+  UInt8 m_Size;
 };
 
-template<int LENGTH>
-UInt8& FixString<LENGTH>::operator [](const MemoryRange Index)
+template <int LENGTH>
+UInt8& FixString<LENGTH>::operator[](const MemoryRange Index)
 {
-    Assert(Index < LENGTH, "Index out of bound.");
-    return m_Buffer[Index];
+  Assert(Index < LENGTH, "Index out of bound.");
+  return m_Buffer[Index];
 }
 
-template<int LENGTH>
-UInt8 FixString<LENGTH>::operator [](const MemoryRange Index)const
+template <int LENGTH>
+UInt8 FixString<LENGTH>::operator[](const MemoryRange Index) const
 {
-    Assert(Index < LENGTH, "Index out of bound.");
-    return m_Buffer[Index];
+  Assert(Index < LENGTH, "Index out of bound.");
+  return m_Buffer[Index];
 }
 
-template<int LENGTH>
-const UInt8* FixString<LENGTH>::Raw()const
+template <int LENGTH>
+const UInt8* FixString<LENGTH>::Raw() const
 {
-    return m_Buffer;
+  return m_Buffer;
 }
 
-template<int LENGTH>
+template <int LENGTH>
 UInt8* FixString<LENGTH>::Raw()
 {
-    return m_Buffer;
+  return m_Buffer;
 }
 
-template<int LENGTH>
-Size FixString<LENGTH>::GetSize()const
+template <int LENGTH>
+Size FixString<LENGTH>::GetSize() const
 {
-    return m_Size;
+  return m_Size;
 }
 
-template<int LENGTH>
+template <int LENGTH>
 void FixString<LENGTH>::SetSize(const UInt8 NewSize)
 {
-    Assert(NewSize <= LENGTH, "Out of bound");
-    m_Size = NewSize;
+  Assert(NewSize <= LENGTH, "Out of bound");
+  m_Size = NewSize;
 }
 
 }  // namespace RadonFramework::Core::Types

@@ -12,18 +12,21 @@ using namespace RadonFramework::Collections;
 
 namespace RadonFramework::Core::Types
 {
-String::String() : m_DataManagment(DataManagment::Copy), m_Length(0)
+String::String()
 {
   m_FixBuffer[0] = 0;
   m_FixBuffer.SetSize(0);
+  m_DataManagment = DataManagment::Copy;
+  m_Length = 0;
 }
 
 String::String(const String& Copy)
-: m_DataManagment(DataManagment::Copy), m_Length(0)
 {
+  m_DataManagment=DataManagment::Copy;
+  m_Length=0;
   m_FixBuffer.SetSize(0);
   // if the length of Copy is 0 we don't have to do anything
-  if(Copy.m_Length > 0)
+  if(Copy.Length() > 0)
   {
     // take the calculated length from Copy
     m_Length = Copy.m_Length;
@@ -643,19 +646,19 @@ RF_Type::Int32 String::Compare(const String& With) const
 
 RF_Type::UInt8 String::operator[](const RF_Type::Size Index) const
 {
-  Assert(Index <= Size() && Index >= 0, "Out of bound.");
+  RF_ASSERT(Index <= Size() && Index >= 0, "Out of bound.");
   return *(GetBuffer() + Index);
 }
 
 RF_Type::UInt8& String::operator[](const RF_Type::Size Index)
 {
-  Assert(Index <= Size() && Index >= 0, "Out of bound");
+  RF_ASSERT(Index <= Size() && Index >= 0, "Out of bound");
   return *(GetBuffer() + Index);
 }
 
 const RF_Type::UInt8* String::operator()(const RF_Type::Size ElementIndex) const
 {
-  Assert(ElementIndex <= Size() && ElementIndex >= 0, "Out of bound");
+  RF_ASSERT(ElementIndex <= Size() && ElementIndex >= 0, "Out of bound");
   const RF_Type::UInt8* result = GetBuffer();
   MoveByGlyphs(result, ElementIndex);
   return result;
@@ -663,7 +666,7 @@ const RF_Type::UInt8* String::operator()(const RF_Type::Size ElementIndex) const
 
 RF_Type::UInt8* String::operator()(const RF_Type::Size ElementIndex)
 {
-  Assert(ElementIndex <= Size() && ElementIndex >= 0, "Out of bound");
+  RF_ASSERT(ElementIndex <= Size() && ElementIndex >= 0, "Out of bound");
   const RF_Type::UInt8* result = GetBuffer();
   MoveByGlyphs(result, ElementIndex);
   return const_cast<RF_Type::UInt8*>(result);
@@ -884,7 +887,7 @@ RF_Type::Bool String::IsBoolean() const
 
 void String::Swap(String& Other)
 {
-  Assert(&Other != this, "It's not allowed to use Swap with itself!");
+  RF_ASSERT(&Other != this, "It's not allowed to use Swap with itself!");
   // make a copy of this to tmp;
   String tmp;
   if(m_Length > 0)

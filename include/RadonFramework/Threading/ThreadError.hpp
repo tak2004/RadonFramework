@@ -4,16 +4,15 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Threading::ThreadError {
-
+namespace RadonFramework::Threading::ThreadError
+{
 enum Type
 {
-    NoError,
-    ThreadLimitReached,
-    InternalError,
-    InvalidArgument
+  NoError,
+  ThreadLimitReached,
+  InternalError,
+  InvalidArgument
 };
-
 }
 
 #ifndef RF_SHORTHAND_NAMESPACE_THREAD
@@ -21,4 +20,4 @@ enum Type
 namespace RF_Thread = RadonFramework::Threading;
 #endif
 
-#endif // RF_THREADING_THREADERROR_HPP
+#endif  // RF_THREADING_THREADERROR_HPP

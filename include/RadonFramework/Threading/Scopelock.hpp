@@ -19,7 +19,7 @@ public:
 
 protected:
   System::Threading::Mutex* m_Mutex;
-  Scopelock();
+  Scopelock() = default;
   Scopelock(const Scopelock& Other);
   Scopelock& operator=(const Scopelock& Other);
 };

@@ -5,17 +5,17 @@
 #endif
 
 #include <RadonFramework/Collections/AutoVector.hpp>
-#include <RadonFramework/Reflection/ReflectionProperty.hpp>
 #include <RadonFramework/Reflection/ReflectionMethode.hpp>
+#include <RadonFramework/Reflection/ReflectionProperty.hpp>
 
-namespace RadonFramework::Reflection {
-
+namespace RadonFramework::Reflection
+{
 class ReflectionClassInstance;
 
-template<typename T>
+template <typename T>
 ReflectionClassInstance* CreateInstance()
 {
-    return reinterpret_cast<ReflectionClassInstance*>(new T);
+  return reinterpret_cast<ReflectionClassInstance*>(new T);
 }
 
 using CreateInstanceFunction = ReflectionClassInstance* (*)();
@@ -23,19 +23,19 @@ using CreateInstanceFunction = ReflectionClassInstance* (*)();
 class ReflectionClass
 {
 public:
-    ReflectionClass(const RF_Type::String& Name,
-                    void (*Configure)(ReflectionClass* Cls),
-                    CreateInstanceFunction Function);
-    RadonFramework::Collections::AutoVector<ReflectionProperty> Properties;
-    RadonFramework::Collections::AutoVector<ReflectionMethode> Methodes;
-    const RF_Type::String& GetName()const;
-    ReflectionClassInstance* CreateInstance();
+  ReflectionClass(const RF_Type::String& Name,
+                  void (*Configure)(ReflectionClass* Cls),
+                  CreateInstanceFunction Function);
+  RadonFramework::Collections::AutoVector<ReflectionProperty> Properties;
+  RadonFramework::Collections::AutoVector<ReflectionMethode> Methodes;
+  const RF_Type::String& GetName() const;
+  ReflectionClassInstance* CreateInstance();
+
 private:
-    RF_Type::String m_Name;
-    CreateInstanceFunction m_CreateInstanceFunction;
+  RF_Type::String m_Name;
+  CreateInstanceFunction m_CreateInstanceFunction;
 };
 
-}
+}  // namespace RadonFramework::Reflection
 
 #endif
-

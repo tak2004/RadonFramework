@@ -4,11 +4,11 @@
 #pragma once
 #endif
 
-#include <type_traits>
-#include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
+#include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <type_traits>
 
 namespace RadonFramework::Memory
 {
@@ -180,7 +180,7 @@ AutoPointerArrayReference<T>::AutoPointerArrayReference(
 }
 
 template <typename T>
-AutoPointerArray<T>::AutoPointerArray() : m_Data(nullptr) 
+AutoPointerArray<T>::AutoPointerArray() : m_Data(nullptr)
 {
 }
 
@@ -317,7 +317,7 @@ AutoPointerArrayData<T> AutoPointerArray<T>::Release()
   AutoPointerArrayData<T> arr;
   arr.Ptr = m_Data;
   arr.Count = m_Elements;
-  m_Data = 0;
+  m_Data = nullptr;
   m_Elements = 0;
   return arr;
 }
@@ -373,14 +373,14 @@ AutoPointerArray<T>::operator AutoPointerArray<T1>()
 template <typename T>
 T& AutoPointerArray<T>::operator[](const RF_Type::Size Index)
 {
-  Assert(Index < m_Elements, "Out of bound.");
+  RF_ASSERT(Index < m_Elements, "Out of bound.");
   return m_Data[Index];
 }
 
 template <typename T>
 const T& AutoPointerArray<T>::operator[](const RF_Type::Size Index) const
 {
-  Assert(Index < m_Elements, "Out of bound.");
+  RF_ASSERT(Index < m_Elements, "Out of bound.");
   return m_Data[Index];
 }
 

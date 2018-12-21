@@ -9,7 +9,7 @@ MemoryArchitecture::Type MemoryArchitectureOfOS_SystemAPIDispatcher()
 {
     MemoryArchitectureOfOS = 0;
     Dispatch();
-    Assert(MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher &&
+    RF_ASSERT(MemoryArchitectureOfOS != MemoryArchitectureOfOS_SystemAPIDispatcher &&
            MemoryArchitectureOfOS != 0,
            "Funtion was called and couldn't be dispatched");
     return MemoryArchitectureOfOS();
@@ -19,7 +19,7 @@ RF_Type::Bool Is32BitEmulation_SystemAPIDispatcher()
 {
     Is32BitEmulation = 0;
     Dispatch();
-    Assert(Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher &&
+    RF_ASSERT(Is32BitEmulation != Is32BitEmulation_SystemAPIDispatcher &&
            Is32BitEmulation != 0,
            "Funtion was called and couldn't be dispatched");
     return Is32BitEmulation();
@@ -29,7 +29,7 @@ const OperatingSystem& OSVersion_SystemAPIDispatcher()
 {
     OSVersion = 0;
     Dispatch();
-    Assert(OSVersion != OSVersion_SystemAPIDispatcher &&
+    RF_ASSERT(OSVersion != OSVersion_SystemAPIDispatcher &&
            OSVersion != 0,
            "Funtion was called and couldn't be dispatched");
     return OSVersion();
@@ -39,7 +39,7 @@ void GetVariable_SystemAPIDispatcher(const RF_Type::String& Name, RF_Type::Strin
 {
     GetVariable = 0;
     Dispatch();
-    Assert(GetVariable != GetVariable_SystemAPIDispatcher &&
+    RF_ASSERT(GetVariable != GetVariable_SystemAPIDispatcher &&
            GetVariable != 0,
            "Funtion was called and couldn't be dispatched");
     GetVariable(Name, Result);
@@ -49,7 +49,7 @@ PlatformID::Type Platform_SystemAPIDispatcher()
 {
     Platform = 0;
     Dispatch();
-    Assert(Platform != Platform_SystemAPIDispatcher &&
+    RF_ASSERT(Platform != Platform_SystemAPIDispatcher &&
            Platform != 0,
            "Funtion was called and couldn't be dispatched");
     return Platform();
@@ -59,7 +59,7 @@ OperatingSystemFamily::Type OSFamily_SystemAPIDispatcher()
 {
     OSFamily = 0;
     Dispatch();
-    Assert(OSFamily != OSFamily_SystemAPIDispatcher &&
+    RF_ASSERT(OSFamily != OSFamily_SystemAPIDispatcher &&
            OSFamily != 0,
            "Funtion was called and couldn't be dispatched");
     return OSFamily();
@@ -69,7 +69,7 @@ void FastRandomUUID_SystemAPIDispatcher(RF_Type::UUID& Target)
 {
     FastRandomUUID = 0;
     Dispatch();
-    Assert(FastRandomUUID != FastRandomUUID_SystemAPIDispatcher &&
+    RF_ASSERT(FastRandomUUID != FastRandomUUID_SystemAPIDispatcher &&
            FastRandomUUID != 0,
            "Funtion was called and couldn't be dispatched");
     FastRandomUUID(Target);
@@ -79,7 +79,7 @@ void SecureRandomUUID_SystemAPIDispatcher(RF_Type::UUID& Target)
 {
     SecureRandomUUID = 0;
     Dispatch();
-    Assert(SecureRandomUUID != SecureRandomUUID_SystemAPIDispatcher &&
+    RF_ASSERT(SecureRandomUUID != SecureRandomUUID_SystemAPIDispatcher &&
            SecureRandomUUID != 0,
            "Funtion was called and couldn't be dispatched");
     SecureRandomUUID(Target);
@@ -89,7 +89,7 @@ void UUIDFromString_SystemAPIDispatcher(const RF_Type::String& Text, RF_Type::UU
 {
     UUIDFromString = 0;
     Dispatch();
-    Assert(UUIDFromString != UUIDFromString_SystemAPIDispatcher &&
+    RF_ASSERT(UUIDFromString != UUIDFromString_SystemAPIDispatcher &&
            UUIDFromString != 0,
            "Funtion was called and couldn't be dispatched");
     UUIDFromString(Text, Target);
@@ -99,7 +99,7 @@ RF_Type::String ActiveLanguage_SystemAPIDispatcher()
 {
     ActiveLanguage = 0;
     Dispatch();
-    Assert(ActiveLanguage != ActiveLanguage_SystemAPIDispatcher &&
+    RF_ASSERT(ActiveLanguage != ActiveLanguage_SystemAPIDispatcher &&
            ActiveLanguage != 0,
            "Funtion was called and couldn't be dispatched");
     return ActiveLanguage();
@@ -109,7 +109,7 @@ RF_Type::String ActiveLanguageName_SystemAPIDispatcher()
 {
     ActiveLanguageName = 0;
     Dispatch();
-    Assert(ActiveLanguageName != ActiveLanguageName_SystemAPIDispatcher &&
+    RF_ASSERT(ActiveLanguageName != ActiveLanguageName_SystemAPIDispatcher &&
            ActiveLanguageName != 0,
            "Funtion was called and couldn't be dispatched");
     return ActiveLanguageName();
@@ -119,7 +119,7 @@ RF_Type::String ActiveNativeLanguageName_SystemAPIDispatcher()
 {
     ActiveNativeLanguageName = 0;
     Dispatch();
-    Assert(ActiveNativeLanguageName != ActiveNativeLanguageName_SystemAPIDispatcher &&
+    RF_ASSERT(ActiveNativeLanguageName != ActiveNativeLanguageName_SystemAPIDispatcher &&
            ActiveNativeLanguageName != 0,
            "Funtion was called and couldn't be dispatched");
     return ActiveNativeLanguageName();
@@ -129,7 +129,7 @@ RF_Type::String ActiveLanguageLocation_SystemAPIDispatcher()
 {
     ActiveLanguageLocation = 0;
     Dispatch();
-    Assert(ActiveLanguageLocation != ActiveLanguageLocation_SystemAPIDispatcher &&
+    RF_ASSERT(ActiveLanguageLocation != ActiveLanguageLocation_SystemAPIDispatcher &&
            ActiveLanguageLocation != 0,
            "Funtion was called and couldn't be dispatched");
     return ActiveLanguageLocation();
@@ -139,7 +139,7 @@ RF_Type::String ActiveNativeLanguageLocation_SystemAPIDispatcher()
 {
     ActiveNativeLanguageLocation = 0;
     Dispatch();
-    Assert(ActiveNativeLanguageLocation != ActiveNativeLanguageLocation_SystemAPIDispatcher &&
+    RF_ASSERT(ActiveNativeLanguageLocation != ActiveNativeLanguageLocation_SystemAPIDispatcher &&
            ActiveNativeLanguageLocation != 0,
            "Funtion was called and couldn't be dispatched");
     return ActiveNativeLanguageLocation();

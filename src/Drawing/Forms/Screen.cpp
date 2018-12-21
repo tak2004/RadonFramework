@@ -47,7 +47,7 @@ const Screen& Screen::PrimaryScreen()
 {
     static Screen invalidScreen;
     const AutoPointerArray<Screen>& screens=AllScreens();
-    Assert(0 != screens.Count(), "No screen available.");
+    RF_ASSERT(0 != screens.Count(), "No screen available.");
     for (UInt32 i = 0; i < screens.Count(); ++i)
         if (screens[i].IsPrimary())
             return screens[i];

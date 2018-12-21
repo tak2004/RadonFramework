@@ -19,11 +19,11 @@
 #include "RadonFramework/System/Network/NetService.hpp"
 #include "RadonFramework/System/Process.hpp"
 #include "RadonFramework/System/Security.hpp"
+#include "RadonFramework/System/String.hpp"
 #include "RadonFramework/System/Threading/Thread.hpp"
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/Threading/ThreadPool.hpp"
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/System/String.hpp"
 #ifdef RF_USE_XXHASH
 #include "RadonFramework/System/Math/Hash/xxHashService.hpp"
 #endif
@@ -55,8 +55,8 @@ extern "C"
 class Radon::PIMPL
 {
 public:
-  PIMPL() : m_IsSubSystemInitialized(0) {}
-  RF_Type::UInt32 m_IsSubSystemInitialized;
+  PIMPL() = default;
+  RF_Type::UInt32 m_IsSubSystemInitialized = 0;
   RF_Collect::List<RF_Mem::AutoPointer<RF_Sys::DynamicLibrary>> m_Libs;
 
   RF_Type::Bool IsAlreadyLoaded(const RF_Type::String& Libname)
@@ -78,7 +78,7 @@ Bool Radon::m_IsInitialized = false;
 
 Radon::Radon(UInt32 Flags)
 {
-  Assert(!m_IsInitialized,
+  RF_ASSERT(!m_IsInitialized,
          "The framework is already initialized, do it a second time can occur "
          "unpredictable behavior.") if(!m_IsInitialized)
   {
@@ -320,7 +320,9 @@ void Radon::QuitSubSystem(UInt32 Flags)
   }
 
   if(m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Hashing)
+  {
     HashfunctionServiceLocator::Quit();
+  }
 
   if(m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::IO)
   {
@@ -329,7 +331,9 @@ void Radon::QuitSubSystem(UInt32 Flags)
   }
 
   if(m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Net)
+  {
     Network::NetService::Free();
+  }
 
   if(m_PIMPL->m_IsSubSystemInitialized & RadonFramework::Init::Diagnostics)
   {

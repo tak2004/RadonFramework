@@ -4,16 +4,15 @@
 #pragma once
 #endif
 
-namespace RadonFramework::System::OperatingSystemFamily {
-
+namespace RadonFramework::System::OperatingSystemFamily
+{
 enum Type
 {
-    Unkown,
-    Windows,
-    Linux,
-    MacOS
+  Unkown,
+  Windows,
+  Linux,
+  MacOS
 };
-
 }
 
-#endif // RF_OPERATINGSYSTEMFAMILY_HPP
+#endif  // RF_OPERATINGSYSTEMFAMILY_HPP

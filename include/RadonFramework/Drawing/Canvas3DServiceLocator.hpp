@@ -7,18 +7,19 @@
 #include <RadonFramework/Core/Pattern/ServiceLocator.hpp>
 #include <RadonFramework/Drawing/Canvas3DService.hpp>
 
-namespace RadonFramework::Drawing {
-
-class NullCanvas3DService:public Canvas3DService
+namespace RadonFramework::Drawing
 {
-    public:
-        NullCanvas3DService(const RF_Type::String &Name):Canvas3DService(Name){}
-        AbstractCanvas* CreateCanvas3D(){return 0;}
+class NullCanvas3DService : public Canvas3DService
+{
+public:
+  NullCanvas3DService(const RF_Type::String& Name) : Canvas3DService(Name) {}
+  AbstractCanvas* CreateCanvas3D() final { return nullptr; }
 };
 
-typedef Core::Pattern::Locator<Canvas3DService,NullCanvas3DService> Canvas3DServiceLocator;
+using Canvas3DServiceLocator =
+    RF_Pattern::Locator<Canvas3DService, NullCanvas3DService>;
 
-}
+}  // namespace RadonFramework::Drawing
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

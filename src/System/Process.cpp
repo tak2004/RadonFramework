@@ -9,7 +9,7 @@ AutoPointerArray<RF_Type::UInt32> GetProcessList_SystemAPIDispatcher()
 {
     GetProcessList = 0;
     Dispatch();
-    Assert(GetProcessList != GetProcessList_SystemAPIDispatcher &&
+    RF_ASSERT(GetProcessList != GetProcessList_SystemAPIDispatcher &&
            GetProcessList != 0,
            "Funtion was called and couldn't be dispatched");
     return GetProcessList();
@@ -19,7 +19,7 @@ RF_Type::UInt32 GetCurrentProcessId_SystemAPIDispatcher()
 {
     GetCurrentProcessId = 0;
     Dispatch();
-    Assert(GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher &&
+    RF_ASSERT(GetCurrentProcessId != GetCurrentProcessId_SystemAPIDispatcher &&
            GetCurrentProcessId != 0,
            "Funtion was called and couldn't be dispatched");
     return GetCurrentProcessId();
@@ -29,7 +29,7 @@ RF_Type::Bool GetGeneralInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::Ge
 {
     GetGeneralInfo = 0;
     Dispatch();
-    Assert(GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher &&
+    RF_ASSERT(GetGeneralInfo != GetGeneralInfo_SystemAPIDispatcher &&
            GetGeneralInfo != 0,
            "Funtion was called and couldn't be dispatched");
     return GetGeneralInfo(PId, Info);
@@ -39,7 +39,7 @@ RF_Type::Bool GetIOInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::IOInfo&
 {
     GetIOInfo = 0;
     Dispatch();
-    Assert(GetIOInfo != GetIOInfo_SystemAPIDispatcher &&
+    RF_ASSERT(GetIOInfo != GetIOInfo_SystemAPIDispatcher &&
            GetIOInfo != 0,
            "Funtion was called and couldn't be dispatched");
     return GetIOInfo(PId, Info);
@@ -49,7 +49,7 @@ RF_Type::Bool GetMemoryInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::Mem
 {
     GetMemoryInfo = 0;
     Dispatch();
-    Assert(GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher &&
+    RF_ASSERT(GetMemoryInfo != GetMemoryInfo_SystemAPIDispatcher &&
            GetMemoryInfo != 0,
            "Funtion was called and couldn't be dispatched");
     return GetMemoryInfo(PId, Info);
@@ -59,7 +59,7 @@ RF_Type::Bool GetTimingInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::Tim
 {
     GetTimingInfo = 0;
     Dispatch();
-    Assert(GetTimingInfo != GetTimingInfo_SystemAPIDispatcher &&
+    RF_ASSERT(GetTimingInfo != GetTimingInfo_SystemAPIDispatcher &&
            GetTimingInfo != 0,
            "Funtion was called and couldn't be dispatched");
     return GetTimingInfo(PId, Info);
@@ -69,7 +69,7 @@ RF_Type::Bool GetModuleInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::Mod
 {
     GetModuleInfo = 0;
     Dispatch();
-    Assert(GetModuleInfo != GetModuleInfo_SystemAPIDispatcher &&
+    RF_ASSERT(GetModuleInfo != GetModuleInfo_SystemAPIDispatcher &&
            GetModuleInfo != 0,
            "Funtion was called and couldn't be dispatched");
     return GetModuleInfo(PId, Info);
@@ -79,7 +79,7 @@ RF_Type::Bool GetThreadInfo_SystemAPIDispatcher(RF_Type::UInt32 PId, RFPROC::Thr
 {
     GetThreadInfo = 0;
     Dispatch();
-    Assert(GetThreadInfo != GetThreadInfo_SystemAPIDispatcher &&
+    RF_ASSERT(GetThreadInfo != GetThreadInfo_SystemAPIDispatcher &&
            GetThreadInfo != 0,
            "Funtion was called and couldn't be dispatched");
     return GetThreadInfo(PId, Info);
@@ -90,7 +90,7 @@ RF_Type::Int32 ExecuteProgram_SystemAPIDispatcher(const RF_Type::String& Executa
 {
     ExecuteProgram = 0;
     Dispatch();
-    Assert(ExecuteProgram != ExecuteProgram_SystemAPIDispatcher &&
+    RF_ASSERT(ExecuteProgram != ExecuteProgram_SystemAPIDispatcher &&
            ExecuteProgram != 0,
            "Function was called and couldn't be dispatched");
 	return ExecuteProgram(Executable, Parameters);
@@ -100,7 +100,7 @@ RF_Type::Bool OpenWithDefaultApplication_SystemAPIDispatcher(const RF_Type::Stri
 {
     OpenWithDefaultApplication = 0;
     Dispatch();
-    Assert(OpenWithDefaultApplication != OpenWithDefaultApplication_SystemAPIDispatcher &&
+    RF_ASSERT(OpenWithDefaultApplication != OpenWithDefaultApplication_SystemAPIDispatcher &&
            OpenWithDefaultApplication != 0,
            "Function was called and couldn't be dispatched");
     return OpenWithDefaultApplication(What);

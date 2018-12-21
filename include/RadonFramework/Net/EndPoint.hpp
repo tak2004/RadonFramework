@@ -4,28 +4,29 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Net/IPAddress.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Net/IPAddress.hpp>
 
-namespace RadonFramework::Net {
-
+namespace RadonFramework::Net
+{
 class EndPoint
 {
 public:
-    EndPoint();
-    EndPoint(const IPAddress &Addr, RF_Type::UInt16 Port = 0);
-    const RF_Type::String ToString()const;
-    const IPAddress& Address()const;
-    void Address(const IPAddress &Value);
-    RF_Type::UInt16 Port()const;
-    void Port(RF_Type::UInt16 Value);
-    bool operator==(const EndPoint &Other);
+  EndPoint();
+  EndPoint(const IPAddress& Addr, RF_Type::UInt16 Port = 0);
+  const RF_Type::String ToString() const;
+  const IPAddress& Address() const;
+  void Address(const IPAddress& Value);
+  RF_Type::UInt16 Port() const;
+  void Port(RF_Type::UInt16 Value);
+  bool operator==(const EndPoint& Other);
+
 protected:
-    IPAddress m_IP;
-    RF_Type::UInt16 m_Port;
+  IPAddress m_IP;
+  RF_Type::UInt16 m_Port;
 };
 
-}
+}  // namespace RadonFramework::Net
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

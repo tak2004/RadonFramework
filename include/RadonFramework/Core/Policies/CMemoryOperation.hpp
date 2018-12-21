@@ -32,7 +32,9 @@ struct CMemoryOperation
 #endif
     {  // use assign operator to copy by value
       for(RF_Type::Size i = 0; i < ElementCount; ++i)
+      {
         Destination[i] = Source[i];
+      }
       return Destination;
     }
 #if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
@@ -52,7 +54,9 @@ struct CMemoryOperation
     {
 #endif
       for(RF_Type::Size i = 0; i < ElementCount; ++i)
+      {
         Destination[i] = Source[i];
+      }
       return Destination;
 #if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
     }

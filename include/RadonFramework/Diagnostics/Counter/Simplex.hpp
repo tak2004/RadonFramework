@@ -10,7 +10,7 @@ template <typename ATOMIC>
 class Simplex
 {
 public:
-  typedef typename ATOMIC::DataType DataType;
+  using DataType = typename ATOMIC::DataType;
   Simplex();
   Simplex(DataType Value);
 
@@ -92,8 +92,7 @@ inline typename ATOMIC::DataType Simplex<ATOMIC>::Load()
 }
 
 template <typename ATOMIC>
-inline typename ATOMIC::DataType
-Simplex<ATOMIC>::Exchange(DataType NewValue)
+inline typename ATOMIC::DataType Simplex<ATOMIC>::Exchange(DataType NewValue)
 {
   return m_Counter.FetchAndExchange(NewValue);
 }

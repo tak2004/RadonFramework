@@ -4,29 +4,29 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Reflection/ReflectionTypes.hpp>
-#include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Core/Types/Int32.hpp>
+#include <RadonFramework/Core/Types/String.hpp>
 #include <RadonFramework/Reflection/ParameterStack.hpp>
+#include <RadonFramework/Reflection/ReflectionTypes.hpp>
 
-namespace RadonFramework::Reflection {
-
+namespace RadonFramework::Reflection
+{
 class Reflectable;
 
-typedef RF_Type::Int32 (Reflectable::*Callback)(ParameterStack &Stack);
+typedef RF_Type::Int32 (Reflectable::*Callback)(ParameterStack& Stack);
 
 class ReflectionMethode
 {
-    public:
-        ReflectionMethode(const RF_Type::String &Name, Callback Ptr);
-        const RF_Type::String& GetName()const;
-        Callback GetCallback();
-    protected:
-        RF_Type::String m_Name;
-        Callback m_Callback;
+public:
+  ReflectionMethode(const RF_Type::String& Name, Callback Ptr);
+  const RF_Type::String& GetName() const;
+  Callback GetCallback();
+
+protected:
+  RF_Type::String m_Name;
+  Callback m_Callback;
 };
 
-}
+}  // namespace RadonFramework::Reflection
 
 #endif
-

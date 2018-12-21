@@ -5,18 +5,18 @@
 #endif
 
 #include <RadonFramework/Defines.hpp>
-#include <RadonFramework/System/MemoryArchitecture.hpp>
 #include <RadonFramework/System/Endian.hpp>
+#include <RadonFramework/System/MemoryArchitecture.hpp>
 
-namespace RadonFramework::System {
-
+namespace RadonFramework::System
+{
 struct CompilerConfig
 {
-    static const Endian Endianness;
-    static const MemoryArchitecture::Type CompiledForArchitecture;
+  static const Endian Endianness;
+  static const MemoryArchitecture::Type CompiledForArchitecture;
 };
 
-}
+}  // namespace RadonFramework::System
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYS
 #define RF_SHORTHAND_NAMESPACE_SYS
@@ -34,7 +34,7 @@ namespace RF_Sys = RadonFramework::System;
 // error msg
 #define __STR2__(x) #x
 #define __STR1__(x) __STR2__(x)
-#define __LOC__ __FILE__ "("__STR1__(__LINE__)") : Warning Msg: "		
+#define __LOC__ __FILE__ "("__STR1__(__LINE__) ") : Warning Msg: "
 #define RF_COMPILER_WARNING(x) __pragma(message(__LOC__ x))
 #define RF_FORCE_INLINE __forceinline
 
@@ -53,25 +53,28 @@ namespace RF_Sys = RadonFramework::System;
 // clang
 #if defined(RF_CLANG)
 #define STR(X) #X
-#define DEFER(M,...) M(__VA_ARGS__)
-#define RF_COMPILER_WARNING(X) _Pragma(STR(GCC warning(X " at line " DEFER(STR,__LINE__))))
+#define DEFER(M, ...) M(__VA_ARGS__)
+#define RF_COMPILER_WARNING(X) \
+  _Pragma(STR(GCC warning(X " at line " DEFER(STR, __LINE__))))
 #define RF_FORCE_INLINE __attribute__((always_inline))
 
-#define RF_EXPORT __attribute__ ((visibility("default")))
+#define RF_EXPORT __attribute__((visibility("default")))
 #else
 #if defined(RF_GCC)
 // gcc
 #define RF_FORCE_INLINE __attribute__((always_inline))
-#define RF_ALIGN(X) __attribute__((aligned (X)))
+#define RF_ALIGN(X) __attribute__((aligned(X)))
 
 // error msg
 // really bad solution but this is allready the best on gcc
-#define RF_DO_PRAGMA(x) _Pragma (#x)
-#define RF_COMPILER_WARNING(x) RF_DO_PRAGMA(message ("warning: " x))
+#define RF_DO_PRAGMA(x) _Pragma(#x)
+#define RF_COMPILER_WARNING(x) RF_DO_PRAGMA(message("warning: " x))
 
-#define RF_EXPORT __attribute__ ((visibility("default")))
+#define RF_EXPORT __attribute__((visibility("default")))
 #else
-static_assert(false, "There's no support, of compiler warnings, for your compiler at the moment.\
+static_assert(
+    false,
+    "There's no support, of compiler warnings, for your compiler at the moment.\
     Please insert the warning command for your compiler here or remove this info.");
 #endif
 #endif
@@ -102,9 +105,17 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #define __has_extension(x) 0
 #endif
 
+#ifndef __GNUC__
+#define __GNUC__ 0
+#endif
+
+#ifndef __GNUC_MINOR__
+#define __GNUC_MINOR__ 0
+#endif
+
 // detect if compiler can use constexpr
 // gcc: available since 4.6.0
-#if (__GNUC__ * 10 + __GNUC_MINOR__) >= 46
+#if(__GNUC__ * 10 + __GNUC_MINOR__) >= 46
 #define RF_HAVE_CONSTEXPR
 #endif
 #if __has_feature(cxx_constexpr)
@@ -119,7 +130,7 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 
 // detect if compiler can use is_trivially_copyable
 // available since VS2012
-#if (defined(RF_VISUALCPP) && !defined(RF_VISUALCPP_OLDER_2012))
+#if(defined(RF_VISUALCPP) && !defined(RF_VISUALCPP_OLDER_2012))
 #define RF_HAVE_IS_TRIVIALLY_COPYABLE
 #endif
 
@@ -129,8 +140,9 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 
 // detect if compiler can use noexcept
 // gcc and clang
-#if __has_feature(cxx_noexcept) ||\
-    (defined(__GXX_EXPERIMENTAL_CXX0X__) && __GNUC__ * 10 + __GNUC_MINOR__ >= 46) ||\
+#if __has_feature(cxx_noexcept) ||            \
+    (defined(__GXX_EXPERIMENTAL_CXX0X__) &&   \
+     __GNUC__ * 10 + __GNUC_MINOR__ >= 46) || \
     defined(RF_VISUALCPP)
 #define RF_HAVE_NOEXCEPT
 #endif
@@ -150,10 +162,11 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 // clang and gcc
 #if __has_cpp_attribute(deprecated)
 // c++14
-#define RF_DEPRECATED_FUNC(msg)[[deprecated(msg)]]
+#define RF_DEPRECATED_FUNC(msg) [[deprecated(msg)]]
 #else
 // pre c++14
-#if __has_extension(attribute_deprecated_with_message) || __GNUC__ * 10 + __GNU_MINOR__ >= 34
+#if __has_extension(attribute_deprecated_with_message) || \
+    __GNUC__ * 10 + __GNUC_MINOR__ >= 34
 #define RF_DEPRECATED_FUNC(msg) __attribute__((deprecated(msg)))
 #endif
 #endif
@@ -164,8 +177,10 @@ static_assert(false, "There's no support, of compiler warnings, for your compile
 #define RF_DEPRECATED_HEADER(msg) RF_COMPILER_WARNING(msg)
 // it's not mandatory, warn about the lack of functionality and define the macro
 #ifndef RF_DEPRECATED_FUNC
-RF_COMPILER_WARNING("RF_DEPRECATED macro is not set you should implement it for this compiler!");
+RF_COMPILER_WARNING(
+    "RF_DEPRECATED macro is not set you should implement it for this "
+    "compiler!");
 #define RF_DEPRECATED_FUNC(msg)
 #endif
 
-#endif // RF_SYSTEM_COMPILERCONFIG_HPP
+#endif  // RF_SYSTEM_COMPILERCONFIG_HPP

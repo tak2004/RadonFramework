@@ -5,21 +5,22 @@
 #endif
 
 #include <RadonFramework/Collections/Concurrency/DynamicQueueMPSC.hpp>
-#include <RadonFramework/Diagnostics/Profiling/ProfileScope.hpp>
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
+#include <RadonFramework/Diagnostics/Profiling/ProfileScope.hpp>
 
-namespace RadonFramework { namespace Diagnostics { namespace Profiling {
-
+namespace RadonFramework::Diagnostics::Profiling
+{
 class Recorder
 {
 public:
-	void AddScope(const ProfileScopeData& Scope);
+  void AddScope(const ProfileScopeData& Scope);
+
 protected:
-	RF_Con::DynamicQueueMPSC<ProfileScopeData> m_Timeline;
+  RF_Con::DynamicQueueMPSC<ProfileScopeData> m_Timeline;
 };
 
-typedef RF_Pattern::Singleton<Recorder> GlobalRecorder;
+using GlobalRecorder = RF_Pattern::Singleton<Recorder>;
 
-} } }
+}  // namespace RadonFramework::Diagnostics::Profiling
 
-#endif //!RF_DIAGNOSTICS_PROFILING_RECORDER_HPP
+#endif  //! RF_DIAGNOSTICS_PROFILING_RECORDER_HPP

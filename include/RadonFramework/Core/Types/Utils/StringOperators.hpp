@@ -144,37 +144,37 @@ private:
         return result;
     }
 
-    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[7], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&)[7], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[6], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&)[6], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[5], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&)[5], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[4], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&)[4], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[3], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&)[3], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[2], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&)[2], const RF_Type::UInt64 h)
     {
         return h;
     }
 
-    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&Str)[1], const RF_Type::UInt64 h)
+    RF_FORCE_INLINE RF_Type::UInt64 Loop(const char(&)[1], const RF_Type::UInt64 h)
     {
         return h;
     }

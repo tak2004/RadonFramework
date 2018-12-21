@@ -4,7 +4,6 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Collections/ArrayEnumerator.hpp>
 #include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
@@ -12,6 +11,7 @@
 #include <RadonFramework/Core/Policies/CPPAllocator.hpp>
 #include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
 #include <RadonFramework/Math/Integer.hpp>
+#include <RadonFramework/Memory/AutoPointer.hpp>
 
 #include <cstdlib>
 
@@ -434,11 +434,6 @@ public:
    */
   template <typename X>
   void ForEach(const Delegate2<void(T&, X)>& Action, X Param);
-
-  /**
-   * Returns an IEnumerator for the Array.
-   */
-  ArrayEnumerator<T> GetArrayEnumerator() const;
 
   /**
    * Returns an Enumerator for the Array.
@@ -921,11 +916,13 @@ Memory::AutoPointer<Array<T, MA, MO>>
 Array<T, MA, MO>::CreateInstance(const Array<RF_Type::Size>& Lengths)
 {
   typename Memory::AutoPointer<Array<T, MA, MO>> arr(MA::template New<Array>());
-  if(arr.Get() != 0)  // out of memory check
-    if(false == arr->InitArray(Lengths.m_ElementCount, Lengths.m_Data))
+  if(arr.Get() != nullptr)  // out of memory check
+  {
+    if(!arr->InitArray(Lengths.m_ElementCount, Lengths.m_Data))
     {  // something was going wrong, clean up
       arr.Reset();
     }
+  }
   return arr;
 }
 
@@ -968,16 +965,16 @@ RF_Type::Bool Array<T, MA, MO>::IsReadOnly() const
 template <typename T, typename MA, typename MO>
 void Array<T, MA, MO>::Item(RF_Type::Size Index, const T& Value)
 {
-  Assert(m_Rank > 0, "Try to access an item on an empty array.");
-  Assert(m_ElementCount > Index, "Index out of bound.");
+  RF_ASSERT(m_Rank > 0, "Try to access an item on an empty array.");
+  RF_ASSERT(m_ElementCount > Index, "Index out of bound.");
   m_Data[Index] = Value;
 }
 
 template <typename T, typename MA, typename MO>
 T& Array<T, MA, MO>::Item(RF_Type::Size Index) const
 {
-  Assert(m_Rank > 0, "Try to access an item on an empty array.");
-  Assert(m_ElementCount > Index, "Index out of bound.");
+  RF_ASSERT(m_Rank > 0, "Try to access an item on an empty array.");
+  RF_ASSERT(m_ElementCount > Index, "Index out of bound.");
   return m_Data[Index];
 }
 
@@ -1017,7 +1014,9 @@ Memory::AutoPointer<Array<T, MA, MO>> Array<T, MA, MO>::Clone() const
 {
   Array<RF_Type::Size, MA, MO> lengths(m_Rank);
   for(RF_Type::Size i = 0; i < m_Rank; ++i)
+  {
     lengths.m_Data[i] = m_Length[i];
+  }
   Memory::AutoPointer<Array> result = Array::CreateInstance(lengths);
   MO::Copy(result->m_Data, m_Data, m_ElementCount);
   return result;
@@ -1031,14 +1030,24 @@ Array<T, MA, MO>::ConstrainedCopy(RF_Type::Size SourceIndex,
                                   RF_Type::Size Length)
 {
   if(m_Rank != DestinationArray.m_Rank)
+  {
     return false;
+  }
   if(m_ElementCount < SourceIndex + Length)
+  {
     return false;
+  }
   if(DestinationArray.m_ElementCount < DestinationIndex + Length)
+  {
     return false;
+  }
   for(RF_Type::Size i = 0; i < m_Rank; ++i)
+  {
     if(m_Length[i] != DestinationArray.m_Length[i])
+    {
       return false;
+    }
+  }
   MO::Move(&DestinationArray.m_Data[DestinationIndex], &m_Data[SourceIndex],
            Length);
   return true;
@@ -1082,11 +1091,11 @@ void Array<T, MA, MO>::Copy(RF_Type::Size Index,
                             RF_Type::Size DestinationIndex,
                             RF_Type::Size Length)
 {
-  Assert(m_Rank == DestinationArray.m_Rank,
+  RF_ASSERT(m_Rank == DestinationArray.m_Rank,
          "Try to copy one array to an other with different dimensions.");
-  Assert(m_ElementCount >= Index + Length,
+  RF_ASSERT(m_ElementCount >= Index + Length,
          "Operation leave the memory bound of source array.");
-  Assert(DestinationArray.m_ElementCount >= DestinationIndex + Length,
+  RF_ASSERT(DestinationArray.m_ElementCount >= DestinationIndex + Length,
          "Operation leave the memory bound of the destination array.");
   MO::Move(&DestinationArray.m_Data[DestinationIndex], &m_Data[Index], Length);
 }
@@ -1158,7 +1167,7 @@ template <typename T, typename MA, typename MO>
 RF_Type::Size
 Array<T, MA, MO>::FindIndex(const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return FindIndex(0, m_Length[0], Match);
 }
 
@@ -1167,7 +1176,7 @@ RF_Type::Size
 Array<T, MA, MO>::FindIndex(RF_Type::Size StartIndex,
                             const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return FindIndex(StartIndex, m_Length[0] - StartIndex, Match);
 }
 
@@ -1177,7 +1186,7 @@ Array<T, MA, MO>::FindIndex(RF_Type::Size StartIndex,
                             RF_Type::Size Count,
                             const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   RF_Type::Size end = StartIndex + Count;
   for(RF_Type::Size i = StartIndex; i < end; ++i)
     if(Match(m_Data[i]))
@@ -1189,7 +1198,7 @@ template <typename T, typename MA, typename MO>
 RF_Type::Size
 Array<T, MA, MO>::FindLastIndex(const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return FindLastIndex(m_Length[0] - 1, m_Length[0], Match);
 }
 
@@ -1198,7 +1207,7 @@ RF_Type::Size
 Array<T, MA, MO>::FindLastIndex(RF_Type::Size StartIndex,
                                 const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return FindLastIndex(StartIndex, m_Length[0] - StartIndex, Match);
 }
 
@@ -1208,7 +1217,7 @@ Array<T, MA, MO>::FindLastIndex(RF_Type::Size StartIndex,
                                 RF_Type::Size Count,
                                 const Delegate1<RF_Type::Bool(const T&)>& Match)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   RF_Type::Int32 end = StartIndex - (Count - 1);
   for(RF_Type::Int32 i = StartIndex; i >= end; --i)
   {
@@ -1236,13 +1245,6 @@ void Array<T, MA, MO>::ForEach(const Delegate2<void(T&, X)>& Action, X Param)
 }
 
 template <typename T, typename MA, typename MO>
-ArrayEnumerator<T> Array<T, MA, MO>::GetArrayEnumerator() const
-{
-  ArrayEnumerator<T> result(m_Data, &m_Data[m_ElementCount - 1]);
-  return result;
-}
-
-template <typename T, typename MA, typename MO>
 typename Array<T, MA, MO>::EnumeratorType
 Array<T, MA, MO>::GetEnumerator() const
 {
@@ -1267,24 +1269,24 @@ Array<T, MA, MO>::GetConstEnumerator() const
 template <typename T, typename MA, typename MO>
 RF_Type::Size Array<T, MA, MO>::GetLength(RF_Type::Size Dimension)
 {
-  Assert(Dimension < m_Rank, "Dimension is out bound.");
+  RF_ASSERT(Dimension < m_Rank, "Dimension is out bound.");
   return m_Length[Dimension];
 }
 
 template <typename T, typename MA, typename MO>
 const T& Array<T, MA, MO>::GetValue(RF_Type::Size Index)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
-  Assert(Index < m_Length[0], "Index out of bound.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(Index < m_Length[0], "Index out of bound.");
   return m_Data[Index];
 }
 
 template <typename T, typename MA, typename MO>
 const T& Array<T, MA, MO>::GetValue(RF_Type::Size Index1, RF_Type::Size Index2)
 {
-  Assert(m_Rank == 2, "Unexpected dimension of array.");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(m_Rank == 2, "Unexpected dimension of array.");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
   return m_Data[(Index1 * m_Length[1]) + Index2];
 }
 
@@ -1293,10 +1295,10 @@ const T& Array<T, MA, MO>::GetValue(RF_Type::Size Index1,
                                     RF_Type::Size Index2,
                                     RF_Type::Size Index3)
 {
-  Assert(m_Rank == 3, "Unexpected dimension of array.");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
-  Assert(Index3 < m_Length[2], "Index out of bound.");
+  RF_ASSERT(m_Rank == 3, "Unexpected dimension of array.");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(Index3 < m_Length[2], "Index out of bound.");
   return m_Data[((Index1 * m_Length[1] * m_Length[2]) + Index2 * m_Length[2]) +
                 Index3];
 }
@@ -1309,17 +1311,17 @@ const T& Array<T, MA, MO>::GetValue(Array<RF_Type::Size>& Index)
   for(; i < Index.Count() - 1; ++i)
   {
     index += m_Length[i] * Index.m_Data[i];
-    Assert(index < m_ElementCount, "Index out of bound.");
+    RF_ASSERT(index < m_ElementCount, "Index out of bound.");
   }
   index += Index.m_Data[i];
-  Assert(index < m_ElementCount, "Index out of bound.");
+  RF_ASSERT(index < m_ElementCount, "Index out of bound.");
   return m_Data[index];
 }
 
 template <typename T, typename MA, typename MO>
 RF_Type::Size Array<T, MA, MO>::IndexOf(const T& Value) const
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return IndexOf(Value, 0, m_Length[0]);
 }
 
@@ -1327,7 +1329,7 @@ template <typename T, typename MA, typename MO>
 RF_Type::Size
 Array<T, MA, MO>::IndexOf(const T& Value, const RF_Type::Size StartIndex) const
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return IndexOf(Value, StartIndex, m_Length[0] - StartIndex);
 }
 
@@ -1336,9 +1338,9 @@ RF_Type::Size Array<T, MA, MO>::IndexOf(const T& Value,
                                         const RF_Type::Size StartIndex,
                                         const RF_Type::Size Count) const
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   RF_Type::Size end = StartIndex + Count;
-  Assert(end >= 0, "Operation out of bound.");
+  RF_ASSERT(end >= 0, "Operation out of bound.");
   for(RF_Type::Size i = StartIndex; i < end; ++i)
     if(m_Data[i] == Value)
       return i;
@@ -1348,7 +1350,7 @@ RF_Type::Size Array<T, MA, MO>::IndexOf(const T& Value,
 template <typename T, typename MA, typename MO>
 RF_Type::Size Array<T, MA, MO>::LastIndexOf(const T& Value) const
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return LastIndexOf(Value, m_Length[0] - 1, m_Length[0]);
 }
 
@@ -1357,7 +1359,7 @@ RF_Type::Size
 Array<T, MA, MO>::LastIndexOf(const T& Value,
                               const RF_Type::Size StartIndex) const
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   return LastIndexOf(Value, StartIndex, m_Length[0] - StartIndex);
 }
 
@@ -1366,9 +1368,9 @@ RF_Type::Size Array<T, MA, MO>::LastIndexOf(const T& Value,
                                             const RF_Type::Size StartIndex,
                                             const RF_Type::Size Count) const
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
   RF_Type::Int32 end = StartIndex - (Count - 1);
-  Assert(end >= 0, "Operation out of bound.");
+  RF_ASSERT(end >= 0, "Operation out of bound.");
   for(RF_Type::Int32 i = StartIndex; i >= end; --i)
   {
     if(m_Data[i] == Value)
@@ -1387,7 +1389,7 @@ void Array<T, MA, MO>::Resize(RF_Type::Size NewSize)
     InitArray(1, &NewSize);
   }
 
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
 
   if(NewSize != m_Length[0])
   {
@@ -1427,7 +1429,7 @@ void Array<T, MA, MO>::Reverse()
 template <typename T, typename MA, typename MO>
 void Array<T, MA, MO>::Reverse(RF_Type::Size Index, RF_Type::Size Length)
 {
-  Assert(Index + Length <= m_ElementCount, "Operation out of bound.");
+  RF_ASSERT(Index + Length <= m_ElementCount, "Operation out of bound.");
   RF_Type::Size end = Index + Length - 1;
   RF_Type::Size halfEnd = Index + (Length >> 1);
   T* tmp = MA::template New<T>();
@@ -1443,8 +1445,8 @@ void Array<T, MA, MO>::Reverse(RF_Type::Size Index, RF_Type::Size Length)
 template <typename T, typename MA, typename MO>
 void Array<T, MA, MO>::SetValue(const T& Value, RF_Type::Size Index)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
-  Assert(Index < m_ElementCount, "Index out of bound.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(Index < m_ElementCount, "Index out of bound.");
   m_Data[Index] = Value;
 }
 
@@ -1453,9 +1455,9 @@ void Array<T, MA, MO>::SetValue(const T& Value,
                                 RF_Type::Size Index1,
                                 RF_Type::Size Index2)
 {
-  Assert(m_Rank == 2, "Unexpected dimension of array.");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(m_Rank == 2, "Unexpected dimension of array.");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
   m_Data[(Index1 * m_Length[1]) + Index2] = Value;
 }
 
@@ -1465,10 +1467,10 @@ void Array<T, MA, MO>::SetValue(const T& Value,
                                 RF_Type::Size Index2,
                                 RF_Type::Size Index3)
 {
-  Assert(m_Rank == 3, "Unexpected dimension of array.");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
-  Assert(Index3 < m_Length[2], "Index out of bound.");
+  RF_ASSERT(m_Rank == 3, "Unexpected dimension of array.");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(Index3 < m_Length[2], "Index out of bound.");
   m_Data[((Index1 * m_Length[1] * m_Length[2]) + Index2 * m_Length[2]) +
          Index3] = Value;
 }
@@ -1476,16 +1478,16 @@ void Array<T, MA, MO>::SetValue(const T& Value,
 template <typename T, typename MA, typename MO>
 void Array<T, MA, MO>::SetValue(const T& Value, Array<RF_Type::Size>& Indices)
 {
-  Assert(m_Rank == Indices.Count(), "Unexpected dimension of array.");
+  RF_ASSERT(m_Rank == Indices.Count(), "Unexpected dimension of array.");
   RF_Type::Size index = 0;
   RF_Type::Size i = 0;
   for(; i < Indices.Count() - 1; ++i)
   {
     index += m_Length[i] * Indices.m_Data[i];
-    Assert(index < m_ElementCount, "Index out of bound.");
+    RF_ASSERT(index < m_ElementCount, "Index out of bound.");
   }
   index += Indices.m_Data[i];
-  Assert(index < m_ElementCount, "Index out of bound.");
+  RF_ASSERT(index < m_ElementCount, "Index out of bound.");
   m_Data[index] = Value;
 }
 
@@ -1502,7 +1504,7 @@ void Array<T, MA, MO>::Sort(
     RF_Type::Size LastIndex,
     const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer)
 {
-  Assert(LastIndex < m_ElementCount, "Index out of bound.");
+  RF_ASSERT(LastIndex < m_ElementCount, "Index out of bound.");
   if(LastIndex <= Index)
     return;
 
@@ -1581,8 +1583,8 @@ void Array<T, MA, MO>::Sort(
     RF_Type::Size LastIndex,
     const Delegate2<RF_Type::Int32(const T&, const T&)>& Comparer)
 {
-  Assert(Keys.m_ElementCount == Items.m_ElementCount, "Invalid parameter.");
-  Assert(LastIndex < Keys.m_ElementCount, "Index out of bound.");
+  RF_ASSERT(Keys.m_ElementCount == Items.m_ElementCount, "Invalid parameter.");
+  RF_ASSERT(LastIndex < Keys.m_ElementCount, "Index out of bound.");
 
   if(LastIndex <= Index)
     return;
@@ -1684,23 +1686,25 @@ Array<T, MA, MO>& Array<T, MA, MO>::operator=(const Array<T, MA, MO>& Other)
 {
   InitArray(Other.m_Rank, Other.m_Length);
   for(RF_Type::Size i = 0; i < m_ElementCount; ++i)
+  {
     m_Data[i] = Other.m_Data[i];
+  }
   return *this;
 }
 
 template <typename T, typename MA, typename MO>
 T& Array<T, MA, MO>::operator()(const RF_Type::Size Index)
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
-  Assert(Index < m_Length[0], "Index out of bound.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(Index < m_Length[0], "Index out of bound.");
   return m_Data[Index];
 }
 
 template <typename T, typename MA, typename MO>
 const T& Array<T, MA, MO>::operator()(const RF_Type::Size Index) const
 {
-  Assert(m_Rank == 1, "Unexpected dimension of array.");
-  Assert(Index < m_Length[0], "Index out of bound.");
+  RF_ASSERT(m_Rank == 1, "Unexpected dimension of array.");
+  RF_ASSERT(Index < m_Length[0], "Index out of bound.");
   return m_Data[Index];
 }
 
@@ -1708,9 +1712,9 @@ template <typename T, typename MA, typename MO>
 T& Array<T, MA, MO>::
 operator()(const RF_Type::Size Index1, const RF_Type::Size Index2)
 {
-  Assert(m_Rank == 2, "Unexpected dimension of array.");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(m_Rank == 2, "Unexpected dimension of array.");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
   return m_Data[(Index1 * m_Length[1]) + Index2];
 }
 
@@ -1718,9 +1722,9 @@ template <typename T, typename MA, typename MO>
 const T& Array<T, MA, MO>::
 operator()(const RF_Type::Size Index1, const RF_Type::Size Index2) const
 {
-  Assert(m_Rank == 2, "Unexpected dimension of array.");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(m_Rank == 2, "Unexpected dimension of array.");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
   return m_Data[(Index1 * m_Length[1]) + Index2];
 }
 
@@ -1729,10 +1733,10 @@ T& Array<T, MA, MO>::operator()(const RF_Type::Size Index1,
                                 const RF_Type::Size Index2,
                                 const RF_Type::Size Index3)
 {
-  Assert(m_Rank == 3, "Unexpected dimension of array");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
-  Assert(Index3 < m_Length[2], "Index out of bound.");
+  RF_ASSERT(m_Rank == 3, "Unexpected dimension of array");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(Index3 < m_Length[2], "Index out of bound.");
   return m_Data[((Index1 * m_Length[1] * m_Length[2]) + Index2 * m_Length[2]) +
                 Index3];
 }
@@ -1742,10 +1746,10 @@ const T& Array<T, MA, MO>::operator()(const RF_Type::Size Index1,
                                       const RF_Type::Size Index2,
                                       const RF_Type::Size Index3) const
 {
-  Assert(m_Rank == 3, "Unexpected dimension of array.");
-  Assert(Index1 < m_Length[0], "Index out of bound.");
-  Assert(Index2 < m_Length[1], "Index out of bound.");
-  Assert(Index3 < m_Length[2], "Index out of bound.");
+  RF_ASSERT(m_Rank == 3, "Unexpected dimension of array.");
+  RF_ASSERT(Index1 < m_Length[0], "Index out of bound.");
+  RF_ASSERT(Index2 < m_Length[1], "Index out of bound.");
+  RF_ASSERT(Index3 < m_Length[2], "Index out of bound.");
   return m_Data[((Index1 * m_Length[1] * m_Length[2]) + Index2 * m_Length[2]) +
                 Index3];
 }

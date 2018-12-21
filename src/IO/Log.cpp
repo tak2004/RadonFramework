@@ -81,12 +81,13 @@ void Log::ReplaceAppenders(AutoPointer<Array<AutoPointer<Appender> > >& Values)
 void Log::RemoveAppender(const Appender& Value)
 {
     Int32 index=0;
-    ArrayEnumerator<AutoPointer<Appender> > it=m_Appender.GetArrayEnumerator();
-    while(it.MoveNext())
+    for (auto it : m_Appender)
     {
-        if (it.Current()->Get()==&Value)
-            break;
-        ++index;
+      if (it.Get() == &Value)
+      {
+        break;
+      }
+      ++index;
     }
 
     if (index>=0)

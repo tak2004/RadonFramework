@@ -7,17 +7,17 @@
 #include <RadonFramework/Core/Pattern/Service.hpp>
 #include <RadonFramework/Drawing/AbstractCanvas.hpp>
 
-namespace RadonFramework::Drawing {
-
-class Canvas3DService:public Core::Pattern::Service
+namespace RadonFramework::Drawing
+{
+class Canvas3DService : public Core::Pattern::Service
 {
 public:
-    Canvas3DService(const RF_Type::String &Name);
-    ~Canvas3DService();
-    virtual AbstractCanvas* CreateCanvas3D() = 0;
+  Canvas3DService(const RF_Type::String& Name);
+  ~Canvas3DService() override;
+  virtual AbstractCanvas* CreateCanvas3D() = 0;
 };
-  
-}
+
+}  // namespace RadonFramework::Drawing
 
 #ifndef RF_SHORTHAND_NAMESPACE_DRAW
 #define RF_SHORTHAND_NAMESPACE_DRAW

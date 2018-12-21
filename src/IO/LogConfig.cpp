@@ -93,7 +93,7 @@ UInt32 LogConfig::AppenderCount()const
 
 UInt32 LogConfig::GetAppenderID(UInt32 Index)const
 {
-    Assert(Index<m_Data->AppenderCount,);
+    RF_ASSERT(Index<m_Data->AppenderCount,);
     return m_AppenderIDs[Index];
 }
 

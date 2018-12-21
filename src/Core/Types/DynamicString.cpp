@@ -6,13 +6,13 @@ using namespace RadonFramework::Core::Types;
 
 UInt8& DynamicString::operator [](const MemoryRange Index)
 {
-    Assert(Index < m_Size, "Index out of bound.");
+    RF_ASSERT(Index < m_Size, "Index out of bound.");
     return m_Buffer[Index];
 }
 
 UInt8 DynamicString::operator [](const MemoryRange Index)const
 {
-    Assert(Index < m_Size, "Index out of bound.");
+    RF_ASSERT(Index < m_Size, "Index out of bound.");
     return m_Buffer[Index];
 }
 

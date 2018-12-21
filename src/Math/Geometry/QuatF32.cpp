@@ -31,7 +31,7 @@ QuatF32& QuatF32::operator=(const QuatF32& Copy)
 QuatF32::QuatF32(const RF_Type::Float32 Alpha, const Vector<RF_Type::Float32, 3>& Direction)
 {
     RF_Type::Float32 a = RF_Math::Float32::DegToRad(Alpha*static_cast<RF_Type::Float32>(0.5));
-    Assert(Direction.Length() >= RF_Math::Float32::EPSILION, "Invalid parameter.");
+    RF_ASSERT(Direction.Length() >= RF_Math::Float32::EPSILION, "Invalid parameter.");
     RF_Type::Float32 s = RF_Math::Float32::Sin(a);
     m_Vec[0] = RF_Math::Float32::Cos(a);
     m_Vec[1] = s*Direction[0];
@@ -200,7 +200,7 @@ QuatF32& QuatF32::SetIdentity()
 QuatF32& QuatF32::Invert()
 {
     RF_Type::Float32 val = SquareLength();
-    Assert(val != static_cast<RF_Type::Float32>(0.0), "Invalid value.");
+    RF_ASSERT(val != static_cast<RF_Type::Float32>(0.0), "Invalid value.");
     Conjugate().m_Vec /= val;
     return *this;
 }
@@ -482,13 +482,13 @@ Matrix<RF_Type::Float32, 4, 4> QuatF32::AsMatrix()const
 
 RF_Type::Float32& QuatF32::operator[](const RF_Type::UInt32 Index)
 {
-    Assert(Index<4, "Index out of bound.");
+    RF_ASSERT(Index<4, "Index out of bound.");
     return m_Vec[Index];
 }
 
 const RF_Type::Float32 QuatF32::operator[](const RF_Type::UInt32 Index)const
 {
-    Assert(Index<4, "Index out of bound.");
+    RF_ASSERT(Index<4, "Index out of bound.");
     return m_Vec[Index];
 }
 

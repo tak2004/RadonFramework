@@ -10,7 +10,7 @@ ReadUserEncryptedData_SystemAPIDispatcher(const RF_Type::String& Entryname,
 {
   ReadUserEncryptedData = 0;
   Dispatch();
-  Assert(ReadUserEncryptedData != ReadUserEncryptedData_SystemAPIDispatcher &&
+  RF_ASSERT(ReadUserEncryptedData != ReadUserEncryptedData_SystemAPIDispatcher &&
            ReadUserEncryptedData != 0,
          "Funtion was called and couldn't be dispatched");
   return ReadUserEncryptedData(Entryname, WriteTo, Bytes);
@@ -23,7 +23,7 @@ WriteUserEncryptedData_SystemAPIDispatcher(const RF_Type::String& Entryname,
 {
   WriteUserEncryptedData = 0;
   Dispatch();
-  Assert(WriteUserEncryptedData != WriteUserEncryptedData_SystemAPIDispatcher &&
+  RF_ASSERT(WriteUserEncryptedData != WriteUserEncryptedData_SystemAPIDispatcher &&
            WriteUserEncryptedData != 0,
          "Funtion was called and couldn't be dispatched");
   return WriteUserEncryptedData(Entryname, ReadFrom, Bytes);
@@ -34,7 +34,7 @@ RemoveUserEncryptedData_SystemAPIDispatcher(const RF_Type::String& Entryname)
 {
   RemoveUserEncryptedData = 0;
   Dispatch();
-  Assert(RemoveUserEncryptedData !=
+  RF_ASSERT(RemoveUserEncryptedData !=
              RemoveUserEncryptedData_SystemAPIDispatcher &&
            RemoveUserEncryptedData != 0,
          "Funtion was called and couldn't be dispatched");
@@ -46,7 +46,7 @@ UserEncryptedDataSize_SystemAPIDispatcher(const RF_Type::String& Entryname)
 {
   UserEncryptedDataSize = 0;
   Dispatch();
-  Assert(UserEncryptedDataSize != UserEncryptedDataSize_SystemAPIDispatcher &&
+  RF_ASSERT(UserEncryptedDataSize != UserEncryptedDataSize_SystemAPIDispatcher &&
            UserEncryptedDataSize != 0,
          "Funtion was called and couldn't be dispatched");
   return UserEncryptedDataSize(Entryname);
@@ -58,7 +58,7 @@ IsUserEncryptedEntryAvailable_SystemAPIDispatcher(
 {
   IsUserEncryptedEntryAvailable = 0;
   Dispatch();
-  Assert(IsUserEncryptedEntryAvailable !=
+  RF_ASSERT(IsUserEncryptedEntryAvailable !=
              IsUserEncryptedEntryAvailable_SystemAPIDispatcher &&
            IsUserEncryptedEntryAvailable != 0,
          "Funtion was called and couldn't be dispatched");
@@ -71,7 +71,7 @@ GenerateRandom_SystemAPIDispatcher(RF_Type::UInt8* Writeto,
 {
   GenerateRandom = 0;
   Dispatch();
-  Assert(GenerateRandom != GenerateRandom_SystemAPIDispatcher &&
+  RF_ASSERT(GenerateRandom != GenerateRandom_SystemAPIDispatcher &&
            GenerateRandom != 0,
          "Funtion was called and couldn't be dispatched");
   return GenerateRandom(Writeto, NumberInBytes);
@@ -83,7 +83,7 @@ EnsureFillZeros_SystemAPIDispatcher(RF_Type::UInt8* WriteAt,
 {
   EnsureFillZeros = nullptr;
   Dispatch();
-  Assert(EnsureFillZeros != EnsureFillZeros_SystemAPIDispatcher &&
+  RF_ASSERT(EnsureFillZeros != EnsureFillZeros_SystemAPIDispatcher &&
            EnsureFillZeros != 0,
          "Funtion was called and couldn't be dispatched");
   EnsureFillZeros(WriteAt, Bytes);

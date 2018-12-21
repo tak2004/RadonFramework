@@ -142,7 +142,7 @@ UInt32 DateTime::Year()const
 
 MonthOfYear::Type DateTime::GetMonthOfYear()const
 {
-    return (MonthOfYear::Type)(Month() - 1);
+    return static_cast<MonthOfYear::Type>(Month() - 1);
 }
 
 UInt32 DateTime::Month()const
@@ -152,7 +152,7 @@ UInt32 DateTime::Month()const
 
 DayOfWeek::Type DateTime::GetDayOfWeek()const
 {
-    return (DayOfWeek::Type)((m_Ticks.Days() + 1) % 7);
+    return static_cast<DayOfWeek::Type>((m_Ticks.Days() + 1) % 7);
 }
 
 UInt32 DateTime::DayOfYear()const
@@ -233,7 +233,7 @@ DateTime DateTime::UtcNow()
 
 UInt32 DateTime::DaysInMonth(UInt32 Year, UInt32 Month)
 {
-    Assert(Month > 0 && Month < 13 && Year > 0 && Year < 10000, "Index out of bound.");
+    RF_ASSERT(Month > 0 && Month < 13 && Year > 0 && Year < 10000, "Index out of bound.");
 
     UInt32 days = IsLeapYear(Year) ? daysmonthleap[Month] : daysmonth[Month];
     return days;
@@ -262,7 +262,7 @@ UInt32 DateTime::AbsoluteDays(UInt32 Year, UInt32 Month, UInt32 Day)
 
 bool DateTime::IsLeapYear(UInt32 Year)
 {
-    Assert(Year > 0 && Year < 10000, "Index out of bound.");
+    RF_ASSERT(Year > 0 && Year < 10000, "Index out of bound.");
     return ((Year % 4 == 0 && Year % 100 != 0) || Year % 400 == 0);
 }
 

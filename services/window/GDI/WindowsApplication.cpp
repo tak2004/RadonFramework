@@ -117,7 +117,7 @@ RF_Type::String RadonFramework::Forms::WindowsApplication::GetClipboardText()
                     bytes = wcstombs(reinterpret_cast<char*>(buffer.Get()), reinterpret_cast<WCHAR*>(multybyteText), buffer.Size());
                     if(bytes > 0)
                     {
-                        result = RF_Type::String(buffer);
+                        result = RF_Type::String(buffer.Release(), bytes, RF_Core::DataManagment::TransfereOwnership);
                     }
                     GlobalUnlock(handle);
                 }

@@ -7,30 +7,31 @@
 #include <RadonFramework/IO/Uri.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
-namespace RadonFramework::IO {
-
+namespace RadonFramework::IO
+{
 class Stream;
 class ProtocolService;
 
 class Resource
 {
 public:
-    static RF_Mem::AutoPointer<Resource> FromUri(const RF_IO::Uri& Location);
-    ~Resource();
-    RF_Type::Bool Exists()const;
-    RF_Type::Bool IsReadable()const;
-    RF_Type::Bool IsWriteable()const;
-    Stream* GetStream()const;
-    RF_Type::Size GetSize();
-    const Uri& Location()const;
-    RF_Mem::AutoPointerArray<RF_Type::UInt8> Read();
+  static RF_Mem::AutoPointer<Resource> FromUri(const RF_IO::Uri& Location);
+  ~Resource();
+  RF_Type::Bool Exists() const;
+  RF_Type::Bool IsReadable() const;
+  RF_Type::Bool IsWriteable() const;
+  Stream* GetStream() const;
+  RF_Type::Size GetSize();
+  const Uri& Location() const;
+  RF_Mem::AutoPointerArray<RF_Type::UInt8> Read();
+
 protected:
-    Resource();
-    Uri m_Location;
-    ProtocolService* m_UsedProtocol;
-    Stream* m_Stream;
+  Resource();
+  Uri m_Location;
+  ProtocolService* m_UsedProtocol;
+  Stream* m_Stream;
 };
 
-}
+}  // namespace RadonFramework::IO
 
-#endif // RF_IO_RESOURCE_HPP
+#endif  // RF_IO_RESOURCE_HPP

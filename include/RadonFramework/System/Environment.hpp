@@ -4,41 +4,41 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Collections/Array.hpp>
+#include <RadonFramework/Collections/List.hpp>
+#include <RadonFramework/Core/Types/UUID.hpp>
 #include <RadonFramework/System/MemoryArchitecture.hpp>
 #include <RadonFramework/System/OperatingSystem.hpp>
 #include <RadonFramework/System/OperatingSystemFamily.hpp>
-#include <RadonFramework/Collections/List.hpp>
-#include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Text/UnicodeRangeInfo.hpp>
-#include <RadonFramework/Core/Types/UUID.hpp>
 
-namespace RadonFramework::System::Environment {
-
+namespace RadonFramework::System::Environment
+{
 /// This function will be called by RadonFramework_Init function.
 void Dispatch();
 
 /** This function will be called by RadonFraemwork_Init function to
-* check if the dispatching was successfully.
-**/
+ * check if the dispatching was successfully.
+ **/
 RF_Type::Bool IsSuccessfullyDispatched();
-            
+
 /// This function is for debugging purpose and return all unassigned functions.
 void GetNotDispatchedFunctions(Collections::List<RF_Type::String>& Result);
 
-using MemoryArchitectureOfOSCallback = MemoryArchitecture::Type(*)();
+using MemoryArchitectureOfOSCallback = MemoryArchitecture::Type (*)();
 
-using Is32BitEmulationCallback = RF_Type::Bool(*)();
+using Is32BitEmulationCallback = RF_Type::Bool (*)();
 
-using OSVersionCallback = const OperatingSystem&(*)();
+using OSVersionCallback = const OperatingSystem& (*)();
 
-using GetVariableCallback = void(*)(const RF_Type::String& Name, 
-                                    RF_Type::String& Result);
+using GetVariableCallback = void (*)(const RF_Type::String& Name,
+                                     RF_Type::String& Result);
 
-using PlatformCallback = PlatformID::Type(*)();
+using PlatformCallback = PlatformID::Type (*)();
 
-using OSFamilyCallback = OperatingSystemFamily::Type(*)();
+using OSFamilyCallback = OperatingSystemFamily::Type (*)();
 
-using FastRandomUUIDCallback = void(*)(RF_Type::UUID& Target);
+using FastRandomUUIDCallback = void (*)(RF_Type::UUID& Target);
 using SecureRandomUUIDCallback = void (*)(RF_Type::UUID& Target);
 using UUIDFromStringCallback = void (*)(const RF_Type::String& Text,
                                         RF_Type::UUID& Target);
@@ -68,18 +68,20 @@ extern UUIDFromStringCallback UUIDFromString;
 extern SystemLanguageCallback ActiveLanguage;
 /// Return the current active user language name e.g. de.
 extern SystemLanguageCallback ActiveLanguageName;
-/// Return the current active user language name in the native language e.g. Deutsch.
+/// Return the current active user language name in the native language e.g.
+/// Deutsch.
 extern SystemLanguageCallback ActiveNativeLanguageName;
 /// Return the current active user language location e.g. DE.
 extern SystemLanguageCallback ActiveLanguageLocation;
-/// Return the current active user language location in native language e.g. Deutschland.
+/// Return the current active user language location in native language e.g.
+/// Deutschland.
 extern SystemLanguageCallback ActiveNativeLanguageLocation;
 
-}
+}  // namespace RadonFramework::System::Environment
 
 #ifndef RF_SHORTHAND_NAMESPACE_SYSENV
 #define RF_SHORTHAND_NAMESPACE_SYSENV
 namespace RF_SysEnv = RadonFramework::System::Environment;
 #endif
 
-#endif // RF_SYSTEM_ENVIRONMENT_HPP
+#endif  // RF_SYSTEM_ENVIRONMENT_HPP

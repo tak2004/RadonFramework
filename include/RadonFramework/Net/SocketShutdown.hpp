@@ -4,20 +4,20 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Net {
-
+namespace RadonFramework::Net
+{
 namespace SocketShutdown
 {
-	enum Type
-	{
-		Send,
-		Receive,
-		Both,
-		MAX
-	};
+enum Type
+{
+  Send,
+  Receive,
+  Both,
+  MAX
+};
 }
 
-}
+}  // namespace RadonFramework::Net
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

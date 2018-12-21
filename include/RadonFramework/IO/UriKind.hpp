@@ -4,16 +4,15 @@
 #pragma once
 #endif
 
-namespace RadonFramework::IO::UriKind {
-
+namespace RadonFramework::IO::UriKind
+{
 enum Type
 {
-    // The kind of the Uri is indeterminate.
-    RelativeOrAbsolute,
-    Absolute,
-    Relative
+  // The kind of the Uri is indeterminate.
+  RelativeOrAbsolute,
+  Absolute,
+  Relative
 };
-
 }
 
-#endif // RF_IO_URIKIND_HPP
+#endif  // RF_IO_URIKIND_HPP

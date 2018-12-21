@@ -4,20 +4,21 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
 #include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Diagnostics/Debugging/UnitTest/Collector.hpp>
 
-namespace RadonFramework::Diagnostics::Debugging::UnitTest {
-
-class DebugCollector:public Collector
+namespace RadonFramework::Diagnostics::Debugging::UnitTest
+{
+class DebugCollector : public Collector
 {
 public:
-    virtual void CreateSuite(const RF_Type::String& Name) override;
-    virtual void ProcessResult(const Test::TestResult& Result) override;
+  void CreateSuite(const RF_Type::String& Name) final;
+  void ProcessResult(const Test::TestResult& Result) final;
+
 protected:
-    RF_Type::String m_CurrentSuite;
+  RF_Type::String m_CurrentSuite;
 };
 
-}
+}  // namespace RadonFramework::Diagnostics::Debugging::UnitTest
 
-#endif // RF_DIAGNOSTICS_DEBUGGING_DEBUGCOLLECTOR_HPP
+#endif  // RF_DIAGNOSTICS_DEBUGGING_DEBUGCOLLECTOR_HPP

@@ -1,17 +1,14 @@
-#include "RadonFramework/precompiled.hpp"
-#include <RadonFramework/Threading/Scopelock.hpp>
 #include <RadonFramework/System/Threading/Mutex.hpp>
+#include <RadonFramework/Threading/Scopelock.hpp>
+#include "RadonFramework/precompiled.hpp"
 
 using namespace RadonFramework::System::Threading;
 
-namespace RadonFramework::Threading {
+namespace RadonFramework::Threading
+{
+Scopelock::Scopelock(const Scopelock& Other) {}
 
-Scopelock::Scopelock(){}
-
-Scopelock::Scopelock(const Scopelock& Other){}
-
-Scopelock::Scopelock(Mutex& Ref)
-:m_Mutex(&Ref)
+Scopelock::Scopelock(Mutex& Ref) : m_Mutex(&Ref)
 {
   m_Mutex->Lock();
 }
@@ -23,7 +20,7 @@ Scopelock::~Scopelock()
 
 Scopelock& Scopelock::operator=(const Scopelock& Other)
 {
-    return *this;
+  return *this;
 }
 
-}
+}  // namespace RadonFramework::Threading

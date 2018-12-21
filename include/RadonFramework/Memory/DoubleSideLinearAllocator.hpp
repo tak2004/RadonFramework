@@ -6,24 +6,26 @@
 
 #include <RadonFramework/Memory/MemoryBlock.hpp>
 
-namespace RadonFramework::Memory {
-
-template<class ALLOCATOR, RF_Type::Size BLOCK_SIZE, RF_Type::Size BLOCK_ALIGN_SIZE>
-class DoubleSideStackAllocator: private ALLOCATOR
+namespace RadonFramework::Memory
+{
+template <class ALLOCATOR,
+          RF_Type::Size BLOCK_SIZE,
+          RF_Type::Size BLOCK_ALIGN_SIZE>
+class DoubleSideStackAllocator : private ALLOCATOR
 {
 public:
-    DoubleSideStackAllocator();
-    MemoryBlock Allocate(const RF_Type::Size Bytes);
-    void Deallocate(const MemoryBlock& Block);
-    RF_Type::Bool Owns(const MemoryBlock& Block)const;
-    void DeallocateAll();
+  DoubleSideStackAllocator();
+  MemoryBlock Allocate(const RF_Type::Size Bytes);
+  void Deallocate(const MemoryBlock& Block);
+  RF_Type::Bool Owns(const MemoryBlock& Block) const;
+  void DeallocateAll();
 };
 
-}
+}  // namespace RadonFramework::Memory
 
 #ifndef RF_SHORTHAND_NAMESPACE_MEM
 #define RF_SHORTHAND_NAMESPACE_MEM
 namespace RF_Mem = RadonFramework::Memory;
 #endif
 
-#endif // ! RF_MEMORY_DOUBLESIDESTACKALLOCATOR_HPP
+#endif  // ! RF_MEMORY_DOUBLESIDESTACKALLOCATOR_HPP

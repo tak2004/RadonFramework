@@ -31,7 +31,7 @@ void TestSuite::AddTest(TestMethod Test, const RF_Type::String& TestName,
 RF_Mem::AutoPointer<RF_Test::TestResult> TestSuite::ProcessTest(const RF_Type::UInt32 Number)
 {
 	RF_Type::Bool passed;
-	Assert(Number < m_TestMethods.Count(), "Out of bound.");
+	RF_ASSERT(Number < m_TestMethods.Count(), "Out of bound.");
 	RF_Mem::AutoPointer<RF_Test::TestResult> result(new RF_Test::TestResult);
 	result->SetName(m_TestMethods[Number].Name);
 	{

@@ -8,7 +8,7 @@ RF_Type::Bool IsAlive_SystemAPIDispatcher(void* Data)
 {
     IsAlive = 0;
     Dispatch();
-    Assert(IsAlive != IsAlive_SystemAPIDispatcher &&
+    RF_ASSERT(IsAlive != IsAlive_SystemAPIDispatcher &&
         IsAlive != 0, "Funtion was called and couldn't be dispatched");
     return IsAlive(Data);
 }
@@ -17,7 +17,7 @@ RF_Type::Bool IsRunning_SystemAPIDispatcher(void* Data)
 {
     IsRunning = 0;
     Dispatch();
-    Assert(IsRunning != IsRunning_SystemAPIDispatcher &&
+    RF_ASSERT(IsRunning != IsRunning_SystemAPIDispatcher &&
         IsRunning != 0, "Funtion was called and couldn't be dispatched");
     return IsRunning(Data);
 }
@@ -26,7 +26,7 @@ void* Create_SystemAPIDispatcher(RF_Thread::Thread& Instance, RF_Type::UInt64& P
 {
     Create = 0;
     Dispatch();
-    Assert(Create != Create_SystemAPIDispatcher &&
+    RF_ASSERT(Create != Create_SystemAPIDispatcher &&
         Create != 0, "Funtion was called and couldn't be dispatched");
     return Create(Instance, PID);
 }
@@ -35,7 +35,7 @@ void Destroy_SystemAPIDispatcher(void* Data)
 {
     Destroy = 0;
     Dispatch();
-    Assert(Destroy != Destroy_SystemAPIDispatcher &&
+    RF_ASSERT(Destroy != Destroy_SystemAPIDispatcher &&
         Destroy != 0, "Funtion was called and couldn't be dispatched");
     Destroy(Data);
 }
@@ -44,7 +44,7 @@ void Rename_SystemAPIDispatcher(void* Data, const RF_Type::String& Name)
 {
     Rename = 0;
     Dispatch();
-    Assert(Rename != Rename_SystemAPIDispatcher &&
+    RF_ASSERT(Rename != Rename_SystemAPIDispatcher &&
         Rename != 0, "Funtion was called and couldn't be dispatched");
     Rename(Data, Name);
 }
@@ -53,7 +53,7 @@ void Sleep_SystemAPIDispatcher(const RF_Time::TimeSpan& Delta)
 {
     Sleep = 0;
     Dispatch();
-    Assert(Sleep != Sleep_SystemAPIDispatcher &&
+    RF_ASSERT(Sleep != Sleep_SystemAPIDispatcher &&
         Sleep != 0, "Funtion was called and couldn't be dispatched");
     Sleep(Delta);
 }
@@ -62,7 +62,7 @@ RF_Type::UInt64 GetProcessId_SystemAPIDispatcher()
 {
     GetProcessId = 0;
     Dispatch();
-    Assert(GetProcessId != GetProcessId_SystemAPIDispatcher &&
+    RF_ASSERT(GetProcessId != GetProcessId_SystemAPIDispatcher &&
         GetProcessId != 0, "Funtion was called and couldn't be dispatched");
     return GetProcessId();
 }
@@ -71,7 +71,7 @@ void Wait_SystemAPIDispatcher(void* Data, const RF_Time::TimeSpan& Delta)
 {
     Wait = 0;
     Dispatch();
-    Assert(Wait != Wait_SystemAPIDispatcher &&
+    RF_ASSERT(Wait != Wait_SystemAPIDispatcher &&
         Wait != 0, "Funtion was called and couldn't be dispatched");
     Wait(Data, Delta);
 }
@@ -80,7 +80,7 @@ void Join_SystemAPIDispatcher(void* Data)
 {
     Join = 0;
     Dispatch();
-    Assert(Join != Join_SystemAPIDispatcher &&
+    RF_ASSERT(Join != Join_SystemAPIDispatcher &&
         Join != 0, "Funtion was called and couldn't be dispatched");
     Join(Data);
 }
@@ -89,7 +89,7 @@ void SetPriority_SystemAPIDispatcher(void* Data, RF_Thread::ThreadPriority::Type
 {
     SetPriority = 0;
     Dispatch();
-    Assert(SetPriority != SetPriority_SystemAPIDispatcher &&
+    RF_ASSERT(SetPriority != SetPriority_SystemAPIDispatcher &&
         SetPriority != 0, "Funtion was called and couldn't be dispatched");
     SetPriority(Data, Value);
 }
@@ -98,7 +98,7 @@ RF_Thread::ThreadPriority::Type GetPriority_SystemAPIDispatcher(void* Data)
 {
     GetPriority = 0;
     Dispatch();
-    Assert(GetPriority != GetPriority_SystemAPIDispatcher &&
+    RF_ASSERT(GetPriority != GetPriority_SystemAPIDispatcher &&
         GetPriority != 0, "Funtion was called and couldn't be dispatched");
     return GetPriority(Data);
 }
@@ -108,7 +108,7 @@ RF_Type::Bool SetAffinityMask_SystemAPIDispatcher(void* Data,
 {
     SetAffinityMask = 0;
     Dispatch();
-    Assert(SetAffinityMask != SetAffinityMask_SystemAPIDispatcher &&
+    RF_ASSERT(SetAffinityMask != SetAffinityMask_SystemAPIDispatcher &&
         SetAffinityMask != 0, "Funtion was called and couldn't be dispatched");
     return SetAffinityMask(Data, NewMask);
 }
@@ -118,7 +118,7 @@ RF_Type::Bool GetAffinityMask_SystemAPIDispatcher(void* Data,
 {
     GetAffinityMask = 0;
     Dispatch();
-    Assert(GetAffinityMask != GetAffinityMask_SystemAPIDispatcher &&
+    RF_ASSERT(GetAffinityMask != GetAffinityMask_SystemAPIDispatcher &&
         GetAffinityMask != 0, "Funtion was called and couldn't be dispatched");
     return GetAffinityMask(Data, Mask);
 }
@@ -127,7 +127,7 @@ void PostConfigurationComplete_SystemAPIDispatcher(void* Data)
 {
     PostConfigurationComplete = 0;
     Dispatch();
-    Assert(PostConfigurationComplete != PostConfigurationComplete_SystemAPIDispatcher &&
+    RF_ASSERT(PostConfigurationComplete != PostConfigurationComplete_SystemAPIDispatcher &&
         PostConfigurationComplete != 0, "Funtion was called and couldn't be dispatched");
     PostConfigurationComplete(Data);
 }
@@ -136,7 +136,7 @@ void ShortestPause_SystemAPIDispatcher()
 {
     ShortestPause = nullptr;
     Dispatch();
-    Assert(ShortestPause != ShortestPause_SystemAPIDispatcher &&
+    RF_ASSERT(ShortestPause != ShortestPause_SystemAPIDispatcher &&
            ShortestPause != 0, "Funtion was called and couldn't be dispatched");
     ShortestPause();
 }
@@ -145,7 +145,7 @@ void Stop_SystemAPIDispatcher(void* Data)
 {
     Stop = nullptr;
     Dispatch();
-    Assert(Stop != Stop_SystemAPIDispatcher &&
+    RF_ASSERT(Stop != Stop_SystemAPIDispatcher &&
            Stop != 0, "Funtion was called and couldn't be dispatched");
 }
 

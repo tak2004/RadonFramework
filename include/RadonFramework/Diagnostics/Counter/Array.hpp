@@ -13,7 +13,7 @@ template <typename ATOMIC, RF_Type::Size ELEMENTS>
 class Array
 {
 public:
-  typedef typename Simplex<ATOMIC> CounterType;
+  using CounterType = Simplex<ATOMIC>;
   Array() {}
   CounterType& operator[](const RF_Type::Size Index);
   RF_Type::Size Size() const;

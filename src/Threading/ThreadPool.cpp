@@ -1,9 +1,9 @@
 #include "RadonFramework/Threading/ThreadPool.hpp"
+#include "RadonFramework/Core/Pattern/Singleton.hpp"
+#include "RadonFramework/Core/Types/AtomicInt32.hpp"
 #include "RadonFramework/System/Hardware/Hardware.hpp"
 #include "RadonFramework/Time/ScopeTimer.hpp"
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/Core/Types/AtomicInt32.hpp"
-#include "RadonFramework/Core/Pattern/Singleton.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::Collections;
@@ -27,7 +27,7 @@ public:
   PoolTask& operator=(const PoolTask& Other) = delete;
 
   ThreadPool::WaitCallback Callback;
-  void* Data;
+  void* Data = nullptr;
   ThreadPool::FreeCallback FreeData;
 };
 
@@ -35,7 +35,7 @@ class PoolThread : public Thread
 {
 public:
   virtual ~PoolThread();
-  void Run();
+  void Run() final;
   PImpl<ThreadPool>::Data* Pool;
   volatile bool shutdown;
 };
@@ -47,11 +47,6 @@ class PImpl<T>::Data
 {
 public:
   Data()
-  : MaxWorkerThreads(1),
-    MinWorkerThreads(0),
-    Latency(10000),
-    IsQueingAllowed(true),
-    Running(true)
   {
     UInt32 lps = Hardware::GetAvailableLogicalProcessorCount();
     MaxWorkerThreads =
@@ -80,7 +75,9 @@ public:
 
     // signal all threads to cancel
     for(UInt32 i = 0; i < WorkerThreads.Count(); ++i)
+    {
       WorkerThreads(i)->shutdown = true;
+    }
 
     // clean up the list and trigger a change that the threads can leave Wait()
     ConcurrentTaskList.Clear();
@@ -91,7 +88,9 @@ public:
 
     // wait till all threads are finished
     for(UInt32 i = 0; i < WorkerThreads.Count(); ++i)
+    {
       WorkerThreads(i)->Join();
+    }
 
     // clean up threads
     WorkerThreads.Resize(0);
@@ -135,12 +134,12 @@ public:
   Array<AutoPointer<PoolThread>> WorkerThreads;
   Queue<PoolTask> ConcurrentTaskList;
   AutoPointerArray<Queue<PoolTask>> SerialTaskLists;
-  UInt32 MaxWorkerThreads;
-  UInt32 MinWorkerThreads;
-  RF_Time::TimeValue Latency;
+  UInt32 MaxWorkerThreads = 1;
+  UInt32 MinWorkerThreads = 0;
+  RF_Time::TimeValue Latency = 10000;
   AtomicInt32 WorkingThreads;
-  Bool IsQueingAllowed;
-  Bool Running;
+  Bool IsQueingAllowed = true;
+  Bool Running = true;
 };
 
 }  // namespace RadonFramework::Core::Idioms
@@ -201,7 +200,7 @@ Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback,
                                    TaskStrategy::Type Strategy,
                                    FreeCallback FreeData)
 {
-  return QueueUserWorkItem(Callback, 0, Strategy, FreeData);
+  return QueueUserWorkItem(Callback, nullptr, Strategy, FreeData);
 }
 
 Bool ThreadPool::QueueUserWorkItem(WaitCallback Callback,
@@ -270,12 +269,16 @@ void ThreadPool::WaitTillQueueIsEmpty()
   {
     idle = true;
     for(Size i = 0, end = m_PImpl->SerialTaskLists.Count(); i < end; ++i)
+    {
       idle = idle && m_PImpl->SerialTaskLists[static_cast<UInt32>(i)].IsEmpty();
+    }
     idle = idle && m_PImpl->ConcurrentTaskList.IsEmpty();
 
     if(!idle)
+    {
       Thread::Sleep(
           Time::TimeSpan::CreateByTicks(Time::TimeSpan::TicksPerMillisecond));
+    }
   } while(!idle);
 }
 
@@ -327,11 +330,11 @@ void PoolThread::Run()
     Pool->WorkingThreads.Increment();
     result =
         Pool->SerialTaskLists[static_cast<UInt32>(serialGrp)].Dequeue(task);
-    if(false == result)
+    if(!result)
     {
       result = Pool->ConcurrentTaskList.Dequeue(task);
 
-      if(result == false)
+      if(!result)
       {  // task pool is empty
         Pool->WorkingThreads.Decrement();
         Thread::Sleep(Time::TimeSpan::CreateByTicks(Pool->Latency));
@@ -370,8 +373,8 @@ PoolTask::~PoolTask() {}
 
 PoolTask::PoolTask(ThreadPool::WaitCallback Callback,
                    void* Data,
-                   ThreadPool::FreeCallback FreeData)
-: Callback(Callback), Data(Data), FreeData(FreeData)
+                   ThreadPool::FreeCallback CustomFree)
+: Callback(Callback), Data(Data), FreeData(CustomFree)
 {
 }
 

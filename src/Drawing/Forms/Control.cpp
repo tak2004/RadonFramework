@@ -19,7 +19,7 @@ void ControlCollection::AddChild(Control& Obj)
 
 Control* ControlCollection::GetChild(const Size Index)
 {
-    Assert(Index < m_List.Count(), "Index out of bounds.");
+    RF_ASSERT(Index < m_List.Count(), "Index out of bounds.");
 
     List<Control*>::Iterator it=m_List.Begin();
     for (Size i=0; i<Index; i++)

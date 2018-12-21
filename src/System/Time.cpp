@@ -12,7 +12,7 @@ TimerHandle CreateTimerQueue_SystemAPIDispatcher(TimerCallback Callback,
 {
     CreateTimerQueue = 0;
     Dispatch();
-    Assert(CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher &&
+    RF_ASSERT(CreateTimerQueue != CreateTimerQueue_SystemAPIDispatcher &&
            CreateTimerQueue != 0,
            "Funtion was called and couldn't be dispatched");
     return CreateTimerQueue(Callback, Parameter, DueTime, Period);
@@ -22,7 +22,7 @@ void DeleteTimerQueue_SystemAPIDispatcher(TimerHandle& Handle)
 {
     DeleteTimerQueue = 0;
     Dispatch();
-    Assert(DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher &&
+    RF_ASSERT(DeleteTimerQueue != DeleteTimerQueue_SystemAPIDispatcher &&
            DeleteTimerQueue != 0,
            "Funtion was called and couldn't be dispatched");
     DeleteTimerQueue(Handle);
@@ -32,7 +32,7 @@ UInt64 GetNow_SystemAPIDispatcher()
 {
     GetNow = 0;
     Dispatch();
-    Assert(GetNow != GetNow_SystemAPIDispatcher &&
+    RF_ASSERT(GetNow != GetNow_SystemAPIDispatcher &&
            GetNow != 0,
            "Funtion was called and couldn't be dispatched");
     return GetNow();
@@ -42,7 +42,7 @@ UInt64 GetMinutesWestOfGMT_SystemAPIDispatcher()
 {
     GetMinutesWestOfGMT = 0;
     Dispatch();
-    Assert(GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher &&
+    RF_ASSERT(GetMinutesWestOfGMT != GetMinutesWestOfGMT_SystemAPIDispatcher &&
            GetMinutesWestOfGMT != 0,
            "Funtion was called and couldn't be dispatched");
     return GetMinutesWestOfGMT();
@@ -53,7 +53,7 @@ void GetStringFormattedTime_SystemAPIDispatcher(const RF_Time::DateTime& Time,
 {
     GetStringFormattedTime = 0;
     Dispatch();
-    Assert(GetStringFormattedTime != GetStringFormattedTime_SystemAPIDispatcher &&
+    RF_ASSERT(GetStringFormattedTime != GetStringFormattedTime_SystemAPIDispatcher &&
            GetStringFormattedTime != 0,
            "Funtion was called and couldn't be dispatched");
     return GetStringFormattedTime(Time, Format, FormattedString);
@@ -63,7 +63,7 @@ UInt64 GetHighResolutionCounter_SystemAPIDispatcher()
 {
     GetHighResolutionCounter = 0;
     Dispatch();
-    Assert(GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher &&
+    RF_ASSERT(GetHighResolutionCounter != GetHighResolutionCounter_SystemAPIDispatcher &&
            GetHighResolutionCounter != 0,
            "Funtion was called and couldn't be dispatched");
     return GetHighResolutionCounter();
@@ -73,7 +73,7 @@ Bool IsHighResolutionCounterSupported_SystemAPIDispatcher()
 {
     IsHighResolutionCounterSupported = 0;
     Dispatch();
-    Assert(IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher &&
+    RF_ASSERT(IsHighResolutionCounterSupported != IsHighResolutionCounterSupported_SystemAPIDispatcher &&
            IsHighResolutionCounterSupported != 0,
            "Funtion was called and couldn't be dispatched");
     return IsHighResolutionCounterSupported();

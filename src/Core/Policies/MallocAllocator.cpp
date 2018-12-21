@@ -6,7 +6,7 @@ using namespace RadonFramework::Core::Traits;
 
 void* MallocAllocator::Allocate(AllocatorTraits<void>::SizeType Size)
 {
-    Assert(Size < RF_Type::MemoryRangeMax,"Acquired memory block is to large.");
+    RF_ASSERT(Size < RF_Type::MemoryRangeMax,"Acquired memory block is to large.");
     return malloc(Size);
 }
 
@@ -19,6 +19,6 @@ void* MallocAllocator::Reallocate(void* Ptr,
     AllocatorTraits<void>::SizeType OldSize, 
     AllocatorTraits<void>::SizeType NewSize)
 {
-    Assert(NewSize < RF_Type::MemoryRangeMax,"Acquired memory block is to large.");
+    RF_ASSERT(NewSize < RF_Type::MemoryRangeMax,"Acquired memory block is to large.");
     return realloc(Ptr,NewSize);
 }

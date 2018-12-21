@@ -13,7 +13,7 @@ RF_Type::UInt32 GetAvailableLogicalProcessorCount_SystemAPIDispatcher()
 {
     GetAvailableLogicalProcessorCount = 0;
     Dispatch();
-    Assert(GetAvailableLogicalProcessorCount != GetAvailableLogicalProcessorCount_SystemAPIDispatcher &&
+    RF_ASSERT(GetAvailableLogicalProcessorCount != GetAvailableLogicalProcessorCount_SystemAPIDispatcher &&
            GetAvailableLogicalProcessorCount != 0,
            "Funtion was called and couldn't be dispatched");
     return GetAvailableLogicalProcessorCount();
@@ -23,7 +23,7 @@ RF_Type::UInt32 GetCurrentProcessorNumber_SystemAPIDispatcher()
 {
     GetCurrentProcessorNumber = 0;
     Dispatch();
-    Assert(GetCurrentProcessorNumber != GetCurrentProcessorNumber_SystemAPIDispatcher &&
+    RF_ASSERT(GetCurrentProcessorNumber != GetCurrentProcessorNumber_SystemAPIDispatcher &&
            GetCurrentProcessorNumber != 0,
            "Funtion was called and couldn't be dispatched");
     return GetCurrentProcessorNumber();
@@ -33,7 +33,7 @@ RF_Type::UInt32 GetCurrentUniqueProcessorNumber_SystemAPIDispatcher()
 {
     GetCurrentUniqueProcessorNumber = 0;
     Dispatch();
-    Assert(GetCurrentUniqueProcessorNumber != GetCurrentUniqueProcessorNumber_SystemAPIDispatcher &&
+    RF_ASSERT(GetCurrentUniqueProcessorNumber != GetCurrentUniqueProcessorNumber_SystemAPIDispatcher &&
         GetCurrentUniqueProcessorNumber != 0,
         "Funtion was called and couldn't be dispatched");
     return GetCurrentUniqueProcessorNumber();
@@ -43,7 +43,7 @@ RF_Type::Bool GetCacheInfo_SystemAPIDispatcher(CacheInfo& Info, RF_Type::UInt32 
 {
     GetCacheInfo = 0;
     Dispatch();
-    Assert(GetCacheInfo != GetCacheInfo_SystemAPIDispatcher &&
+    RF_ASSERT(GetCacheInfo != GetCacheInfo_SystemAPIDispatcher &&
            GetCacheInfo != 0,
            "Funtion was called and couldn't be dispatched");
     return GetCacheInfo(Info, Index);
@@ -53,7 +53,7 @@ RF_Type::Int32 GetCacheCount_SystemAPIDispatcher()
 {
     GetCacheCount = 0;
     Dispatch();
-    Assert(GetCacheCount != GetCacheCount_SystemAPIDispatcher &&
+    RF_ASSERT(GetCacheCount != GetCacheCount_SystemAPIDispatcher &&
            GetCacheCount != 0,
            "Funtion was called and couldn't be dispatched");
     return GetCacheCount();
@@ -63,7 +63,7 @@ RF_Type::Bool GetLogicalProcessorFeatures_SystemAPIDispatcher(ProcessorFeatureMa
 {
     GetLogicalProcessorFeatures = 0;
     Dispatch();
-    Assert(GetLogicalProcessorFeatures != GetLogicalProcessorFeatures_SystemAPIDispatcher &&
+    RF_ASSERT(GetLogicalProcessorFeatures != GetLogicalProcessorFeatures_SystemAPIDispatcher &&
            GetLogicalProcessorFeatures != 0,
            "Funtion was called and couldn't be dispatched");
     return GetLogicalProcessorFeatures(Features);
@@ -73,7 +73,7 @@ RF_Type::Size GetPhysicalMemorySize_SystemAPIDispatcher()
 {
     GetPhysicalMemorySize = 0;
     Dispatch();
-    Assert(GetPhysicalMemorySize != GetPhysicalMemorySize_SystemAPIDispatcher &&
+    RF_ASSERT(GetPhysicalMemorySize != GetPhysicalMemorySize_SystemAPIDispatcher &&
            GetPhysicalMemorySize != 0,
            "Funtion was called and couldn't be dispatched");
     return GetPhysicalMemorySize();
@@ -83,7 +83,7 @@ RF_Type::Size GetFreePhysicalMemorySize_SystemAPIDispatcher()
 {
     GetFreePhysicalMemorySize = 0;
     Dispatch();
-    Assert(GetFreePhysicalMemorySize != GetFreePhysicalMemorySize_SystemAPIDispatcher &&
+    RF_ASSERT(GetFreePhysicalMemorySize != GetFreePhysicalMemorySize_SystemAPIDispatcher &&
         GetFreePhysicalMemorySize != 0,
         "Funtion was called and couldn't be dispatched");
     return GetFreePhysicalMemorySize();

@@ -16,18 +16,18 @@
 
     with thanks to -
         Greig McLachlan of http://www.learntoprogram.com
-            for providing a clean implementation of Insert which I used as a starting point
-        Jason F Boxall of CSC330
-            who posted his assignment on the web, I double checked my Remove implementation against his.
-        R Levow of http://www.cse.fau.edu/~roy/cop3530.98f/prog5-BSTIterator.html
-            who posted an algorithm for creating binary tree iterators
+            for providing a clean implementation of Insert which I used as a
+  starting point Jason F Boxall of CSC330 who posted his assignment on the web,
+  I double checked my Remove implementation against his. R Levow of
+  http://www.cse.fau.edu/~roy/cop3530.98f/prog5-BSTIterator.html who posted an
+  algorithm for creating binary tree iterators
 
     http://meshula.artistnation.com
                                         2002
 
     The template is free for use, no warrantee or suitability for any particular
-    purpose is expressed or implied. Verify that it works the way you expect before you
-    incorporate it into your own project.
+    purpose is expressed or implied. Verify that it works the way you expect
+  before you incorporate it into your own project.
 
     public interface -
 
@@ -57,481 +57,494 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Collections {
-
-template<class KeyType, class ItemType>
+namespace RadonFramework::Collections
+{
+template <class KeyType, class ItemType>
 class AVLNode
 {
 public:
-    AVLNode(KeyType key, ItemType item) :
-        m_Balance(0), m_Depth(0),
-        m_Key(key), m_Data(item),
-        m_pLeft(0), m_pRight(0)
-    {
-    }
+  AVLNode(KeyType key, ItemType item)
+  : m_Balance(0), m_Depth(0), m_Key(key), m_Data(item), m_pLeft(0), m_pRight(0)
+  {
+  }
 
-    short		m_Balance;
-    short		m_Depth;
+  short m_Balance;
+  short m_Depth;
 
-    KeyType		m_Key;
-    ItemType	m_Data;
+  KeyType m_Key;
+  ItemType m_Data;
 
-    AVLNode*	m_pLeft;
-    AVLNode*	m_pRight;
+  AVLNode* m_pLeft;
+  AVLNode* m_pRight;
 };
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 class Iterator;
 
 /* @brief The AVLTree class is a self balancing binary tree.
-    *
-    * For more information look at following Wikipedia link.
-    * http://en.wikipedia.org/wiki/AVL_tree
-    */
-template<class KeyType, class ItemType>
+ *
+ * For more information look at following Wikipedia link.
+ * http://en.wikipedia.org/wiki/AVL_tree
+ */
+template <class KeyType, class ItemType>
 class AVLTree
 {
 protected:
-    AVLNode<KeyType, ItemType>* m_pRoot;
+  AVLNode<KeyType, ItemType>* m_pRoot;
+
 public:
-    AVLTree() : m_pRoot(0) { }
-    ~AVLTree() { }
+  AVLTree() : m_pRoot(0) {}
+  ~AVLTree() {}
 
-    void 	Insert(KeyType key, ItemType item);
-    void 	Remove(KeyType key);
-    bool 	Find  (KeyType key, ItemType& item);
+  void Insert(KeyType key, ItemType item);
+  void Remove(KeyType key);
+  bool Find(KeyType key, ItemType& item);
 
-    short	GetDepth() const {	return (m_pRoot ? m_pRoot->m_Depth : 0);	}
+  short GetDepth() const { return (m_pRoot ? m_pRoot->m_Depth : 0); }
 
-    friend class Iterator<KeyType, ItemType>;
+  friend class Iterator<KeyType, ItemType>;
 
 protected:
-    void _Insert        		(KeyType key, ItemType item, AVLNode<KeyType, ItemType>*& root);
-    void _Remove				(AVLNode<KeyType, ItemType>*& root, KeyType key, bool& delOK);
-    void _RemoveBothChildren	(AVLNode<KeyType, ItemType>*& root, AVLNode<KeyType, ItemType>*& curr, bool& delOK);
-    bool _Find					(KeyType key, ItemType& item, AVLNode<KeyType, ItemType>* root);
-    void ComputeBalance 		(AVLNode<KeyType, ItemType>*  root);
-    void Balance        		(AVLNode<KeyType, ItemType>*& root);
-    void BalanceRight			(AVLNode<KeyType, ItemType>*& root);
-    void BalanceLeft			(AVLNode<KeyType, ItemType>*& root);
-    void RotateLeft				(AVLNode<KeyType, ItemType>*& root);
-    void RotateRight			(AVLNode<KeyType, ItemType>*& root);
+  void _Insert(KeyType key, ItemType item, AVLNode<KeyType, ItemType>*& root);
+  void _Remove(AVLNode<KeyType, ItemType>*& root, KeyType key, bool& delOK);
+  void _RemoveBothChildren(AVLNode<KeyType, ItemType>*& root,
+                           AVLNode<KeyType, ItemType>*& curr,
+                           bool& delOK);
+  bool _Find(KeyType key, ItemType& item, AVLNode<KeyType, ItemType>* root);
+  void ComputeBalance(AVLNode<KeyType, ItemType>* root);
+  void Balance(AVLNode<KeyType, ItemType>*& root);
+  void BalanceRight(AVLNode<KeyType, ItemType>*& root);
+  void BalanceLeft(AVLNode<KeyType, ItemType>*& root);
+  void RotateLeft(AVLNode<KeyType, ItemType>*& root);
+  void RotateRight(AVLNode<KeyType, ItemType>*& root);
 };
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 class Iterator
 {
 #define kMaxAVLDepth 32
 
 public:
-    Iterator(Iterator* pCopyMe) :
-        mpAVL(pCopyMe->mpAVL), mpCurr(pCopyMe->mpCurr)
-    {
-        mTraversalStackIndex = pCopyMe->mTraversalStackIndex;
+  Iterator(Iterator* pCopyMe) : mpAVL(pCopyMe->mpAVL), mpCurr(pCopyMe->mpCurr)
+  {
+    mTraversalStackIndex = pCopyMe->mTraversalStackIndex;
 
-        for (int i = 0; i < mTraversalStackIndex; ++i)
-            mTraversalStack[i] = pCopyMe->mTraversalStack[i];
+    for(int i = 0; i < mTraversalStackIndex; ++i)
+      mTraversalStack[i] = pCopyMe->mTraversalStack[i];
+  }
+
+  Iterator(AVLTree<KeyType, ItemType>* pTree) : mpAVL(pTree)
+  {
+    KeyType key;
+    ItemType item;
+    GetFirst(key, item);
+  }
+
+  ~Iterator() {}
+
+  bool GetCurrent(KeyType& key, ItemType& item)
+  {
+    if(mpCurr)
+    {
+      key = mpCurr->m_Key;
+      item = mpCurr->m_Data;
+      return true;
     }
+    else
+      return false;
+  }
 
-    Iterator(AVLTree<KeyType, ItemType>* pTree) : mpAVL(pTree)
+  // returns false if the tree is empty
+  bool GetFirst(KeyType& key, ItemType& item)
+  {
+    mTraversalStackIndex = 0;
+
+    if(!mpAVL->m_pRoot)
     {
-        KeyType key;
-        ItemType item;
-        GetFirst(key, item);
+      mpCurr = 0;
+      item = 0;
+      return false;
     }
-
-    ~Iterator() { }
-
-    bool GetCurrent(KeyType& key, ItemType& item)
+    else
     {
-        if (mpCurr)
+      AVLNode<ItemType, KeyType>* pCurr = mpAVL->m_pRoot;
+      AVLNode<ItemType, KeyType>* pPrev = pCurr;
+      while(pCurr)
+      {
+        pPrev = pCurr;
+
+        if(pCurr->m_pLeft)
+          mTraversalStack[mTraversalStackIndex++] = pCurr;
+
+        pCurr = pCurr->m_pLeft;
+      }
+
+      mpCurr = pPrev;
+      key = mpCurr->m_Key;
+      item = mpCurr->m_Data;
+      return true;
+    }
+  }
+
+  bool GetNext(KeyType& key, ItemType& item)
+  {
+    if(!mpCurr)  // already done?
+    {
+      item = 0;
+      return false;
+    }
+    else
+    {
+      AVLNode<KeyType, ItemType>* pCurr =
+          mpCurr->m_pRight;  // start looking to the right
+
+      while(true)  // this while forces a traversal as far left as possible
+      {
+        if(pCurr)  // if we have a pcurr, push it and go left, and repeat.
         {
-            key = mpCurr->m_Key;
-            item = mpCurr->m_Data;
-            return true;
+          mTraversalStack[mTraversalStackIndex++] = pCurr;
+          pCurr = pCurr->m_pLeft;
         }
-        else
-            return false;
-    }
-
-    // returns false if the tree is empty
-    bool GetFirst (KeyType& key, ItemType& item)
-    {
-        mTraversalStackIndex = 0;
-
-        if (!mpAVL->m_pRoot)
+        else  // backtrack
         {
+          if(mTraversalStackIndex > 0)
+          {
+            AVLNode<KeyType, ItemType>* pCandidate =
+                mTraversalStack[--mTraversalStackIndex];
+
+            // did we backtrack up a right branch?
+            if(mpCurr == pCandidate->m_pRight)
+            {
+              // if there is a parent, return the parent.
+              if(mTraversalStackIndex > 0)
+              {
+                mpCurr = mTraversalStack[--mTraversalStackIndex];
+                key = mpCurr->m_Key;
+                item = mpCurr->m_Data;
+                return true;
+              }
+              else  // if up a right branch, and no parent, traversal finished
+              {
+                mpCurr = 0;
+                item = 0;
+                return false;
+              }
+            }
+            else  // up a left branch, done.
+            {
+              mpCurr = pCandidate;
+              key = mpCurr->m_Key;
+              item = mpCurr->m_Data;
+              return true;
+            }
+          }
+          else  // totally done
+          {
             mpCurr = 0;
             item = 0;
             return false;
+          }
         }
-        else
-        {
-            AVLNode<ItemType, KeyType>* pCurr = mpAVL->m_pRoot;
-            AVLNode<ItemType, KeyType>* pPrev = pCurr;
-            while (pCurr)
-            {
-                pPrev = pCurr;
-
-                if (pCurr->m_pLeft)
-                    mTraversalStack[mTraversalStackIndex++] = pCurr;
-
-                pCurr = pCurr->m_pLeft;
-            }
-
-            mpCurr = pPrev;
-            key = mpCurr->m_Key;
-            item = mpCurr->m_Data;
-            return true;
-        }
+      }
     }
+  }
 
-    bool GetNext  (KeyType& key, ItemType& item)
+  bool Find(KeyType key, ItemType& item)
+  {
+    AVLNode<KeyType, ItemType>* pCurr = mpAVL->m_pRoot;
+    mTraversalStackIndex = 0;
+
+    while(true)
     {
-        if (!mpCurr)	// already done?
-        {
-            item = 0;
-            return false;
-        }
-        else
-        {
-            AVLNode<KeyType, ItemType>* pCurr = mpCurr->m_pRight;	// start looking to the right
-
-            while (true)	// this while forces a traversal as far left as possible
-            {
-                if (pCurr)	// if we have a pcurr, push it and go left, and repeat.
-                {
-                    mTraversalStack[mTraversalStackIndex++] = pCurr;
-                    pCurr = pCurr->m_pLeft;
-                }
-                else	// backtrack
-                {
-                    if (mTraversalStackIndex > 0)
-                    {
-                        AVLNode<KeyType, ItemType>* pCandidate = mTraversalStack[--mTraversalStackIndex];
-
-                        // did we backtrack up a right branch?
-                        if (mpCurr == pCandidate->m_pRight)
-                        {
-                            // if there is a parent, return the parent.
-                            if (mTraversalStackIndex > 0)
-                            {
-                                mpCurr = mTraversalStack[--mTraversalStackIndex];
-                                key = mpCurr->m_Key;
-                                item = mpCurr->m_Data;
-                                return true;
-                            }
-                            else	// if up a right branch, and no parent, traversal finished
-                            {
-                                mpCurr = 0;
-                                item = 0;
-                                return false;
-                            }
-                        }
-                        else	// up a left branch, done.
-                        {
-                            mpCurr = pCandidate;
-                            key = mpCurr->m_Key;
-                            item = mpCurr->m_Data;
-                            return true;
-                        }
-                    }
-                    else	// totally done
-                    {
-                        mpCurr = 0;
-                        item = 0;
-                        return false;
-                    }
-                }
-            }
-        }
-    }
-
-    bool Find     (KeyType  key, ItemType& item)
-    {
-        AVLNode<KeyType, ItemType>* pCurr = mpAVL->m_pRoot;
-        mTraversalStackIndex = 0;
-
-        while (true)
-        {
-            AVLNode<KeyType, ItemType>* pPushMe = pCurr;
-            if (pCurr->m_Key == key)	// already done?
-            {
-                mpCurr = pCurr;
-                item = mpCurr->m_Data;
-                return true;
-            }
-
-            if (pCurr->m_Key > key)
-                pCurr = pCurr->m_pLeft;
-            else
-                pCurr = pCurr->m_pRight;
-
-            if (pCurr)	// maintain the stack so that GetNext will work.
-            {
-                mTraversalStack[mTraversalStackIndex++] = pPushMe;
-            }
-            else	// couldn't find it.
-            {
-                mpCurr = 0;
-                mTraversalStackIndex = 0;
-                return false;
-            }
-        }
-
+      AVLNode<KeyType, ItemType>* pPushMe = pCurr;
+      if(pCurr->m_Key == key)  // already done?
+      {
+        mpCurr = pCurr;
+        item = mpCurr->m_Data;
         return true;
+      }
+
+      if(pCurr->m_Key > key)
+        pCurr = pCurr->m_pLeft;
+      else
+        pCurr = pCurr->m_pRight;
+
+      if(pCurr)  // maintain the stack so that GetNext will work.
+      {
+        mTraversalStack[mTraversalStackIndex++] = pPushMe;
+      }
+      else  // couldn't find it.
+      {
+        mpCurr = 0;
+        mTraversalStackIndex = 0;
+        return false;
+      }
     }
+
+    return true;
+  }
 
 protected:
-    AVLTree<KeyType, ItemType>*	mpAVL;
-    AVLNode<KeyType, ItemType>*	mTraversalStack[kMaxAVLDepth];
-    short						mTraversalStackIndex;
-    AVLNode<KeyType, ItemType>*	mpCurr;				// for iteration
+  AVLTree<KeyType, ItemType>* mpAVL;
+  AVLNode<KeyType, ItemType>* mTraversalStack[kMaxAVLDepth];
+  short mTraversalStackIndex;
+  AVLNode<KeyType, ItemType>* mpCurr;  // for iteration
 };
 
-template<class KeyType, class ItemType>
-void AVLTree<KeyType,ItemType>::Insert(KeyType key, ItemType item)
+template <class KeyType, class ItemType>
+void AVLTree<KeyType, ItemType>::Insert(KeyType key, ItemType item)
 {
-    if (m_pRoot == 0)
-    {
-        m_pRoot = new AVLNode<KeyType, ItemType>(key, item);
-    }
-    else
-        _Insert(key, item, m_pRoot);
+  if(m_pRoot == 0)
+  {
+    m_pRoot = new AVLNode<KeyType, ItemType>(key, item);
+  }
+  else
+    _Insert(key, item, m_pRoot);
 }
 
-template<class KeyType, class ItemType>
-void AVLTree<KeyType, ItemType>::_Insert(KeyType key, ItemType item, AVLNode<KeyType, ItemType>*& root)
+template <class KeyType, class ItemType>
+void AVLTree<KeyType, ItemType>::_Insert(KeyType key,
+                                         ItemType item,
+                                         AVLNode<KeyType, ItemType>*& root)
 {
-    if (key < root->m_Key)
-    {
-        if (root->m_pLeft)
-            _Insert(key, item, root->m_pLeft);
-        else
-            root->m_pLeft = new AVLNode<KeyType, ItemType>(key, item);
-    }
-    else if (key > root->m_Key)
-    {
-        if (root->m_pRight)
-            _Insert(key, item, root->m_pRight);
-        else
-            root->m_pRight = new AVLNode<KeyType, ItemType>(key, item);
-    }
+  if(key < root->m_Key)
+  {
+    if(root->m_pLeft)
+      _Insert(key, item, root->m_pLeft);
     else
-    {
-        // error - can't have duplicate keys.
-        // if duplicate keys are okay, change key < to key <= above
-    }
+      root->m_pLeft = new AVLNode<KeyType, ItemType>(key, item);
+  }
+  else if(key > root->m_Key)
+  {
+    if(root->m_pRight)
+      _Insert(key, item, root->m_pRight);
+    else
+      root->m_pRight = new AVLNode<KeyType, ItemType>(key, item);
+  }
+  else
+  {
+    // error - can't have duplicate keys.
+    // if duplicate keys are okay, change key < to key <= above
+  }
 
-    ComputeBalance(root);
-    Balance(root);
+  ComputeBalance(root);
+  Balance(root);
 }
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 void AVLTree<KeyType, ItemType>::Remove(KeyType key)
 {
-    bool delOK = false;
-    _Remove(m_pRoot, key, delOK);
+  bool delOK = false;
+  _Remove(m_pRoot, key, delOK);
 }
 
-template<class KeyType, class ItemType>
-void AVLTree<KeyType, ItemType>::_Remove(AVLNode<KeyType, ItemType>*& root, KeyType key, bool& delOK)
+template <class KeyType, class ItemType>
+void AVLTree<KeyType, ItemType>::_Remove(AVLNode<KeyType, ItemType>*& root,
+                                         KeyType key,
+                                         bool& delOK)
 {
-    if (!root)
+  if(!root)
+  {
+    delOK = false;
+  }
+  else if(root->m_Key > key)  // go to left subtree
+  {
+    _Remove(root->m_pLeft, key, delOK);
+
+    if(delOK)
     {
-        delOK = false;
+      ComputeBalance(root);
+      BalanceRight(root);
     }
-    else if (root->m_Key > key)	// go to left subtree
-    {
-        _Remove(root->m_pLeft, key, delOK);
+  }
+  else if(root->m_Key < key)  // go to right subtree
+  {
+    _Remove(root->m_pRight, key, delOK);
 
-        if (delOK)
-        {
-            ComputeBalance(root);
-            BalanceRight(root);
-        }
+    if(delOK)
+    {
+      ComputeBalance(root);
+      BalanceLeft(root);
     }
-    else if (root->m_Key < key) // go to right subtree
-    {
-        _Remove(root->m_pRight, key, delOK);
+  }
+  else  // node found!
+  {
+    AVLNode<KeyType, ItemType>* pMe = root;
 
-        if (delOK)
-        {
-            ComputeBalance(root);
-            BalanceLeft(root);
-        }
+    if(!root->m_pRight)
+    {
+      root = root->m_pLeft;
+      delOK = true;
+      delete pMe;
     }
-    else	// node found!
+    else if(!root->m_pLeft)
     {
-        AVLNode<KeyType, ItemType>* pMe = root;
-
-        if (!root->m_pRight)
-        {
-            root = root->m_pLeft;
-            delOK = true;
-            delete pMe;
-        }
-        else if (!root->m_pLeft)
-        {
-            root = root->m_pRight;
-            delOK = true;
-            delete pMe;
-        }
-        else
-        {
-            _RemoveBothChildren(root, root->m_pLeft, delOK);
-            if (delOK)
-            {
-                ComputeBalance(root);
-                Balance(root);
-            }
-
-            delOK = true;
-        }
-    }
-}
-
-template<class KeyType, class ItemType>
-void AVLTree<KeyType, ItemType>::_RemoveBothChildren(AVLNode<KeyType, ItemType>*& root, AVLNode<KeyType, ItemType>*& curr, bool& delOK)
-{
-    if (!curr->m_pRight)
-    {
-        root->m_Key = curr->m_Key;
-        root->m_Data = curr->m_Data;
-        AVLNode<KeyType, ItemType>* pMe = curr;
-        curr = curr->m_pLeft;
-        delete pMe;
-        delOK = true;
+      root = root->m_pRight;
+      delOK = true;
+      delete pMe;
     }
     else
     {
-        _RemoveBothChildren(root, curr->m_pRight, delOK);
-        if (delOK)
-        {
-            ComputeBalance(root);
-            Balance(root);
-        }
+      _RemoveBothChildren(root, root->m_pLeft, delOK);
+      if(delOK)
+      {
+        ComputeBalance(root);
+        Balance(root);
+      }
+
+      delOK = true;
     }
+  }
 }
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
+void AVLTree<KeyType, ItemType>::_RemoveBothChildren(
+    AVLNode<KeyType, ItemType>*& root,
+    AVLNode<KeyType, ItemType>*& curr,
+    bool& delOK)
+{
+  if(!curr->m_pRight)
+  {
+    root->m_Key = curr->m_Key;
+    root->m_Data = curr->m_Data;
+    AVLNode<KeyType, ItemType>* pMe = curr;
+    curr = curr->m_pLeft;
+    delete pMe;
+    delOK = true;
+  }
+  else
+  {
+    _RemoveBothChildren(root, curr->m_pRight, delOK);
+    if(delOK)
+    {
+      ComputeBalance(root);
+      Balance(root);
+    }
+  }
+}
+
+template <class KeyType, class ItemType>
 bool AVLTree<KeyType, ItemType>::Find(KeyType key, ItemType& item)
 {
-    return _Find(key, item, m_pRoot);
+  return _Find(key, item, m_pRoot);
 }
 
-template<class KeyType, class ItemType>
-bool AVLTree<KeyType, ItemType>::_Find(KeyType key, ItemType& item, AVLNode<KeyType, ItemType>* root)
+template <class KeyType, class ItemType>
+bool AVLTree<KeyType, ItemType>::_Find(KeyType key,
+                                       ItemType& item,
+                                       AVLNode<KeyType, ItemType>* root)
 {
-    if (root)
+  if(root)
+  {
+    if(root->m_Key == key)
     {
-        if (root->m_Key == key)
-        {
-            item = root->m_Data;
-            return true;
-        }
-
-        if (key < root->m_Key)
-            return _Find(key, item, root->m_pLeft);
-        else
-            return _Find(key, item, root->m_pRight);
+      item = root->m_Data;
+      return true;
     }
+
+    if(key < root->m_Key)
+      return _Find(key, item, root->m_pLeft);
     else
-    {
-        return false;
-    }
+      return _Find(key, item, root->m_pRight);
+  }
+  else
+  {
+    return false;
+  }
 }
 
-template<class KeyType, class ItemType>
-void AVLTree<KeyType, ItemType>::ComputeBalance(AVLNode<KeyType, ItemType>* root)
+template <class KeyType, class ItemType>
+void AVLTree<KeyType, ItemType>::ComputeBalance(
+    AVLNode<KeyType, ItemType>* root)
 {
-    if (root)
-    {
-        short leftDepth  = root->m_pLeft  ? root->m_pLeft->m_Depth  : 0;
-        short rightDepth = root->m_pRight ? root->m_pRight->m_Depth : 0;
+  if(root)
+  {
+    short leftDepth = root->m_pLeft ? root->m_pLeft->m_Depth : 0;
+    short rightDepth = root->m_pRight ? root->m_pRight->m_Depth : 0;
 
-        root->m_Depth = 1 + ((leftDepth > rightDepth) ? leftDepth : rightDepth);
-        root->m_Balance = rightDepth - leftDepth;
-    }
+    root->m_Depth = 1 + ((leftDepth > rightDepth) ? leftDepth : rightDepth);
+    root->m_Balance = rightDepth - leftDepth;
+  }
 }
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 void AVLTree<KeyType, ItemType>::Balance(AVLNode<KeyType, ItemType>*& root)
 {
-    // AVL trees have the property that no branch is more than 1 longer than its sibling
+  // AVL trees have the property that no branch is more than 1 longer than its
+  // sibling
 
-    if (root->m_Balance > 1)
-        BalanceRight(root);
+  if(root->m_Balance > 1)
+    BalanceRight(root);
 
-    if (root->m_Balance < -1)
-        BalanceLeft(root);
+  if(root->m_Balance < -1)
+    BalanceLeft(root);
 }
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 void AVLTree<KeyType, ItemType>::BalanceRight(AVLNode<KeyType, ItemType>*& root)
 {
-    if (root->m_pRight)
+  if(root->m_pRight)
+  {
+    if(root->m_pRight->m_Balance > 0)
     {
-        if (root->m_pRight->m_Balance > 0)
-        {
-            RotateLeft(root);
-        }
-        else if (root->m_pRight->m_Balance < 0)
-        {
-            RotateRight(root->m_pRight);
-            RotateLeft(root);
-        }
+      RotateLeft(root);
     }
+    else if(root->m_pRight->m_Balance < 0)
+    {
+      RotateRight(root->m_pRight);
+      RotateLeft(root);
+    }
+  }
 }
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 void AVLTree<KeyType, ItemType>::BalanceLeft(AVLNode<KeyType, ItemType>*& root)
 {
-    if (root->m_pLeft)
+  if(root->m_pLeft)
+  {
+    if(root->m_pLeft->m_Balance < 0)
     {
-        if (root->m_pLeft->m_Balance < 0)
-        {
-            RotateRight(root);
-        }
-        else if (root->m_pLeft->m_Balance > 0)
-        {
-            RotateLeft(root->m_pLeft);
-            RotateRight(root);
-        }
+      RotateRight(root);
     }
+    else if(root->m_pLeft->m_Balance > 0)
+    {
+      RotateLeft(root->m_pLeft);
+      RotateRight(root);
+    }
+  }
 }
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 void AVLTree<KeyType, ItemType>::RotateLeft(AVLNode<KeyType, ItemType>*& root)
 {
-    AVLNode<KeyType, ItemType>* pTemp = root;
-    root = root->m_pRight;
-    pTemp->m_pRight = root->m_pLeft;
-    root->m_pLeft = pTemp;
+  AVLNode<KeyType, ItemType>* pTemp = root;
+  root = root->m_pRight;
+  pTemp->m_pRight = root->m_pLeft;
+  root->m_pLeft = pTemp;
 
-    ComputeBalance(root->m_pLeft);
-    ComputeBalance(root->m_pRight);
-    ComputeBalance(root);
+  ComputeBalance(root->m_pLeft);
+  ComputeBalance(root->m_pRight);
+  ComputeBalance(root);
 }
 
-template<class KeyType, class ItemType>
+template <class KeyType, class ItemType>
 void AVLTree<KeyType, ItemType>::RotateRight(AVLNode<KeyType, ItemType>*& root)
 {
-    AVLNode<KeyType, ItemType>* pTemp = root;
-    root = root->m_pLeft;
-    pTemp->m_pLeft = root->m_pRight;
-    root->m_pRight = pTemp;
+  AVLNode<KeyType, ItemType>* pTemp = root;
+  root = root->m_pLeft;
+  pTemp->m_pLeft = root->m_pRight;
+  root->m_pRight = pTemp;
 
-    ComputeBalance(root->m_pLeft);
-    ComputeBalance(root->m_pRight);
-    ComputeBalance(root);
+  ComputeBalance(root->m_pLeft);
+  ComputeBalance(root->m_pRight);
+  ComputeBalance(root);
 }
 
-}
+}  // namespace RadonFramework::Collections
 
 #ifndef RF_SHORTHAND_NAMESPACE_COLLECT
 #define RF_SHORTHAND_NAMESPACE_COLLECT
 namespace RF_Collect = RadonFramework::Collections;
 #endif
 
-#endif // AVLTREE_HPP
+#endif  // AVLTREE_HPP

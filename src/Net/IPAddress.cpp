@@ -184,7 +184,7 @@ IPAddress& IPAddress::operator=( const IPAddress &Copy )
 
 UInt32 IPAddress::ToUInt32()const
 {
-    Assert(m_AddressFamily==AddressFamily::InterNetwork,"Invalid operation.");
+    RF_ASSERT(m_AddressFamily==AddressFamily::InterNetwork,"Invalid operation.");
     return *reinterpret_cast<const UInt32*>(this->m_IP);
 }
 

@@ -7,22 +7,26 @@
 #include <RadonFramework/Net/Client.hpp>
 #include <RadonFramework/Net/PacketLogicFactory.hpp>
 
-namespace RadonFramework::Net {
-
-class SessionClient: public Client
+namespace RadonFramework::Net
+{
+class SessionClient : public Client
 {
 public:
-    void SetLogicFactory(RF_Mem::AutoPointer<PacketLogicFactory>& Factory);
-    virtual void Connect(const IPAddress& IP, const RF_Type::UInt16 Port) override;
+  void SetLogicFactory(RF_Mem::AutoPointer<PacketLogicFactory>& Factory);
+  void Connect(const IPAddress& IP, const RF_Type::UInt16 Port) override;
+
 protected:
-    virtual RF_Type::Bool ProcessPacket(Socket& Socket,
-        const IPAddress& Source, RF_Mem::AutoPointerArray<RF_Type::UInt8>& In)override;
+  RF_Type::Bool
+  ProcessPacket(Socket& Socket,
+                const IPAddress& Source,
+                RF_Mem::AutoPointerArray<RF_Type::UInt8>& In) override;
+
 private:
-    RF_Mem::AutoPointer<PacketLogicFactory> m_Factory;
-    RF_Mem::AutoPointer<PacketStream> m_PacketStream;
+  RF_Mem::AutoPointer<PacketLogicFactory> m_Factory;
+  RF_Mem::AutoPointer<PacketStream> m_PacketStream;
 };
 
-}
+}  // namespace RadonFramework::Net
 
 #ifndef RF_SHORTHAND_NAMESPACE_NET
 #define RF_SHORTHAND_NAMESPACE_NET

@@ -33,19 +33,19 @@ Bool FileStream::Open(const Uri& Location, const FileAccessMode::Type Mode,
 
 void FileStream::Close()
 {
-    Assert(m_Handle!=FileHandle::Zero(), "Invalid operation.");
+    RF_ASSERT(m_Handle!=FileHandle::Zero(), "Invalid operation.");
     CloseFile(m_Handle);
 }
 
 void FileStream::Flush()
 {
-    Assert(m_Handle!=FileHandle::Zero(),"Invalid operation.");
+    RF_ASSERT(m_Handle!=FileHandle::Zero(),"Invalid operation.");
     FlushFile(m_Handle);
 }
 
 UInt64 FileStream::Read( UInt8* Buffer, const UInt64 Index, const UInt64 Count )
 {
-    Assert(m_Handle!=FileHandle::Zero(),"Invalid operation.");
+    RF_ASSERT(m_Handle!=FileHandle::Zero(),"Invalid operation.");
     UInt64 result=0;
     ReadFile(m_Handle, Buffer+Index, Count, result);
     return result;
@@ -53,13 +53,13 @@ UInt64 FileStream::Read( UInt8* Buffer, const UInt64 Index, const UInt64 Count )
 
 UInt64 FileStream::Seek( const Int64 Offset, const SeekOrigin::Type Origin )
 {
-    Assert(m_Handle!=FileHandle::Zero(),"Invalid operation.");
+    RF_ASSERT(m_Handle!=FileHandle::Zero(),"Invalid operation.");
     return SeekFile(m_Handle, Offset, Origin);
 }
 
 UInt64 FileStream::Write(const UInt8* Buffer, const UInt64 Offset, const UInt64 Count )
 {
-    Assert(m_Handle!=FileHandle::Zero(),"Invalid operation.");
+    RF_ASSERT(m_Handle!=FileHandle::Zero(),"Invalid operation.");
     UInt64 result=0;
     WriteFile(m_Handle, Buffer+Offset, Count, result);
     return result;
@@ -98,7 +98,7 @@ UInt64 FileStream::Length() const
 
 UInt64 FileStream::Position() const
 {
-    Assert(m_Handle!=FileHandle::Zero(), "Invalid operation.");
+    RF_ASSERT(m_Handle!=FileHandle::Zero(), "Invalid operation.");
     return TellFile(m_Handle);
 }
 
@@ -115,7 +115,7 @@ TimeSpan FileStream::WriteTimeout() const
 RF_Type::UInt64 FileStream::Peek(RF_Type::UInt8* Buffer, const RF_Type::UInt64 Index,
     const RF_Type::UInt64 Count)
 {
-    Assert(m_Handle != FileHandle::Zero(), "Invalid operation.");
+    RF_ASSERT(m_Handle != FileHandle::Zero(), "Invalid operation.");
     UInt64 result = 0;
     ReadFile(m_Handle, Buffer + Index, Count, result);
     SeekFile(m_Handle, -static_cast<RF_Type::Int64>(result), RF_IO::SeekOrigin::Current);

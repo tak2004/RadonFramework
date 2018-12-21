@@ -34,8 +34,8 @@ enum class DebugMode
 
 enum class Endian
 {
-    Little,
-    Big
+  Little,
+  Big
 };
 
 extern HostOS CompiledInOS;
@@ -44,13 +44,13 @@ extern DebugMode CompiledForDebugMode;
 constexpr HostOS HostingOS = HostOS::@HostOS@;
 constexpr Compiler CompilingWith = Compiler::@CompilingWith@;
 constexpr Endian CompilerEndian = Endian::@CompilerEndian@;
-constexpr DebugMode CompileForDebugging = 
+constexpr DebugMode CompileForDebugging =
 #if defined(NDEBUG)
-  DebugMode::False;
-#else 
-  DebugMode::True; 
+    DebugMode::False;
+#else
+    DebugMode::True;
 #endif
 
-}
+}  // namespace RadonFramework::BuildInfo
 
 #endif

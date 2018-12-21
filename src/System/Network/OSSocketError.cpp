@@ -35,13 +35,13 @@ Error OSSocketError::ConvertOSError()
     #if defined(RF_UNIX)
         int code=errno;
     #endif
-    Assert(code >= OSSocketError::First && code < OSSocketError::Last, "No valid error code!");
+    RF_ASSERT(code >= OSSocketError::First && code < OSSocketError::Last, "No valid error code!");
     return OSSocketError::LookupTable[code-OSSocketError::First];
 }
 
 Error OSSocketError::ConvertOSError(const Int32 Code)
 {
-    Assert(Code >= OSSocketError::First && Code < OSSocketError::Last, "No valid error code!");
+    RF_ASSERT(Code >= OSSocketError::First && Code < OSSocketError::Last, "No valid error code!");
     return OSSocketError::LookupTable[Code-OSSocketError::First];
 }
 

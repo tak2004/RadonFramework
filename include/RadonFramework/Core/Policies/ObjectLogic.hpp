@@ -4,58 +4,63 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Core::Policies {
-    template <class T>
-    class ObjectLogic
-    {
-        public:
-            virtual ~ObjectLogic();
-        protected:
-            typename T::Traits::Pointer Allocate(typename T::Traits::SizeType ElementCount, 
-                                        void* Hint=0);
+namespace RadonFramework::Core::Policies
+{
+template <class T>
+class ObjectLogic
+{
+public:
+  virtual ~ObjectLogic();
 
-            void Deallocate(typename T::Traits::Pointer Ptr, 
-                            typename T::Traits::SizeType ElementCount);
+protected:
+  typename T::Traits::Pointer
+  Allocate(typename T::Traits::SizeType ElementCount, void* Hint = nullptr);
 
-            void Construct(typename T::Traits::Pointer Ptr, 
-                            typename T::Traits::ConstReference Value);
+  void Deallocate(typename T::Traits::Pointer Ptr,
+                  typename T::Traits::SizeType ElementCount);
 
-            void Destroy(typename T::Traits::Pointer Ptr);
-    };
+  void Construct(typename T::Traits::Pointer Ptr,
+                 typename T::Traits::ConstReference Value);
 
-    template<class T>
-    ObjectLogic<T>::~ObjectLogic()
-    {
-    }
+  void Destroy(typename T::Traits::Pointer Ptr);
+};
 
-    template<class T>
-    typename T::Traits::Pointer ObjectLogic<T>::Allocate(
-        typename T::Traits::SizeType ElementCount, 
-        void* Hint)
-    {
-        return ElementCount != 0 ? static_cast<typename T::Traits::Pointer>(T::MemoryAllocator::Allocate(ElementCount * sizeof(T::Traits::ValueType))) 
-                : 0;
-    }
-
-    template<class T>
-    void ObjectLogic<T>::Deallocate(typename T::Traits::Pointer Ptr, 
-                                    typename T::Traits::SizeType ElementCount)
-    {
-            T::MemoryAllocator::Deallocate(Ptr, ElementCount * sizeof(typename T::Traits::ValueType));
-    }
-
-    template<class T>
-    void ObjectLogic<T>::Construct(typename T::Traits::Pointer Ptr, 
-                                    typename T::Traits::ConstReference Value)
-    {
-        new(Ptr)T(Value);
-    }
-
-    template<class T>
-    void ObjectLogic<T>::Destroy(typename T::Traits::Pointer Ptr)
-    {
-        Ptr->~Ptr();
-    }
+template <class T>
+ObjectLogic<T>::~ObjectLogic()
+{
 }
 
-#endif // RF_CORE_POLICIES_OBJECTLOGIC_HPP
+template <class T>
+typename T::Traits::Pointer
+ObjectLogic<T>::Allocate(typename T::Traits::SizeType ElementCount, void* Hint)
+{
+  return ElementCount != 0
+             ? static_cast<typename T::Traits::Pointer>(
+                   T::MemoryAllocator::Allocate(ElementCount *
+                                                sizeof(T::Traits::ValueType)))
+             : 0;
+}
+
+template <class T>
+void ObjectLogic<T>::Deallocate(typename T::Traits::Pointer Ptr,
+                                typename T::Traits::SizeType ElementCount)
+{
+  T::MemoryAllocator::Deallocate(
+      Ptr, ElementCount * sizeof(typename T::Traits::ValueType));
+}
+
+template <class T>
+void ObjectLogic<T>::Construct(typename T::Traits::Pointer Ptr,
+                               typename T::Traits::ConstReference Value)
+{
+  new(Ptr) T(Value);
+}
+
+template <class T>
+void ObjectLogic<T>::Destroy(typename T::Traits::Pointer Ptr)
+{
+  Ptr->~Ptr();
+}
+}  // namespace RadonFramework::Core::Policies
+
+#endif  // RF_CORE_POLICIES_OBJECTLOGIC_HPP

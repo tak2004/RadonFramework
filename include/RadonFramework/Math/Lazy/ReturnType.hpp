@@ -4,77 +4,78 @@
 #pragma once
 #endif
 
-namespace RadonFramework::Math::Lazy {
-
-template<typename L, typename R>
+namespace RadonFramework::Math::Lazy
+{
+template <typename L, typename R>
 struct ReturnType
-{};
+{
+};
 
-template<typename T>
+template <typename T>
 struct ReturnType<T, T>
 {
-    typedef T Type;
+  using Type = T;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::UInt8>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::UInt16>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::UInt32>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::UInt64>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::Int8>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::Int16>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::Int32>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<RF_Type::Float32, RF_Type::Int64>
 {
-    typedef RF_Type::Float32 Type;
+  using Type = RF_Type::Float32;
 };
 
-template<>
+template <>
 struct ReturnType<int, float>
 {
-    typedef float Type;
+  using Type = float;
 };
 
-}
+}  // namespace RadonFramework::Math::Lazy
 
 #ifndef RF_SHORTHAND_NAMESPACE_LAZY
 #define RF_SHORTHAND_NAMESPACE_LAZY
 namespace RF_Lazy = RadonFramework::Math::Lazy;
 #endif
 
-#endif // !RF_MATH_LAZY_RETURN_TYPE_HPP
+#endif  // !RF_MATH_LAZY_RETURN_TYPE_HPP

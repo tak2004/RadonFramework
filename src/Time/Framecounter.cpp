@@ -30,14 +30,13 @@ RF_Type::Size Framecounter::Frames()
 
 float Framecounter::Delta()
 {
-    return (float) m_Delta.TotalSeconds();
+    return static_cast<float>(m_Delta.TotalSeconds());
 }
 
 Framecounter::Framecounter()
 :m_Now(DateTime::MinValue)
 ,m_LastTime(DateTime::MinValue)
 ,m_LastFPSChangedTime(DateTime::MinValue)
-,m_Frames(0)
 {
 
 }

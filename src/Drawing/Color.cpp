@@ -53,7 +53,7 @@ const Color4f& Color4f::Gray()
 
 RF_Type::Float32& Color4f::operator[](RF_Type::Size Index)
 {
-    Assert(Index >= 4, "Index out of Bound!");
+    RF_ASSERT(Index >= 4, "Index out of Bound!");
     return BGRA[Index];
 }
 

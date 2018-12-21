@@ -1,0 +1,9 @@
+#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+import RadonFramework.Core.Types;
+import RadonFramework.Collections;
+
+export module RadonFramework.Diagnostics.Test;
+
+//#include <RadonFramework/Diagnostics/Test/BDD/SpecificationOutput.hpp>
+//#include <RadonFramework/Diagnostics/Test/BDD/ConsoleOutput.hpp>
+//#include <RadonFramework/Diagnostics/Test/BDD/Specification.hpp>

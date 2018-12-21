@@ -109,11 +109,13 @@ void EventConnection<CONAP>::RemoveEvent(Event<>* Obj)
 {
   for(typename RF_Collect::List<Event<>*>::Iterator it = m_Events.Begin();
       it != m_Events.End();)
-    if((void*)*it == (void*)Obj)
+  {
+    if(reinterpret_cast<void*>(*it) == reinterpret_cast<void*>(Obj))
     {
       m_Events.Remove(it);
       return;
     }
+  }
 }
 
 template <class T, typename AP>
@@ -141,7 +143,7 @@ template <typename _ARGU>
 void Event<_ARGU>::Attach(EventConnection<_ARGU>* ConnectionHandler)
 {
   m_EventHandler.AddLast((EventConnection<_ARGU>*)ConnectionHandler);
-  ConnectionHandler->AddEvent((Event<>*)this);
+  ConnectionHandler->AddEvent(reinterpret_cast<Event<>*>(this));
 }
 
 template <typename _ARGU>
@@ -165,7 +167,8 @@ void Event<_ARGU>::ConnectionRemoved(EventConnection<_ARGU>* ConnectionHandler)
           m_EventHandler.Begin();
       it != m_EventHandler.End();)
   {
-    if(reinterpret_cast<void*>(*it) == reinterpret_cast<void*>(ConnectionHandler))
+    if(reinterpret_cast<void*>(*it) ==
+       reinterpret_cast<void*>(ConnectionHandler))
     {
       m_EventHandler.Remove(it);
       return;
@@ -179,7 +182,9 @@ void Event<_ARGU>::Notify(_ARGU Arg)
   for(typename RF_Collect::List<EventConnection<_ARGU>*>::Iterator it =
           m_EventHandler.Begin();
       it != m_EventHandler.End(); ++it)
+  {
     (*(*it))(Arg);
+  }
 }
 
 template <typename _ARGU>

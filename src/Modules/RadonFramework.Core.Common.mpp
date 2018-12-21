@@ -1,0 +1,4 @@
+#include <RadonFramework/Core/Common/StringCache.hpp>
+#include <RadonFramework/Core/Common/Version.hpp>
+
+export module RadonFramework.Core.Common;

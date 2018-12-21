@@ -4,31 +4,60 @@
 #pragma once
 #endif
 
-namespace RadonFramework::IO {
-
+namespace RadonFramework::IO
+{
 enum class VirtualKey : RF_Type::UInt8
 {
-	NotSet,
-	Escape,
-	Left,
-	Up,
-	Right,
-	Down,
-	ShiftLeft,
-	ShiftRight,
-    ControlLeft,
-    ControlRight,
-    AltLeft,
-    AltRight,
-    Enter,
-    Tab,
-    Backspace,
-    Insert, Delete, Home, End, PageUp, PageDown,
-    Keypad0, Keypad1, Keypad2, Keypad3, Keypad4, Keypad5, Keypad6, Keypad7, Keypad8, Keypad9,
-    KeypadDivide, KeypadMultiply, KeypadSubtract, KeypadAdd, KeypadDecimal, KeypadEnter,
-    F1, F2, F3, F4, F5, F6, F7,F8, F9, F10, F11, F12,
+  NotSet,
+  Escape,
+  Left,
+  Up,
+  Right,
+  Down,
+  ShiftLeft,
+  ShiftRight,
+  ControlLeft,
+  ControlRight,
+  AltLeft,
+  AltRight,
+  Enter,
+  Tab,
+  Backspace,
+  Insert,
+  Delete,
+  Home,
+  End,
+  PageUp,
+  PageDown,
+  Keypad0,
+  Keypad1,
+  Keypad2,
+  Keypad3,
+  Keypad4,
+  Keypad5,
+  Keypad6,
+  Keypad7,
+  Keypad8,
+  Keypad9,
+  KeypadDivide,
+  KeypadMultiply,
+  KeypadSubtract,
+  KeypadAdd,
+  KeypadDecimal,
+  KeypadEnter,
+  F1,
+  F2,
+  F3,
+  F4,
+  F5,
+  F6,
+  F7,
+  F8,
+  F9,
+  F10,
+  F11,
+  F12,
 };
-
 }
 
 #ifndef RF_SHORTHAND_NAMESPACE_IO
@@ -36,4 +65,4 @@ enum class VirtualKey : RF_Type::UInt8
 namespace RF_IO = RadonFramework::IO;
 #endif
 
-#endif // RF_RF_VIRTUALKEY_HPP_HPP
+#endif  // RF_RF_VIRTUALKEY_HPP_HPP

@@ -4,9 +4,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <RadonFramework/Core/Types/UInt8.hpp>
+
 namespace RadonFramework::Core {
 
-enum class DataManagment
+enum class DataManagment : RF_Type::UInt8
 {
     // create a copy of data
     Copy=0,

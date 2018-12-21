@@ -208,7 +208,7 @@ T& List<T>::Node::Value()
 
 template <typename T, class Node, class Pointer, class Reference>
 ListIterator<T, Node, Pointer, Reference>::ListIterator()
-: m_Node(0), m_Owner(0)
+: m_Node(nullptr), m_Owner(nullptr)
 {
 }
 
@@ -546,7 +546,9 @@ void List<T>::AddList(const List<T>& L)
 {
   Iterator it;
   for(it = L.Begin(); it != L.End(); ++it)
+  {
     AddLast(*it);
+  }
 }
 
 template <typename T>
@@ -713,7 +715,9 @@ T& List<T>::Item(const RF_Type::Size Index)
   for(; it != End(); ++it)
   {
     if(i == Index)
+    {
       break;
+    }
     i++;
   }
   return *it;
