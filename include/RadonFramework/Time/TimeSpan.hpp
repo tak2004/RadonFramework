@@ -71,13 +71,13 @@ protected:
 namespace RF_Time = RadonFramework::Time;
 #endif
 
-namespace RadonFramework::System::IO {
-
-class Console;
-
-}
-
-RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
-                                                const RF_Time::TimeSpan& Other);
+//namespace RadonFramework::System::IO {
+//
+//class Console;
+//
+//}
+//
+//RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
+//                                                const RF_Time::TimeSpan& Other);
 
 #endif // RF_TIME_TIMESPAN_HPP

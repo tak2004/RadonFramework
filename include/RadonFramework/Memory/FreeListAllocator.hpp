@@ -22,7 +22,6 @@ public:
   void Deallocate(MemoryBlock& Block);
   RF_Type::Bool Owns(const MemoryBlock& Block) const;
   void DeallocateAll();
-
 protected:
 private:
   struct Node

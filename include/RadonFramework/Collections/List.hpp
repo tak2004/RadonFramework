@@ -360,14 +360,14 @@ ListIterator<T, Node, Pointer, Reference>::operator bool() const
 template <typename T, class Node, class Pointer, class Reference>
 Pointer ListIterator<T, Node, Pointer, Reference>::operator->() const
 {
-  Assert(m_Node, "Invalid use of null pointer.");
+  RF_ASSERT(m_Node, "Invalid use of null pointer.");
   return &m_Node->Value();
 }
 
 template <typename T, class Node, class Pointer, class Reference>
 Reference ListIterator<T, Node, Pointer, Reference>::operator*() const
 {
-  Assert(m_Node, "Invalid use of null pointer.");
+  RF_ASSERT(m_Node, "Invalid use of null pointer.");
   return m_Node->Value();
 }
 
@@ -554,7 +554,7 @@ void List<T>::AddList(const List<T>& L)
 template <typename T>
 void List<T>::Insert(RF_Type::Size Index, T& Item)
 {
-  Assert(m_Count >= Index, "Out of bound.");
+  RF_ASSERT(m_Count >= Index, "Out of bound.");
   if(m_Count == Index)
     AddLast(Item);
   else
@@ -610,7 +610,7 @@ T& List<T>::CreateElementAtBegin()
 template <typename T>
 T& List<T>::CreateElementAt(const RF_Type::Size Position)
 {
-  Assert(m_Count > Position, "Out of bound.");
+  RF_ASSERT(m_Count > Position, "Out of bound.");
   if(m_Count == Position)
     return CreateElementAtEnd();
   if(Position == 0)
@@ -691,7 +691,7 @@ void List<T>::RemoveLast()
 template <typename T>
 void List<T>::RemoveAt(RF_Type::Size Index)
 {
-  Assert(Index < m_Count, "Out of bound.");
+  RF_ASSERT(Index < m_Count, "Out of bound.");
 
   RF_Type::Size i = 0;
   for(Iterator it = Begin(); it != End(); ++it)
@@ -708,7 +708,7 @@ void List<T>::RemoveAt(RF_Type::Size Index)
 template <typename T>
 T& List<T>::Item(const RF_Type::Size Index)
 {
-  Assert(Index < m_Count, "Out of bound.");
+  RF_ASSERT(Index < m_Count, "Out of bound.");
 
   RF_Type::Size i = 0;
   Iterator it = Begin();
@@ -726,7 +726,7 @@ T& List<T>::Item(const RF_Type::Size Index)
 template <typename T>
 const T& List<T>::Item(const RF_Type::Size Index) const
 {
-  Assert(Index < m_Count, "Out of bound");
+  RF_ASSERT(Index < m_Count, "Out of bound");
 
   RF_Type::Size i = 0;
   Iterator it = Begin();

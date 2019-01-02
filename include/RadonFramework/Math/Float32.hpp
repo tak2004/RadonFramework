@@ -53,9 +53,12 @@ struct Float32
   static RF_Type::Float32 InvSqrt(const RF_Type::Float32 Value);
   static RF_Type::Float32 Log(const RF_Type::Float32 Value);
   static RF_Type::Float32 Pow(const RF_Type::Float32 Value);
+  static RF_Type::Float32
+  Pow(const RF_Type::Float32 Value, const RF_Type::Float32 Exponent);
   static RF_Type::Float32 Sin(const RF_Type::Float32 Value);
   static RF_Type::Float32 Sqr(const RF_Type::Float32 Value);
   static RF_Type::Float32 Sqrt(const RF_Type::Float32 Value);
+  static RF_Type::Float32 Cbrt(const RF_Type::Float32 Value);
   static RF_Type::Float32 Tan(const RF_Type::Float32 Value);
   static RF_Type::Float32 Abs(const RF_Type::Float32 Value);
 

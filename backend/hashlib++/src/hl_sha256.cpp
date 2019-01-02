@@ -343,7 +343,7 @@ void SHA256::SHA256_Update(HL_SHA256_CTX* context, const sha2_byte *data, unsign
     }
 
     /* Sanity check: */
-    Assert(context != (HL_SHA256_CTX*)0 && data != (sha2_byte*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA256_CTX*)0 && data != (sha2_byte*)0, "Unexpected NULL pointer!");
 
     usedspace = (context->bitcount >> 3) % SHA256_BLOCK_LENGTH;
     if (usedspace > 0) {
@@ -392,7 +392,7 @@ void SHA256::SHA256_Final(sha2_byte digest[], HL_SHA256_CTX* context) {
     unsigned int	usedspace;
 
     /* Sanity check: */
-    Assert(context != (HL_SHA256_CTX*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA256_CTX*)0, "Unexpected NULL pointer!");
 
     /* If no digest buffer is passed, we don't bother doing this: */
     if (digest != (sha2_byte*)0) {
@@ -461,7 +461,7 @@ char* SHA256::SHA256_End(HL_SHA256_CTX* context, char buffer[]) {
     sha2_byte	digest[SHA256_DIGEST_LENGTH], *d = digest;
 
     /* Sanity check: */
-    Assert(context != (HL_SHA256_CTX*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA256_CTX*)0, "Unexpected NULL pointer!");
 
     if (buffer != (char*)0) {
         SHA256_Final(digest, context);

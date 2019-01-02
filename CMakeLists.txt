@@ -98,7 +98,7 @@ if(RADONFRAMEWORK_ADD_XXHASH)
     AddPublicDefine(RADONFRAMEWORK RF_USE_XXHASH)
     rcf_dependencies(xxHash_Static)
 endif()
-    rcf_dependencies(libtess2 libmorton RadonFrameworkModule RadonFrameworkIOModule RadonFrameworkDiagnosticsTestModule)
+    rcf_dependencies(libtess2 libmorton ${RADONFRAMEWORK_MODULES})
 rcf_endgenerate()
 
 if(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS)

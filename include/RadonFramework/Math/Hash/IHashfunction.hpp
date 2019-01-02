@@ -9,6 +9,7 @@ namespace RadonFramework::Math::Hash
 class IHashfunction
 {
 public:
+  virtual ~IHashfunction() = default;
   virtual void Reset() = 0;
   virtual void Update(RF_Type::UInt8 Input) = 0;
   virtual void Update(const RF_Type::UInt8* Data, RF_Type::UInt32 Size) = 0;

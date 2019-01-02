@@ -296,8 +296,8 @@ void BitArray<RB, MA, MO>::Copy(RF_Type::Size Index,
                                 RF_Type::Size DestinationIndex,
                                 RF_Type::Size Length)
 {
-  Assert(m_ContainerInfo.elementCount >= Index + Length, "");
-  Assert(DestinationArray.m_ContainerInfo.elementCount >=
+  RF_ASSERT(m_ContainerInfo.elementCount >= Index + Length, "");
+  RF_ASSERT(DestinationArray.m_ContainerInfo.elementCount >=
              DestinationIndex + Length,
          "");
   MO::Move(&DestinationArray.m_Data[DestinationIndex], &m_Data[Index], Length);
@@ -335,7 +335,7 @@ void BitArray<RB, MA, MO>::Swap(BitArray<RB, MA, MO>& Other)
 template <typename RB, typename MA, typename MO>
 RF_Type::Bool BitArray<RB, MA, MO>::Test(const RF_Type::Size Index) const
 {
-  Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+  RF_ASSERT(Index < m_ContainerInfo.elementCount, "Out of bound.");
   RF_Type::Size ind = m_ContainerInfo.BlockIndex(Index);
   return m_Data[ind] & (1 << m_ContainerInfo.BlockOffset(Index));
 }
@@ -343,7 +343,7 @@ RF_Type::Bool BitArray<RB, MA, MO>::Test(const RF_Type::Size Index) const
 template <typename RB, typename MA, typename MO>
 BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Set(const RF_Type::Size Index)
 {
-  Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+  RF_ASSERT(Index < m_ContainerInfo.elementCount, "Out of bound.");
   RF_Type::Size ind = m_ContainerInfo.BlockIndex(Index);
   m_Data[ind] |= 1 << m_ContainerInfo.BlockOffset(Index);
   return *this;
@@ -352,7 +352,7 @@ BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Set(const RF_Type::Size Index)
 template <typename RB, typename MA, typename MO>
 BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Reset(const RF_Type::Size Index)
 {
-  Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+  RF_ASSERT(Index < m_ContainerInfo.elementCount, "Out of bound.");
   RF_Type::Size ind = m_ContainerInfo.BlockIndex(Index);
   m_Data[ind] &= ~(1 << m_ContainerInfo.BlockOffset(Index));
   return *this;
@@ -361,7 +361,7 @@ BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Reset(const RF_Type::Size Index)
 template <typename RB, typename MA, typename MO>
 BitArray<RB, MA, MO>& BitArray<RB, MA, MO>::Flip(const RF_Type::Size Index)
 {
-  Assert(Index < m_ContainerInfo.elementCount, "Out of bound.");
+  RF_ASSERT(Index < m_ContainerInfo.elementCount, "Out of bound.");
   RF_Type::Size ind = m_ContainerInfo.BlockIndex(Index);
   m_Data[ind] ^= 1 << m_ContainerInfo.BlockOffset(Index);
   return *this;

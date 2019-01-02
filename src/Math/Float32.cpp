@@ -98,6 +98,12 @@ RF_Type::Float32 Float32::Pow(const RF_Type::Float32 X)
     return pow(X, 2);
 }
 
+RF_Type::Float32
+Float32::Pow(const RF_Type::Float32 X, const RF_Type::Float32 Exponent)
+{
+  return pow(X, Exponent);
+}
+
 RF_Type::Float32 Float32::Tan(const RF_Type::Float32 X)
 {
     return tan(X);
@@ -111,6 +117,11 @@ RF_Type::Float32 Float32::Sqr(const RF_Type::Float32 X)
 RF_Type::Float32 Float32::Sqrt(const RF_Type::Float32 X)
 {
     return sqrt(X);
+}
+
+RF_Type::Float32 Float32::Cbrt(const RF_Type::Float32 X)
+{
+  return cbrt(X);
 }
 
 RF_Type::Float32 Float32::Sign(const RF_Type::Float32 X)

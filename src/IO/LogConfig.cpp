@@ -1,7 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/IO/LogConfig.hpp"
 #include "RadonFramework/IO/Log.hpp"
-#include "RadonFramework/System/IO/Console.hpp"
 #include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
 
 using namespace RadonFramework::Diagnostics;

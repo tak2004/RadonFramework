@@ -175,7 +175,7 @@ ArrayNode<T>* ArrayNode<T>::AddChild(const T& Value)
 template <class T>
 void ArrayNode<T>::RemoveChild(ArrayNode<T>* Node)
 {
-  Assert(m_Children.Count() > 0, "Invalid parameter.");
+  RF_ASSERT(m_Children.Count() > 0, "Invalid parameter.");
   if(m_Children.Count() > 1)  // most expected case
   {
     RF_Type::MemoryRange index = Node - &m_Children(0);
@@ -197,7 +197,7 @@ void ArrayNode<T>::RemoveChild(ArrayNode<T>* Node)
   }
   else  // count==1
   {
-    Assert(Node == &m_Children(0), "Invalid parameter.");
+    RF_ASSERT(Node == &m_Children(0), "Invalid parameter.");
     m_Children.Resize(0);
   }
 }

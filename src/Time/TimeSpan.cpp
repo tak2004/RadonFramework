@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Time/TimeSpan.hpp"
-#include "RadonFramework/System/IO/Console.hpp"
+//#include "RadonFramework/System/IO/Console.hpp"
 #include "RadonFramework/Core/Types/Utils/StringOperators.hpp"
 
 using namespace RadonFramework::Time;
@@ -174,12 +174,12 @@ bool TimeSpan::operator ==(const TimeSpan& TS)const
     return m_TimeValue == TS.m_TimeValue;
 }
 
-RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
-                                                const RadonFramework::Time::TimeSpan& Other)
-{
-    stream.WriteLine(Other.ToString());
-    return stream;
-}
+//RadonFramework::System::IO::Console& operator<<(RadonFramework::System::IO::Console& stream,
+//                                                const RadonFramework::Time::TimeSpan& Other)
+//{
+//    stream.WriteLine(Other.ToString());
+//    return stream;
+//}
 
 RadonFramework::Core::Types::String RadonFramework::Time::TimeSpan::ToString() const
 {

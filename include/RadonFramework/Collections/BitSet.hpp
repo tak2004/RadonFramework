@@ -358,7 +358,7 @@ BitSet<Bits>& BitSet<Bits>::Reset()
 template <int Bits>
 BitSet<Bits>& BitSet<Bits>::Set(RF_Type::Size Index)
 {
-  Assert(Index < Bits, "Out of bound.");
+  RF_ASSERT(Index < Bits, "Out of bound.");
   m_Data[Index / 8] |= 128 >> (Index % 8);
   return *this;
 }
@@ -366,7 +366,7 @@ BitSet<Bits>& BitSet<Bits>::Set(RF_Type::Size Index)
 template <int Bits>
 BitSet<Bits>& BitSet<Bits>::Reset(RF_Type::Size Index)
 {
-  Assert(Index < Bits, "Out of bound.");
+  RF_ASSERT(Index < Bits, "Out of bound.");
   m_Data[Index / 8] &= ~(128 >> (Index % 8));
   return *this;
 }
@@ -374,7 +374,7 @@ BitSet<Bits>& BitSet<Bits>::Reset(RF_Type::Size Index)
 template <int Bits>
 BitSet<Bits>& BitSet<Bits>::Flip(RF_Type::Size Index)
 {
-  Assert(Index < Bits, "Out of bound.");
+  RF_ASSERT(Index < Bits, "Out of bound.");
   const RF_Type::Size ind = Index / 8;
   m_Data[ind] = m_Data[ind] ^ (128 >> (Index % 8));
   return *this;
@@ -413,7 +413,7 @@ RF_Type::Bool BitSet<Bits>::None() const
 template <int Bits>
 RF_Type::Bool BitSet<Bits>::Test(RF_Type::Size Index) const
 {
-  Assert(Index < Bits, "Out of bound.");
+  RF_ASSERT(Index < Bits, "Out of bound.");
   RF_Type::Size ind = Index / 8;
   if((m_Data[ind] & (128 >> (Index % 8))) > 0)
     return true;
@@ -424,7 +424,7 @@ RF_Type::Bool BitSet<Bits>::Test(RF_Type::Size Index) const
 template <int Bits>
 BitSetReference<Bits> BitSet<Bits>::operator[](RF_Type::Size Index)
 {
-  Assert(Index < Bits, "Out of bound.");
+  RF_ASSERT(Index < Bits, "Out of bound.");
   BitSetReference<Bits> result;
   result.m_BitSet = this;
   result.m_Index = Index;
@@ -434,7 +434,7 @@ BitSetReference<Bits> BitSet<Bits>::operator[](RF_Type::Size Index)
 template <int Bits>
 RF_Type::Bool BitSet<Bits>::operator[](RF_Type::Size Index) const
 {
-  Assert(Index < Bits, "Out of bound.");
+  RF_ASSERT(Index < Bits, "Out of bound.");
   RF_Type::Size ind = ((Index - 1) / 8) + 1;
   m_Data[ind] = m_Data[ind] & (~(1 << (Index % 8)));
   if(m_Data[ind] > 0)

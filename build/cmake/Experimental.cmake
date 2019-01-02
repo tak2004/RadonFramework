@@ -63,4 +63,6 @@ if(RADONFRAMEWORK_EXPERIMENTAL_MODULES)
     rcf_generate(module RADONFRAMEWORK_MODULE RadonFrameworkModule "Framework/RadonFramework Modules" ${CMAKE_CURRENT_SOURCE_DIR}/src/Modules/RadonFramework.mpp)
         rcf_dependencies(RadonFrameworkSystemModule RadonFrameworkCoreModule)
     rcf_endgenerate()
+
+    set(RADONFRAMEWORK_MODULES RadonFrameworkModule RadonFrameworkIOModule RadonFrameworkDiagnosticsTestModule)
 endif()

@@ -98,6 +98,12 @@ RF_Type::Float64 Float64::Pow(const RF_Type::Float64 X)
     return pow(X, 2);
 }
 
+RF_Type::Float64
+Float64::Pow(const RF_Type::Float64 X, const RF_Type::Float64 Exponent)
+{
+  return pow(X, Exponent);
+}
+
 RF_Type::Float64 Float64::Tan(const RF_Type::Float64 X)
 {
     return tan(X);
@@ -111,6 +117,11 @@ RF_Type::Float64 Float64::Sqr(const RF_Type::Float64 X)
 RF_Type::Float64 Float64::Sqrt(const RF_Type::Float64 X)
 {
     return sqrt(X);
+}
+
+RF_Type::Float64 Float64::Cbrt(const RF_Type::Float64 X)
+{
+  return cbrt(X);
 }
 
 RF_Type::Float64 Float64::Sign(const RF_Type::Float64 X)

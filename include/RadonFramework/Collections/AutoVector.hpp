@@ -56,12 +56,12 @@ public:
     }
     T** operator->() const
     {
-      Assert(this->m_Node, "Invalid use of null pointer.");
+      RF_ASSERT(this->m_Node, "Invalid use of null pointer.");
       return &this->m_Node->Value().m_Ptr;
     }
     T*& operator*() const
     {
-      Assert(this->m_Node, "Invalid use of null pointer.");
+      RF_ASSERT(this->m_Node, "Invalid use of null pointer.");
       return this->m_Node->Value().m_Ptr;
     }
   };
@@ -75,12 +75,12 @@ public:
     }
     T const* const* operator->() const
     {
-      Assert(this->m_Node, "Invalid use of null pointer.");
+      RF_ASSERT(this->m_Node, "Invalid use of null pointer.");
       return &(const T*)(this->m_Node->Value().m_Ptr);
     }
     T const* const& operator*() const
     {
-      Assert(this->m_Node, "Invalid use of null pointer.");
+      RF_ASSERT(this->m_Node, "Invalid use of null pointer.");
       return (const T*)this->m_Node->Value().m_Ptr;
     }
   };
@@ -171,7 +171,7 @@ RF_Type::UInt32 AutoVector<T>::Count() const
 template <class T>
 void AutoVector<T>::Erase(RF_Type::UInt32 Index)
 {
-  Assert(Index < m_Pointer.Count(), "Out of bound.");
+  RF_ASSERT(Index < m_Pointer.Count(), "Out of bound.");
   if(m_Pointer[Index].m_IsArray)
     delete[] m_Pointer[Index].m_Ptr;
   else
@@ -194,7 +194,7 @@ void AutoVector<T>::Erase(ConstIterator It)
 template <class T>
 void AutoVector<T>::Release(RF_Type::UInt32 Index, Memory::AutoPointer<T>& Ptr)
 {
-  Assert(Index < m_Pointer.Size(), "Out of bound.");
+  RF_ASSERT(Index < m_Pointer.Size(), "Out of bound.");
   if(!m_Pointer[Index].m_IsArray)
   {
     Ptr = Memory::AutoPointer<T>(m_Pointer[Index].m_Ptr);
@@ -207,7 +207,7 @@ template <class T>
 void AutoVector<T>::Release(RF_Type::UInt32 Index,
                             Memory::AutoPointerArray<T>& Ptr)
 {
-  Assert(Index < m_Pointer.Size(), "Out of bound.");
+  RF_ASSERT(Index < m_Pointer.Size(), "Out of bound.");
   if(m_Pointer[Index].m_IsArray)
   {
     Ptr = Memory::AutoPointerArray<T>(m_Pointer[Index].m_Ptr,

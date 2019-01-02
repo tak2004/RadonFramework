@@ -53,9 +53,12 @@ struct Float64
   static RF_Type::Float64 InvSqrt(const RF_Type::Float64 Value);
   static RF_Type::Float64 Log(const RF_Type::Float64 Value);
   static RF_Type::Float64 Pow(const RF_Type::Float64 Value);
+  static RF_Type::Float64
+  Pow(const RF_Type::Float64 Value, const RF_Type::Float64 Exponent);
   static RF_Type::Float64 Sin(const RF_Type::Float64 Value);
   static RF_Type::Float64 Sqr(const RF_Type::Float64 Value);
   static RF_Type::Float64 Sqrt(const RF_Type::Float64 Value);
+  static RF_Type::Float64 Cbrt(const RF_Type::Float64 Value);
   static RF_Type::Float64 Tan(const RF_Type::Float64 Value);
   static RF_Type::Float64 Abs(const RF_Type::Float64 Value);
 

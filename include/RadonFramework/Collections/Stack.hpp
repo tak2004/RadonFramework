@@ -60,7 +60,7 @@ protected:
 template <typename T>
 T Stack<T>::operator[](const RF_Type::Size Index) const
 {
-  Assert(m_Size > Index, "Out of bound.");
+  RF_ASSERT(m_Size > Index, "Out of bound.");
   Node* p = m_Data;
   RF_Type::Size count = Index;
   for(; count > 0; p = p->GetNext(), --count)
@@ -125,7 +125,7 @@ void Stack<T>::Clear()
 template <typename T>
 void Stack<T>::Pop()
 {
-  Assert(m_Top != nullptr, "Invalid operation.");
+  RF_ASSERT(m_Top != nullptr, "Invalid operation.");
   if(m_Top)
   {
     Node* n = m_Top;
@@ -162,14 +162,14 @@ void Stack<T>::Push(const T& Element)
 template <typename T>
 T& Stack<T>::Peek()
 {
-  Assert(m_Size > 0, "Invalid operation.");
+  RF_ASSERT(m_Size > 0, "Invalid operation.");
   return m_Top->Value();
 }
 
 template <typename T>
 const T& Stack<T>::Peek() const
 {
-  Assert(m_Size > 0, "Invalid operation.");
+  RF_ASSERT(m_Size > 0, "Invalid operation.");
   return m_Top->Value();
 }
 

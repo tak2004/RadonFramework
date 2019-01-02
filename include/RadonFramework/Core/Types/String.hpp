@@ -3,7 +3,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif
-
+#ifndef RF_MODULE
 #include <RadonFramework/Core/DataManagment.hpp>
 #include <RadonFramework/Core/Types/Char.hpp>
 #include <RadonFramework/Core/Types/DynamicString.hpp>
@@ -16,7 +16,7 @@
 #include <RadonFramework/System/CompilerConfig.hpp>
 #include <RadonFramework/System/Memory.hpp>
 #include <cstdarg>
-
+#endif
 namespace RadonFramework::Core::Types
 {
 /** @brief Standard String class.
@@ -346,7 +346,7 @@ private:
 #pragma region Internal variables
 
 #pragma warning(push)
-#pragma warning(disable:4201)
+#pragma warning(disable : 4201)
   union {  // 0 terminated to boost the speed
     struct
     {
@@ -378,7 +378,7 @@ private:
 template <int N>
 String::String(char const (&CString)[N])
 {
-    m_Length = GetLength(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
+  m_Length = GetLength(reinterpret_cast<const RF_Type::UInt8*>(CString), N);
   if(N <= BUFFER_SIZE)
   {  // the locale buffer is a little bit faster
     m_DataManagment = RF_Core::DataManagment::Copy;
@@ -447,7 +447,9 @@ String& String::operator=(char const (&Other)[N])
 
 }  // namespace RadonFramework::Core::Types
 
+#ifndef RF_MODULE
 RF_Type::String operator"" _rfs(const char* Data, size_t Size);
+#endif
 
 #ifndef RF_SHORTHAND_NAMESPACE_TYPE
 #define RF_SHORTHAND_NAMESPACE_TYPE

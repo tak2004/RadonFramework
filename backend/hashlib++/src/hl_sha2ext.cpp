@@ -358,7 +358,7 @@ void SHA2ext::SHA512_Update(HL_SHA512_CTX* context, const sha2_byte *data, unsig
     }
 
     /* Sanity check: */
-    Assert(context != (HL_SHA512_CTX*)0 && data != (sha2_byte*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA512_CTX*)0 && data != (sha2_byte*)0, "Unexpected NULL pointer!");
 
     usedspace = (context->bitcount[0] >> 3) % SHA512_BLOCK_LENGTH;
     if (usedspace > 0) {
@@ -444,7 +444,7 @@ void SHA2ext::SHA512_Final(sha2_byte digest[], HL_SHA512_CTX* context)
     sha2_word64	*d = (sha2_word64*)digest;
 
     /* Sanity check: */
-    Assert(context != (HL_SHA512_CTX*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA512_CTX*)0, "Unexpected NULL pointer!");
 
     /* If no digest buffer is passed, we don't bother doing this: */
     if (digest != (sha2_byte*)0) {
@@ -474,7 +474,7 @@ char* SHA2ext::SHA512_End(HL_SHA512_CTX* context, char buffer[])
     sha2_byte	digest[SHA512_DIGEST_LENGTH], *d = digest;
 
     /* Sanity check: */
-    Assert(context != (HL_SHA512_CTX*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA512_CTX*)0, "Unexpected NULL pointer!");
 
     if (buffer != (char*)0) {
         SHA512_Final(digest, context);
@@ -512,7 +512,7 @@ void SHA2ext::SHA384_Final(sha2_byte digest[], HL_SHA_384_CTX* context)
     sha2_word64	*d = (sha2_word64*)digest;
 
     /* Sanity check: */
-    Assert(context != (HL_SHA_384_CTX*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA_384_CTX*)0, "Unexpected NULL pointer!");
 
     /* If no digest buffer is passed, we don't bother doing this: */
     if (digest != (sha2_byte*)0) {
@@ -542,7 +542,7 @@ char* SHA2ext::SHA384_End(HL_SHA_384_CTX* context, char buffer[])
     sha2_byte	digest[SHA384_DIGEST_LENGTH], *d = digest;
 
     /* Sanity check: */
-    Assert(context != (HL_SHA_384_CTX*)0, "Unexpected NULL pointer!");
+    RF_ASSERT(context != (HL_SHA_384_CTX*)0, "Unexpected NULL pointer!");
 
     if (buffer != (char*)0) {
         SHA384_Final(digest, context);

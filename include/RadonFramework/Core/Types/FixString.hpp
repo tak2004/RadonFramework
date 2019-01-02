@@ -28,14 +28,14 @@ protected:
 template <int LENGTH>
 UInt8& FixString<LENGTH>::operator[](const MemoryRange Index)
 {
-  Assert(Index < LENGTH, "Index out of bound.");
+  RF_ASSERT(Index < LENGTH, "Index out of bound.");
   return m_Buffer[Index];
 }
 
 template <int LENGTH>
 UInt8 FixString<LENGTH>::operator[](const MemoryRange Index) const
 {
-  Assert(Index < LENGTH, "Index out of bound.");
+  RF_ASSERT(Index < LENGTH, "Index out of bound.");
   return m_Buffer[Index];
 }
 
@@ -60,7 +60,7 @@ Size FixString<LENGTH>::GetSize() const
 template <int LENGTH>
 void FixString<LENGTH>::SetSize(const UInt8 NewSize)
 {
-  Assert(NewSize <= LENGTH, "Out of bound");
+  RF_ASSERT(NewSize <= LENGTH, "Out of bound");
   m_Size = NewSize;
 }
 
