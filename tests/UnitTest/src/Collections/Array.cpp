@@ -1,6 +1,5 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
 #include <RadonFramework/Collections/Array.hpp>
@@ -8,7 +7,7 @@
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 
 class ArrayTest:public TestSuite
 {
@@ -134,10 +133,6 @@ public:
             "ArrayTest::IndexOf"_rfs,
             "Searches for the specified object and returns the index of \
             the first occurrence."_rfs);
-
-        AddTest(MakeDelegate(this,&ArrayTest::GetEnumerator),
-            "ArrayTest::GetEnumerator"_rfs,
-            "Returns an IEnumerator for the Array."_rfs);
 
         AddTest(MakeDelegate(this,&ArrayTest::ForEach),
             "ArrayTest::ForEach"_rfs,
@@ -508,19 +503,6 @@ public:
         return 0==vec.IndexOf(3) && -1==vec.IndexOf(3,1,1) &&
             -1==vec.IndexOf(0) && 2==vec.IndexOf(3,1,2) &&
             2==vec.IndexOf(3,1);
-    }
-
-    Bool GetEnumerator()
-    {
-        Array<UInt32> vec(3);
-        vec.Item(0,1);
-        vec.Item(1,2);
-        vec.Item(2,3);
-        ArrayEnumerator<UInt32> enumerator=vec.GetArrayEnumerator();
-        return enumerator.MoveNext() && *enumerator.Current()==1 &&
-                enumerator.MoveNext() && *enumerator.Current()==2 &&
-                enumerator.MoveNext() && *enumerator.Current()==3 &&
-                !enumerator.MoveNext() && enumerator.Current()==0;
     }
 
     void Increase(UInt32& Value)

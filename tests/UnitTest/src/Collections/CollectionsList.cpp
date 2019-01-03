@@ -1,12 +1,11 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 
-class CollectionsListTest:public RadonFramework::Diagnostics::Debugging::UnitTest::TestSuite
+class CollectionsListTest:public RadonFramework::Diagnostics::Test::UnitTest::TestSuite
 {
 public:
     CollectionsListTest()

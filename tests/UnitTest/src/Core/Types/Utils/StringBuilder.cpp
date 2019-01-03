@@ -1,11 +1,10 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Text/StringBuilder.hpp>
 
 using namespace RadonFramework::Text;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 using namespace RadonFramework::Memory;
 
 class StringBuilderTest:public TestSuite

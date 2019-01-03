@@ -1,6 +1,0 @@
-AddSourceDirectoryRecursive(filelist "Example" "Source")
-set(RADONFRAMEWORK_BDDEXAMPLE_FILES ${filelist} "../../work/Radon.rc")
-Generate(EXECUTABLE RADONFRAMEWORK_BDDEXAMPLE BDDExample "Framework")
-target_include_directories(BDDExample PRIVATE Example/)
-AddDependency(RADONFRAMEWORK_BDDEXAMPLE RadonFramework)
-Finalize(RADONFRAMEWORK_BDDEXAMPLE)

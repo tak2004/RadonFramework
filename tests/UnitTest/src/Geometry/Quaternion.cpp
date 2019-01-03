@@ -1,6 +1,5 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
 #include <RadonFramework/Math/Float32.hpp>
@@ -11,7 +10,7 @@
 using namespace RadonFramework;
 using namespace RadonFramework::Math::Geometry;
 using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 
 class GeometryQuatF32Test:public TestSuite
 {

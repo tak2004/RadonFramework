@@ -1,5 +1,4 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
 #include <RadonFramework/Collections/Algorithm/FindAll.hpp>
 
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
@@ -19,7 +18,7 @@
 #include <RadonFramework/Collections/Tree.hpp>
 
 using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 using namespace RadonFramework::Collections::Algorithm;
 using namespace RadonFramework::Collections;
 

@@ -1,6 +1,5 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
 #include <RadonFramework/Collections/Queue.hpp>
@@ -8,7 +7,7 @@
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 
 class QueueTest:public TestSuite
 {

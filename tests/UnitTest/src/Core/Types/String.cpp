@@ -1,12 +1,11 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 #include <string.h>
 
 using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 using namespace RadonFramework::Memory;
 
 class PortableStringTest:public TestSuite
@@ -526,7 +525,7 @@ public:
     RadonFramework::Core::Types::Bool SplitByPChar()
     {
         String str("a=b+c");
-        AutoPointerArray<String> list=str.Split("=+"_rfs);
+        StringSet list=str.Split("=+"_rfs);
         String empty;
         String notEmpty("foo/bar");
         String delimeterAtStart("/foo/bar");
@@ -547,7 +546,7 @@ public:
     {
         String str("a=b+c");
         String delimiters("=+");
-        AutoPointerArray<String> list1=str.Split(delimiters);
+        StringSet list1 = str.Split(delimiters);
         return list1.Count()==3 && list1[0]=="a" && list1[1]=="b" && list1[2]=="c";
     }
 

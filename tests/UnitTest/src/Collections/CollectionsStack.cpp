@@ -1,6 +1,5 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
 #include <RadonFramework/Collections/Stack.hpp>
@@ -8,7 +7,7 @@
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Collections;
 
-class CollectionsStackTest:public RadonFramework::Diagnostics::Debugging::UnitTest::TestSuite
+class CollectionsStackTest:public RadonFramework::Diagnostics::Test::UnitTest::TestSuite
 {
 public:
     CollectionsStackTest()

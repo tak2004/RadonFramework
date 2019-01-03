@@ -1,28 +1,26 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
-#include <RadonFramework/Core/Pattern/Delegate.hpp>
-#include <RadonFramework/IO/File.hpp>
-#include "RadonFramework/Core/Common/DataManagment.hpp"
-#include "RadonFramework/Time/TimeSpan.hpp"
-#include "RadonFramework/Time/ScopeTimer.hpp"
 #include "RadonFramework/Text/StringProcessor.hpp"
+#include <RadonFramework/Core/Pattern/Delegate.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
+#include <RadonFramework/IO/File.hpp>
+#include "RadonFramework/Core/DataManagment.hpp"
 #include "RadonFramework/Text/StringProcessor/BruteForce.hpp"
 #include "RadonFramework/Text/StringProcessor/Horspool.hpp"
 #include "RadonFramework/Text/StringProcessor/KnuthMorrisPratt.hpp"
 #include "RadonFramework/Text/StringProcessor/ShiftAnd.hpp"
 #include "RadonFramework/Text/StringProcessor/SkipSearch.hpp"
 #include "RadonFramework/Text/StringProcessor/Sunday.hpp"
+#include "RadonFramework/Time/ScopeTimer.hpp"
+#include "RadonFramework/Time/TimeSpan.hpp"
 
 using namespace RadonFramework::Core::Types;
-using namespace RadonFramework::Core::Common;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::IO;
 using namespace RadonFramework::Time;
 using namespace RadonFramework::Text::StringProcessors;
 
-const char* LONGERTEXT=
+const char* LONGERTEXT =
     "The term ‘research’ has been viewed with mystique by many people. \
     It is seen to be the preserve of academicians and professional \
     elite. In most people’s minds, the word ‘research’ conjures up the \
@@ -70,82 +68,90 @@ const char* LONGERTEXT=
     relationships between and among variables. It seeks to answer \
     specific questions.";
 
-class StringProcessorTest:public TestSuite
+class StringProcessorTest : public TestSuite
 {
 public:
-    String txt;
+  String txt;
 
-    StringProcessorTest()
-    :TestSuite("RadonFramework::Core::Types::StringUtils"_rfs)
-    {
-        txt=String(LONGERTEXT, sizeof(LONGERTEXT), DataManagment::UnmanagedInstance);
-        AddTest(MakeDelegate(this,&StringProcessorTest::DoBruteforce),"StringProcessorTest::DoBruteforce"_rfs, "Bruteforce search"_rfs);
-        AddTest(MakeDelegate(this,&StringProcessorTest::DoHorspool),"StringProcessorTest::DoHorspool"_rfs, "Horspool search"_rfs);
-        AddTest(MakeDelegate(this,&StringProcessorTest::DoKnuthMorrisPratt), "StringProcessorTest::DoKnuthMorrisPratt"_rfs, "KnuthMorrisPratt search"_rfs);
-        AddTest(MakeDelegate(this,&StringProcessorTest::DoShiftAnd), "StringProcessorTest::DoShiftAnd"_rfs, "ShiftAnd search"_rfs);
-        AddTest(MakeDelegate(this,&StringProcessorTest::DoSkipSearch), "StringProcessorTest::DoSkipSearch"_rfs, "SkipSearch search"_rfs);
-        AddTest(MakeDelegate(this,&StringProcessorTest::DoSunday), "StringProcessorTest::DoSunday"_rfs, "Sunday search"_rfs);
-    }
+  StringProcessorTest()
+  : TestSuite("RadonFramework::Core::Types::StringUtils"_rfs)
+  {
+    txt = String(LONGERTEXT, sizeof(LONGERTEXT),
+                 RF_Core::DataManagment::UnmanagedInstance);
+    AddTest(MakeDelegate(this, &StringProcessorTest::DoBruteforce),
+            "StringProcessorTest::DoBruteforce"_rfs, "Bruteforce search"_rfs);
+    AddTest(MakeDelegate(this, &StringProcessorTest::DoHorspool),
+            "StringProcessorTest::DoHorspool"_rfs, "Horspool search"_rfs);
+    AddTest(MakeDelegate(this, &StringProcessorTest::DoKnuthMorrisPratt),
+            "StringProcessorTest::DoKnuthMorrisPratt"_rfs,
+            "KnuthMorrisPratt search"_rfs);
+    AddTest(MakeDelegate(this, &StringProcessorTest::DoShiftAnd),
+            "StringProcessorTest::DoShiftAnd"_rfs, "ShiftAnd search"_rfs);
+    AddTest(MakeDelegate(this, &StringProcessorTest::DoSkipSearch),
+            "StringProcessorTest::DoSkipSearch"_rfs, "SkipSearch search"_rfs);
+    AddTest(MakeDelegate(this, &StringProcessorTest::DoSunday),
+            "StringProcessorTest::DoSunday"_rfs, "Sunday search"_rfs);
+  }
 
-    Bool DoBruteforce()
-    {
-        Int32 count;
-        RF_Text::StringProcessor<BruteForce> proc;
-        proc.Storage().Search="knowledge";
-        proc.Init(txt,0,false);
-        count=proc.DoAll();//5 matches
-        return true;
-    }
+  Bool DoBruteforce()
+  {
+    Int32 count;
+    RF_Text::StringProcessor<BruteForce> proc;
+    proc.Storage().Search = "knowledge";
+    proc.Init(txt, 0, false);
+    count = proc.DoAll();  // 5 matches
+    return true;
+  }
 
-    Bool DoHorspool()
-    {
-        Int32 count;
-        RF_Text::StringProcessor<Horspool> proc;
-        proc.Storage().Search="knowledge";
-        proc.Init(txt,0,false);
-        count=proc.DoAll();//5 matches
-        return true;
-    }
+  Bool DoHorspool()
+  {
+    Int32 count;
+    RF_Text::StringProcessor<Horspool> proc;
+    proc.Storage().Search = "knowledge";
+    proc.Init(txt, 0, false);
+    count = proc.DoAll();  // 5 matches
+    return true;
+  }
 
-    Bool DoKnuthMorrisPratt()
-    {
-        Int32 count;
-        RF_Text::StringProcessor<KnuthMorrisPratt> proc;
-        proc.Storage().Search="knowledge";
-        proc.Init(txt,0,false);
-        count=proc.DoAll();//5 matches
-        return true;
-    }
+  Bool DoKnuthMorrisPratt()
+  {
+    Int32 count;
+    RF_Text::StringProcessor<KnuthMorrisPratt> proc;
+    proc.Storage().Search = "knowledge";
+    proc.Init(txt, 0, false);
+    count = proc.DoAll();  // 5 matches
+    return true;
+  }
 
-    Bool DoShiftAnd()
-    {
-        Int32 count;
-        RF_Text::StringProcessor<ShiftAnd> proc;
-        proc.Storage().Search="knowledge";
-        proc.Init(txt,0,false);
-        count=proc.DoAll();//5 matches
-        return true;
-    }
+  Bool DoShiftAnd()
+  {
+    Int32 count;
+    RF_Text::StringProcessor<ShiftAnd> proc;
+    proc.Storage().Search = "knowledge";
+    proc.Init(txt, 0, false);
+    count = proc.DoAll();  // 5 matches
+    return true;
+  }
 
-    Bool DoSkipSearch()
-    {
-        Int32 count;
-        RF_Text::StringProcessor<SkipSearch> proc;
-        proc.Storage().Search="knowledge";
-        proc.Init(txt,0,false);
-        count=proc.DoAll();//5 matches
-        return true;
-    }
+  Bool DoSkipSearch()
+  {
+    Int32 count;
+    RF_Text::StringProcessor<SkipSearch> proc;
+    proc.Storage().Search = "knowledge";
+    proc.Init(txt, 0, false);
+    count = proc.DoAll();  // 5 matches
+    return true;
+  }
 
-    Bool DoSunday()
-    {
-        Int32 count;
-        RF_Text::StringProcessor<Sunday> proc;
-        proc.Storage().Search="knowledge";
-        proc.Init(txt,0,false);
-        count=proc.DoAll();//5 matches
-        return true;
-    }
+  Bool DoSunday()
+  {
+    Int32 count;
+    RF_Text::StringProcessor<Sunday> proc;
+    proc.Storage().Search = "knowledge";
+    proc.Init(txt, 0, false);
+    count = proc.DoAll();  // 5 matches
+    return true;
+  }
 };
 
 StringProcessorTest StringProcessorTestInstance;

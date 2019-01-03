@@ -1,6 +1,5 @@
-#include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp"
-#include "RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp"
+#include "RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp"
+#include "RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp"
 #include "RadonFramework/Core/Pattern/Delegate.hpp"
 #include "RadonFramework/Math/Geometry/PackRectangle.hpp"
 

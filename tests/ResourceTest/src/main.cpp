@@ -1,7 +1,6 @@
-#include "precompiled.hpp"
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/BriefProgressCollector.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/JUnitOutput.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/BriefProgressCollector.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/JUnitOutput.hpp>
 #include <RadonFramework/Diagnostics/Test/TestResultCollector.hpp>
 #include <RadonFramework/Diagnostics/Test/TestResult.hpp>
 #include <RadonFramework/IO/Log.hpp>
@@ -17,7 +16,7 @@
 #include <RadonFramework/IO/StandardRuleChecker.hpp>
 
 using namespace RadonFramework::IO;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 using namespace RadonFramework::Diagnostics;
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Core::Types;

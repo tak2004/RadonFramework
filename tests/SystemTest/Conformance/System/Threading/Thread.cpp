@@ -1,6 +1,5 @@
-#include <RadonFramework/precompiled.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/TestSuite.hpp>
-#include <RadonFramework/Diagnostics/Debugging/UnitTest/UnitTest.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/TestSuite.hpp>
+#include <RadonFramework/Diagnostics/Test/UnitTest/UnitTest.hpp>
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 
 #include <RadonFramework/Collections/Algorithm/Exists.hpp>
@@ -12,7 +11,7 @@
 using namespace RadonFramework::Threading;
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::System::Threading;
-using namespace RadonFramework::Diagnostics::Debugging::UnitTest;
+using namespace RadonFramework::Diagnostics::Test::UnitTest;
 
 class TestThread :public RF_Thread::Thread
 {
