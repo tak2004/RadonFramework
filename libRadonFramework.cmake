@@ -74,7 +74,6 @@ set(HDRS_BACKEND_STRINGCODERS ${filelist})
 set(LIBBACKENDGENERALSRCFILES
     ${SRC_BACKEND_HASHLIBPP}
     ${SRC_BACKEND_MURMURHASH}
-    ${SRC_BACKEND_OPENGL}
     ${SRC_BACKEND_STRINGCODERS}
 	)
 
@@ -84,17 +83,14 @@ set(LIBBACKENDGENERALHDRFILES
     ${HDRS_BACKEND_GOOGLE_SPARSEHASH}
     ${HDRS_BACKEND_HASHLIBPP}
     ${HDRS_BACKEND_MURMURHASH}
-    ${HDRS_BACKEND_RADONDDS}
     ${HDRS_BACKEND_STRINGCODERS}
 	)
 
 set(LIBBACKENDSRCFILES_LINUX
-    ${SRC_BACKEND_LINUX}
-    ${SRC_BACKEND_X11_DRAWING})
+    ${SRC_BACKEND_LINUX})
 
 set(LIBBACKENDHDRFILES_LINUX
-    ${HDRS_BACKEND_LINUX}
-    ${HDRS_BACKEND_X11_DRAWING})
+    ${HDRS_BACKEND_LINUX})
 	
 # these files are excluded on other platforms
 set(LIBSRCFILES_WINDOW
@@ -105,7 +101,6 @@ set(LIBSRCFILES_WINDOW
 	src/System/TimeWindows.cpp
 	src/System/ProcessWindows.cpp
 	src/System/Hardware/HardwareWindows.cpp
-	src/System/Drawing/SystemTrayServiceWindows.cpp
     src/System/Threading/ThreadWindows.cpp
     src/System/SecurityWindows.cpp)
 	
@@ -144,36 +139,22 @@ set(LIBSRCFILES_MICROCRT
 
 # Radon Framework source code
 source_group("Sources" FILES ${SRC_ROOT})
-source_group("Sources\\backend\\Glew" FILES ${SRC_BACKEND_GLEW})
 source_group("Sources\\backend\\Hashlib++" FILES ${SRC_BACKEND_HASHLIBPP})
 source_group("Sources\\backend\\MurmurHash" FILES ${SRC_BACKEND_MURMURHASH})
-source_group("Sources\\backend\\OpenGL" FILES ${SRC_BACKEND_OPENGL})
 source_group("Sources\\backend\\StringCoders" FILES ${SRC_BACKEND_STRINGCODERS})
 
 # Radon Framework header
 source_group("Includes" FILES ${HDRS_ROOT})
 source_group("Includes\\backend" FILES ${HDRS_BACKEND})
-source_group("Includes\\backend\\GL" FILES ${HDRS_BACKEND_GL})
 source_group("Includes\\backend\\Google" FILES ${HDRS_BACKEND_GOOGLE})
 source_group("Includes\\backend\\Google\\SparseHash" FILES ${HDRS_BACKEND_GOOGLE_SPARSEHASH})
 source_group("Includes\\backend\\Hashlib++" FILES ${HDRS_BACKEND_HASHLIBPP})
 source_group("Includes\\backend\\MurmurHash" FILES ${HDRS_BACKEND_MURMURHASH})
-source_group("Includes\\backend\\OpenGL" FILES ${HDRS_BACKEND_OPENGL})
 source_group("Includes\\backend\\StringCoders" FILES ${HDRS_BACKEND_STRINGCODERS})
-
-# Linux specific source code
-source_group("Sources\\backend\\Linux" FILES ${SRC_BACKEND_LINUX})
-
-# Linux specific headers
-source_group("Includes\\backend\\Linux" FILES ${HDRS_BACKEND_LINUX})
 
 AddSourceDirectoryRecursive(filelist "src/Collections" "Sources\\Collections")
 list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Core" "Sources\\Core")
-list(APPEND LIBSRCFILES ${filelist})
-AddSourceDirectoryRecursive(filelist "src/Concurrency" "Sources\\Concurrency")
-list(APPEND LIBSRCFILES ${filelist})
-AddSourceDirectoryRecursive(filelist "src/Diagnostics" "Sources\\Diagnostics")
 list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Math" "Sources\\Math")
 list(APPEND LIBSRCFILES ${filelist})
@@ -195,20 +176,12 @@ AddSourceDirectoryRecursive(filelist "src/Drawing" "Sources\\Drawing")
 list(APPEND LIBSRCFILES ${filelist})
 AddSourceDirectoryRecursive(filelist "src/Text" "Sources\\Text")
 list(APPEND LIBSRCFILES ${filelist})
-AddSourceDirectoryRecursive(filelist "src/Util" "Sources\\Util")
-list(APPEND LIBSRCFILES ${filelist})
-AddSourceDirectoryRecursive(filelist "src/Security" "Sources\\Security")
-list(APPEND LIBSRCFILES ${filelist})
 
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Reflection" "Includes\\Reflection")
 list(APPEND LIBHDRFILES ${filelist})	
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Collections" "Includes\\Collections")
 list(APPEND LIBHDRFILES ${filelist})
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Concurrency" "Includes\\Concurrency")
-list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Core" "Includes\\Core")
-list(APPEND LIBHDRFILES ${filelist})
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Diagnostics" "Includes\\Diagnostics")
 list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Math" "Includes\\Math")
 list(APPEND LIBHDRFILES ${filelist})
@@ -227,10 +200,6 @@ list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Drawing" "Includes\\Drawing")
 list(APPEND LIBHDRFILES ${filelist})
 AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Text" "Includes\\Text")
-list(APPEND LIBHDRFILES ${filelist})
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Util" "Includes\\Util")
-list(APPEND LIBHDRFILES ${filelist})
-AddHeaderDirectoryRecursive(filelist "include/RadonFramework/Security" "Includes\\Security")
 list(APPEND LIBHDRFILES ${filelist})
 
 # custom CMake files

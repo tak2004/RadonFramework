@@ -1,13 +1,9 @@
-#ifndef RF_AUTOPOINTERARRAY_HPP
-#define RF_AUTOPOINTERARRAY_HPP
-#if _MSC_VER > 1000
 #pragma once
-#endif
 
 #include <RadonFramework/Collections/ArrayEnumeratorType.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 #include <type_traits>
 
 namespace RadonFramework::Memory
@@ -417,9 +413,4 @@ typename AutoPointerArray<T>::EnumeratorType AutoPointerArray<T>::begin() const
 
 }  // namespace RadonFramework::Memory
 
-#ifndef RF_SHORTHAND_NAMESPACE_MEM
-#define RF_SHORTHAND_NAMESPACE_MEM
 namespace RF_Mem = RadonFramework::Memory;
-#endif
-
-#endif  // RF_AUTOPOINTERARRAY_HPP

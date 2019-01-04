@@ -8,7 +8,7 @@
 #include <RadonFramework/Diagnostics/Test/TestResultCollector.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/IO/LogConsole.hpp>
-#include <RadonFramework/Diagnostics/Appender.hpp>
+#include <RadonFramework/IO/Appender.hpp>
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/System/IO/FileSystem.hpp>
 #include <RadonFramework/IO/Uri.hpp>
@@ -27,9 +27,7 @@ int main(int argc, char** argv)
     Radon framework;
 
     AutoPointer<Appender> console(new LogConsole);
-    AutoPointer<Appender> debugOut(new LogDebuggerOutput);
     Log::AddAppender(console);
-    Log::AddAppender(debugOut);
 
     RF_Test::TestResultCollector results;
     BriefProgressCollector progress;

@@ -12,7 +12,6 @@ using namespace RadonFramework::Memory;
 using namespace RadonFramework::Threading;
 using namespace RadonFramework::Time;
 using namespace RadonFramework::Collections;
-using namespace RadonFramework::Diagnostics;
 
 Bool Log::IsInfoEnabled=true;
 Bool Log::IsErrorEnabled=true;

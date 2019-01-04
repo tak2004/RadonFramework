@@ -6,7 +6,7 @@
 
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/Size.hpp>
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 
 namespace RadonFramework::Collections
 {

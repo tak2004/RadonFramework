@@ -1,10 +1,6 @@
-#ifndef RF_COLLECTIONS_ARRAYENUMERATORTYPE_HPP
-#define RF_COLLECTIONS_ARRAYENUMERATORTYPE_HPP
-#if _MSC_VER > 1000
 #pragma once
-#endif
 
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <iterator>
 
@@ -175,9 +171,4 @@ RF_Type::Size Enumerator<T, ArrayEnumeratorType>::Size() const
 
 }  // namespace RadonFramework::Collections
 
-#ifndef RF_SHORTHAND_NAMESPACE_COLLECT
-#define RF_SHORTHAND_NAMESPACE_COLLECT
 namespace RF_Collect = RadonFramework::Collections;
-#endif
-
-#endif  // RF_COLLECTIONS_ARRAYENUMERATORTYPE_HPP

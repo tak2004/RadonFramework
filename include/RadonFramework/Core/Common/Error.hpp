@@ -1,12 +1,8 @@
-#ifndef RF_DIAGNOSTICS_DEBUGGING_ERROR_HPP
-#define RF_DIAGNOSTICS_DEBUGGING_ERROR_HPP
-#if _MSC_VER > 1000
 #pragma once
-#endif
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework::Diagnostics::Debugging
+namespace RadonFramework::Core::Common
 {
 template <typename Parent, typename ErrorEnum, RF_Type::UInt32 ErrorCount>
 struct Error
@@ -49,6 +45,6 @@ struct Error
     return err;
   }
 };
-}  // namespace RadonFramework::Diagnostics::Debugging
+}  // namespace RadonFramework::Core::Common
 
-#endif  // RF_DIAGNOSTICS_DEBUGGING_ERROR_HPP
+namespace RF_Common = RadonFramework::Core::Common;

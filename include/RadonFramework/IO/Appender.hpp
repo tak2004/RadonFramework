@@ -1,12 +1,8 @@
-#ifndef RF_DIAGNOSTICS_APPENDER_HPP
-#define RF_DIAGNOSTICS_APPENDER_HPP
-#if _MSC_VER > 1000
 #pragma once
-#endif
 
 #include <RadonFramework/Core/Types/String.hpp>
 
-namespace RadonFramework::Diagnostics
+namespace RadonFramework::IO
 {
 class Appender
 {
@@ -19,11 +15,6 @@ public:
 protected:
 };
 
-}  // namespace RadonFramework::Diagnostics
+}  // namespace RadonFramework::IO
 
-#ifndef RF_SHORTHAND_NAMESPACE_DIAG
-#define RF_SHORTHAND_NAMESPACE_DIAG
-namespace RF_Diag = RadonFramework::Diagnostics;
-#endif
-
-#endif  // RF_DIAGNOSTICS_APPENDER_HPP
+namespace RF_IO = RadonFramework::IO;

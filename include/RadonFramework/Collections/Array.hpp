@@ -9,7 +9,7 @@
 #include <RadonFramework/Core/Pattern/Delegate.hpp>
 #include <RadonFramework/Core/Policies/CMemoryOperation.hpp>
 #include <RadonFramework/Core/Policies/CPPAllocator.hpp>
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 #include <RadonFramework/Math/Integer.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
 

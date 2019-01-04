@@ -5,7 +5,7 @@
 #include <RadonFramework/Diagnostics/Test/TestResult.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/IO/LogConsole.hpp>
-#include <RadonFramework/Diagnostics/Appender.hpp>
+#include <RadonFramework/IO/Appender.hpp>
 #include <RadonFramework/Core/Pattern/Singleton.hpp>
 #include <RadonFramework/System/IO/FileSystem.hpp>
 #include <RadonFramework/Radon.hpp>

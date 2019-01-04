@@ -14,10 +14,7 @@ include("Integrate.cmake")
 # General framework options.
 OPTION(RADONFRAMEWORK_ADD_DOCUMENTATION "Add the framework documentation generation to the build." OFF)
 OPTION(RADONFRAMEWORK_ADD_TESTS "Add the framework specific tests." OFF)
-OPTION(RADONFRAMEWORK_USE_FORMS "Activate window and UI support" ON)
-OPTION(RADONFRAMEWORK_USE_OPENGL "Activate OpenGL canvas support" ON)
 OPTION(RADONFRAMEWORK_ADD_EXAMPLES "Add the framework examples." OFF)
-OPTION(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS "Add support for the standard intermediate formats." OFF)
 OPTION(RADONFRAMEWORK_ADD_XXHASH "Add the xxhash library and services." ON)
 
 # Advanced framework options.
@@ -33,16 +30,6 @@ if(RADONFRAMEWORK_ADD_TESTS)
     mark_as_advanced(RADONFRAMEWORK_BUILD_RESOURCETEST)
     OPTION(RADONFRAMEWORK_BUILD_SYSTEMTEST "Enable the system test" ON)
     mark_as_advanced(RADONFRAMEWORK_BUILD_SYSTEMTEST)
-    OPTION(RADONFRAMEWORK_BUILD_BDDTEST "Enable the behaviour driven design test" ON)
-    mark_as_advanced(RADONFRAMEWORK_BUILD_BDDTEST)    
-endif()
-
-#set(RADONFRAMEWORK_DYNAMIC_SERVICE_TARGETS "" CACHE INTERNAL "Contains the target names of the runtime linkable services.")
-#set(RADONFRAMEWORK_STATIC_SERVICE_TARGETS "" CACHE INTERNAL "Contains the target id of the compiletime linkable services.")
-
-if(RADONFRAMEWORK_ADD_EXAMPLES)
-    rcf_addlocation(CONSOLE "git" "https://github.com/tak2004/RadonFrameworkExample.git")
-    Integrate(CONSOLE "Radon Examples" "RADONEXAMPLES_HOME")
 endif()
 
 # Radon version
@@ -99,21 +86,8 @@ if(RADONFRAMEWORK_ADD_XXHASH)
     AddPublicDefine(RADONFRAMEWORK RF_USE_XXHASH)
     rcf_dependencies(xxHash_Static)
 endif()
-    rcf_dependencies(libtess2 libmorton ${RADONFRAMEWORK_MODULES})
+    rcf_dependencies(${RADONFRAMEWORK_MODULES})
 rcf_endgenerate()
-
-if(RADONFRAMEWORK_ADD_INTERMEDIATE_FORMATS)
-    rcf_addlocation(INTERMEDIATEFORMATS "git" "https://github.com/tak2004/RadonIntermediateConverter.git")
-    Integrate(INTERMEDIATEFORMATS "Radon intermediate format converter" "RADONINTERMEDIATE_HOME")
-endif()
-
-# Radon Framework use the service pattern alot to provide window, rendering, sound and other services.
-# This cmake script will be automatically add all containing cmake files.
-file(GLOB_RECURSE services ${RADONFRAMEWORK_LOCATION}/services/*.cmake)
-foreach(includeFile IN ITEMS ${services})
-    message(STATUS "Include ${includeFile}")
-    include(${includeFile})
-endforeach()
 
 if(RADONFRAMEWORK_BUILD_UNITTEST)
 	add_subdirectory(tests/UnitTest)

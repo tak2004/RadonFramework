@@ -7,7 +7,7 @@
 #include <cstdarg>
 #include <RadonFramework/BuildInfo.hpp>
 #include <RadonFramework/Collections/Array.hpp>
-#include <RadonFramework/Diagnostics/Appender.hpp>
+#include <RadonFramework/IO/Appender.hpp>
 
 namespace RadonFramework::IO
 {
@@ -18,14 +18,14 @@ public:
   static void WriteError(Memory::AutoPointer<RF_Type::String>& Text);
   static void WriteFatalError(Memory::AutoPointer<RF_Type::String>& Text);
   static void WriteDebug(Memory::AutoPointer<RF_Type::String>& Text);
-  static void AddAppender(Memory::AutoPointer<Diagnostics::Appender>& Value);
+  static void AddAppender(Memory::AutoPointer<Appender>& Value);
   static void
   AddAppenders(Memory::AutoPointer<Collections::Array<
-                   Memory::AutoPointer<Diagnostics::Appender>>>& Values);
+                   Memory::AutoPointer<Appender>>>& Values);
   static void
   ReplaceAppenders(Memory::AutoPointer<Collections::Array<
-                       Memory::AutoPointer<Diagnostics::Appender>>>& Values);
-  static void RemoveAppender(const Diagnostics::Appender& Value);
+                       Memory::AutoPointer<Appender>>>& Values);
+  static void RemoveAppender(const Appender& Value);
 
   static RF_Type::Bool IsInfoEnabled;
   static RF_Type::Bool IsErrorEnabled;
@@ -38,7 +38,7 @@ protected:
   static void PoolLogFatalErrorTask(void* Data);
   static void PoolLogDebugTask(void* Data);
 
-  static Collections::Array<Memory::AutoPointer<Diagnostics::Appender>>
+  static Collections::Array<Memory::AutoPointer<Appender>>
       m_Appender;
 };
 

@@ -7,7 +7,7 @@
 #include <RadonFramework/Collections/Algorithm/FindAll.hpp>
 #include <RadonFramework/Collections/Algorithm/ForEach.hpp>
 #include <RadonFramework/Collections/Array.hpp>
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 
 namespace RadonFramework::Collections
 {

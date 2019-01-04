@@ -19,10 +19,6 @@
 @INCLUDES_CORE@
 #endif
 
-#ifndef RF_NO_DIAGNOSTICS
-@INCLUDES_DIAGNOSTICS@
-#endif
-
 #ifndef RF_NO_DRAWING
 @INCLUDES_DRAWING@
 #endif

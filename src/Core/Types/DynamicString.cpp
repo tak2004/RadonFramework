@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Core/Types/DynamicString.hpp"
-#include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
+#include "RadonFramework/Core/Common/Assert.hpp"
 
 using namespace RadonFramework::Core::Types;
 

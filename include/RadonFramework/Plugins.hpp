@@ -5,7 +5,7 @@
 #endif
 
 #if defined(RF_WINDOWS)
-    #include <RadonFramework/System/Drawing/SystemTrayServiceWindows.hpp>
+
 #endif
 
 #if defined(RF_LINUX)

@@ -14,9 +14,6 @@
 // type traits
 #include <type_traits>
 
-// allow to raise compile time assertion
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
-
 #include <RadonFramework/Core/DataManagment.hpp>
 
 // Basic types
@@ -99,6 +96,8 @@
 #include <RadonFramework/Math/Float64.hpp>
 // integer math
 #include <RadonFramework/Math/Integer.hpp>
+
+#include <RadonFramework/Core/Common/Assert.hpp>
 
 // Each compiler can implement it on it's own way.
 #include <stdarg.h>

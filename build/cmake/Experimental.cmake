@@ -1,15 +1,8 @@
 if(RADONFRAMEWORK_ENABLE_EXPERIMENTAL_CODE)
-    OPTION(RADONFRAMEWORK_EXPERIMENTAL_HTTP "Enable HTTP namespace." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR "Enable Allocator class." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_JIT "Enable JIT support." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_GRAMMAR "Enables the new grammar and VM api." OFF)
     OPTION(RADONFRAMEWORK_EXPERIMENTAL_MODULES "Enables the new modules of C++20." OFF)
-endif()
-
-if(NOT RADONFRAMEWORK_EXPERIMENTAL_HTTP)
-    AddSourceDirectoryRecursive(src "src/Net/HTTP" "Sources\\Net\\HTTP")
-    AddHeaderDirectoryRecursive(headers "include/RadonFramework/Net/HTTP" "Includes\\Net\\HTTP")
-    list(APPEND RADONFRAMEWORK_BLACKLIST ${headers} ${src})
 endif()
 
 if(NOT RADONFRAMEWORK_EXPERIMENTAL_ALLOCATOR)

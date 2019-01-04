@@ -15,8 +15,6 @@ enum Type
 {
   All = 0x7FF,
   Core = 1,
-  Drawing = 2,
-  Forms = 4,
   Hashing = 8,
   IO = 0x10,
   Net = 0x20,

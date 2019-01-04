@@ -5,7 +5,7 @@
 #endif
 
 #include <RadonFramework/Core/Traits/AllocatorTraits.hpp>
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 #include <cstdlib>
 
 namespace RadonFramework::Core::Policies

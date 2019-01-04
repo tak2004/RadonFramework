@@ -7,7 +7,7 @@
 #include <RadonFramework/Core/DataManagment.hpp>
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
 #include <RadonFramework/Core/Types/UInt8.hpp>
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 
 namespace RadonFramework::Core::Types
 {

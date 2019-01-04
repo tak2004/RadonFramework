@@ -3,7 +3,7 @@
 #include "RadonFramework/System/Time.hpp"
 #include "RadonFramework/Core/Types/String.hpp"
 #include "RadonFramework/IO/Log.hpp"
-#include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
+#include "RadonFramework/Core/Common/Assert.hpp"
 #include "RadonFramework/Core/Types/Utils/StringOperators.hpp"
 
 using namespace RadonFramework::Time;

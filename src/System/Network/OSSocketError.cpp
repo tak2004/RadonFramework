@@ -1,6 +1,6 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Network/OSSocketError.hpp"
-#include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
+#include "RadonFramework/Core/Common/Assert.hpp"
 #include <stdlib.h>
 
 using namespace RadonFramework::Net;

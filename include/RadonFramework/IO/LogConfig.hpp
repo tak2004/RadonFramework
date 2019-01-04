@@ -6,11 +6,11 @@
 
 #include <RadonFramework/Collections/Array.hpp>
 #include <RadonFramework/Collections/Pair.hpp>
-#include <RadonFramework/Diagnostics/Appender.hpp>
+#include <RadonFramework/IO/Appender.hpp>
 #include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
-namespace RadonFramework::Diagnostics
+namespace RadonFramework::IO
 {
 struct LogConfigData
 {
@@ -57,6 +57,6 @@ protected:
   RF_Type::UInt32* m_AppenderIDs;
 };
 
-}  // namespace RadonFramework::Diagnostics
+}  // namespace RadonFramework::IO
 
 #endif  // RF_DIAGNOSTICS_LOGCONFIG_HPP

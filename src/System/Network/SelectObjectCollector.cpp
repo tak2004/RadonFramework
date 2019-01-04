@@ -3,7 +3,7 @@
 #include "RadonFramework/System/Network/NetService.hpp"
 #include "RadonFramework/Time/TimeSpan.hpp"
 #include "RadonFramework/System/Network/OSSocketError.hpp"
-#include "RadonFramework/Diagnostics/Debugging/Assert.hpp"
+#include "RadonFramework/Core/Common/Assert.hpp"
 #include <errno.h>
 
 using namespace RadonFramework::Time;

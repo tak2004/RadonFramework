@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-#include <RadonFramework/Diagnostics/Debugging/Assert.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 #include <RadonFramework/Math/Geometry/Vector.hpp>
 #include <RadonFramework/System/Memory.hpp>
 
