@@ -5,7 +5,6 @@
 #include "RadonFramework/Memory/AutoPointerArray.hpp"
 #include "RadonFramework/System/Memory.hpp"
 #include "RadonFramework/System/String.hpp"
-#include "RadonFramework/precompiled.hpp"
 
 using namespace RadonFramework::Memory;
 using namespace RadonFramework::Collections;

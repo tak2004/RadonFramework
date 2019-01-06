@@ -1,4 +1,3 @@
-#include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Core/Types/Vec64Int.hpp"
 
 using namespace RadonFramework::Core::Types;

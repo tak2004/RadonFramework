@@ -1,4 +1,3 @@
-#include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Core/Types/Float64.hpp"
 #include <float.h>
 

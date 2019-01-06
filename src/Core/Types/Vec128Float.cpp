@@ -1,4 +1,3 @@
-#include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Core/Types/Vec128Float.hpp"
 
 using namespace RadonFramework::Core::Types;

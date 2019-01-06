@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Core/Types/UInt8.hpp>
+
 namespace RadonFramework::IO
 {
 enum class VirtualKey : RF_Type::UInt8

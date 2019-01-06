@@ -1,4 +1,3 @@
-#include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/Core/Types/UInt32.hpp"
 
 const RadonFramework::Core::Types::UInt32 RadonFramework::Core::Types::UInt32Min=0;

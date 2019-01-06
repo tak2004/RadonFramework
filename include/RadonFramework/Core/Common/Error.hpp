@@ -1,6 +1,7 @@
 #pragma once
 
 #include <RadonFramework/Core/Types/String.hpp>
+#include <RadonFramework/Core/Types/Utils/StringOperators.hpp>
 
 namespace RadonFramework::Core::Common
 {

@@ -1,6 +1,5 @@
 #include <RadonFramework/Core/Types/AtomicUInt64.hpp>
 #include <RadonFramework/System/Threading/Interlocked.hpp>
-#include "RadonFramework/precompiled.hpp"
 
 using namespace RadonFramework::System::Threading;
 

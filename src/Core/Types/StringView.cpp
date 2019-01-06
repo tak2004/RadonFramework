@@ -1,5 +1,4 @@
 #include "RadonFramework/Core/Types/StringView.hpp"
-#include "RadonFramework/precompiled.hpp"
 
 namespace RadonFramework::Core::Types
 {

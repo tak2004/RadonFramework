@@ -1,6 +1,5 @@
 #include <RadonFramework/Core/Types/AtomicInt16.hpp>
 #include <RadonFramework/System/Threading/Interlocked.hpp>
-#include "RadonFramework/precompiled.hpp"
 
 namespace RadonFramework::Core::Types
 {
