@@ -105,17 +105,9 @@ static_assert(
 #define __has_extension(x) 0
 #endif
 
-#ifndef __GNUC__
-#define __GNUC__ 0
-#endif
-
-#ifndef __GNUC_MINOR__
-#define __GNUC_MINOR__ 0
-#endif
-
 // detect if compiler can use constexpr
 // gcc: available since 4.6.0
-#if(__GNUC__ * 10 + __GNUC_MINOR__) >= 46
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && (__GNUC__ * 10 + __GNUC_MINOR__) >= 46
 #define RF_HAVE_CONSTEXPR
 #endif
 #if __has_feature(cxx_constexpr)
@@ -134,15 +126,15 @@ static_assert(
 #define RF_HAVE_IS_TRIVIALLY_COPYABLE
 #endif
 
-#if __GNUC__ >= 5
+#if defined(__GNUC__) && (__GNUC__ >= 5)
 #define RF_HAVE_IS_TRIVIALLY_COPYABLE
 #endif
 
 // detect if compiler can use noexcept
 // gcc and clang
-#if __has_feature(cxx_noexcept) ||            \
-    (defined(__GXX_EXPERIMENTAL_CXX0X__) &&   \
-     __GNUC__ * 10 + __GNUC_MINOR__ >= 46) || \
+#if __has_feature(cxx_noexcept) ||                                         \
+    (defined(__GXX_EXPERIMENTAL_CXX0X__) && defined(__GNUC__) &&           \
+     defined(__GNUC_MINOR__) && (__GNUC__ * 10 + __GNUC_MINOR__) >= 46) || \
     defined(RF_VISUALCPP)
 #define RF_HAVE_NOEXCEPT
 #endif
@@ -166,7 +158,8 @@ static_assert(
 #else
 // pre c++14
 #if __has_extension(attribute_deprecated_with_message) || \
-    __GNUC__ * 10 + __GNUC_MINOR__ >= 34
+    (defined(__GNUC__) && defined(__GNUC_MINOR__)&& \
+  (__GNUC__ * 10 + __GNUC_MINOR__) >= 34)
 #define RF_DEPRECATED_FUNC(msg) __attribute__((deprecated(msg)))
 #endif
 #endif

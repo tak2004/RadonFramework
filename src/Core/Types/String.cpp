@@ -536,7 +536,7 @@ StringSet String::Split(const String& Delimiters) const
     // if last glyph is no delimiter
     if(lasthit < Size() - TERMINATION)
     {
-      list.Set(hits, lasthit, Size() - lasthit - TERMINATION);
+      list.Set(hits, lasthit, Size() - lasthit);
     }
   }
   return list;

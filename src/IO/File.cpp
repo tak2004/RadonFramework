@@ -108,7 +108,8 @@ Bool File::CopyTo(const Uri& Destination)
 const String File::Name() const
 {
     String result;
-    auto parts=m_Location.GetComponents(UriComponents::Path).Split(Uri::PathSeperator);
+    auto path = m_Location.GetComponents(UriComponents::Path);
+    auto parts=path.Split(Uri::PathSeperator);
     if (parts.Count()>0)
         result=parts[parts.Count()-1];
     return result;
