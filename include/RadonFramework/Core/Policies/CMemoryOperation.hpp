@@ -9,6 +9,7 @@
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/Defines.hpp>
 #include <type_traits>
+#include <RadonFramework/System/Memory.hpp>
 
 namespace RadonFramework::Core::Policies
 {
@@ -26,10 +27,7 @@ struct CMemoryOperation
   template <typename T>
   static T* Copy(T* Destination, const T* Source, RF_Type::Size ElementCount)
   {
-// Visual Studio support the necessary C++11 trait since 2012.
-#if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
     if(std::is_trivially_copyable<T>::value == false)
-#endif
     {  // use assign operator to copy by value
       for(RF_Type::Size i = 0; i < ElementCount; ++i)
       {
@@ -37,35 +35,29 @@ struct CMemoryOperation
       }
       return Destination;
     }
-#if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
     else
     {  // use the fastest possible copy function(e.g. sse2)
       RF_SysMem::Copy(Destination, Source, ElementCount * sizeof(T));
       return Destination;
     }
-#endif
   }
 
   template <typename T>
   static T* Move(T* Destination, const T* Source, RF_Type::Size ElementCount)
   {
-#if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
     if(std::is_trivially_copyable<T>::value == false)
     {
-#endif
       for(RF_Type::Size i = 0; i < ElementCount; ++i)
       {
         Destination[i] = Source[i];
       }
       return Destination;
-#if defined(RF_HAVE_IS_TRIVIALLY_COPYABLE)
     }
     else
     {
       RF_SysMem::Move(Destination, Source, ElementCount * sizeof(T));
       return Destination;
     }
-#endif
   }
 
   template <typename T>

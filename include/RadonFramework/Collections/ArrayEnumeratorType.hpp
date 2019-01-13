@@ -14,12 +14,12 @@ template <typename T>
 struct Enumerator<T, ArrayEnumeratorType>
 {
   using Type = T;
-  using iterator_category = typename std::random_access_iterator_tag;
-  using value_type = typename T;
-  using difference_type = typename RF_Type::Size;
+  using iterator_category = std::random_access_iterator_tag;
+  using value_type = T;
+  using difference_type = RF_Type::Size;
 
-  using pointer = typename T*;
-  using reference = typename T&;
+  using pointer = T*;
+  using reference = T&;
 
   /// post-increment operator
   Enumerator operator++(int);

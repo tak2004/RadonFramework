@@ -5,6 +5,7 @@
 #endif
 
 #include <RadonFramework/Core/Types/Bool.hpp>
+#include <type_traits>
 
 namespace RadonFramework::Memory
 {

@@ -7,6 +7,7 @@
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Types/UInt8.hpp>
 #include <RadonFramework/Core/Types/Size.hpp>
+#include <RadonFramework/System/Memory.hpp>
 
 namespace RadonFramework::Core::Types
 {

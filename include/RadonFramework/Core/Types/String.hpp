@@ -347,19 +347,14 @@ private:
 
 #pragma warning(push)
 #pragma warning(disable : 4201)
-  union {  // 0 terminated to boost the speed
-    struct
+  struct {  // 0 terminated to boost the speed
+    union
     {
       FixString<BUFFER_SIZE> m_FixBuffer;
-      DataManagment m_DataManagment;
-      RF_Type::UInt32 m_Length;
+	  DynamicString m_DynBuffer;
     };
-    struct
-    {
-      DynamicString m_DynBuffer;
-      RF_Type::UInt32 m_Length;
-      DataManagment m_DataManagment;
-    };
+	DataManagment m_DataManagment;
+	RF_Type::UInt32 m_Length;
   };
 #pragma warning(pop)
 

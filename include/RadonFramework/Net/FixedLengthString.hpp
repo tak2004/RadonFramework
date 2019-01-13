@@ -28,7 +28,7 @@ public:
     if(Text)
     {
       RF_Type::String str = RF_Type::String::UnsafeStringCreation(
-          Text, Core::Common::DataManagment::UnmanagedInstance);
+          Text, Core::DataManagment::UnmanagedInstance);
       len = str.Length();
     }
     RF_ASSERT(Len >= len, "Index out of bound.");

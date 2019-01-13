@@ -4,6 +4,7 @@
 #include <RadonFramework/Collections/Enumerator.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
 #include <RadonFramework/Core/Common/Assert.hpp>
+#include <RadonFramework/System/Memory.hpp>
 #include <type_traits>
 
 namespace RadonFramework::Memory

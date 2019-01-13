@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Environment.hpp"
 #include "RadonFramework/System/CompilerConfig.hpp"
-#include "RadonFramework/Core/Common/DataManagment.hpp"
+#include "RadonFramework/Core/DataManagment.hpp"
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Common;
@@ -51,7 +51,7 @@ const OperatingSystem& OSVersion()
 
 void GetVariable(const RF_Type::String& Name, RF_Type::String& Result)
 {
-    Result = RF_Type::String::UnsafeStringCreation(getenv(Name.c_str()), DataManagment::TransfereOwnership);
+    Result = RF_Type::String::UnsafeStringCreation(getenv(Name.c_str()), RF_Core::DataManagment::TransfereOwnership);
 }
 
 OperatingSystemFamily::Type OSFamily()

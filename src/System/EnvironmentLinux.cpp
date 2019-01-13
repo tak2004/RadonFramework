@@ -1,7 +1,7 @@
 #include "RadonFramework/precompiled.hpp"
 #include "RadonFramework/System/Environment.hpp"
 #include "RadonFramework/System/CompilerConfig.hpp"
-#include "RadonFramework/Core/Common/DataManagment.hpp"
+#include "RadonFramework/Core/DataManagment.hpp"
 
 using namespace RadonFramework::Core::Types;
 using namespace RadonFramework::Core::Common;

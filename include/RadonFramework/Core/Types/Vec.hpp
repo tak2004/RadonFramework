@@ -7,6 +7,7 @@
 #include <RadonFramework/Core/Types/MemoryRange.hpp>
 #include <RadonFramework/Core/Types/UInt32.hpp>
 #include <RadonFramework/System/CompilerConfig.hpp>
+#include <RadonFramework/Core/Common/Assert.hpp>
 
 namespace RadonFramework::Core::Types
 {
@@ -17,14 +18,14 @@ struct RF_ALIGN(16) Vec
 
   T& operator[](const MemoryRange Index)
   {
-    Assert(static_cast<UInt32>(Index) < static_cast<UInt32>(C),
+    RF_ASSERT(static_cast<UInt32>(Index) < static_cast<UInt32>(C),
            "Index out of bound.");
     return m_Vector[Index];
   }
 
   T operator[](const MemoryRange Index) const
   {
-    Assert(static_cast<UInt32>(Index) < static_cast<UInt32>(C),
+    RF_ASSERT(static_cast<UInt32>(Index) < static_cast<UInt32>(C),
            "Index out of bound.");
     return m_Vector[Index];
   }

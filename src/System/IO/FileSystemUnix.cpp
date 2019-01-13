@@ -113,7 +113,7 @@ RF_Type::String WorkingDirectory()
     AutoPointerArray<char> buffer(size);
     RF_Type::String result;
     if(getcwd(buffer.Get(), size))
-        result = RF_Type::String(buffer.Release().Ptr, size, DataManagment::TransfereOwnership);
+        result = RF_Type::String(buffer.Release().Ptr, size, RF_Core::DataManagment::TransfereOwnership);
     return result;
 }
 

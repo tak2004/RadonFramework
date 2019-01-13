@@ -7,6 +7,7 @@
 #include <RadonFramework/Core/Common/Assert.hpp>
 #include <RadonFramework/IO/Log.hpp>
 #include <RadonFramework/Core/Types/Float32.hpp>
+#include <RadonFramework/Math/MathOfType.hpp>
 
 namespace RadonFramework::Math::Geometry
 {
