@@ -3,8 +3,7 @@
  * THIS FILE IS GENERATED FROM build/code_templates/BuildInfo.hxx !!!
  *
  */
-#ifndef RF_BUILDINFO_HPP
-#define RF_BUILDINFO_HPP
+#pragma once
 
 namespace RadonFramework::BuildInfo
 {
@@ -53,4 +52,4 @@ constexpr DebugMode CompileForDebugging =
 
 }  // namespace RadonFramework::BuildInfo
 
-#endif
+namespace RF_BI = RadonFramework::BuildInfo;

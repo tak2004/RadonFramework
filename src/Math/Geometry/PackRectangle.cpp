@@ -48,10 +48,10 @@ Node* Node::Insert(RF_Collect::Pair<RF_Geo::Size2D<>, void*>& RectangleData)
 {
     if(Childs[0].Instance && Childs[0].Fill)
     {
-        Node* newNode;
-        if (newNode = Childs[0].Instance->Insert(RectangleData))
-            return newNode;
-        return Childs[1].Instance->Insert(RectangleData);
+      Node* newNode = Childs[0].Instance->Insert(RectangleData);
+      if (newNode)
+        return newNode;
+      return Childs[1].Instance->Insert(RectangleData);
     }
 
     if (UserData)

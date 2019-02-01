@@ -6,9 +6,9 @@
 
 #include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Core/Types/Bool.hpp>
-#include <RadonFramework/Core/Types/Float32.hpp>>
-#include <RadonFramework/Math/Geometry/Point2D.hpp>
+#include <RadonFramework/Core/Types/Float32.hpp>
 #include <RadonFramework/Math/Geometry/Matrix.hpp>
+#include <RadonFramework/Math/Geometry/Point2D.hpp>
 
 namespace RadonFramework::Math::Geometry
 {
@@ -199,8 +199,8 @@ void CubicBezier<TIN, TOUT>::GenerateTriangles(
   {
     case Curve::Serpentine:
     {
-      tmp = 1.0 / RF_Math::MathOfType<TOUT>::Sqrt(3.0) * 
-		    RF_Math::MathOfType<TOUT>::Sqrt(3.0 * d3 * d3 - 4.0 * d2 * d4);
+      tmp = 1.0 / RF_Math::MathOfType<TOUT>::Sqrt(3.0) *
+            RF_Math::MathOfType<TOUT>::Sqrt(3.0 * d3 * d3 - 4.0 * d2 * d4);
       tl = d3 + tmp;
       sl = 2.0 * d2;
       tm = d3 - tmp;

@@ -17,7 +17,7 @@ Bool Timer::Update(TimeSpan DueTime,
                    TimerCallback Callback)
 {
   Bool result = false;
-  if(m_Handler.GetPointer() != nullptr)
+  if(m_Handler.GetPointer() == nullptr)
   {
     m_Callback = Callback;
     m_Parameter = Parameter;
@@ -30,7 +30,7 @@ Bool Timer::Update(TimeSpan DueTime,
 
 void Timer::Start()
 {
-  if(m_Handler.GetPointer() != nullptr)
+  if(m_Handler.GetPointer() == nullptr)
   {
     m_Handler =
         CreateTimerQueue(m_Callback, m_Parameter, m_DueTime.TotalMilliseconds(),
