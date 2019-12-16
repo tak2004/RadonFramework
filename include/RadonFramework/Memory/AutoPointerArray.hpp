@@ -24,7 +24,7 @@ struct AutoPointerArrayReference
   explicit AutoPointerArrayReference(AutoPointerArrayData<T> Ptr);
 };
 
-template <typename T>
+template <typename T = RF_Type::UInt8>
 class AutoPointerArray
 {
 public:
@@ -190,6 +190,7 @@ AutoPointerArray<T>::AutoPointerArray(ElementType* Ptr, RF_Type::Size Count)
 
 template <typename T>
 AutoPointerArray<T>::AutoPointerArray(const AutoPointerArray<T>& Copy)
+:m_Data(nullptr)
 {
   *this = Copy.Clone();
 }

@@ -164,7 +164,7 @@ static_assert(
 #endif
 #endif
 // visual studio c++
-#if defined(RF_VISUALCPP)
+#if defined(RF_VISUALCPP) && !defined(RF_DEPRECATED_FUNC)
 #define RF_DEPRECATED_FUNC(msg) __declspec(deprecated(msg))
 #endif
 #define RF_DEPRECATED_HEADER(msg) RF_COMPILER_WARNING(msg)

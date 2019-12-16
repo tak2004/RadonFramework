@@ -32,8 +32,10 @@ public:
   RF_Type::Bool Delete() const;
   RF_Type::Bool Exists() const;
   RF_Type::Bool CopyTo(const Uri& Destination);
-  const RF_Type::String Name() const;
+  RF_Type::String Name() const;
   RF_Type::String Path() const;
+  RF_Type::String NameWithoutExtension() const;
+  RF_Type::String Extension() const;
   RF_Type::Bool IsHidden() const;
   RF_Type::Bool IsFile() const;
   RF_Type::UInt64 LastModified() const;

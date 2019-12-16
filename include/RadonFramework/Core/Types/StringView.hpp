@@ -25,7 +25,7 @@ public:
   Bool StartsWith(const UInt8 Value);
   template <int N>
   Bool operator==(char const (&CString)[N]);
-
+  Int32 LastIndexOf(const UInt8 Value) const;
 private:
   const UInt8* m_Source;
   Size m_Length;

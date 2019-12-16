@@ -146,15 +146,6 @@ RF_Type::Bool GetCacheInfo(CacheInfo& Info, RF_Type::UInt32 Index)
             RF_SysMem::Copy(&Info, &CacheData[pid][Index], sizeof(CacheInfo));
             result = true;
         }
-        else
-        {
-            if(CacheData[pid].Count() == 0)
-            {
-                DetectCacheInfo(CacheData[pid], pid);
-                RF_SysMem::Copy(&Info, &CacheData[pid][Index], sizeof(CacheInfo));
-                result = true;
-            }
-        }
     }
     else
     {

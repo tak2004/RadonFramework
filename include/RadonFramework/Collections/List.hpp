@@ -125,6 +125,8 @@ public:
   RF_Type::Bool Find(const T& Item) const;
   T* First() const;
   T* Last() const;
+
+  Iterator LastIterator() const;
   Iterator Begin() const;
   Iterator End() const;
   ConstIterator ConstBegin() const;
@@ -590,7 +592,7 @@ T& List<T>::CreateElementAtEnd()
   m_Count += 1;
   if(m_First == 0)
     m_First = m_Last;
-  return m_Last->Value();
+  return n->Value();
 }
 
 template <typename T>
@@ -796,6 +798,13 @@ T* List<T>::Last() const
   }
   return 0;
 }
+
+template <typename T>
+typename List<T>::Iterator List<T>::LastIterator() const
+{
+  return Iterator(m_Last, const_cast<List<T>*>(this));
+}
+
 
 template <typename T>
 typename List<T>::Iterator List<T>::End() const

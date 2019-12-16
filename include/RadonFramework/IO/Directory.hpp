@@ -4,6 +4,7 @@
 #pragma once
 #endif
 
+#include <RadonFramework/Collections/List.hpp>
 #include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/IO/AccessMode.hpp>
 #include <RadonFramework/IO/Uri.hpp>
@@ -62,6 +63,11 @@ public:
   Memory::AutoPointerArray<RF_Type::String> Files() const;
   Memory::AutoPointerArray<RF_Type::String>
   FilesIncludingSubdirectories() const;
+  Memory::AutoPointerArray<RF_Type::String> FilesIncludingSubdirectories(
+      const RF_Collect::List<RF_Type::String>& Skip) const;
+  Memory::AutoPointerArray<RF_Type::String> FilesIncludingSubdirectories(
+      const RF_Collect::List<RF_Type::String>& Skip,
+      const RF_Type::String& BasePath) const;
   Memory::AutoPointerArray<Directory> Directories() const;
   /// Returns an file instance if the directory exists and the specified
   /// Filename is an valid file.

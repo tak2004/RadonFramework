@@ -64,6 +64,10 @@ public:
       RF_ASSERT(this->m_Node, "Invalid use of null pointer.");
       return this->m_Node->Value().m_Ptr;
     }
+    RF_Type::Size GetBlockSize() const
+    {
+      return this->m_Node->Value().m_ElementCount;
+    }
   };
 
   class ConstIterator : public List<PtrInfo>::ConstIterator
@@ -78,11 +82,15 @@ public:
       RF_ASSERT(this->m_Node, "Invalid use of null pointer.");
       return &(const T*)(this->m_Node->Value().m_Ptr);
     }
-    T const* const& operator*() const
+    T const* const operator*() const
     {
       RF_ASSERT(this->m_Node, "Invalid use of null pointer.");
-      return (const T*)this->m_Node->Value().m_Ptr;
+      return const_cast<const T*>(this->m_Node->Value().m_Ptr);
     }
+    RF_Type::Size GetBlockSize() const
+    {
+      return this->m_Node->Value().m_ElementCount;
+	}
   };
   AutoVector() = default;
   ~AutoVector();
@@ -116,6 +124,7 @@ public:
   ConstIterator ConstEnd() const;
   Iterator Begin() const;
   Iterator End() const;
+  Iterator Last() const;
   operator AutoVectorReference();
 
 protected:
@@ -344,6 +353,12 @@ template <class T>
 typename AutoVector<T>::Iterator AutoVector<T>::End() const
 {
   return m_Pointer.End();
+}
+
+template <class T>
+typename AutoVector<T>::Iterator AutoVector<T>::Last() const
+{
+  return m_Pointer.LastIterator();
 }
 
 template <class T>

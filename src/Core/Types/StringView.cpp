@@ -19,7 +19,7 @@ StringView StringView::SubString(const Size Offset, const Size Length) const
   return StringView(reinterpret_cast<const char*>(m_Source + Offset), Length);
 }
 
-const UInt8& StringView::operator[](const Size Index)const
+const UInt8& StringView::operator[](const Size Index) const
 {
   return m_Source[Index];
 }
@@ -37,6 +37,22 @@ const UInt8* StringView::Data() const
 Bool StringView::StartsWith(const UInt8 Value)
 {
   return m_Source[0] == Value;
+}
+
+Int32 StringView::LastIndexOf(const UInt8 Value) const
+{
+  Int32 result = 0;
+  const UInt8* end = m_Source + m_Length;
+  const UInt8* p = m_Source;
+  for(; p != end && p[0] != Value; ++p, ++result)
+  {
+  }
+
+  if(p == end)
+  {
+    result = -1;
+  }
+  return result;
 }
 
 }  // namespace RadonFramework::Core::Types

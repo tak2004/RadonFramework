@@ -1049,7 +1049,7 @@ String String::operator+(const StringView& Other) const
 
 String::String(const StringView& Copy) : m_DataManagment(DataManagment::Copy)
 {
-  m_Length = Copy.Length() - 1;
+  m_Length = Copy.Length();
   if(Copy.Length() <= BUFFER_SIZE)
   {
     if(Copy.Length() > 0)
@@ -1062,13 +1062,13 @@ String::String(const StringView& Copy) : m_DataManagment(DataManagment::Copy)
     {
       m_FixBuffer[0] = 0;
     }
-    m_FixBuffer.SetSize(Copy.Length());
+    m_FixBuffer.SetSize(Copy.Length()+1);
   }
   else
   {
     m_DataManagment = DataManagment::AllocateAndCopy;
     m_DynBuffer.m_Buffer = new UInt8[Copy.Length()];
-    m_DynBuffer.m_Size = Copy.Length();
+    m_DynBuffer.m_Size = Copy.Length()+1;
     RF_SysMem::Copy(static_cast<void*>(m_DynBuffer.Raw()), Copy.Data(),
                     m_Length);
     m_DynBuffer[m_Length] = '\0';
