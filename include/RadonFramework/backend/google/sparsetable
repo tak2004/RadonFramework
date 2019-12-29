@@ -78,7 +78,7 @@
 #include <algorithm>            // equal, lexicographical_compare, swap,...
 #include <memory>               // uninitialized_copy
 #include <vector>               // a sparsetable is a vector of groups
-#include <RadonFramework/backend/google/sparsehash/libc_allocator_with_realloc.h>
+#include <RadonFramework/backend/google/sparsehash/libc_alloc.h>
 #include <RadonFramework/backend/google/type_traits.h> // for true_type, integral_constant, etc.
 
 #if STDC_HEADERS

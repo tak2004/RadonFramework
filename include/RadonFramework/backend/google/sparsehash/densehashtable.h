@@ -112,7 +112,7 @@
 #include <memory>               // For uninitialized_fill, uninitialized_copy
 #include <utility>              // for pair<>
 #include <iterator>             // for facts about iterator tags
-#include <RadonFramework/backend/google/sparsehash/libc_allocator_with_realloc.h>
+#include <RadonFramework/backend/google/sparsehash/libc_alloc.h>
 #include <RadonFramework/backend/google/type_traits.h> // for true_type, integral_constant, etc.
 
 _START_GOOGLE_NAMESPACE_

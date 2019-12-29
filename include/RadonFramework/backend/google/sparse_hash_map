@@ -98,7 +98,7 @@
 #include <memory>                    // for alloc<>
 #include <utility>                   // for pair<>
 #include HASH_FUN_H                  // defined in config.h
-#include <RadonFramework/backend/google/sparsehash/libc_allocator_with_realloc.h>
+#include <RadonFramework/backend/google/sparsehash/libc_alloc.h>
 #include <RadonFramework/backend/google/sparsehash/sparsehashtable.h>
 
 
