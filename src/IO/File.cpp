@@ -1,6 +1,9 @@
 #include "RadonFramework/IO/File.hpp"
+
 #include <stdio.h>
+
 #include "RadonFramework/IO/FileStream.hpp"
+#include "RadonFramework/IO/Directory.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/precompiled.hpp"
 
@@ -119,7 +122,7 @@ String File::Path() const
                               systemPath.LastIndexOf(RF_SysFile::Seperator()));
 }
 
-RF_Type::String File::NameWithoutExtension() const 
+RF_Type::String File::NameWithoutExtension() const
 {
   String result;
   auto path = m_Location.GetComponents(UriComponents::Path);
@@ -128,7 +131,7 @@ RF_Type::String File::NameWithoutExtension() const
   return filename.SubString(0, delimiterIndex);
 }
 
-RF_Type::String File::Extension() const 
+RF_Type::String File::Extension() const
 {
   String result;
   auto path = m_Location.GetComponents(UriComponents::Path);
@@ -227,7 +230,7 @@ const Uri& File::Location() const
   return m_Location;
 }
 
-AutoPointerArray<UInt8> File::Read()
+AutoPointerArray<UInt8> File::Read() const
 {
   UInt64 size = Size();
   AutoPointerArray<UInt8> result(size);
@@ -247,5 +250,14 @@ Bool File::Write(const AutoPointerArray<UInt8>& Data)
   stream.Open(m_Location, RF_SysFile::FileAccessMode::Write,
               RF_SysFile::FileAccessPriority::DelayReadWrite);
   stream.Write(Data.Get(), 0, Data.Size());
+  stream.Flush();
+  return result;
+}
+
+RF_IO::Directory File::Directory() const {
+  RF_IO::Directory result;
+  RF_IO::Uri directory(m_Location.OriginalString().SubString(
+      0, m_Location.OriginalString().LastIndexOf(RF_SysFile::Seperator())));
+  result.SetLocation(directory);
   return result;
 }

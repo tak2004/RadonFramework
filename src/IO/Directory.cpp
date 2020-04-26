@@ -1,9 +1,10 @@
 #include "RadonFramework/IO/Directory.hpp"
+
+#include "RadonFramework/Collections/Concurrency/DynamicQueueMPSC.hpp"
 #include "RadonFramework/Collections/List.hpp"
 #include "RadonFramework/IO/File.hpp"
 #include "RadonFramework/System/IO/FileSystem.hpp"
 #include "RadonFramework/precompiled.hpp"
-#include "RadonFramework/Collections/Concurrency/DynamicQueueMPSC.hpp"
 
 using namespace RadonFramework;
 using namespace RadonFramework::Memory;
@@ -97,8 +98,8 @@ Bool Directory::CreateNewDirectory(const Bool Recursive /* = true */) const
   Bool result = false;
   if(Recursive)
   {
-    auto dirs =
-        m_Uri.GetComponents(UriComponents::Path).Split(Uri::PathSeperator);
+    auto uriPath = m_Uri.GetComponents(UriComponents::Path);
+    auto dirs = uriPath.Split(Uri::PathSeperator);
     String path("file://");
     String systemPath;
     for(auto i = 0; i < dirs.Count(); ++i)
@@ -274,7 +275,7 @@ AutoPointerArray<String> Directory::FilesIncludingSubdirectories() const
 
 void RecursiveSearch(const RF_Type::String& Path,
                      const RF_Collect::List<String>& Skip,
-                     RF_Con::DynamicQueueMPSC<String>& Files)
+                     RF_Collect::List<String>&Files)
 {
   AutoPointerArray<String> content = RF_SysFile::DirectoryContent(Path);
   for(Size i = 0; i < content.Count(); ++i)
@@ -289,7 +290,7 @@ void RecursiveSearch(const RF_Type::String& Path,
 
     if(stats && !stats->IsDirectory)
     {
-      Files.Enqueue(entry);
+      Files.AddLast(entry);
     }
   }
 }
@@ -306,20 +307,12 @@ AutoPointerArray<String> Directory::FilesIncludingSubdirectories(
     RF_SysFile::RealPath(fullPath, entry);
   }
 
-  RF_Con::DynamicQueueMPSC<String> files;//allow to run concurrently the recursive search
+  List<String> files;
   RecursiveSearch(systemPath, resolvedSkipPaths, files);
 
-  // The function must return a fixed size array but DynamicQueueMPSC don't allow to request the size.
-  // Use a List as temporary container and ask for the size.
-  List<String> tmp;
-  String file;
-  while(files.Dequeue(file))
-  {
-    tmp.AddLast(file);
-  }
-  AutoPointerArray<String> result(tmp.Count());
-  for(Size i = 0; i < tmp.Count(); ++i)
-    result[i].Swap(tmp[i]);
+  AutoPointerArray<String> result(files.Count());
+  for(Size i = 0; i < files.Count(); ++i)
+    result[i].Swap(files[i]);
   return result;
 }
 
@@ -336,22 +329,12 @@ Directory::FilesIncludingSubdirectories(const RF_Collect::List<String>& Skip,
     RF_SysFile::RealPath(fullPath, entry);
   }
 
-  RF_Con::DynamicQueueMPSC<String>
-      files;  // allow to run concurrently the recursive search
+  List<String> files;
   RecursiveSearch(systemPath, resolvedSkipPaths, files);
 
-  // The function must return a fixed size array but DynamicQueueMPSC don't
-  // allow to request the size. Use a List as temporary container and ask for
-  // the size.
-  List<String> tmp;
-  String file;
-  while(files.Dequeue(file))
-  {
-    tmp.AddLast(file);
-  }
-  AutoPointerArray<String> result(tmp.Count());
-  for(Size i = 0; i < tmp.Count(); ++i)
-    result[i].Swap(tmp[i]);
+  AutoPointerArray<String> result(files.Count());
+  for(Size i = 0; i < files.Count(); ++i)
+    result[i].Swap(files[i]);
   return result;
 }
 
