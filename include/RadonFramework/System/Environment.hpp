@@ -46,6 +46,12 @@ using UUIDFromStringCallback = void (*)(const RF_Type::String& Text,
 // ISO 639([]_[ISO 3166/Location])
 using SystemLanguageCallback = RF_Type::String (*)();
 
+using GetEnvironmentVariableCallback =
+    RF_Type::Bool (*)(const RF_Type::String& Name, RF_Type::String& Result);
+using SetEnvironmentVariableCallback =
+    RF_Type::Bool (*)(const RF_Type::String& Name,
+                      const RF_Type::String& Value);
+
 /// Return the memory architecture which the OS is using e.g. 64bit.
 extern MemoryArchitectureOfOSCallback MemoryArchitectureOfOS;
 /// The process is running in 32bit emulation mode e.g. on Windows 64bit.
@@ -76,6 +82,12 @@ extern SystemLanguageCallback ActiveLanguageLocation;
 /// Return the current active user language location in native language e.g.
 /// Deutschland.
 extern SystemLanguageCallback ActiveNativeLanguageLocation;
+/// This function requests the specified environment variable and return true
+/// if the Result parameter was written else false.
+extern GetEnvironmentVariableCallback GetUserEnvironmentVariable;
+/// This function writes the specified value to the variable name and return true
+/// else nothing happen and false will be returned.
+extern SetEnvironmentVariableCallback SetUserEnvironmentVariable;
 
 }  // namespace RadonFramework::System::Environment
 
