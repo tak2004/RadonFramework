@@ -1019,11 +1019,6 @@ String String::operator+(const StringView& Other) const
   {
     RF_Type::Size bytes = Size() + Other.Length();
 
-    if(Other.Length() > 0 && Length() > 0)
-    {  // we only need one termination symbol
-      --bytes;
-    }
-
     String str(bytes);
 
     if(Length() > 0)
@@ -1067,7 +1062,7 @@ String::String(const StringView& Copy) : m_DataManagment(DataManagment::Copy)
   else
   {
     m_DataManagment = DataManagment::AllocateAndCopy;
-    m_DynBuffer.m_Buffer = new UInt8[Copy.Length()];
+    m_DynBuffer.m_Buffer = new UInt8[Copy.Length()+1];
     m_DynBuffer.m_Size = Copy.Length()+1;
     RF_SysMem::Copy(static_cast<void*>(m_DynBuffer.Raw()), Copy.Data(),
                     m_Length);

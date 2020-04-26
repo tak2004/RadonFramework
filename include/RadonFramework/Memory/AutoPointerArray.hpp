@@ -272,7 +272,17 @@ template <typename T>
 AutoPointerArray<T>& AutoPointerArray<T>::
 operator=(const AutoPointerArray<T>& Copy)
 {
-  *this = Copy.Clone();
+  delete[] m_Data;
+  m_Elements = Copy.m_Elements;
+  if(Copy.m_Elements)
+  {
+    m_Data = new T[Copy.m_Elements];
+    RF_SysMem::Copy(m_Data, Copy.m_Data, m_Elements * sizeof(T));
+  }
+  else
+  {
+    m_Data = nullptr;
+  }
   return *this;
 }
 

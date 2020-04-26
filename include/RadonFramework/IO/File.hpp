@@ -7,10 +7,13 @@
 #include <RadonFramework/Core/Types/UInt64.hpp>
 #include <RadonFramework/IO/AccessMode.hpp>
 #include <RadonFramework/IO/Uri.hpp>
+#include <RadonFramework/Memory/AutoPointer.hpp>
 #include <RadonFramework/Memory/AutoPointerArray.hpp>
 
 namespace RadonFramework::IO
 {
+class Directory;
+
 class File
 {
 public:
@@ -46,9 +49,10 @@ public:
   RF_Type::Bool AccessMode(AccessMode::Type NewValue);
   AccessMode::Type AccessMode();
   const Uri& Location() const;
-  Memory::AutoPointerArray<RF_Type::UInt8> Read();
+  Memory::AutoPointerArray<RF_Type::UInt8> Read() const;
   RF_Type::Bool Write(const Memory::AutoPointerArray<RF_Type::UInt8>& Data);
-
+  // Returns the a directory instance which is set to the path the file is located.
+  Directory Directory() const;
 protected:
   Uri m_Location;
 };
