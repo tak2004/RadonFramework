@@ -300,7 +300,7 @@ RF_Type::Bool CreateFile(const RF_Type::String& Path)
 
 RF_Type::Bool CopyFile(const RF_Type::String& From, const RF_Type::String& To)
 {
-    return CopyFileA(From.c_str(),To.c_str(),true)==TRUE;
+    return CopyFileA(From.c_str(),To.c_str(),false)==TRUE;
 }
 
 RF_Type::Bool DeleteFile(const RF_Type::String& Path)
