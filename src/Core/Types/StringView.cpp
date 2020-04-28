@@ -55,4 +55,12 @@ Int32 StringView::LastIndexOf(const UInt8 Value) const
   return result;
 }
 
+void StringView::Trim() {
+  while(m_Length > 0 && m_Source[0] == ' ')
+  {
+    ++m_Source;
+    --m_Length;
+  }
+}
+
 }  // namespace RadonFramework::Core::Types
