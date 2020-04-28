@@ -1045,7 +1045,7 @@ String String::operator+(const StringView& Other) const
 String::String(const StringView& Copy) : m_DataManagment(DataManagment::Copy)
 {
   m_Length = Copy.Length();
-  if(Copy.Length() <= BUFFER_SIZE)
+  if(Copy.Length() < BUFFER_SIZE)
   {
     if(Copy.Length() > 0)
     {
