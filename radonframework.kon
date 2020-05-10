@@ -1,0 +1,32 @@
+description=Radon Framework
+version=1.0.0
+author=Thomas Kunze
+package{
+  ignore[
+    dist
+  ]
+}
+build{
+  generator{
+    cmake{
+      source=$(radonframework.path)
+      builddir=$(radonframework.path)\build
+      creates=$(radonframework.path)\dist\RadonFramework.lib
+      parameters=-DRADONFRAMEWORK_COMPILER_STATIC_LINKED_CRT=ON
+    }
+  }
+  export{
+    includes[
+      $(radonframework.path)\include
+    ]
+    librarypaths[
+      $(radonframework.path)\dist
+    ]
+    libs[
+      RadonFramework.lib
+      ws2_32.lib
+      Iphlpapi.lib
+      psapi.lib
+    ]
+  }
+}

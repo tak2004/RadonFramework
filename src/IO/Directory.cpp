@@ -283,15 +283,18 @@ void RecursiveSearch(const RF_Type::String& Path,
     auto entry = Path + RF_SysFile::Seperator() + content[i];
     auto stats = RF_SysFile::Stat(entry);
 
-    if(stats && stats->IsDirectory && !Skip.Find(entry))
+    if(!Skip.Find(entry))
     {
-      RecursiveSearch(entry, Skip, Files);
-    }
+      if(stats && stats->IsDirectory)
+      {
+        RecursiveSearch(entry, Skip, Files);
+      }
 
-    if(stats && !stats->IsDirectory)
-    {
-      Files.AddLast(entry);
-    }
+      if(stats && !stats->IsDirectory)
+      {
+        Files.AddLast(entry);
+      }
+    }    
   }
 }
 
