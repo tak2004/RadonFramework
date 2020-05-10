@@ -4,6 +4,10 @@ author=Thomas Kunze
 package{
   ignore[
     dist
+    .gitignore
+    .gitmodules
+    .gitattributes
+    appveyor.yml
   ]
 }
 build{
