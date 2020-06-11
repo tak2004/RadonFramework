@@ -4,6 +4,8 @@
 #pragma once
 #endif
 
+#include <type_traits>
+
 namespace RadonFramework::Math::Lazy
 {
 template <typename T>
@@ -29,7 +31,7 @@ struct Numeric
 template <typename L, typename R>
 struct LazyFunction
 {
-  typedef typename std::result_of<L(typename R::Type)>::type Type;
+  typedef typename std::invoke_result<void,L,typename R::Type>::type Type;
 
   const L m_Function;
   const R& m_Parameter;
