@@ -29,9 +29,9 @@ constmem slice(constmem Memory, size ByteOffsetStart, size ByteOffsetEnd = 0) {
 			Memory.bytes - (ByteOffsetStart + ByteOffsetEnd) };
 }
 
-template<class T>
-T& offset(mem Memory, size Elements) { 
-	return reinterpret_cast<T*>(Memory.address)[Elements]; 
+template<class T=u8>
+T* offset(mem Memory, size Elements) { 
+	return reinterpret_cast<T*>(Memory.address) + Elements;
 }
 
 template<class T>

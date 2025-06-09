@@ -51,5 +51,13 @@ void main() {
 	auto allocatorAdapter = allocatorFrom(heap);
 	Hashlist<> hashes(heap, stackAdapter, 1_gib);
 	hashes.set(1, stack.memory.address);
+	hashes.set(2, stack.memory.address);
+	hashes.set(1, stack.memory.address);
+	auto isKeySet = hashes.containsKey(1);
+	hashes.remove(1);
+	auto isKeySetAfterRemove = hashes.containsKey(1);
+	auto two = hashes.get(2);
 	Hashlist<> otherHashes(heap, stackAdapter);
+	hashes.clone(otherHashes);
+	auto otherTwo = hashes.get(2);
 }

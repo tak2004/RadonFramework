@@ -185,9 +185,9 @@ struct CacheLayout {
   CacheLayout &loadFrom(mem &Memory) {
     this->data = Memory;
     this->view = *reinterpret_cast<View*>(Memory.address);
-    this->lpCacheMask = reinterpret_cast<CacheStack*>(&offset<u8>(Memory, sizeof(View)));
+    this->lpCacheMask = reinterpret_cast<CacheStack*>(offset(Memory, sizeof(View)));
     this->cacheInfos = reinterpret_cast<CacheInfo *>(
-        &offset<u8>(Memory, sizeof(View) + this->view.lps * sizeof(CacheStack)));
+        offset(Memory, sizeof(View) + this->view.lps * sizeof(CacheStack)));
     return *this;
   }
   CacheInfo *get(u32 LogicalProcessor, u8 Level = 1,

@@ -59,11 +59,11 @@ template<> struct SIMDView<bool> {
 	mem memory;
 	bool operator[](size Index)const {
 		auto byteOffset = Index / 8;
-		return offset<u8>(this->memory, byteOffset) & (1<<(Index%8));
+		return (*offset(this->memory, byteOffset)) & (1<<(Index%8));
 	}
 	void set(size Index, bool NewValue) {
 		auto byteOffset = Index / 8;
-		auto& byte = offset<u8>(this->memory, byteOffset);
+		auto& byte = *offset(this->memory, byteOffset);
 		if (NewValue)
 			byte |= 1 << (Index % 8);
 		else
