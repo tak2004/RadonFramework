@@ -1,0 +1,13 @@
+export module rf.core.cpu;
+export import :atomics;
+export import :infos;
+export import :infos_cpuid;
+export import :infos_vs;
+export import :intrinsics;
+export import :simd;
+export import :simd_bits;
+export import :simd_fp;
+export import :simd_int;
+export import :math;
+export import :floatmath;
+export import :intmath;
