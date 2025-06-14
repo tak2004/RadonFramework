@@ -10,6 +10,7 @@ struct MemoryStatistics {
 
 	size opsReserve;
 	size opsCommit;
+	size opsRelease;
 	size opsAllocate;
 	size opsDeallocate;
 	size opsOwns;
@@ -23,7 +24,8 @@ class AllocatorDiagnostic : public Allocator {
 public:
   void embed(Allocator *Embed) override;
   mem reserve(size Bytes) override;
-  mem commit(const mem &Reservation, size ByteOffset, size Bytes) override;
+  mem commit(mem Reservation, size ByteOffset, size Bytes) override;
+  void release(mem Reservation, const mem& Memory) override;
   mem allocate(size Bytes) override;
   void deallocate(const mem &Memory) override;
   bool owns(const mem &Block) override;
@@ -50,12 +52,19 @@ mem AllocatorDiagnostic::reserve(size Bytes)
 	return result;
 }
 
-mem AllocatorDiagnostic::commit(const mem& Reservation, size ByteOffset, size Bytes)
+mem AllocatorDiagnostic::commit(mem Reservation, size ByteOffset, size Bytes)
 {
 	auto result = this->nested->commit(Reservation, ByteOffset, Bytes);
 	this->statistic.totalCommited += result.bytes;
 	this->statistic.opsCommit++;
 	return result;
+}
+
+void AllocatorDiagnostic::release(mem Reservation, const mem& Memory)
+{
+	this->nested->release(Reservation, Memory);
+	this->statistic.totalCommited -= Memory.bytes;
+	this->statistic.opsRelease++;
 }
 
 mem AllocatorDiagnostic::allocate(size Bytes)

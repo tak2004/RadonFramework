@@ -8,6 +8,10 @@ set(RF_ADD_EXAMPLES ON CACHE BOOL "" FORCE)
 option(RF_ADD_TESTS "Add the framework specific tests." OFF)
 option(RF_ADD_EXAMPLES "Add the framework specific examples." OFF)
 
+add_library(umash STATIC "${RF_LOCATION}/3rdparty/umash/umash.c")
+set_target_properties(umash PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(umash PUBLIC "${RF_LOCATION}/3rdparty/umash/")
+
 add_library(rf_core)
 file(GLOB_RECURSE RF_CORE_MODULES
     "${RF_LOCATION}/src/core/*.ixx")
@@ -16,6 +20,7 @@ add_library(rf::core ALIAS rf_core)
 source_group(TREE ${RF_LOCATION}/src/ FILES ${RF_CORE_MODULES})
 set_target_properties(rf_core PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_features(rf_core PRIVATE cxx_std_20)
+target_link_libraries(rf_core PRIVATE umash)
 
 add_library(rf_ui)
 file(GLOB_RECURSE RF_UI_MODULES

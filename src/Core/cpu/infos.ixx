@@ -180,7 +180,7 @@ struct CacheLayout {
   // The function will use the Scratchpad for temporary data but also write the
   // final compact version to the data member. You need to clone and load this
   // to a persistent arena if you plan to throw away the Scratchpad arena.
-  CacheLayout &detect(StackAdapter Scratchpad);
+  CacheLayout &detect(StackAdapter& Scratchpad);
   // Specify a memory block which will be read and used.
   CacheLayout &loadFrom(mem &Memory) {
     this->data = Memory;

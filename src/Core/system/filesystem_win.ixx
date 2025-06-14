@@ -1,3 +1,4 @@
+module;
 #include <cstddef>
 #include <memory>
 #include <windows.h>
@@ -178,10 +179,10 @@ bool fileStatus(const strview& Path, FileStatus& Status)
         if (0 != GetFileInformationByHandle(fHndl, &info))
         {
             result = true;
-            Status.size = (info.nFileSizeHigh << 32) + info.nFileSizeLow;
-            Status.createionTimestamp = (info.ftCreationTime.dwHighDateTime << 32) + info.ftCreationTime.dwLowDateTime;
-            Status.lastAccessTimestamp = (info.ftLastAccessTime.dwHighDateTime << 32) + info.ftLastAccessTime.dwLowDateTime;
-            Status.lastModificationTimestamp = (info.ftLastWriteTime.dwHighDateTime <<32)+info.ftLastWriteTime.dwLowDateTime;
+            Status.size = (static_cast<size>(info.nFileSizeHigh) << 32) + info.nFileSizeLow;
+            Status.createionTimestamp = (static_cast<size>(info.ftCreationTime.dwHighDateTime) << 32) + info.ftCreationTime.dwLowDateTime;
+            Status.lastAccessTimestamp = (static_cast<size>(info.ftLastAccessTime.dwHighDateTime) << 32) + info.ftLastAccessTime.dwLowDateTime;
+            Status.lastModificationTimestamp = (static_cast<size>(info.ftLastWriteTime.dwHighDateTime) <<32)+info.ftLastWriteTime.dwLowDateTime;
             Status.isDirectory=(info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)!=0;
             Status.isHidden=(info.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)!=0;
         }

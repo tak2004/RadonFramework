@@ -2,16 +2,17 @@ import rf.ui;
 import rf.core.collections;
 import rf.core.cpu;
 import rf.core.memory;
+import rf.core.math.hashes;
 
 using namespace rf;
 
 AllocatorAdapter allocatorFrom(Allocator& Implementation) {
 	return {
-		.commitImplementation = [](mem& Pool, size Offset, size Bytes, ptr Implementation)->mem {
+		.commitImplementation = [](mem Pool, size Offset, size Bytes, ptr Implementation)->mem {
 			auto* allocator = reinterpret_cast<Allocator*>(Implementation);
 			return allocator->commit(Pool, Offset, Bytes);
 		},
-		.releaseImplementation = [](mem& Pool, mem& Memory, ptr Implementation) {
+		.releaseImplementation = [](mem Pool, mem& Memory, ptr Implementation) {
 			auto* allocator = reinterpret_cast<Allocator*>(Implementation);
 			allocator->deallocate(Memory);
 		},
@@ -40,7 +41,7 @@ StackAdapter stackFrom(Arena& Implementation) {
 	};
 }
 
-void main() {
+int main() {
 	CPUFeatures.detect();
 	// configure the memory management
 	Heap heap;
@@ -60,4 +61,5 @@ void main() {
 	Hashlist<> otherHashes(heap, stackAdapter);
 	hashes.clone(otherHashes);
 	auto otherTwo = hashes.get(2);
+	return two == otherTwo ? 0 : -1;
 }

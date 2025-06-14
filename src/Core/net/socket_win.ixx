@@ -4,7 +4,7 @@ module;
   * To be sure that all the cool features of windows API are available it's
   * necessary to define windows xp as minimum API.
   **/
-static const int WIN_VERSION_XP = 0x501;
+#define WIN_VERSION_XP = 0x501;
 #define WINVER 0x501
 #define _WIN32_WINNT 0x501
 #define WIN32_LEAN_AND_MEAN

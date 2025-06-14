@@ -44,7 +44,7 @@ size CacheLayout::estimateScratchpad() {
   return bytes;
 }
 
-CacheLayout &CacheLayout::detect(StackAdapter Scratchpad) {
+CacheLayout &CacheLayout::detect(StackAdapter& Scratchpad) {
     DWORD bufferSize = 0;
     GetLogicalProcessorInformationEx(
         RelationCache, nullptr, &bufferSize);

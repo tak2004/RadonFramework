@@ -1,6 +1,6 @@
 ---
+Standard: c++20
 Language: Cpp
-Standard: LS_Cpp20
 UseCRLF: false
 UseTab: Never
 ---

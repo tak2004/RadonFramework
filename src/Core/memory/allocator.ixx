@@ -8,7 +8,7 @@ public:
   // Reserve a memory block which can be used later on due a commitment.
   virtual mem reserve(size Bytes) = 0;
   // Commit the usage of a memory block in a reservation.
-  virtual mem commit(const mem &Reservation, size ByteOffset, size Bytes) = 0;
+  virtual mem commit(mem Reservation, size ByteOffset, size Bytes) = 0;
   /// <summary>
   /// Allocate the requested amount of bytes on the heap.
   /// This should be used if the size of the block is never changing during
@@ -24,6 +24,8 @@ public:
   /// <param name="Memory">Specifies the memory block returned by the allocate
   /// function.</param>
   virtual void deallocate(const mem &Memory) = 0;
+  // Deallocate a memory block which was allocated by the commit method.
+  virtual void release(mem Reservation, const mem& Memory) = 0;
   /// <summary>
   /// Check if the specified memory block is owned by the allocator.
   /// </summary>

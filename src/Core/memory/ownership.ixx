@@ -7,7 +7,8 @@ class AllocatorOwnership : public Allocator {
 public:
   void embed(Allocator *Embed) override;
   mem reserve(size Bytes) override;
-  mem commit(const mem &Reservation, size ByteOffset, size Bytes) override;
+  mem commit(mem Reservation, size ByteOffset, size Bytes) override;
+  void release(mem Reservation, const mem& Memory) override;
   mem allocate(size Bytes) override;
   void deallocate(const mem &Memory) override;
   bool owns(const mem &Block) override;
@@ -30,10 +31,15 @@ mem AllocatorOwnership::reserve(size Bytes)
 	return result;
 }
 
-mem AllocatorOwnership::commit(const mem& Reservation, size ByteOffset, size Bytes)
+mem AllocatorOwnership::commit(mem Reservation, size ByteOffset, size Bytes)
 {
 	auto result = this->nested->commit(Reservation, ByteOffset, Bytes);
 	return result;
+}
+
+void AllocatorOwnership::release(mem Reservation, const mem& Memory)
+{
+	this->nested->release(Reservation, Memory);
 }
 
 mem AllocatorOwnership::allocate(size Bytes)

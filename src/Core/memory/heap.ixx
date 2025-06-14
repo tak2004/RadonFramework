@@ -11,9 +11,10 @@ public:
   // This will do nothing.
   void embed(Allocator *Embed) override;
   mem reserve(size Bytes) override;
-  mem commit(const mem &Reservation, size ByteOffset, size Bytes) override;
+  mem commit(mem Reservation, size ByteOffset, size Bytes) override;
   mem allocate(size Bytes) override;
   void deallocate(const mem &Memory) override;
+  void release(mem Reservation, const mem &Memory) override;
   bool owns(const mem &Block) override;
   void clear() override;
   memmap map(size Bytes) override;
@@ -71,7 +72,7 @@ void Heap::embed(Allocator *Embed) {}
 
 mem Heap::reserve(const size Bytes) { return reserveOS(Bytes); }
 
-mem Heap::commit(const mem &Reservation, const size ByteOffset,
+mem Heap::commit(mem Reservation, const size ByteOffset,
                  const size Bytes) {
   mem block;
   block.address = (ptr)((ptrdiff)Reservation.address + ByteOffset);
@@ -83,6 +84,10 @@ mem Heap::commit(const mem &Reservation, const size ByteOffset,
 mem Heap::allocate(const size Bytes) { return allocateOS(Bytes); }
 
 void Heap::deallocate(const mem &Memory) { deallocateOS(Memory); }
+
+void Heap::release(mem Reservation, const mem &Memory) {
+  deallocateOS(Memory);
+}
 
 bool Heap::owns(const mem &Block) { return false; }
 

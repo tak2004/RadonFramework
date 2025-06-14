@@ -8,3 +8,4 @@ export import rf.core.time;
 export import rf.core.types;
 export import rf.core.net;
 export import rf.core.patterns;
+export import rf.core.math;

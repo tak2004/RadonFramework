@@ -49,7 +49,7 @@ template <class T> struct ComponentPool {
     T *element = reinterpret_cast<T *>(this->components.address);
     auto i = nextSet(this->enabled,0);
     while(i < this->capacity){
-      auto end = nextUnset(this->enabled,i);
+      auto end = nextUnset(this->enabled,i,this->capacity);
       for (; i < end; i++) {
         if (this->enabled[i]) {
           element[i].update(i, Scratchpad);
