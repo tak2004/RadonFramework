@@ -43,6 +43,18 @@ StackAdapter stackFrom(Arena& Implementation) {
 
 int main() {
 	CPUFeatures.detect();
+	auto c_str = "/etc/dnsd";
+	constmem memory = { "/etc/dnsd", sizeof("/etc/dnsd") };
+	HashContextxxh3* context = createContext64();
+	updateContext64(context, memory);
+	auto h32 = hash32(context);
+	auto h64 = hash64(context);
+	freeContext(context);
+	auto h32b = hash32xxh3(memory);
+	auto h64b = hash64xxh3(memory);
+	auto h32c = "/etc/dnsd"_32_xxh3;
+	auto h32d = "/etc/dnsd"_h32;
+	auto h64d = "/etc/dnsd"_h64;
 	// configure the memory management
 	Heap heap;
 	auto stackMemory = heap.allocate(50_mb);

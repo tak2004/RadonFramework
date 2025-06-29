@@ -1,6 +1,9 @@
 [submodule "tests/doctest"]
 	path = tests/doctest
 	url = https://github.com/doctest/doctest.git
-[submodule "3rdparty/umash"]
-	path = 3rdparty/umash
-	url = https://github.com/backtrace-labs/umash.git
+[submodule "3rdparty/rapidhash"]
+	path = 3rdparty/rapidhash
+	url = https://github.com/Nicoshev/rapidhash.git
+[submodule "3rdparty/xxhash"]
+	path = 3rdparty/xxhash
+	url = https://github.com/Cyan4973/xxHash.git
