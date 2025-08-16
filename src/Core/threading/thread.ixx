@@ -1,12 +1,9 @@
 export module rf.core.threading:thread;
 import rf.core.types;
-import :mutex;
 
 export namespace rf {
-struct TimeSpan;
-
 enum class ThreadPriority { Minimal, Normal, Maximal };
-
+/*
 class Thread {
 public:
   static void Sleep(const TimeSpan &Delta);
@@ -69,5 +66,5 @@ protected:
   u64 m_Pid = 0xffffffffffffffffull;
   ptr m_ImplData = nullptr;
   bool m_Alive;
-};
+};*/
 } // namespace rf

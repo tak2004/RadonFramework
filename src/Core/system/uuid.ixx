@@ -94,44 +94,44 @@ void updateIdentContext(mem Context, timeval SystemTime,
 Ident genIdent(mem &Context);
 
 UUID::operator bool() const {
-  auto result = compare({.address = this, .bytes = sizeof(UUID)},
-                        {.address = &NIL, .bytes = sizeof(UUID)});
+  auto result = compare(constmem{.address = this, .bytes = sizeof(UUID)},
+      constmem{.address = &NIL, .bytes = sizeof(UUID)});
   return result == 0;
 }
 
 bool UUID::operator==(UUID const &rhs) const {
-  auto result = compare({.address = this, .bytes = sizeof(UUID)},
-                        {.address = &rhs, .bytes = sizeof(UUID)});
+  auto result = compare(constmem{.address = this, .bytes = sizeof(UUID)},
+      constmem{.address = &rhs, .bytes = sizeof(UUID)});
   return result == 0;
 }
 
 bool UUID::operator!=(UUID const &rhs) const {
-  auto result = compare({.address = this, .bytes = sizeof(UUID)},
-                        {.address = &rhs, .bytes = sizeof(UUID)});
+  auto result = compare(constmem{.address = this, .bytes = sizeof(UUID)},
+      constmem{.address = &rhs, .bytes = sizeof(UUID)});
   return result != 0;
 }
 
 bool UUID::operator<(UUID const &rhs) const {
-  auto result = compare({.address = this, .bytes = sizeof(UUID)},
-                        {.address = &rhs, .bytes = sizeof(UUID)});
+  auto result = compare(constmem{.address = this, .bytes = sizeof(UUID)},
+      constmem{.address = &rhs, .bytes = sizeof(UUID)});
   return result < 0;
 }
 
 bool UUID::operator>(UUID const &rhs) const {
-  auto result = compare({.address = this, .bytes = sizeof(UUID)},
-                        {.address = &rhs, .bytes = sizeof(UUID)});
+  auto result = compare(constmem{.address = this, .bytes = sizeof(UUID)},
+      constmem{.address = &rhs, .bytes = sizeof(UUID)});
   return result > 0;
 }
 
 bool UUID::operator<=(UUID const &rhs) const {
-  auto result = compare({.address = this, .bytes = sizeof(UUID)},
-                        {.address = &rhs, .bytes = sizeof(UUID)});
+  auto result = compare(constmem{.address = this, .bytes = sizeof(UUID)},
+      constmem{.address = &rhs, .bytes = sizeof(UUID)});
   return result <= 0;
 }
 
 bool UUID::operator>=(UUID const &rhs) const {
-  auto result = compare({.address = this, .bytes = sizeof(UUID)},
-                        {.address = &rhs, .bytes = sizeof(UUID)});
+  auto result = compare(constmem{.address = this, .bytes = sizeof(UUID)},
+      constmem{.address = &rhs, .bytes = sizeof(UUID)});
   return result >= 0;
 }
 

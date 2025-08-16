@@ -14,6 +14,7 @@ using u64 = unsigned long long;
 using f32 = float;
 using f64 = double;
 
+using ansi = char;
 using utf8 = char8_t;
 using utf16 = char16_t;
 using utf32 = char32_t;

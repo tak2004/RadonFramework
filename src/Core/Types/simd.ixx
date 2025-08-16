@@ -24,8 +24,9 @@ export namespace rf {
 // The idea is to store your data in way you like and during the load process
 // you transform them into the proposed format the hardware supports.
 // if componentsUntilGap and gap are set zero then a hot path is used.
-template <class T> struct SIMDView {
-  mem memory;  // The memory arena the operation will working on.
+template <class T, class MT=mem> struct SIMDView {
+	using Type = T;
+  MT memory;  // The memory arena the operation will working on.
   // Specifies how many consecutive T's need to be processed until gap is applied.
   size componentsUntilGap;
   size gap; // Specifies the byte offset between groups.  
@@ -44,19 +45,29 @@ template <class T> struct SIMDView {
 
 // The following types are used for optimize operation implementations.
 using u8v = SIMDView<u8>;
+using u8cv = SIMDView<u8,constmem>;
 using u16v = SIMDView<u16>;
+using u16cv = SIMDView<u16,constmem>;
 using u32v = SIMDView<u32>;
+using u32cv = SIMDView<u32,constmem>;
 using u64v = SIMDView<u64>;
+using u64cv = SIMDView<u64,constmem>;
 using i8v = SIMDView<i8>;
+using i8cv = SIMDView<i8,constmem>;
 using i16v = SIMDView<i16>;
+using i16cv = SIMDView<i16,constmem>;
 using i32v = SIMDView<i32>;
+using i32cv = SIMDView<i32,constmem>;
 using i64v = SIMDView<i64>;
+using i64cv = SIMDView<i64,constmem>;
 
 using f32v = SIMDView<f32>;
+using f32cv = SIMDView<f32,constmem>;
 using f64v = SIMDView<f64>;
+using f64cv = SIMDView<f64,constmem>;
 
-template<> struct SIMDView<bool> {
-	mem memory;
+template<class MT> struct SIMDView<bool,MT> {
+	MT memory;
 	bool operator[](size Index)const {
 		auto byteOffset = Index / 8;
 		return (*offset(this->memory, byteOffset)) & (1<<(Index%8));
@@ -71,5 +82,20 @@ template<> struct SIMDView<bool> {
 	}
 };
 using bits = SIMDView<bool>;
+using constbits = SIMDView<bool,constmem>;
+
+#pragma pack(push, 16)
+struct alignas(16) f32v4 {
+	f32 raw[4];
+};
+#pragma pack(pop)
+static_assert(sizeof(f32v4) == 16);
+static_assert(alignof(f32v4) == 16);
+
+struct alignas(64) f32m4 {
+	f32v4 raw[4];
+};
+static_assert(sizeof(f32m4) == 64);
+static_assert(alignof(f32m4) == 64);
 
 } // namespace rf

@@ -16,10 +16,10 @@ public:
 
 private:
   ptr handler;
-  TimeSpan dueTime;
+  TimeSpan dueTime;  
   TimeSpan period;
   void *parameter;
-  TimerCallback callback;
+  TimerCallback callback;  
 };
 
 Timer::Timer() { this->handler = {0}; }

@@ -1,3 +1,5 @@
+module;
+#include <concepts>
 export module rf.core.types:memory;
 export import :builtin;
 
@@ -17,16 +19,41 @@ struct memmap {
   size bytes;
 };
 
-mem slice(mem Memory, size ByteOffsetStart, size ByteOffsetEnd = 0){
+// The arr template is just a view and doesn't manage the memory it points to.
+template<class T>
+struct arr {
+	T* elements=nullptr;
+	size count=0;
+};
+
+// The list template is just a view and doesn't manage the memory it points to.
+template<class T>
+struct list {
+	struct ListNodes {
+		T* value=nullptr;
+		ListNodes* next=nullptr;
+	};
+	ListNodes* first = nullptr;
+	size count=0;
+};
+
+template<typename T>
+concept ReadonlyView = requires(T obj) {
+	std::same_as<std::remove_reference<decltype(obj.address)>, constptr>;
+	std::same_as<std::remove_reference<decltype(obj.bytes)>, size>;
+};
+
+template<typename T>
+concept View = requires(T obj) {
+	std::same_as<std::remove_cvref<decltype(obj.address)>, ptr>;
+	std::same_as<std::remove_cvref<decltype(obj.bytes)>, size>;
+};
+
+template<View T>
+T slice(T Memory, size ByteOffsetStart, size ByteOffsetEnd = 0){
 	return {reinterpret_cast<ptr>(
 				reinterpret_cast<ptrdiff>(Memory.address)+ByteOffsetStart), 
 			Memory.bytes-(ByteOffsetStart+ByteOffsetEnd)};
-}
-
-constmem slice(constmem Memory, size ByteOffsetStart, size ByteOffsetEnd = 0) {
-	return { reinterpret_cast<ptr>(
-				reinterpret_cast<ptrdiff>(Memory.address) + ByteOffsetStart),
-			Memory.bytes - (ByteOffsetStart + ByteOffsetEnd) };
 }
 
 template<class T=u8>
@@ -58,8 +85,8 @@ void swap(mem Memory, size IndexA, size IndexB) {
 	}
 }
 // TODO: Use a SIMD implementation
-void copy(mem Source, mem Target){
-	u8* a = reinterpret_cast<u8*>(Source.address);
+void copy(constmem Source, mem Target){
+  const u8 *a = reinterpret_cast<const u8 *>(Source.address);
 	u8* b = reinterpret_cast<u8*>(Target.address);
 	for (auto i = 0; i < Source.bytes; ++i) b[i] = a[i];
 }

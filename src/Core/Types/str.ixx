@@ -3,11 +3,35 @@ export import :memory;
 
 export namespace rf {
 /// String literals are read-only views which are known at compile time.
-struct strlit {};
-struct utf8lit {};
-struct utf16lit {};
-struct utf32lit {};
-struct wcharlit {};
+    template<class T, size N> struct StringLiteral {
+        using StoringType = T;
+        /// Number of elements to compose the string. It's not the length!
+        static constexpr auto elements = N;
+        static constexpr auto bytes = sizeof(T) * N;
+
+        constexpr StringLiteral(const T(&String)[N]) noexcept : value(String) {}
+        const T(&value)[N];
+    };
+
+template<size N> struct strlit:public StringLiteral<ansi,N>{
+  constexpr strlit(const char (&String)[N]) noexcept : StringLiteral(String) {}
+};
+
+template<size N> struct utf8lit:public StringLiteral<utf8,N>{
+  constexpr utf8lit(const char (&String)[N]) noexcept : StringLiteral(String) {}
+};
+
+template<size N> struct utf16lit:public StringLiteral<utf16,N>{
+  constexpr utf16lit(const char (&String)[N]) noexcept : StringLiteral(String) {}
+};
+
+template<size N> struct utf32lit:public StringLiteral<utf32,N>{
+  constexpr utf32lit(const char (&String)[N]) noexcept : StringLiteral(String) {}
+};
+
+template<size N> struct wcharlit:public StringLiteral<wchar,N>{
+  constexpr wcharlit(const char (&String)[N]) noexcept : StringLiteral(String) {}
+};
 
 /// The class is a read-only view on a text buffer(e.g. string literal).
 /// It consists of a read-only pointer into the buffer and a size in bytes.
@@ -15,7 +39,7 @@ struct wcharlit {};
 /// stack. A write operation on a string view is generating a
 /// copy(copy-on-write).
 
-// ASCII string view is a special case of UTF-8 string view.
+// ANSI string view is a special case of UTF-8 string view.
 // One byte equals a glyph.
 struct strview {
   constptr address;

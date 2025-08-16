@@ -8,6 +8,12 @@ set(RF_ADD_EXAMPLES ON CACHE BOOL "" FORCE)
 option(RF_ADD_TESTS "Add the framework specific tests." OFF)
 option(RF_ADD_EXAMPLES "Add the framework specific examples." OFF)
 
+set(ASMJIT_STATIC TRUE)
+set(ASMJIT_NO_FOREIGN TRUE)
+set(ASMJIT_NO_AARCH64 TRUE)
+set(ASMJIT_DIR "${RF_LOCATION}/3rdparty/asmjit")
+add_subdirectory("${RF_LOCATION}/3rdparty/asmjit/")
+
 add_library(rf_core)
 file(GLOB_RECURSE RF_CORE_MODULES
     "${RF_LOCATION}/src/core/*.ixx")
@@ -27,7 +33,17 @@ add_library(rf::ui ALIAS rf_ui)
 source_group(TREE ${RF_LOCATION}/src/ FILES ${RF_UI_MODULES})
 set_target_properties(rf_ui PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_features(rf_ui PRIVATE cxx_std_20)
-target_link_libraries(rf_ui PRIVATE rf::core)
+target_link_libraries(rf_ui PRIVATE rf::core setupapi.lib)
+
+add_library(rf_pixels)
+file(GLOB_RECURSE RF_PIXELS_MODULES
+    "${RF_LOCATION}/src/pixels/*.ixx")
+target_sources(rf_pixels PUBLIC FILE_SET CXX_MODULES FILES "${RF_PIXELS_MODULES}")
+add_library(rf::pixels ALIAS rf_pixels)
+source_group(TREE ${RF_LOCATION}/src/ FILES ${RF_PIXELS_MODULES})
+set_target_properties(rf_pixels PROPERTIES LINKER_LANGUAGE CXX)
+target_compile_features(rf_pixels PRIVATE cxx_std_20)
+target_link_libraries(rf_pixels PRIVATE rf::core asmjit::asmjit)
 
 if(RF_ADD_TESTS)
     add_subdirectory("${RF_LOCATION}/tests")

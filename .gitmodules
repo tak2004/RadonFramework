@@ -7,3 +7,6 @@
 [submodule "3rdparty/xxhash"]
 	path = 3rdparty/xxhash
 	url = https://github.com/Cyan4973/xxHash.git
+[submodule "3rdparty/asmjit"]
+	path = 3rdparty/asmjit
+	url = https://github.com/asmjit/asmjit.git

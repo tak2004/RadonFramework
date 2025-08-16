@@ -2,16 +2,10 @@ module;
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
 #include <windows.h>
-export module rf.core.os:time;
+export module rf.core.os:time_implementation;
 import rf.core.types;
 
 export namespace rf {
-timeval getSystemTime();
-timeval getMinutesWestOfGMT();
-u64 getHighResolutionCounter();
-u64 getHighResolutionCounterFrequency();
-bool isHighResolutionCounterSupported();
-
 timeval getSystemTime() { return ::GetTickCount64(); }
 
 u64 getMinutesWestOfGMT() {
@@ -46,4 +40,5 @@ bool isHighResolutionCounterSupported() {
   return ::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&tmp)) !=
          0;
 }
+
 } // namespace rf

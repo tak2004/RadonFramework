@@ -1,5 +1,9 @@
 export module rf.core.os;
 export import :sharedlib;
 export import :threading;
+export import :threading_implementation;
 export import :time;
+export import :time_implementation;
 export import :memory;
+export import :process;
+export import :process_implementation;

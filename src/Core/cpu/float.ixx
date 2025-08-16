@@ -3,6 +3,7 @@ module;
 #include <cmath>
 export module rf.core.cpu:floatmath;
 import :math;
+import rf.core.types;
 
 // It should be enough to use two quadrant, a sign flip and linear interpolation.
 constexpr rf::u32 FastSinArrayLen = 1440;// 0.25°
@@ -303,6 +304,36 @@ template <> FPMath<f32,true> &FPMath<f32,true>::avg(const FPMath<f32,true> &Othe
   return *this;
 }
 
+template <> FPMath<f32>& FPMath<f32>::mul(const FPMath<f32>& Other) {
+    this->value = this->value * Other.value;
+    return *this;
+}
+
+template <> FPMath<f32,true>& FPMath<f32,true>::mul(const FPMath<f32,true>& Other) {
+    this->value = this->value * Other.value;
+    return *this;
+}
+
+template <> FPMath<f32>& FPMath<f32>::div(const FPMath<f32>& Other) {
+    this->value = this->value / Other.value;
+    return *this;
+}
+
+template <> FPMath<f32, true>& FPMath<f32, true>::div(const FPMath<f32, true>& Other) {
+    this->value = this->value / Other.value;
+    return *this;
+}
+
+template <> FPMath<f32>& FPMath<f32>::add(const FPMath<f32>& Other) {
+    this->value = this->value + Other.value;
+    return *this;
+}
+
+template <> FPMath<f32, true>& FPMath<f32, true>::add(const FPMath<f32, true>& Other) {
+    this->value = this->value + Other.value;
+    return *this;
+}
+
 template <> FPMath<f32> &FPMath<f32>::clamp(const FPMath<f32> &B, const FPMath<f32> &C) {
   if (this->value < B.value)
     this->value = B.value;
@@ -370,6 +401,36 @@ template <> FPMath<f32>::operator bool() {
 
 template <> FPMath<f32,true>::operator bool() {
   return this->value;
+}
+
+template <> FPMath<f64>& FPMath<f64>::mul(const FPMath<f64>& Other) {
+    this->value = this->value * Other.value;
+    return *this;
+}
+
+template <> FPMath<f64, true>& FPMath<f64, true>::mul(const FPMath<f64, true>& Other) {
+    this->value = this->value * Other.value;
+    return *this;
+}
+
+template <> FPMath<f64>& FPMath<f64>::div(const FPMath<f64>& Other) {
+    this->value = this->value / Other.value;
+    return *this;
+}
+
+template <> FPMath<f64, true>& FPMath<f64, true>::div(const FPMath<f64, true>& Other) {
+    this->value = this->value / Other.value;
+    return *this;
+}
+
+template <> FPMath<f64>& FPMath<f64>::add(const FPMath<f64>& Other) {
+    this->value = this->value + Other.value;
+    return *this;
+}
+
+template <> FPMath<f64, true>& FPMath<f64, true>::add(const FPMath<f64, true>& Other) {
+    this->value = this->value + Other.value;
+    return *this;
 }
 
 } // namespace rf

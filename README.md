@@ -64,49 +64,52 @@ block-beta
   end
 ```
 
+Collections are a fundamental part of the framework and use C++ concepts for their memory management interface. This way the collections can easily be used with different Allocators, Arenas, and even different memory models.
+
 ## Import past codebases to the new framework.
-- [ ] basictypes
+- [x] basictypes
   - [x] atomics
-  - [ ] character
-  - [ ] float
-  - [ ] integer
-  - [ ] pointer
-  - [ ] stringliteral
-  - [ ] stringview
-  - [ ] traits
+  - [x] character
+  - [x] float
+  - [x] integer
+  - [x] pointer
+  - [x] stringliteral
+  - [x] stringview
+  - [x] traits
 - [ ] commontypes
-  - [ ] atomics
-  - [ ] pointer
-  - [ ] rpmalloc
-  - [ ] simd
+  - [x] atomics
+  - [ ] ~~pointer~~
+  - [ ] ~~rpmalloc~~
+  - [x] simd
   - [ ] string
-  - [ ] traits
-  - [ ] userliterals
+  - [x] traits
+  - [ ] ~~userliterals~~
 - [ ] cpual
-  - [ ] atomics
-  - [ ] caches
+  - [x] atomics
+  - [x] caches
   - [ ] codebuilder
-  - [ ] design
+  - [x] design
   - [ ] dispatcher
-  - [ ] features
+  - [x] features
   - [ ] memory
   - [ ] queue
   - [ ] worker
   - [ ] lowlevel/
   - [ ] instructions/
-- [ ] gpual
+- [x] gpual
 - [ ] kissfs
 - [ ] kisspt
-  - [ ] envvars
-  - [ ] library
+  - [ ] ~~envvars~~
+  - [ ] ~~library~~
   - [ ] process
-  - [ ] tree
-  - [ ] types
+  - [ ] ~~tree~~
+  - [ ] ~~types~~
 - [ ] rf
 - [ ] rf-colorspace
 - [ ] rf-console
 - [ ] rf-diagnostics
 - [ ] rf-cryptography
 - [ ] rf-enterprise
+- [ ] rf-ui
 - [ ] scrates
 - [ ] nical

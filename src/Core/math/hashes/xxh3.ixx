@@ -16,6 +16,12 @@ export namespace rf {
         XXH3_128bits_reset(state);
         return state;
     }
+    void resetContext64(HashContextxxh3* Context) {
+        XXH3_64bits_reset(Context);
+    }
+    void resetContext128(HashContextxxh3* Context) {
+        XXH3_128bits_reset(Context);
+    }
     void freeContext(HashContextxxh3* Context) {
         XXH3_freeState(Context);
     }

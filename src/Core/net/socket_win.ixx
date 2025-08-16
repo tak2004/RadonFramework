@@ -17,6 +17,7 @@ module;
 export module rf.core.net:socket_win;
 import :socket;
 import rf.core.memory;
+import rf.core.types;
 
 export namespace rf {
 

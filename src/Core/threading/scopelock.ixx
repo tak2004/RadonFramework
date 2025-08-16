@@ -1,24 +1,22 @@
 export module rf.core.threading:scopelock;
-import :mutex;
+import rf.core.os;
 
 export namespace rf {
-class Scopelock {
+/*
+class ScopeLock {
 public:
-  Scopelock(Mutex &Ref);
-  ~Scopelock();
-
+  ScopeLock()=delete;
+  ScopeLock(MutexHandler &Ref);
+  ScopeLock(const ScopeLock &Other)=delete;
+  ~ScopeLock();
+    
+  ScopeLock &operator=(const ScopeLock &Other)=delete;
 protected:
-  Mutex *mutex;
-  Scopelock() = default;
-  Scopelock(const Scopelock &Other);
-  Scopelock &operator=(const Scopelock &Other);
+  MutexHandler &mutex;
 };
 
-Scopelock::Scopelock(const Scopelock &Other) {}
+ScopeLock::ScopeLock(MutexHandler &Ref) : mutex(Ref) { lockMutex(this->mutex); }
 
-Scopelock::Scopelock(Mutex &Ref) : mutex(&Ref) { this->mutex->lock(); }
+ScopeLock::~ScopeLock() { unlockMutex(this->mutex); }
 
-Scopelock::~Scopelock() { this->mutex->unlock(); }
-
-Scopelock &Scopelock::operator=(const Scopelock &Other) { return *this; }
-} // namespace rf
+*/} // namespace rf

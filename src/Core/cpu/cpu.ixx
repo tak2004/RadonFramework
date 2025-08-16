@@ -8,6 +8,8 @@ export import :simd;
 export import :simd_bits;
 export import :simd_fp;
 export import :simd_int;
+export import :simd_str;
 export import :math;
 export import :floatmath;
 export import :intmath;
+export import :microarchitecture;

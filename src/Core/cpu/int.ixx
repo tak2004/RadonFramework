@@ -1,3 +1,5 @@
+module;
+#include <tuple>
 export module rf.core.cpu:intmath;
 import rf.core.types;
 import :math;
@@ -40,9 +42,15 @@ template <class T> IntMath<T> &IntMath<T>::max(const IntMath<T> &Other) {
 
 template <class T> IntMath<T>::operator bool() { return this->value != 0; }
 
-template <class T>
-bool IntMath<T>::
-    isPowerOfTwo() { // http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
+template <class T> bool IntMath<T>::isPowerOfTwo() { 
+  // http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
   return (this->value != 0) && ((this->value & (~this->value + 1)) == this->value);
+}
+
+template <class T>
+std::tuple<IntMath<T>,IntMath<T>> IntMath<T>::mul(const IntMath<T>& Other) {
+    T lo;
+    T hi = _umul(this->value, Other.value, &lo);
+    return { IntMath<T>(hi), IntMath<T>(lo) };
 }
 } // namespace rf
